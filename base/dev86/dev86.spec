@@ -1,7 +1,7 @@
 Summary: A real mode 80x86 assembler and linker
 Name: dev86
 Version: 0.16.18
-Release: 2%{?dist}
+Release: 3%{?dist}
 License: GPL+ and GPLv2+ and LGPLv2+
 Group: Development/Languages
 URL: http://homepage.ntlworld.com/robert.debath/
@@ -89,6 +89,9 @@ rm -rf ${RPM_BUILD_ROOT}
 %{_mandir}/man1/*
 
 %changelog
+* Wed Jul 18 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.16.18-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild
+
 * Fri Jan 13 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.16.18-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_17_Mass_Rebuild
 
