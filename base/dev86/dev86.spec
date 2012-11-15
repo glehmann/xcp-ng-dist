@@ -1,15 +1,14 @@
 Summary: A real mode 80x86 assembler and linker
 Name: dev86
-Version: 0.16.18
-Release: 3%{?dist}
+Version: 0.16.19
+Release: 1%{?dist}
 License: GPL+ and GPLv2+ and LGPLv2+
 Group: Development/Languages
-URL: http://homepage.ntlworld.com/robert.debath/
-Source: http://homepage.ntlworld.com/robert.debath/dev86/Dev86src-%{version}.tar.gz
+URL: http://www.debath.co.uk/dev86/
+Source: http://www.debath.co.uk/dev86/Dev86src-%{version}.tar.gz
 Patch0: dev86-noelks.patch
 Patch1: dev86-64bit.patch
 Patch2: dev86-nostrip.patch
-Patch3: dev86-overflow.patch
 Patch4: dev86-long.patch
 Patch5: dev86-print-overflow.patch
 Buildroot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -34,7 +33,6 @@ mode from their source code.
 %patch1 -p1 -b .64bit
 %endif
 %patch2 -p1 -b .nostrip
-%patch3 -p1 -b .overflow
 %patch4 -p1 -b .long
 %patch5 -p1 -b .print-overflow
 
@@ -89,6 +87,12 @@ rm -rf ${RPM_BUILD_ROOT}
 %{_mandir}/man1/*
 
 %changelog
+* Thu Nov 15 2012 Jindrich Novy <jnovy@redhat.com> 0.16.19-1
+- update to 0.16.19
+- fix URLs
+- update .long patch
+- drop owerflow patch, applied upstream
+
 * Wed Jul 18 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.16.18-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild
 
