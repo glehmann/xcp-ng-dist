@@ -1,7 +1,7 @@
 Summary: A real mode 80x86 assembler and linker
 Name: dev86
 Version: 0.16.19
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPL+ and GPLv2+ and LGPLv2+
 Group: Development/Languages
 URL: http://www.debath.co.uk/dev86/
@@ -38,7 +38,7 @@ mode from their source code.
 
 %build
 # the main makefile doesn't allow parallel build
-make bcc86 unproto copt as86 ld86 CFLAGS="$RPM_OPT_FLAGS"
+make bcc86 unproto copt as86 ld86 CFLAGS="$RPM_OPT_FLAGS -fno-strict-aliasing"
 make -C cpp CFLAGS="$RPM_OPT_FLAGS" %{?_smp_mflags}
 make -C ar CFLAGS="$RPM_OPT_FLAGS" %{?_smp_mflags}
 make -C ld CFLAGS="$RPM_OPT_FLAGS" %{?_smp_mflags}
@@ -87,6 +87,9 @@ rm -rf ${RPM_BUILD_ROOT}
 %{_mandir}/man1/*
 
 %changelog
+* Wed Nov 28 2012 Jindrich Novy <jnovy@redhat.com> 0.16.19-2
+- compile with -fno-strict-aliasing
+
 * Thu Nov 15 2012 Jindrich Novy <jnovy@redhat.com> 0.16.19-1
 - update to 0.16.19
 - fix URLs
