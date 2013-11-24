@@ -1,16 +1,15 @@
 Summary: A real mode 80x86 assembler and linker
 Name: dev86
-Version: 0.16.19
-Release: 4%{?dist}
+Version: 0.16.20
+Release: 1%{?dist}
 License: GPL+ and GPLv2+ and LGPLv2+
 Group: Development/Languages
-URL: http://www.debath.co.uk/dev86/
-Source: http://www.debath.co.uk/dev86/Dev86src-%{version}.tar.gz
+URL: http://v3.sk/~lkundrak/dev86/
+Source: http://v3.sk/~lkundrak/dev86/archive/Dev86src-%{version}.tar.gz
 Patch0: dev86-noelks.patch
 Patch1: dev86-64bit.patch
 Patch2: dev86-nostrip.patch
 Patch4: dev86-long.patch
-Patch5: dev86-print-overflow.patch
 Buildroot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Obsoletes: bin86
 
@@ -34,7 +33,6 @@ mode from their source code.
 %endif
 %patch2 -p1 -b .nostrip
 %patch4 -p1 -b .long
-%patch5 -p1 -b .print-overflow
 
 %build
 # the main makefile doesn't allow parallel build
@@ -87,6 +85,9 @@ rm -rf ${RPM_BUILD_ROOT}
 %{_mandir}/man1/*
 
 %changelog
+* Tue Oct 29 2013 Lubomir Rintel <lkundrak@v3.sk> 0.16.20-1
+- update to 0.16.20
+
 * Sat Aug 03 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.16.19-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_20_Mass_Rebuild
 
@@ -150,7 +151,7 @@ rm -rf ${RPM_BUILD_ROOT}
 * Mon Sep 17 2007 Jindrich Novy <jnovy@redhat.com> - 0.16.17-7
 - don't ifarch patch definition
 
-* Thu Aug 27 2007 Jindrich Novy <jnovy@redhat.com> - 0.16.17-6
+* Mon Aug 27 2007 Jindrich Novy <jnovy@redhat.com> - 0.16.17-6
 - add missing BR on gawk
 - rebuild (#249952)
 
