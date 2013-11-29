@@ -1,0 +1,44 @@
+From 7562873999e7cae31ab656f894b7c06d015a0881 Mon Sep 17 00:00:00 2001
+From: Lubomir Rintel <lkundrak@v3.sk>
+Date: Thu, 28 Nov 2013 09:13:17 +0100
+Subject: [PATCH] Fix format string use
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+copt.c: In function ‘writeoutf’:
+copt.c:806:2: error: format not a string literal and no format arguments [-Werror=format-security]
+  fprintf(fp, headstr);
+---
+ copt/copt.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/copt/copt.c b/copt/copt.c
+index 9392380..fe49ad5 100644
+--- a/copt/copt.c
++++ b/copt/copt.c
+@@ -803,7 +803,7 @@ static void writeoutf(char *filename, char *headstr)
+ 	exit(1);
+   }
+   if (headstr != NULL) {
+-	fprintf(fp, headstr);
++	fprintf(fp, "%s", headstr);
+ 	fprintf(fp, "\n");
+   }
+   for (lp = infile; lp != NULL; lp = lp->next)
+-- 
+1.8.4.2
+
+diff --git a/ar/ar.c b/ar/ar.c
+index 4e5cb0a..f808a3a 100644
+--- a/ar/ar.c
++++ b/ar/ar.c
+@@ -2036,7 +2036,7 @@ error_with_file (string, mapelt)
+      struct mapelt *mapelt;
+ {
+   fprintf (stderr, "%s: ", program_name);
+-  fprintf (stderr, string);
++  fprintf (stderr, "%s", string);
+   if (mapelt->info.offset != 0)
+     fprintf (stderr, "%s(%s)", archive, mapelt->info.name);
+   else
