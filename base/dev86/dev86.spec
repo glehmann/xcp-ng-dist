@@ -1,7 +1,7 @@
 Summary: A real mode 80x86 assembler and linker
 Name: dev86
 Version: 0.16.21
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPL+ and GPLv2+ and LGPLv2+
 Group: Development/Languages
 URL: http://v3.sk/~lkundrak/dev86/
@@ -28,7 +28,7 @@ mode from their source code.
 %prep
 %setup -q
 %patch0 -p1 -b .noelks
-%if %{__isa_bits} == 64
+%if 0%{?__isa_bits} == 64
 %patch1 -p1 -b .64bit
 %endif
 %patch2 -p1 -b .nostrip
@@ -85,6 +85,9 @@ rm -rf ${RPM_BUILD_ROOT}
 %{_mandir}/man1/*
 
 %changelog
+* Wed Mar 19 2014 Lubomir Rintel <lkundrak@v3.sk> 0.16.21-2
+- Fix source rpm build on arm
+
 * Fri Mar 14 2014 Lubomir Rintel <lkundrak@v3.sk> 0.16.21-1
 - update to 0.16.21
 
