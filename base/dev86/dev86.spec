@@ -1,7 +1,7 @@
 Summary: A real mode 80x86 assembler and linker
 Name: dev86
 Version: 0.16.21
-Release: 2%{?dist}
+Release: 3%{?dist}
 License: GPL+ and GPLv2+ and LGPLv2+
 Group: Development/Languages
 URL: http://v3.sk/~lkundrak/dev86/
@@ -85,6 +85,9 @@ rm -rf ${RPM_BUILD_ROOT}
 %{_mandir}/man1/*
 
 %changelog
+* Sat Jun 07 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.16.21-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
+
 * Wed Mar 19 2014 Lubomir Rintel <lkundrak@v3.sk> 0.16.21-2
 - Fix source rpm build on arm
 
