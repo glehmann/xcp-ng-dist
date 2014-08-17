@@ -3,7 +3,7 @@
 
 Name:   python-bitarray          
 Version:     0.3.5   
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        Efficient Array of Booleans --C Extensions
 
 Group:          Development/Languages
@@ -49,6 +49,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sun Aug 17 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.3.5-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_22_Mass_Rebuild
+
 * Sat Jun 07 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.3.5-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
 
