@@ -1,17 +1,23 @@
+%global srcname bitarray
+%global sum Efficient Array of Booleans --C Extensions
 %{!?python_sitearch: %define python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
  
 
-Name:   python-bitarray          
-Version:     0.3.5   
-Release:        12%{?dist}
-Summary:        Efficient Array of Booleans --C Extensions
+Name:           python-%{srcname}          
+Version:        0.8.1   
+Release:        1%{?dist}
+Summary:        %{sum}
 
 Group:          Development/Languages
 License:        Python
-URL:            http://pypi.python.org/pypi/bitarray/
-Source0:        http://pypi.python.org/packages/source/b/bitarray/bitarray-%{version}.tar.gz
-BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildRequires:  python-devel python-setuptools
+URL:            http://pypi.python.org/pypi/%{srcname}/
+Source0:        http://pypi.python.org/packages/source/b/%{srcname}/%{srcname}-%{version}.tar.gz
+
+BuildRequires:  python2-devel
+BuildRequires:  python2-setuptools
+
+BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
 
 %description
 Bitarrays are sequence types and behave very much like usual lists.
@@ -23,32 +29,71 @@ files is required, such as portable bitmap image files (.pbm). Also, when
 dealing with compressed data which uses variable bit length encoding
 you may find this module useful.
 
+
+%package -n python2-%{srcname}
+Summary:  %{sum}
+%{?python_provide:%python_provide python2-%{srcname}}
+
+%description -n python2-%{srcname}
+Bitarrays are sequence types and behave very much like usual lists.
+Eight bits are represented by one byte in contiguous block of memory.
+The user can select between two representations; little-endian and big-endian.
+Most of the functionality is implemented in C.Methods for accessing the machine
+representation are provided. This can be useful when bit level access to binary
+files is required, such as portable bitmap image files (.pbm). Also, when 
+dealing with compressed data which uses variable bit length encoding
+you may find this module useful.
+This is Python 2 version.
+
+
+%package -n python3-%{srcname}
+Summary:  %{sum}
+%{?python_provide:%python_provide python3-%{srcname}}
+
+%description -n python3-%{srcname}
+Bitarrays are sequence types and behave very much like usual lists.
+Eight bits are represented by one byte in contiguous block of memory.
+The user can select between two representations; little-endian and big-endian.
+Most of the functionality is implemented in C.Methods for accessing the machine
+representation are provided. This can be useful when bit level access to binary
+files is required, such as portable bitmap image files (.pbm). Also, when 
+dealing with compressed data which uses variable bit length encoding
+you may find this module useful.
+This is Python 3 version.
+
+
 %prep
-%setup -q -n bitarray-%{version}
+%setup -q -n %{srcname}-%{version}
 
 
 %build
-CFLAGS="$RPM_OPT_FLAGS" %{__python} setup.py build
+%py2_build
+%py3_build
 
 
 %install
-rm -rf $RPM_BUILD_ROOT
-%{__python} setup.py install -O1 --skip-build --root $RPM_BUILD_ROOT
+%py2_install
+%py3_install
 
  
-%clean
-rm -rf $RPM_BUILD_ROOT
+%files -n python2-%{srcname}
+%license LICENSE 
+%{python2_sitearch}/*
 
 
-%files
-%defattr(-,root,root,-)
-%doc LICENSE 
-
-%{python_sitearch}/*
+%files -n python3-%{srcname}
+%license LICENSE 
+%{python3_sitearch}/*
  
-
 
 %changelog
+* Thu Jun 30 2016 Sérgio Basto <sergio@serjux.com> - 0.8.1-1
+- Clean up the spec
+
+* Thu Jun 09 2016 Dominika Krejci <dkrejci@redhat.com>
+- Add Python 3
+- Upgrade to version 0.8.1
+
 * Thu Feb 04 2016 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.5-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
 
@@ -84,6 +129,4 @@ rm -rf $RPM_BUILD_ROOT
 
 * Wed Apr 08 2009 Ramakrishna Reddy Yekulla <ramkrsna@fedoraproject.org> 0.3.5-1
 - Initial RPM release
-
-
 
