@@ -5,7 +5,7 @@
 
 Name:           python-%{srcname}          
 Version:        0.8.1   
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        %{sum}
 
 Group:          Development/Languages
@@ -32,6 +32,8 @@ you may find this module useful.
 
 %package -n python2-%{srcname}
 Summary:  %{sum}
+Provides: python-%{srcname} = %{version}-%{release}
+Obsoletes: python-%{srcname} < %{version}-%{release}
 %{?python_provide:%python_provide python2-%{srcname}}
 
 %description -n python2-%{srcname}
@@ -87,6 +89,10 @@ This is Python 3 version.
  
 
 %changelog
+* Sun Jul 03 2016 Sérgio Basto <sergio@serjux.com> - 0.8.1-2
+- Replace python-bitarray with python2-bitarray
+  https://fedoraproject.org/wiki/Packaging:Guidelines#Renaming.2FReplacing_Existing_Packages
+
 * Thu Jun 30 2016 Sérgio Basto <sergio@serjux.com> - 0.8.1-1
 - Clean up the spec
 
