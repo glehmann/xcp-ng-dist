@@ -5,7 +5,7 @@
 
 Name:           python-%{srcname}          
 Version:        0.8.1   
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        %{sum}
 
 Group:          Development/Languages
@@ -89,6 +89,9 @@ This is Python 3 version.
  
 
 %changelog
+* Tue Jul 19 2016 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.8.1-3
+- https://fedoraproject.org/wiki/Changes/Automatic_Provides_for_Python_RPM_Packages
+
 * Sun Jul 03 2016 Sérgio Basto <sergio@serjux.com> - 0.8.1-2
 - Replace python-bitarray with python2-bitarray
   https://fedoraproject.org/wiki/Packaging:Guidelines#Renaming.2FReplacing_Existing_Packages
