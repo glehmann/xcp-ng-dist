@@ -2,10 +2,17 @@
 %global sum Efficient Array of Booleans --C Extensions
 %{!?python_sitearch: %define python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
 
+# Python3 not available in el6
+%if 0%{?rhel} > 1 && 0%{?rhel} < 7
+    %bcond_with py3
+%else
+    %bcond_without py3
+%endif
+
 
 Name:           python-%{srcname}
 Version:        0.8.1
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        %{sum}
 
 Group:          Development/Languages
@@ -14,10 +21,16 @@ URL:            http://pypi.python.org/pypi/%{srcname}/
 Source0:        http://pypi.python.org/packages/source/b/%{srcname}/%{srcname}-%{version}.tar.gz
 
 BuildRequires:  python2-devel
+%if 0%{?rhel}
+BuildRequires:  python-setuptools
+%else
 BuildRequires:  python2-setuptools
+%endif
 
-BuildRequires:  python3-devel
-BuildRequires:  python3-setuptools
+%if %{with py3}
+BuildRequires:  python%{python3_pkgversion}-devel
+BuildRequires:  python%{python3_pkgversion}-setuptools
+%endif
 
 %description
 Bitarrays are sequence types and behave very much like usual lists.
@@ -48,11 +61,12 @@ you may find this module useful.
 This is Python 2 version.
 
 
-%package -n python3-%{srcname}
+%if %{with py3}
+%package -n python%{python3_pkgversion}-%{srcname}
 Summary:  %{sum}
-%{?python_provide:%python_provide python3-%{srcname}}
+%{?python_provide:%python_provide python%{python3_pkgversion}-%{srcname}}
 
-%description -n python3-%{srcname}
+%description -n python%{python3_pkgversion}-%{srcname}
 Bitarrays are sequence types and behave very much like usual lists.
 Eight bits are represented by one byte in contiguous block of memory.
 The user can select between two representations; little-endian and big-endian.
@@ -62,20 +76,24 @@ files is required, such as portable bitmap image files (.pbm). Also, when
 dealing with compressed data which uses variable bit length encoding
 you may find this module useful.
 This is Python 3 version.
+%endif
 
 
 %prep
 %setup -q -n %{srcname}-%{version}
 
-
 %build
 %py2_build
+%if %{with py3}
 %py3_build
+%endif
 
 
 %install
 %py2_install
+%if %{with py3}
 %py3_install
+%endif
 
 
 %files -n python2-%{srcname}
@@ -83,12 +101,18 @@ This is Python 3 version.
 %{python2_sitearch}/*
 
 
-%files -n python3-%{srcname}
+%if %{with py3}
+%files -n python%{python3_pkgversion}-%{srcname}
 %license LICENSE
 %{python3_sitearch}/*
+%endif
 
 
 %changelog
+* Tue Oct 04 2016 Sérgio Basto <sergio@serjux.com> - 0.8.1-4
+- Clean trailing whitespaces
+- Add support to epel 7 and 6, disable python3 in el6
+
 * Tue Jul 19 2016 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.8.1-3
 - https://fedoraproject.org/wiki/Changes/Automatic_Provides_for_Python_RPM_Packages
 
