@@ -1,10 +1,10 @@
 %global srcname bitarray
 %global sum Efficient Array of Booleans --C Extensions
 %{!?python_sitearch: %define python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
- 
 
-Name:           python-%{srcname}          
-Version:        0.8.1   
+
+Name:           python-%{srcname}
+Version:        0.8.1
 Release:        3%{?dist}
 Summary:        %{sum}
 
@@ -25,7 +25,7 @@ Eight bits are represented by one byte in contiguous block of memory.
 The user can select between two representations; little-endian and big-endian.
 Most of the functionality is implemented in C.Methods for accessing the machine
 representation are provided. This can be useful when bit level access to binary
-files is required, such as portable bitmap image files (.pbm). Also, when 
+files is required, such as portable bitmap image files (.pbm). Also, when
 dealing with compressed data which uses variable bit length encoding
 you may find this module useful.
 
@@ -42,7 +42,7 @@ Eight bits are represented by one byte in contiguous block of memory.
 The user can select between two representations; little-endian and big-endian.
 Most of the functionality is implemented in C.Methods for accessing the machine
 representation are provided. This can be useful when bit level access to binary
-files is required, such as portable bitmap image files (.pbm). Also, when 
+files is required, such as portable bitmap image files (.pbm). Also, when
 dealing with compressed data which uses variable bit length encoding
 you may find this module useful.
 This is Python 2 version.
@@ -58,7 +58,7 @@ Eight bits are represented by one byte in contiguous block of memory.
 The user can select between two representations; little-endian and big-endian.
 Most of the functionality is implemented in C.Methods for accessing the machine
 representation are provided. This can be useful when bit level access to binary
-files is required, such as portable bitmap image files (.pbm). Also, when 
+files is required, such as portable bitmap image files (.pbm). Also, when
 dealing with compressed data which uses variable bit length encoding
 you may find this module useful.
 This is Python 3 version.
@@ -77,16 +77,16 @@ This is Python 3 version.
 %py2_install
 %py3_install
 
- 
+
 %files -n python2-%{srcname}
-%license LICENSE 
+%license LICENSE
 %{python2_sitearch}/*
 
 
 %files -n python3-%{srcname}
-%license LICENSE 
+%license LICENSE
 %{python3_sitearch}/*
- 
+
 
 %changelog
 * Tue Jul 19 2016 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.8.1-3
