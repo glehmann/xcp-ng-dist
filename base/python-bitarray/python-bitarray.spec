@@ -12,7 +12,7 @@
 
 Name:           python-%{srcname}
 Version:        0.8.1
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        %{sum}
 
 Group:          Development/Languages
@@ -109,6 +109,9 @@ This is Python 3 version.
 
 
 %changelog
+* Mon Dec 19 2016 Miro Hrončok <mhroncok@redhat.com> - 0.8.1-5
+- Rebuild for Python 3.6
+
 * Tue Oct 04 2016 Sérgio Basto <sergio@serjux.com> - 0.8.1-4
 - Clean trailing whitespaces
 - Add support to epel 7 and 6, disable python3 in el6
