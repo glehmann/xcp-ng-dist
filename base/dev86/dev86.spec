@@ -65,9 +65,6 @@ ln -s objdump86 nm86
 ln -s objdump86 size86
 popd
 
-%clean
-rm -rf ${RPM_BUILD_ROOT}
-
 %files
 %defattr(-,root,root,-)
 %doc README MAGIC Contributors README.bootblocks README.copt README.dis88
