@@ -11,8 +11,8 @@
 
 
 Name:           python-%{srcname}
-Version:        0.8.1
-Release:        10%{?dist}
+Version:        0.8.3
+Release:        1%{?dist}
 Summary:        %{sum}
 
 Group:          Development/Languages
@@ -109,6 +109,9 @@ This is Python 3 version.
 
 
 %changelog
+* Mon Jul 9 2018 Nick Bebout <nb@fedoraproject.org> - 0.8.3-1
+- Update to 0.8.3
+
 * Tue Jun 19 2018 Miro Hrončok <mhroncok@redhat.com> - 0.8.1-10
 - Rebuilt for Python 3.7
 
