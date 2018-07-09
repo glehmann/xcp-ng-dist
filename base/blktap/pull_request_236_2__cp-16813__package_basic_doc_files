@@ -1,0 +1,30 @@
+CP-16813: package basic doc files
+
+From: Germano Percossi <germano.percossi@citrix.com>
+
+Signed-off-by: Germano Percossi <germano.percossi@citrix.com>
+
+diff --git a/Makefile.am b/Makefile.am
+index 3951eef..d0715d9 100644
+--- a/Makefile.am
++++ b/Makefile.am
+@@ -15,3 +15,5 @@ SUBDIRS += tapback
+ if ENABLE_PART
+ MAYBE_part = part
+ endif
++
++dist_doc_DATA = README README.md LICENSE CONTRIB WHATS_NEW MAINTAINERS
+diff --git a/mk/blktap.spec.in b/mk/blktap.spec.in
+index 4698cab..c7b8c4c 100644
+--- a/mk/blktap.spec.in
++++ b/mk/blktap.spec.in
+@@ -52,7 +52,8 @@ mkdir -p %{buildroot}%{_localstatedir}/log/blktap
+ 
+ %files
+ %defattr(-,root,root,-)
+-%doc
++%docdir /usr/share/doc/%{name}
++/usr/share/doc/%{name}
+ %{_libdir}/*.so
+ %{_libdir}/*.so.*
+ %{_bindir}/vhd-util

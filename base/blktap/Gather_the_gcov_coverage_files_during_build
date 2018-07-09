@@ -1,0 +1,15 @@
+Gather the gcov coverage files during build
+
+From: Mark Syms <mark.syms@citrix.com>
+
+Signed-off-by: Mark Syms <mark.syms@citrix.com>
+
+diff --git a/collect-test-results.sh b/collect-test-results.sh
+index 8b5d5db..688b8b2 100755
+--- a/collect-test-results.sh
++++ b/collect-test-results.sh
+@@ -12,3 +12,4 @@ mkdir -p $OUTPUT_DIR
+ lcov --capture --directory . --rc lcov_branch_coverage=1 --no-external --output-file $OUTPUT_DIR/coverage.info
+ genhtml $OUTPUT_DIR/coverage.info  --rc lcov_branch_coverage=1 --output-directory $OUTPUT_DIR/coverage-html
+ tar cf $OUTPUT_DIR/test-results.tar `find mockatests -name \*.log`
++tar cf $OUTPUT_DIR/gcov-files.tar `find . -name \*.gcda -or -name \*.gcno`

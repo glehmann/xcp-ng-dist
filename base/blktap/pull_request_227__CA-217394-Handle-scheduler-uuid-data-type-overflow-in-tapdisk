@@ -1,0 +1,105 @@
+CA-217394: Handle scheduler uuid data type overflow in tapdisk
+
+From: Sharath Babu <sharath.babu@citrix.com>
+
+Tapdisk errno -12 at tapdisk_control_accept occurred because
+the datatype of scheduler uuid overflowed in the tapdisk scheduler.
+CP-18923 investigated the tapdisk scheduler to ensure it can continue
+to function properly even when the datatype of the uuid overflows by
+repeating the event ids. Customer who raised XSO-587 has validated this fix.
+
+Signed-off-by: Sharath Babu <sharath.babu@citrix.com>
+Reviewed-by: Jonathan Davies <jonathan.davies@citrix.com>
+Reviewed-by: Chandrika Srinivasan <chandrika.srinivasan@citrix.com>
+
+diff --git a/drivers/scheduler.c b/drivers/scheduler.c
+index 1c44714..dafa3d0 100644
+--- a/drivers/scheduler.c
++++ b/drivers/scheduler.c
+@@ -261,6 +261,37 @@ scheduler_run_events(scheduler_t *s)
+ }
+ 
+ int
++scheduler_get_event_uuid(scheduler_t *s) {
++
++	int uuid_found;
++	event_t *event;
++
++        if(unlikely(s->uuid < 0)) {
++		EPRINTF("scheduler uuid overflow detected");
++                s->uuid = 1;
++                s->uuid_overflow = 1;
++        }
++
++        if(unlikely(s->uuid_overflow == 1)) {
++                do {
++                        uuid_found = 1;
++                        scheduler_for_each_event(s, event) {
++                                if(event->id == s->uuid) {
++                                        uuid_found = 0;
++                                        s->uuid++;
++					if(s->uuid < 0)
++						s->uuid = 1;
++                                        break;
++                                }
++                        }
++
++                } while(!uuid_found);
++        }
++	
++	return s->uuid++;
++}
++
++int
+ scheduler_register_event(scheduler_t *s, char mode, int fd,
+ 			 struct timeval timeout, event_cb_t cb, void *private)
+ {
+@@ -291,12 +322,9 @@ scheduler_register_event(scheduler_t *s, char mode, int fd,
+ 		TV_ADD(now, timeout, event->deadline);
+ 	event->cb       = cb;
+ 	event->private  = private;
+-	event->id       = s->uuid++;
++	event->id       = scheduler_get_event_uuid(s);
+ 	event->masked   = 0;
+ 
+-	if (!s->uuid)
+-		s->uuid++;
+-
+ 	list_add_tail(&event->next, &s->events);
+ 
+ 	return event->id;
+@@ -411,6 +439,7 @@ scheduler_initialize(scheduler_t *s)
+ 
+ 	s->uuid  = 1;
+ 	s->depth = 0;
++	s->uuid_overflow = 0;
+ 
+ 	FD_ZERO(&s->read_fds);
+ 	FD_ZERO(&s->write_fds);
+diff --git a/drivers/scheduler.h b/drivers/scheduler.h
+index 0e0f6ba..fb2a27a 100644
+--- a/drivers/scheduler.h
++++ b/drivers/scheduler.h
+@@ -38,12 +38,14 @@ typedef struct scheduler {
+ 	struct list_head             events;
+ 
+ 	int                          uuid;
++	int                          uuid_overflow;
+ 	int                          max_fd;
+ 	struct timeval               timeout;
+ 	struct timeval               max_timeout;
+ 	int                          depth;
+ } scheduler_t;
+ 
++
+ void scheduler_initialize(scheduler_t *);
+ 
+ /**
+@@ -55,6 +57,7 @@ event_id_t scheduler_register_event(scheduler_t *, char mode,
+ 				    int fd, struct timeval timeout,
+ 				    event_cb_t cb, void *private);
+ 
++int scheduler_get_event_uuid(scheduler_t *);
+ void scheduler_unregister_event(scheduler_t *,  event_id_t);
+ void scheduler_mask_event(scheduler_t *, event_id_t, int masked);
+ void scheduler_set_max_timeout(scheduler_t *, struct timeval);

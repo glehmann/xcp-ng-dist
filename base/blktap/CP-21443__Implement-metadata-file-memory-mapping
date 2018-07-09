@@ -1,0 +1,384 @@
+From: Chandrika Srinivasan <chandrika.srinivasan@citrix.com>
+Date: Thu, 13 Apr 2017 16:20:00 +0100
+CP-21443: Implement metadata file memory mapping
+
+The in-memory log for a CBT disk is a memory-mapped version of its on
+disk metadata log file. The file is mapped into memory on tapdisk open
+and flushed back on close. The tap-ctl open interface is enhanced to
+accept a log file path if CBT is enabled.
+
+Signed-off-by: Chandrika Srinivasan <chandrika.srinivasan@citrix.com>
+Reviewed-by: Mark Syms <mark.syms@citrix.com>
+---
+ control/tap-ctl-create.c  |  2 +-
+ control/tap-ctl-open.c    | 12 +++++++++++-
+ control/tap-ctl.c         | 16 +++++++++-------
+ drivers/block-log.c       | 37 +++++++++++++++---------------------
+ drivers/block-log.h       | 48 +++++++++++++++++++++++++++++++++++++++++++++++
+ drivers/tapdisk-control.c |  9 ++++++++-
+ drivers/tapdisk-vbd.c     | 18 ++++++++++--------
+ drivers/tapdisk-vbd.h     |  6 ++++--
+ include/tap-ctl.h         |  2 +-
+ include/tapdisk-message.h |  1 +
+ 10 files changed, 108 insertions(+), 43 deletions(-)
+ create mode 100644 drivers/block-log.h
+
+diff --git a/control/tap-ctl-create.c b/control/tap-ctl-create.c
+index 218f8e3..87cc8cf 100644
+--- a/control/tap-ctl-create.c
++++ b/control/tap-ctl-create.c
+@@ -62,7 +62,7 @@ tap_ctl_create(const char *params, char **devname, int flags, int parent_minor,
+ 		goto destroy;
+ 
+ 	err = tap_ctl_open(id, minor, params, flags, parent_minor, secondary,
+-			timeout);
++			timeout, NULL);
+ 	if (err)
+ 		goto detach;
+ 
+diff --git a/control/tap-ctl-open.c b/control/tap-ctl-open.c
+index 29fc5cf..305c731 100644
+--- a/control/tap-ctl-open.c
++++ b/control/tap-ctl-open.c
+@@ -43,7 +43,7 @@
+ 
+ int
+ tap_ctl_open(const int id, const int minor, const char *params, int flags,
+-		const int prt_minor, const char *secondary, int timeout)
++		const int prt_minor, const char *secondary, int timeout, const char* logpath)
+ {
+ 	int err;
+ 	tapdisk_message_t message;
+@@ -73,6 +73,16 @@ tap_ctl_open(const int id, const int minor, const char *params, int flags,
+ 		}
+ 	}
+ 
++	if (logpath) {
++		err = snprintf(message.u.params.logpath,
++			       sizeof(message.u.params.logpath) - 1, "%s",
++			       logpath);
++		if (err >= sizeof(message.u.params.logpath)) {
++			EPRINTF("logpath too long\n");
++			return ENAMETOOLONG;
++		}
++	}
++
+ 	err = tap_ctl_connect_send_and_receive(id, &message, NULL);
+ 	if (err)
+ 		return err;
+diff --git a/control/tap-ctl.c b/control/tap-ctl.c
+index 06a608c..3eb4756 100644
+--- a/control/tap-ctl.c
++++ b/control/tap-ctl.c
+@@ -750,25 +750,26 @@ tap_cli_open_usage(FILE *stream)
+ 		"use secondary image (in mirror mode if no -s)] [-s "
+ 		"fail over to the secondary image on ENOSPC] "
+ 		"[-t request timeout in seconds] [-D no O_DIRECT] "
+-		"[-c insert dirty log layer to track changed blocks]\n");
++		"[-c </path/to/logfile> insert dirty log layer to track changed blocks]\n");
+ }
+ 
+ static int
+ tap_cli_open(int argc, char **argv)
+ {
+-	const char *args, *secondary;
++	const char *args, *secondary, *logpath;
+ 	int c, pid, minor, flags, prt_minor, timeout;
+ 
+ 	flags      = 0;
+ 	pid        = -1;
+-	minor     = -1;
+-	prt_minor = -1;
++	minor      = -1;
++	prt_minor  = -1;
+ 	timeout    = 0;
+-	args      = NULL;
++	args       = NULL;
+ 	secondary  = NULL;
++	logpath    = NULL;
+ 
+ 	optind = 0;
+-	while ((c = getopt(argc, argv, "a:RDm:p:e:r2:st:ch")) != -1) {
++	while ((c = getopt(argc, argv, "a:RDm:p:e:r2:st:c:h")) != -1) {
+ 		switch (c) {
+ 		case 'p':
+ 			pid = atoi(optarg);
+@@ -803,6 +804,7 @@ tap_cli_open(int argc, char **argv)
+ 			timeout = atoi(optarg);
+ 			break;
+ 		case 'c': 
++			logpath = optarg;
+ 			flags |= TAPDISK_MESSAGE_FLAG_ADD_LOG;
+ 			break;
+ 		case '?':
+@@ -817,7 +819,7 @@ tap_cli_open(int argc, char **argv)
+ 		goto usage;
+ 
+ 	return tap_ctl_open(pid, minor, args, flags, prt_minor, secondary,
+-			timeout);
++			timeout, logpath);
+ 
+ usage:
+ 	tap_cli_open_usage(stderr);
+diff --git a/drivers/block-log.c b/drivers/block-log.c
+index 2e029a3..7d249a7 100644
+--- a/drivers/block-log.c
++++ b/drivers/block-log.c
+@@ -60,18 +60,7 @@
+ #include "tapdisk-utils.h"
+ #include "timeout-math.h"
+ #include "log.h"
+-
+-#define MAX_CONNECTIONS 1
+-
+-typedef struct poll_fd {
+-	int          fd;
+-	event_id_t   id;
+-} poll_fd_t;
+-
+-struct tdlog_data {
+-	uint64_t     size;
+-	void*        bitmap;
+-};
++#include "block-log.h"
+ 
+ #define BITS_PER_LONG (sizeof(unsigned long) * 8)
+ #define BITS_TO_LONGS(bits) (((bits)+BITS_PER_LONG-1)/BITS_PER_LONG)
+@@ -103,15 +92,15 @@ static int bitmap_size(uint64_t sz)
+ 		return (num_blocks >> 3);
+ }
+ 
+-static int bitmap_create(struct tdlog_data *data)
++static int bitmap_init(struct tdlog_data *data)
+ {
+ 	uint64_t bmsize;
+-
+ 	bmsize = bitmap_size(data->size);
+ 
+ 	DPRINTF("allocating %"PRIu64" bytes for dirty bitmap", bmsize);
+ 
+-	if (!(data->bitmap = calloc(bmsize, 1))) {
++	data->bitmap = mmap(0, bmsize, PROT_READ | PROT_WRITE, MAP_PRIVATE, data->fd, 0);
++	if (!data->bitmap) {
+ 		EPRINTF("could not allocate dirty bitmap of size %"PRIu64, bmsize);
+ 		return -1;
+ 	}
+@@ -121,10 +110,13 @@ static int bitmap_create(struct tdlog_data *data)
+ 
+ static int bitmap_free(struct tdlog_data *data)
+ {
+-	if (data->bitmap)
+-		free(data->bitmap);
++	if (data->bitmap) {
++		munmap(data->bitmap, bitmap_size(data->size));
++	}
++
++	close(data->fd);
+ 
+-return 0;
++	return 0;
+ }
+ 
+ static int bitmap_set(struct tdlog_data* data, uint64_t sector, int count)
+@@ -155,12 +147,13 @@ static int tdlog_open(td_driver_t* driver, const char *name, td_flag_t flags)
+ 	int rc;
+ 
+ 	memset(data, 0, sizeof(*data));
+-
+ 	data->size = driver->info.size;
+ 
+-	DPRINTF("Size of original image is %"PRIu64"\n", data->size);
+-	
+-	if ((rc = bitmap_create(data))) {
++	/* Open on disk log file and map it into memory */
++	data->fd = open(driver->name, O_RDWR);
++	lseek(data->fd, SEEK_SET, sizeof(struct log_metadata));
++
++	if ((rc = bitmap_init(data))) {
+ 		tdlog_close(driver);
+ 		return rc;
+ 	}
+diff --git a/drivers/block-log.h b/drivers/block-log.h
+new file mode 100644
+index 0000000..425e22c
+--- /dev/null
++++ b/drivers/block-log.h
+@@ -0,0 +1,48 @@
++/*
++ * Copyright (c) 2017, Citrix Systems, Inc.
++ *
++ * All rights reserved.
++ *
++ * Redistribution and use in source and binary forms, with or without
++ * modification, are permitted provided that the following conditions are met:
++ * 
++ *  1. Redistributions of source code must retain the above copyright
++ *     notice, this list of conditions and the following disclaimer.
++ *  2. Redistributions in binary form must reproduce the above copyright
++ *     notice, this list of conditions and the following disclaimer in the
++ *     documentation and/or other materials provided with the distribution.
++ *  3. Neither the name of the copyright holder nor the names of its 
++ *     contributors may be used to endorse or promote products derived from 
++ *     this software without specific prior written permission.
++ *
++ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
++ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
++ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
++ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER
++ * OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
++ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
++ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
++ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
++ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
++ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
++ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
++ */
++
++#ifndef __BLOCK_LOG_H__
++#define __BLOCK_LOG_H__
++
++#include <uuid/uuid.h>
++
++struct log_metadata {
++	uuid_t 	parent_log;
++	uuid_t 	child_log; 
++	int 	consistent;
++};
++
++struct tdlog_data {
++    int         fd;
++	uint64_t   	size;
++	void*		bitmap;
++};
++
++#endif
+diff --git a/drivers/tapdisk-control.c b/drivers/tapdisk-control.c
+index 9664b69..82fd09b 100644
+--- a/drivers/tapdisk-control.c
++++ b/drivers/tapdisk-control.c
+@@ -737,8 +737,15 @@ tapdisk_control_open_image(struct tapdisk_ctl_conn *conn,
+ 		flags |= TD_OPEN_ADD_CACHE;
+ 	if (request->u.params.flags & TAPDISK_MESSAGE_FLAG_VHD_INDEX)
+ 		flags |= TD_OPEN_VHD_INDEX;
+-	if (request->u.params.flags & TAPDISK_MESSAGE_FLAG_ADD_LOG)
++	if (request->u.params.flags & TAPDISK_MESSAGE_FLAG_ADD_LOG) {
++		char *logpath = strdup(request->u.params.logpath);
++		if (!logpath) {
++			err = -errno;
++			goto out;
++		}
++		vbd->logpath = logpath;
+ 		flags |= TD_OPEN_ADD_LOG;
++	}
+ 	if (request->u.params.flags & TAPDISK_MESSAGE_FLAG_ADD_LCACHE)
+ 		flags |= TD_OPEN_LOCAL_CACHE;
+ 	if (request->u.params.flags & TAPDISK_MESSAGE_FLAG_REUSE_PRT)
+diff --git a/drivers/tapdisk-vbd.c b/drivers/tapdisk-vbd.c
+index 034199b..54c5190 100644
+--- a/drivers/tapdisk-vbd.c
++++ b/drivers/tapdisk-vbd.c
+@@ -520,8 +520,7 @@ fail:
+ }
+ #endif
+ 
+-static int
+-tapdisk_vbd_add_dirty_log(td_vbd_t *vbd)
++static int tapdisk_vbd_add_dirty_log(td_vbd_t *vbd)
+ {
+ 	int err;
+ 	td_driver_t *driver;
+@@ -530,14 +529,15 @@ tapdisk_vbd_add_dirty_log(td_vbd_t *vbd)
+ 	driver = NULL;
+ 	log    = NULL;
+ 
+-	ERR(TLOG_WARN, "tapdisk_vbd_add_dirty_log called for %s\n", vbd->name);
++	ERR(TLOG_WARN, "tapdisk_vbd_add_dirty_log called for %s with log file %s\n",
++			vbd->name, vbd->logpath);
+ 
+ 	parent = tapdisk_vbd_first_image(vbd);
+ 
+ 	ERR(TLOG_WARN, "Size in VBD: %"PRIu64"\n", vbd->disk_info.size);
+ 	ERR(TLOG_WARN, "Size in Image: %"PRIu64"\n", parent->info.size);
+ 
+-	log    = tapdisk_image_allocate(parent->name,
++	log = tapdisk_image_allocate(vbd->logpath,
+ 					DISK_TYPE_LOG,
+ 					parent->flags);
+ 	if (!log)
+@@ -558,10 +558,8 @@ tapdisk_vbd_add_dirty_log(td_vbd_t *vbd)
+ 	if (err)
+ 		goto fail;
+ 
+-	/* insert cache before image */
++	/* insert log before image */
+ 	list_add(&log->next, parent->next.prev);
+-
+-//	tapdisk_vbd_add_image(vbd, log);
+ 	return 0;
+ 
+ fail:
+@@ -569,7 +567,7 @@ fail:
+ 	return err;
+ }
+ 
+-int
++int 
+ tapdisk_vbd_open_vdi(td_vbd_t *vbd, const char *name, td_flag_t flags, int prt_devnum)
+ {
+ 	char *tmp = vbd->name;
+@@ -601,6 +599,10 @@ tapdisk_vbd_open_vdi(td_vbd_t *vbd, const char *name, td_flag_t flags, int prt_d
+ 	vbd->flags = flags;
+ 
+ 	if (td_flag_test(vbd->flags, TD_OPEN_ADD_LOG)) {
++		if (!vbd->logpath) {
++			err = -EINVAL;
++			goto fail;
++		}
+ 		err = tapdisk_vbd_add_dirty_log(vbd);
+ 		if (err)
+ 			goto fail;
+diff --git a/drivers/tapdisk-vbd.h b/drivers/tapdisk-vbd.h
+index c4c0b02..f76b3c7 100644
+--- a/drivers/tapdisk-vbd.h
++++ b/drivers/tapdisk-vbd.h
+@@ -158,8 +158,10 @@ struct td_vbd_handle {
+ 	 */
+ 	td_disk_info_t              disk_info;
+ 
+-    struct td_vbd_rrd           rrd;
+-    stats_t vdi_stats;
++	struct td_vbd_rrd           rrd;
++	stats_t vdi_stats;
++
++	char                       *logpath;
+ };
+ 
+ #define tapdisk_vbd_for_each_request(vreq, tmp, list)	                \
+diff --git a/include/tap-ctl.h b/include/tap-ctl.h
+index a5d85fd..c027957 100644
+--- a/include/tap-ctl.h
++++ b/include/tap-ctl.h
+@@ -116,7 +116,7 @@ int tap_ctl_attach(const int id, const int minor);
+ int tap_ctl_detach(const int id, const int minor);
+ 
+ int tap_ctl_open(const int id, const int minor, const char *params, int flags,
+-		const int prt_minor, const char *secondary, int timeout);
++		const int prt_minor, const char *secondary, int timeout, const char *logpath);
+ int tap_ctl_close(const int id, const int minor, const int force,
+ 		  struct timeval *timeout);
+
+diff --git a/include/tapdisk-message.h b/include/tapdisk-message.h
+index a5f90eb..4a0ab9b 100644
+--- a/include/tapdisk-message.h
++++ b/include/tapdisk-message.h
+@@ -75,6 +75,7 @@ struct tapdisk_message_params {
+ 	uint32_t                         prt_devnum;
+ 	uint16_t                         req_timeout;
+ 	char                             secondary[TAPDISK_MESSAGE_MAX_PATH_LENGTH];
++	char                             logpath[TAPDISK_MESSAGE_MAX_PATH_LENGTH];
+ };
+ 
+ struct tapdisk_message_image {
+-- 
+1.8.3.1
+

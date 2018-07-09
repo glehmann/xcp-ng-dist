@@ -1,0 +1,102 @@
+commit 95eba258c011c4216454aa7456b60dda8f243ce9
+Author: philippe gabriel <philippe.gabriel@citrix.com>
+Date:   Thu Feb 23 16:52:48 2017 +0000
+
+    Adding gcc flags to enable gcov build
+
+diff --git a/control/Makefile.am b/control/Makefile.am
+index 39ba83d..b389f7d 100644
+--- a/control/Makefile.am
++++ b/control/Makefile.am
+@@ -1,6 +1,7 @@
+ 
+ AM_CFLAGS  = -Wall
+ AM_CFLAGS += -Werror
++AM_CFLAGS += $(if $(GCOV),-fprofile-dir=/tmp -fprofile-arcs -ftest-coverage)
+ 
+ AM_CPPFLAGS  = -D_GNU_SOURCE
+ AM_CPPFLAGS += -DTAPCTL
+diff --git a/cpumond/Makefile.am b/cpumond/Makefile.am
+index b2d68a5..6b965ad 100644
+--- a/cpumond/Makefile.am
++++ b/cpumond/Makefile.am
+@@ -1,6 +1,7 @@
+ 
+ AM_CFLAGS  = -Wall
+ AM_CFLAGS += -Werror
++AM_CFLAGS += $(if $(GCOV),-fprofile-dir=/tmp -fprofile-arcs -ftest-coverage)
+ 
+ bin_PROGRAMS = cpumond
+ 
+diff --git a/drivers/Makefile.am b/drivers/Makefile.am
+index fd96bcc..d6a0ab6 100644
+--- a/drivers/Makefile.am
++++ b/drivers/Makefile.am
+@@ -1,6 +1,7 @@
+ AM_CFLAGS  = -Wall
+ AM_CFLAGS += -Werror
+ AM_CFLAGS += -DXC_WANT_COMPAT_EVTCHN_API -DXC_WANT_COMPAT_GNTTAB_API
++AM_CFLAGS += $(if $(GCOV),-fprofile-dir=/tmp -fprofile-arcs -ftest-coverage)
+ # TODO add -Wextra
+ 
+ AM_CPPFLAGS  = -D_GNU_SOURCE
+diff --git a/lvm/Makefile.am b/lvm/Makefile.am
+index d026f5f..d511453 100644
+--- a/lvm/Makefile.am
++++ b/lvm/Makefile.am
+@@ -1,6 +1,7 @@
+ 
+ AM_CFLAGS  = -Wall
+ AM_CFLAGS += -Werror
++AM_CFLAGS += $(if $(GCOV),-fprofile-dir=/tmp -fprofile-arcs -ftest-coverage)
+ 
+ sbin_PROGRAMS = lvm-util
+ 
+diff --git a/part/Makefile.am b/part/Makefile.am
+index a516063..120a3ae 100644
+--- a/part/Makefile.am
++++ b/part/Makefile.am
+@@ -1,6 +1,7 @@
+ 
+ AM_CFLAGS  = -Wall
+ AM_CFLAGS += -Werror
++AM_CFLAGS += $(if $(GCOV),-fprofile-dir=/tmp -fprofile-arcs -ftest-coverage)
+ 
+ AM_CPPFLAGS  = -D_GNU_SOURCE
+ AM_CPPFLAGS += -I../include
+diff --git a/tapback/Makefile.am b/tapback/Makefile.am
+index 67ce2ca..f145a86 100644
+--- a/tapback/Makefile.am
++++ b/tapback/Makefile.am
+@@ -1,6 +1,7 @@
+ AM_CFLAGS  = -Wall
+ AM_CFLAGS += -Werror
+ AM_CFLAGS += -Wextra
++AM_CFLAGS += $(if $(GCOV),-fprofile-dir=/tmp -fprofile-arcs -ftest-coverage)
+ 
+ AM_CPPFLAGS  = -D_GNU_SOURCE # required by vasprintf
+ AM_CPPFLAGS += -I$(top_srcdir)/include
+diff --git a/vhd/Makefile.am b/vhd/Makefile.am
+index 2ee03e2..bd88039 100644
+--- a/vhd/Makefile.am
++++ b/vhd/Makefile.am
+@@ -3,6 +3,7 @@ SUBDIRS = lib
+ 
+ AM_CFLAGS  = -Wall
+ AM_CFLAGS += -Werror
++AM_CFLAGS += $(if $(GCOV),-fprofile-dir=/tmp -fprofile-arcs -ftest-coverage)
+ 
+ AM_CPPFLAGS  = -D_GNU_SOURCE
+ AM_CPPFLAGS += -I$(top_srcdir)/include
+diff --git a/vhd/lib/Makefile.am b/vhd/lib/Makefile.am
+index 8c15701..077c586 100644
+--- a/vhd/lib/Makefile.am
++++ b/vhd/lib/Makefile.am
+@@ -3,6 +3,7 @@ SUBDIRS = . $(MAYBE_test)
+ 
+ AM_CFLAGS  = -Wall
+ AM_CFLAGS += -Werror
++AM_CFLAGS += $(if $(GCOV),-fprofile-dir=/tmp -fprofile-arcs -ftest-coverage)
+ 
+ AM_CPPFLAGS  = -D_GNU_SOURCE
+ AM_CPPFLAGS += -I$(top_srcdir)/include

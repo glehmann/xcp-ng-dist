@@ -1,0 +1,420 @@
+CP-22685: Add unit tests for cbt-util get
+
+From: Mark Syms <mark.syms@citrix.com>
+
+Signed-off-by: Mark Syms <mark.syms@citrix.com>
+Reviewed-by: Chandrika Srinivasan <chandrika.srinivasan@citrix.com>
+
+diff --git a/cbt/cbt-util.c b/cbt/cbt-util.c
+index 003e6ae..4d52a0f 100644
+--- a/cbt/cbt-util.c
++++ b/cbt/cbt-util.c
+@@ -82,6 +82,9 @@ cbt_util_get(int argc, char **argv)
+ 	if (!argc || !argv)
+ 		goto usage;
+ 
++	/* Make sure we start from the start of the args */
++	optind = 1;
++
+ 	while ((c = getopt(argc, argv, "n:pcfh")) != -1) {
+ 		switch (c) {
+ 			case 'n':
+diff --git a/mockatests/cbt/Makefile.am b/mockatests/cbt/Makefile.am
+index e4dde03..0581b4f 100644
+--- a/mockatests/cbt/Makefile.am
++++ b/mockatests/cbt/Makefile.am
+@@ -2,6 +2,7 @@ AM_CFLAGS  = -Wall
+ AM_CFLAGS += -Werror
+ AM_CFLAGS += -fprofile-arcs
+ AM_CFLAGS += -ftest-coverage
++AM_CFLAGS += -Og -fno-inline-functions -g
+ 
+ AM_CPPFLAGS = -I$(top_srcdir)/include -I$(top_srcdir)/cbt
+ 
+@@ -11,5 +12,8 @@ TESTS = test-cbt-util
+ test_cbt_util_SOURCES = test-cbt-util.c wrappers.c test-cbt-util-commands.c test-cbt-util-get.c
+ test_cbt_util_LDFLAGS = $(top_srcdir)/cbt/libcbtutil.la -lcmocka -luuid
+ test_cbt_util_LDFLAGS += -Wl,--wrap=fopen,--wrap=fclose
++test_cbt_util_LDFLAGS += -Wl,--wrap=malloc,--wrap=free
+ # Need to wrap both of these as rpmbuild/mock set -D_FORTIFY_SOURCE=2
+ test_cbt_util_LDFLAGS += -Wl,--wrap=printf,--wrap=__printf_chk
++# GCC will "optimise" printf calls - http://www.ciselant.de/projects/gcc_printf/gcc_printf.html
++test_cbt_util_LDFLAGS += -Wl,--wrap=puts
+diff --git a/mockatests/cbt/test-cbt-util-get.c b/mockatests/cbt/test-cbt-util-get.c
+index 4ae621d..8a681ad 100644
+--- a/mockatests/cbt/test-cbt-util-get.c
++++ b/mockatests/cbt/test-cbt-util-get.c
+@@ -29,11 +29,13 @@
+  */
+ 
+ #include <stdint.h>
++#include <stdlib.h>
+ #include <string.h>
+ #include <stddef.h>
+ #include <stdarg.h>
+ #include <setjmp.h>
+ #include <cmocka.h>
++#include <errno.h>
+ #include <uuid/uuid.h>
+ 
+ #include <cbt-util-priv.h>
+@@ -51,7 +53,7 @@ void test_cbt_util_get_flag(void **state)
+ 	int result;
+ 	char* args[] = { "cbt-util", "-n", "test_disk.log", "-f" };
+ 	void *log_meta;
+-	char *output;
++	struct printf_data *output;
+ 
+ 	log_meta = malloc(sizeof(struct cbt_log_metadata));
+ 
+@@ -66,5 +68,138 @@ void test_cbt_util_get_flag(void **state)
+ 	result = cbt_util_get(4, args);
+ 
+ 	assert_int_equal(result, 0);
+-	assert_string_equal(output, "1\n");
++	assert_string_equal(output->buf, "1\n");
++	free_printf_data(output);
++	free(log_meta);
++}
++
++void test_cbt_util_get_parent(void **state)
++{
++	int result;
++	char* args[] = { "cbt-util", "-n", "test_disk.log", "-p" };
++	void *log_meta;
++	struct printf_data *output;
++	uuid_t parent;
++	char uuid_str[38];
++
++	uuid_generate_random(parent);
++
++	log_meta = malloc(sizeof(struct cbt_log_metadata));
++
++	uuid_copy(((struct cbt_log_metadata*)log_meta)->parent, parent);
++	FILE *test_log = fmemopen((void*)log_meta, sizeof(struct cbt_log_metadata), "r");
++
++	will_return(__wrap_fopen, test_log);
++	expect_value(__wrap_fclose, fp, test_log);
++
++	output = setup_vprintf_mock(1024);
++
++	result = cbt_util_get(4, args);
++
++	assert_int_equal(result, 0);
++	uuid_unparse(parent, uuid_str);
++	strncat(uuid_str, "\n", 38);
++
++	assert_string_equal(output->buf, uuid_str);
++	free_printf_data(output);
++	free(log_meta);
++}
++
++void test_cbt_util_get_child(void **state)
++{
++	int result;
++	char* args[] = { "cbt-util", "-n", "test_disk.log", "-c" };
++	void *log_meta;
++	struct printf_data *output;
++	uuid_t child;
++	char uuid_str[38];
++
++	uuid_generate_random(child);
++
++	log_meta = malloc(sizeof(struct cbt_log_metadata));
++
++	uuid_copy(((struct cbt_log_metadata*)log_meta)->child, child);
++	FILE *test_log = fmemopen((void*)log_meta, sizeof(struct cbt_log_metadata), "r");
++
++	will_return(__wrap_fopen, test_log);
++	expect_value(__wrap_fclose, fp, test_log);
++
++	output = setup_vprintf_mock(1024);
++
++	result = cbt_util_get(4, args);
++
++	assert_int_equal(result, 0);
++	uuid_unparse(child, uuid_str);
++	strncat(uuid_str, "\n", 38);
++
++	assert_string_equal(output->buf, uuid_str);
++	free_printf_data(output);
++	free(log_meta);
++}
++
++void test_cbt_util_get_nofile_failure(void **state)
++{
++	int result;
++	char* args[] = { "cbt-util", "-n", "test_disk.log", "-c" };
++
++	will_return(__wrap_fopen, NULL);
++
++	result = cbt_util_get(4, args);
++
++	assert_int_equal(result, -ENOENT);
++}
++
++void test_cbt_util_get_nodata_failure(void **state)
++{
++	int result;
++	char* args[] = { "cbt-util", "-n", "test_disk.log", "-c" };
++	void *log_meta[1];
++
++	FILE *test_log = fmemopen((void*)log_meta, 1, "r");
++
++	will_return(__wrap_fopen, test_log);
++	expect_value(__wrap_fclose, fp, test_log);
++
++	result = cbt_util_get(4, args);
++
++	assert_int_equal(result, -EIO);
++}
++
++void test_cbt_util_get_malloc_failure(void **state)
++{
++	int result;
++	char* args[] = { "cbt-util", "-n", "test_disk.log", "-c" };
++
++	malloc_succeeds(false);
++
++	result = cbt_util_get(4, args);
++	assert_int_equal(result, -ENOMEM);
++
++	disable_malloc_mock();
++}
++
++void test_cbt_util_get_no_name_failure(void **state)
++{
++	int result;
++	char* args[] = { "cbt-util", "-c" };
++	struct printf_data *output;
++
++	output = setup_vprintf_mock(1024);
++
++	result = cbt_util_get(2, args);
++	assert_int_equal(result, -EINVAL);
++	free_printf_data(output);
++}
++
++void test_cbt_util_get_no_command_failure(void **state)
++{
++	int result;
++	char* args[] = { "cbt-util", "-n", "test_disk.log" };
++	struct printf_data  *output;
++
++	output = setup_vprintf_mock(1024);
++
++	result = cbt_util_get(3, args);
++	assert_int_equal(result, -EINVAL);
++	free_printf_data(output);
+ }
+diff --git a/mockatests/cbt/test-suites.h b/mockatests/cbt/test-suites.h
+index 038d1ac..4d461b6 100644
+--- a/mockatests/cbt/test-suites.h
++++ b/mockatests/cbt/test-suites.h
+@@ -39,6 +39,13 @@ void test_get_command_set(void **state);
+ void test_get_command_get(void **state);
+ 
+ void test_cbt_util_get_flag(void **state);
++void test_cbt_util_get_parent(void **state);
++void test_cbt_util_get_child(void **state);
++void test_cbt_util_get_nofile_failure(void **state);
++void test_cbt_util_get_nodata_failure(void **state);
++void test_cbt_util_get_malloc_failure(void **state);
++void test_cbt_util_get_no_name_failure(void **state);
++void test_cbt_util_get_no_command_failure(void **state);
+ 
+ /* Functions under test */
+ 
+@@ -54,7 +61,14 @@ static const struct CMUnitTest cbt_command_tests[] = {
+ };
+ 
+ static const struct CMUnitTest cbt_get_tests[] = {
+-	cmocka_unit_test(test_cbt_util_get_flag)
++	cmocka_unit_test(test_cbt_util_get_flag),
++	cmocka_unit_test(test_cbt_util_get_parent),
++	cmocka_unit_test(test_cbt_util_get_child),
++	cmocka_unit_test(test_cbt_util_get_nofile_failure),
++	cmocka_unit_test(test_cbt_util_get_nodata_failure),
++	cmocka_unit_test(test_cbt_util_get_malloc_failure),
++	cmocka_unit_test(test_cbt_util_get_no_name_failure),
++	cmocka_unit_test(test_cbt_util_get_no_command_failure)
+ };
+ 
+ #endif /* __TEST_SUITES_H__ */
+diff --git a/mockatests/cbt/wrappers.c b/mockatests/cbt/wrappers.c
+index 0cf4f98..32173fc 100644
+--- a/mockatests/cbt/wrappers.c
++++ b/mockatests/cbt/wrappers.c
+@@ -29,20 +29,52 @@
+  */
+ 
+ #include <string.h>
++#include <stdbool.h>
+ #include <stdint.h>
+ #include <stdarg.h>
+ #include <stddef.h>
+ #include <setjmp.h>
+ #include <cmocka.h>
++#include <errno.h>
+ 
+ #include "wrappers.h"
+ 
+ static int tests_running = 1;
++static int mock_malloc = 0;
++
++void *
++__wrap_malloc(size_t size)
++{
++	bool succeed = true;
++	if (mock_malloc) {
++		succeed = (bool) mock();
++	}
++
++	if (succeed) {
++		void * result = test_malloc(size);
++		/*fprintf(stderr, "Allocated block of %zu bytes at %p\n", size, result);*/
++		return result;
++	}
++	return NULL;
++}
++
++void
++__wrap_free(void *ptr)
++{
++	/*fprintf(stderr, "Freeing block at %p\n", ptr);*/
++	test_free(ptr);
++}
+ 
+ FILE *
+ __wrap_fopen(void)
+ {
+-	return (FILE*) mock();
++	FILE *file = (FILE*)mock();
++
++	if (file == NULL) {
++		errno = ENOENT;
++	}
++
++	return file;
+ }
+ 
+ void __real_fclose(FILE *fp);
+@@ -59,12 +91,16 @@ __wrap_fclose(FILE *fp)
+ int
+ wrap_vprintf(const char *format, va_list ap)
+ {
+-	int bufsize = mock();
+-	char* buf = mock();
+ 
+-	int len = vsnprintf(buf, bufsize, format, ap);
++	struct printf_data *data = mock();
++
++	int remaining = data->size - data->offset;
++
++	int len = vsnprintf(data->buf + data->offset, remaining, format, ap);
++
++	assert_in_range(len, 0, remaining);
+ 
+-	assert_in_range(len, 0, bufsize);
++	data->offset += len;
+ 
+ 	return len;
+ }
+@@ -87,16 +123,47 @@ __wrap___printf_chk (int __flag, const char *format, ...)
+ 	return wrap_vprintf(format, ap);
+ }
+ 
+-char *setup_vprintf_mock(int size)
++int
++__wrap_puts(const char *s)
++{
++	return __wrap_printf("%s\n", s);
++}
++
++struct printf_data *setup_vprintf_mock(int size)
+ {
+ 	char *buf;
++	struct printf_data *data;
+ 
+-	buf = malloc(size);
++	buf = test_malloc(size);
++	memset(buf, 0, size);
+ 
+-	will_return(wrap_vprintf, size);
+-	will_return(wrap_vprintf, buf);
++	data = test_malloc(sizeof(struct printf_data));
++	data->size = size;
++	data->offset = 0;
++	data->buf = buf;
+ 
+-	return buf;
++	will_return_always(wrap_vprintf, data);
++
++	return data;
++}
++
++void free_printf_data(struct printf_data *data)
++{
++	if (data->buf)
++		test_free(data->buf);
++	test_free(data);
++}
++
++
++void malloc_succeeds(bool succeed)
++{
++	mock_malloc = true;
++	will_return(__wrap_malloc, succeed);
++}
++
++void disable_malloc_mock()
++{
++	mock_malloc = false;
+ }
+ 
+ void disable_mocks()
+diff --git a/mockatests/cbt/wrappers.h b/mockatests/cbt/wrappers.h
+index 9141bfc..a8d5c7f 100644
+--- a/mockatests/cbt/wrappers.h
++++ b/mockatests/cbt/wrappers.h
+@@ -28,16 +28,37 @@
+  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  */
+ 
+-#include <stdio.h>
+-
+ #ifndef __WRAPPERS_H__
+ #define __WRAPPERS_H__
+ 
++#include <stdio.h>
++#include <stdbool.h>
++
++struct printf_data {
++	int size;
++	int offset;
++	char *buf;
++};
++
+ FILE * __wrap_fopen(void);
+ 
+ void __wrap_fclose(FILE *fp);
+ 
+-char *setup_vprintf_mock(int size);
++struct printf_data *setup_vprintf_mock(int size);
++
++void free_printf_data(struct printf_data *data);
++
++/*
++ * This enables mocking of malloc and provides a flag to control
++ * whether malloc succeeds. Mocking stays in force until a call to
++ * disable_malloc_mock.
++ *
++ * Subsequent calls to mallloc_suceeds will queue successive results
++ * for the mock.
++ */
++void malloc_succeeds(bool succeed);
++
++void disable_malloc_mock();
+ 
+ void disable_mocks();
+ 

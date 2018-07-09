@@ -1,0 +1,434 @@
+From: Chandrika Srinivasan <chandrika.srinivasan@citrix.com>
+Date: Mon Jul 24 16:31:02 2017 +0100
+CP-23564: Add size field to metadata log
+
+Signed-off-by: Chandrika Srinivasan <chandrika.srinivasan@citrix.com>
+Reviewed-by: Mark Syms <mark.syms@citrix.com>
+
+diff --git a/cbt/cbt-util.c b/cbt/cbt-util.c
+index e739d20..a774651 100644
+--- a/cbt/cbt-util.c
++++ b/cbt/cbt-util.c
+@@ -38,6 +38,7 @@
+ #include <string.h>
+ #include <unistd.h>
+ #include <stdint.h>
++#include <inttypes.h>
+ 
+ #include "cbt-util.h"
+ #include "cbt-util-priv.h"
+@@ -46,8 +47,6 @@ int cbt_util_create(int , char **);
+ int cbt_util_set(int , char **);
+ int cbt_util_get(int , char **);
+ 
+-
+-
+ struct command commands[] = {
+ 	{ .name = "create", .func = cbt_util_create},
+ 	{ .name = "set", .func = cbt_util_set},
+@@ -70,15 +69,15 @@ cbt_util_get(int argc, char **argv)
+ {
+ 	char *name, uuid_str[37], *buf;
+ 	int err, c, ret; 
+-	int parent, child, flag, bitmap; 
++	int parent, child, flag, size, bitmap; 
+ 	FILE *f = NULL;
+-	uint64_t size = 0;
+ 
+ 	err			= 0;
+ 	name		= NULL;
+ 	parent		= 0;
+ 	child		= 0;
+ 	flag		= 0;
++	size		= 0;
+ 	buf			= NULL;
+ 	bitmap		= 0;
+ 
+@@ -88,7 +87,7 @@ cbt_util_get(int argc, char **argv)
+ 	/* Make sure we start from the start of the args */
+ 	optind = 1;
+ 
+-	while ((c = getopt(argc, argv, "n:pcfbs:h")) != -1) {
++	while ((c = getopt(argc, argv, "n:pcfsbh")) != -1) {
+ 		switch (c) {
+ 			case 'n':
+ 				name = optarg;
+@@ -102,12 +101,12 @@ cbt_util_get(int argc, char **argv)
+ 			case 'f':
+ 				flag = 1;
+ 				break;
++			case 's':
++				size = 1;
++				break;
+ 			case 'b':
+ 				bitmap = 1;
+ 				break;
+-			case 's':
+-				size = strtoull(optarg, NULL, 10);
+-				break;
+ 			case 'h':
+ 			default:
+ 				goto usage;
+@@ -115,7 +114,7 @@ cbt_util_get(int argc, char **argv)
+ 	}
+ 
+ 	// Exactly one of p, c, f or b must be queried for
+-	if (!name || (parent + child + flag + bitmap != 1) || (bitmap && !size))
++	if (!name || (parent + child + flag + size + bitmap != 1))
+ 		goto usage;
+ 
+ 	struct cbt_log_metadata *log_meta = malloc(sizeof(struct cbt_log_metadata));
+@@ -150,9 +149,11 @@ cbt_util_get(int argc, char **argv)
+ 		printf("%s\n", uuid_str);
+ 	} else if(flag) {
+ 		printf("%d\n", log_meta->consistent);
++	} else if(size) {
++		printf("%"PRIu64"\n", log_meta->size);
+ 	}
+ 	else {
+-		uint64_t bmsize = bitmap_size(size);
++		uint64_t bmsize = bitmap_size(log_meta->size);
+ 		buf = malloc(bmsize);
+ 		if (!buf) {
+ 			fprintf(stderr, "Failed to allocate memory for bitmap buffer\n");
+@@ -187,8 +188,8 @@ usage:
+ 	printf("[-p]\t\tPrint parent log file UUID\n");
+ 	printf("[-c]\t\tPrint child log file UUID\n");
+ 	printf("[-f]\t\tPrint consistency flag\n");
+-	printf("[-b]\t\tPrint bitmap contents. Required with -s\n");
+-	printf("[-s size]\tSize of leaf VDI in bytes. Required with -b\n");
++	printf("[-s]\t\tPrint size of disk in bytes\n");
++	printf("[-b]\t\tPrint bitmap contents\n");
+ 	printf("[-h]\t\thelp\n");
+ 
+ 	return -EINVAL;
+@@ -198,19 +199,24 @@ usage:
+ int 
+ cbt_util_set(int argc, char **argv)
+ {
+-	char *name, *parent, *child;
++	char *name, *parent, *child, *buf;
+ 	int err, c, consistent, flag = 0, ret; 
+ 	FILE *f = NULL;
++	uint64_t size, bmsize, old_bmsize;
+ 
+-	err 	= 0;
+-	name 	= NULL;
+-	parent	= NULL;
+-	child	= NULL;
++	err 		= 0;
++	name 		= NULL;
++	parent		= NULL;
++	child		= NULL;
++	buf			= NULL;
++	size		= 0;
++	bmsize		= 0; 
++	old_bmsize 	= 0;
+ 
+ 	if (!argc || !argv)
+ 		goto usage;
+ 
+-	while ((c = getopt(argc, argv, "n:p:c:f:h")) != -1) {
++	while ((c = getopt(argc, argv, "n:p:c:f:s:h")) != -1) {
+ 		switch (c) {
+ 			case 'n':
+ 				name = optarg;
+@@ -225,6 +231,9 @@ cbt_util_set(int argc, char **argv)
+ 				flag = 1;
+ 				consistent = atoi(optarg);
+ 				break;
++			case 's':
++				size = strtoull(optarg, NULL, 10);
++				break;
+ 			case 'h':
+ 			default:
+ 				goto usage;
+@@ -270,9 +279,51 @@ cbt_util_set(int argc, char **argv)
+ 		log_meta->consistent = consistent;
+ 	}
+ 
++	if(size) {
++		if (size < log_meta->size) {
++			fprintf(stderr, "Size smaller than current file size (%"PRIu64")\n",
++									log_meta->size);
++			err = -EINVAL;
++			goto error;
++		}
++
++		bmsize = bitmap_size(size);
++		old_bmsize = bitmap_size(log_meta->size);
++		buf = malloc(bmsize);
++		if (!buf) {
++			fprintf(stderr, "Failed to allocate memory for bitmap buffer\n");
++			err = -ENOMEM;
++			goto error;
++		}
++
++		ret = fread(buf, old_bmsize, 1, f);
++		if (!ret) {
++			fprintf(stderr, "Failed to read bitmap from file %s\n", name);
++			err = -EIO;
++			goto error;
++		}
++
++    	memset(buf + old_bmsize, 0, bmsize - old_bmsize);
++		// Set file pointer to start of bitmap area
++		ret = fseek(f, sizeof(struct cbt_log_metadata), SEEK_SET);
++		if(ret < 0) {
++			fprintf(stderr, "Failed to seek to start of bitmap in file %s. %s\n", 
++													name, strerror(errno));
++			err = -errno;
++			goto error;
++		}
++
++		ret = fwrite(buf, bmsize, 1, f);
++		if (!ret) {
++			fprintf(stderr, "Failed to write CBT bitmap to file %s\n", name);
++			err = -EIO;
++		}
++                                                                                
++		log_meta->size = size;
++	}
++
+ 	// Rewind pointer to start of file and rewrite data
+ 	ret = fseek(f, 0, SEEK_SET);
+-
+ 	if(ret < 0) {
+ 		fprintf(stderr, "Failed to seek to start of file %s. %s\n", 
+ 													name, strerror(errno));
+@@ -281,7 +332,6 @@ cbt_util_set(int argc, char **argv)
+ 	}
+ 
+ 	ret = fwrite(log_meta, sizeof(struct cbt_log_metadata), 1, f);
+-
+ 	if (!ret) {
+ 		fprintf(stderr, "Failed to write CBT metadata to file %s\n", name);
+ 		err = -EIO;
+@@ -296,9 +346,13 @@ error:
+ 
+ usage:
+ 	printf("cbt-util set: Set field in log file\n\n");
+-	printf("Options:\n -n name\tName of log file\n[-p parent]\t"
+-			"Parent log file UUID\n[-c child]\tChild log file UUID\n[-f 0|1]"
+-			"\tConsistency flag\n[-h]\t\thelp\n");
++	printf("Options:\n");
++	printf(" -n name\tName of log file\n");
++	printf("[-p parent]\tParent log file UUID\n");
++	printf("[-c child]\tChild log file UUID\n");
++	printf("[-f 0|1]\tConsistency flag\n");
++	printf("[-s size]\tSize of the disk in bytes\n");
++	printf("[-h]\t\thelp\n");
+ 
+ 	return -EINVAL;
+ }
+@@ -348,7 +402,8 @@ cbt_util_create(int argc, char **argv)
+ 	uuid_clear(log_data->metadata.parent);
+ 	uuid_clear(log_data->metadata.child);
+ 	log_data->metadata.consistent = 0;
+-    
++	log_data->metadata.size = size;
++
+ 	bitmap_sz = bitmap_size(size);
+ 	log_data->bitmap = (char*)malloc(bitmap_sz);
+ 	if (!log_data->bitmap) {
+diff --git a/include/cbt-util.h b/include/cbt-util.h
+index f45b515..f0ab219 100644
+--- a/include/cbt-util.h
++++ b/include/cbt-util.h
+@@ -36,9 +36,10 @@
+ #define CBT_BLOCK_SIZE (64 * 1024)
+ 
+ struct cbt_log_metadata {
+-	uuid_t parent;
+-	uuid_t child;
+-	int    consistent;
++	uuid_t 		parent;
++	uuid_t 		child;
++	int			consistent;
++	uint64_t	size;
+ };
+ 
+ struct cbt_log_data {
+diff --git a/mockatests/cbt/test-cbt-util-get.c b/mockatests/cbt/test-cbt-util-get.c
+index 962f1fe..093a9bd 100644
+--- a/mockatests/cbt/test-cbt-util-get.c
++++ b/mockatests/cbt/test-cbt-util-get.c
+@@ -130,18 +130,46 @@ void test_cbt_util_get_child(void **state)
+ 	free(log_meta);
+ }
+ 
++void test_cbt_util_get_size(void **state)
++{
++	int result;
++	char* args[] = { "cbt-util", "-n", "test_disk.log", "-s" };
++	void *log_meta;
++	struct printf_data *output;
++
++	log_meta = malloc(sizeof(struct cbt_log_metadata));
++
++	((struct cbt_log_metadata*)log_meta)->size = 4194304;
++	FILE *test_log = fmemopen((void*)log_meta, sizeof(struct cbt_log_metadata), "r");
++
++	will_return(__wrap_fopen, test_log);
++	expect_value(__wrap_fclose, fp, test_log);
++
++	output = setup_vprintf_mock(1024);
++
++	result = cbt_util_get(4, args);
++
++	assert_int_equal(result, 0);
++	assert_string_equal(output->buf, "4194304\n");
++	free_printf_data(output);
++	free(log_meta);
++}
++
+ void test_cbt_util_get_bitmap(void **state)
+ {
+ 	int result;
+ 	int file_size;
+-	char* args[] = { "cbt-util", "get", "-b", "-n", "test_disk.log", "-s", "4194304" };
++	char* args[] = { "cbt-util", "get", "-b", "-n", "test_disk.log" };
+ 	void *log_meta;
+ 	struct fwrite_data *output;
++	uint64_t size = 4194304;
+ 
+-	uint64_t bmsize = bitmap_size(4194304);
++	uint64_t bmsize = bitmap_size(size);
+ 	file_size = sizeof(struct cbt_log_metadata) + bmsize;
+ 	log_meta = malloc(file_size);
+ 
++	//Intialise size in metadata file
++	((struct cbt_log_metadata*)log_meta)->size = size;
+ 	//Fill bitmap with random bytes
+ 	memcpy( log_meta + sizeof(struct cbt_log_metadata), (void*)memcpy, bmsize );
+ 	FILE *test_log = fmemopen((void*)log_meta, file_size, "r");
+@@ -151,7 +179,7 @@ void test_cbt_util_get_bitmap(void **state)
+ 	enable_mock_fwrite();
+ 	output = setup_fwrite_mock(bmsize);
+ 
+-	result = cbt_util_get(7, args);
++	result = cbt_util_get(5, args);
+ 	assert_int_equal(result, 0);
+ 	assert_memory_equal(output->buf, log_meta + sizeof(struct cbt_log_metadata), bmsize);
+ 
+@@ -163,16 +191,19 @@ void test_cbt_util_get_bitmap_nodata_failure(void **state)
+ {
+ 
+ 	int result;
+-	char* args[] = { "cbt-util", "get", "-b", "-n", "test_disk.log", "-s", "4194304" };
++	char* args[] = { "cbt-util", "get", "-b", "-n", "test_disk.log" };
+ 	void *log_meta;
++	uint64_t size = 4194304;
+ 
+ 	log_meta = malloc(sizeof(struct cbt_log_metadata));
++	//Intialise size in metadata file
++	((struct cbt_log_metadata*)log_meta)->size = size;
+ 	FILE *test_log = fmemopen((void*)log_meta, sizeof(struct cbt_log_metadata), "r");
+ 
+ 	will_return(__wrap_fopen, test_log);
+ 	expect_value(__wrap_fclose, fp, test_log);
+ 
+-	result = cbt_util_get(7, args);
++	result = cbt_util_get(5, args);
+ 	assert_int_equal(result, -EIO);
+ 
+ 	free(log_meta);
+@@ -183,7 +214,7 @@ void test_cbt_util_get_bitmap_malloc_failure(void **state)
+ {
+ 	int result;
+ 	int file_size;
+-	char* args[] = { "cbt-util", "get", "-b", "-n", "test_disk.log", "-s", "4194304" };
++	char* args[] = { "cbt-util", "get", "-b", "-n", "test_disk.log" };
+ 	void *log_meta;
+ 
+ 	file_size = 4194304 + sizeof(struct cbt_log_metadata);
+@@ -196,48 +227,22 @@ void test_cbt_util_get_bitmap_malloc_failure(void **state)
+ 	malloc_succeeds(true);
+ 	malloc_succeeds(false);
+ 
+-	result = cbt_util_get(7, args);
++	result = cbt_util_get(5, args);
+ 	assert_int_equal(result, -ENOMEM);
+ 
+ 	disable_malloc_mock();
+ 	free(log_meta);
+ }
+ 
+-void test_cbt_util_get_no_bitmap_size_failure(void **state)
+-{
+-	int result;
+-	char* args[] = { "cbt-util", "get", "-b", "-n", "test_disk.log", "-s" };
+-	struct printf_data *output;
+-
+-	output = setup_vprintf_mock(1024);
+-
+-	result = cbt_util_get(6, args);
+-	assert_int_equal(result, -EINVAL);
+-	free_printf_data(output);
+-}
+-
+-void test_cbt_util_get_no_bitmap_size_flag_failure(void **state)
+-{
+-	int result;
+-	char* args[] = { "cbt-util", "get", "-b", "-n", "test_disk.log" };
+-	struct printf_data *output;
+-
+-	output = setup_vprintf_mock(1024);
+-
+-	result = cbt_util_get(5, args);
+-	assert_int_equal(result, -EINVAL);
+-	free_printf_data(output);
+-}
+-
+ void test_cbt_util_get_no_bitmap_flag_failure(void **state)
+ {
+ 	int result;
+-	char* args[] = { "cbt-util", "get", "-n", "test_disk.log", "-s", "4194304" };
++	char* args[] = { "cbt-util", "get", "-n", "test_disk.log" };
+ 	struct printf_data *output;
+ 
+ 	output = setup_vprintf_mock(1024);
+ 
+-	result = cbt_util_get(6, args);
++	result = cbt_util_get(4, args);
+ 	assert_int_equal(result, -EINVAL);
+ 	free_printf_data(output);
+ }
+diff --git a/mockatests/cbt/test-suites.h b/mockatests/cbt/test-suites.h
+index 8d7091c..64bbc2d 100644
+--- a/mockatests/cbt/test-suites.h
++++ b/mockatests/cbt/test-suites.h
+@@ -50,6 +50,7 @@ void test_help_success(void ** state);
+ void test_cbt_util_get_flag(void **state);
+ void test_cbt_util_get_parent(void **state);
+ void test_cbt_util_get_child(void **state);
++void test_cbt_util_get_size(void **state);
+ void test_cbt_util_get_nofile_failure(void **state);
+ void test_cbt_util_get_nodata_failure(void **state);
+ void test_cbt_util_get_malloc_failure(void **state);
+@@ -58,8 +59,6 @@ void test_cbt_util_get_no_command_failure(void **state);
+ void test_cbt_util_get_bitmap(void **state);
+ void test_cbt_util_get_bitmap_nodata_failure(void **state);
+ void test_cbt_util_get_bitmap_malloc_failure(void **state);
+-void test_cbt_util_get_no_bitmap_size_failure(void **state);
+-void test_cbt_util_get_no_bitmap_size_flag_failure(void **state);
+ void test_cbt_util_get_no_bitmap_flag_failure(void **state);
+ 
+ /* 'cbt-util create' tests */
+@@ -92,6 +91,7 @@ static const struct CMUnitTest cbt_get_tests[] = {
+ 	cmocka_unit_test(test_cbt_util_get_flag),
+ 	cmocka_unit_test(test_cbt_util_get_parent),
+ 	cmocka_unit_test(test_cbt_util_get_child),
++	cmocka_unit_test(test_cbt_util_get_size),
+ 	cmocka_unit_test(test_cbt_util_get_nofile_failure),
+ 	cmocka_unit_test(test_cbt_util_get_nodata_failure),
+ 	cmocka_unit_test(test_cbt_util_get_malloc_failure),
+@@ -100,8 +100,6 @@ static const struct CMUnitTest cbt_get_tests[] = {
+ 	cmocka_unit_test(test_cbt_util_get_bitmap),
+ 	cmocka_unit_test(test_cbt_util_get_bitmap_nodata_failure),
+ 	cmocka_unit_test(test_cbt_util_get_bitmap_malloc_failure),
+-	cmocka_unit_test(test_cbt_util_get_no_bitmap_size_failure),
+-	cmocka_unit_test(test_cbt_util_get_no_bitmap_size_flag_failure),
+ 	cmocka_unit_test(test_cbt_util_get_no_bitmap_flag_failure)
+ };
+ 

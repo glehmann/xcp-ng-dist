@@ -1,0 +1,110 @@
+Fill in missing unit tests for command lookup
+
+From: Mark Syms <mark.syms@citrix.com>
+
+Signed-off-by: Mark Syms <mark.syms@citrix.com>
+Reviewed-by: Chandrika Srinivasan <chandrika.srinivasan@citrix.com>
+
+diff --git a/cbt/cbt-util.c b/cbt/cbt-util.c
+index 1c47b70..a67a6df 100644
+--- a/cbt/cbt-util.c
++++ b/cbt/cbt-util.c
+@@ -370,7 +370,6 @@ help(void)
+ {
+ 	printf("usage: cbt-util COMMAND [OPTIONS]\n");
+ 	print_commands();
+-	exit(0);
+ }
+ 
+ struct command *
+diff --git a/cbt/main.c b/cbt/main.c
+index 1647b0e..edfffca 100644
+--- a/cbt/main.c
++++ b/cbt/main.c
+@@ -53,6 +53,7 @@ main(int argc, char *argv[])
+ 	if (!cmd) {
+ 		fprintf(stderr, "Invalid COMMAND %s\n", argv[1]);
+ 		help();
++		exit(0);
+ 	}
+ 
+ 	cargv = malloc(sizeof(char *) * cargc);
+diff --git a/mockatests/cbt/test-cbt-util-commands.c b/mockatests/cbt/test-cbt-util-commands.c
+index 9b4f789..ae05afd 100644
+--- a/mockatests/cbt/test-cbt-util-commands.c
++++ b/mockatests/cbt/test-cbt-util-commands.c
+@@ -76,3 +76,41 @@ test_get_command_get(void **state)
+ 	assert_string_equal(cmd->name, "get");
+ 	assert_ptr_equal(cmd->func, cbt_util_get);
+ }
++
++void
++test_get_command_bad_command(void **state)
++{
++	struct command *cmd;
++
++	char* requested_command = { "breakme" };
++
++	cmd = get_command(requested_command);
++
++	assert_null(cmd);
++}
++
++void
++test_get_command_over_long_command(void **state)
++{
++	struct command *cmd;
++
++	char* requested_command = { "im_a_really_really_long_command" };
++
++	cmd = get_command(requested_command);
++
++	assert_null(cmd);
++}
++
++void
++test_help_success(void ** state)
++{
++	struct printf_data *output;
++
++	output = setup_vprintf_mock(1024);
++
++	help();
++
++	assert_in_range(output->offset, 10, 1024);
++
++	free_printf_data(output);
++}
+diff --git a/mockatests/cbt/test-suites.h b/mockatests/cbt/test-suites.h
+index ab6e01c..cc496aa 100644
+--- a/mockatests/cbt/test-suites.h
++++ b/mockatests/cbt/test-suites.h
+@@ -45,6 +45,10 @@ struct cbt_log_metadata {
+ void test_get_command_create(void **state);
+ void test_get_command_set(void **state);
+ void test_get_command_get(void **state);
++void test_get_command_bad_command(void **state);
++void test_get_command_over_long_command(void **state);
++
++void test_help_success(void ** state);
+ 
+ /* 'cbt-util get' tests */
+ void test_cbt_util_get_flag(void **state);
+@@ -71,12 +75,15 @@ void test_cbt_util_create_no_size_failure(void **state);
+ extern int cbt_util_create(int , char **);
+ extern int cbt_util_set(int , char **);
+ extern int cbt_util_get(int , char **);
+-
++extern void help(void);
+ 
+ static const struct CMUnitTest cbt_command_tests[] = {
+ 	cmocka_unit_test(test_get_command_create),
+ 	cmocka_unit_test(test_get_command_set),
+-	cmocka_unit_test(test_get_command_get)
++	cmocka_unit_test(test_get_command_get),
++	cmocka_unit_test(test_get_command_bad_command),
++	cmocka_unit_test(test_get_command_over_long_command),
++	cmocka_unit_test(test_help_success)
+ };
+ 
+ static const struct CMUnitTest cbt_get_tests[] = {

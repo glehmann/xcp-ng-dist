@@ -1,0 +1,225 @@
+Break cbt-util up into a main and a convenience library
+
+From: Mark Syms <mark.syms@citrix.com>
+
+This facilitates being able to unit test the core code by linking
+the convenience library into the test code.
+
+Signed-off-by: Mark Syms <mark.syms@citrix.com>
+Reviewed-by: Chandrika Srinivasan <chandrika.srinivasan@citrix.com>
+
+diff --git a/cbt/Makefile.am b/cbt/Makefile.am
+index c1c9026..8434046 100644
+--- a/cbt/Makefile.am
++++ b/cbt/Makefile.am
+@@ -5,5 +5,9 @@ AM_CPPFLAGS = -I$(top_srcdir)/include
+ 
+ sbin_PROGRAMS = cbt-util
+ 
+-cbt_util_SOURCES  = cbt-util.c
+-cbt_util_LDADD  = -lrt -luuid
++noinst_LTLIBRARIES = libcbtutil.la
++
++libcbtutil_la_SOURCES = cbt-util.c cbt-utl-priv.h
++
++cbt_util_SOURCES  = main.c
++cbt_util_LDADD  = -lrt -luuid libcbtutil.la
+diff --git a/cbt/cbt-util-priv.h b/cbt/cbt-util-priv.h
+new file mode 100644
+index 0000000..5415d84
+--- /dev/null
++++ b/cbt/cbt-util-priv.h
+@@ -0,0 +1,47 @@
++/*
++ * Copyright (c) 2017, Citrix Systems, Inc.
++ *
++ * All rights reserved.
++ *
++ * Redistribution and use in source and binary forms, with or without
++ * modification, are permitted provided that the following conditions are met:
++ * 
++ *  1. Redistributions of source code must retain the above copyright
++ *     notice, this list of conditions and the following disclaimer.
++ *  2. Redistributions in binary form must reproduce the above copyright
++ *     notice, this list of conditions and the following disclaimer in the
++ *     documentation and/or other materials provided with the distribution.
++ *  3. Neither the name of the copyright holder nor the names of its 
++ *     contributors may be used to endorse or promote products derived from 
++ *     this software without specific prior written permission.
++ *
++ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
++ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
++ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
++ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER
++ * OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
++ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
++ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
++ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
++ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
++ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
++ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
++ */
++
++#ifndef _CBT_UTIL_PRIV_H_
++#define _CBT_UTIL_PRIV_H_
++
++typedef int (*cbt_util_func_t) (int, char **);
++
++struct command {
++	char			*name;
++	cbt_util_func_t	func;
++};
++
++struct command *
++get_command(char *command);
++
++void
++help(void);
++
++#endif /*_CBT_UTIL_PRIV_H_*/
+diff --git a/cbt/cbt-util.c b/cbt/cbt-util.c
+index 28b42c0..a2d80b1 100644
+--- a/cbt/cbt-util.c
++++ b/cbt/cbt-util.c
+@@ -40,16 +40,13 @@
+ #include <stdint.h>
+ 
+ #include "cbt-util.h"
++#include "cbt-util-priv.h"
+ 
+-typedef int (*cbt_util_func_t) (int, char **);
+ int cbt_util_create(int , char **);
+ int cbt_util_set(int , char **);
+ int cbt_util_get(int , char **);
+ 
+-struct command {
+-	char			*name;
+-	cbt_util_func_t	func;
+-};
++
+ 
+ struct command commands[] = {
+ 	{ .name = "create", .func = cbt_util_create},
+@@ -386,41 +383,3 @@ get_command(char *command)
+ 
+ 	return NULL;
+ }
+-
+-int
+-main(int argc, char *argv[])
+-{
+-	char **cargv;
+-	struct command *cmd;
+-	int cargc, i, cnt, ret;
+-
+-	ret = 0;
+-
+-	if (argc < 2)
+-		help();
+-
+-	cargc = argc - 1;
+-	cmd   = get_command(argv[1]);
+-	if (!cmd) {
+-		fprintf(stderr, "Invalid COMMAND %s\n", argv[1]);
+-		help();
+-	}
+-
+-	cargv = malloc(sizeof(char *) * cargc);
+-	if (!cargv)
+-		exit(ENOMEM);
+-
+-	cnt      = 1;
+-	cargv[0] = cmd->name;
+-	for (i = 1; i < cargc; i++) {
+-		char *arg = argv[i + (argc - cargc)];
+-
+-		cargv[cnt++] = arg;
+-	}
+-
+-	ret = cmd->func(cnt, cargv);
+-
+-	free(cargv);
+-
+-	return (ret >= 0 ? ret : -ret);
+-}
+diff --git a/cbt/main.c b/cbt/main.c
+new file mode 100644
+index 0000000..1647b0e
+--- /dev/null
++++ b/cbt/main.c
+@@ -0,0 +1,75 @@
++/*
++ * Copyright (c) 2017, Citrix Systems, Inc.
++ *
++ * All rights reserved.
++ *
++ * Redistribution and use in source and binary forms, with or without
++ * modification, are permitted provided that the following conditions are met:
++ * 
++ *  1. Redistributions of source code must retain the above copyright
++ *     notice, this list of conditions and the following disclaimer.
++ *  2. Redistributions in binary form must reproduce the above copyright
++ *     notice, this list of conditions and the following disclaimer in the
++ *     documentation and/or other materials provided with the distribution.
++ *  3. Neither the name of the copyright holder nor the names of its 
++ *     contributors may be used to endorse or promote products derived from 
++ *     this software without specific prior written permission.
++ *
++ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
++ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
++ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
++ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER
++ * OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
++ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
++ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
++ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
++ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
++ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
++ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
++ */
++
++#include <errno.h>
++#include <stdio.h>
++#include <stdlib.h>
++#include <string.h>
++#include <unistd.h>
++
++#include "cbt-util-priv.h"
++
++int
++main(int argc, char *argv[])
++{
++	char **cargv;
++	struct command *cmd;
++	int cargc, i, cnt, ret;
++
++	ret = 0;
++
++	if (argc < 2)
++		help();
++
++	cargc = argc - 1;
++	cmd   = get_command(argv[1]);
++	if (!cmd) {
++		fprintf(stderr, "Invalid COMMAND %s\n", argv[1]);
++		help();
++	}
++
++	cargv = malloc(sizeof(char *) * cargc);
++	if (!cargv)
++		exit(ENOMEM);
++
++	cnt      = 1;
++	cargv[0] = cmd->name;
++	for (i = 1; i < cargc; i++) {
++		char *arg = argv[i + (argc - cargc)];
++
++		cargv[cnt++] = arg;
++	}
++
++	ret = cmd->func(cnt, cargv);
++
++	free(cargv);
++
++	return (ret >= 0 ? ret : -ret);
++}
