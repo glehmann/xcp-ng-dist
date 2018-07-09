@@ -1,0 +1,140 @@
+From: Chandrika Srinivasan <chandrika.srinivasan@citrix.com>
+Date: Fri, 5 May 2017 12:09:38 +0100
+CP-22175: Enhance tap-ctl pause to accept additional CBT parameter
+
+Signed-off-by: Chandrika Srinivasan <chandrika.srinivasan@citrix.com>
+Reviewed-by: Mark Syms <mark.syms@citrix.com>
+---
+ control/tap-ctl-unpause.c | 11 ++++++++++-
+ control/tap-ctl.c         | 16 +++++++++++-----
+ drivers/tapdisk-control.c |  9 +++++++++
+ include/tap-ctl.h         |  2 +-
+ 4 files changed, 31 insertions(+), 7 deletions(-)
+
+diff --git a/control/tap-ctl-unpause.c b/control/tap-ctl-unpause.c
+index 4cfed48..f551c05 100644
+--- a/control/tap-ctl-unpause.c
++++ b/control/tap-ctl-unpause.c
+@@ -43,7 +43,7 @@
+ 
+ int
+ tap_ctl_unpause(const int id, const int minor, const char *params, int flags,
+-		char *secondary)
++		char *secondary, const char *logpath)
+ {
+ 	int err;
+ 	tapdisk_message_t message;
+@@ -65,6 +65,15 @@ tap_ctl_unpause(const int id, const int minor, const char *params, int flags,
+ 			return -ENAMETOOLONG;
+ 		}
+ 	}
++    if (logpath) {
++        err = snprintf(message.u.params.logpath,
++                   sizeof(message.u.params.logpath) - 1, "%s",
++                   logpath);
++        if (err >= sizeof(message.u.params.logpath)) {
++            EPRINTF("logpath too long\n");
++            return ENAMETOOLONG;
++        }
++    }
+ 
+ 	err = tap_ctl_connect_send_and_receive(id, &message, NULL);
+ 	if (err)
+diff --git a/control/tap-ctl.c b/control/tap-ctl.c
+index 3eb4756..0f23def 100644
+--- a/control/tap-ctl.c
++++ b/control/tap-ctl.c
+@@ -643,13 +643,14 @@ static void
+ tap_cli_unpause_usage(FILE *stream)
+ {
+ 	fprintf(stream, "usage: unpause <-p pid> <-m minor> [-a type:/path/to/file] "
+-			"[-2 secondary]\n");
++    "[-2 secondary] "
++    "[-c </path/to/logfile> insert log layer to track changed blocks]\n");
+ }
+ 
+ int
+ tap_cli_unpause(int argc, char **argv)
+ {
+-	const char *args;
++	const char *args, *logpath;
+ 	char *secondary;
+ 	int c, pid, minor, flags;
+ 
+@@ -658,9 +659,10 @@ tap_cli_unpause(int argc, char **argv)
+ 	args  = NULL;
+ 	secondary  = NULL;
+ 	flags      = 0;
++	logpath	   = NULL;	
+ 
+ 	optind = 0;
+-	while ((c = getopt(argc, argv, "p:m:a:2:h")) != -1) {
++	while ((c = getopt(argc, argv, "p:m:a:2:c:h")) != -1) {
+ 		switch (c) {
+ 		case 'p':
+ 			pid = atoi(optarg);
+@@ -675,6 +677,10 @@ tap_cli_unpause(int argc, char **argv)
+ 			flags |= TAPDISK_MESSAGE_FLAG_SECONDARY;
+ 			secondary = optarg;
+ 			break;
++		case 'c':
++			logpath = optarg;
++			flags |= TAPDISK_MESSAGE_FLAG_ADD_LOG;
++			break;
+ 		case '?':
+ 			goto usage;
+ 		case 'h':
+@@ -686,7 +692,7 @@ tap_cli_unpause(int argc, char **argv)
+ 	if (pid == -1 || minor == -1)
+ 		goto usage;
+ 
+-	return tap_ctl_unpause(pid, minor, args, flags, secondary);
++	return tap_ctl_unpause(pid, minor, args, flags, secondary, logpath);
+ 
+ usage:
+ 	tap_cli_unpause_usage(stderr);
+@@ -750,7 +756,7 @@ tap_cli_open_usage(FILE *stream)
+ 		"use secondary image (in mirror mode if no -s)] [-s "
+ 		"fail over to the secondary image on ENOSPC] "
+ 		"[-t request timeout in seconds] [-D no O_DIRECT] "
+-		"[-c </path/to/logfile> insert dirty log layer to track changed blocks]\n");
++		"[-c </path/to/logfile> insert log layer to track changed blocks]\n");
+ }
+ 
+ static int
+diff --git a/drivers/tapdisk-control.c b/drivers/tapdisk-control.c
+index 82fd09b..9fe553a 100644
+--- a/drivers/tapdisk-control.c
++++ b/drivers/tapdisk-control.c
+@@ -1012,6 +1012,15 @@ tapdisk_control_resume_vbd(struct tapdisk_ctl_conn *conn,
+ 
+ 		/* TODO If an error occurs below we're not undoing this. */
+ 	}
++    if (request->u.params.flags & TAPDISK_MESSAGE_FLAG_ADD_LOG) {
++        char *logpath = strdup(request->u.params.logpath);
++        if (!logpath) {
++            err = -errno;
++            goto out;
++        }
++        vbd->logpath = logpath;
++        vbd->flags |= TD_OPEN_ADD_LOG;
++    }
+ 
+ 	if (request->u.params.path[0])
+ 		desc = request->u.params.path;
+diff --git a/include/tap-ctl.h b/include/tap-ctl.h
+index c027957..77cb80b 100644
+--- a/include/tap-ctl.h
++++ b/include/tap-ctl.h
+@@ -136,7 +136,7 @@ int tap_ctl_pause(const int id, const int minor, struct timeval *timeout);
+  * @param new_params the new VDI to use (type:/path/to/file), optional
+  */
+ int tap_ctl_unpause(const int id, const int minor, const char *params,
+-		int flags, char *secondary);
++		int flags, char *secondary, const char *logpath);
+ 
+ ssize_t tap_ctl_stats(pid_t pid, int minor, char *buf, size_t size);
+ int tap_ctl_stats_fwrite(pid_t pid, int minor, FILE *out);
+-- 
+1.8.3.1
+

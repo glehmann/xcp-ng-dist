@@ -1,0 +1,82 @@
+From: Mark Syms <mark.syms@citrix.com>
+Date: Wed, 26 Jul 2017 09:26:10 +0100
+Subject: Tidy up some indentation prior to code change
+
+Signed-off-by: Mark Syms <mark.syms@citrix.com>
+---
+ drivers/tapdisk-vbd.c |  6 +++---
+ drivers/tapdisk-vbd.h | 28 ++++++++++++++--------------
+ 2 files changed, 17 insertions(+), 17 deletions(-)
+
+diff --git a/drivers/tapdisk-vbd.c b/drivers/tapdisk-vbd.c
+index 20f8da5..1fa874f 100644
+--- a/drivers/tapdisk-vbd.c
++++ b/drivers/tapdisk-vbd.c
+@@ -96,7 +96,7 @@ tapdisk_vbd_create(uint16_t uuid)
+ 		return NULL;
+ 	}
+ 
+-    shm_init(&vbd->rrd.shm);
++	shm_init(&vbd->rrd.shm);
+ 
+ 	vbd->uuid        = uuid;
+ 	vbd->req_timeout = TD_VBD_REQUEST_TIMEOUT;
+@@ -107,8 +107,8 @@ tapdisk_vbd_create(uint16_t uuid)
+ 	INIT_LIST_HEAD(&vbd->failed_requests);
+ 	INIT_LIST_HEAD(&vbd->completed_requests);
+ 	INIT_LIST_HEAD(&vbd->next);
+-    INIT_LIST_HEAD(&vbd->rings);
+-    INIT_LIST_HEAD(&vbd->dead_rings);
++	INIT_LIST_HEAD(&vbd->rings);
++	INIT_LIST_HEAD(&vbd->dead_rings);
+ 	tapdisk_vbd_mark_progress(vbd);
+ 
+ 	return vbd;
+diff --git a/drivers/tapdisk-vbd.h b/drivers/tapdisk-vbd.h
+index 99b5e00..bab0a0f 100644
+--- a/drivers/tapdisk-vbd.h
++++ b/drivers/tapdisk-vbd.h
+@@ -77,27 +77,27 @@ struct td_vbd_rrd {
+ };
+ 
+ struct td_vbd_handle {
+-    /**
+-     * type:/path/to/file
+-     */
++	/**
++	 * type:/path/to/file
++	 */
+ 	char                       *name;
+ 
+ 	td_blktap_t                *tap;
+ 
+ 	td_uuid_t                   uuid;
+ 
+-    /**
+-     * shared rings
+-     */
+-    struct list_head           rings;
++	/**
++	 * shared rings
++	 */
++	struct list_head           rings;
+ 
+-    /**
+-     * List of rings that contain pending requests but a disconnection was
+-     * issued. We need to maintain these rings until all their pending requests
+-     * complete. When the last request completes, the ring is destroyed and
+-     * removed from this list.
+-     */
+-    struct list_head            dead_rings;
++	/**
++	 * List of rings that contain pending requests but a disconnection was
++	 * issued. We need to maintain these rings until all their pending requests
++	 * complete. When the last request completes, the ring is destroyed and
++	 * removed from this list.
++	 */
++	struct list_head            dead_rings;
+ 
+ 	td_flag_t                   flags;
+ 
+-- 
+1.8.3.1

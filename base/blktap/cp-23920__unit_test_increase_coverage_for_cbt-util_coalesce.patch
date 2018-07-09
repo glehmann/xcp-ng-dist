@@ -1,0 +1,188 @@
+CP-23920: [Unit test] Increase coverage for cbt-util coalesce
+
+From: James Davis <james.davis1@citrix.com>
+
+Added additionaly unit tests for file seek start failure and
+write bitmap failure, in order to ensure full test coverage.
+
+Signed-off-by: James Davis <james.davis1@citrix.com>
+Reviewed-by: Chandrika Srinivasan <chandrika.srinivasan@citrix.com>
+
+diff --git a/mockatests/cbt/Makefile.am b/mockatests/cbt/Makefile.am
+index c941058..5b0a340 100644
+--- a/mockatests/cbt/Makefile.am
++++ b/mockatests/cbt/Makefile.am
+@@ -19,3 +19,4 @@ test_cbt_util_LDFLAGS += -Wl,--wrap=printf,--wrap=__printf_chk
+ # GCC will "optimise" printf calls - http://www.ciselant.de/projects/gcc_printf/gcc_printf.html
+ test_cbt_util_LDFLAGS += -Wl,--wrap=puts
+ test_cbt_util_LDFLAGS += -Wl,--wrap=fwrite
++test_cbt_util_LDFLAGS += -Wl,--wrap=fseek
+diff --git a/mockatests/cbt/test-cbt-util-coalesce.c b/mockatests/cbt/test-cbt-util-coalesce.c
+index ff34aa5..6691ea0 100644
+--- a/mockatests/cbt/test-cbt-util-coalesce.c
++++ b/mockatests/cbt/test-cbt-util-coalesce.c
+@@ -420,3 +420,87 @@ void test_cbt_util_coalesce_success(void **state)
+ 	free(parent_data);
+ 	free(child_data);
+ }
++
++/*
++ * Test failure to set file pointer to start of bitmap area
++ */
++void test_cbt_util_coalesce_set_file_pointer_failure(void **state)
++{
++	int result;
++	int file_size;
++	char* args[] = { "cbt-util", "coalesce", "-p", "test_parent.log", "-c" , "test_child.log"};
++	void *parent_data;
++	void *child_data;
++	uint64_t size = 4194304;
++
++	uint64_t bmsize = bitmap_size(size);
++	file_size = sizeof(struct cbt_log_metadata) + bmsize;
++	parent_data = malloc(file_size);
++	child_data = malloc(file_size);
++
++	//Intialise size in metadata file
++	((struct cbt_log_metadata*)parent_data)->size = size;
++	//Fill bitmap with random bytes
++	memcpy(parent_data + sizeof(struct cbt_log_metadata), (void*)memcpy, bmsize );
++	FILE *parent_log = fmemopen((void*)parent_data, file_size, "w+");
++
++	//Intialise size in metadata file
++	((struct cbt_log_metadata*)child_data)->size = size;
++	//Fill bitmap with random bytes
++	memcpy(child_data + sizeof(struct cbt_log_metadata), (void*)memcpy, bmsize );
++	FILE *child_log = fmemopen((void*)child_data, file_size, "w+");
++
++	will_return(__wrap_fopen, parent_log);
++	expect_value(__wrap_fclose, fp, parent_log);
++	will_return(__wrap_fopen, child_log);
++	expect_value(__wrap_fclose, fp, child_log);
++	
++	fail_fseek(EIO);
++
++	result = cbt_util_coalesce(6, args);
++	assert_int_equal(result, -EIO);
++
++	free(parent_data);
++	free(child_data);
++}
++
++/*
++ * Test failure to write bitmap to log file
++ */
++void test_cbt_util_coalesce_write_bitmap_failure(void **state)
++{
++	int result;
++	int file_size;
++	char* args[] = { "cbt-util", "coalesce", "-p", "test_parent.log", "-c" , "test_child.log"};
++	void *parent_data;
++	void *child_data;
++	uint64_t size = 4194304;
++
++	uint64_t bmsize = bitmap_size(size);
++	file_size = sizeof(struct cbt_log_metadata) + bmsize;
++	parent_data = malloc(file_size);
++	child_data = malloc(file_size);
++
++	//Intialise size in metadata file
++	((struct cbt_log_metadata*)parent_data)->size = size;
++	//Fill bitmap with random bytes
++	memcpy(parent_data + sizeof(struct cbt_log_metadata), (void*)memcpy, bmsize );
++	FILE *parent_log = fmemopen((void*)parent_data, file_size, "r");
++
++	//Intialise size in metadata file
++	((struct cbt_log_metadata*)child_data)->size = size;
++	//Fill bitmap with random bytes
++	memcpy(child_data + sizeof(struct cbt_log_metadata), (void*)memcpy, bmsize );
++	FILE *child_log = fmemopen((void*)child_data, file_size, "r");
++
++	will_return(__wrap_fopen, parent_log);
++	expect_value(__wrap_fclose, fp, parent_log);
++	will_return(__wrap_fopen, child_log);
++	expect_value(__wrap_fclose, fp, child_log);
++
++	result = cbt_util_coalesce(6, args);
++	assert_int_equal(result, -EIO);
++
++	free(parent_data);
++	free(child_data);
++}
+diff --git a/mockatests/cbt/test-suites.h b/mockatests/cbt/test-suites.h
+index 867a0c6..5e218aa 100644
+--- a/mockatests/cbt/test-suites.h
++++ b/mockatests/cbt/test-suites.h
+@@ -103,6 +103,8 @@ void test_cbt_util_coalesce_child_bitmap_malloc_failure(void **state);
+ void test_cbt_util_coalesce_parent_no_bitmap_data_failure(void **state);
+ void test_cbt_util_coalesce_child_no_bitmap_data_failure(void **state);
+ void test_cbt_util_coalesce_success(void **state);
++void test_cbt_util_coalesce_set_file_pointer_failure(void **state);
++void test_cbt_util_coalesce_write_bitmap_failure(void **state);
+ 
+ /* Functions under test */
+ 
+@@ -180,6 +182,8 @@ static const struct CMUnitTest cbt_coalesce_tests[] = {
+ 	cmocka_unit_test(test_cbt_util_coalesce_parent_no_bitmap_data_failure),
+ 	cmocka_unit_test(test_cbt_util_coalesce_child_no_bitmap_data_failure),
+ 	cmocka_unit_test(test_cbt_util_coalesce_success),
++	cmocka_unit_test(test_cbt_util_coalesce_set_file_pointer_failure),
++	cmocka_unit_test(test_cbt_util_coalesce_write_bitmap_failure)
+ };
+ 
+ #endif /* __TEST_SUITES_H__ */
+diff --git a/mockatests/include/wrappers.h b/mockatests/include/wrappers.h
+index cc5119b..f3764e2 100644
+--- a/mockatests/include/wrappers.h
++++ b/mockatests/include/wrappers.h
+@@ -73,6 +73,12 @@ void disable_malloc_mock();
+ 
+ void disable_mocks();
+ 
++// Mock fseek
++int __wrap_fseek(FILE *stream, long offset, int whence);
++
++void fail_fseek(int Errno);
++
++
+ void enable_mock_fwrite();
+ 
+ int __wrap_printf(const char *format, ...);
+diff --git a/mockatests/wrappers/wrappers.c b/mockatests/wrappers/wrappers.c
+index 0b47b8a..ab78c8e 100644
+--- a/mockatests/wrappers/wrappers.c
++++ b/mockatests/wrappers/wrappers.c
+@@ -43,6 +43,7 @@ static int tests_running = 1;
+ static int mock_malloc = 0;
+ static int mock_fwrite = 0;
+ static int mock_vprintf = 0;
++static int mock_fseek = 0;
+ 
+ void *
+ __wrap_malloc(size_t size)
+@@ -207,6 +208,25 @@ void free_printf_data(struct printf_data *data)
+ 	mock_vprintf = 0;
+ }
+ 
++int __real_fseek(FILE *stream, long offset, int whence);
++
++int __wrap_fseek(FILE *stream, long offset, int whence)
++{
++	if(mock_fseek){
++		mock_fseek = 0;
++		errno = mock();
++		return -1;
++	}
++
++	return __real_fseek(stream, offset, whence);
++}
++
++void fail_fseek(int Errno)
++{
++	will_return(__wrap_fseek, Errno);
++	mock_fseek = 1;
++}
++
+ 
+ void malloc_succeeds(bool succeed)
+ {

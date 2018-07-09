@@ -1,0 +1,27 @@
+CP-22685: add test results to results RPM
+
+From: Mark Syms <mark.syms@citrix.com>
+
+Signed-off-by: Mark Syms <mark.syms@citrix.com>
+Reviewed-by: Chandrika Srinivasan <chandrika.srinivasan@citrix.com>
+
+diff --git a/collect-test-results.sh b/collect-test-results.sh
+new file mode 100755
+index 0000000..8b5d5db
+--- /dev/null
++++ b/collect-test-results.sh
+@@ -0,0 +1,14 @@
++#!/bin/bash
++
++OUTPUT_DIR=$1
++
++if [ -z $OUTPUT_DIR ]; then
++    echo "Usage: $0 <output directory>"
++    exit 1
++fi
++
++mkdir -p $OUTPUT_DIR
++
++lcov --capture --directory . --rc lcov_branch_coverage=1 --no-external --output-file $OUTPUT_DIR/coverage.info
++genhtml $OUTPUT_DIR/coverage.info  --rc lcov_branch_coverage=1 --output-directory $OUTPUT_DIR/coverage-html
++tar cf $OUTPUT_DIR/test-results.tar `find mockatests -name \*.log`

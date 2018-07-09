@@ -1,0 +1,346 @@
+From: Thomas McKelvey <thomas.mckelvey@citrix.com>
+Date: Wed, 2 Aug 2017 09:06:37 +0100
+CP-22972: Added unit tests for cbt-util get bitmap
+
+Signed-off-by: Thomas McKelvey <thomas.mckelvey@citrix.com>
+Reviewed-by: Mark Syms <mark.syms@citrix.com>
+---
+ include/cbt-util.h                      |   2 -
+ mockatests/cbt/Makefile.am              |   1 +
+ mockatests/cbt/test-cbt-util-commands.c |   1 -
+ mockatests/cbt/test-cbt-util-get.c      | 113 +++++++++++++++++++++++++++++++-
+ mockatests/cbt/test-suites.h            |  22 +++++--
+ mockatests/cbt/wrappers.c               |  56 ++++++++++++++++
+ mockatests/cbt/wrappers.h               |  13 ++++
+ 7 files changed, 197 insertions(+), 11 deletions(-)
+
+diff --git a/include/cbt-util.h b/include/cbt-util.h
+index af27829..f45b515 100644
+--- a/include/cbt-util.h
++++ b/include/cbt-util.h
+@@ -46,8 +46,6 @@ struct cbt_log_data {
+ 	char 					*bitmap;
+ };
+ 
+-int cbt_block_size = CBT_BLOCK_SIZE;
+-
+ static inline uint64_t
+ roundup_div(uint64_t a, int b)
+ {
+diff --git a/mockatests/cbt/Makefile.am b/mockatests/cbt/Makefile.am
+index b19e578..1edfdac 100644
+--- a/mockatests/cbt/Makefile.am
++++ b/mockatests/cbt/Makefile.am
+@@ -17,3 +17,4 @@ test_cbt_util_LDFLAGS += -Wl,--wrap=malloc,--wrap=free
+ test_cbt_util_LDFLAGS += -Wl,--wrap=printf,--wrap=__printf_chk
+ # GCC will "optimise" printf calls - http://www.ciselant.de/projects/gcc_printf/gcc_printf.html
+ test_cbt_util_LDFLAGS += -Wl,--wrap=puts
++test_cbt_util_LDFLAGS += -Wl,--wrap=fwrite
+diff --git a/mockatests/cbt/test-cbt-util-commands.c b/mockatests/cbt/test-cbt-util-commands.c
+index ae05afd..2d978b2 100644
+--- a/mockatests/cbt/test-cbt-util-commands.c
++++ b/mockatests/cbt/test-cbt-util-commands.c
+@@ -28,7 +28,6 @@
+  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  */
+ 
+-#include <stdint.h>
+ #include <stddef.h>
+ #include <stdarg.h>
+ #include <setjmp.h>
+diff --git a/mockatests/cbt/test-cbt-util-get.c b/mockatests/cbt/test-cbt-util-get.c
+index 2c69fb2..982e6d6 100644
+--- a/mockatests/cbt/test-cbt-util-get.c
++++ b/mockatests/cbt/test-cbt-util-get.c
+@@ -28,7 +28,6 @@
+  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  */
+ 
+-#include <stdint.h>
+ #include <stdlib.h>
+ #include <string.h>
+ #include <stddef.h>
+@@ -131,6 +130,118 @@ void test_cbt_util_get_child(void **state)
+ 	free(log_meta);
+ }
+ 
++void test_cbt_util_get_bitmap(void **state)
++{
++	int result;
++	int file_size;
++	char* args[] = { "cbt-util", "get", "-b", "-n", "test_disk.log", "-s", "4194304" };
++	void *log_meta;
++	struct fwrite_data *output;
++
++	uint64_t bmsize = bitmap_size(4194304);
++	file_size = sizeof(struct cbt_log_metadata) + bmsize;
++	log_meta = malloc(file_size);
++
++	//Fill bitmap with random bytes
++	memcpy( log_meta + sizeof(struct cbt_log_metadata), (void*)memcpy, bmsize );
++	FILE *test_log = fmemopen((void*)log_meta, file_size, "r");
++
++	will_return(__wrap_fopen, test_log);
++	expect_value(__wrap_fclose, fp, test_log);
++	enable_mock_fwrite();
++	output = setup_fwrite_mock(bmsize);
++
++	result = cbt_util_get(7, args);
++	assert_int_equal(result, 0);
++	assert_memory_equal(output->buf, log_meta + sizeof(struct cbt_log_metadata), bmsize);
++
++	free_fwrite_data(output);
++	free(log_meta);
++}
++
++void test_cbt_util_get_bitmap_nodata_failure(void **state)
++{
++
++	int result;
++	char* args[] = { "cbt-util", "get", "-b", "-n", "test_disk.log", "-s", "4194304" };
++	void *log_meta;
++
++	log_meta = malloc(sizeof(struct cbt_log_metadata));
++	FILE *test_log = fmemopen((void*)log_meta, sizeof(struct cbt_log_metadata), "r");
++
++	will_return(__wrap_fopen, test_log);
++	expect_value(__wrap_fclose, fp, test_log);
++
++	result = cbt_util_get(7, args);
++	assert_int_equal(result, -EIO);
++
++	free(log_meta);
++
++}
++
++void test_cbt_util_get_bitmap_malloc_failure(void **state)
++{
++	int result;
++	int file_size;
++	char* args[] = { "cbt-util", "get", "-b", "-n", "test_disk.log", "-s", "4194304" };
++	void *log_meta;
++
++	file_size = 4194304 + sizeof(struct cbt_log_metadata);
++	log_meta = malloc(file_size);
++	FILE *test_log = fmemopen((void*)log_meta, file_size, "r");
++
++	will_return(__wrap_fopen, test_log);
++	expect_value(__wrap_fclose, fp, test_log);
++
++	malloc_succeeds(true);
++	malloc_succeeds(false);
++
++	result = cbt_util_get(7, args);
++	assert_int_equal(result, -ENOMEM);
++
++	disable_malloc_mock();
++	free(log_meta);
++}
++
++void test_cbt_util_get_no_bitmap_size_failure(void **state)
++{
++	int result;
++	char* args[] = { "cbt-util", "get", "-b", "-n", "test_disk.log", "-s" };
++	struct printf_data *output;
++
++	output = setup_vprintf_mock(1024);
++
++	result = cbt_util_get(6, args);
++	assert_int_equal(result, -EINVAL);
++	free_printf_data(output);
++}
++
++void test_cbt_util_get_no_bitmap_size_flag_failure(void **state)
++{
++	int result;
++	char* args[] = { "cbt-util", "get", "-b", "-n", "test_disk.log" };
++	struct printf_data *output;
++
++	output = setup_vprintf_mock(1024);
++
++	result = cbt_util_get(5, args);
++	assert_int_equal(result, -EINVAL);
++	free_printf_data(output);
++}
++
++void test_cbt_util_get_no_bitmap_flag_failure(void **state)
++{
++	int result;
++	char* args[] = { "cbt-util", "get", "-n", "test_disk.log", "-s", "4194304" };
++	struct printf_data *output;
++
++	output = setup_vprintf_mock(1024);
++
++	result = cbt_util_get(6, args);
++	assert_int_equal(result, -EINVAL);
++	free_printf_data(output);
++}
++
+ void test_cbt_util_get_nofile_failure(void **state)
+ {
+ 	int result;
+diff --git a/mockatests/cbt/test-suites.h b/mockatests/cbt/test-suites.h
+index cc496aa..8d7091c 100644
+--- a/mockatests/cbt/test-suites.h
++++ b/mockatests/cbt/test-suites.h
+@@ -34,12 +34,8 @@
+ #include <setjmp.h>
+ #include <cmocka.h>
+ #include <uuid/uuid.h>
+-
+-struct cbt_log_metadata {
+-	uuid_t parent;
+-	uuid_t child;
+-	int    consistent;
+-};
++#include <stdint.h>
++#include <cbt-util.h>
+ 
+ /* Command lookup tests */
+ void test_get_command_create(void **state);
+@@ -59,6 +55,12 @@ void test_cbt_util_get_nodata_failure(void **state);
+ void test_cbt_util_get_malloc_failure(void **state);
+ void test_cbt_util_get_no_name_failure(void **state);
+ void test_cbt_util_get_no_command_failure(void **state);
++void test_cbt_util_get_bitmap(void **state);
++void test_cbt_util_get_bitmap_nodata_failure(void **state);
++void test_cbt_util_get_bitmap_malloc_failure(void **state);
++void test_cbt_util_get_no_bitmap_size_failure(void **state);
++void test_cbt_util_get_no_bitmap_size_flag_failure(void **state);
++void test_cbt_util_get_no_bitmap_flag_failure(void **state);
+ 
+ /* 'cbt-util create' tests */
+ void test_cbt_util_create_success(void **state);
+@@ -94,7 +96,13 @@ static const struct CMUnitTest cbt_get_tests[] = {
+ 	cmocka_unit_test(test_cbt_util_get_nodata_failure),
+ 	cmocka_unit_test(test_cbt_util_get_malloc_failure),
+ 	cmocka_unit_test(test_cbt_util_get_no_name_failure),
+-	cmocka_unit_test(test_cbt_util_get_no_command_failure)
++	cmocka_unit_test(test_cbt_util_get_no_command_failure),
++	cmocka_unit_test(test_cbt_util_get_bitmap),
++	cmocka_unit_test(test_cbt_util_get_bitmap_nodata_failure),
++	cmocka_unit_test(test_cbt_util_get_bitmap_malloc_failure),
++	cmocka_unit_test(test_cbt_util_get_no_bitmap_size_failure),
++	cmocka_unit_test(test_cbt_util_get_no_bitmap_size_flag_failure),
++	cmocka_unit_test(test_cbt_util_get_no_bitmap_flag_failure)
+ };
+ 
+ static const struct CMUnitTest cbt_create_tests[] = {
+diff --git a/mockatests/cbt/wrappers.c b/mockatests/cbt/wrappers.c
+index 32173fc..addb607 100644
+--- a/mockatests/cbt/wrappers.c
++++ b/mockatests/cbt/wrappers.c
+@@ -41,6 +41,7 @@
+ 
+ static int tests_running = 1;
+ static int mock_malloc = 0;
++static int mock_fwrite = 0;
+ 
+ void *
+ __wrap_malloc(size_t size)
+@@ -89,6 +90,56 @@ __wrap_fclose(FILE *fp)
+ }
+ 
+ int
++__real_fwrite(const void *ptr, size_t size, size_t nmemb, FILE *stream);
++
++int
++__wrap_fwrite(const void *ptr, size_t size, size_t nmemb, FILE *stream)
++{
++	if (mock_fwrite) {
++
++	struct fwrite_data *data = mock();
++
++	size_t remaining = data->size - data->offset;
++	size_t len = size * nmemb;
++
++	assert_in_range(len, 0, remaining);
++	memcpy(data->buf + data->offset, ptr, len);
++	
++	data->offset += len;
++
++	return len;
++	}
++	return __real_fwrite(ptr, size, nmemb, stream);
++}
++
++struct fwrite_data *setup_fwrite_mock(int size)
++{
++	void *buf;
++	struct fwrite_data *data;
++
++	buf = test_malloc(size);
++	memset(buf, 0, size);
++
++	data = test_malloc(sizeof(struct fwrite_data));
++	data->size = size;
++	data->offset = 0;
++	data->buf = buf;
++	data->type = stdout;
++
++	will_return_always(__wrap_fwrite, data);
++
++	return data;
++}
++
++void free_fwrite_data(struct fwrite_data *data)
++{
++	if (data->buf)
++		test_free(data->buf);
++	test_free(data);
++	mock_fwrite = false;
++}
++
++int
+ wrap_vprintf(const char *format, va_list ap)
+ {
+ 
+@@ -170,3 +221,8 @@ void disable_mocks()
+ {
+ 	tests_running = 0;
+ }
++
++void enable_mock_fwrite()
++{
++	mock_fwrite = true;
++}
+diff --git a/mockatests/cbt/wrappers.h b/mockatests/cbt/wrappers.h
+index a8d5c7f..36973e1 100644
+--- a/mockatests/cbt/wrappers.h
++++ b/mockatests/cbt/wrappers.h
+@@ -40,14 +40,25 @@ struct printf_data {
+ 	char *buf;
+ };
+ 
++struct fwrite_data {
++	FILE *type;
++	int size;
++	int offset;
++	char *buf;
++};
++
+ FILE * __wrap_fopen(void);
+ 
+ void __wrap_fclose(FILE *fp);
+ 
++struct fwrite_data *setup_fwrite_mock(int size);
++
+ struct printf_data *setup_vprintf_mock(int size);
+ 
+ void free_printf_data(struct printf_data *data);
+ 
++void free_fwrite_data(struct fwrite_data *data);
++
+ /*
+  * This enables mocking of malloc and provides a flag to control
+  * whether malloc succeeds. Mocking stays in force until a call to
+@@ -62,4 +73,6 @@ void disable_malloc_mock();
+ 
+ void disable_mocks();
+ 
++void enable_mock_fwrite();
++
+ #endif /* __WRAPPERS_H__ */
+-- 
+1.8.3.1
+

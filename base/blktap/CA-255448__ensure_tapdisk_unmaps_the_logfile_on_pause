@@ -1,0 +1,153 @@
+From: Mark Syms <mark.syms@citrix.com>
+Date: Wed, 31 May 2017 11:27:45 +0100
+Subject: CA-255448: ensure tapdisk unmaps the logfile on pause.
+
+Signed-off-by: Mark Syms <mark.syms@citrix.com>
+Reviewed-by: Chandrika Srinivasan <chandrika.srinivasan@citrix.com>
+---
+ drivers/block-log.c       | 52 ++++++++++++++++++++++++++++++-----------------
+ drivers/block-log.h       |  1 -
+ drivers/tapdisk-control.c | 25 +++++++++++++++--------
+ 3 files changed, 49 insertions(+), 29 deletions(-)
+
+diff --git a/drivers/block-log.c b/drivers/block-log.c
+index 0999a39..b9e280e 100644
+--- a/drivers/block-log.c
++++ b/drivers/block-log.c
+@@ -57,7 +57,7 @@
+ #define BITS_PER_LONG (sizeof(unsigned long) * 8)
+ #define BITS_TO_LONGS(bits) (((bits)+BITS_PER_LONG-1)/BITS_PER_LONG)
+ 
+-#define BITMAP_ENTRY(_nr, _bmap) ((unsigned long*)(_bmap))[(_nr)/BITS_PER_LONG]
++#define BITMAP_ENTRY(_nr, _bmap) ((unsigned long*)(_bmap + sizeof(struct cbt_log_metadata)))[((_nr)/BITS_PER_LONG)]
+ #define BITMAP_SHIFT(_nr) ((_nr) % BITS_PER_LONG)
+ 
+ static inline int test_bit(int nr, void* bmap)
+@@ -70,32 +70,50 @@ static inline void set_bit(int nr, void* bmap)
+ 	BITMAP_ENTRY(nr, bmap) |= (1UL << BITMAP_SHIFT(nr));
+ }
+ 
+-static int bitmap_init(struct tdlog_data *data)
++static int bitmap_init(struct tdlog_data *data, char *name)
+ {
+ 	uint64_t bmsize;
+-	//data->size is in number of sectors
+-	//Convert it to bytes
+-	bmsize = bitmap_size(data->size * SECTOR_SIZE);
++	int fd;
++	int result = 0;
+ 
+-	DPRINTF("allocating %"PRIu64" bytes for dirty bitmap", bmsize);
++	/* Open on disk log file and map it into memory */
++	fd = open(name, O_RDWR);
++	if (fd == -1) {
++		EPRINTF("failed to open bitmap log file");
++		result = -1;
++	}
++
++	if (result == 0) {
++		//data->size is in number of sectors
++		//Convert it to bytes
++		bmsize = bitmap_size(data->size * SECTOR_SIZE) + sizeof(struct cbt_log_metadata);
+ 
+-	data->bitmap = mmap(0, bmsize, PROT_READ | PROT_WRITE, MAP_PRIVATE, data->fd, 0);
+-	if (!data->bitmap) {
+-		EPRINTF("could not allocate dirty bitmap of size %"PRIu64, bmsize);
+-		return -1;
++		DPRINTF("allocating %"PRIu64" bytes for dirty bitmap", bmsize);
++
++		data->bitmap = mmap(NULL, bmsize, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
++		if (!data->bitmap) {
++			EPRINTF("could not allocate dirty bitmap of size %"PRIu64, bmsize);
++			result = -1;
++		}
++
++		close (fd);
+ 	}
+ 
+-	return 0;
++	return result;
+ }
+ 
+ static int bitmap_free(struct tdlog_data *data)
+ {
++	uint64_t bmsize;
++	int rc;
++	bmsize = bitmap_size(data->size * SECTOR_SIZE) + sizeof(struct cbt_log_metadata);
+ 	if (data->bitmap) {
+-		munmap(data->bitmap, bitmap_size(data->size));
++		rc = munmap(data->bitmap, bmsize);
++		if (rc != 0) {
++			EPRINTF("Failed to unmap the bitmap block");
++		}
+ 	}
+ 
+-	close(data->fd);
+-
+ 	return 0;
+ }
+ 
+@@ -130,11 +148,7 @@ static int tdlog_open(td_driver_t* driver, const char *name, td_flag_t flags)
+ 	memset(data, 0, sizeof(*data));
+ 	data->size = driver->info.size;
+ 
+-	/* Open on disk log file and map it into memory */
+-	data->fd = open(driver->name, O_RDWR);
+-	lseek(data->fd, SEEK_SET, sizeof(struct cbt_log_metadata));
+-
+-	if ((rc = bitmap_init(data))) {
++	if ((rc = bitmap_init(data, driver->name))) {
+ 		tdlog_close(driver);
+ 		return rc;
+ 	}
+diff --git a/drivers/block-log.h b/drivers/block-log.h
+index 4a52559..97dd1bc 100644
+--- a/drivers/block-log.h
++++ b/drivers/block-log.h
+@@ -34,7 +34,6 @@
+ #include "cbt-util.h"
+ 
+ struct tdlog_data {
+-    int         fd;
+ 	uint64_t   	size;
+ 	void*		bitmap;
+ };
+diff --git a/drivers/tapdisk-control.c b/drivers/tapdisk-control.c
+index dceee17..e0f3144 100644
+--- a/drivers/tapdisk-control.c
++++ b/drivers/tapdisk-control.c
+@@ -1012,15 +1012,22 @@ tapdisk_control_resume_vbd(struct tapdisk_ctl_conn *conn,
+ 
+ 		/* TODO If an error occurs below we're not undoing this. */
+ 	}
+-    if (request->u.params.flags & TAPDISK_MESSAGE_FLAG_ADD_LOG) {
+-        char *logpath = strdup(request->u.params.logpath);
+-        if (!logpath) {
+-            err = -errno;
+-            goto out;
+-        }
+-        vbd->logpath = logpath;
+-        vbd->flags |= TD_OPEN_ADD_LOG;
+-    }
++
++	if (request->u.params.flags & TAPDISK_MESSAGE_FLAG_ADD_LOG) {
++		char *logpath = strdup(request->u.params.logpath);
++		if (!logpath) {
++			err = -errno;
++			goto out;
++		}
++		vbd->logpath = logpath;
++		vbd->flags |= TD_OPEN_ADD_LOG;
++	} else {
++		if (vbd->logpath) {
++			free (vbd->logpath);
++			vbd->logpath = NULL;
++		}
++		vbd->flags &= ~TD_OPEN_ADD_LOG;
++	}
+ 
+ 	if (request->u.params.path[0])
+ 		desc = request->u.params.path;
+-- 
+1.8.3.1
+

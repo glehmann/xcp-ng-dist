@@ -1,0 +1,72 @@
+Fix indentation prior to change
+
+From: Mark Syms <mark.syms@citrix.com>
+
+diff --git a/drivers/tapdisk-control.c b/drivers/tapdisk-control.c
+index e0f3144..b0c82a3 100644
+--- a/drivers/tapdisk-control.c
++++ b/drivers/tapdisk-control.c
+@@ -943,9 +943,9 @@ tapdisk_control_pause_vbd(struct tapdisk_ctl_conn *conn,
+ 	int err;
+ 	td_vbd_t *vbd;
+ 
+-    ASSERT(conn);
+-    ASSERT(request);
+-    ASSERT(response);
++	ASSERT(conn);
++	ASSERT(request);
++	ASSERT(response);
+ 
+ 	vbd = tapdisk_server_get_vbd(request->cookie);
+ 	if (!vbd) {
+@@ -957,12 +957,12 @@ tapdisk_control_pause_vbd(struct tapdisk_ctl_conn *conn,
+ 	do {
+ 		gettimeofday(&now, NULL);
+ 		if (TV_AFTER(now, next)) {
+-				err = tapdisk_vbd_pause(vbd);
++			err = tapdisk_vbd_pause(vbd);
+ 
+-				if (!err || err != -EAGAIN)
+-					break;
++			if (!err || err != -EAGAIN)
++				break;
+ 
+-				TV_ADD(now, interval, next);
++			TV_ADD(now, interval, next);
+ 		}
+ 
+ 		tapdisk_server_iterate();
+@@ -971,9 +971,9 @@ tapdisk_control_pause_vbd(struct tapdisk_ctl_conn *conn,
+ 
+ out:
+ 	response->cookie = request->cookie;
+-    if (!err)
++	if (!err)
+ 		response->type = TAPDISK_MESSAGE_PAUSE_RSP;
+-    return err;
++	return err;
+ }
+ 
+ static int
+diff --git a/drivers/tapdisk-vbd.c b/drivers/tapdisk-vbd.c
+index 90db71f..a791d14 100644
+--- a/drivers/tapdisk-vbd.c
++++ b/drivers/tapdisk-vbd.c
+@@ -919,7 +919,7 @@ int
+ tapdisk_vbd_pause(td_vbd_t *vbd)
+ {
+ 	int err;
+-    struct td_xenblkif *blkif;
++	struct td_xenblkif *blkif;
+ 
+ 	INFO("pause requested\n");
+ 
+@@ -932,7 +932,7 @@ tapdisk_vbd_pause(td_vbd_t *vbd)
+ 	if (err)
+ 		return err;
+ 
+-    list_for_each_entry(blkif, &vbd->rings, entry)
++	list_for_each_entry(blkif, &vbd->rings, entry)
+ 		tapdisk_xenblkif_suspend(blkif);
+ 
+ 	tapdisk_vbd_close_vdi(vbd);

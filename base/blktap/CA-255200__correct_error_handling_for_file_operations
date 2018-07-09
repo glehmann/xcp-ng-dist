@@ -1,0 +1,61 @@
+From: Chandrika Srinivasan <chandrika.srinivasan@citrix.com>
+Date: Fri, 26 May 2017 09:22:50 +0100
+CA-255200: Correct error handling for file operations
+
+Signed-off-by: Chandrika Srinivasan <chandrika.srinivasan@citrix.com>
+Reviewed-by: Mark Syms <mark.syms@citrix.com>
+---
+ cbt/cbt-util.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/cbt/cbt-util.c b/cbt/cbt-util.c
+index 28b42c0..93370dc 100644
+--- a/cbt/cbt-util.c
++++ b/cbt/cbt-util.c
+@@ -126,7 +126,7 @@ cbt_util_get(int argc, char **argv)
+ 	
+ 	ret = fread(log_meta, sizeof(struct cbt_log_metadata), 1, f);
+ 
+-	if (ret != sizeof(struct cbt_log_metadata)) {
++	if (!ret) {
+ 		fprintf(stderr, "Failed to read CBT metadata from file %s\n", name);
+ 		err = -EIO;
+ 		goto error;
+@@ -217,7 +217,7 @@ cbt_util_set(int argc, char **argv)
+ 	
+ 	ret = fread(log_meta, sizeof(struct cbt_log_metadata), 1, f);
+ 
+-	if (ret != sizeof(struct cbt_log_metadata)) {
++	if (!ret) {
+ 		fprintf(stderr, "Failed to read CBT metadata from file %s\n", name);
+ 		err = -EIO;
+ 		goto error;
+@@ -247,7 +247,7 @@ cbt_util_set(int argc, char **argv)
+ 
+ 	ret = fwrite(log_meta, sizeof(struct cbt_log_metadata), 1, f);
+ 
+-	if (ret != sizeof(struct cbt_log_metadata)) {
++	if (!ret) {
+ 		fprintf(stderr, "Failed to write CBT metadata to file %s\n", name);
+ 		err = -EIO;
+ 	}
+@@ -329,14 +329,14 @@ cbt_util_create(int argc, char **argv)
+ 	}
+ 
+ 	ret = fwrite(&log_data->metadata, sizeof(struct cbt_log_metadata), 1, f);
+-	if (ret != sizeof(struct cbt_log_metadata)) {
++	if (!ret) {
+ 		fprintf(stderr, "Failed to write metadata to log file %s\n", name);
+ 		err = -EIO;
+ 		goto error;
+ 	}
+ 
+ 	ret = fwrite(log_data->bitmap, bitmap_sz, 1, f);
+-	if (ret != bitmap_sz) {
++	if (!ret) {
+ 		fprintf(stderr, "Failed to write bitmap to log file %s\n", name);
+ 		err = -EIO;
+ 		goto error;
+-- 
+1.8.3.1
+

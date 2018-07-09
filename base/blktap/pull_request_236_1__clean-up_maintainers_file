@@ -1,0 +1,25 @@
+Clean-up MAINTAINERS file
+
+From: Germano Percossi <germano.percossi@citrix.com>
+
+Signed-off-by: Germano Percossi <germano.percossi@citrix.com>
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 6e21348..a1ff9cf 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1,4 +1,13 @@
+ Maintainers list
+ ----------------
+ 
+-* Thanos Makatos <thanos.makatos@citrix.com>
++The project is maintained by many people but as a reference
++person contact
++
++* Germano Percossi <germano.percossi@citrix.com>
++
++while for technical discussions of general interest
++use the public mailing lists
++
++* xs-devel@lists.xenserver.org
++* xen-api@lists.xen.org 
