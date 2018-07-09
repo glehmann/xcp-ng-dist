@@ -97,13 +97,11 @@ This is Python 3 version.
 
 
 %files -n python2-%{srcname}
-%license LICENSE
 %{python2_sitearch}/*
 
 
 %if %{with py3}
 %files -n python%{python3_pkgversion}-%{srcname}
-%license LICENSE
 %{python3_sitearch}/*
 %endif
 
