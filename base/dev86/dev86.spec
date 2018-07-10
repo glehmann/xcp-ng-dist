@@ -66,7 +66,6 @@ ln -s objdump86 size86
 popd
 
 %files
-%defattr(-,root,root,-)
 %doc README MAGIC Contributors README.bootblocks README.copt README.dis88
 %doc README.unproto README-0.4.bin86 README.bin86 ChangeLog.bin86 COPYING
 %doc COPYING.LGPL
