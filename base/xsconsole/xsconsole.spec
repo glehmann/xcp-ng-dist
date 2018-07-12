@@ -1,4 +1,4 @@
-Summary: XenServer Host Configuration Console
+Summary: XCP-ng Host Configuration Console
 Name: xsconsole
 Version: 10.1.7
 Release: 1
@@ -14,7 +14,7 @@ Requires(preun): systemd
 Requires(postun): systemd
 
 %description
-Console tool for configuring a XenServer installation.
+Console tool for configuring a XCP-ng installation.
 
 %package incloudsphere
 Summary: InCloud Sphere plugins for %{name}
