@@ -65,6 +65,12 @@ Patch55: pull_request_191__CA-220042_sigact.sa_mask_is_not_initialized_CID-5755_
 Patch56: CP-26852__support-linux-upstream.patch
 Patch57: Gather_the_gcov_coverage_files_during_build
 Patch58: CA-277128__remove_redundant_broken_RRD_code_from_tapdisk
+
+#XCP-ng patches
+%if "%{?xcp_ng_section}" == "extras"
+Patch1000: blktap-3.5.0-make-O_DIRECT-optional.XCP-ng.patch
+%endif
+
 Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/blktap.pg/archive?at=1.17&format=tar#/blktap.patches.tar) = 2d8730dda5145d43e65a4fcd03acf0cfb6682fac
 
 BuildRoot: %{_tmppath}/%{name}-%{release}-buildroot
@@ -175,6 +181,10 @@ if [ $1 -eq 0 ]; then
 fi
 
 %changelog
+* Fri Jul 13 2018 Samuel Verschelde <stormi-xcp@ylix.fr> - 3.5.0-1.17.1.xcp
+- Add blktap-3.5.0-make-O_DIRECT-optional.XCP-ng.patch from nraynaud
+- Pave way for experimental ZFS support
+
 * Tue Apr 10 2018 marksy <mark.syms@citrix.com> - 3.5.0-1.17
 - CA-277128: remove redundant, broken RRD code from tapdisk
 
