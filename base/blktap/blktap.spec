@@ -1,7 +1,12 @@
+# XCP-ng: release suffix for 'extras' section
+%if "%{?xcp_ng_section}" == "extras"
+%define rel_suffix .extras
+%endif
+
 Summary: blktap user space utilities
 Name: blktap
 Version: 3.5.0
-Release: 1.17
+Release: 1.17%{?rel_suffix}
 License: BSD
 Group: System/Hypervisor
 URL: https://github.com/xapi-project/blktap
