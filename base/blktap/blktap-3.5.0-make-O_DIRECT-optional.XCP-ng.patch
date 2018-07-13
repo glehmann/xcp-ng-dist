@@ -1,0 +1,370 @@
+From 7849648c426b581c1f2f9f2b01ebeb769f580e89 Mon Sep 17 00:00:00 2001
+From: Nicolas Raynaud <github@nraynaud.com>
+Date: Mon, 18 Jun 2018 14:10:02 -0700
+Subject: [PATCH 1/2] make O_DIRECT optional  - retry open() with O_DSYNC if an
+ EINVAL error was encountered
+
+Signed-off-by: Nicolas Raynaud <nraynaud@gmail.com>
+
+Upstream pull request: https://github.com/xapi-project/blktap/pull/253
+---
+ vhd/lib/libvhd-journal.c    |  6 ++++++
+ vhd/lib/libvhd.c            | 10 ++++++++++
+ vhd/lib/libvhdio.c          |  9 +++++++--
+ vhd/lib/vhd-util-check.c    |  3 +++
+ vhd/lib/vhd-util-coalesce.c |  6 ++++++
+ vhd/lib/vhd-util-read.c     |  2 ++
+ vhd/lib/vhd-util-scan.c     |  2 ++
+ 7 files changed, 36 insertions(+), 2 deletions(-)
+
+diff --git a/vhd/lib/libvhd-journal.c b/vhd/lib/libvhd-journal.c
+index b5dc279c..c3e45962 100644
+--- a/vhd/lib/libvhd-journal.c
++++ b/vhd/lib/libvhd-journal.c
+@@ -1221,6 +1221,9 @@ vhd_journal_open(vhd_journal_t *j, const char *file, const char *jfile)
+ 		goto fail;
+ 
+ 	vhd->fd = open(file, O_LARGEFILE | O_RDWR | O_DIRECT);
++	if (vhd->fd == -1  && errno == EINVAL) {
++		vhd->fd = open(file,  O_LARGEFILE | O_RDWR | O_DSYNC);
++	}
+ 	if (vhd->fd == -1) {
+ 		err = -errno;
+ 		goto fail;
+@@ -1463,6 +1466,9 @@ vhd_journal_revert(vhd_journal_t *j)
+ 
+ 	vhd_close(&j->vhd);
+ 	j->vhd.fd = open(file, O_RDWR | O_DIRECT | O_LARGEFILE);
++	if (j->vhd.fd == -1  && errno == EINVAL) {
++		j->vhd.fd = open(file,  O_LARGEFILE | O_RDWR | O_DSYNC);
++	}
+ 	if (j->vhd.fd == -1) {
+ 		free(file);
+ 		return -errno;
+diff --git a/vhd/lib/libvhd.c b/vhd/lib/libvhd.c
+index 5d3d4fc5..a687b3b9 100644
+--- a/vhd/lib/libvhd.c
++++ b/vhd/lib/libvhd.c
+@@ -2595,6 +2595,10 @@ vhd_open(vhd_context_t *ctx, const char *file, int flags)
+ 		oflags |= O_RDWR;
+ 
+ 	ctx->fd = open(ctx->file, oflags, 0644);
++	if (ctx->fd == -1 && (oflags & O_DIRECT) && errno == EINVAL) {
++		int newflags = ((oflags & ~O_DIRECT) | O_DSYNC);
++		ctx->fd = open(ctx->file, newflags, 0644);
++	}
+ 	if (ctx->fd == -1) {
+ 		err = -errno;
+ 		VHDLOG("failed to open %s: %d\n", ctx->file, err);
+@@ -3171,6 +3175,9 @@ __vhd_create(const char *name, const char *parent, uint64_t bytes, int type,
+ 
+ 	ctx.fd = open(name, O_WRONLY | O_CREAT |
+ 		      O_TRUNC | O_LARGEFILE | O_DIRECT, 0644);
++	if (ctx.fd == -1  && errno == EINVAL) {
++		ctx.fd = open(name, O_WRONLY | O_CREAT | O_TRUNC | O_LARGEFILE | O_DSYNC, 0644);
++	}
+ 	if (ctx.fd == -1) {
+         fprintf(stderr, "%s: failed to create: %d\n", name, -errno);
+         return -errno;
+@@ -3389,6 +3396,9 @@ __raw_read_link(char *filename,
+ 	err = 0;
+ 	errno = 0;
+ 	fd = open(filename, O_RDONLY | O_DIRECT | O_LARGEFILE);
++	if (fd == -1 && errno == EINVAL) {
++		fd = open(filename, O_RDONLY | O_LARGEFILE);
++	}
+ 	if (fd == -1) {
+ 		VHDLOG("%s: failed to open: %d\n", filename, -errno);
+ 		return -errno;
+diff --git a/vhd/lib/libvhdio.c b/vhd/lib/libvhdio.c
+index 7aea96de..9e39a079 100644
+--- a/vhd/lib/libvhdio.c
++++ b/vhd/lib/libvhdio.c
+@@ -958,8 +958,13 @@ open(const char *pathname, int flags, mode_t _mode)
+ 	_RESOLVE(_std_open);
+ 	mode = (flags & O_CREAT ? _mode : 0);
+ 
+-	if (!_libvhd_io_interpose)
+-		return _std_open(pathname, flags, mode);
++	if (!_libvhd_io_interpose) {
++		int ret = _std_open(pathname, flags, mode);
++		if (ret == -1 && errno == EINVAL && (flags) & O_DIRECT) {
++			ret = _std_open(pathname, (flags | O_DSYNC) & ((int) ~O_DIRECT), mode);
++		}
++		return ret;
++	}
+ 
+ 	fd = _libvhd_io_open(pathname, flags, mode, _std_open);
+ 
+diff --git a/vhd/lib/vhd-util-check.c b/vhd/lib/vhd-util-check.c
+index d51c9cf0..448cfab3 100644
+--- a/vhd/lib/vhd-util-check.c
++++ b/vhd/lib/vhd-util-check.c
+@@ -1093,6 +1093,9 @@ vhd_util_check_vhd(struct vhd_util_check_ctx *ctx, const char *name)
+ 	}
+ 
+ 	fd = open(name, O_RDONLY | O_DIRECT | O_LARGEFILE);
++	if (fd == -1 && errno == EINVAL) {
++		fd = open(name, O_RDONLY | O_LARGEFILE);
++	}
+ 	if (fd == -1) {
+ 		printf("error opening %s\n", name);
+ 		return -errno;
+diff --git a/vhd/lib/vhd-util-coalesce.c b/vhd/lib/vhd-util-coalesce.c
+index 957275d1..2ddace40 100644
+--- a/vhd/lib/vhd-util-coalesce.c
++++ b/vhd/lib/vhd-util-coalesce.c
+@@ -213,6 +213,9 @@ vhd_util_coalesce_parent(const char *name, int sparse, int progress,
+ 
+ 	if (vhd_parent_raw(&vhd)) {
+ 		parent_fd = open(pname, O_RDWR | O_DIRECT | O_LARGEFILE, 0644);
++		if (parent_fd == -1 && parent_fd == EINVAL) {
++			parent_fd = open(pname, O_RDWR | O_DSYNC | O_LARGEFILE, 0644);
++		}
+ 		if (parent_fd == -1) {
+ 			err = -errno;
+ 			printf("failed to open parent %s: %d\n", pname, err);
+@@ -365,6 +368,9 @@ vhd_util_coalesce_load_chain(struct list_head *head,
+ 			entry->raw = raw;
+ 			entry->raw_fd = open(next,
+ 					     O_RDWR | O_DIRECT | O_LARGEFILE);
++			if (entry->raw_fd == -1 && errno == EINVAL) {
++				entry->raw_fd = open(next, O_RDWR | O_DSYNC | O_LARGEFILE);
++			}
+ 			if (entry->raw_fd == -1) {
+ 				err = -errno;
+ 				goto out;
+diff --git a/vhd/lib/vhd-util-read.c b/vhd/lib/vhd-util-read.c
+index 91f2f8d8..546cc993 100644
+--- a/vhd/lib/vhd-util-read.c
++++ b/vhd/lib/vhd-util-read.c
+@@ -317,6 +317,8 @@ vhd_dump_headers(const char *name, int hex)
+ 	printf("\n%s appears invalid; dumping headers\n\n", name);
+ 
+ 	vhd.fd = open(name, O_DIRECT | O_LARGEFILE | O_RDONLY);
++	if (vhd.fd == -1 && errno == EINVAL)
++		vhd.fd = open(name, O_LARGEFILE | O_RDONLY);
+ 	if (vhd.fd == -1)
+ 		return -errno;
+ 
+diff --git a/vhd/lib/vhd-util-scan.c b/vhd/lib/vhd-util-scan.c
+index ab98440d..4caffd02 100644
+--- a/vhd/lib/vhd-util-scan.c
++++ b/vhd/lib/vhd-util-scan.c
+@@ -736,6 +736,8 @@ vhd_util_scan_open_volume(vhd_context_t *vhd, struct vhd_image *image)
+ 	}
+ 
+ 	vhd->fd = open(target->device, O_RDONLY | O_DIRECT | O_LARGEFILE);
++	if (vhd->fd == -1 && errno == EINVAL)
++		vhd->fd = open(target->device, O_RDONLY | O_LARGEFILE);
+ 	if (vhd->fd == -1) {
+ 		free(vhd->file);
+ 		vhd->file = NULL;
+
+From 3d5a2d0949abd5cf47643c5c45876e21c5e42dd7 Mon Sep 17 00:00:00 2001
+From: Nicolas Raynaud <github@nraynaud.com>
+Date: Mon, 9 Jul 2018 11:34:18 -0700
+Subject: [PATCH 2/2] make O_DIRECT optional  - extracted a function and logged
+ the retry
+
+---
+ include/libvhd.h            |  2 ++
+ vhd/lib/libvhd-journal.c    | 10 ++--------
+ vhd/lib/libvhd.c            | 35 ++++++++++++++++++++++-------------
+ vhd/lib/vhd-util-check.c    |  5 +----
+ vhd/lib/vhd-util-coalesce.c | 10 ++--------
+ vhd/lib/vhd-util-read.c     |  4 +---
+ vhd/lib/vhd-util-scan.c     |  4 +---
+ 7 files changed, 31 insertions(+), 39 deletions(-)
+
+diff --git a/include/libvhd.h b/include/libvhd.h
+index a73a928e..223ee1b9 100644
+--- a/include/libvhd.h
++++ b/include/libvhd.h
+@@ -235,6 +235,8 @@ vhd_parent_raw(vhd_context_t *ctx)
+ 	return uuid_is_null(ctx->header.prt_uuid);
+ }
+ 
++int open_optional_odirect(const char *pathname, int flags, ...);
++
+ void libvhd_set_log_level(int);
+ 
+ int vhd_test_file_fixed(const char *, int *);
+diff --git a/vhd/lib/libvhd-journal.c b/vhd/lib/libvhd-journal.c
+index c3e45962..07c96469 100644
+--- a/vhd/lib/libvhd-journal.c
++++ b/vhd/lib/libvhd-journal.c
+@@ -1220,10 +1220,7 @@ vhd_journal_open(vhd_journal_t *j, const char *file, const char *jfile)
+ 	if (err)
+ 		goto fail;
+ 
+-	vhd->fd = open(file, O_LARGEFILE | O_RDWR | O_DIRECT);
+-	if (vhd->fd == -1  && errno == EINVAL) {
+-		vhd->fd = open(file,  O_LARGEFILE | O_RDWR | O_DSYNC);
+-	}
++	vhd->fd = open_optional_odirect(file, O_LARGEFILE | O_RDWR | O_DIRECT);
+ 	if (vhd->fd == -1) {
+ 		err = -errno;
+ 		goto fail;
+@@ -1465,10 +1462,7 @@ vhd_journal_revert(vhd_journal_t *j)
+ 		return -ENOMEM;
+ 
+ 	vhd_close(&j->vhd);
+-	j->vhd.fd = open(file, O_RDWR | O_DIRECT | O_LARGEFILE);
+-	if (j->vhd.fd == -1  && errno == EINVAL) {
+-		j->vhd.fd = open(file,  O_LARGEFILE | O_RDWR | O_DSYNC);
+-	}
++	j->vhd.fd = open_optional_odirect(file, O_RDWR | O_DIRECT | O_LARGEFILE);
+ 	if (j->vhd.fd == -1) {
+ 		free(file);
+ 		return -errno;
+diff --git a/vhd/lib/libvhd.c b/vhd/lib/libvhd.c
+index a687b3b9..4f0ced4d 100644
+--- a/vhd/lib/libvhd.c
++++ b/vhd/lib/libvhd.c
+@@ -44,6 +44,7 @@
+ #include <libgen.h>
+ #include <iconv.h>
+ #include <limits.h>
++#include <stdarg.h>
+ #include <sys/mman.h>
+ #include <sys/stat.h>
+ #include <sys/types.h>
+@@ -117,6 +118,24 @@ old_clear_bit(volatile char *addr, int nr)
+ 	((uint32_t *)addr)[nr >> 5] &= ~(1 << (nr & 31));
+ }
+ 
++int
++open_optional_odirect(const char *pathname, int flags, ...)
++{
++	mode_t mode = 0;
++	if (flags & O_CREAT) {
++		va_list arg;
++		va_start(arg, flags);
++		mode = va_arg(arg, mode_t);
++		va_end(arg);
++	}
++	int fd = open(pathname, flags, mode);
++	if (fd == -1 && (flags & O_DIRECT) && errno == EINVAL) {
++		VHDLOG("could not open() file '%s', retrying without O_DIRECT and using O_DSYNC\n", pathname);
++		return open(pathname, ((flags & ~O_DIRECT) | O_DSYNC), mode);
++	}
++	return fd;
++}
++
+ void
+ vhd_footer_in(vhd_footer_t *footer)
+ {
+@@ -2594,11 +2613,7 @@ vhd_open(vhd_context_t *ctx, const char *file, int flags)
+ 	if (flags & VHD_OPEN_RDWR)
+ 		oflags |= O_RDWR;
+ 
+-	ctx->fd = open(ctx->file, oflags, 0644);
+-	if (ctx->fd == -1 && (oflags & O_DIRECT) && errno == EINVAL) {
+-		int newflags = ((oflags & ~O_DIRECT) | O_DSYNC);
+-		ctx->fd = open(ctx->file, newflags, 0644);
+-	}
++	ctx->fd = open_optional_odirect(ctx->file, oflags, 0644);
+ 	if (ctx->fd == -1) {
+ 		err = -errno;
+ 		VHDLOG("failed to open %s: %d\n", ctx->file, err);
+@@ -3173,11 +3188,8 @@ __vhd_create(const char *name, const char *parent, uint64_t bytes, int type,
+ 		blks = (mbytes + VHD_BLOCK_SIZE - 1) >> VHD_BLOCK_SHIFT;
+ 	size = blks << VHD_BLOCK_SHIFT;
+ 
+-	ctx.fd = open(name, O_WRONLY | O_CREAT |
++	ctx.fd = open_optional_odirect(name, O_WRONLY | O_CREAT |
+ 		      O_TRUNC | O_LARGEFILE | O_DIRECT, 0644);
+-	if (ctx.fd == -1  && errno == EINVAL) {
+-		ctx.fd = open(name, O_WRONLY | O_CREAT | O_TRUNC | O_LARGEFILE | O_DSYNC, 0644);
+-	}
+ 	if (ctx.fd == -1) {
+         fprintf(stderr, "%s: failed to create: %d\n", name, -errno);
+         return -errno;
+@@ -3395,10 +3407,7 @@ __raw_read_link(char *filename,
+ 
+ 	err = 0;
+ 	errno = 0;
+-	fd = open(filename, O_RDONLY | O_DIRECT | O_LARGEFILE);
+-	if (fd == -1 && errno == EINVAL) {
+-		fd = open(filename, O_RDONLY | O_LARGEFILE);
+-	}
++	fd = open_optional_odirect(filename, O_RDONLY | O_DIRECT | O_LARGEFILE);
+ 	if (fd == -1) {
+ 		VHDLOG("%s: failed to open: %d\n", filename, -errno);
+ 		return -errno;
+diff --git a/vhd/lib/vhd-util-check.c b/vhd/lib/vhd-util-check.c
+index 448cfab3..7310d041 100644
+--- a/vhd/lib/vhd-util-check.c
++++ b/vhd/lib/vhd-util-check.c
+@@ -1092,10 +1092,7 @@ vhd_util_check_vhd(struct vhd_util_check_ctx *ctx, const char *name)
+ 		return -EINVAL;
+ 	}
+ 
+-	fd = open(name, O_RDONLY | O_DIRECT | O_LARGEFILE);
+-	if (fd == -1 && errno == EINVAL) {
+-		fd = open(name, O_RDONLY | O_LARGEFILE);
+-	}
++	fd = open_optional_odirect(name, O_RDONLY | O_DIRECT | O_LARGEFILE);
+ 	if (fd == -1) {
+ 		printf("error opening %s\n", name);
+ 		return -errno;
+diff --git a/vhd/lib/vhd-util-coalesce.c b/vhd/lib/vhd-util-coalesce.c
+index 2ddace40..02213412 100644
+--- a/vhd/lib/vhd-util-coalesce.c
++++ b/vhd/lib/vhd-util-coalesce.c
+@@ -212,10 +212,7 @@ vhd_util_coalesce_parent(const char *name, int sparse, int progress,
+ 	}
+ 
+ 	if (vhd_parent_raw(&vhd)) {
+-		parent_fd = open(pname, O_RDWR | O_DIRECT | O_LARGEFILE, 0644);
+-		if (parent_fd == -1 && parent_fd == EINVAL) {
+-			parent_fd = open(pname, O_RDWR | O_DSYNC | O_LARGEFILE, 0644);
+-		}
++		parent_fd = open_optional_odirect(pname, O_RDWR | O_DIRECT | O_LARGEFILE, 0644);
+ 		if (parent_fd == -1) {
+ 			err = -errno;
+ 			printf("failed to open parent %s: %d\n", pname, err);
+@@ -366,11 +363,8 @@ vhd_util_coalesce_load_chain(struct list_head *head,
+ 
+ 		if (raw) {
+ 			entry->raw = raw;
+-			entry->raw_fd = open(next,
++			entry->raw_fd = open_optional_odirect(next,
+ 					     O_RDWR | O_DIRECT | O_LARGEFILE);
+-			if (entry->raw_fd == -1 && errno == EINVAL) {
+-				entry->raw_fd = open(next, O_RDWR | O_DSYNC | O_LARGEFILE);
+-			}
+ 			if (entry->raw_fd == -1) {
+ 				err = -errno;
+ 				goto out;
+diff --git a/vhd/lib/vhd-util-read.c b/vhd/lib/vhd-util-read.c
+index 546cc993..0ca2d392 100644
+--- a/vhd/lib/vhd-util-read.c
++++ b/vhd/lib/vhd-util-read.c
+@@ -316,9 +316,7 @@ vhd_dump_headers(const char *name, int hex)
+ 
+ 	printf("\n%s appears invalid; dumping headers\n\n", name);
+ 
+-	vhd.fd = open(name, O_DIRECT | O_LARGEFILE | O_RDONLY);
+-	if (vhd.fd == -1 && errno == EINVAL)
+-		vhd.fd = open(name, O_LARGEFILE | O_RDONLY);
++	vhd.fd = open_optional_odirect(name, O_DIRECT | O_LARGEFILE | O_RDONLY);
+ 	if (vhd.fd == -1)
+ 		return -errno;
+ 
+diff --git a/vhd/lib/vhd-util-scan.c b/vhd/lib/vhd-util-scan.c
+index 4caffd02..0af96428 100644
+--- a/vhd/lib/vhd-util-scan.c
++++ b/vhd/lib/vhd-util-scan.c
+@@ -735,9 +735,7 @@ vhd_util_scan_open_volume(vhd_context_t *vhd, struct vhd_image *image)
+ 		return image->error;
+ 	}
+ 
+-	vhd->fd = open(target->device, O_RDONLY | O_DIRECT | O_LARGEFILE);
+-	if (vhd->fd == -1 && errno == EINVAL)
+-		vhd->fd = open(target->device, O_RDONLY | O_LARGEFILE);
++	vhd->fd = open_optional_odirect(target->device, O_RDONLY | O_DIRECT | O_LARGEFILE);
+ 	if (vhd->fd == -1) {
+ 		free(vhd->file);
+ 		vhd->file = NULL;
