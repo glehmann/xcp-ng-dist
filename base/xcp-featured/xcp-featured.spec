@@ -8,7 +8,7 @@ URL:            https://github.com/xcp-ng/xcp-featured
 Source0:        https://github.com/xcp-ng/xcp-featured/archive/v%{version}/xcp-featured-%{version}.tar.gz
 Source1:        v6d.service
 BuildRoot:      %{_tmppath}/%{name}-%{version}-root
-BuildRequires:  systemd
+BuildRequires:  systemd-devel
 BuildRequires:  xs-opam-repo
 BuildRequires:  ocaml-xcp-idl-devel
 BuildRequires:  xapi-client-devel
@@ -21,9 +21,11 @@ available on an xcp-ng host.
 %autosetup -p1
 
 %build
+eval $(opam config env --root=/usr/lib/opamroot)
 DESTDIR=%{buildroot} %{__make}
 
 %install
+eval $(opam config env --root=/usr/lib/opamroot)
 DESTDIR=%{buildroot} LIBEXECDIR=%{_libexecdir} %{__make} install
 %{__install} -D -m 0644 %{SOURCE1} %{buildroot}%{_unitdir}/v6d.service
 
