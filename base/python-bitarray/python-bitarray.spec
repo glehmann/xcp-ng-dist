@@ -12,7 +12,7 @@
 
 Name:           python-%{srcname}
 Version:        0.8.3
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        %{sum}
 
 Group:          Development/Languages
@@ -21,6 +21,7 @@ URL:            http://pypi.python.org/pypi/%{srcname}/
 Source0:        http://pypi.python.org/packages/source/b/%{srcname}/%{srcname}-%{version}.tar.gz
 
 BuildRequires:  python2-devel
+BuildRequires:  gcc
 %if 0%{?rhel}
 BuildRequires:  python-setuptools
 %else
@@ -107,6 +108,9 @@ This is Python 3 version.
 
 
 %changelog
+* Mon Jul 23 2018 Nick Bebout <nb@fedoraproject.org> - 0.8.3-3
+- Add gcc to BuildRequires
+
 * Fri Jul 13 2018 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.3-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_29_Mass_Rebuild
 
