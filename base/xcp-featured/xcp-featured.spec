@@ -1,6 +1,6 @@
 Name:           xcp-featured
 Version:        1.1.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        XCP-ng feature daemon
 Group:          System/Hypervisor
 License:        ISC
@@ -11,6 +11,8 @@ BuildRequires:  systemd-devel
 BuildRequires:  xs-opam-repo
 BuildRequires:  ocaml-xcp-idl-devel
 BuildRequires:  xapi-client-devel
+
+%{systemd_requires}
 
 %description
 This package contains an RPC serving daemon, which reports the features
@@ -25,42 +27,30 @@ DESTDIR=%{buildroot} %{__make}
 
 %install
 eval $(opam config env --root=/usr/lib/opamroot)
-DESTDIR=%{buildroot} LIBEXECDIR=%{_libexecdir} %{__make} install
+DESTDIR=%{buildroot} LIBEXECDIR=/opt/xensource/libexec %{__make} install
+ln -s /opt/xensource/libexec/xcp-featured %{buildroot}/opt/xensource/libexec/v6d
 %{__install} -D -m 0644 %{SOURCE1} %{buildroot}%{_unitdir}/v6d.service
 
 %post
-case "$1" in
-  1)
-    # initial install
-    ln -fs %{_libexecdir}/xcp-featured %{_libexecdir}/v6d
-    ;;
-  2)
-    # upgrade
-    ;;
-esac
 %systemd_post v6d.service
 
 %preun
 %systemd_preun v6d.service
 
 %postun
-case "$1" in
-  0)
-    # uninstall
-    rm -f %{_libexecdir}/v6d
-    ;;
-  1)
-    # upgrade
-    ;;
-esac
 %systemd_postun v6d.service
 
 %files
-%ghost %{_libexecdir}/v6d
-%{_libexecdir}/xcp-featured
+/opt/xensource/libexec/v6d
+/opt/xensource/libexec/xcp-featured
 %{_unitdir}/v6d.service
 
 %changelog
+* Tue Jul 24 2018 Samuel Verschelde <stormi-xcp@ylix.fr> - 1.1.0-2
+- Fix upgrade from previous version (no more removed symlink)
+- Add systemd requires for scriptlets
+- Fix paths
+
 * Mon Jul 02 2018 John Else <john.else@gmail.com> - 1.1.0-1
 - Update to build against new RPC library
 
