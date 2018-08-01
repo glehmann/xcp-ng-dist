@@ -1,6 +1,6 @@
 Name: xs-opam-src
 Version: 3.9.1
-Release: 1%{?dist}
+Release: 1.1.xcp%{?dist}
 Summary: Opam repository
 License: Various
 URL: https://github.com/xapi-project/xs-opam/archive/3.9.1/xs-opam-3.9.1.tar.gz
@@ -178,6 +178,11 @@ Source163: https://repo.citrite.net/ctx-local-contrib/xs-opam/backtrace-v0.5.tar
 Source164: https://repo.citrite.net/ctx-local-contrib/xs-opam/xcp-inventory-v1.2.0.tar.gz
 Source165: https://repo.citrite.net/ctx-local-contrib/xs-opam/xapi-test-utils-v1.1.0.tar.gz
 
+# XCP-ng patches
+Patch1000: ocaml-vhd-0.9.2-fix-importing-large-VDI.backport.patch
+Patch1001: ocaml-vhd-0.9.2-fix-string-escaping-in-code-generator.backport.patch
+%define ocaml_vhd_version 0.9.2
+
 BuildRequires: opam
 BuildRequires: rsync
 
@@ -188,6 +193,16 @@ required for building the OCaml components in the XS Toolstack.
 %prep
 %setup -n xs-opam-3.9.1
 
+# Patch ocaml-vhd
+tar xf %{SOURCE144}
+pushd ocaml-vhd-%{ocaml_vhd_version}
+patch -p1 < %{PATCH1000}
+patch -p1 < %{PATCH1001}
+popd
+mkdir -p build/src
+tar -czf build/src/ocaml-vhd-v%{ocaml_vhd_version}.tar.gz ocaml-vhd-%{ocaml_vhd_version}
+rm ocaml-vhd-%{ocaml_vhd_version} -rf
+
 rpm_src ()
 {
   cd build/src
@@ -195,7 +210,6 @@ rpm_src ()
   cd ../..
 }
 
-mkdir -p build/src
 # each line links a file from SOURCES into the build tree
 rpm_src alcotest-0.8.1.tbz
 rpm_src angstrom-0.8.0.tar.gz
@@ -591,6 +605,9 @@ chmod 777 %{buildroot}/usr/lib/opamroot
 %attr(777, root, wheel) /usr/lib/opamroot
 
 %changelog
+* Wed Aug 01 2018 Samuel Verschelde <stormi-xcp@ylix.fr> - 3.9.1-1.1.xcp
+- Backport upstream fix to ocaml-vhd to fix large VDI import
+
 * Tue Apr 24 2018 Christian Lindig <christian.lindig@citrix.com> - 3.9.1-1
 - This file is auto-generated and the changelog currently does not
   reflect the changes.
