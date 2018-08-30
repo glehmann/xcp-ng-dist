@@ -1,6 +1,6 @@
 Name: xs-opam-repo
 Version: 3.9.1
-Release: 1.1.xcp%{?dist}
+Release: 1.2.xcp%{?dist}
 Summary: Build and install OCaml libraries from Opam repository
 License: Various
 URL: https://github.com/xapi-project/xs-opam/archive/3.9.1/xs-opam-3.9.1.tar.gz
@@ -85,6 +85,9 @@ strip  %{buildroot}/usr/lib/opamroot/system/bin/* || true
 /usr/lib/opamroot
 
 %changelog
+* Thu Aug 30 2018 Samuel Verschelde <stormi-xcp@ylix.fr> - 3.9.1-1.2.xcp
+- Rebuild with latest fixes from ocaml-vhd
+
 * Wed Aug 01 2018 Samuel Verschelde <stormi-xcp@ylix.fr> - 3.9.1-1.1.xcp
 - Rebuild to take in account large VHD import fix in ocaml-vhd
 
