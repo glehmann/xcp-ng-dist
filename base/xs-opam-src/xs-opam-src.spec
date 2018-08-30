@@ -1,6 +1,6 @@
 Name: xs-opam-src
 Version: 3.9.1
-Release: 1.1.xcp%{?dist}
+Release: 1.2.xcp%{?dist}
 Summary: Opam repository
 License: Various
 URL: https://github.com/xapi-project/xs-opam/archive/3.9.1/xs-opam-3.9.1.tar.gz
@@ -181,6 +181,7 @@ Source165: https://repo.citrite.net/ctx-local-contrib/xs-opam/xapi-test-utils-v1
 # XCP-ng patches
 Patch1000: ocaml-vhd-0.9.2-fix-importing-large-VDI.backport.patch
 Patch1001: ocaml-vhd-0.9.2-fix-string-escaping-in-code-generator.backport.patch
+Patch1002: ocaml-vhd-0.9.2-fix-detection-of-unused-entries.backport.patch
 %define ocaml_vhd_version 0.9.2
 
 BuildRequires: opam
@@ -198,6 +199,7 @@ tar xf %{SOURCE144}
 pushd ocaml-vhd-%{ocaml_vhd_version}
 patch -p1 < %{PATCH1000}
 patch -p1 < %{PATCH1001}
+patch -p1 < %{PATCH1002}
 popd
 mkdir -p build/src
 tar -czf build/src/ocaml-vhd-v%{ocaml_vhd_version}.tar.gz ocaml-vhd-%{ocaml_vhd_version}
@@ -605,6 +607,9 @@ chmod 777 %{buildroot}/usr/lib/opamroot
 %attr(777, root, wheel) /usr/lib/opamroot
 
 %changelog
+* Thu Aug 30 2018 Samuel Verschelde <stormi-xcp@ylix.fr> - 3.9.1-1.2.xcp
+- Backport upstream fix to regression introduced with large VDI import fix
+
 * Wed Aug 01 2018 Samuel Verschelde <stormi-xcp@ylix.fr> - 3.9.1-1.1.xcp
 - Backport upstream fix to ocaml-vhd to fix large VDI import
 
