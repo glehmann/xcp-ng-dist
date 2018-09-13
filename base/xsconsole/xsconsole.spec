@@ -1,7 +1,7 @@
 Summary: XCP-ng Host Configuration Console
 Name: xsconsole
 Version: 10.1.7
-Release: 1
+Release: 1.1.xcp
 License: GPL2
 Group: Administration/System
 Source0: https://code.citrite.net/rest/archive/latest/projects/XS/repos/%{name}/archive?at=v%{version}&format=tar.gz&prefix=%{name}-%{version}#/%{name}.tar.gz
@@ -59,6 +59,9 @@ InCloud Sphere.
 %{_libdir}/xsconsole/plugins-oem/XSFeatureLicenseNag.py*
 
 %changelog
+* Thu Sep 13 2018 Samuel Verschelde <stormi-xcp@ylix.fr> - 10.1.7-1.1.xcp
+- Rebuild for XCP-ng 7.6.0
+
 * Mon Apr 23 2018 Simon Rowe <simon.rowe@citrix.com> - 10.1.7-1
 - CA-288312: use /etc/hostname
 
