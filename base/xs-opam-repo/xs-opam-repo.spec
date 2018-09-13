@@ -1,9 +1,9 @@
 Name: xs-opam-repo
-Version: 3.9.1
-Release: 1.2.xcp%{?dist}
+Version: 4.11.0
+Release: 1.1.xcp%{?dist}
 Summary: Build and install OCaml libraries from Opam repository
 License: Various
-URL: https://github.com/xapi-project/xs-opam/archive/3.9.1/xs-opam-3.9.1.tar.gz
+URL: https://github.com/xapi-project/xs-opam/archive/4.11.0/xs-opam-4.11.0.tar.gz
 
 # To "pin" a package during development, see below the example
 # where qmp is pinned to its master branch. Note that currently
@@ -85,6 +85,9 @@ strip  %{buildroot}/usr/lib/opamroot/system/bin/* || true
 /usr/lib/opamroot
 
 %changelog
+* Thu Sep 13 2018 Samuel Verschelde <stormi-xcp@ylix.fr> - 4.11.0-1.1.xcp
+- Update and rebuild for XCP-ng 7.6
+
 * Thu Aug 30 2018 Samuel Verschelde <stormi-xcp@ylix.fr> - 3.9.1-1.2.xcp
 - Rebuild with latest fixes from ocaml-vhd
 
