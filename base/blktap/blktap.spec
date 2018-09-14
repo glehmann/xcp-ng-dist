@@ -1,79 +1,21 @@
 Summary: blktap user space utilities
 Name: blktap
-Version: 3.5.0
-Release: 1.17
+Version: 3.12.0
+Release: 1.0
 License: BSD
 Group: System/Hypervisor
 URL: https://github.com/xapi-project/blktap
-Source0: https://code.citrite.net/rest/archive/latest/projects/XS/repos/%{name}/archive?at=v%{version}&format=tar.gz&prefix=%{name}-%{version}#/%{name}-%{version}.tar.gz
-Patch0: pull_request_228__CA-222124_Handle_race_condition_in_tap-ctl_spawn
-Patch1: pull_request_229__ca-223652__add_delay_to_reduce_number_of_syslog_messages
-Patch2: pull_request_231__cp-14449__fix_version_and_release_tag_in_specfile
-Patch3: pull_request_232__CA-227162_enable_tapdisk_forced_shutdown_mode
-Patch4: pull_request_188__introduce_a_new_block_backend_called_ntnx
-Patch5: pull_request_191__CA-220042_sigact.sa_mask_is_not_initialized_CID-5755
-Patch6: pull_request_227__CA-217394-Handle-scheduler-uuid-data-type-overflow-in-tapdisk
-Patch7: pull_request_215__CP-18038_fix_multiple_resource_leaks
-Patch8: pull_request_219__ca-221904__vhd_create_einval_report_errors
-Patch9: pull_request_233__CP-19856_add_a_check_to_force_o_dsync_if_needed
-Patch10: add_coverity_model.c_to_support_asprintf
-Patch11: pull_request_230__CA-225067-tap_ctl_-spawn-create-move-tapdisk-to-cgro
-Patch12: pull_request_236_1__clean-up_maintainers_file
-Patch13: pull_request_236_2__cp-16813__package_basic_doc_files
-Patch14: pull_request_240__CA-253485__Fix_udev_rules_to_prevent_td_devices_being_bound_by_Dom0
-Patch15: pull_request_235__ca-220608__corrected_potential_memory_leak
-Patch16: CA-250385-Check-if-vbd-image-is-in-chain-before-retr.patch
-Patch17: ca-220510__initialsed_vhd_file_table_pointer_before_use.patch
-Patch18: CP-23825__Structure_lvm-util_as_a_business_logic_library_with_an_execution_wrapper
-Patch19: CP-20827__Enable-block-log-layer
-Patch20: CP-21766__Cleaned-up-bitmap-ops-for-CBT
-Patch21: CP-21443__Implement-metadata-file-memory-mapping
-Patch22: CP-22175__enhance_tap-ctl_pause_to_accept_additional_parameters
-Patch23: CP-22206__added_log-util_tool_for_cbt_metadata_manipulation
-Patch24: CP-22489__extend_cbt-util_to_read_cbt_log
-Patch25: CA-255200__correct_error_handling_for_file_operations
-Patch26: break_cbt-util_up_into_a_main_and_a_convenience_function
-Patch27: Add_unit_test_foundations_for_blktap_and_cbtutil
-Patch28: Fix-unit-test-build-in-rpmbuild-mock
-Patch29: CA-255448__ensure_tapdisk_unmaps_the_logfile_on_pause
-Patch30: Enable_coverage_for_mockatests
-Patch31: Refactor_CBT_unit_test_code_into_separate_compilation_modules
-Patch32: CP-22685__Add_unit_tests_for_cbt-util_get
-Patch33: CP-22685__add_test_results_to_results_RPM
-Patch34: CP-22686__Add_unit_tests_for_cbt-util_create
-Patch35: CP-22601__Calculate_log_bit_based_CBT_block_size
-Patch36: Fill_in_missing_unit_tests_for_command_lookup
-Patch37: CP-22833__Extend_cbt-util_to_read_bitmap_from_log_file
-Patch38: CP-22972__Added_unit_tests_for_cbt-util_get_bitmap
-Patch39: CP-23274__Move_wrappers_to_a_separate_library
-Patch40: CP-23564__Add_size_field_to_metadata_log
-Patch41: CP-23548__Implement_cbt_util_coalesce
-Patch42: CP-23548__Unit_tests_for_cbt-util_coalesce
-Patch43: CA-263485__Debug_logs_for_bitmap_file_operations
-Patch44: cp-23918__create_unit_tests_for_cbt-util_set.patch
-Patch45: cp-23545__extend_tap-ctl_create_to_consider_cbt_parameters.patch
-Patch46: cp-23920__unit_test_increase_coverage_for_cbt-util_coalesce.patch
-Patch47: cp-24547__unit_test_increase_test_coverage_for_cbt-util_set.patch
-Patch48: CA-268288__Send_logpath_as_an_additional_write
-Patch49: CA-260195__Tidy_up_indentation
-Patch50: CA-260195__only_log_once_on_watchdog_alert
-Patch51: CA-254690__Fix_indentation_prior_to_change
-Patch52: CA-254690__Add_a_flag_to_control_logging_based_on_call_context
-Patch53: CA-260298__log_the_device_with_no_pe_start
-Patch54: add_GCOV_flags.patch
-Patch55: pull_request_191__CA-220042_sigact.sa_mask_is_not_initialized_CID-5755_2
-Patch56: CP-26852__support-linux-upstream.patch
-Patch57: Gather_the_gcov_coverage_files_during_build
-Patch58: CA-277128__remove_redundant_broken_RRD_code_from_tapdisk
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/blktap.pg/archive?at=1.17&format=tar#/blktap.patches.tar) = 2d8730dda5145d43e65a4fcd03acf0cfb6682fac
+Source0: https://code.citrite.net/rest/archive/latest/projects/XSU/repos/%{name}/archive?at=v%{version}&format=tar.gz&prefix=%{name}-%{version}#/%{name}-%{version}.tar.gz
 
 BuildRoot: %{_tmppath}/%{name}-%{release}-buildroot
 Obsoletes: xen-blktap
 BuildRequires: e2fsprogs-devel, libaio-devel, systemd, autogen, autoconf, automake, libtool, libuuid-devel
 BuildRequires: xen-devel, kernel-headers, xen-dom0-libs-devel, zlib-devel, xen-libs-devel, libcmocka-devel, lcov, git
 Requires(post): systemd
+Requires(post): /sbin/ldconfig
 Requires(preun): systemd
 Requires(postun): systemd
+Requires(postun): /sbin/ldconfig
 
 %description
 Blktap creates kernel block devices which realize I/O requests to
@@ -102,6 +44,7 @@ Blktap and VHD development files.
 %autosetup -p1 -S git
 
 %build
+echo -n %{version} > VERSION
 sh autogen.sh
 %configure
 %{?cov_wrap} make %{?coverage:GCOV=true}
@@ -160,6 +103,7 @@ cat /usr/lib/udev/rules.d/65-md-incremental.rules >> /etc/udev/rules.d/65-md-inc
 %endif
 
 %post
+/sbin/ldconfig
 %systemd_post tapback.service
 %systemd_post cpumond.service
 
@@ -168,13 +112,51 @@ cat /usr/lib/udev/rules.d/65-md-incremental.rules >> /etc/udev/rules.d/65-md-inc
 %systemd_preun cpumond.service
 
 %postun
+/sbin/ldconfig
 %systemd_postun tapback.service
 %systemd_postun cpumond.service
 if [ $1 -eq 0 ]; then
     rm -f %{_sysconfdir}/udev/rules.d/65-md-incremental.rules
 fi
 
+# The posttrans invocation of ldconfig is needed because older
+# versions of blktap did not have ldconfig in their postun script.
+%posttrans -p /sbin/ldconfig
+
 %changelog
+* Mon Aug 06 2018 Mark Syms <mark.syms@citrix.com> - 3.12.0-1
+- CA-227096 Allow stashed passed fds to overwrite with the same name
+
+* Wed Jul 25 2018 Mark Syms <mark.syms@citrix.com> - 3.11.0-1
+- CA-294079 Revert "CA-205513: Removing bad fds from the fdset passed to select call."
+
+* Thu Jul 19 2018 Tim Smith <tim.smith@citrix.com> - 3.10.0-2.0
+- Add ldconfig in posttrans to support update from older versions
+
+* Mon Jul 16 2018 Mark Syms <mark.syms@citrix.com> - 3.10.0-1
+- valve: fix duplicated forwarding
+
+* Wed Jul 11 2018 Mark Syms <mark.syms@citrix.com> - 3.9.0-1
+- XOP-944 Fix crashes and errors in stats
+- CP-24318: Closed resource leak in vhd_macx_decode_location()
+- CA-293563 prevent race when creating blktap/control device node
+- Update coverage profile dirs so that product and test code match
+- make O_DIRECT optional
+
+* Thu Jun 28 2018 Tim Smith <tim.smith@citrix.com> - 3.8.0-2.0
+- Run ldconfig on install/uninstall
+
+* Mon Jun 18 2018 Mark Syms <mark.syms@citrix.com> - 3.8.0-1
+- Update specfile template
+- Remove VERSION and WHATS_NEW files, this information is in git history and tags
+- Remove WHATS_NEW from Makefile.am
+
+* Fri May 25 2018 marksy <mark.syms@citrix.com> - 3.7.0-1.0
+- CA-285194: ensure that tapdisk logs if it exits and also on opening its control
+
+* Fri May 25 2018 marksy <mark.syms@citrix.com> - 3.6.0-1.0
+- Release 3.6.0
+
 * Tue Apr 10 2018 marksy <mark.syms@citrix.com> - 3.5.0-1.17
 - CA-277128: remove redundant, broken RRD code from tapdisk
 
