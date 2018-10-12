@@ -1,6 +1,6 @@
 Name:           xcp-featured
-Version:        1.1.0
-Release:        3%{?dist}
+Version:        1.1.1
+Release:        1%{?dist}
 Summary:        XCP-ng feature daemon
 Group:          System/Hypervisor
 License:        ISC
@@ -46,6 +46,11 @@ ln -s /opt/xensource/libexec/xcp-featured %{buildroot}/opt/xensource/libexec/v6d
 %{_unitdir}/v6d.service
 
 %changelog
+* Fri Oct 12 2018 Samuel Verschelde <stormi-xcp@ylix.fr> - 1.1.1-1
+- New version 1.1.1 that does not report Corosync as available anymore,
+  since it is a feature that relies on proprietary packages that we
+  don't provide.
+
 * Thu Sep 13 2018 Samuel Verschelde <stormi-xcp@ylix.fr> - 1.1.0-3
 - Rebuild for XCP-ng 7.6.0
 
