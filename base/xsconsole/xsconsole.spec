@@ -1,7 +1,7 @@
 Summary: XCP-ng Host Configuration Console
 Name: xsconsole
 Version: 10.1.7
-Release: 1.1.xcp
+Release: 1.2.xcp
 License: GPL2
 Group: Administration/System
 Source0: https://code.citrite.net/rest/archive/latest/projects/XS/repos/%{name}/archive?at=v%{version}&format=tar.gz&prefix=%{name}-%{version}#/%{name}.tar.gz
@@ -16,13 +16,13 @@ Requires(postun): systemd
 %description
 Console tool for configuring a XCP-ng installation.
 
-%package incloudsphere
-Summary: InCloud Sphere plugins for %{name}
-Requires: %{name}%{?_isa} = %{version}-%{release}
-
-%description incloudsphere
-Extra plugins for %{name} to add functionality required by
-InCloud Sphere.
+#%package incloudsphere
+#Summary: InCloud Sphere plugins for %{name}
+#Requires: %{name}%{?_isa} = %{version}-%{release}
+#
+#%description incloudsphere
+#Extra plugins for %{name} to add functionality required by
+#InCloud Sphere.
 
 %prep
 %autosetup -p1
@@ -55,10 +55,13 @@ InCloud Sphere.
 %exclude %{_libdir}/xsconsole/plugins-oem/*
 %{_unitdir}/xsconsole.service
 
-%files incloudsphere
-%{_libdir}/xsconsole/plugins-oem/XSFeatureLicenseNag.py*
+#%files incloudsphere
+#%{_libdir}/xsconsole/plugins-oem/XSFeatureLicenseNag.py*
 
 %changelog
+* Mon Oct 15 2018 Samuel Verschelde <stormi-xcp@ylix.fr> - 10.1.7-1.2.xcp
+- Don't build the incloudsphere subpackage.
+
 * Thu Sep 13 2018 Samuel Verschelde <stormi-xcp@ylix.fr> - 10.1.7-1.1.xcp
 - Rebuild for XCP-ng 7.6.0
 
