@@ -1,6 +1,6 @@
 Name:           xcp-emu-manager
-Version:        0.0.6
-Release:        2
+Version:        0.0.7
+Release:        1
 Summary:        Tool used for managing xenguest
 License:        LGPL
 URL:            https://github.com/xcp-ng/xcp-emu-manager
@@ -30,6 +30,9 @@ make install DESTDIR=%{buildroot} BINDIR=%{_libdir}/xen/bin
 %{_libdir}/xen/bin/emu-manager
 
 %changelog
+* Mon Nov 19 2018 Samuel Verschelde <stormi-xcp@ylix.fr> - 0.0.7-1
+- Live migration fixes.
+
 * Thu Nov 08 2018 Samuel Verschelde <stormi-xcp@ylix.fr> - 0.0.6-2
 - Update to 0.0.6 to improve migration of VMs under load.
 - In most cases migration will now resume when the VM's CPU and/or IO usage decreases.
