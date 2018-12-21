@@ -1,5 +1,5 @@
 Name:           xcp-emu-manager
-Version:        0.0.7
+Version:        0.0.8
 Release:        1
 Summary:        Tool used for managing xenguest
 License:        LGPL
@@ -7,6 +7,7 @@ URL:            https://github.com/xcp-ng/xcp-emu-manager
 Source0:        https://github.com/xcp-ng/xcp-emu-manager/archive/v%{version}/%{name}-%{version}.tar.gz
 BuildRequires:  make
 BuildRequires:  xs-opam-repo
+BuildRequires:  ocaml-xcp-idl-devel
 
 Provides:	emu-manager
 Obsoletes:	emu-manager
@@ -30,6 +31,9 @@ make install DESTDIR=%{buildroot} BINDIR=%{_libdir}/xen/bin
 %{_libdir}/xen/bin/emu-manager
 
 %changelog
+* Wed Dec 19 2018 Samuel Verschelde <stormi-xcp@ylix.fr> - 0.0.8-1
+- Live migration fixes, with new loop logic.
+
 * Mon Nov 19 2018 Samuel Verschelde <stormi-xcp@ylix.fr> - 0.0.7-1
 - Live migration fixes.
 
