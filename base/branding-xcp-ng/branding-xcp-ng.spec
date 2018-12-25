@@ -1,12 +1,13 @@
 Name:           branding-xcp-ng
 Version:        7.6.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        XCP-ng branding
 Group:          System/Hypervisor
 License:        ISC
 URL:            https://github.com/xcp-ng/branding-xcp-ng
 Source0:        https://github.com/xcp-ng/branding-xcp-ng/archive/v%{version}/branding-xcp-ng-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-root
+BuildArch:      noarch
 Requires:       python
 
 %description
@@ -28,6 +29,8 @@ This package contains branding information for XCP-ng.
 %exclude %{_usrsrc}/branding/*.pyo
 
 %changelog
+* Tue Dec 25 2018 Robin Lee <cheeselee@fedoraproject.org> - 7.6.0-2
+- Change to noarch
 * Wed Sep 12 2018 Samuel Verschelde <stormi-xcp@ylix.fr> - 7.6.0-1
 - Update for XCP-ng 7.6.0
 * Thu Jun 21 2018 Samuel Verschelde <stormi-xcp@ylix.fr> - 1.0.1-1
