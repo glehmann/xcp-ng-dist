@@ -1,0 +1,55 @@
+From 598e5bc77149b4ab72d625e9b45da6b710bb1ab1 Mon Sep 17 00:00:00 2001
+From: Samuel Verschelde <stormi@laposte.net>
+Date: Tue, 8 Jan 2019 10:43:46 +0100
+Subject: [PATCH] Do not try to communicate with QEMU when migrating a PV guest
+
+Fixes PV live migration.
+---
+ bin/emu_manager.ml | 34 ++++++++++++++++++++--------------
+ 1 file changed, 20 insertions(+), 14 deletions(-)
+
+diff --git a/bin/emu_manager.ml b/bin/emu_manager.ml
+index 62b137c..413b190 100644
+--- a/bin/emu_manager.ml
++++ b/bin/emu_manager.ml
+@@ -12,20 +12,26 @@ let save sock control_in_chan control_out_chan hvm domid save_params =
+ 
+   if save_params.Params.live
+   then begin
+-    let qmp_path = Printf.sprintf "/var/run/xen/qmp-libxl-%d" domid in
+-    let qmp_sock = Qmp_protocol.connect qmp_path in
+-
+-    let (_ : Qmp.message) = Qmp_protocol.read qmp_sock in
+-    Qmp_protocol.write qmp_sock Qmp.(Command (None, Qmp_capabilities));
+-    let (_ : Qmp.message) = Qmp_protocol.read qmp_sock in
+-
+-    Xenguest.(send sock Track_dirty);
+-    Xenguest.(send sock Migrate_progress);
+-
+-    Qmp_protocol.write qmp_sock
+-      Qmp.(Command (None, Xen_set_global_dirty_log true));
+-    let (_ : Qmp.message) = Qmp_protocol.read qmp_sock in
+-    Qmp_protocol.close qmp_sock;
++    if hvm
++    then begin
++      debug "Initiating QMP";
++      let qmp_path = Printf.sprintf "/var/run/xen/qmp-libxl-%d" domid in
++      let qmp_sock = Qmp_protocol.connect qmp_path in
++      let (_ : Qmp.message) = Qmp_protocol.read qmp_sock in
++      Qmp_protocol.write qmp_sock Qmp.(Command (None, Qmp_capabilities));
++      let (_ : Qmp.message) = Qmp_protocol.read qmp_sock in
++
++      Xenguest.(send sock Track_dirty);
++      Xenguest.(send sock Migrate_progress);
++
++      Qmp_protocol.write qmp_sock
++        Qmp.(Command (None, Xen_set_global_dirty_log true));
++      let (_ : Qmp.message) = Qmp_protocol.read qmp_sock in
++      Qmp_protocol.close qmp_sock
++    end else begin
++      Xenguest.(send sock Track_dirty);
++      Xenguest.(send sock Migrate_progress);
++    end;
+ 
+     Control.(send control_out_chan Prepare);
+     Control.(expect_done control_in_chan);
