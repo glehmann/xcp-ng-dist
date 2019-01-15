@@ -1,11 +1,10 @@
 Name:           xcp-emu-manager
-Version:        0.0.8
-Release:        2
+Version:        0.0.9
+Release:        1
 Summary:        Tool used for managing xenguest
 License:        LGPL
 URL:            https://github.com/xcp-ng/xcp-emu-manager
 Source0:        https://github.com/xcp-ng/xcp-emu-manager/archive/v%{version}/%{name}-%{version}.tar.gz
-Patch0:         xcp-emu-manager-0.0.8-fix-pv-migration.XCP-ng.patch
 BuildRequires:  make
 BuildRequires:  xs-opam-repo
 BuildRequires:  ocaml-xcp-idl-devel
@@ -32,6 +31,11 @@ make install DESTDIR=%{buildroot} BINDIR=%{_libdir}/xen/bin
 %{_libdir}/xen/bin/emu-manager
 
 %changelog
+* Thu Jan 10 2019 Samuel Verschelde <stormi-xcp@ylix.fr> - 0.0.9-1
+- New version 0.0.9
+- Better logs in case of unexpected end of process
+- Migration of PV guests fixed
+
 * Tue Jan 08 2019 Samuel Verschelde <stormi-xcp@ylix.fr> - 0.0.8-2
 - Fix live migration of PV guests
 
