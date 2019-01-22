@@ -1,18 +1,9 @@
 %global srcname bitarray
 %global sum Efficient Array of Booleans --C Extensions
-%{!?python_sitearch: %define python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
-
-# Python3 not available in el6
-%if 0%{?rhel} > 1 && 0%{?rhel} < 7
-    %bcond_with py3
-%else
-    %bcond_without py3
-%endif
-
 
 Name:           python-%{srcname}
 Version:        0.8.3
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        %{sum}
 
 Group:          Development/Languages
@@ -20,18 +11,10 @@ License:        Python
 URL:            http://pypi.python.org/pypi/%{srcname}/
 Source0:        http://pypi.python.org/packages/source/b/%{srcname}/%{srcname}-%{version}.tar.gz
 
-BuildRequires:  python2-devel
 BuildRequires:  gcc
-%if 0%{?rhel}
-BuildRequires:  python-setuptools
-%else
-BuildRequires:  python2-setuptools
-%endif
-
-%if %{with py3}
 BuildRequires:  python%{python3_pkgversion}-devel
 BuildRequires:  python%{python3_pkgversion}-setuptools
-%endif
+
 
 %description
 Bitarrays are sequence types and behave very much like usual lists.
@@ -44,25 +27,6 @@ dealing with compressed data which uses variable bit length encoding
 you may find this module useful.
 
 
-%package -n python2-%{srcname}
-Summary:  %{sum}
-Provides: python-%{srcname} = %{version}-%{release}
-Obsoletes: python-%{srcname} < %{version}-%{release}
-%{?python_provide:%python_provide python2-%{srcname}}
-
-%description -n python2-%{srcname}
-Bitarrays are sequence types and behave very much like usual lists.
-Eight bits are represented by one byte in contiguous block of memory.
-The user can select between two representations; little-endian and big-endian.
-Most of the functionality is implemented in C.Methods for accessing the machine
-representation are provided. This can be useful when bit level access to binary
-files is required, such as portable bitmap image files (.pbm). Also, when
-dealing with compressed data which uses variable bit length encoding
-you may find this module useful.
-This is Python 2 version.
-
-
-%if %{with py3}
 %package -n python%{python3_pkgversion}-%{srcname}
 Summary:  %{sum}
 %{?python_provide:%python_provide python%{python3_pkgversion}-%{srcname}}
@@ -77,37 +41,28 @@ files is required, such as portable bitmap image files (.pbm). Also, when
 dealing with compressed data which uses variable bit length encoding
 you may find this module useful.
 This is Python 3 version.
-%endif
 
 
 %prep
 %setup -q -n %{srcname}-%{version}
 
 %build
-%py2_build
-%if %{with py3}
 %py3_build
-%endif
 
 
 %install
-%py2_install
-%if %{with py3}
 %py3_install
-%endif
 
 
-%files -n python2-%{srcname}
-%{python2_sitearch}/*
-
-
-%if %{with py3}
 %files -n python%{python3_pkgversion}-%{srcname}
-%{python3_sitearch}/*
-%endif
+%{python3_sitearch}/%{srcname}*
 
 
 %changelog
+* Tue Jan 22 2019 Miro Hrončok <mhroncok@redhat.com> - 0.8.3-4
+- Subpackage python2-bitarray has been removed
+  See https://fedoraproject.org/wiki/Changes/Mass_Python_2_Package_Removal
+
 * Mon Jul 23 2018 Nick Bebout <nb@fedoraproject.org> - 0.8.3-3
 - Add gcc to BuildRequires
 
