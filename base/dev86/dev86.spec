@@ -3,7 +3,6 @@ Name: dev86
 Version: 0.16.21
 Release: 12%{?dist}
 License: GPL+ and GPLv2+ and LGPLv2+
-Group: Development/Languages
 URL: http://v3.sk/~lkundrak/dev86/
 Source: http://v3.sk/~lkundrak/dev86/archive/Dev86src-%{version}.tar.gz
 Patch0: dev86-noelks.patch
