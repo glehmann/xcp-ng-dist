@@ -6,7 +6,6 @@ Version:        0.8.3
 Release:        4%{?dist}
 Summary:        %{sum}
 
-Group:          Development/Languages
 License:        Python
 URL:            http://pypi.python.org/pypi/%{srcname}/
 Source0:        http://pypi.python.org/packages/source/b/%{srcname}/%{srcname}-%{version}.tar.gz
