@@ -3,7 +3,7 @@
 
 Name:           python-%{srcname}
 Version:        0.8.3
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        %{sum}
 
 License:        Python
@@ -58,6 +58,9 @@ This is Python 3 version.
 
 
 %changelog
+* Sat Feb 02 2019 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.3-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_30_Mass_Rebuild
+
 * Tue Jan 22 2019 Miro Hrončok <mhroncok@redhat.com> - 0.8.3-4
 - Subpackage python2-bitarray has been removed
   See https://fedoraproject.org/wiki/Changes/Mass_Python_2_Package_Removal
