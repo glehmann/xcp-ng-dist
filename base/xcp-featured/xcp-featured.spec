@@ -12,7 +12,7 @@ BuildRequires:  xs-opam-repo
 BuildRequires:  ocaml-xcp-idl-devel
 BuildRequires:  xapi-client-devel
 
-%{systemd_requires}
+%{?systemd_requires}
 
 %description
 This package contains an RPC serving daemon, which reports the features
