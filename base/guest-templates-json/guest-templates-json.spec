@@ -1,6 +1,6 @@
 Name:    guest-templates-json
 Summary: Creates the default guest templates
-Version: 1.7.8
+Version: 1.7.11
 Release: 1
 License: BSD
 Source0: https://code.citrite.net/rest/archive/latest/projects/XS/repos/%{name}/archive?at=v%{version}&format=tar.gz&prefix=%{name}-%{version}#/%{name}-%{version}.tar.gz
@@ -117,6 +117,15 @@ install -m 755 62-create-guest-templates %{buildroot}%{_sysconfdir}/firstboot.d
 %{templatedir}/other-install-media.json
 
 %changelog
+* Thu Jun 28 2018 Ross Lagerwall <ross.lagerwall@citrix.com> - 1.7.11-1
+- CA-292656: Fix device-model typo
+
+* Mon Jun 25 2018 Simon Rowe <simon.rowe@citrix.com> - 1.7.10-1
+- CP-28459: Add new Ubuntu 18.04 template for Lima
+
+* Wed May 30 2018 Simon Rowe <simon.rowe@citrix.com> - 1.7.9-1
+- CA-290004: Change SLE.12 PV templates to use 'hvc' as their console
+
 * Wed Mar 28 2018 Ross Lagerwall <ross.lagerwall@citrix.com> - 1.7.8-1
 - CP-17721: Use qemu-upstream-compat for new VMs
 - Increment user_version for QEMU upstream changes
