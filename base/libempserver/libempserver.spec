@@ -1,11 +1,13 @@
 Summary: A library of functions for running an emp server
 Name: libempserver
-Version: 1.0.3
-Release: 1
+Version: 1.0.4
+Release: 2
 License: BSD
 Source0: https://code.citrite.net/rest/archive/latest/projects/XS/repos/%{name}/archive?at=v%{version}&prefix=%{name}-%{version}&format=tar.gz#/%{name}-%{version}.tar.gz
 
 BuildRequires: json-c-devel
+Requires(post): /sbin/ldconfig
+Requires(postun): /sbin/ldconfig
 
 %description
 libempserver is a library of functions for creating an
@@ -17,22 +19,53 @@ hardware emulators used to support a virtual machine.
 %autosetup -p1
 
 %build
-make %{?_smp_mflags}
+%{make_build}
 
 %install
-%{__install} -d %{buildroot}/%{_libdir}
-%{__install} %{name}.a %{buildroot}/%{_libdir}/
-
-%{__install} -d %{buildroot}/%{_includedir}
-%{__install} %{name}.h %{buildroot}/%{_includedir}/
-%{__install} emp.h %{buildroot}/%{_includedir}/
+%{makeinstall}
 
 %files
+%{_libdir}/%{name}.so.1
+%{_libdir}/%{name}.so.1.0
+
+%post -p /sbin/ldconfig
+%postun -p /sbin/ldconfig
+
+%package devel
+Summary: Development headers for libempserver
+Requires: %{name}%{?_isa} = %{version}-%{release}
+
+%description devel
+libempserver is a library of functions for creating an
+emp server, to allow an emp client (such as emu-manager) to connect
+and control the process.  The emp protocol is intended to be used by
+hardware emulators used to support a virtual machine.
+
+This package provides documentation and development headers for
+libempserver
+
+%files devel
 %doc LICENSE
-%{_libdir}/*
-%{_includedir}/*
+%{_includedir}/emp.h
+%{_includedir}/%{name}.h
+%{_libdir}/%{name}.a
+%{_libdir}/%{name}.so
 
 %changelog
+* Wed Jul 18 2018 Tim Smith <tim.smith@citrix.com> - 1.0.4-2
+- Add ldconfig pre/post scriptlets
+
+* Tue Jul 03 2018 Simon Rowe <simon.rowe@citrix.com> - 1.0.4-1
+- CA-293082 - Build libempserver as a dynamic object
+- CA-293082 - Set the library SONAME
+
+* Thu Jun 28 2018 Andrew Cooper <andrew.cooper3@citrix.com> - 1.0.3-3
+- Build libempserver as a dynamic library
+
+* Wed Jun 20 2018 Tim Smith <tim.smith@citrix.com> - 1.0.3-2
+- Create static and devel subpackages to reflect the fact that this is a static
+  library used only at build time.
+
 * Mon Apr 09 2018 Simon Rowe <simon.rowe@citrix.com> - 1.0.3-1
 - CA-285283: Allow poll to be used in place of select.
 
