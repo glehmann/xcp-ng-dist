@@ -1,6 +1,6 @@
 Name: xs-opam-src
 Version: 4.11.0
-Release: 1.1.xcp%{?dist}
+Release: 1.2%{?dist}
 Summary: Opam repository
 License: Various
 URL: https://github.com/xapi-project/xs-opam/archive/4.11.0/xs-opam-4.11.0.tar.gz
