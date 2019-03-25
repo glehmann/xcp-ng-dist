@@ -1,6 +1,6 @@
 Name:		biosdevname
 Version:	0.3.10
-Release:	2
+Release:	2%{dist}
 Summary:	Helper for naming devices per BIOS names
 
 Group:		System Environment/Base
