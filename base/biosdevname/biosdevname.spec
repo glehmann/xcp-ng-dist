@@ -20,6 +20,7 @@ Patch4:         biosdevname-disable-vm-check.patch
 Patch5:         biosdevname-fix-output-format.patch
 
 BuildRoot:	%(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
+BuildRequires:  gcc
 BuildRequires:	pciutils-devel, zlib-devel
 
 %define _default_patch_fuzz 0
