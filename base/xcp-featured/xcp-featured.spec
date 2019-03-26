@@ -22,11 +22,9 @@ available on an xcp-ng host.
 %autosetup -p1
 
 %build
-eval $(opam config env --root=/usr/lib/opamroot)
 DESTDIR=%{buildroot} %{__make}
 
 %install
-eval $(opam config env --root=/usr/lib/opamroot)
 DESTDIR=%{buildroot} LIBEXECDIR=/opt/xensource/libexec %{__make} install
 ln -s /opt/xensource/libexec/xcp-featured %{buildroot}/opt/xensource/libexec/v6d
 %{__install} -D -m 0644 %{SOURCE1} %{buildroot}%{_unitdir}/v6d.service
