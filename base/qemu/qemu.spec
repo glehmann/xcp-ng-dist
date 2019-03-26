@@ -2,7 +2,7 @@ Summary: qemu-dm device model
 Name: qemu
 Epoch: 2
 Version: 2.10.2
-Release: 4.0.4
+Release: 4.0.4%{dist}
 License: GPL
 Requires: jemalloc
 Requires: xs-clipboardd
