@@ -1,7 +1,7 @@
 Name:    guest-templates-json
 Summary: Creates the default guest templates
 Version: 1.7.11
-Release: 1
+Release: 1%{dist}
 License: BSD
 Source0: https://code.citrite.net/rest/archive/latest/projects/XS/repos/%{name}/archive?at=v%{version}&format=tar.gz&prefix=%{name}-%{version}#/%{name}-%{version}.tar.gz
 BuildArch: noarch
