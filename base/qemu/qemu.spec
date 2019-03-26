@@ -99,6 +99,7 @@ Patch88: do_not_register_xen_backend_for_qdisk.patch
 Patch89: add-an-ide-read-cache.patch
 Patch90: build-configuration.patch
 Source1: qemu_trad_image.py
+BuildRequires: gcc
 BuildRequires: libaio-devel glib2-devel
 BuildRequires: libjpeg-devel libpng-devel pixman-devel libdrm-devel
 BuildRequires: xen-dom0-devel xen-libs-devel libusbx-devel
