@@ -1,6 +1,6 @@
 Name: vmss
 Version: 1.1.0
-Release: 1
+Release: 1%{dist}
 Summary: REQ-277 schedule snapshots feature 
 License: GNU / GPLv2
 Source0: https://code.citrite.net/rest/archive/latest/projects/XS/repos/vmss/archive?at=%{version}&format=tar.gz#/%{name}-%{version}.tar.gz
