@@ -1,7 +1,7 @@
 Name: xen-crashdump-analyser
 Summary: Xen crashdump analyser
 Version: 2.5.2
-Release: 1
+Release: 1%{dist}
 License: GPL
 Group: Applications/System
 Source: https://code.citrite.net/rest/archive/latest/projects/XS/repos/%{name}/archive?at=v%{version}&format=tar.gz&prefix=%{name}-%{version}#/%{name}.tar.gz
