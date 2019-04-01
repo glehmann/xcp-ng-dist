@@ -2,10 +2,10 @@ Summary: qemu-dm device model
 Name: qemu
 Epoch: 2
 Version: 2.10.2
-Release: 4.0.4%{dist}
+Release: 4.0.5%{dist}
 License: GPL
 Requires: jemalloc
-Requires: xs-clipboardd
+Requires: xcp-clipboardd
 Source0: https://code.citrite.net/rest/archive/latest/projects/XSU/repos/%{name}/archive?at=v%{version}&format=tar.gz&prefix=%{name}-%{version}#/%{name}-%{version}.tar.gz
 Patch0: 0001-seccomp-changing-from-whitelist-to-blacklist.patch
 Patch1: 0002-seccomp-add-obsolete-argument-to-command-line.patch
@@ -142,6 +142,9 @@ cp -r scripts/qmp %{buildroot}%{_datarootdir}/qemu
 %{_libexecdir}/*
 
 %changelog
+* Mon Apr 01 2019 Ronan Abhamon <ronan.abhamon@vates.fr> - 2.10.2-4.0.5
+- xcp-clipboardd is now required instead of xs-clipboardd
+
 * Thu Aug 16 2018 Igor Druzhinin <igor.druzhinin@citrix.com> - 2.10.2-4.0.4
 - CA-290647 50% regression in vm<->vm intrahost network throughput
 
