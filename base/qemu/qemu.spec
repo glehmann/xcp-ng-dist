@@ -2,7 +2,7 @@ Summary: qemu-dm device model
 Name: qemu
 Epoch: 2
 Version: 2.10.2
-Release: 4.0.5%{dist}
+Release: 4.0.4.1%{dist}
 License: GPL
 Requires: jemalloc
 Requires: xcp-clipboardd
@@ -142,7 +142,7 @@ cp -r scripts/qmp %{buildroot}%{_datarootdir}/qemu
 %{_libexecdir}/*
 
 %changelog
-* Mon Apr 01 2019 Ronan Abhamon <ronan.abhamon@vates.fr> - 2.10.2-4.0.5
+* Mon Apr 01 2019 Ronan Abhamon <ronan.abhamon@vates.fr> - 2.10.2-4.0.4.1
 - xcp-clipboardd is now required instead of xs-clipboardd
 
 * Thu Aug 16 2018 Igor Druzhinin <igor.druzhinin@citrix.com> - 2.10.2-4.0.4
