@@ -1,20 +1,27 @@
 Name:    guest-templates-json
 Summary: Creates the default guest templates
-Version: 1.7.11
+Version: 1.7.20
 Release: 1
 License: BSD
-Source0: https://code.citrite.net/rest/archive/latest/projects/XS/repos/%{name}/archive?at=v%{version}&format=tar.gz&prefix=%{name}-%{version}#/%{name}-%{version}.tar.gz
+
+Source0: https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.7.20&format=tar.gz&prefix=guest-templates-json-1.7.20#/guest-templates-json-1.7.20.tar.gz
+
+
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.7.20&format=tar.gz&prefix=guest-templates-json-1.7.20#/guest-templates-json-1.7.20.tar.gz) = 7c57fa1e1be8fbdcede12063c7eaebf4f7dd9ac7
+
 BuildArch: noarch
 
 Requires: xapi-core
 BuildRequires: python2-devel
 BuildRequires: python-setuptools
+BuildRequires: python-demjson
 
 %description
 Creates the default guest templates during first boot or package
 install/upgrade.
 
 %package data-linux
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.7.20&format=tar.gz&prefix=guest-templates-json-1.7.20#/guest-templates-json-1.7.20.tar.gz) = 7c57fa1e1be8fbdcede12063c7eaebf4f7dd9ac7
 Summary: Contains the default Linux guest templates
 Requires(post): %{name} = %{version}-%{release}
 
@@ -22,6 +29,7 @@ Requires(post): %{name} = %{version}-%{release}
 Contains the default Linux guest templates.
 
 %package data-windows
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.7.20&format=tar.gz&prefix=guest-templates-json-1.7.20#/guest-templates-json-1.7.20.tar.gz) = 7c57fa1e1be8fbdcede12063c7eaebf4f7dd9ac7
 Summary: Contains the default Windows guest templates
 Requires(post): %{name} = %{version}-%{release}
 
@@ -29,6 +37,7 @@ Requires(post): %{name} = %{version}-%{release}
 Contains the default Windows guest templates.
 
 %package data-xenapp
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.7.20&format=tar.gz&prefix=guest-templates-json-1.7.20#/guest-templates-json-1.7.20.tar.gz) = 7c57fa1e1be8fbdcede12063c7eaebf4f7dd9ac7
 Summary: Contains the default XenApp guest templates
 Requires: %{name}-data-windows = %{version}-%{release}
 Requires(post): %{name} = %{version}-%{release}
@@ -37,6 +46,7 @@ Requires(post): %{name} = %{version}-%{release}
 Contains the default XenApp guest templates.
 
 %package data-other
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.7.20&format=tar.gz&prefix=guest-templates-json-1.7.20#/guest-templates-json-1.7.20.tar.gz) = 7c57fa1e1be8fbdcede12063c7eaebf4f7dd9ac7
 Summary: Contains the default other guest templates
 Requires(post): %{name} = %{version}-%{release}
 
@@ -61,6 +71,9 @@ install -d %{buildroot}%{_sysconfdir}/xapi.d/vm-templates
 install -d %{buildroot}%{_sysconfdir}/firstboot.d
 install -m 755 62-create-guest-templates %{buildroot}%{_sysconfdir}/firstboot.d
 
+%check
+%{__make} check
+
 %post
 /usr/bin/create-guest-templates > /dev/null ||:
 
@@ -84,29 +97,23 @@ install -m 755 62-create-guest-templates %{buildroot}%{_sysconfdir}/firstboot.d
 %{_sysconfdir}/firstboot.d/*
 
 %files data-linux
-%{templatedir}/asianux*.json
 %{templatedir}/base-debian*.json
 %{templatedir}/base-el*.json
 %{templatedir}/base-hvmlinux.json
 %{templatedir}/base-kylin*.json
 %{templatedir}/base-pvlinux.json
 %{templatedir}/base-sl*.json
-%{templatedir}/base-ubuntu*.json
 %{templatedir}/centos*.json
 %{templatedir}/coreos.json
 %{templatedir}/debian*.json
 %{templatedir}/kylin*.json
-%{templatedir}/linx*.json
 %{templatedir}/oel*.json
 %{templatedir}/rhel*.json
 %{templatedir}/sl*.json
-%{templatedir}/turbo*.json
 %{templatedir}/ubuntu*.json
-%{templatedir}/yinhe*.json
 
 %files data-windows
 %{templatedir}/base-windows*.json
-%{templatedir}/legacy-windows.json
 %{templatedir}/windows*.json
 
 %files data-xenapp
@@ -117,6 +124,48 @@ install -m 755 62-create-guest-templates %{buildroot}%{_sysconfdir}/firstboot.d
 %{templatedir}/other-install-media.json
 
 %changelog
+* Thu Feb 21 2019 Sergey Dyasli <sergey.dyasli@citrix.com> - 1.7.20-1
+- CA-310465: disable reference_tsc as it appears to cause problems across migration
+
+* Fri Feb 15 2019 Alex Brett <alex.brett@citrix.com> - 1.7.19-1
+- CP-30588: Remove Asianux, Kylin 5, Linx, GreatTurbo and Yinhe Kylin templates for Naples.
+
+* Thu Feb 14 2019 Ross Lagerwall <ross.lagerwall@citrix.com> - 1.7.18-1
+- CA-310681: disable remote TLB flush hypercall by default
+
+* Wed Feb 06 2019 jenniferhe <jennifer.herbert@citrix.com> - 1.7.17-1
+- CA-307828: Enabled more viridian enlightenments for windows guests
+
+* Mon Jan 14 2019 Yuan Ren <yuan.ren@citrix.com> - 1.7.16-1
+- CP-30013: Update CoreOS, SLES/SLED 15 template for Naples.
+- CP-30191: Remove Debian 6, Ubuntu 12.04 and legacy window templates for Naples.
+
+* Tue Dec 18 2018 Edwin Török <edvin.torok@citrix.com> - 1.7.15-1
+- Revert changes to boot order for BIOS
+
+* Tue Dec 18 2018 Edwin Török <edvin.torok@citrix.com> - 1.7.14-1
+- Flip the boot order between HDD and CD
+- Default some templates to UEFI + SB
+- Windows 10 32-bit and 64-bit will have to be derived from different base templates (64-bit uses UEFI)
+- Windows {10,Server 2016, Server 2019} 64-bit are all derived from UEFI
+- CP-29857: do not set device-model in UEFI mode and add unit test
+- CP-29856: set minimum number of vCPUs to 2
+- fixup! CP-29856: set minimum number of vCPUs to 2
+- fixup! CP-29857: do not set device-model in UEFI mode and add unit test
+- CA-303990: Default Windows 10, 2016, 2019 to BIOS boot
+- CP-30222: remove 'secureboot: true'
+- Revert "CP-29856: set minimum number of vCPUs to 2"
+
+* Fri Sep 28 2018 Ross Lagerwall <ross.lagerwall@citrix.com> - 1.7.13-1
+- CP-28737 : Add Windows Server 2019 template for Naples
+- Replace a per-template user_version with a single version
+- CP-28658 update templates to contain recommendations that they support BIOS, UEFI or Secure Boot
+
+* Thu Aug 30 2018 Simon Rowe <simon.rowe@citrix.com> - 1.7.12-1
+- Add JSON check rule
+- Remove legacy spec file
+- Add a README
+
 * Thu Jun 28 2018 Ross Lagerwall <ross.lagerwall@citrix.com> - 1.7.11-1
 - CA-292656: Fix device-model typo
 
