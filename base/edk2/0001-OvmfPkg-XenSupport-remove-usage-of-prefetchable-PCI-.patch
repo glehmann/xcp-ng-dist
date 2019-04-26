@@ -1,0 +1,49 @@
+From b755f4c424bc754023cafafdccda141def72b7a9 Mon Sep 17 00:00:00 2001
+From: Igor Druzhinin <igor.druzhinin@citrix.com>
+Date: Fri, 24 Aug 2018 23:23:03 +0100
+Subject: [PATCH 1/3] OvmfPkg/XenSupport: remove usage of prefetchable PCI host
+ bridge aperture
+
+This aperture doesn't exist in OVMF and trying to use it causes
+failing assertions later in cases there are prefetchable and
+non-prefetchable BARs following each other. This configuration is
+quite likely with some PCI passthrough devices.
+
+Signed-off-by: Igor Druzhinin <igor.druzhinin@citrix.com>
+---
+ OvmfPkg/Library/PciHostBridgeLib/XenSupport.c | 12 ++----------
+ 1 file changed, 2 insertions(+), 10 deletions(-)
+
+diff --git a/OvmfPkg/Library/PciHostBridgeLib/XenSupport.c b/OvmfPkg/Library/PciHostBridgeLib/XenSupport.c
+index 9204179..c23c46d 100644
+--- a/OvmfPkg/Library/PciHostBridgeLib/XenSupport.c
++++ b/OvmfPkg/Library/PciHostBridgeLib/XenSupport.c
+@@ -129,11 +129,7 @@ PcatPciRootBridgeParseBars (
+           //
+           Length = ((~Length) + 1) & 0xffffffff;
+ 
+-          if ((Value & BIT3) == BIT3) {
+-            MemAperture = PMem;
+-          } else {
+-            MemAperture = Mem;
+-          }
++          MemAperture = Mem;
+         } else {
+           //
+           // 64bit
+@@ -149,11 +145,7 @@ PcatPciRootBridgeParseBars (
+           Length = Length | LShiftU64 ((UINT64) UpperValue, 32);
+           Length = (~Length) + 1;
+ 
+-          if ((Value & BIT3) == BIT3) {
+-            MemAperture = PMemAbove4G;
+-          } else {
+-            MemAperture = MemAbove4G;
+-          }
++          MemAperture = MemAbove4G;
+         }
+ 
+         Limit = Base + Length - 1;
+-- 
+2.7.4
+

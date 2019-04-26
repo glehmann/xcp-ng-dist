@@ -1,0 +1,34 @@
+From 2c18aa64e742b80579d0385f18ab906dc9d41db2 Mon Sep 17 00:00:00 2001
+From: Igor Druzhinin <igor.druzhinin@citrix.com>
+Date: Fri, 24 Aug 2018 23:36:03 +0100
+Subject: [PATCH 2/3] OvmfPkg/XenSupport: use a correct PCI host bridge
+ aperture for BAR64
+
+In case BAR64 is placed below 4G choose the correct aperture.
+This fixes a failed assertion down the code path.
+
+Signed-off-by: Igor Druzhinin <igor.druzhinin@citrix.com>
+---
+ OvmfPkg/Library/PciHostBridgeLib/XenSupport.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/OvmfPkg/Library/PciHostBridgeLib/XenSupport.c b/OvmfPkg/Library/PciHostBridgeLib/XenSupport.c
+index c23c46d..408fb24 100644
+--- a/OvmfPkg/Library/PciHostBridgeLib/XenSupport.c
++++ b/OvmfPkg/Library/PciHostBridgeLib/XenSupport.c
+@@ -145,7 +145,11 @@ PcatPciRootBridgeParseBars (
+           Length = Length | LShiftU64 ((UINT64) UpperValue, 32);
+           Length = (~Length) + 1;
+ 
+-          MemAperture = MemAbove4G;
++          if (Base < 0x100000000) {
++            MemAperture = Mem;
++          } else {
++            MemAperture = MemAbove4G;
++          }
+         }
+ 
+         Limit = Base + Length - 1;
+-- 
+2.7.4
+
