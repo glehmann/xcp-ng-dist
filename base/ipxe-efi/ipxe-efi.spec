@@ -4,7 +4,7 @@
 Name: ipxe-efi
 Summary: iPXE EFI drivers
 Version: %{ipxe_date}git%{ipxe_githash}
-Release: 1.0.0
+Release: 1.0.0%{?dist}
 
 License: GPLv2
 
