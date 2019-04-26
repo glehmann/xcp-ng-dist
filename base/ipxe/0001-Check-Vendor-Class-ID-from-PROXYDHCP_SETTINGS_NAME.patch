@@ -1,0 +1,42 @@
+From f5fe41b5ad0010240a065b6a499b267d4626d7a7 Mon Sep 17 00:00:00 2001
+From: Anoob Soman <anoob.soman@citrix.com>
+Date: Fri, 24 Feb 2017 12:11:00 +0000
+Subject: [PATCH] Check Vendor Class ID from PROXYDHCP_SETTINGS_NAME
+
+Checking for vendor_class_id_setting == 'PXEClient' in have_pxe_menu(), might
+not get us desired result, as fetch_string_setting(vendor_class_id_setting)
+might return DHCP_VENDOR_CLASS_ID from DHCP_SETTINGS_NAME.
+DHCP_VENDOR_CLASS_ID (Option 60) setting in DHCP_SETTINGS_NAME, might not
+have 'PXEClient' as Vendor class identifier. But, DHCP_VENDOR_CLASS_ID
+setting, in PROXYDHCP_SETTINGS_NAME, is expected to have 'PXEClient' as
+Vendor class identifier.
+
+Instead, check for DHCP_VENDOR_CLASS_ID only from PROXYDHCP_SETTINGS_NAME.
+If there are no PROXYDHCP_SETTINGS_NAME, then
+fetch_string_setting(vendor_class_id_setting), will scan through all
+settings.
+
+Signed-off-by: Anoob Soman <anoob.soman@citrix.com>
+---
+ src/usr/autoboot.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/src/usr/autoboot.c b/src/usr/autoboot.c
+index 060001e..613fd50 100644
+--- a/src/usr/autoboot.c
++++ b/src/usr/autoboot.c
+@@ -305,8 +305,10 @@ static int have_pxe_menu ( void ) {
+ 		= { .tag = DHCP_PXE_BOOT_MENU };
+ 	char buf[256];
+ 	unsigned int pxe_discovery_control;
++	struct settings *proxy_settings;
+ 
+-	fetch_string_setting ( NULL, &vendor_class_id_setting,
++	proxy_settings = find_settings ( PROXYDHCP_SETTINGS_NAME );
++	fetch_string_setting ( proxy_settings, &vendor_class_id_setting,
+ 			       buf, sizeof ( buf ) );
+ 	pxe_discovery_control =
+ 		fetch_uintz_setting ( NULL, &pxe_discovery_control_setting );
+-- 
+1.8.3.1
+
