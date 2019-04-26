@@ -31,7 +31,7 @@
 Summary: A network boot loader
 Name: ipxe
 Version: %{date}
-Release: 1.0.2
+Release: 1.0.2%{?dist}
 License: GPLv2
 
 Source0: https://code.citrite.net/rest/archive/latest/projects/XSU/repos/ipxe/archive?at=a712dae709a&format=tar.gz&prefix=ipxe-20121005#/ipxe-20121005.tar.gz
