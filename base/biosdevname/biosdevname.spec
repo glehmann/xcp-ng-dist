@@ -11,13 +11,18 @@ Provides:   xenserver-biosdevname
 # arches don't expect the PCI bus to be sorted breadth-first, or of
 # so, there haven't been any comments about that on LKML.
 ExclusiveArch:	%{ix86} x86_64 ia64
-Source0:	https://repo.citrite.net/xs-local-contrib/dell/biosdevname-0.3.10.tar.gz
-Patch0:         biosdevname-disable-udev.patch
-Patch1:         biosdevname-CA13344.patch
-Patch2:         biosdevname-revert-default-policy.patch
-Patch3:         biosdevname-remove-virtual-devices.patch
-Patch4:         biosdevname-disable-vm-check.patch
-Patch5:         biosdevname-fix-output-format.patch
+
+Source0: https://repo.citrite.net/xs-local-contrib/dell/biosdevname-0.3.10.tar.gz
+Patch0: SOURCES/biosdevname/biosdevname-disable-udev.patch
+Patch1: SOURCES/biosdevname/biosdevname-CA13344.patch
+Patch2: SOURCES/biosdevname/biosdevname-revert-default-policy.patch
+Patch3: SOURCES/biosdevname/biosdevname-remove-virtual-devices.patch
+Patch4: SOURCES/biosdevname/biosdevname-disable-vm-check.patch
+Patch5: SOURCES/biosdevname/biosdevname-fix-output-format.patch
+
+
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/biosdevname/archive?at=1.1.0&format=tar#/biosdevname.patches.tar) = d537600dae9ae8013c344414c9df7755508a00d0
+
 
 BuildRoot:	%(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 BuildRequires:  gcc
