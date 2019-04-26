@@ -1,16 +1,22 @@
 Summary: blktap user space utilities
 Name: blktap
-Version: 3.12.0
-Release: 1.0%{dist}
+Version: 3.22.0
+Release: 1.0%{?dist}
 License: BSD
 Group: System/Hypervisor
 URL: https://github.com/xapi-project/blktap
-Source0: https://code.citrite.net/rest/archive/latest/projects/XSU/repos/%{name}/archive?at=v%{version}&format=tar.gz&prefix=%{name}-%{version}#/%{name}-%{version}.tar.gz
+
+Source0: https://code.citrite.net/rest/archive/latest/projects/XSU/repos/blktap/archive?at=v3.22.0&format=tar.gz&prefix=blktap-3.22.0#/blktap-3.22.0.tar.gz
+
+
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XSU/repos/blktap/archive?at=v3.22.0&format=tar.gz&prefix=blktap-3.22.0#/blktap-3.22.0.tar.gz) = 2e5f283661fe5720f753445dcd19431f51f64313
+
 
 BuildRoot: %{_tmppath}/%{name}-%{release}-buildroot
 Obsoletes: xen-blktap
 BuildRequires: e2fsprogs-devel, libaio-devel, systemd, autogen, autoconf, automake, libtool, libuuid-devel
 BuildRequires: xen-devel, kernel-headers, xen-dom0-libs-devel, zlib-devel, xen-libs-devel, libcmocka-devel, lcov, git
+BuildRequires: openssl-devel
 Requires(post): systemd
 Requires(post): /sbin/ldconfig
 Requires(preun): systemd
@@ -32,6 +38,7 @@ destroy and manipulate devices ('tap-ctl'), the 'tapdisk' driver
 program to perform tap devices I/O, and a number of image drivers.
 
 %package devel
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XSU/repos/blktap/archive?at=v3.22.0&format=tar.gz&prefix=blktap-3.22.0#/blktap-3.22.0.tar.gz) = 2e5f283661fe5720f753445dcd19431f51f64313
 Summary: BlkTap Development Headers and Libraries
 Requires: blktap = %{version}
 Group: Development/Libraries
@@ -46,7 +53,7 @@ Blktap and VHD development files.
 %build
 echo -n %{version} > VERSION
 sh autogen.sh
-%configure
+%configure LDFLAGS="$LDFLAGS -Wl,-rpath=/lib64/citrix"
 %{?cov_wrap} make %{?coverage:GCOV=true}
 
 %check
@@ -124,6 +131,63 @@ fi
 %posttrans -p /sbin/ldconfig
 
 %changelog
+* Wed Mar 06 2019 Mark Syms <mark.syms@citrix.com> - 3.22.0-1
+- CA-312256: remove extraneous tracing from libvhd
+
+* Fri Feb 08 2019 Mark Syms <mark.syms@citrix.com> - 3.21.0-1
+- Address coverity issue in vhd_cache_load
+- CA-307886: add tracing for failure cases
+- Fix coverity issues in tests
+- CA-310477: fix race in create tap-ctl directory
+
+* Wed Jan 23 2019 Mark Syms <mark.syms@citrix.com> - 3.20.0-1
+- CA-306397: amend tracing in physical_device_changed.
+- CA-306397: consider empty string read from xs_read to be equiv to NULL
+
+* Tue Jan 08 2019 Mark Syms <mark.syms@citrix.com> - 3.19.0-1
+- CA-305951: change xattr_get to tolerate ENOTSUP error
+
+* Mon Dec 17 2018 Mark Syms <mark.syms@citrix.com> - 3.18.0-1
+- CA-304648: add guard asserts to prevent overwriting the header
+- CA-304653: round up the required number of BAT entries so that the entire data size is accomodated
+- CA-304945: Only load crypto library when encryption is used
+- CA-304562 Stats use-after-free
+
+* Wed Nov 28 2018 Mark Syms <mark.syms@citrix.com> - 3.17.0-1
+- CA-303668: check that both name and new name are passed to vhd-util copy
+- CA-303671: initialise variable so that -B functions
+- CA-302889: Correct vhd-util copy help strings
+
+* Tue Nov 27 2018 Bob Ball <bob.ball@citrix.com> - 3.16.0-2
+- CP-30093: Separate sub-package for vhd-util and dependencies
+
+* Fri Nov 16 2018 Mark Syms <mark.syms@citrix.com> - 3.16.0-1
+- CA-299175 Guard against NULL devices
+- VHD keyhash support
+- VHD encryption support
+- remove unused functions
+- Only set the image keyhash if we've loaded it
+- CP-29602:  remove replication of check for vhd encrpyption
+- CP-29690: Update tap-ctl open to take encryption key
+- CP-29690: Pass encryption key data down to block-crypto
+- CP-29777: VDI.snapshot for encrypted VDIs
+- CP-29812: split crypto routines into shared library and dynamically load
+- CP-29890: Implement vhd-util copy with optional encryption.
+
+* Mon Oct 15 2018 Mark Syms <mark.syms@citrix.com> - 3.15.0-1
+- CP-24320: fix resource leak in vhd-journal.c
+- CP-24319: fix resource leak in tapdisk_vbd_add_block_cache
+- CP-24321: fix resource leak in vhd_w2u_decode_location
+- CP-24323: fix resource leak in vhd_journal_read_batmap_header
+- CA-299656: use sizeof(struct sockaddr_in) not the pointer
+- Address coverity issues in tapdisk-control.c
+
+* Mon Oct 01 2018 Mark Syms <mark.syms@citrix.com> - 3.14.0-1
+- CA-295527: more logging for tap-ctl allocate failures
+
+* Fri Sep 07 2018 Mark Syms <mark.syms@citrix.com> - 3.13.0-1
+- CA-295527: Add some more diagnostics so that we know which bit of allocate errors
+
 * Mon Aug 06 2018 Mark Syms <mark.syms@citrix.com> - 3.12.0-1
 - CA-227096 Allow stashed passed fds to overwrite with the same name
 
@@ -188,6 +252,7 @@ fi
 
 
 %package testresults
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XSU/repos/blktap/archive?at=v3.22.0&format=tar.gz&prefix=blktap-3.22.0#/blktap-3.22.0.tar.gz) = 2e5f283661fe5720f753445dcd19431f51f64313
 Group:    System/Hypervisor
 Summary:  test results for blktap package
 
@@ -196,3 +261,20 @@ The package contains the build time test results for the blktap package
 
 %files testresults
 /testresults
+
+%package -n vhd-util-standalone
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XSU/repos/blktap/archive?at=v3.22.0&format=tar.gz&prefix=blktap-3.22.0#/blktap-3.22.0.tar.gz) = 2e5f283661fe5720f753445dcd19431f51f64313
+Group:   System/Hypervisor
+Summary: Standalone vhd-util binary
+Conflicts: blktap
+
+%description -n vhd-util-standalone
+The package contains a standalone vhd-util binary which can be installed
+without requiring other libraries
+
+%files -n vhd-util-standalone
+%{_bindir}/vhd-util
+%{_libdir}/libvhd.so
+%{_libdir}/libvhd.so.*
+%{_libdir}/libblockcrypto.so
+%{_libdir}/libblockcrypto.so.*
