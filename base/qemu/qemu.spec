@@ -2,11 +2,15 @@ Summary: qemu-dm device model
 Name: qemu
 Epoch: 2
 Version: 2.10.2
-Release: 4.0.4
+Release: 4.2.0
 License: GPL
 Requires: jemalloc
 Requires: xs-clipboardd
-Source0: https://code.citrite.net/rest/archive/latest/projects/XSU/repos/%{name}/archive?at=v%{version}&format=tar.gz&prefix=%{name}-%{version}#/%{name}-%{version}.tar.gz
+Requires: xengt-userspace
+
+Source0: https://code.citrite.net/rest/archive/latest/projects/XSU/repos/qemu/archive?at=v2.10.2&format=tar.gz&prefix=qemu-2.10.2#/qemu-2.10.2.tar.gz
+Source1: SOURCES/qemu/qemu_trad_image.py
+
 Patch0: 0001-seccomp-changing-from-whitelist-to-blacklist.patch
 Patch1: 0002-seccomp-add-obsolete-argument-to-command-line.patch
 Patch2: 0003-seccomp-add-elevateprivileges-argument-to-command-li.patch
@@ -39,68 +43,81 @@ Patch28: 0019-ui-add-trace-events-related-to-VNC-client-throttling.patch
 Patch29: 0020-ui-mix-misleading-comments-return-types-of-VNC-I-O-h.patch
 Patch30: 0021-ui-avoid-sign-extension-using-client-width-height.patch
 Patch31: 0010-vga-check-the-validation-of-memory-addr-when-draw-te.patch
-Patch32: vga-fix-region-calculation.patch
-Patch33: xen-platform-add-device-id-property.patch
-Patch34: xen-platform-add-class-id-property.patch
-Patch35: xen-platform-add-revision-property.patch
-Patch36: 0001-xen-platform-Handle-write-of-four-byte-build-number-.patch
-Patch37: 0002-xen-platform-Provide-QMP-query-commands-for-XEN-PV-d.patch
-Patch38: 0003-xen-platform-Emit-XEN_PLATFORM_PV_DRIVER_INFO-after-.patch
-Patch39: dont-set-a20-on-xen.patch
-Patch40: dont-init-cpus-on-xen.patch
-Patch41: 0001-xen-Emit-RTC_CHANGE-upon-TIMEOFFSET-ioreq.patch
-Patch42: remove-ioapic.patch
-Patch43: 0001-xen-pvdevice-Introduce-a-simplistic-xen-pvdevice-sav.patch
-Patch44: 0001-pc-Do-not-expect-to-have-a-fw_cfg-device.patch
-Patch45: 0003-xen-apic-Implement-unrealize.patch
-Patch46: 0004-hotplug-Implement-legacy-CPU-hot-unplug.patch
-Patch47: 0001-migration-Don-t-leak-IO-channels.patch
-Patch48: 0002-io-Fix-QIOChannelFile-when-creating-and-opening-read.patch
-Patch49: 0003-io-Don-t-call-close-multiple-times-in-QIOChannelFile.patch
-Patch50: 0004-io-Add-dev-fdset-support-to-QIOChannelFile.patch
-Patch51: save-device-check-return.patch
-Patch52: disable-dirty-vram-tracking.patch
-Patch53: 0001-xen-link-against-xentoolcore.patch
-Patch54: 0002-xen-restrict-use-xentoolcore_restrict_all.patch
-Patch55: 0003-xen-defer-call-to-xen_restrict-until-just-before-os_setup_post.patch
-Patch56: 0004-xen-destroy_hvm_domain-Move-reason-into-a-variable.patch
-Patch57: 0005-xen-move-xc_interface-compatibility-fallback-further-up-the-file.patch
-Patch58: 0006-xen-destroy_hvm_domain-Try-xendevicemodel_shutdown.patch
-Patch59: 0007-os-posix-Provide-new--runas-uid-.-gid-facility.patch
-Patch60: use-new-dmops-for-vram.patch
-Patch61: xenstore-ignore-state-write-error.patch
-Patch62: igd-upt.patch
-Patch63: xen-pt-use-address_space_memory-object-for-memory-region-hooks.patch
-Patch64: pt-avoid-invalid-bar-registers.patch
-Patch65: 0001-xen-hvm-correct-reporting-of-modified-memory-under-p.patch
-Patch66: pt-fix-bar64-size.patch
-Patch67: reserve-mmio-hole.patch
-Patch68: 0001-CP-20436-Introduce-a-config-option-for-machines-comp.patch
-Patch69: pci-add-subsystem-id-properties.patch
-Patch70: pci-add-revision_id-property.patch
-Patch71: force-lba-geometry.patch
-Patch72: 0001-CP-21767-Don-t-accidently-unplug-ourselves-if-PCI_CL.patch
-Patch73: 0001-CP-21434-Implement-VBE-LFB-physical-address-register.patch
-Patch74: 0001-CA-256542-Workaround-unassigned-accesses-caused-by-b.patch
-Patch75: ignore-rtc-century-changes.patch
-Patch76: match-xen-pvdevice-location.patch
-Patch77: 0001-CA-289906-Use-legacy-HID-descriptors-for-USB-Tablet-.patch
-Patch78: 0001-CP-17697-Initial-port-of-NVIDIA-VGPU-support-from-QEMU-trad.patch
-Patch79: usb-batch-frames.patch
-Patch80: 0001-CP-23753-Talk-to-new-clipboard-daemon.patch
-Patch81: gvt-g.patch
-Patch82: 0001-Update-fd-handlers-to-support-sysfs_notify.patch
-Patch83: 0002-Fix-up-PCI-command-register-for-AMD-ATI-GPU-VFs.patch
-Patch84: 0003-Add-interception-layer-for-BAR-ops.patch
-Patch85: 0004-Add-AMD-code.patch
-Patch86: rtc-no-ratelimit.patch
-Patch87: 0001-CA-239469-Avoid-bind-listen-race-on-a-socket-with-SO.patch
-Patch88: do_not_register_xen_backend_for_qdisk.patch
-Patch89: add-an-ide-read-cache.patch
-Patch90: build-configuration.patch
-Source1: qemu_trad_image.py
+Patch32: 0001-vga-fix-region-calculation.patch
+Patch33: 0001-migration-Don-t-leak-IO-channels.patch
+Patch34: 0001-io-Fix-QIOChannelFile-when-creating-and-opening-read.patch
+Patch35: 0001-io-Don-t-call-close-multiple-times-in-QIOChannelFile.patch
+Patch36: 0001-io-Add-dev-fdset-support-to-QIOChannelFile.patch
+Patch37: 0001-migration-xen-Check-return-value-of-qemu_fclose.patch
+Patch38: 0001-xen-pvdevice-Introduce-a-simplistic-xen-pvdevice-sav.patch
+Patch39: 0001-xen-hvm-correct-reporting-of-modified-memory-under-p.patch
+Patch40: 0001-xen_pt-Present-the-size-of-64-bit-BARs-correctly.patch
+Patch41: 0001-xen-pt-use-address_space_memory-object-for-memory-re.patch
+Patch42: 0001-xen-Use-newly-added-dmops-for-mapping-VGA-memory.patch
+Patch43: 0001-xen-hvm-create-separate-function-for-ioreq-server-in.patch
+Patch44: 0001-xen-hvm-try-to-use-xenforeignmemory_map_resource-to-.patch
+Patch45: 0003-nvme-don-t-unref-ctrl_mem-when-device-unrealized.patch
+Patch46: 0004-nvme-free-cmbuf-in-nvme_exit.patch
+Patch47: 0005-nvme-fix-oob-access-issue-CVE-2018-16847.patch
+Patch48: 0001-nvme-call-blk_drain-in-NVMe-reset-code-to-avoid-lock.patch
+Patch49: xen-platform-add-device-id-property.patch
+Patch50: xen-platform-add-class-id-property.patch
+Patch51: xen-platform-add-revision-property.patch
+Patch52: 0001-xen-platform-Handle-write-of-four-byte-build-number-.patch
+Patch53: 0002-xen-platform-Provide-QMP-query-commands-for-XEN-PV-d.patch
+Patch54: 0003-xen-platform-Emit-XEN_PLATFORM_PV_DRIVER_INFO-after-.patch
+Patch55: dont-set-a20-on-xen.patch
+Patch56: dont-init-cpus-on-xen.patch
+Patch57: 0001-xen-Emit-RTC_CHANGE-upon-TIMEOFFSET-ioreq.patch
+Patch58: remove-ioapic.patch
+Patch59: ignore-rtc-century-changes.patch
+Patch60: 0001-pc-Do-not-expect-to-have-a-fw_cfg-device.patch
+Patch61: 0003-xen-apic-Implement-unrealize.patch
+Patch62: 0004-hotplug-Implement-legacy-CPU-hot-unplug.patch
+Patch63: 0001-xen-link-against-xentoolcore.patch
+Patch64: 0002-xen-restrict-use-xentoolcore_restrict_all.patch
+Patch65: 0003-xen-defer-call-to-xen_restrict-until-just-before-os_setup_post.patch
+Patch66: 0004-xen-destroy_hvm_domain-Move-reason-into-a-variable.patch
+Patch67: 0005-xen-move-xc_interface-compatibility-fallback-further-up-the-file.patch
+Patch68: 0006-xen-destroy_hvm_domain-Try-xendevicemodel_shutdown.patch
+Patch69: 0007-os-posix-Provide-new--runas-uid-.-gid-facility.patch
+Patch70: xenstore-ignore-state-write-error.patch
+Patch71: igd-upt.patch
+Patch72: pt-avoid-invalid-bar-registers.patch
+Patch73: check-unmigratable-devices-when-saving.patch
+Patch74: query-migratable.patch
+Patch75: 0001-CP-20436-Introduce-a-config-option-for-machines-comp.patch
+Patch76: pci-add-subsystem-id-properties.patch
+Patch77: pci-add-revision_id-property.patch
+Patch78: force-lba-geometry.patch
+Patch79: 0001-CP-21767-Don-t-accidently-unplug-ourselves-if-PCI_CL.patch
+Patch80: 0001-CP-21434-Implement-VBE-LFB-physical-address-register.patch
+Patch81: 0001-CA-256542-Workaround-unassigned-accesses-caused-by-b.patch
+Patch82: match-xen-pvdevice-location.patch
+Patch83: 0001-CA-289906-Use-legacy-HID-descriptors-for-USB-Tablet-.patch
+Patch84: 0001-CP-17697-Initial-port-of-NVIDIA-VGPU-support-from-QEMU-trad.patch
+Patch85: usb-batch-frames.patch
+Patch86: 0001-CP-23753-Talk-to-new-clipboard-daemon.patch
+Patch87: rtc-no-ratelimit.patch
+Patch88: gvt-g.patch
+Patch89: 0001-Update-fd-handlers-to-support-sysfs_notify.patch
+Patch90: 0002-Fix-up-PCI-command-register-for-AMD-ATI-GPU-VFs.patch
+Patch91: 0003-Add-interception-layer-for-BAR-ops.patch
+Patch92: 0004-Add-AMD-code.patch
+Patch93: allocate-vram-reserved.patch
+Patch94: 0001-CA-239469-Avoid-bind-listen-race-on-a-socket-with-SO.patch
+Patch95: set-so_reuseaddr.patch
+Patch96: unplug-nvme-devices.patch
+Patch97: do_not_register_xen_backend_for_qdisk.patch
+Patch98: add-an-ide-read-cache.patch
+Patch99: disable-dirty-vram-tracking.patch
+Patch100: build-configuration.patch
+
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XSU/repos/qemu/archive?at=v2.10.2&format=tar.gz&prefix=qemu-2.10.2#/qemu-2.10.2.tar.gz) = ba87166e14ffd7299c35badc4c11f3fa3c129ec6
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/qemu.pg/archive?format=tar&at=v4.2.0#/qemu.pg.tar) = c743aade3b240447d6cf313afce23e4e20d65120
+
 BuildRequires: libaio-devel glib2-devel
-BuildRequires: libjpeg-devel libpng-devel pixman-devel libdrm-devel
+BuildRequires: libjpeg-devel libpng-devel pixman-devel xenserver-libdrm-devel
 BuildRequires: xen-dom0-devel xen-libs-devel libusbx-devel
 BuildRequires: libseccomp-devel
 
@@ -141,6 +158,30 @@ cp -r scripts/qmp %{buildroot}%{_datarootdir}/qemu
 %{_libexecdir}/*
 
 %changelog
+* Tue Dec 18 2018 Edwin Török <edvin.torok@citrix.com> - 2.10.2-4.1.4
+- CP-29626: Call blk_drain in NVMe reset code to avoid lockups
+- CP-29898: Implement NVME migration workaround
+- CP-29935: Add a command to allow querying whether the VM is migratable
+- CP-29827: Don't conflate RTC_CENTURY bit with trad-compat
+- CP-29827: Make legacy CPU unplug work for all machine types
+- Fix patch context
+- Backport NVMe fixes from upstream, including a CVE
+- CA-303616: Expose LFB address when GVT-g is enabled
+
+* Fri Nov 23 2018 Simon Rowe <simon.rowe@citrix.com> - 2.10.2-4.1.3
+- CP-29194: Tidy up the patchqueue
+
+* Tue Nov 06 2018 Simon Rowe <simon.rowe@citrix.com> - 2.10.2-4.1.2
+- CP-28652: enable nvme for guest uefi
+
+* Fri Oct 12 2018 Simon Rowe <simon.rowe@citrix.com> - 2.10.2-4.1.1
+- Revert "CA-290135: Add debug patch to catch the unhandled access"
+
+* Fri Sep 28 2018 Ross Lagerwall <ross.lagerwall@citrix.com> - 2.10.2-4.1.0
+- CA-293487: Allocate VRAM in a reserved area
+- CA-290135: Add debug patch to catch the unhandled access
+- Enable the ISA debug device for OVMF logging
+
 * Thu Aug 16 2018 Igor Druzhinin <igor.druzhinin@citrix.com> - 2.10.2-4.0.4
 - CA-290647 50% regression in vm<->vm intrahost network throughput
 
