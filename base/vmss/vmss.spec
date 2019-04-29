@@ -3,7 +3,12 @@ Version: 1.1.0
 Release: 1%{dist}
 Summary: REQ-277 schedule snapshots feature 
 License: GNU / GPLv2
-Source0: https://code.citrite.net/rest/archive/latest/projects/XS/repos/vmss/archive?at=%{version}&format=tar.gz#/%{name}-%{version}.tar.gz
+
+Source0: https://code.citrite.net/rest/archive/latest/projects/XS/repos/vmss/archive?at=1.1.0&prefix=vmss-1.1.0&format=tar.gz#/vmss-1.1.0.tar.gz
+
+
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/vmss/archive?at=1.1.0&prefix=vmss-1.1.0&format=tar.gz#/vmss-1.1.0.tar.gz) = 191899405f39790b2c5bad466c8e8ed1c56ed0cb
+
 BuildArch: noarch
 BuildRequires: python-devel
 
@@ -13,7 +18,7 @@ This package contains scheduled snapshots feature plugins and the associated cro
 
 %prep
 
-%autosetup -p1 -n vmss -c
+%autosetup -p1
 
 %build
 DESTDIR=$RPM_BUILD_ROOT make
