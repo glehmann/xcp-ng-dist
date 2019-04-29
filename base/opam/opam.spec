@@ -1,16 +1,19 @@
 Name:           opam
-Version:        1.2.2
-Release:        3%{?dist}
+Version:        2.0.0
+Release:        2%{?dist}
 Summary:        Source-based OCaml package manager
-License:        LGPLv3
+License:        LGPLv2.1
 URL:            https://github.com/ocaml/opam
-Source0:        https://repo.citrite.net:443/ctx-local-contrib/xs-opam/opam-full-1.2.2.tar.gz
-Patch0:         opam-installer-stublibs.patch
+
+Source0: https://repo.citrite.net:443/ctx-local-contrib/xs-opam/opam-full-2.0.0.tar.gz
+
+
+
 BuildRequires:  curl
 BuildRequires:  ocaml
+BuildRequires:  ocaml-findlib
 
 %description
-Source-based OCaml package manager
 
 %prep
 %autosetup -n %{name}-full-%{version} -p1
@@ -19,21 +22,30 @@ Source-based OCaml package manager
 %configure
 make lib-ext
 make
+make man
 
 %install
-make install DESTDIR=%{buildroot}
+%make_install LIBINSTALL_DIR=%{buildroot}/%{_libdir}/ocaml
 
 %files
-%doc AUTHORS
-%doc CHANGES
-%doc CONTRIBUTING.md
-%doc LICENSE
-%doc README.md
+%doc README.md CHANGES AUTHORS CONTRIBUTING.md
 %{_bindir}/opam
-%{_bindir}/opam-admin
 %{_bindir}/opam-installer
+%{_libdir}/ocaml/opam-installer
+%license LICENSE
+%{_mandir}/man1/*.1*
+%exclude /usr/doc/opam-installer/*
 
 %changelog
+* Wed Oct 03 2018 Christian Lindig <christian.lindig@citrix.com> - 2.0.0-2
+- update License, use mirror for Source0
+
+* Fri Sep 28 2018 Christian Lindig <christian.lindig@citrix.com> - 2.0.0-1
+- First packaging of Opam 2
+
+* Tue Sep 04 2018 Christian Lindig <christian.lindig@citrix.com> - 1.2.2-4
+- Add patch to compile with -unsafe-string
+
 * Tue Oct 3 2017 Edwin Török <edvin.torok@citrix.com> - 1.2.2-3
 - CP-24976: Apply upstream patch to fix jbuilder install location of C stubs
 
@@ -51,4 +63,3 @@ make install DESTDIR=%{buildroot}
 
 * Fri Aug 01 2014 Euan Harris <euan.harris@citrix.com> - 1.1.2-1
 - Initial package
-
