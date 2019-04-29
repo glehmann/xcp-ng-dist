@@ -1,10 +1,15 @@
 Name: xen-crashdump-analyser
 Summary: Xen crashdump analyser
-Version: 2.5.2
-Release: 1%{dist}
+Version: 2.5.3
+Release: 1%{?dist}
 License: GPL
 Group: Applications/System
-Source: https://code.citrite.net/rest/archive/latest/projects/XS/repos/%{name}/archive?at=v%{version}&format=tar.gz&prefix=%{name}-%{version}#/%{name}.tar.gz
+
+Source0: https://code.citrite.net/rest/archive/latest/projects/XS/repos/xen-crashdump-analyser/archive?at=v2.5.3&format=tar.gz&prefix=xen-crashdump-analyser-2.5.3#/xen-crashdump-analyser.tar.gz
+
+
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/xen-crashdump-analyser/archive?at=v2.5.3&format=tar.gz&prefix=xen-crashdump-analyser-2.5.3#/xen-crashdump-analyser.tar.gz) = c7728fc9ae7eba85d1abe25dbb741acb3e3d565d
+
 BuildRequires: gcc-c++
 
 %description
@@ -34,6 +39,9 @@ instructions, examples and more.
 %{_libdir}/xen/bin/%{name}
 
 %changelog
+* Fri Sep 28 2018 Ross Lagerwall <ross.lagerwall@citrix.com> - 2.5.3-1
+- CA-297601: xen-crashdump-analyser doesn't read v4.14 kernel log buffer correctly
+
 * Tue Nov 07 2017 Simon Rowe <simon.rowe@citrix.com> - 2.5.2-1
 - CA-263292: Make error a warning instead
 - CA-263292: Copy vCPU state earlier
