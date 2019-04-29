@@ -3,7 +3,12 @@ Name: libempserver
 Version: 1.0.4
 Release: 2
 License: BSD
-Source0: https://code.citrite.net/rest/archive/latest/projects/XS/repos/%{name}/archive?at=v%{version}&prefix=%{name}-%{version}&format=tar.gz#/%{name}-%{version}.tar.gz
+
+Source0: https://code.citrite.net/rest/archive/latest/projects/XS/repos/libempserver/archive?at=v1.0.4&prefix=libempserver-1.0.4&format=tar.gz#/libempserver-1.0.4.tar.gz
+
+
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/libempserver/archive?at=v1.0.4&prefix=libempserver-1.0.4&format=tar.gz#/libempserver-1.0.4.tar.gz) = 3f2ab5bedd4ac2e8a08149fdfce9daf7fc03003e
+
 
 BuildRequires: json-c-devel
 Requires(post): /sbin/ldconfig
@@ -32,6 +37,7 @@ hardware emulators used to support a virtual machine.
 %postun -p /sbin/ldconfig
 
 %package devel
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/libempserver/archive?at=v1.0.4&prefix=libempserver-1.0.4&format=tar.gz#/libempserver-1.0.4.tar.gz) = 3f2ab5bedd4ac2e8a08149fdfce9daf7fc03003e
 Summary: Development headers for libempserver
 Requires: %{name}%{?_isa} = %{version}-%{release}
 
