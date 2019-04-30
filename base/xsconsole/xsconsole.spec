@@ -1,10 +1,15 @@
 Summary: XCP-ng Host Configuration Console
 Name: xsconsole
-Version: 10.1.7
-Release: 1.2%{dist}
+Version: 10.1.9
+Release: 1%{?dist}
 License: GPL2
 Group: Administration/System
-Source0: https://code.citrite.net/rest/archive/latest/projects/XS/repos/%{name}/archive?at=v%{version}&format=tar.gz&prefix=%{name}-%{version}#/%{name}.tar.gz
+
+Source0: https://code.citrite.net/rest/archive/latest/projects/XS/repos/xsconsole/archive?at=v10.1.9&format=tar.gz&prefix=xsconsole-10.1.9#/xsconsole.tar.gz
+
+
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/xsconsole/archive?at=v10.1.9&format=tar.gz&prefix=xsconsole-10.1.9#/xsconsole.tar.gz) = 24327903dd83fe25b9b88a2bcbd71f2cc268cc00
+
 Provides: xsconsole0
 BuildRequires: python2-devel
 BuildRequires: systemd
@@ -15,14 +20,6 @@ Requires(postun): systemd
 
 %description
 Console tool for configuring a XCP-ng installation.
-
-#%package incloudsphere
-#Summary: InCloud Sphere plugins for %{name}
-#Requires: %{name}%{?_isa} = %{version}-%{release}
-#
-#%description incloudsphere
-#Extra plugins for %{name} to add functionality required by
-#InCloud Sphere.
 
 %prep
 %autosetup -p1
@@ -55,15 +52,15 @@ Console tool for configuring a XCP-ng installation.
 %exclude %{_libdir}/xsconsole/plugins-oem/*
 %{_unitdir}/xsconsole.service
 
-#%files incloudsphere
-#%{_libdir}/xsconsole/plugins-oem/XSFeatureLicenseNag.py*
-
 %changelog
-* Mon Oct 15 2018 Samuel Verschelde <stormi-xcp@ylix.fr> - 10.1.7-1.2.xcp
-- Don't build the incloudsphere subpackage.
+* Wed Jan 16 2019 Aaron Robson <aaron.robson@citrix.com> - 10.1.9-1
+- CA-304344: Makefile warning due to missing file XSFeatureInstallLicence.py
+- CA-304345: Integrate xsconsole with Travis CI
+- 'make clean' and 'make test' implemented
+- include suitable .gitgnore
 
-* Thu Sep 13 2018 Samuel Verschelde <stormi-xcp@ylix.fr> - 10.1.7-1.1.xcp
-- Rebuild for XCP-ng 7.6.0
+* Thu Aug 30 2018 Simon Rowe <simon.rowe@citrix.com> - 10.1.8-1
+- CA-293996: XSConsole status bar showed wrong product brand and version after upgrading.
 
 * Mon Apr 23 2018 Simon Rowe <simon.rowe@citrix.com> - 10.1.7-1
 - CA-288312: use /etc/hostname
@@ -104,4 +101,3 @@ Console tool for configuring a XCP-ng installation.
 * Mon Mar 27 2017 Simon Rowe <simon.rowe@citrix.com> - 10.0.1-1
 - CA-248121: Handle failed open()s correctly
 - CA-248121: Don't look in /etc/xcp for config files
-
