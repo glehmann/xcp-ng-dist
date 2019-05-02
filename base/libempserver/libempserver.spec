@@ -1,7 +1,7 @@
 Summary: A library of functions for running an emp server
 Name: libempserver
 Version: 1.0.4
-Release: 2%{dist}
+Release: 2%{?dist}
 License: BSD
 
 Source0: https://code.citrite.net/rest/archive/latest/projects/XS/repos/libempserver/archive?at=v1.0.4&prefix=libempserver-1.0.4&format=tar.gz#/libempserver-1.0.4.tar.gz
