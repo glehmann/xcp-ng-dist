@@ -1,6 +1,6 @@
 Name: vmss
 Version: 1.1.0
-Release: 1%{dist}
+Release: 1%{?dist}
 Summary: REQ-277 schedule snapshots feature 
 License: GNU / GPLv2
 
