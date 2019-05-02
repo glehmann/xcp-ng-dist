@@ -1,6 +1,6 @@
 Name:           xcp-clipboardd
 Version:        1.0.3
-Release:        3%{dist}
+Release:        3%{?dist}
 Summary:        Daemon to share a virtualized Windows clipboard
 License:        GPLv3
 URL:            https://github.com/xcp-ng/xcp-clipboardd
