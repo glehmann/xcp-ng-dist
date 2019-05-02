@@ -1,6 +1,6 @@
 Name:           xcp-clipboardd
 Version:        1.0.3
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Daemon to share a virtualized Windows clipboard
 License:        GPLv3
 URL:            https://github.com/xcp-ng/xcp-clipboardd
@@ -33,5 +33,8 @@ make install
 /opt/xensource/libexec/xcp-clipboardd
 
 %changelog
+* Thu May 02 2019 Samuel Verschelde <stormi-xcp@ylix.fr> - 1.0.3-4
+- Rebuild for XCP-ng 8.0.0
+
 * Thu Mar 28 2019 Ronan Abhamon <ronan.abhamon@vates.fr> - 1.0.3-1
 - Initial package
