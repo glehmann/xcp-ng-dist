@@ -17,6 +17,7 @@ Patch2: efi-snp-limit-rx-queue.patch
 Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XSU/repos/ipxe/archive?at=e7f67d5&format=tar.gz&prefix=ipxe-efi-20180514gite7f67d5#/ipxe-efi-20180514gite7f67d5.tar.gz) = e7f67d5a4c6e9f06aa7a9db1b4245f5e16f00bb2
 Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/ipxe-efi.pg/archive?at=v1.0.0&format=tar#/ipxe-efi.patches.tar) = b869c2c2a13c274ca59e583bbac4dec9c8f80f14
 
+BuildRequires: gcc
 
 
 %description
