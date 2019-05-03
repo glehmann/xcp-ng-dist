@@ -12,6 +12,7 @@ Source0: https://repo.citrite.net:443/ctx-local-contrib/xs-opam/opam-full-2.0.0.
 BuildRequires:  curl
 BuildRequires:  ocaml
 BuildRequires:  ocaml-findlib
+BuildRequires:  gcc gcc-c++
 
 %description
 
