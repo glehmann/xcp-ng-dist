@@ -58,6 +58,7 @@ Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/
 
 BuildArch: noarch
 
+BuildRequires: gcc
 BuildRequires: perl
 BuildRequires: syslinux
 BuildRequires: mtools
