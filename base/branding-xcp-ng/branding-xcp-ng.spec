@@ -1,6 +1,6 @@
 Name:           branding-xcp-ng
 Version:        8.0.0
-Release:        1%{?dist}
+Release:        2
 Summary:        XCP-ng branding
 License:        ISC
 URL:            https://github.com/xcp-ng/branding-xcp-ng
@@ -27,9 +27,10 @@ This package contains branding information for XCP-ng.
 %exclude %{_usrsrc}/branding/*.pyo
 
 %changelog
-* Tue Apr 25 2019 Samuel Verschelde <stormi-xcp@ylix.fr> - 8.0.0-1
+* Tue Apr 25 2019 Samuel Verschelde <stormi-xcp@ylix.fr> - 8.0.0-2
 - Update for XCP-ng 8.0.0
 - Clean spec file: remove Group and BuildRoot definitions
+- Remove 'dist' macro since it's built before xcp-ng-release
 
 * Tue Dec 25 2018 Robin Lee <cheeselee@fedoraproject.org> - 7.6.0-2
 - Change to noarch
