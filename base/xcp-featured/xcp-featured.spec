@@ -1,12 +1,13 @@
 Name:           xcp-featured
 Version:        1.1.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        XCP-ng feature daemon
 Group:          System/Hypervisor
 License:        ISC
 URL:            https://github.com/xcp-ng/xcp-featured
 Source0:        https://github.com/xcp-ng/xcp-featured/archive/v%{version}/xcp-featured-%{version}.tar.gz
 Source1:        v6d.service
+Patch0:         xcp-featured-fix-build-with-8.0.backport.patch
 BuildRequires:  systemd-devel
 BuildRequires:  xs-opam-repo
 BuildRequires:  ocaml-xcp-idl-devel
@@ -44,6 +45,9 @@ ln -s /opt/xensource/libexec/xcp-featured %{buildroot}/opt/xensource/libexec/v6d
 %{_unitdir}/v6d.service
 
 %changelog
+* Thu May 09 2019 Samuel Verschelde <stormi-xcp@ylix.fr> - 1.1.1-3
+- Rebuild for XCP-ng 8.0
+
 * Tue Jan 22 2019 Samuel Verschelde <stormi-xcp@ylix.fr> - 1.1.1-2
 - Rebuild for new XAPI with ZSTD support
 
