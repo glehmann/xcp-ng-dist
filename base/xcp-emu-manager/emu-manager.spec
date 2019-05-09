@@ -1,5 +1,5 @@
 Name:           xcp-emu-manager
-Version:        0.0.9
+Version:        0.1.0
 Release:        1%{?dist}
 Summary:        Tool used for managing xenguest
 License:        LGPL
@@ -30,6 +30,9 @@ make install DESTDIR=%{buildroot} BINDIR=%{_libdir}/xen/bin
 %{_libdir}/xen/bin/emu-manager
 
 %changelog
+* Thu May 09 2019 Samuel Verschelde <stormi-xcp@ylix.fr> - 0.1.0-1
+- New version 0.1.0 for XCP-ng 8.0
+
 * Thu Jan 10 2019 Samuel Verschelde <stormi-xcp@ylix.fr> - 0.0.9-1
 - New version 0.0.9
 - Better logs in case of unexpected end of process
