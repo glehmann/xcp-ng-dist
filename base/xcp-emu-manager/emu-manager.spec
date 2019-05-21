@@ -1,6 +1,6 @@
 Name:           xcp-emu-manager
 Version:        1.0.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Tool used for managing xenguest
 License:        GPLv3
 URL:            https://github.com/xcp-ng/xcp-emu-manager
@@ -12,6 +12,9 @@ BuildRequires:  gcc
 BuildRequires:  json-c-devel
 BuildRequires:  libempserver-devel
 BuildRequires:  xcp-ng-generic-lib-devel
+
+Provides: emu-manager
+Obsoletes: emu-manager
 
 %description
 Simple host networking management service for the xapi toolstack.
@@ -35,7 +38,7 @@ cd build
 %{_libdir}/xen/bin/emu-manager
 
 %changelog
-* Tue May 21 2019 Ronan Abhamon <ronan.abhamon@vates.fr> - 1.0.0-1
+* Tue May 21 2019 Ronan Abhamon <ronan.abhamon@vates.fr> - 1.0.0-2
 - New version 1.0.0 (new C version)
 
 * Thu May 09 2019 Samuel Verschelde <stormi-xcp@ylix.fr> - 0.1.0-1
