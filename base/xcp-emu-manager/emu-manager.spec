@@ -1,6 +1,6 @@
 Name:           xcp-emu-manager
-Version:        1.0.0
-Release:        2%{?dist}
+Version:        1.1.0
+Release:        1%{?dist}
 Summary:        Tool used for managing xenguest
 License:        GPLv3
 URL:            https://github.com/xcp-ng/xcp-emu-manager
@@ -12,6 +12,9 @@ BuildRequires:  gcc
 BuildRequires:  json-c-devel
 BuildRequires:  libempserver-devel
 BuildRequires:  xcp-ng-generic-lib-devel
+
+# debuginfo required for the crash handler to produce relevant stacktraces
+Requires: %{name}-debuginfo = %{version}-%{release}
 
 Provides: emu-manager
 Obsoletes: emu-manager
@@ -38,6 +41,11 @@ cd build
 %{_libdir}/xen/bin/emu-manager
 
 %changelog
+* Tue May 28 2019 Ronan Abhamon <ronan.abhamon@vates.fr> - 1.1.0-1
+- New version 1.1.0
+- Supports non-live migration
+- Fix live migration of PV guests
+
 * Tue May 21 2019 Ronan Abhamon <ronan.abhamon@vates.fr> - 1.0.0-2
 - New version 1.0.0 (new C version)
 
