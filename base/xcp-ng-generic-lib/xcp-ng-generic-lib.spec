@@ -11,9 +11,7 @@ BuildRequires:  make
 BuildRequires:  gcc
 BuildRequires:  binutils-devel
 
-# It's important that debuginfo package matches the exact rpm version.
-# Otherwise gdb will cannot be (correctly) executed and potential stacktraces
-# will be incomplete.
+# debuginfo required for the crash handler to produce relevant stacktraces
 Requires: %{name}-debuginfo = %{version}-%{release}
 
 %description
