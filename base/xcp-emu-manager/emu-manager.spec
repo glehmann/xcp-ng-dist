@@ -1,6 +1,6 @@
-# handle debuginfo ourselves to keep the symbols in the main RPM
-# we need this for good stacktraces in production
+# Do not strip binaries. We need this for good stacktraces in production.
 %global debug_package %{nil}
+%global __os_install_post /usr/lib/rpm/brp-compress
 
 Name:           xcp-emu-manager
 Version:        1.1.0
@@ -44,7 +44,7 @@ cd build
 %changelog
 * Wed May 29 2019 Samuel Verschelde <stormi-xcp@ylix.fr> - 1.1.0-2
 - Do not require the debuginfo package anymore
-- Do not produce the debuginfo package at all for now
+- Do not strip binaries nor produce the debuginfo package at all for now
 
 * Tue May 28 2019 Ronan Abhamon <ronan.abhamon@vates.fr> - 1.1.0-1
 - New version 1.1.0
