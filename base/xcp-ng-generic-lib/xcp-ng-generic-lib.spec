@@ -4,7 +4,7 @@
 
 Name:           xcp-ng-generic-lib
 Version:        1.1.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        A library of algorithms, I/O and networking functions
 License:        GPLv3
 URL:            https://github.com/xcp-ng/xcp-ng-generic-lib
@@ -30,31 +30,11 @@ make
 %install
 cd build
 %make_install
-# produce debuginfo stuff: symbols and sources
-%__debug_install_post
 
 %files
 %license LICENSE
 %{_libdir}/libxcp-ng-generic.so.1
 %{_libdir}/libxcp-ng-generic.so.%{version}
-/usr/lib/debug/.build-id/*
-/usr/lib/debug/usr/lib64/*
-
-
-%package debuginfo
-Summary: Debug information for package %{name}
-AutoReqProv: 0
-
-%description debuginfo
-This package provides debug information for package %{name}
-Debug information is useful when developing applications that use this
-package or when debugging this package.
-
-%files debuginfo
-%dir /usr/src/debug/%{name}-%{version}
-/usr/src/debug/%{name}-%{version}/src
-/usr/src/debug/%{name}-%{version}/include
-
 
 %package devel
 Summary:        Development headers for xcp-ng-generic-lib
@@ -81,10 +61,9 @@ This package provides documentation and development headers for xcp-ng-generic-l
 %{_libdir}/libxcp-ng-generic.so
 
 %changelog
-* Tue May 28 2019 Samuel Verschelde <stormi-xcp@ylix.fr> - 1.1.0-2
+* Wed May 29 2019 Samuel Verschelde <stormi-xcp@ylix.fr> - 1.1.0-3
 - Do not require the debuginfo package anymore
-- Include stripped symbols in the main package
-- Produce a custom debuginfo package containing only the sources
+- Do not produce the debuginfo package at all for now
 
 * Tue May 28 2019 Ronan Abhamon <ronan.abhamon@vates.fr> - 1.1.0-1
 - Update to 1.1.0
