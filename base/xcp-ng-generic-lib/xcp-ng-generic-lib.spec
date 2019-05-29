@@ -4,7 +4,7 @@
 
 Name:           xcp-ng-generic-lib
 Version:        1.1.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        A library of algorithms, I/O and networking functions
 License:        GPLv3
 URL:            https://github.com/xcp-ng/xcp-ng-generic-lib
@@ -61,8 +61,9 @@ This package provides documentation and development headers for xcp-ng-generic-l
 %{_libdir}/libxcp-ng-generic.so
 
 %changelog
-* Wed May 29 2019 Samuel Verschelde <stormi-xcp@ylix.fr> - 1.1.0-3
+* Wed May 29 2019 Samuel Verschelde <stormi-xcp@ylix.fr> - 1.1.0-4
 - Do not require the debuginfo package anymore
+- Do not strip binaries
 - Do not produce the debuginfo package at all for now
 
 * Tue May 28 2019 Ronan Abhamon <ronan.abhamon@vates.fr> - 1.1.0-1
