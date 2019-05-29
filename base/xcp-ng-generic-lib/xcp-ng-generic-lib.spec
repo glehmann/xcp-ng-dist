@@ -1,6 +1,6 @@
-# handle debuginfo ourselves to keep the symbols in the main RPM
-# we need this for good stacktraces in production
+# Do not strip binaries. We need this for good stacktraces in production.
 %global debug_package %{nil}
+%global __os_install_post /usr/lib/rpm/brp-compress
 
 Name:           xcp-ng-generic-lib
 Version:        1.1.0
