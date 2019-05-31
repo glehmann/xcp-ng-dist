@@ -3,8 +3,8 @@
 %global __os_install_post /usr/lib/rpm/brp-compress
 
 Name:           xcp-emu-manager
-Version:        1.1.0
-Release:        3%{?dist}
+Version:        1.1.1
+Release:        1%{?dist}
 Summary:        Tool used for managing xenguest
 License:        GPLv3
 URL:            https://github.com/xcp-ng/xcp-emu-manager
@@ -42,6 +42,9 @@ cd build
 %{_libdir}/xen/bin/emu-manager
 
 %changelog
+* Fri May 31 2019 Ronan Abhamon <ronan.abhamon@vates.fr> - 1.1.1-1
+- Abort migration (if possible) and log better stacktrace in case of unexpected end of process
+
 * Wed May 29 2019 Samuel Verschelde <stormi-xcp@ylix.fr> - 1.1.0-3
 - Do not require the debuginfo package anymore
 - Do not strip binaries nor produce the debuginfo package at all for now
