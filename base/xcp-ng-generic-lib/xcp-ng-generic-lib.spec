@@ -3,8 +3,8 @@
 %global __os_install_post /usr/lib/rpm/brp-compress
 
 Name:           xcp-ng-generic-lib
-Version:        1.1.0
-Release:        4%{?dist}
+Version:        1.1.1
+Release:        1%{?dist}
 Summary:        A library of algorithms, I/O and networking functions
 License:        GPLv3
 URL:            https://github.com/xcp-ng/xcp-ng-generic-lib
@@ -51,6 +51,7 @@ This package provides documentation and development headers for xcp-ng-generic-l
 %{_includedir}/xcp-ng/generic/file.h
 %{_includedir}/xcp-ng/generic/global.h
 %{_includedir}/xcp-ng/generic/io.h
+%{_includedir}/xcp-ng/generic/math.h
 %{_includedir}/xcp-ng/generic/network.h
 %{_includedir}/xcp-ng/generic/stacktrace.h
 %{_includedir}/xcp-ng/generic/string.h
@@ -61,6 +62,9 @@ This package provides documentation and development headers for xcp-ng-generic-l
 %{_libdir}/libxcp-ng-generic.so
 
 %changelog
+* Fri May 31 2019 Ronan Abhamon <ronan.abhamon@vates.fr> - 1.1.1-1
+- Update to 1.1.1
+
 * Wed May 29 2019 Samuel Verschelde <stormi-xcp@ylix.fr> - 1.1.0-4
 - Do not require the debuginfo package anymore
 - Do not strip binaries
