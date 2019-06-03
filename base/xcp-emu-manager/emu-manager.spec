@@ -3,7 +3,7 @@
 %global __os_install_post /usr/lib/rpm/brp-compress
 
 Name:           xcp-emu-manager
-Version:        1.1.1
+Version:        1.1.2
 Release:        1%{?dist}
 Summary:        Tool used for managing xenguest
 License:        GPLv3
@@ -42,6 +42,9 @@ cd build
 %{_libdir}/xen/bin/emu-manager
 
 %changelog
+* Mon Jun 03 2019 Ronan Abhamon <ronan.abhamon@vates.fr> - 1.1.2-1
+- Fix suspend action
+
 * Fri May 31 2019 Ronan Abhamon <ronan.abhamon@vates.fr> - 1.1.1-1
 - Abort migration (if possible) and log better stacktrace in case of unexpected end of process
 
