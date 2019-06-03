@@ -1,7 +1,7 @@
 Summary: XCP-ng Host Configuration Console
 Name: xsconsole
 Version: 10.1.9
-Release: 1%{?dist}
+Release: 1.1%{?dist}
 License: GPL2
 Group: Administration/System
 
@@ -17,6 +17,9 @@ Requires: PyPAM
 Requires(post): systemd
 Requires(preun): systemd
 Requires(postun): systemd
+
+# XCP-ng patches
+Patch1000: xsconsole-10.1.9-rebrand-xsconsole-service.XCP-ng.patch
 
 %description
 Console tool for configuring a XCP-ng installation.
@@ -53,6 +56,9 @@ Console tool for configuring a XCP-ng installation.
 %{_unitdir}/xsconsole.service
 
 %changelog
+* Mon Jun 03 2019 Samuel Verschelde <stormi-xcp@ylix.fr> - 10.1.9-1.1
+- Replace XenServer with XCP-ng in xsconsole.service
+
 * Wed Jan 16 2019 Aaron Robson <aaron.robson@citrix.com> - 10.1.9-1
 - CA-304344: Makefile warning due to missing file XSFeatureInstallLicence.py
 - CA-304345: Integrate xsconsole with Travis CI
