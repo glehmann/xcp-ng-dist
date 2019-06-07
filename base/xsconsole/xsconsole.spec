@@ -1,7 +1,7 @@
 Summary: XCP-ng Host Configuration Console
 Name: xsconsole
 Version: 10.1.9
-Release: 1.2%{?dist}
+Release: 1.3%{?dist}
 License: GPL2
 Group: Administration/System
 
@@ -57,7 +57,7 @@ Console tool for configuring a XCP-ng installation.
 %{_unitdir}/xsconsole.service
 
 %changelog
-* Thu Jun 06 2019 Samuel Verschelde <stormi-xcp@ylix.fr> - 10.1.9-1.2
+* Thu Jun 06 2019 Samuel Verschelde <stormi-xcp@ylix.fr> - 10.1.9-1.3
 - Use XCP-ng colors for the console
 
 * Mon Jun 03 2019 Samuel Verschelde <stormi-xcp@ylix.fr> - 10.1.9-1.1
