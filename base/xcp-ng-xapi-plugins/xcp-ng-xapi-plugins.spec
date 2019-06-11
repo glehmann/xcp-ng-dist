@@ -1,7 +1,7 @@
 Summary: XAPI additional plugins for XCP-ng
 Name: xcp-ng-xapi-plugins
-Version: 1.3.0
-Release: 2%{?dist}
+Version: 1.4.0
+Release: 1%{?dist}
 URL: https://github.com/xcp-ng/xcp-ng-xapi-plugins
 Source0: https://github.com/xcp-ng/xcp-ng-xapi-plugins/archive/v%{version}/%{name}-%{version}.tar.gz
 License: AGPLv3
@@ -28,6 +28,9 @@ install SOURCES/etc/xapi.d/plugins/*.py %{buildroot}/etc/xapi.d/plugins/
 /etc/xapi.d/plugins/*
 
 %changelog
+* Tue Jun 11 2019 Samuel Verschelde <stormi-xcp@ylix.fr> - 1.4.0-1
+- Add hyperthreading detection plugin
+
 * Mon Jun 03 2019 Samuel Verschelde <stormi-xcp@ylix.fr> - 1.3.0-2
 - Renamed to xcp-ng-xapi-plugins
 - Obsoletes xcp-ng-updater
