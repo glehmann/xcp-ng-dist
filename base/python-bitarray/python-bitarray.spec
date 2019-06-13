@@ -2,13 +2,13 @@
 %global sum Efficient Array of Booleans --C Extensions
 
 Name:           python-%{srcname}
-Version:        0.8.3
-Release:        5%{?dist}
+Version:        0.9.3
+Release:        1%{?dist}
 Summary:        %{sum}
 
 License:        Python
-URL:            http://pypi.python.org/pypi/%{srcname}/
-Source0:        http://pypi.python.org/packages/source/b/%{srcname}/%{srcname}-%{version}.tar.gz
+URL:            https://pypi.python.org/pypi/%{srcname}/
+Source0:        https://pypi.python.org/packages/source/b/%{srcname}/%{srcname}-%{version}.tar.gz
 
 BuildRequires:  gcc
 BuildRequires:  python%{python3_pkgversion}-devel
@@ -58,6 +58,9 @@ This is Python 3 version.
 
 
 %changelog
+* Thu Jun 13 2019 Sérgio Basto <sergio@serjux.com> - 0.9.3-1
+- Update to 0.9.3
+
 * Sat Feb 02 2019 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.3-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_30_Mass_Rebuild
 
