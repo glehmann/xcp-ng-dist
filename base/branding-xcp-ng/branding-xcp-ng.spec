@@ -14,6 +14,8 @@ This package contains branding information for XCP-ng.
 %prep
 %autosetup -p1
 
+%build
+
 %install
 %{__install} -D -m 0644 branding/branding            %{buildroot}%{_usrsrc}/branding/branding
 %{__install} -D -m 0755 branding/brand-directory.py  %{buildroot}%{_usrsrc}/branding/brand-directory.py
@@ -27,7 +29,7 @@ This package contains branding information for XCP-ng.
 %exclude %{_usrsrc}/branding/*.pyo
 
 %changelog
-* Tue Apr 25 2019 Samuel Verschelde <stormi-xcp@ylix.fr> - 8.0.0-2
+* Thu Apr 25 2019 Samuel Verschelde <stormi-xcp@ylix.fr> - 8.0.0-2
 - Update for XCP-ng 8.0.0
 - Clean spec file: remove Group and BuildRoot definitions
 - Remove 'dist' macro since it's built before xcp-ng-release
