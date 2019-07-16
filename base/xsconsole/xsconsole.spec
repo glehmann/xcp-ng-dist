@@ -1,7 +1,7 @@
 Summary: XCP-ng Host Configuration Console
 Name: xsconsole
 Version: 10.1.9
-Release: 1.3%{?dist}
+Release: 1.4%{?dist}
 License: GPL2
 Group: Administration/System
 
@@ -21,6 +21,7 @@ Requires(postun): systemd
 # XCP-ng patches
 Patch1000: xsconsole-10.1.9-rebrand-xsconsole-service.XCP-ng.patch
 Patch1001: xsconsole-10.1.9-define-xcp-ng-colors.XCP-ng.patch
+Patch1002: xsconsole-10.1.9-warn-about-yum-update-in-local-shell.XCP-ng.patch
 
 %description
 Console tool for configuring a XCP-ng installation.
@@ -57,6 +58,9 @@ Console tool for configuring a XCP-ng installation.
 %{_unitdir}/xsconsole.service
 
 %changelog
+* Tue Jul 16 2019 Samuel Verschelde <stormi-xcp@ylix.fr> - 10.1.9-1.4
+- Add warning about running yum update from xsconsole's shell
+
 * Thu Jun 06 2019 Samuel Verschelde <stormi-xcp@ylix.fr> - 10.1.9-1.3
 - Use XCP-ng colors for the console
 
