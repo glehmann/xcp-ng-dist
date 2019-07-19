@@ -27,7 +27,7 @@ install SOURCES/etc/xapi.d/plugins/*.py %{buildroot}/etc/xapi.d/plugins/
 install SOURCES/etc/xapi.d/plugins/xcpngutils/*.py %{buildroot}/etc/xapi.d/plugins/xcpngutils/
 
 %files
-%doc LICENSE README.md test_updater.sh
+%doc LICENSE README.md
 /etc/xapi.d/plugins/*
 %dir /var/lib/xcp-ng-xapi-plugins
 
@@ -35,6 +35,7 @@ install SOURCES/etc/xapi.d/plugins/xcpngutils/*.py %{buildroot}/etc/xapi.d/plugi
 * Fri Jul 19 2019 Samuel Verschelde <stormi-xcp@ylix.fr> - 1.5.0-1
 - Prevent concurrent runs of the updater plugin
 - Use versioned obsoletes
+- Remove test_updater.sh
 
 * Tue Jun 11 2019 Samuel Verschelde <stormi-xcp@ylix.fr> - 1.4.0-1
 - Add hyperthreading detection plugin
