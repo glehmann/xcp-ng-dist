@@ -8,7 +8,7 @@ License: AGPLv3
 
 BuildArch: noarch
 
-Obsoletes: xcp-ng-updater
+Obsoletes: xcp-ng-updater <= 1.3.0
 
 %description
 Collection of XAPI plugins specific to XCP-ng.
@@ -34,6 +34,7 @@ install SOURCES/etc/xapi.d/plugins/xcpngutils/*.py %{buildroot}/etc/xapi.d/plugi
 %changelog
 * Fri Jul 19 2019 Samuel Verschelde <stormi-xcp@ylix.fr> - 1.5.0-1
 - Prevent concurrent runs of the updater plugin
+- Use versioned obsoletes
 
 * Tue Jun 11 2019 Samuel Verschelde <stormi-xcp@ylix.fr> - 1.4.0-1
 - Add hyperthreading detection plugin
