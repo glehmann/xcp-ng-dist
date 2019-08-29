@@ -1,13 +1,13 @@
 Name:    guest-templates-json
 Summary: Creates the default guest templates
-Version: 1.7.20
+Version: 1.7.21
 Release: 1
 License: BSD
 
-Source0: https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.7.20&format=tar.gz&prefix=guest-templates-json-1.7.20#/guest-templates-json-1.7.20.tar.gz
+Source0: https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.7.21&format=tar.gz&prefix=guest-templates-json-1.7.21#/guest-templates-json-1.7.21.tar.gz
 
 
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.7.20&format=tar.gz&prefix=guest-templates-json-1.7.20#/guest-templates-json-1.7.20.tar.gz) = 7c57fa1e1be8fbdcede12063c7eaebf4f7dd9ac7
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.7.21&format=tar.gz&prefix=guest-templates-json-1.7.21#/guest-templates-json-1.7.21.tar.gz) = 1d94eb5de982180a4f853b340a6c6dbb5d5c4d7e
 
 BuildArch: noarch
 
@@ -21,7 +21,7 @@ Creates the default guest templates during first boot or package
 install/upgrade.
 
 %package data-linux
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.7.20&format=tar.gz&prefix=guest-templates-json-1.7.20#/guest-templates-json-1.7.20.tar.gz) = 7c57fa1e1be8fbdcede12063c7eaebf4f7dd9ac7
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.7.21&format=tar.gz&prefix=guest-templates-json-1.7.21#/guest-templates-json-1.7.21.tar.gz) = 1d94eb5de982180a4f853b340a6c6dbb5d5c4d7e
 Summary: Contains the default Linux guest templates
 Requires(post): %{name} = %{version}-%{release}
 
@@ -29,7 +29,7 @@ Requires(post): %{name} = %{version}-%{release}
 Contains the default Linux guest templates.
 
 %package data-windows
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.7.20&format=tar.gz&prefix=guest-templates-json-1.7.20#/guest-templates-json-1.7.20.tar.gz) = 7c57fa1e1be8fbdcede12063c7eaebf4f7dd9ac7
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.7.21&format=tar.gz&prefix=guest-templates-json-1.7.21#/guest-templates-json-1.7.21.tar.gz) = 1d94eb5de982180a4f853b340a6c6dbb5d5c4d7e
 Summary: Contains the default Windows guest templates
 Requires(post): %{name} = %{version}-%{release}
 
@@ -37,7 +37,7 @@ Requires(post): %{name} = %{version}-%{release}
 Contains the default Windows guest templates.
 
 %package data-xenapp
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.7.20&format=tar.gz&prefix=guest-templates-json-1.7.20#/guest-templates-json-1.7.20.tar.gz) = 7c57fa1e1be8fbdcede12063c7eaebf4f7dd9ac7
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.7.21&format=tar.gz&prefix=guest-templates-json-1.7.21#/guest-templates-json-1.7.21.tar.gz) = 1d94eb5de982180a4f853b340a6c6dbb5d5c4d7e
 Summary: Contains the default XenApp guest templates
 Requires: %{name}-data-windows = %{version}-%{release}
 Requires(post): %{name} = %{version}-%{release}
@@ -46,7 +46,7 @@ Requires(post): %{name} = %{version}-%{release}
 Contains the default XenApp guest templates.
 
 %package data-other
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.7.20&format=tar.gz&prefix=guest-templates-json-1.7.20#/guest-templates-json-1.7.20.tar.gz) = 7c57fa1e1be8fbdcede12063c7eaebf4f7dd9ac7
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.7.21&format=tar.gz&prefix=guest-templates-json-1.7.21#/guest-templates-json-1.7.21.tar.gz) = 1d94eb5de982180a4f853b340a6c6dbb5d5c4d7e
 Summary: Contains the default other guest templates
 Requires(post): %{name} = %{version}-%{release}
 
@@ -124,6 +124,10 @@ install -m 755 62-create-guest-templates %{buildroot}%{_sysconfdir}/firstboot.d
 %{templatedir}/other-install-media.json
 
 %changelog
+
+* Wed Jul 17 2019 Jennifer Herbert <jennifer.herbert@citrix.com> - 1.7.21-1
+- CA-321550: Revert "CA-310465 Use of reference_tsc appears to cause problems across migration"
+
 * Thu Feb 21 2019 Sergey Dyasli <sergey.dyasli@citrix.com> - 1.7.20-1
 - CA-310465: disable reference_tsc as it appears to cause problems across migration
 
