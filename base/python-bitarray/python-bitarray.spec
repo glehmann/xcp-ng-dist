@@ -2,8 +2,8 @@
 %global sum Efficient Array of Booleans --C Extensions
 
 Name:           python-%{srcname}
-Version:        0.9.3
-Release:        3%{?dist}
+Version:        1.0.1
+Release:        1%{?dist}
 Summary:        %{sum}
 
 License:        Python
@@ -58,6 +58,9 @@ This is Python 3 version.
 
 
 %changelog
+* Tue Sep 03 2019 Sérgio Basto <sergio@serjux.com> - 1.0.1-1
+- Update to 1.0.1
+
 * Mon Aug 19 2019 Miro Hrončok <mhroncok@redhat.com> - 0.9.3-3
 - Rebuilt for Python 3.8
 
