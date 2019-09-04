@@ -1,13 +1,18 @@
 Name:    guest-templates-json
 Summary: Creates the default guest templates
 Version: 1.7.21
-Release: 1%{?dist}
+Release: 1.1%{?dist}
 License: BSD
 
 Source0: https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.7.21&format=tar.gz&prefix=guest-templates-json-1.7.21#/guest-templates-json-1.7.21.tar.gz
 
 
 Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.7.21&format=tar.gz&prefix=guest-templates-json-1.7.21#/guest-templates-json-1.7.21.tar.gz) = 1d94eb5de982180a4f853b340a6c6dbb5d5c4d7e
+
+
+# XCP-ng patches
+Patch1000: guest-templates-json-1.7.21-dont-update-db-on-slaves.XCP-ng.patch
+
 
 BuildArch: noarch
 
@@ -124,6 +129,9 @@ install -m 755 62-create-guest-templates %{buildroot}%{_sysconfdir}/firstboot.d
 %{templatedir}/other-install-media.json
 
 %changelog
+* Wed Sep 04 2019 Samuel Verschelde <stormi-xcp@ylix.fr> - 1.7.21-1.1
+- Make create-guest-templates ineffective from slave hosts
+- Related to https://github.com/xcp-ng/xcp/issues/265
 
 * Wed Jul 17 2019 Jennifer Herbert <jennifer.herbert@citrix.com> - 1.7.21-1
 - CA-321550: Revert "CA-310465 Use of reference_tsc appears to cause problems across migration"
