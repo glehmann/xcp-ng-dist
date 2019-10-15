@@ -1,7 +1,7 @@
 Name:    guest-templates-json
 Summary: Creates the default guest templates
 Version: 1.7.21
-Release: 1.1%{?dist}
+Release: 1.2%{?dist}
 License: BSD
 
 Source0: https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.7.21&format=tar.gz&prefix=guest-templates-json-1.7.21#/guest-templates-json-1.7.21.tar.gz
@@ -11,6 +11,11 @@ Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/
 
 
 # XCP-ng patches
+Source1000: base-el-8.json
+Source1001: centos-8.json
+Source1002: debian-10.json
+Source1003: oel-8.json
+Source1004: rhel-8.json
 Patch1000: guest-templates-json-1.7.21-dont-update-db-on-slaves.XCP-ng.patch
 
 
@@ -71,6 +76,7 @@ Contains the default other guest templates.
 
 install -d %{buildroot}%{templatedir}
 install -m 644 json/*.json %{buildroot}%{templatedir}
+install -m 644 %{SOURCE1000} %{SOURCE1001} %{SOURCE1002} %{SOURCE1003} %{SOURCE1004} %{buildroot}%{templatedir}
 install -d %{buildroot}%{_sysconfdir}/xapi.d/vm-templates
 
 install -d %{buildroot}%{_sysconfdir}/firstboot.d
@@ -129,6 +135,9 @@ install -m 755 62-create-guest-templates %{buildroot}%{_sysconfdir}/firstboot.d
 %{templatedir}/other-install-media.json
 
 %changelog
+* Mon Oct 14 2019 Samuel Verschelde <stormi-xcp@ylix.fr> - 1.7.21-1.2
+- Add templates for Debian 10 and RHEL 8 and its derivatives
+
 * Wed Sep 04 2019 Samuel Verschelde <stormi-xcp@ylix.fr> - 1.7.21-1.1
 - Make create-guest-templates ineffective from slave hosts
 - Related to https://github.com/xcp-ng/xcp/issues/265

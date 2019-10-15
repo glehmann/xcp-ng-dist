@@ -1,0 +1,6 @@
+{
+    "uuid": "66e28014-4b4f-4cbc-acf8-f63a93673c3a",
+    "reference_label": "centos-8",
+    "name_label": "CentOS 8",
+    "derived_from": "base-el-8.json"
+}
