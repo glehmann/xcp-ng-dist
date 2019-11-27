@@ -20,15 +20,22 @@ This package contains branding information for XCP-ng.
 %{__install} -D -m 0644 branding/branding            %{buildroot}%{_usrsrc}/branding/branding
 %{__install} -D -m 0755 branding/brand-directory.py  %{buildroot}%{_usrsrc}/branding/brand-directory.py
 %{__install} -D -m 0755 branding/branding-compile.py %{buildroot}%{_usrsrc}/branding/branding-compile.py
+%{__install} -D -m 0644 branding/EULA                %{buildroot}%{_usrsrc}/branding/EULA
+%{__install} -D -m 0644 branding/LICENSES            %{buildroot}%{_usrsrc}/branding/LICENSES
 
 %files
 %{_usrsrc}/branding/branding
 %{_usrsrc}/branding/brand-directory.py
 %{_usrsrc}/branding/branding-compile.py
+%{_usrsrc}/branding/EULA
+%{_usrsrc}/branding/LICENSES
 %exclude %{_usrsrc}/branding/*.pyc
 %exclude %{_usrsrc}/branding/*.pyo
 
 %changelog
+* someday to come
+- Add EULA and LICENSES files
+
 * Thu Apr 25 2019 Samuel Verschelde <stormi-xcp@ylix.fr> - 8.0.0-2
 - Update for XCP-ng 8.0.0
 - Clean spec file: remove Group and BuildRoot definitions
