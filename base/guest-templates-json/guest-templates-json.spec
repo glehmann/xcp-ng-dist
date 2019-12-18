@@ -1,21 +1,16 @@
 Name:    guest-templates-json
 Summary: Creates the default guest templates
-Version: 1.7.21
-Release: 1.2%{?dist}
+Version: 1.8.10
+Release: 1.1%{?dist}
 License: BSD
 
-Source0: https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.7.21&format=tar.gz&prefix=guest-templates-json-1.7.21#/guest-templates-json-1.7.21.tar.gz
+Source0: https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.8.10&format=tar.gz&prefix=guest-templates-json-1.8.10#/guest-templates-json-1.8.10.tar.gz
 
 
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.7.21&format=tar.gz&prefix=guest-templates-json-1.7.21#/guest-templates-json-1.7.21.tar.gz) = 1d94eb5de982180a4f853b340a6c6dbb5d5c4d7e
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.8.10&format=tar.gz&prefix=guest-templates-json-1.8.10#/guest-templates-json-1.8.10.tar.gz) = e765c57acd4f6651ba73c515840ec6b7d6ac83c4
 
 
 # XCP-ng patches
-Source1000: base-el-8.json
-Source1001: centos-8.json
-Source1002: debian-10.json
-Source1003: oel-8.json
-Source1004: rhel-8.json
 Patch1000: guest-templates-json-1.7.21-dont-update-db-on-slaves.XCP-ng.patch
 
 
@@ -30,8 +25,16 @@ BuildRequires: python-demjson
 Creates the default guest templates during first boot or package
 install/upgrade.
 
+%package data-pv
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.8.10&format=tar.gz&prefix=guest-templates-json-1.8.10#/guest-templates-json-1.8.10.tar.gz) = e765c57acd4f6651ba73c515840ec6b7d6ac83c4
+Summary: Contains the PV guest templates
+Requires(post): %{name} = %{version}-%{release}
+
+%description data-pv
+Contains the PV guest templates.
+
 %package data-linux
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.7.21&format=tar.gz&prefix=guest-templates-json-1.7.21#/guest-templates-json-1.7.21.tar.gz) = 1d94eb5de982180a4f853b340a6c6dbb5d5c4d7e
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.8.10&format=tar.gz&prefix=guest-templates-json-1.8.10#/guest-templates-json-1.8.10.tar.gz) = e765c57acd4f6651ba73c515840ec6b7d6ac83c4
 Summary: Contains the default Linux guest templates
 Requires(post): %{name} = %{version}-%{release}
 
@@ -39,7 +42,7 @@ Requires(post): %{name} = %{version}-%{release}
 Contains the default Linux guest templates.
 
 %package data-windows
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.7.21&format=tar.gz&prefix=guest-templates-json-1.7.21#/guest-templates-json-1.7.21.tar.gz) = 1d94eb5de982180a4f853b340a6c6dbb5d5c4d7e
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.8.10&format=tar.gz&prefix=guest-templates-json-1.8.10#/guest-templates-json-1.8.10.tar.gz) = e765c57acd4f6651ba73c515840ec6b7d6ac83c4
 Summary: Contains the default Windows guest templates
 Requires(post): %{name} = %{version}-%{release}
 
@@ -47,7 +50,7 @@ Requires(post): %{name} = %{version}-%{release}
 Contains the default Windows guest templates.
 
 %package data-xenapp
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.7.21&format=tar.gz&prefix=guest-templates-json-1.7.21#/guest-templates-json-1.7.21.tar.gz) = 1d94eb5de982180a4f853b340a6c6dbb5d5c4d7e
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.8.10&format=tar.gz&prefix=guest-templates-json-1.8.10#/guest-templates-json-1.8.10.tar.gz) = e765c57acd4f6651ba73c515840ec6b7d6ac83c4
 Summary: Contains the default XenApp guest templates
 Requires: %{name}-data-windows = %{version}-%{release}
 Requires(post): %{name} = %{version}-%{release}
@@ -56,7 +59,7 @@ Requires(post): %{name} = %{version}-%{release}
 Contains the default XenApp guest templates.
 
 %package data-other
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.7.21&format=tar.gz&prefix=guest-templates-json-1.7.21#/guest-templates-json-1.7.21.tar.gz) = 1d94eb5de982180a4f853b340a6c6dbb5d5c4d7e
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.8.10&format=tar.gz&prefix=guest-templates-json-1.8.10#/guest-templates-json-1.8.10.tar.gz) = e765c57acd4f6651ba73c515840ec6b7d6ac83c4
 Summary: Contains the default other guest templates
 Requires(post): %{name} = %{version}-%{release}
 
@@ -76,7 +79,6 @@ Contains the default other guest templates.
 
 install -d %{buildroot}%{templatedir}
 install -m 644 json/*.json %{buildroot}%{templatedir}
-install -m 644 %{SOURCE1000} %{SOURCE1001} %{SOURCE1002} %{SOURCE1003} %{SOURCE1004} %{buildroot}%{templatedir}
 install -d %{buildroot}%{_sysconfdir}/xapi.d/vm-templates
 
 install -d %{buildroot}%{_sysconfdir}/firstboot.d
@@ -85,20 +87,37 @@ install -m 755 62-create-guest-templates %{buildroot}%{_sysconfdir}/firstboot.d
 %check
 %{__make} check
 
+%define statefile %{_localstatedir}/lib/rpm-state/recreate-guest-templates
+
 %post
-/usr/bin/create-guest-templates > /dev/null ||:
+> %{statefile}
+
+%post data-pv
+> %{statefile}
 
 %post data-linux
-/usr/bin/create-guest-templates > /dev/null ||:
+> %{statefile}
 
 %post data-windows
-/usr/bin/create-guest-templates > /dev/null ||:
+> %{statefile}
 
 %post data-xenapp
-/usr/bin/create-guest-templates > /dev/null ||:
+> %{statefile}
 
 %post data-other
-/usr/bin/create-guest-templates > /dev/null ||:
+> %{statefile}
+
+%posttrans
+if [ -e %{statefile} ]; then
+    rm %{statefile}
+    /usr/bin/create-guest-templates > /dev/null ||:
+fi
+
+%posttrans data-pv
+if [ -e %{statefile} ]; then
+    rm %{statefile}
+    /usr/bin/create-guest-templates > /dev/null ||:
+fi
 
 %files
 %{_bindir}/*
@@ -107,20 +126,49 @@ install -m 755 62-create-guest-templates %{buildroot}%{_sysconfdir}/firstboot.d
 %{_sysconfdir}/xapi.d/*
 %{_sysconfdir}/firstboot.d/*
 
-%files data-linux
-%{templatedir}/base-debian*.json
-%{templatedir}/base-el*.json
-%{templatedir}/base-hvmlinux.json
-%{templatedir}/base-kylin*.json
+%files data-pv
+%{templatedir}/base-el-[56]-32bit.json
+%{templatedir}/base-el-[56]-64bit.json
+%{templatedir}/base-el-pv.json
+%{templatedir}/base-kylin-6-64bit.json
 %{templatedir}/base-pvlinux.json
-%{templatedir}/base-sl*.json
-%{templatedir}/centos*.json
+%{templatedir}/base-sle-12-pv-64bit.json
+%{templatedir}/base-sle-pv-32bit.json
+%{templatedir}/base-sle-pv-64bit.json
+%{templatedir}/base-sle-pv.json
+%{templatedir}/centos-6-32bit.json
+%{templatedir}/centos-6-64bit.json
+%{templatedir}/kylin-6-64bit.json
+%{templatedir}/oel-[56]-32bit.json
+%{templatedir}/oel-[56]-64bit.json
+%{templatedir}/rhel-[56]-32bit.json
+%{templatedir}/rhel-[56]-64bit.json
+%{templatedir}/sl-6-32bit.json
+%{templatedir}/sl-6-64bit.json
+%{templatedir}/sled-11-sp3-64bit.json
+%{templatedir}/sled-12-64bit.json
+%{templatedir}/sled-12-sp[12]-64bit.json
+%{templatedir}/sles-11-sp[34]-32bit.json
+%{templatedir}/sles-11-sp[34]-64bit.json
+%{templatedir}/sles-12-64bit.json
+%{templatedir}/sles-12-sp[12]-64bit.json
+
+%files data-linux
+%{templatedir}/base-el-7.json
+%{templatedir}/base-hvmlinux.json
+%{templatedir}/base-kylin-7.json
+%{templatedir}/base-sle-hvm-64bit.json
+%{templatedir}/base-sle-hvm.json
+%{templatedir}/centos-[78].json
 %{templatedir}/coreos.json
 %{templatedir}/debian*.json
-%{templatedir}/kylin*.json
-%{templatedir}/oel*.json
-%{templatedir}/rhel*.json
-%{templatedir}/sl*.json
+%{templatedir}/kylin-7.json
+%{templatedir}/oel-[78].json
+%{templatedir}/rhel-[78].json
+%{templatedir}/sl-7.json
+%{templatedir}/sle-15-64bit.json
+%{templatedir}/sled-12-sp[34]-64bit.json
+%{templatedir}/sles-12-sp[34]-64bit.json
 %{templatedir}/ubuntu*.json
 
 %files data-windows
@@ -135,15 +183,54 @@ install -m 755 62-create-guest-templates %{buildroot}%{_sysconfdir}/firstboot.d
 %{templatedir}/other-install-media.json
 
 %changelog
-* Mon Oct 14 2019 Samuel Verschelde <stormi-xcp@ylix.fr> - 1.7.21-1.2
-- Add templates for Debian 10 and RHEL 8 and its derivatives
-
-* Wed Sep 04 2019 Samuel Verschelde <stormi-xcp@ylix.fr> - 1.7.21-1.1
-- Make create-guest-templates ineffective from slave hosts
+* Wed Dec 18 2019 Samuel Verschelde <stormi-xcp@ylix.fr> - 1.8.10-1.1
+- Reapply patch to disable create-guest-templates on slave hosts
 - Related to https://github.com/xcp-ng/xcp/issues/265
 
-* Wed Jul 17 2019 Jennifer Herbert <jennifer.herbert@citrix.com> - 1.7.21-1
+* Thu Nov 14 2019 Sergey Dyasli <sergey.dyasli@citrix.com> - 1.8.10-1
+- CP-32458: make PV guests to be "plain PV" again
+
+* Thu Oct 31 2019 Ross Lagerwall <ross.lagerwall@citrix.com> - 1.8.9-1
+- CP-32392: Set domain_type to pv_in_pvh for base-pvlinux.json
+
+* Thu Sep 26 2019 Fei Su <fei.su@citrix.com> - 1.8.8-1
+- CP-31388 Centos 8 template add
+
+* Mon Sep 23 2019 Fei Su <fei.su@citrix.com> - 1.8.7.3-1
+- CP-31827: Remove Ubuntu 14.04 template
+
+* Tue Sep 10 2019 Xihuan Yang <xihuan.yang@citrix.com> - 1.8.7.2-1
+- CP-31826: Remove centos5 templates
+
+* Mon Sep 09 2019 Fei Su <fei.su@citrix.com> - 1.8.7.1-2
+- CP-32028: Stop PV guests appearing in the default template set in Quebec
+
+* Tue Sep 03 2019 Xihuan Yang <xihuan.yang@citrix.com> - 1.8.7.1-1
+- CA-31821: Add new template for debian 10
+
+* Thu Aug 22 2019 Xihuan Yang <xihuan.yang@citrix.com> - 1.8.6-1
+- CP-31830: Add support to Oracle Linux 8
+
+* Wed Jul 10 2019 Jennifer Herbert <jennifer.herbert@citrix.com> - 1.8.5-1
 - CA-321550: Revert "CA-310465 Use of reference_tsc appears to cause problems across migration"
+
+* Thu Jun 27 2019 Ross Lagerwall <ross.lagerwall@citrix.com> - 1.8.4-2
+- CA-322182: Recreate guest-templates only once per transaction
+
+* Wed Jun 26 2019 Fei Su <fei.su@citrix.com> - 1.8.4-1
+- CP-31415: Create Redhat 8 Template
+
+* Wed Jun 12 2019 Fei Su <fei.su@citrix.com> - 1.8.2-1
+- CP-31330: Create SLES 12 SP4 and SLED 12 SP4 template for plymouth
+
+* Tue Jun 4 2019 Xihuan Yang <xihuan.yang@citrix.com> - 1.8.1-1
+- CP-31406: Modify disk size to 32G for window 10 template
+
+* Thu May 30 2019 Edwin Török <edvin.torok@citrix.com> - 1.8.0-1
+- CP-29856: set minimum number of vCPUs to 2
+- CP-30443: set secureboot mode to auto
+- REQ-396: Windows 10, 2016, 2019 64-bit default to UEFI boot mode
+- REQ-396: prefer booting from disk first for Windows guest to avoid install loop
 
 * Thu Feb 21 2019 Sergey Dyasli <sergey.dyasli@citrix.com> - 1.7.20-1
 - CA-310465: disable reference_tsc as it appears to cause problems across migration

@@ -1,6 +1,0 @@
-{
-    "uuid": "cb9ce1a6-47db-4afa-8a2e-ade69252f4c5",
-    "reference_label": "rhel-8",
-    "name_label": "Red Hat Enterprise Linux 8",
-    "derived_from": "base-el-8.json"
-}

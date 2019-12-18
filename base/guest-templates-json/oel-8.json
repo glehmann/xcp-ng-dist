@@ -1,6 +1,0 @@
-{
-    "uuid": "b4ca87b8-dec8-4b0a-88a3-73f8829aaffa",
-    "reference_label": "oel-8",
-    "name_label": "Oracle Linux 8",
-    "derived_from": "base-el-8.json"
-}

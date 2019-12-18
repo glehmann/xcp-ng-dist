@@ -1,8 +1,0 @@
-{
-    "uuid": "6f5392b7-d97c-4d79-ba69-4fdda70c25a6",
-    "reference_label": "debian-10",
-    "name_label": "Debian Buster 10.0",
-    "derived_from": "base-hvmlinux.json",
-    "min_memory": "256M",
-    "disks": [ { "size": "10G" } ]
-}
