@@ -1,15 +1,15 @@
 Summary: blktap user space utilities
 Name: blktap
-Version: 3.22.0
+Version: 3.30.0
 Release: 1.0%{?dist}
 License: BSD
 Group: System/Hypervisor
 URL: https://github.com/xapi-project/blktap
 
-Source0: https://code.citrite.net/rest/archive/latest/projects/XSU/repos/blktap/archive?at=v3.22.0&format=tar.gz&prefix=blktap-3.22.0#/blktap-3.22.0.tar.gz
+Source0: https://code.citrite.net/rest/archive/latest/projects/XSU/repos/blktap/archive?at=v3.30.0&format=tar.gz&prefix=blktap-3.30.0#/blktap-3.30.0.tar.gz
 
 
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XSU/repos/blktap/archive?at=v3.22.0&format=tar.gz&prefix=blktap-3.22.0#/blktap-3.22.0.tar.gz) = 2e5f283661fe5720f753445dcd19431f51f64313
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XSU/repos/blktap/archive?at=v3.30.0&format=tar.gz&prefix=blktap-3.30.0#/blktap-3.30.0.tar.gz) = d35a406c48cece6c7e66c7fd9cb5c36eb8227c26
 
 
 BuildRoot: %{_tmppath}/%{name}-%{release}-buildroot
@@ -38,7 +38,7 @@ destroy and manipulate devices ('tap-ctl'), the 'tapdisk' driver
 program to perform tap devices I/O, and a number of image drivers.
 
 %package devel
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XSU/repos/blktap/archive?at=v3.22.0&format=tar.gz&prefix=blktap-3.22.0#/blktap-3.22.0.tar.gz) = 2e5f283661fe5720f753445dcd19431f51f64313
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XSU/repos/blktap/archive?at=v3.30.0&format=tar.gz&prefix=blktap-3.30.0#/blktap-3.30.0.tar.gz) = d35a406c48cece6c7e66c7fd9cb5c36eb8227c26
 Summary: BlkTap Development Headers and Libraries
 Requires: blktap = %{version}
 Group: Development/Libraries
@@ -76,7 +76,6 @@ cat /usr/lib/udev/rules.d/65-md-incremental.rules >> /etc/udev/rules.d/65-md-inc
 %defattr(-,root,root,-)
 %docdir /usr/share/doc/%{name}
 /usr/share/doc/%{name}
-%{_libdir}/*.so
 %{_libdir}/*.so.*
 %{_bindir}/vhd-util
 %{_bindir}/vhd-update
@@ -101,6 +100,7 @@ cat /usr/lib/udev/rules.d/65-md-incremental.rules >> /etc/udev/rules.d/65-md-inc
 %files devel
 %defattr(-,root,root,-)
 %doc
+%{_libdir}/*.so
 %{_libdir}/*.a
 %{_libdir}/*.la
 %{_includedir}/vhd/*
@@ -131,6 +131,45 @@ fi
 %posttrans -p /sbin/ldconfig
 
 %changelog
+* Tue Oct 29 2019 Mark Syms <mark.syms@citrix.com> - 3.30.0-1
+- CA-327558: add user-space io_getevents() implementation
+- CA-327558: switch to user-space io_getevents
+- CA-327558: Do not call fadvise on read cached FD
+- Drop libaio-compat.h: libaio.h has everything we need now
+- Drop tapdisk-filter.c: dead code
+- Drop rwio dead code
+- Fix debug mode
+- Fix build when TEST is defined
+- CA-327558: save and restore entire iocb
+- CA-327558: iocb union helper functions
+- CA-327558: io merge using pread/pwritev
+
+* Fri Oct 11 2019 Mark Syms <mark.syms@citrix.com> - 3.29.0-1
+- Unify definition of LIBBLOCKCRYPTO_NAME
+- Add major version to LIBBLOCKCRYPTO_NAME
+- CP-30739: enable multi-page rings for tapdisk
+- CP-30739: mask the ring events while in polling mode
+
+* Wed Sep 11 2019 Mark Syms <mark.syms@citrix.com> - 3.28.0-1
+- CA-326370 Check return code from io_getevents()
+
+* Mon Jun 17 2019 Mark Syms <mark.syms@citrix.com> - 3.27.0-1
+- CA-318654: set dependency on xenstored
+
+* Mon Jun 10 2019 Mark Syms <mark.syms@citrix.com> - 3.26.0-1
+- CA-320241: remove NBD mirror timeouts, they just add fragility
+- CP-27247: Move tapdisk to a blkio cgroup
+
+* Mon May 13 2019 Mark Syms <mark.syms@citrix.com> - 3.25.0-1
+- CA-314653: add tracing to nbd failure paths
+- CA-314653: log if nbd requests take over 20 seconds to complete
+
+* Tue Apr 16 2019 Mark Syms <mark.syms@citrix.com> - 3.24.0-1
+- fix vhd-util keypath validation
+
+* Tue Apr 09 2019 Mark Syms <mark.syms@citrix.com> - 3.23.0-1
+- Optimise allocate-and-fill of full blocks
+
 * Wed Mar 06 2019 Mark Syms <mark.syms@citrix.com> - 3.22.0-1
 - CA-312256: remove extraneous tracing from libvhd
 
@@ -252,7 +291,7 @@ fi
 
 
 %package testresults
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XSU/repos/blktap/archive?at=v3.22.0&format=tar.gz&prefix=blktap-3.22.0#/blktap-3.22.0.tar.gz) = 2e5f283661fe5720f753445dcd19431f51f64313
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XSU/repos/blktap/archive?at=v3.30.0&format=tar.gz&prefix=blktap-3.30.0#/blktap-3.30.0.tar.gz) = d35a406c48cece6c7e66c7fd9cb5c36eb8227c26
 Group:    System/Hypervisor
 Summary:  test results for blktap package
 
@@ -263,7 +302,7 @@ The package contains the build time test results for the blktap package
 /testresults
 
 %package -n vhd-util-standalone
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XSU/repos/blktap/archive?at=v3.22.0&format=tar.gz&prefix=blktap-3.22.0#/blktap-3.22.0.tar.gz) = 2e5f283661fe5720f753445dcd19431f51f64313
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XSU/repos/blktap/archive?at=v3.30.0&format=tar.gz&prefix=blktap-3.30.0#/blktap-3.30.0.tar.gz) = d35a406c48cece6c7e66c7fd9cb5c36eb8227c26
 Group:   System/Hypervisor
 Summary: Standalone vhd-util binary
 Conflicts: blktap
@@ -274,7 +313,5 @@ without requiring other libraries
 
 %files -n vhd-util-standalone
 %{_bindir}/vhd-util
-%{_libdir}/libvhd.so
 %{_libdir}/libvhd.so.*
-%{_libdir}/libblockcrypto.so
 %{_libdir}/libblockcrypto.so.*
