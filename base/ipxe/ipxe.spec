@@ -31,7 +31,7 @@
 Summary: A network boot loader
 Name: ipxe
 Version: %{date}
-Release: 1.0.2%{?dist}
+Release: 1.0.3%{?dist}
 License: GPLv2
 
 Source0: https://code.citrite.net/rest/archive/latest/projects/XSU/repos/ipxe/archive?at=a712dae709a&format=tar.gz&prefix=ipxe-20121005#/ipxe-20121005.tar.gz
@@ -52,9 +52,9 @@ Patch12: 0001-dhcp-Remove-obsolete-dhcp_chaddr-function.patch
 Patch13: 0002-dhcp-Allow-pseudo-DHCP-servers-to-use-pseudo-identif.patch
 Patch14: 0003-dhcp-Ignore-ProxyDHCPACKs-without-PXE-options.patch
 Patch15: 0004-dhcp-Do-not-skip-ProxyDHCPREQUEST-if-next-server-is-.patch
+Patch16: ipxe-238050dfd46e3c4a87329da1d48b4d8dde5af8a1.patch
 
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XSU/repos/ipxe/archive?at=a712dae709a&format=tar.gz&prefix=ipxe-20121005#/ipxe-20121005.tar.gz) = a712dae709adc76c76646fa1c86d2cfb5c3edfbc
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/ipxe.pg/archive?at=1.0.2&format=tar#/ipxe-source.patches.tar) = 6ff61ccd153684e00f25d38f9b7d807010c459a9
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/ipxe.pg/archive?at=1.0.3&format=tar#/ipxe-source.patches.tar) = aab2a53c9c1dca65bf17fb73c707607aba916cc7
 
 BuildArch: noarch
 
@@ -86,5 +86,8 @@ install -D -m 0644 src/bin/ipxe.bin %{buildroot}/%{_datadir}/%{name}/ipxe.bin
 %{_datadir}/%{name}/ipxe.bin
 
 %changelog
+* Fri Apr 12 2019 Ross Lagerwall <ross.lagerwall@citrix.com> - 20121005-1.0.3
+- CA-294898: Backport patch for gcc bug
+
 * Mon Sep 24 2018 Sergey Dyasli <sergey.dyasli@citrix.com> - 20121005-1.0.2
 - Initial packaging
