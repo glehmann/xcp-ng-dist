@@ -4,7 +4,7 @@
 Name: edk2
 Summary: EFI Development Kit II
 Version: %{edk2_date}git%{edk2_githash}
-Release: 1.3.2%{?dist}
+Release: 1.4.2%{?dist}
 
 License: BSD and MIT
 URL: https://github.com/tianocore/edk2
@@ -14,20 +14,19 @@ Source0: https://code.citrite.net/rest/archive/latest/projects/XSU/repos/edk2/ar
 Patch0: 0001-OvmfPkg-XenSupport-remove-usage-of-prefetchable-PCI-.patch
 Patch1: 0002-OvmfPkg-XenSupport-use-a-correct-PCI-host-bridge-ape.patch
 Patch2: 0003-OvmfPkg-XenSupport-turn-off-address-decoding-before-.patch
-Patch3: nvidia-vgpu-support.patch
-Patch4: gvt-g-support.patch
-Patch5: set-default-resolution-1024-768.patch
-Patch6: embed-nic-drivers.patch
-Patch7: add-xen-variable.patch
-Patch8: add-xen-platform-device-id.patch
-Patch9: disable-modules.patch
-Patch10: xenorder.patch
-Patch11: keep-caching-enabled.patch
-Patch12: ca-306943__disable_pv_drivers_and_reenable_emulated_devices.patch
-Patch13: remove_cryptopkg_dependency.patch
+Patch3: openssl.patch
+Patch4: nvidia-vgpu-support.patch
+Patch5: gvt-g-support.patch
+Patch6: set-default-resolution-1024-768.patch
+Patch7: embed-nic-drivers.patch
+Patch8: add-xen-variable.patch
+Patch9: add-xen-platform-device-id.patch
+Patch10: disable-modules.patch
+Patch11: xenorder.patch
+Patch12: keep-caching-enabled.patch
+Patch13: remove-unused-crypto.patch
 
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/edk2.pg/archive?at=1.3.2&format=tar#/edk2.pg.tar) = 1c9d85d847710658ce1eea844764991eed2fe36e
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XSU/repos/edk2/archive?at=4b8552d&format=tar.gz&prefix=edk2-20180522git4b8552d#/edk2-20180522git4b8552d.tar.gz) = 4b8552d794e7b17a6627e0f752fd298e8bcb2587
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/edk2.pg/archive?at=1.4.2&format=tar#/edk2.pg.tar) = 925e88bff6e61154110846a54a98ab6422129594
 
 
 BuildRequires: gcc gcc-c++
@@ -53,7 +52,7 @@ cp %{_datadir}/ipxe/10ec8139.efi .
 cp %{_datadir}/ipxe/8086100e.efi .
 
 OvmfPkg/build.sh \
-    -D SECURE_BOOT_ENABLE=FALSE \
+    -D SECURE_BOOT_ENABLE=TRUE \
     -D NETWORK_IP6_ENABLE=FALSE \
     -D IPXE_ENABLE=TRUE \
     -D HTTP_BOOT_ENABLE=FALSE \
@@ -65,7 +64,7 @@ OvmfPkg/build.sh \
     -a X64 -n %{?_smp_flags}
 
 OvmfPkg/build.sh \
-    -D SECURE_BOOT_ENABLE=FALSE \
+    -D SECURE_BOOT_ENABLE=TRUE \
     -D NETWORK_IP6_ENABLE=FALSE \
     -D IPXE_ENABLE=TRUE \
     -D HTTP_BOOT_ENABLE=FALSE \
@@ -95,6 +94,20 @@ cp OvmfPkg/License.txt License.ovmf
 
 
 %changelog
+* Thu Jul 04 2019 Ross Lagerwall <ross.lagerwall@citrix.com> - 20180522git4b8552d-1.4.2
+- CA-322248: Prevent guest attempting to accessing priv regsiters
+
+* Wed Jun 19 2019 Ross Lagerwall <ross.lagerwall@citrix.com> - 20180522git4b8552d-1.4.1
+- CA-321788: make vGPU console work with all NVidia cards
+- Replace local fixes with upstream backports
+
+* Thu May 30 2019 Edwin Török <edvin.torok@citrix.com> - 20180522git4b8552d-1.4.0
+- CP-30786: Turn off cryptopkg when secure boot is off
+- Fix typo in secure boot enable condition
+- CA-314662: Don't accidentally switch off MTRRs in SEC phase
+- CA-309841: reenable PV drivers in OVMF
+- CP-30787: disable unneeded crypto code, simplify patchqueue
+
 * Tue Dec 18 2018 Edwin Török <edvin.torok@citrix.com> - 20180522git4b8552d-1.2.0
 - CA-293636: Add support for NVIDIA vGPU on top of UEFI
 - CA-293633: Set default video resoultion to 1024x768

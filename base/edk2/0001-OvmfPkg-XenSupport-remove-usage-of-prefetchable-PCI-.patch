@@ -1,24 +1,44 @@
-From b755f4c424bc754023cafafdccda141def72b7a9 Mon Sep 17 00:00:00 2001
+From 27e4d6ae25a08a6e9d78b27ce201800d3d072401 Mon Sep 17 00:00:00 2001
 From: Igor Druzhinin <igor.druzhinin@citrix.com>
-Date: Fri, 24 Aug 2018 23:23:03 +0100
-Subject: [PATCH 1/3] OvmfPkg/XenSupport: remove usage of prefetchable PCI host
+Date: Thu, 25 Apr 2019 21:23:56 +0100
+Subject: [PATCH 1/1] OvmfPkg/XenSupport: remove usage of prefetchable PCI host
  bridge aperture
 
-This aperture doesn't exist in OVMF and trying to use it causes
-failing assertions later in cases there are prefetchable and
-non-prefetchable BARs following each other. This configuration is
-quite likely with some PCI passthrough devices.
+This aperture doesn't exist in QEMU-XEN and hvmloader places BARs
+in arbitrary order disregarding prefetchable bit. This makes
+prefetchable and non-prefetchable BARs to follow each other that's
+quite likely with PCI passthrough devices. In that case, the existing
+code, that tries to work out aperture boundaries by reading hvmloader
+BAR placement, will report a bogus prefetchable aperture which overlaps
+with the regular one. It will eventually trigger an assertion in
+DXE PCI initialization code.
 
+Do the same thing as OVMF on QEMU-KVM and pass a non-existing aperture
+there. It's not necessary to pass additional allocation flags as we set
+ResourceAssigned flag on the root bridge which means they will be ignored.
+
+Reviewed-by: Anthony PERARD <anthony.perard@citrix.com>
 Signed-off-by: Igor Druzhinin <igor.druzhinin@citrix.com>
 ---
- OvmfPkg/Library/PciHostBridgeLib/XenSupport.c | 12 ++----------
- 1 file changed, 2 insertions(+), 10 deletions(-)
+ OvmfPkg/Library/PciHostBridgeLib/XenSupport.c | 34 ++++++++++-----------------
+ 1 file changed, 12 insertions(+), 22 deletions(-)
 
 diff --git a/OvmfPkg/Library/PciHostBridgeLib/XenSupport.c b/OvmfPkg/Library/PciHostBridgeLib/XenSupport.c
-index 9204179..c23c46d 100644
+index afb2c5e..354b0a5 100644
 --- a/OvmfPkg/Library/PciHostBridgeLib/XenSupport.c
 +++ b/OvmfPkg/Library/PciHostBridgeLib/XenSupport.c
-@@ -129,11 +129,7 @@ PcatPciRootBridgeParseBars (
+@@ -60,9 +60,7 @@ PcatPciRootBridgeParseBars (
+   IN UINTN                          BarOffsetEnd,
+   IN PCI_ROOT_BRIDGE_APERTURE       *Io,
+   IN PCI_ROOT_BRIDGE_APERTURE       *Mem,
+-  IN PCI_ROOT_BRIDGE_APERTURE       *MemAbove4G,
+-  IN PCI_ROOT_BRIDGE_APERTURE       *PMem,
+-  IN PCI_ROOT_BRIDGE_APERTURE       *PMemAbove4G
++  IN PCI_ROOT_BRIDGE_APERTURE       *MemAbove4G
+ 
+ )
+ {
+@@ -123,11 +121,7 @@ PcatPciRootBridgeParseBars (
            //
            Length = ((~Length) + 1) & 0xffffffff;
  
@@ -31,7 +51,7 @@ index 9204179..c23c46d 100644
          } else {
            //
            // 64bit
-@@ -149,11 +145,7 @@ PcatPciRootBridgeParseBars (
+@@ -143,11 +137,7 @@ PcatPciRootBridgeParseBars (
            Length = Length | LShiftU64 ((UINT64) UpperValue, 32);
            Length = (~Length) + 1;
  
@@ -44,6 +64,74 @@ index 9204179..c23c46d 100644
          }
  
          Limit = Base + Length - 1;
+@@ -164,6 +154,8 @@ PcatPciRootBridgeParseBars (
+   }
+ }
+ 
++STATIC PCI_ROOT_BRIDGE_APERTURE mNonExistAperture = { MAX_UINT64, 0 };
++
+ PCI_ROOT_BRIDGE *
+ ScanForRootBridges (
+   UINTN      *NumberOfRootBridges
+@@ -180,7 +172,7 @@ ScanForRootBridges (
+   UINT64     Base;
+   UINT64     Limit;
+   UINT64     Value;
+-  PCI_ROOT_BRIDGE_APERTURE Io, Mem, MemAbove4G, PMem, PMemAbove4G, *MemAperture;
++  PCI_ROOT_BRIDGE_APERTURE Io, Mem, MemAbove4G, *MemAperture;
+   PCI_ROOT_BRIDGE *RootBridges;
+   UINTN      BarOffsetEnd;
+ 
+@@ -200,9 +192,7 @@ ScanForRootBridges (
+     ZeroMem (&Io, sizeof (Io));
+     ZeroMem (&Mem, sizeof (Mem));
+     ZeroMem (&MemAbove4G, sizeof (MemAbove4G));
+-    ZeroMem (&PMem, sizeof (PMem));
+-    ZeroMem (&PMemAbove4G, sizeof (PMemAbove4G));
+-    Io.Base = Mem.Base = MemAbove4G.Base = PMem.Base = PMemAbove4G.Base = MAX_UINT64;
++    Io.Base = Mem.Base = MemAbove4G.Base = MAX_UINT64;
+     //
+     // Scan all the PCI devices on the primary bus of the PCI root bridge
+     //
+@@ -307,16 +297,17 @@ ScanForRootBridges (
+ 
+           //
+           // Get the Prefetchable Memory range that the PPB is decoding
++          // and merge it into Memory range
+           //
+           Value = Pci.Bridge.PrefetchableMemoryBase & 0x0f;
+           Base = ((UINT32) Pci.Bridge.PrefetchableMemoryBase & 0xfff0) << 16;
+           Limit = (((UINT32) Pci.Bridge.PrefetchableMemoryLimit & 0xfff0)
+                    << 16) | 0xfffff;
+-          MemAperture = &PMem;
++          MemAperture = &Mem;
+           if (Value == BIT0) {
+             Base |= LShiftU64 (Pci.Bridge.PrefetchableBaseUpper32, 32);
+             Limit |= LShiftU64 (Pci.Bridge.PrefetchableLimitUpper32, 32);
+-            MemAperture = &PMemAbove4G;
++            MemAperture = &MemAbove4G;
+           }
+           if (Base < Limit) {
+             if (MemAperture->Base > Base) {
+@@ -367,8 +358,7 @@ ScanForRootBridges (
+           OFFSET_OF (PCI_TYPE00, Device.Bar),
+           BarOffsetEnd,
+           &Io,
+-          &Mem, &MemAbove4G,
+-          &PMem, &PMemAbove4G
++          &Mem, &MemAbove4G
+         );
+ 
+         //
+@@ -440,7 +430,7 @@ ScanForRootBridges (
+       InitRootBridge (
+         Attributes, Attributes, 0,
+         (UINT8) PrimaryBus, (UINT8) SubBus,
+-        &Io, &Mem, &MemAbove4G, &PMem, &PMemAbove4G,
++        &Io, &Mem, &MemAbove4G, &mNonExistAperture, &mNonExistAperture,
+         &RootBridges[*NumberOfRootBridges]
+       );
+       RootBridges[*NumberOfRootBridges].ResourceAssigned = TRUE;
 -- 
 2.7.4
 
