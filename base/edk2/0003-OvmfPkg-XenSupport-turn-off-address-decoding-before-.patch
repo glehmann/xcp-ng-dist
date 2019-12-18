@@ -1,6 +1,6 @@
-From c5acae322b64c654eaef08732f8021b40ff72aa2 Mon Sep 17 00:00:00 2001
+From 0c40c9c925ca1cc15b9cbeae31723b0b784b932e Mon Sep 17 00:00:00 2001
 From: Igor Druzhinin <igor.druzhinin@citrix.com>
-Date: Fri, 24 Aug 2018 23:42:17 +0100
+Date: Thu, 25 Apr 2019 21:23:58 +0100
 Subject: [PATCH 3/3] OvmfPkg/XenSupport: turn off address decoding before BAR
  sizing
 
@@ -14,62 +14,51 @@ Fix it by disabling PCI address decoding explicitly before the
 first attempt to size BARs on Xen.
 
 Signed-off-by: Igor Druzhinin <igor.druzhinin@citrix.com>
+Acked-by: Laszlo Ersek <lersek@redhat.com>
+Acked-by: Anthony PERARD <anthony.perard@citrix.com>
+---
+ OvmfPkg/Library/PciHostBridgeLib/XenSupport.c | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
+
 diff --git a/OvmfPkg/Library/PciHostBridgeLib/XenSupport.c b/OvmfPkg/Library/PciHostBridgeLib/XenSupport.c
-index 408fb24..9940335 100644
+index 76fca53..b41bd6b 100644
 --- a/OvmfPkg/Library/PciHostBridgeLib/XenSupport.c
 +++ b/OvmfPkg/Library/PciHostBridgeLib/XenSupport.c
-@@ -55,6 +55,33 @@ PcatPciRootBridgeBarExisted (
+@@ -49,6 +49,22 @@ PcatPciRootBridgeBarExisted (
    EnableInterrupts ();
  }
  
-+#define EFI_PCI_COMMAND_DECODE ((UINT16)(EFI_PCI_COMMAND_IO_SPACE | \
-+                                         EFI_PCI_COMMAND_MEMORY_SPACE))
++#define PCI_COMMAND_DECODE ((UINT16)(EFI_PCI_COMMAND_IO_SPACE | \
++                                     EFI_PCI_COMMAND_MEMORY_SPACE))
 +STATIC
 +VOID
-+PcatPciRootBridgeDecoding (
-+  IN  UINTN                          Address,
-+  IN  BOOLEAN                        Enabled,
-+  OUT UINT16                         *OriginalValue
++PcatPciRootBridgeDecodingDisable (
++  IN  UINTN                          Address
 +  )
 +{
-+  UINT16                            Value;
++  UINT16                             Value;
 +
-+  //
-+  // Preserve the original value
-+  //
-+  Value = *OriginalValue;
-+  *OriginalValue = PciRead16 (Address);
-+
-+  if (!Enabled) {
-+    if (*OriginalValue & EFI_PCI_COMMAND_DECODE)
-+       PciWrite16 (Address, *OriginalValue & ~EFI_PCI_COMMAND_DECODE);
-+  } else {
-+    if (Value & EFI_PCI_COMMAND_DECODE)
-+      PciWrite16 (Address, Value);
++  Value = PciRead16 (Address);
++  if (Value & PCI_COMMAND_DECODE) {
++    PciWrite16 (Address, Value & ~(UINT32)PCI_COMMAND_DECODE);
 +  }
 +}
 +
  STATIC
  VOID
  PcatPciRootBridgeParseBars (
-@@ -76,6 +103,7 @@ PcatPciRootBridgeParseBars (
-   UINT32                            Value;
-   UINT32                            OriginalUpperValue;
-   UINT32                            UpperValue;
-+  UINT16                            OriginalCommand;
-   UINT64                            Mask;
-   UINTN                             Offset;
-   UINT64                            Base;
-@@ -83,6 +111,12 @@ PcatPciRootBridgeParseBars (
+@@ -75,6 +91,11 @@ PcatPciRootBridgeParseBars (
    UINT64                            Limit;
    PCI_ROOT_BRIDGE_APERTURE          *MemAperture;
  
 +  // Disable address decoding for every device before OVMF starts sizing it
-+  PcatPciRootBridgeDecoding (
-+    PCI_LIB_ADDRESS (Bus, Device, Function, PCI_COMMAND_OFFSET),
-+    FALSE, &OriginalCommand
++  PcatPciRootBridgeDecodingDisable (
++    PCI_LIB_ADDRESS (Bus, Device, Function, PCI_COMMAND_OFFSET)
 +  );
 +
    for (Offset = BarOffsetBase; Offset < BarOffsetEnd; Offset += sizeof (UINT32)) {
      PcatPciRootBridgeBarExisted (
        PCI_LIB_ADDRESS (Bus, Device, Function, Offset),
+-- 
+2.7.4
+
