@@ -21,7 +21,7 @@ MTRR state right before jumping into PEI Core which is located
 in low memory and should be WB already.
 
 diff --git a/OvmfPkg/Sec/SecMain.c b/OvmfPkg/Sec/SecMain.c
-index f7fec3d..8e97fd0 100644
+index f7fec3d..76b90d8 100644
 --- a/OvmfPkg/Sec/SecMain.c
 +++ b/OvmfPkg/Sec/SecMain.c
 @@ -30,6 +30,7 @@
@@ -49,7 +49,7 @@ index f7fec3d..8e97fd0 100644
 +  MtrrGetAllMtrrs (&SavedMtrrSettings);
 +  CopyMem (&MtrrSettings, &SavedMtrrSettings, sizeof MtrrSettings);
 +  ZeroMem (&MtrrSettings.Variables, sizeof MtrrSettings.Variables);
-+  MtrrSettings.MtrrDefType = MTRR_CACHE_WRITE_BACK;
++  MtrrSettings.MtrrDefType = (MtrrSettings.MtrrDefType & ~0xff) | MTRR_CACHE_WRITE_BACK;
 +  MtrrSetAllMtrrs (&MtrrSettings);
 +
    //

@@ -1,0 +1,86 @@
+CP-30787: Crypto code build&linking changes
+
+From: Edwin Török <edvin.torok@citrix.com>
+
+if secureboot is not enabled disable all Crypto.
+if it is enabled then disable the following:
+disable DSA/ECC X509 signature algorithms
+disable MD4, Ciphers, RsaExt, Pkcs7Sign, and Dh
+
+Signed-off-by: Edwin Török <edvin.torok@citrix.com>
+
+diff --git a/CryptoPkg/Library/BaseCryptLib/BaseCryptLib.inf b/CryptoPkg/Library/BaseCryptLib/BaseCryptLib.inf
+index bb91f89..e7914bd 100644
+--- a/CryptoPkg/Library/BaseCryptLib/BaseCryptLib.inf
++++ b/CryptoPkg/Library/BaseCryptLib/BaseCryptLib.inf
+@@ -34,7 +34,7 @@
+ 
+ [Sources]
+   InternalCryptLib.h
+-  Hash/CryptMd4.c
++  Hash/CryptMd4Null.c
+   Hash/CryptMd5.c
+   Hash/CryptSha1.c
+   Hash/CryptSha256.c
+@@ -42,15 +42,15 @@
+   Hmac/CryptHmacMd5.c
+   Hmac/CryptHmacSha1.c
+   Hmac/CryptHmacSha256.c
+-  Cipher/CryptAes.c
+-  Cipher/CryptTdes.c
+-  Cipher/CryptArc4.c
++  Cipher/CryptAesNull.c
++  Cipher/CryptTdesNull.c
++  Cipher/CryptArc4Null.c
+   Pk/CryptRsaBasic.c
+-  Pk/CryptRsaExt.c
+-  Pk/CryptPkcs5Pbkdf2.c
+-  Pk/CryptPkcs7Sign.c
++  Pk/CryptRsaExtNull.c
++  Pk/CryptPkcs5Pbkdf2Null.c
++  Pk/CryptPkcs7SignNull.c
+   Pk/CryptPkcs7Verify.c
+-  Pk/CryptDh.c
++  Pk/CryptDhNull.c
+   Pk/CryptX509.c
+   Pk/CryptAuthenticode.c
+   Pk/CryptTs.c
+diff --git a/CryptoPkg/Library/BaseCryptLib/SmmCryptLib.inf b/CryptoPkg/Library/BaseCryptLib/SmmCryptLib.inf
+index 36552bc..495d677 100644
+--- a/CryptoPkg/Library/BaseCryptLib/SmmCryptLib.inf
++++ b/CryptoPkg/Library/BaseCryptLib/SmmCryptLib.inf
+@@ -47,7 +47,7 @@
+   Hmac/CryptHmacMd5Null.c
+   Hmac/CryptHmacSha1Null.c
+   Hmac/CryptHmacSha256.c
+-  Cipher/CryptAes.c
++  Cipher/CryptAesNull.c
+   Cipher/CryptTdesNull.c
+   Cipher/CryptArc4Null.c
+   Pk/CryptRsaBasic.c
+diff --git a/CryptoPkg/Library/OpensslLib/OpensslLib.inf b/CryptoPkg/Library/OpensslLib/OpensslLib.inf
+index 3b622c0..dddfded 100644
+--- a/CryptoPkg/Library/OpensslLib/OpensslLib.inf
++++ b/CryptoPkg/Library/OpensslLib/OpensslLib.inf
+@@ -21,7 +21,7 @@
+   VERSION_STRING                 = 1.0
+   LIBRARY_CLASS                  = OpensslLib
+   DEFINE OPENSSL_PATH            = openssl-xs
+-  DEFINE OPENSSL_FLAGS           = -DL_ENDIAN -DOPENSSL_SMALL_FOOTPRINT -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DNO_SYSLOG
++  DEFINE OPENSSL_FLAGS           = -DL_ENDIAN -DOPENSSL_SMALL_FOOTPRINT -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DNO_SYSLOG -DOPENSSL_NO_DSA -DOPENSSL_NO_EC
+ 
+ #
+ #  VALID_ARCHITECTURES           = IA32 X64 IPF ARM AARCH64
+diff --git a/CryptoPkg/Library/OpensslLib/OpensslLibCrypto.inf b/CryptoPkg/Library/OpensslLib/OpensslLibCrypto.inf
+index 6a7a71f..79a7397 100644
+--- a/CryptoPkg/Library/OpensslLib/OpensslLibCrypto.inf
++++ b/CryptoPkg/Library/OpensslLib/OpensslLibCrypto.inf
+@@ -21,7 +21,7 @@
+   VERSION_STRING                 = 1.0
+   LIBRARY_CLASS                  = OpensslLib
+   DEFINE OPENSSL_PATH            = openssl-xs
+-  DEFINE OPENSSL_FLAGS           = -DL_ENDIAN -DOPENSSL_SMALL_FOOTPRINT -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DNO_SYSLOG
++  DEFINE OPENSSL_FLAGS           = -DL_ENDIAN -DOPENSSL_SMALL_FOOTPRINT -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DNO_SYSLOG -DOPENSSL_NO_DSA -DOPENSSL_NO_EC
+ 
+ #
+ #  VALID_ARCHITECTURES           = IA32 X64 IPF ARM AARCH64
