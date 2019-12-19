@@ -1,14 +1,14 @@
 Name: xen-crashdump-analyser
 Summary: Xen crashdump analyser
-Version: 2.5.3
+Version: 2.5.4
 Release: 1%{?dist}
 License: GPL
 Group: Applications/System
 
-Source0: https://code.citrite.net/rest/archive/latest/projects/XS/repos/xen-crashdump-analyser/archive?at=v2.5.3&format=tar.gz&prefix=xen-crashdump-analyser-2.5.3#/xen-crashdump-analyser.tar.gz
+Source0: https://code.citrite.net/rest/archive/latest/projects/XS/repos/xen-crashdump-analyser/archive?at=v2.5.4&format=tar.gz&prefix=xen-crashdump-analyser-2.5.4#/xen-crashdump-analyser.tar.gz
 
 
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/xen-crashdump-analyser/archive?at=v2.5.3&format=tar.gz&prefix=xen-crashdump-analyser-2.5.3#/xen-crashdump-analyser.tar.gz) = c7728fc9ae7eba85d1abe25dbb741acb3e3d565d
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/xen-crashdump-analyser/archive?at=v2.5.4&format=tar.gz&prefix=xen-crashdump-analyser-2.5.4#/xen-crashdump-analyser.tar.gz) = b4eb0e4ce8e6017b3360e48bcd2e3b750e3e21b4
 
 BuildRequires: gcc-c++
 
@@ -25,7 +25,7 @@ instructions, examples and more.
 %autosetup -p1
 
 %build
-%{?cov_wrap} %{__make}
+%{?cov_wrap} %{__make} VERSION=%{version}
 
 %install
 %{__rm} -rf %{buildroot}
@@ -39,6 +39,9 @@ instructions, examples and more.
 %{_libdir}/xen/bin/%{name}
 
 %changelog
+* Thu Sep 26 2019 Igor Druzhinin <igor.druzhinin@citrix.com> - 2.5.4-1
+- CA-324788: new way to check is_hvm domain
+
 * Fri Sep 28 2018 Ross Lagerwall <ross.lagerwall@citrix.com> - 2.5.3-1
 - CA-297601: xen-crashdump-analyser doesn't read v4.14 kernel log buffer correctly
 
