@@ -1,5 +1,9 @@
+## This has to match the declaration in xs-opam-repo, which
+## relies on this directory and being WORLD WRITABLE
+%global _opamroot %{_libdir}/opamroot
+
 Name: xs-opam-src
-Version: 5.0.0
+Version: 5.1.0
 Release: 1%{?dist}
 Summary: Opam repository
 License: Various
@@ -14,14 +18,17 @@ required for building the OCaml components in the XS Toolstack.
 %install
 
 # create opam root
-mkdir -p  %{buildroot}/usr/lib/opamroot
-chmod 777 %{buildroot}/usr/lib/opamroot
+mkdir -p  %{buildroot}%{_opamroot}
+chmod 777 %{buildroot}%{_opamroot}
 
 
 %files
-/usr/lib/opamroot
-%attr(777, root, wheel) /usr/lib/opamroot
+%{_opamroot}
+%attr(777, root, wheel) %{_opamroot}
 
 %changelog
+* Tue May 28 2019 Christian Lindig <christian.lindig@citrix.com> - 5.1.0-1
+* CA-319332 defining _opamroot requires version bump
+
 * Wed Oct 03 2018 Christian Lindig <christian.lindig@citrix.com> - 5.0.0-1
 - Use Opam 2.0.0
