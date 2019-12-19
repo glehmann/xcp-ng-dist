@@ -1,14 +1,18 @@
+## This has to match the declaration in xs-opam-src, which
+## creates the directory and makes it WORLD WRITABLE
+%global _opamroot %{_libdir}/opamroot
+
 Name: xs-opam-repo
-Version: 6.3.1
+Version: 6.22.0
 Release: 1%{?dist}
 Summary: Build and install OCaml libraries from Opam repository
 License: Various
 URL:     https://github.com/xapi-project/xs-opam
 
-Source0: https://repo.citrite.net/ctx-local-contrib/xs-opam/xs-opam-repo-6.3.1.tar.gz
+Source0: https://repo.citrite.net/ctx-local-contrib/xs-opam/xs-opam-repo-6.22.0.tar.gz
 
 
-Provides: gitsha(https://repo.citrite.net/ctx-local-contrib/xs-opam/xs-opam-repo-6.3.1.tar.gz) = c5af2c206e610bd6755758022a692eba2a11b7cb
+Provides: gitsha(https://repo.citrite.net/ctx-local-contrib/xs-opam/xs-opam-repo-6.22.0.tar.gz) = 9721d9b30181276bea336adfe656a1c1c4c6e4a1
 
 
 
@@ -17,7 +21,7 @@ Provides: gitsha(https://repo.citrite.net/ctx-local-contrib/xs-opam/xs-opam-repo
 # you can pin to a repository outside Citrix.
 
 AutoReqProv: no
-BuildRequires: xs-opam-src >= 5.0.0
+BuildRequires: xs-opam-src >= 5.1.0
 
 Requires:      opam >= 2.0.0
 Requires:      ocaml
@@ -56,12 +60,12 @@ Toolstack components of the Citrix Hypervisor.
 %install
 
 PKG=""
-PKG="$PKG $(ls -1 packages/upstream)"
+PKG="$PKG $(ls -1 packages/upstream | grep -v 'ppx_tools.*4.08.0')"
 PKG="$PKG $(ls -1 packages/xs)"
 
 # install into the real opam root to avoid problems with 
-# embedded paths
-export OPAMROOT=/usr/lib/opamroot
+# embedded paths.
+export OPAMROOT=%{_opamroot}
 # sandbox is incompatible with the xenctrl package
 opam init --disable-sandboxing -y local file://${PWD}
 opam switch create ocaml-system
@@ -71,28 +75,230 @@ export OPAMFETCH=/bin/false
 opam config exec -- opam install %{?_smp_mflags} -y $PKG
 
 mkdir -p %{buildroot}/etc/profile.d
-mkdir -p %{buildroot}/usr/lib/opamroot
-echo 'export OPAMROOT=/usr/lib/opamroot' > %{buildroot}/etc/profile.d/opam.sh
+mkdir -p %{buildroot}%{_opamroot}
+echo 'export OPAMROOT=%{_opamroot}' > %{buildroot}/etc/profile.d/opam.sh
 echo 'eval `opam config env`' >> %{buildroot}/etc/profile.d/opam.sh
 
-rm -rf /usr/lib/opamroot/ocaml-system/.opam-switch/sources
-rm -rf /usr/lib/opamroot/download-cache/*
-rm -rf /usr/lib/opamroot/repo/local/cache/*
-find   /usr/lib/opamroot/ocaml-system/lib -type f -name '*.cmt*' -delete
+rm -rf %{_opamroot}/ocaml-system/.opam-switch/sources
+rm -rf %{_opamroot}/download-cache/*
+rm -rf %{_opamroot}/repo/local/cache/*
+find   %{_opamroot}/ocaml-system/lib -type f -name '*.cmt*' -delete
 
-rsync -aW /usr/lib/opamroot/ %{buildroot}/usr/lib/opamroot/
-strip %{buildroot}/usr/lib/opamroot/ocaml-system/bin/* || true
+rsync -aW %{_opamroot}/ %{buildroot}%{_opamroot}/
+strip %{buildroot}%{_opamroot}/ocaml-system/bin/* || true
+
+mkdir -p "%{buildroot}%{_rpmconfigdir}/macros.d"
+echo '%%_opamroot %%{_libdir}/opamroot' >> "%{buildroot}%{_rpmconfigdir}/macros.d/macros.opam"
 
 %files
 %attr(644, root, root) /etc/profile.d/opam.sh
 %defattr(-, root, wheel, 775)
-%exclude /usr/lib/opamroot/download-cache
-%exclude /usr/lib/opamroot/repo/local/cache
-/usr/lib/opamroot
+%exclude %{_opamroot}/download-cache
+%exclude %{_opamroot}/repo/local/cache
+%{_rpmconfigdir}/macros.d/macros.opam
+%{_opamroot}
 
 %changelog
-* Tue Apr 02 2019 Christian Lindig <christian.lindig@citrix.com> - 6.3.1-1
-- CA-314001, CA-310525: fsync runtime lock fix, and statvfs fix
+* Mon Nov 04 2019 Pau Ruiz Safont  <pau.safont@citrix.com> - 6.22.0-1
+- xs: bump xcp-rrd
+
+* Tue Oct 29 2019 Pau Ruiz Safont <pau.safont@citrix.com> - 6.21.0-1
+- xs-extra: sync metadata with repos
+- xs: update xapi-rrd to v1.7.0
+
+* Tue Oct 29 2019 Pau Ruiz Safont <pau.safont@citrix.com> - 6.20.0-1
+- Add xenops-cli
+- CP-32138: Add logs-syslog and dependencies
+- upstream-extra: update ocp-indent checksum
+- upstream-extra: add crowbar for testing
+- xs-extra: sync metadata with repo
+
+* Mon Sep 30 2019 Christian Lindig <christian.lindig@citrix.com> - 6.19.0-1
+- CP-32055: Update angstrom to 0.12.1
+- CP-32055: remove unused packages
+- CP-32055: update diet to 0.4
+- CP-32055: update opam-ed
+- CP-32055: keep toolstack packages up-to-date
+- CP-32055: update ssl to 0.5.9
+- CP-32055: update lwt to 4.3.1
+- CP-32055: update menhir to 20190924
+- CP-32055: update ppxlib to 0.8.1
+- CP-32055: update bigstringaf to 0.6.0
+- CP-32055: update utop and ocp-indent
+- CP-32055: update janestreet packages
+- CP-32055: update utop to 2.4.1
+- CP-32055: update camomile to 1.0.2
+- CP-32055: update lwt_react to 1.1.3
+
+* Fri Sep 06 2019 Christian Lindig <christian.lindig@citrix.com> - 6.18.0-1
+- CP-32055: update x509 to 0.7.1
+- CP-32055: update zarith to 1.9.1
+- CP-32055: update ctypes to 0.15.1
+
+* Tue Sep 03 2019 Christian Lindig <christian.lindig@citrix.com> - 6.16.0-2
+- Avoid installing ppx_tools.5.3+4.08.0
+
+* Tue Sep 03 2019 Christian Lindig <christian.lindig@citrix.com> - 6.16.0-1
+- add ppx_tools 5.3+4.08.0 for OCaml 4.08
+- Add 4.08 for testing
+- CP-32055: move core_kernel to correct folder
+- CP-32055: update bigstringaf to 0.5.3
+- CP-32055: update magic-mime to 1.1.2
+- CP-32055: update lwt_ssl to 1.1.3
+- CP-32055: update lwt_log to 1.1.1
+- CP-32055: update lwt to 4.3.0
+- CP-32055: update menhir to 20190626
+- CP-32055: update logs to 0.7.0
+- CP-32055: update dune to 1.11.3
+- CP-32055: update fmt to 0.8.8
+- CP-32055: update mirage-protocol packages to 3.0.0
+- CP-32055: update mirage-profile to 0.9.1
+- CP-32055: update mirage-console packages to 2.4.3
+- CP-32055: update cohttp packages to 2.3.0
+- CP-32055: update mirage-types packages to 3.5.2
+- CP-32055: update mirage-time packages to 1.3.0*
+
+* Fri Aug 23 2019 Edwin Török <edvin.torok@citrix.com> - 6.15.0
+- CP-32055: update Jane Street ecosystem to v0.12
+- CP-32055: update ppx_deriving to 4.4
+- CP-32055: update ppx_tools_versioned to 5.2.3
+- CP-32055: update mtime to 1.2.0
+- CP-32055: update io-page packages to 2.3.0
+- CP-32055: update ocam-migrate-parsetree to 1.4.0
+- CP-32055: update ocamlfind to 1.8.1
+- CP-32055: update biniou to 1.2.1
+- CP-32055: update num to 1.2
+- CP-32055: update topkg to 1.0.1
+- CP-32055: update bigstringaf to 0.5.2
+- CP-32055: update easy-format to 1.3.2
+- CP-32055: update cmdliner to 1.0.4
+- CP-32055: update dune to 1.11.1
+
+* Wed Aug 07 2019 Christian Lindig <christian.lindig@citrix.com> - 6.14.0-1
+- xcp-rrd update to 1.6.0 for CA-322008
+- xs-toolstack: remove unused xapi-netdev dependency
+- Remove unused xapi-netdev package
+- xapi: remove unused netdev dependency
+- Add a build that also runs the tests
+
+* Fri Jul 26 2019 Rob Hoes <rob.hoes@citrix.com> - 6.13.0-1
+- Fix xapi-test-utils opam dependencies
+
+* Fri Jul 26 2019 Rob Hoes <rob.hoes@citrix.com> - 6.12.0-1
+- Update xapi-test-utils to 1.3.0
+- Update ezxenstore to 0.4.0
+- Drop rpc completely from opam files, do not keep it as optional
+- Update http-svr opam file from repo
+- update dummy xapi-clusterd to latest
+- Do depext after switching to 4.07
+- use rpclib instead of rpc when available
+
+* Mon Jul 01 2019 Christian Lindig <christian.lindig@citrix.com> - 6.11.0-1
+- Update xenstore_transport to 1.1.0, fixes CA-289145
+
+* Mon Jun 10 2019 Christian Lindig <christian.lindig@citrix.com> - 6.10.0-1
+- Remove obsolete packages: cow, omd, caml2html
+- CP-30756: update cstruct packages to 5.0.0
+- CP-30756: update mirage-block-unix to 2.11.2
+- CP-30756: update dune to 1.10.0
+- CP-30756: update ppx_tools_versioned to 5.2.2
+- CP-30756: update ppxlib to 0.8.0
+- CP-30756: update ocaml-migrate-parsetree to 1.3.1
+- CP-30756: update result to 1.4
+- CP-30756: update uri to 2.2.1
+- CP-30756: update ocaml-compiler-libs to v0.12.0
+- CP-39756: update stringext to 1.6.0
+- CP-30756: update cppo packages to 1.6.6
+- CP-30756: update sapwn to v0.13.0
+- CP-30756: update xen-gnt packages to 4.0.0
+
+* Wed Jun 05 2019 Christian Lindig <christian.lindig@citrix.com> - 6.9.0-1
+- Update stdext to 4.7.0
+- CP-30756: Update base64
+- maintenance: ignore files created for archiving
+
+* Tue May 28 2019 Christian Lindig <christian.lindig@citrix.com> - 6.8.0-2
+- explicitly require xs-opem-src > 5.1.0 which defines _opamroot
+
+* Wed May 22 2019 Christian Lindig <christian.lindig@citrix.com> - 6.8.0-1
+- CA-318579 update qmp to 0.18.0 for "query-chardev"
+- CP-30756: update tar packages to 1.1.0
+- CP-30756: update cstruct packages to 4.0.0
+- CP-30756: update nocrypto to follow opam-repository
+- xapi-rrd: update to 1.5.0 for CA-315952 XSI-335
+
+* Thu May 16 2019 Christian Lindig <christian.lindig@citrix.com> - 6.7.0-1
+- CP-30756: update hex to 1.4.0
+- CP-30756: update mirage-console packages to 2.4.2
+- CP-30756: upgrade mustache to 3.1.0
+- CP-30756: upgrade ppxlib to 0.6.0
+- CP-30756: update logs to 0.6.3
+- CP-30756: update mirage-flow packages to 1.6.0
+- CP-30756: update ezjsonm to 1.1.0
+- CP-30756: update ppxfind to 1.3
+- CP-30756: update fmt to 0.8.6
+- CP-30756: update ptime to 0.8.5
+- CP-30756: update io-page packages to 2.2.0
+- CP-30756: update octavius to 1.2.1
+- CP-30756: update lwt to 4.2.1
+- CP-30756: update cpuid to 0.1.2
+- CP-30756: update ppx_derivers to 1.2.1
+- CP-30756: Update opam-depext to 1.1.3
+- CP-30756: Update mmap to 1.1.0
+- CP-30756: Update dune to 1.9.3
+- CP-30756: Update re to 1.9.0
+- rrd-transport: add ezjsonm dependency
+- CP-30136: qmp.0.17.0
+- Travis: use "opam switch 4.07"
+- Travis: use debian-unstable
+- xapi.master: add libxxhash-dev external deps
+- xapi-test-utils: update to 1.2.0
+
+* Tue Apr 02 2019 Christian Lindig <christian.lindig@citrix.com> - 6.6.0-1
+- CA-314001: xapi-stdext 4.6.0
+- CP-30756: update mirage-types packages to 3.5.0
+- CP-30756: Update ipaddr to 3.1.0 and dependents
+- CP-30756: Update mirage-clock packages to 2.0.0
+- CP-30756: Update angstrom to 0.11.2
+- CP-30756: Update lwt to 4.2.0
+- CP-30756: Update bisect_ppx to 1.4.1
+- Don't package upstream-extra packages
+
+* Tue Mar 19 2019 Christian Lindig <christian.lindig@citrix.com> - 6.5.0-1
+- CP-30756: update mirage-device to 1.2.0
+- CP-30756: update mirage-block-unix to 2.11.1
+- CP-30756: update xen-gnt packages to 3.1.0
+- CP-30756: update mirage-stack packages to 1.4.0
+- CP-30756: update vhd-format packages to 0.12.0
+- CP-30756: update uuidm to 0.9.7
+- CP-30756: update mirage-block packages to 2.4.1
+- CP-30756: update mirage-console packages to 2.4.1
+- CP-30756: update angstrong to 0.11.1
+- CP-30756: Update mirage-channel packages to 3.2.0
+- CP-30756: update bigstringaf to 0.5.0
+- CP-30756: update xenstore to 2.1.0
+- CP-30756: update uutf to 1.0.2
+- CP-30756: update uri to 2.2.0
+- CP-30756: update tar libraries to 1.0.1
+- CP-30756: update ppxlib to 0.5.0
+- CP-30756: update cstruct packages to 3.3.0
+- CP-30756: Update ocaml-migrate-parsetree to 1.2.0
+- CP-30756: update ocamlbuild to 0.14.0
+- CP-30756: update magic-mime to 1.1.1
+- CP-30756: update ipaddr to 2.9.0
+- CP-30756: update io-page to 2.1.0
+- CP-30756: update hex to 1.3.0
+- CP-30756: update ezjsonm to 1.0.0
+- CP-30756: update duration to 0.1.2
+- CP-30756: updater alcotest to 0.8.5
+- CP-30756: update dune to 1.8.2
+- CP-30756: update yojson to 1.7.0
+- fix: copy files as user opam instead of root
+
+* Fri Mar 15 2019 Christian Lindig <christian.lindig@citrix.com> - 6.4.0-1
+- stdext 4.5.0
+- updated opam files in upstream/
+- add back patch for CA-297060
 
 * Tue Jan 22 2019 Christian Lindig <christian.lindig@citrix.com> - 6.3.0-1
 - Update Dune to 1.6.3
