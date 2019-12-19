@@ -1,14 +1,14 @@
 Summary: XCP-ng Host Configuration Console
 Name: xsconsole
-Version: 10.1.9
-Release: 1.4%{?dist}
+Version: 10.1.10
+Release: 1.1%{?dist}
 License: GPL2
 Group: Administration/System
 
-Source0: https://code.citrite.net/rest/archive/latest/projects/XS/repos/xsconsole/archive?at=v10.1.9&format=tar.gz&prefix=xsconsole-10.1.9#/xsconsole.tar.gz
+Source0: https://code.citrite.net/rest/archive/latest/projects/XS/repos/xsconsole/archive?at=v10.1.10&format=tar.gz&prefix=xsconsole-10.1.10#/xsconsole.tar.gz
 
 
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/xsconsole/archive?at=v10.1.9&format=tar.gz&prefix=xsconsole-10.1.9#/xsconsole.tar.gz) = 24327903dd83fe25b9b88a2bcbd71f2cc268cc00
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/xsconsole/archive?at=v10.1.10&format=tar.gz&prefix=xsconsole-10.1.10#/xsconsole.tar.gz) = 27eeac22e428093c01f431f7f95eba33a8d37c3f
 
 Provides: xsconsole0
 BuildRequires: python2-devel
@@ -21,6 +21,7 @@ Requires(postun): systemd
 # XCP-ng patches
 Patch1000: xsconsole-10.1.9-rebrand-xsconsole-service.XCP-ng.patch
 Patch1001: xsconsole-10.1.9-define-xcp-ng-colors.XCP-ng.patch
+# Probably not necessary anymore: the service isn't restarted during update anymore
 Patch1002: xsconsole-10.1.9-warn-about-yum-update-in-local-shell.XCP-ng.patch
 
 %description
@@ -45,7 +46,7 @@ Console tool for configuring a XCP-ng installation.
 %systemd_preun xsconsole.service
 
 %postun
-%systemd_postun_with_restart xsconsole.service
+%systemd_postun xsconsole.service
 
 %files
 %defattr(-,root,root,-)
@@ -58,14 +59,18 @@ Console tool for configuring a XCP-ng installation.
 %{_unitdir}/xsconsole.service
 
 %changelog
-* Tue Jul 16 2019 Samuel Verschelde <stormi-xcp@ylix.fr> - 10.1.9-1.4
-- Add warning about running yum update from xsconsole's shell
+* Thu Dec 19 2019 Samuel Verschelde <stormi-xcp@ylix.fr> - 10.1.10-1.1
+- Rebase on CH 8.1
+- Re-remove incloudsphere subpackage
+- Keep xsconsole-10.1.9-rebrand-xsconsole-service.XCP-ng.patch
+- Keep xsconsole-10.1.9-define-xcp-ng-colors.XCP-ng.patch
+- Keep xsconsole-10.1.9-warn-about-yum-update-in-local-shell.XCP-ng.patch for now
 
-* Thu Jun 06 2019 Samuel Verschelde <stormi-xcp@ylix.fr> - 10.1.9-1.3
-- Use XCP-ng colors for the console
+* Thu Oct 31 2019 Ross Lagerwall <ross.lagerwall@citrix.com> - 10.1.10-1
+- CP-30221: Switch to chrony from ntp
 
-* Mon Jun 03 2019 Samuel Verschelde <stormi-xcp@ylix.fr> - 10.1.9-1.1
-- Replace XenServer with XCP-ng in xsconsole.service
+* Mon Sep 16 2019 Ross Lagerwall <ross.lagerwall@citrix.com> - 10.1.9-2
+- CA-324927: Don't restart xsconsole during upgrade
 
 * Wed Jan 16 2019 Aaron Robson <aaron.robson@citrix.com> - 10.1.9-1
 - CA-304344: Makefile warning due to missing file XSFeatureInstallLicence.py
