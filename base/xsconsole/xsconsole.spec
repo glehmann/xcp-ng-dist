@@ -1,14 +1,14 @@
 Summary: XenServer Host Configuration Console
 Name: xsconsole
-Version: 10.1.9
+Version: 10.1.10
 Release: 1
 License: GPL2
 Group: Administration/System
 
-Source0: https://code.citrite.net/rest/archive/latest/projects/XS/repos/xsconsole/archive?at=v10.1.9&format=tar.gz&prefix=xsconsole-10.1.9#/xsconsole.tar.gz
+Source0: https://code.citrite.net/rest/archive/latest/projects/XS/repos/xsconsole/archive?at=v10.1.10&format=tar.gz&prefix=xsconsole-10.1.10#/xsconsole.tar.gz
 
 
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/xsconsole/archive?at=v10.1.9&format=tar.gz&prefix=xsconsole-10.1.9#/xsconsole.tar.gz) = 24327903dd83fe25b9b88a2bcbd71f2cc268cc00
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/xsconsole/archive?at=v10.1.10&format=tar.gz&prefix=xsconsole-10.1.10#/xsconsole.tar.gz) = 27eeac22e428093c01f431f7f95eba33a8d37c3f
 
 Provides: xsconsole0
 BuildRequires: python2-devel
@@ -22,7 +22,7 @@ Requires(postun): systemd
 Console tool for configuring a XenServer installation.
 
 %package incloudsphere
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/xsconsole/archive?at=v10.1.9&format=tar.gz&prefix=xsconsole-10.1.9#/xsconsole.tar.gz) = 24327903dd83fe25b9b88a2bcbd71f2cc268cc00
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/xsconsole/archive?at=v10.1.10&format=tar.gz&prefix=xsconsole-10.1.10#/xsconsole.tar.gz) = 27eeac22e428093c01f431f7f95eba33a8d37c3f
 Summary: InCloud Sphere plugins for %{name}
 Requires: %{name}%{?_isa} = %{version}-%{release}
 
@@ -49,7 +49,7 @@ InCloud Sphere.
 %systemd_preun xsconsole.service
 
 %postun
-%systemd_postun_with_restart xsconsole.service
+%systemd_postun xsconsole.service
 
 %files
 %defattr(-,root,root,-)
@@ -65,6 +65,12 @@ InCloud Sphere.
 %{_libdir}/xsconsole/plugins-oem/XSFeatureLicenseNag.py*
 
 %changelog
+* Thu Oct 31 2019 Ross Lagerwall <ross.lagerwall@citrix.com> - 10.1.10-1
+- CP-30221: Switch to chrony from ntp
+
+* Mon Sep 16 2019 Ross Lagerwall <ross.lagerwall@citrix.com> - 10.1.9-2
+- CA-324927: Don't restart xsconsole during upgrade
+
 * Wed Jan 16 2019 Aaron Robson <aaron.robson@citrix.com> - 10.1.9-1
 - CA-304344: Makefile warning due to missing file XSFeatureInstallLicence.py
 - CA-304345: Integrate xsconsole with Travis CI
