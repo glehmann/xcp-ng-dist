@@ -1,7 +1,7 @@
 Summary: XAPI additional plugins for XCP-ng
 Name: xcp-ng-xapi-plugins
 Version: 1.6.1
-Release: 1%{?dist}
+Release: 2%{?dist}
 URL: https://github.com/xcp-ng/xcp-ng-xapi-plugins
 Source0: https://github.com/xcp-ng/xcp-ng-xapi-plugins/archive/v%{version}/%{name}-%{version}.tar.gz
 License: AGPLv3
@@ -32,6 +32,9 @@ install SOURCES/etc/xapi.d/plugins/xcpngutils/*.py %{buildroot}/etc/xapi.d/plugi
 %dir /var/lib/xcp-ng-xapi-plugins
 
 %changelog
+* Fri Dec 20 2019 Samuel Verschelde <stormi-xcp@ylix.fr> - 1.6.1-2
+- Rebuild for XCP-ng 8.1.0
+
 * Fri Nov 29 2019 Samuel Verschelde <stormi-xcp@ylix.fr> - 1.6.1-1
 - Add plugin to handle netdata installation and configuration
 
