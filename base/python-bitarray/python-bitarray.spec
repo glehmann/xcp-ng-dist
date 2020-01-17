@@ -2,7 +2,7 @@
 %global sum Efficient Array of Booleans --C Extensions
 
 Name:           python-%{srcname}
-Version:        1.0.1
+Version:        1.2.1
 Release:        1%{?dist}
 Summary:        %{sum}
 
@@ -58,6 +58,9 @@ This is Python 3 version.
 
 
 %changelog
+* Mon Jan 06 2020 Fedora Release Monitoring <release-monitoring@fedoraproject.org> - 1.2.1-1
+- Update to 1.2.1 (#1771103)
+
 * Tue Sep 03 2019 Sérgio Basto <sergio@serjux.com> - 1.0.1-1
 - Update to 1.0.1
 
