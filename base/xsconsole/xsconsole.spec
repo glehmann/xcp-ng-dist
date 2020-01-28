@@ -1,7 +1,7 @@
 Summary: XCP-ng Host Configuration Console
 Name: xsconsole
 Version: 10.1.10
-Release: 1.1%{?dist}
+Release: 1.2%{?dist}
 License: GPL2
 Group: Administration/System
 
@@ -21,8 +21,6 @@ Requires(postun): systemd
 # XCP-ng patches
 Patch1000: xsconsole-10.1.9-rebrand-xsconsole-service.XCP-ng.patch
 Patch1001: xsconsole-10.1.9-define-xcp-ng-colors.XCP-ng.patch
-# Probably not necessary anymore: the service isn't restarted during update anymore
-Patch1002: xsconsole-10.1.9-warn-about-yum-update-in-local-shell.XCP-ng.patch
 
 %description
 Console tool for configuring a XCP-ng installation.
@@ -59,6 +57,10 @@ Console tool for configuring a XCP-ng installation.
 %{_unitdir}/xsconsole.service
 
 %changelog
+* Tue Jan 28 2020 Samuel Verschelde <stormi-xcp@ylix.fr> - 10.1.10-1.2
+- Remove xsconsole-10.1.9-warn-about-yum-update-in-local-shell.XCP-ng.patch
+- It's not needed since the service isn't restarted upon upgrade anymore
+
 * Thu Dec 19 2019 Samuel Verschelde <stormi-xcp@ylix.fr> - 10.1.10-1.1
 - Rebase on CH 8.1
 - Re-remove incloudsphere subpackage
