@@ -1,7 +1,7 @@
 Summary: A real mode 80x86 assembler and linker
 Name: dev86
 Version: 0.16.21
-Release: 14%{?dist}
+Release: 15%{?dist}
 License: GPL+ and GPLv2+ and LGPLv2+
 URL: http://v3.sk/~lkundrak/dev86/
 Source: http://v3.sk/~lkundrak/dev86/archive/Dev86src-%{version}.tar.gz
@@ -80,6 +80,9 @@ popd
 %{_mandir}/man1/*
 
 %changelog
+* Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.16.21-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
+
 * Wed Jul 24 2019 Fedora Release Engineering <releng@fedoraproject.org> - 0.16.21-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
 
