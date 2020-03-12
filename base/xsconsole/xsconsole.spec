@@ -1,7 +1,7 @@
 Summary: XCP-ng Host Configuration Console
 Name: xsconsole
 Version: 10.1.10
-Release: 1.2%{?dist}
+Release: 1.3%{?dist}
 License: GPL2
 Group: Administration/System
 
@@ -57,6 +57,10 @@ Console tool for configuring a XCP-ng installation.
 %{_unitdir}/xsconsole.service
 
 %changelog
+* Thu Mar 12 2020 Samuel Verschelde <stormi-xcp@ylix.fr> - 10.1.10-1.3
+- Add xsconsole-10.1.10-replace-ext3-with-ext.XCP-ng.patch
+- Replaces the 'Ext3' label for local SRs with 'Ext' which is more appropriate
+
 * Tue Jan 28 2020 Samuel Verschelde <stormi-xcp@ylix.fr> - 10.1.10-1.2
 - Remove xsconsole-10.1.9-warn-about-yum-update-in-local-shell.XCP-ng.patch
 - It's not needed since the service isn't restarted upon upgrade anymore
