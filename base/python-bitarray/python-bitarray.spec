@@ -2,8 +2,8 @@
 %global sum Efficient Array of Booleans --C Extensions
 
 Name:           python-%{srcname}
-Version:        1.2.1
-Release:        3%{?dist}
+Version:        1.2.2
+Release:        1%{?dist}
 Summary:        %{sum}
 
 License:        Python
@@ -58,6 +58,9 @@ This is Python 3 version.
 
 
 %changelog
+* Sun Jun 21 2020 Sérgio Basto <sergio@serjux.com> - 1.2.2-1
+- Update python-bitarray to 1.2.2 (#1837147)
+
 * Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 1.2.1-3
 - Rebuilt for Python 3.9
 
