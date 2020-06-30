@@ -1,13 +1,13 @@
 Name:    guest-templates-json
 Summary: Creates the default guest templates
-Version: 1.8.10
+Version: 1.8.19
 Release: 1.1%{?dist}
 License: BSD
 
-Source0: https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.8.10&format=tar.gz&prefix=guest-templates-json-1.8.10#/guest-templates-json-1.8.10.tar.gz
+Source0: https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.8.19&format=tar.gz&prefix=guest-templates-json-1.8.19#/guest-templates-json-1.8.19.tar.gz
 
 
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.8.10&format=tar.gz&prefix=guest-templates-json-1.8.10#/guest-templates-json-1.8.10.tar.gz) = e765c57acd4f6651ba73c515840ec6b7d6ac83c4
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.8.19&format=tar.gz&prefix=guest-templates-json-1.8.19#/guest-templates-json-1.8.19.tar.gz) = be00e5fc3d649b03a9b0d8bc3fedc2ce04390d67
 
 
 # XCP-ng patches
@@ -17,16 +17,21 @@ Patch1000: guest-templates-json-1.7.21-dont-update-db-on-slaves.XCP-ng.patch
 BuildArch: noarch
 
 Requires: xapi-core
+Requires(post): systemd
+Requires(preun): systemd
+Requires(postun): systemd
 BuildRequires: python2-devel
 BuildRequires: python-setuptools
 BuildRequires: python-demjson
+BuildRequires: systemd-devel
+Obsoletes: guest-templates-json-data-xenapp
 
 %description
 Creates the default guest templates during first boot or package
 install/upgrade.
 
 %package data-pv
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.8.10&format=tar.gz&prefix=guest-templates-json-1.8.10#/guest-templates-json-1.8.10.tar.gz) = e765c57acd4f6651ba73c515840ec6b7d6ac83c4
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.8.19&format=tar.gz&prefix=guest-templates-json-1.8.19#/guest-templates-json-1.8.19.tar.gz) = be00e5fc3d649b03a9b0d8bc3fedc2ce04390d67
 Summary: Contains the PV guest templates
 Requires(post): %{name} = %{version}-%{release}
 
@@ -34,7 +39,7 @@ Requires(post): %{name} = %{version}-%{release}
 Contains the PV guest templates.
 
 %package data-linux
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.8.10&format=tar.gz&prefix=guest-templates-json-1.8.10#/guest-templates-json-1.8.10.tar.gz) = e765c57acd4f6651ba73c515840ec6b7d6ac83c4
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.8.19&format=tar.gz&prefix=guest-templates-json-1.8.19#/guest-templates-json-1.8.19.tar.gz) = be00e5fc3d649b03a9b0d8bc3fedc2ce04390d67
 Summary: Contains the default Linux guest templates
 Requires(post): %{name} = %{version}-%{release}
 
@@ -42,24 +47,15 @@ Requires(post): %{name} = %{version}-%{release}
 Contains the default Linux guest templates.
 
 %package data-windows
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.8.10&format=tar.gz&prefix=guest-templates-json-1.8.10#/guest-templates-json-1.8.10.tar.gz) = e765c57acd4f6651ba73c515840ec6b7d6ac83c4
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.8.19&format=tar.gz&prefix=guest-templates-json-1.8.19#/guest-templates-json-1.8.19.tar.gz) = be00e5fc3d649b03a9b0d8bc3fedc2ce04390d67
 Summary: Contains the default Windows guest templates
 Requires(post): %{name} = %{version}-%{release}
 
 %description data-windows
 Contains the default Windows guest templates.
 
-%package data-xenapp
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.8.10&format=tar.gz&prefix=guest-templates-json-1.8.10#/guest-templates-json-1.8.10.tar.gz) = e765c57acd4f6651ba73c515840ec6b7d6ac83c4
-Summary: Contains the default XenApp guest templates
-Requires: %{name}-data-windows = %{version}-%{release}
-Requires(post): %{name} = %{version}-%{release}
-
-%description data-xenapp
-Contains the default XenApp guest templates.
-
 %package data-other
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.8.10&format=tar.gz&prefix=guest-templates-json-1.8.10#/guest-templates-json-1.8.10.tar.gz) = e765c57acd4f6651ba73c515840ec6b7d6ac83c4
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.8.19&format=tar.gz&prefix=guest-templates-json-1.8.19#/guest-templates-json-1.8.19.tar.gz) = be00e5fc3d649b03a9b0d8bc3fedc2ce04390d67
 Summary: Contains the default other guest templates
 Requires(post): %{name} = %{version}-%{release}
 
@@ -81,8 +77,9 @@ install -d %{buildroot}%{templatedir}
 install -m 644 json/*.json %{buildroot}%{templatedir}
 install -d %{buildroot}%{_sysconfdir}/xapi.d/vm-templates
 
-install -d %{buildroot}%{_sysconfdir}/firstboot.d
-install -m 755 62-create-guest-templates %{buildroot}%{_sysconfdir}/firstboot.d
+install -m 755 service/create-guest-templates-wrapper %{buildroot}%{_bindir}
+install -d %{buildroot}%{_unitdir}
+install -m 644 service/create-guest-templates.service %{buildroot}%{_unitdir}
 
 %check
 %{__make} check
@@ -91,6 +88,19 @@ install -m 755 62-create-guest-templates %{buildroot}%{_sysconfdir}/firstboot.d
 
 %post
 > %{statefile}
+%systemd_post create-guest-templates.service
+
+# On upgrade, migrate from the old statefile to the new statefile so that the
+# guest templates are not unnecessarily recreated.
+if [ $1 -gt 1 ] ; then
+    grep -q ^success /etc/firstboot.d/state/62-create-guest-templates 2>/dev/null && touch /var/lib/misc/ran-create-guest-templates || :
+fi
+
+%preun
+%systemd_preun create-guest-templates.service
+
+%postun
+%systemd_postun create-guest-templates.service
 
 %post data-pv
 > %{statefile}
@@ -101,22 +111,19 @@ install -m 755 62-create-guest-templates %{buildroot}%{_sysconfdir}/firstboot.d
 %post data-windows
 > %{statefile}
 
-%post data-xenapp
-> %{statefile}
-
 %post data-other
 > %{statefile}
 
 %posttrans
 if [ -e %{statefile} ]; then
     rm %{statefile}
-    /usr/bin/create-guest-templates > /dev/null ||:
+    /usr/bin/create-guest-templates-wrapper > /dev/null ||:
 fi
 
 %posttrans data-pv
 if [ -e %{statefile} ]; then
     rm %{statefile}
-    /usr/bin/create-guest-templates > /dev/null ||:
+    /usr/bin/create-guest-templates-wrapper > /dev/null ||:
 fi
 
 %files
@@ -124,7 +131,7 @@ fi
 %{python2_sitelib}/*
 %dir %{templatedir}
 %{_sysconfdir}/xapi.d/*
-%{_sysconfdir}/firstboot.d/*
+%{_unitdir}/*
 
 %files data-pv
 %{templatedir}/base-el-[56]-32bit.json
@@ -168,24 +175,46 @@ fi
 %{templatedir}/sl-7.json
 %{templatedir}/sle-15-64bit.json
 %{templatedir}/sled-12-sp[34]-64bit.json
-%{templatedir}/sles-12-sp[34]-64bit.json
+%{templatedir}/sles-12-sp[3-5]-64bit.json
 %{templatedir}/ubuntu*.json
 
 %files data-windows
 %{templatedir}/base-windows*.json
 %{templatedir}/windows*.json
 
-%files data-xenapp
-%{templatedir}/base-xenapp*.json
-%{templatedir}/xenapp*.json
-
 %files data-other
 %{templatedir}/other-install-media.json
 
 %changelog
-* Wed Dec 18 2019 Samuel Verschelde <stormi-xcp@ylix.fr> - 1.8.10-1.1
+* Tue Jun 30 2020 Samuel Verschelde <stormi-xcp@ylix.fr> - 1.8.19-1.1
 - Reapply patch to disable create-guest-templates on slave hosts
 - Related to https://github.com/xcp-ng/xcp/issues/265
+
+* Fri May 29 2020 Ross Lagerwall <ross.lagerwall@citrix.com> - 1.8.19-1
+- CP-33714: add template for gooroom os
+- CA-336730 create-guest-templates only after network-init
+- CA-339329 firstboot scripts shouldn't sync DB when ugprading
+- Revert "CP-33714: add template for gooroom os"
+
+* Sun May 10 2020 Xihuan Yang <xihuan.yang@citrix.com> - 1.8.17-1
+- CP-32907: Add new guest for Ubuntu 20.04 (64-bit)
+
+* Tue Mar 31 2020 Fei Su <fei.su@citrix.com> - 1.8.16-1
+- CP-32727: Add new guest for SUSE Linux Enterprise Server 12 SP5 (64-bit)
+
+* Mon Mar 30 2020 Sergey Dyasli <sergey.dyasli@citrix.com> - 1.8.15-1
+- CA-333172: Remove viridian from PV guest template
+- Revert "CP-32458: make PV guests to be "plain PV" again"
+
+* Fri Mar 20 2020 Fei Su <fei.su@citrix.com> - 1.8.14-1
+- CP-32728 Remove Windows 7 for Stockholm
+- CP-32707 Remove Windows Server 2008 and Windows Server 2008 R2
+
+* Tue Feb 11 2020 Ross Lagerwall <ross.lagerwall@citrix.com> - 1.8.13-1
+- CA-334955: Connect to XAPI using a UNIX domain socket
+
+* Fri Nov 22 2019 Ross Lagerwall <ross.lagerwall@citrix.com> - 1.8.11-1
+- CP-31095: Convert the firstboot script into a standalone service
 
 * Thu Nov 14 2019 Sergey Dyasli <sergey.dyasli@citrix.com> - 1.8.10-1
 - CP-32458: make PV guests to be "plain PV" again
