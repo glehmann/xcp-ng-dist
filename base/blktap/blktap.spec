@@ -1,22 +1,23 @@
 Summary: blktap user space utilities
 Name: blktap
-Version: 3.30.0
+Version: 3.37.0
 Release: 1.0%{?dist}
 License: BSD
 Group: System/Hypervisor
 URL: https://github.com/xapi-project/blktap
 
-Source0: https://code.citrite.net/rest/archive/latest/projects/XSU/repos/blktap/archive?at=v3.30.0&format=tar.gz&prefix=blktap-3.30.0#/blktap-3.30.0.tar.gz
+Source0: https://code.citrite.net/rest/archive/latest/projects/XSU/repos/blktap/archive?at=v3.37.0&format=tar.gz&prefix=blktap-3.37.0#/blktap-3.37.0.tar.gz
 
 
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XSU/repos/blktap/archive?at=v3.30.0&format=tar.gz&prefix=blktap-3.30.0#/blktap-3.30.0.tar.gz) = d35a406c48cece6c7e66c7fd9cb5c36eb8227c26
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XSU/repos/blktap/archive?at=v3.37.0&format=tar.gz&prefix=blktap-3.37.0#/blktap-3.37.0.tar.gz) = ed613eaa5ed2802922b2397ec51df4b16c910802
 
 
 BuildRoot: %{_tmppath}/%{name}-%{release}-buildroot
 Obsoletes: xen-blktap
 BuildRequires: e2fsprogs-devel, libaio-devel, systemd, autogen, autoconf, automake, libtool, libuuid-devel
 BuildRequires: xen-devel, kernel-headers, xen-dom0-libs-devel, zlib-devel, xen-libs-devel, libcmocka-devel, lcov, git
-BuildRequires: openssl-devel
+BuildRequires: xs-openssl-devel >= 1.1.1
+%{?_cov_buildrequires}
 Requires(post): systemd
 Requires(post): /sbin/ldconfig
 Requires(preun): systemd
@@ -38,7 +39,7 @@ destroy and manipulate devices ('tap-ctl'), the 'tapdisk' driver
 program to perform tap devices I/O, and a number of image drivers.
 
 %package devel
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XSU/repos/blktap/archive?at=v3.30.0&format=tar.gz&prefix=blktap-3.30.0#/blktap-3.30.0.tar.gz) = d35a406c48cece6c7e66c7fd9cb5c36eb8227c26
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XSU/repos/blktap/archive?at=v3.37.0&format=tar.gz&prefix=blktap-3.37.0#/blktap-3.37.0.tar.gz) = ed613eaa5ed2802922b2397ec51df4b16c910802
 Summary: BlkTap Development Headers and Libraries
 Requires: blktap = %{version}
 Group: Development/Libraries
@@ -49,12 +50,14 @@ Blktap and VHD development files.
 
 %prep
 %autosetup -p1 -S git
+%{?_cov_prepare}
 
 %build
+%{?_cov_make_model:%{_cov_make_model misc/coverity/model.c}}
 echo -n %{version} > VERSION
 sh autogen.sh
 %configure LDFLAGS="$LDFLAGS -Wl,-rpath=/lib64/citrix"
-%{?cov_wrap} make %{?coverage:GCOV=true}
+%{?_cov_wrap} make %{?coverage:GCOV=true}
 
 %check
 make check || (find mockatests -name \*.log -print -exec cat {} \; && false)
@@ -63,6 +66,7 @@ make check || (find mockatests -name \*.log -print -exec cat {} \; && false)
 %install
 rm -rf %{buildroot}
 make install DESTDIR=%{buildroot}
+%{?_cov_install}
 mkdir -p %{buildroot}%{_localstatedir}/log/blktap
 %if 0%{?coverage:1}
 cd ../ && find -name "*.gcno" | grep -v '.libs/' | xargs -d "\n" tar -cvjSf %{buildroot}/%{name}-%{version}.gcno.tar.bz2
@@ -130,7 +134,36 @@ fi
 # versions of blktap did not have ldconfig in their postun script.
 %posttrans -p /sbin/ldconfig
 
+%{?_cov_results_package}
+
 %changelog
+* Wed May 20 2020 Mark Syms <mark.syms@citrix.com> - 3.37.0-1
+- CA-338603: fix out of band write in tapdisk-control
+
+* Tue Apr 21 2020 Mark Syms <mark.syms@citrix.com> - 3.36.0-1
+- CA-338080: prevent segfault if stats have been freed
+- CA-338180: Ensure string is terminated
+- CA-338180: Correct return type of tapdisk_stats_length
+- CA-338176: fix resource leaks in vhd-util copy
+
+* Tue Apr 07 2020 Mark Syms <mark.syms@citrix.com> - 3.35.0-1
+- Add some unit tests for tap-ctl
+- CA-337493: Fix bug in find minors.
+
+* Wed Mar 25 2020 Mark Syms <mark.syms@citrix.com> - 3.34.0-1
+- feat(vhd-util-scan): '-m' supports style brace expressions and pattern list
+- fix(vhd-util-scan): compare fnmatch return to FNM_NOMATCH instead of FNM_PATHNAME
+- CA-335771: timeouts are deltas not absolute deadlines
+
+* Wed Mar 11 2020 marksy <mark.syms@citrix.com> - 3.33.0-1
+- CA-335771: correct missing usage info
+
+* Wed Feb 19 2020 Ming Lu <ming.lu@citrix.com> - 3.32.0-1
+- CP-32123: Integrate blktap with CCM openssl 1.1.1
+
+* Tue Dec 10 2019 Mark Syms <mark.syms@citrix.com> - 3.31.0-1
+- CP-32675 Use the stable Xen interfaces
+
 * Tue Oct 29 2019 Mark Syms <mark.syms@citrix.com> - 3.30.0-1
 - CA-327558: add user-space io_getevents() implementation
 - CA-327558: switch to user-space io_getevents
@@ -291,7 +324,7 @@ fi
 
 
 %package testresults
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XSU/repos/blktap/archive?at=v3.30.0&format=tar.gz&prefix=blktap-3.30.0#/blktap-3.30.0.tar.gz) = d35a406c48cece6c7e66c7fd9cb5c36eb8227c26
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XSU/repos/blktap/archive?at=v3.37.0&format=tar.gz&prefix=blktap-3.37.0#/blktap-3.37.0.tar.gz) = ed613eaa5ed2802922b2397ec51df4b16c910802
 Group:    System/Hypervisor
 Summary:  test results for blktap package
 
@@ -302,7 +335,7 @@ The package contains the build time test results for the blktap package
 /testresults
 
 %package -n vhd-util-standalone
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XSU/repos/blktap/archive?at=v3.30.0&format=tar.gz&prefix=blktap-3.30.0#/blktap-3.30.0.tar.gz) = d35a406c48cece6c7e66c7fd9cb5c36eb8227c26
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XSU/repos/blktap/archive?at=v3.37.0&format=tar.gz&prefix=blktap-3.37.0#/blktap-3.37.0.tar.gz) = ed613eaa5ed2802922b2397ec51df4b16c910802
 Group:   System/Hypervisor
 Summary: Standalone vhd-util binary
 Conflicts: blktap
