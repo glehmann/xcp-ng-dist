@@ -1,13 +1,13 @@
 Summary: A library of functions for running an emp server
 Name: libempserver
-Version: 1.0.4
-Release: 2
+Version: 1.1.0
+Release: 1
 License: BSD
 
-Source0: https://code.citrite.net/rest/archive/latest/projects/XS/repos/libempserver/archive?at=v1.0.4&prefix=libempserver-1.0.4&format=tar.gz#/libempserver-1.0.4.tar.gz
+Source0: https://code.citrite.net/rest/archive/latest/projects/XS/repos/libempserver/archive?at=v1.1.0&prefix=libempserver-1.1.0&format=tar.gz#/libempserver-1.1.0.tar.gz
 
 
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/libempserver/archive?at=v1.0.4&prefix=libempserver-1.0.4&format=tar.gz#/libempserver-1.0.4.tar.gz) = 3f2ab5bedd4ac2e8a08149fdfce9daf7fc03003e
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/libempserver/archive?at=v1.1.0&prefix=libempserver-1.1.0&format=tar.gz#/libempserver-1.1.0.tar.gz) = 35d7c3fa13b60bb3d9863d98a92ae05398211acc
 
 
 BuildRequires: json-c-devel
@@ -31,13 +31,13 @@ hardware emulators used to support a virtual machine.
 
 %files
 %{_libdir}/%{name}.so.1
-%{_libdir}/%{name}.so.1.0
+%{_libdir}/%{name}.so.1.1
 
 %post -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
 
 %package devel
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/libempserver/archive?at=v1.0.4&prefix=libempserver-1.0.4&format=tar.gz#/libempserver-1.0.4.tar.gz) = 3f2ab5bedd4ac2e8a08149fdfce9daf7fc03003e
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/libempserver/archive?at=v1.1.0&prefix=libempserver-1.1.0&format=tar.gz#/libempserver-1.1.0.tar.gz) = 35d7c3fa13b60bb3d9863d98a92ae05398211acc
 Summary: Development headers for libempserver
 Requires: %{name}%{?_isa} = %{version}-%{release}
 
@@ -58,6 +58,9 @@ libempserver
 %{_libdir}/%{name}.so
 
 %changelog
+* Thu Mar 19 2020 Jennifer Herbert <jennifer.herbert@citrix.com> - 1.1.0-1
+- CA-326958 - Add function to provide default path
+
 * Wed Jul 18 2018 Tim Smith <tim.smith@citrix.com> - 1.0.4-2
 - Add ldconfig pre/post scriptlets
 
