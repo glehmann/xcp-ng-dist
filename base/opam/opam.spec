@@ -1,11 +1,11 @@
 Name:           opam
-Version:        2.0.0
+Version:        2.0.5
 Release:        2%{?dist}
 Summary:        Source-based OCaml package manager
 License:        LGPLv2.1
 URL:            https://github.com/ocaml/opam
 
-Source0: https://repo.citrite.net:443/ctx-local-contrib/xs-opam/opam-full-2.0.0.tar.gz
+Source0: https://repo.citrite.net:443/ctx-local-contrib/xs-opam/opam-full-2.0.5.tar.gz
 
 
 
@@ -38,6 +38,9 @@ make man
 %exclude /usr/doc/opam-installer/*
 
 %changelog
+* Wed Dec 04 2019 Christian Lindig <christian.lindig@citrix.com> - 2.0.5-1
+- update for compatibility with OCaml 4.08
+
 * Wed Oct 03 2018 Christian Lindig <christian.lindig@citrix.com> - 2.0.0-2
 - update License, use mirror for Source0
 
