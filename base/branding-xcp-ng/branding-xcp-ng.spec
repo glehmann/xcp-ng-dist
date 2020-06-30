@@ -1,5 +1,5 @@
 Name:           branding-xcp-ng
-Version:        8.1.0
+Version:        8.2.0
 Release:        1
 Summary:        XCP-ng branding
 License:        ISC
@@ -33,6 +33,9 @@ This package contains branding information for XCP-ng.
 %exclude %{_usrsrc}/branding/*.pyo
 
 %changelog
+* Tue Jun 30 2020 Samuel Verschelde <stormi-xcp@ylix.fr> - 8.2.0-1
+- Update for XCP-ng 8.2.0
+
 * Fri Dec 20 2019 Samuel Verschelde <stormi-xcp@ylix.fr> - 8.1.0-1
 - Update for XCP-ng 8.1.0
 - Add EULA and LICENSES files
