@@ -1,14 +1,14 @@
 Summary: XCP-ng Host Configuration Console
 Name: xsconsole
-Version: 10.1.10
-Release: 1.4%{?dist}
+Version: 10.1.11
+Release: 1.1%{?dist}
 License: GPL2
 Group: Administration/System
 
-Source0: https://code.citrite.net/rest/archive/latest/projects/XS/repos/xsconsole/archive?at=v10.1.10&format=tar.gz&prefix=xsconsole-10.1.10#/xsconsole.tar.gz
+Source0: https://code.citrite.net/rest/archive/latest/projects/XS/repos/xsconsole/archive?at=v10.1.11&format=tar.gz&prefix=xsconsole-10.1.11#/xsconsole.tar.gz
 
 
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/xsconsole/archive?at=v10.1.10&format=tar.gz&prefix=xsconsole-10.1.10#/xsconsole.tar.gz) = 27eeac22e428093c01f431f7f95eba33a8d37c3f
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/xsconsole/archive?at=v10.1.11&format=tar.gz&prefix=xsconsole-10.1.11#/xsconsole.tar.gz) = fa8fe9002367f8b9e6370aa6c6fa6df7dc182470
 
 Provides: xsconsole0
 BuildRequires: python2-devel
@@ -58,20 +58,15 @@ Console tool for configuring a XCP-ng installation.
 %{_unitdir}/xsconsole.service
 
 %changelog
-* Thu Mar 12 2020 Samuel Verschelde <stormi-xcp@ylix.fr> - 10.1.10-1.4
-- Add xsconsole-10.1.10-replace-ext3-with-ext.XCP-ng.patch
-- Replaces the 'Ext3' label for local SRs with 'Ext' which is more appropriate
-
-* Tue Jan 28 2020 Samuel Verschelde <stormi-xcp@ylix.fr> - 10.1.10-1.2
-- Remove xsconsole-10.1.9-warn-about-yum-update-in-local-shell.XCP-ng.patch
-- It's not needed since the service isn't restarted upon upgrade anymore
-
-* Thu Dec 19 2019 Samuel Verschelde <stormi-xcp@ylix.fr> - 10.1.10-1.1
-- Rebase on CH 8.1
+* Wed Jul 01 2020 Samuel Verschelde <stormi-xcp@ylix.fr> - 10.1.11-1.1
+- Rebase on CH 8.2
 - Re-remove incloudsphere subpackage
 - Keep xsconsole-10.1.9-rebrand-xsconsole-service.XCP-ng.patch
 - Keep xsconsole-10.1.9-define-xcp-ng-colors.XCP-ng.patch
-- Keep xsconsole-10.1.9-warn-about-yum-update-in-local-shell.XCP-ng.patch for now
+- Keep xsconsole-10.1.10-replace-ext3-with-ext.XCP-ng.patch
+
+* Wed Jan 08 2020 Ross Lagerwall <ross.lagerwall@citrix.com> - 10.1.11-1
+- CA-310799: Fix performance information
 
 * Thu Oct 31 2019 Ross Lagerwall <ross.lagerwall@citrix.com> - 10.1.10-1
 - CP-30221: Switch to chrony from ntp
