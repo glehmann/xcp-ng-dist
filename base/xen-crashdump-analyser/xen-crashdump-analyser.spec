@@ -1,16 +1,17 @@
 Name: xen-crashdump-analyser
 Summary: Xen crashdump analyser
-Version: 2.5.4
-Release: 1
+Version: 2.5.5
+Release: 2
 License: GPL
 Group: Applications/System
 
-Source0: https://code.citrite.net/rest/archive/latest/projects/XS/repos/xen-crashdump-analyser/archive?at=v2.5.4&format=tar.gz&prefix=xen-crashdump-analyser-2.5.4#/xen-crashdump-analyser.tar.gz
+Source0: https://code.citrite.net/rest/archive/latest/projects/XS/repos/xen-crashdump-analyser/archive?at=v2.5.5&format=tar.gz&prefix=xen-crashdump-analyser-2.5.5#/xen-crashdump-analyser.tar.gz
 
 
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/xen-crashdump-analyser/archive?at=v2.5.4&format=tar.gz&prefix=xen-crashdump-analyser-2.5.4#/xen-crashdump-analyser.tar.gz) = b4eb0e4ce8e6017b3360e48bcd2e3b750e3e21b4
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/xen-crashdump-analyser/archive?at=v2.5.5&format=tar.gz&prefix=xen-crashdump-analyser-2.5.5#/xen-crashdump-analyser.tar.gz) = fefca33e42b60670d7c5326c822a9ecb450a52a2
 
 BuildRequires: gcc-c++
+%{?_cov_buildrequires}
 
 %description
                       * Xen Crashdump Analyser *
@@ -23,13 +24,15 @@ instructions, examples and more.
 
 %prep
 %autosetup -p1
+%{?_cov_prepare}
 
 %build
-%{?cov_wrap} %{__make} VERSION=%{version}
+%{?_cov_wrap} %{__make} VERSION=%{version}
 
 %install
 %{__rm} -rf %{buildroot}
 %{__install} -D -m755 %{name} %{buildroot}%{_libdir}/xen/bin/%{name}
+%{?_cov_install}
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -38,7 +41,15 @@ instructions, examples and more.
 %defattr(-,root,root,-)
 %{_libdir}/xen/bin/%{name}
 
+%{?_cov_results_package}
+
 %changelog
+* Fri Feb 21 2020 Steven Woods <steven.woods@citrix.com> - 2.5.5-2
+- CP33120: Add Coverity build macros
+
+* Fri Dec 06 2019 Ross Lagerwall <ross.lagerwall@citrix.com> - 2.5.5-1
+- Dump each domain's shared_info page
+
 * Thu Sep 26 2019 Igor Druzhinin <igor.druzhinin@citrix.com> - 2.5.4-1
 - CA-324788: new way to check is_hvm domain
 
