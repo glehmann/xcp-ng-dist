@@ -1,6 +1,6 @@
 Name:           xcp-featured
 Version:        1.1.1
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        XCP-ng feature daemon
 Group:          System/Hypervisor
 License:        ISC
@@ -45,6 +45,9 @@ ln -s /opt/xensource/libexec/xcp-featured %{buildroot}/opt/xensource/libexec/v6d
 %{_unitdir}/v6d.service
 
 %changelog
+* Wed Jul 01 2020 Samuel Verschelde <stormi-xcp@ylix.fr> - 1.1.1-4
+- Rebuild for XCP-ng 8.2
+
 * Thu May 09 2019 Samuel Verschelde <stormi-xcp@ylix.fr> - 1.1.1-3
 - Rebuild for XCP-ng 8.0
 
