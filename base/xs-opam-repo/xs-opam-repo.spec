@@ -3,16 +3,16 @@
 %global _opamroot %{_libdir}/opamroot
 
 Name: xs-opam-repo
-Version: 6.22.0
+Version: 6.35.0
 Release: 1%{?dist}
 Summary: Build and install OCaml libraries from Opam repository
 License: Various
 URL:     https://github.com/xapi-project/xs-opam
 
-Source0: https://repo.citrite.net/ctx-local-contrib/xs-opam/xs-opam-repo-6.22.0.tar.gz
+Source0: https://repo.citrite.net/ctx-local-contrib/xs-opam/xs-opam-repo-6.35.0.tar.gz
 
 
-Provides: gitsha(https://repo.citrite.net/ctx-local-contrib/xs-opam/xs-opam-repo-6.22.0.tar.gz) = 9721d9b30181276bea336adfe656a1c1c4c6e4a1
+Provides: gitsha(https://repo.citrite.net/ctx-local-contrib/xs-opam/xs-opam-repo-6.35.0.tar.gz) = c4f6bad78e4639719dd08deaa7868ca4b0bd0bf0
 
 
 
@@ -60,7 +60,7 @@ Toolstack components of the Citrix Hypervisor.
 %install
 
 PKG=""
-PKG="$PKG $(ls -1 packages/upstream | grep -v 'ppx_tools.*4.08.0')"
+PKG="$PKG $(ls -1 packages/upstream | grep -v 'ppx_tools.*4.06.0')"
 PKG="$PKG $(ls -1 packages/xs)"
 
 # install into the real opam root to avoid problems with 
@@ -99,6 +99,103 @@ echo '%%_opamroot %%{_libdir}/opamroot' >> "%{buildroot}%{_rpmconfigdir}/macros.
 %{_opamroot}
 
 %changelog
+* Tue May 12 2020 Christian Lindig <christian.lindig@citrix.com> - 6.35.0-1
+- CA-338596: Update xe to use fpath
+- CA-338596: Move fpath to upstream
+- CP-33121: remove unused stdext-bigbuffer
+- Sync opam dependencies for xs-extra/ from source repos
+- upstream-extras: add ocamlformat
+
+* Fri Apr 24 2020 Christian Lindig <christian.lindig@citrix.com> - 6.34.0-1
+- CA-338243 bump stdext to fix date/time parsing and unparsing
+
+* Mon Apr 20 2020 Christian Lindig <christian.lindig@citrix.com> - 6.32.0-1
+- CA-333908 bump stdext with datetime changes
+- CP-32669: add randomconv to be able to test mirage-crypto-pk
+- CP-32669: update ppx_tools to 6.0
+- CP-32669: update mirage-types packages to 3.6.0
+- CP-3266: update mirage-protocols packages to 3.1.0
+- CP-32669: synchronize ssl package with upstream
+- CP-32669: update x509 to 0.11.0
+- CP-32669: update menhir to 20200211
+- CP-32669: update upstream-extra packages
+- CP-32669: update ppx_tools_versioned to 5.3.0
+- CP-32669: update base64 to 3.4.0
+- CP-21669: update ocaml-migrate-parsetree to 1.7.1
+- CP-32669: update bigstringaf to 0.6.1
+- CP-32669: update ocplib-endian to 1.1
+- CP-32669: update dune packages to 2.5.0
+- CP-32669: update sha to use 1.13
+- CP-32669: Add pci v1.0.2
+- Don't use COPY --chown in Dockerfile
+
+* Fri Apr 03 2020 Christian Lindig <christian.lindig@citrix.com> - 6.31.0-1
+- Fix name of dependency
+
+* Fri Apr 03 2020 Christian Lindig <christian.lindig@citrix.com> - 6.30.0-1
+- CP-33380: Replace nocypto with mirage-crypto
+- CP-32669: update xs-extra opam files
+
+* Thu Apr 02 2020 Christian Lindig <christian.lindig@citrix.com> - 6.29.0-1
+- fixup! REQ-811 pin nbd, and all opam files to xs
+- REQ-811 pin nbd, and all opam files to xs
+
+* Mon Mar 30 2020 Christian Lindig <christian.lindig@citrix.com> - 6.27.0-1
+- CP-33380: Fix installation of dlm with dune 2
+- CP-33354 bump xcp-rrd
+
+* Fri Mar 27 2020 Christian Lindig <christian.lindig@citrix.com> - 6.26.0-1
+- CP-33380: Update dune to 2.4.0
+- travis: follow validator's suggestions
+- CP-33380: update message-switch tests for dune 2
+- CP-32669: remove craml package
+- CP-32669: update travis-opam to 1.5.0
+- CP-32669: update qtest to 2.10.1
+- CP-32669: Update ppx_deriving_rpc to 6.1.0
+- mainteance: update stdext's opam files
+- merge rrddump with xcp-rrdd
+- Print more log lines on build failures
+- maintenance: rrddump pointing at incorrect repo
+- maintenance: remove vncproxy
+- maintenance: remove lindig from generate-opam-sources.sh
+- maintenance: move xenctrl repo to xapi-project
+- maintenance: remove rrd.transition
+
+* Tue Mar 10 2020 Christian Lindig <christian.lindig@citrix.com> - 6.25.0-1
+- CP-32663: Update x509 to 0.9.0
+- CP-27904: nuke sha1 out of orbit
+- maintenance: upgrade Dockerfile to ocaml 4.08
+
+* Wed Feb 12 2020 Christian Lindig <christian.lindig@citrix.com> - 6.24.0-1
+- maintenance: update metadata for xs-extra packages
+- maintenance: update travis build instructions
+- CP-29837: use odig so docs can be built
+- CP-32669: update ctypes to 0.16.0
+- CP-32669: update ounit packages
+- CP-32669: update asn1-combinators
+
+* Mon Jan 06 2020 Christian Lindig <christian.lindig@citrix.com> - 6.23.0-1
+- CP-32669: update shared-block-ring to 2.5.0
+- CP-32669: update ounit to 2.2.1
+- CP-32669: update dune 1.11.4
+- CP-32669: update xenstore to 2.1.1
+- CP-32669: update uri packages to 3.1.0
+- CP-32669: update rpclib packages to 6.1.0
+- CP-32669: update lwt to 4.5.0
+- CP-32669: update duration to 0.1.3
+- CP-32669: update cstruct packages to 5.1.1
+- CP-32669: update ocaml-migrate-parsetree to 1.5.0
+- CP-32669: update num to 1.3
+- CP-32669: update octavius to 1.2.2
+- CP-32055: update x509 to 0.8.1
+- maintenance: update merlin for ocaml 4.08.1
+- Use OCaml 4.08 by default, 4.09 speculatively
+- wsproxy: fix dependencies, add lwt_log
+- Add fmt >= 0.8.8 to xapi-xenopsd
+
+* Wed Dec 04 2019 Christian Lindig <christian.lindig@citrix.com> - 6.22.0-2
+- Don't install ppx_tools.5.1 for OCaml 4.08 compatibility
+
 * Mon Nov 04 2019 Pau Ruiz Safont  <pau.safont@citrix.com> - 6.22.0-1
 - xs: bump xcp-rrd
 
