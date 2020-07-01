@@ -1,14 +1,14 @@
 Summary: XenServer Host Configuration Console
 Name: xsconsole
-Version: 10.1.10
+Version: 10.1.11
 Release: 1
 License: GPL2
 Group: Administration/System
 
-Source0: https://code.citrite.net/rest/archive/latest/projects/XS/repos/xsconsole/archive?at=v10.1.10&format=tar.gz&prefix=xsconsole-10.1.10#/xsconsole.tar.gz
+Source0: https://code.citrite.net/rest/archive/latest/projects/XS/repos/xsconsole/archive?at=v10.1.11&format=tar.gz&prefix=xsconsole-10.1.11#/xsconsole.tar.gz
 
 
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/xsconsole/archive?at=v10.1.10&format=tar.gz&prefix=xsconsole-10.1.10#/xsconsole.tar.gz) = 27eeac22e428093c01f431f7f95eba33a8d37c3f
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/xsconsole/archive?at=v10.1.11&format=tar.gz&prefix=xsconsole-10.1.11#/xsconsole.tar.gz) = fa8fe9002367f8b9e6370aa6c6fa6df7dc182470
 
 Provides: xsconsole0
 BuildRequires: python2-devel
@@ -22,7 +22,7 @@ Requires(postun): systemd
 Console tool for configuring a XenServer installation.
 
 %package incloudsphere
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/xsconsole/archive?at=v10.1.10&format=tar.gz&prefix=xsconsole-10.1.10#/xsconsole.tar.gz) = 27eeac22e428093c01f431f7f95eba33a8d37c3f
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/xsconsole/archive?at=v10.1.11&format=tar.gz&prefix=xsconsole-10.1.11#/xsconsole.tar.gz) = fa8fe9002367f8b9e6370aa6c6fa6df7dc182470
 Summary: InCloud Sphere plugins for %{name}
 Requires: %{name}%{?_isa} = %{version}-%{release}
 
@@ -65,6 +65,9 @@ InCloud Sphere.
 %{_libdir}/xsconsole/plugins-oem/XSFeatureLicenseNag.py*
 
 %changelog
+* Wed Jan 08 2020 Ross Lagerwall <ross.lagerwall@citrix.com> - 10.1.11-1
+- CA-310799: Fix performance information
+
 * Thu Oct 31 2019 Ross Lagerwall <ross.lagerwall@citrix.com> - 10.1.10-1
 - CP-30221: Switch to chrony from ntp
 
