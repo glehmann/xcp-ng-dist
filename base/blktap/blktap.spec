@@ -1,7 +1,7 @@
 Summary: blktap user space utilities
 Name: blktap
 Version: 3.37.0
-Release: 1.0%{?dist}
+Release: 1.0.1%{?dist}
 License: BSD
 Group: System/Hypervisor
 URL: https://github.com/xapi-project/blktap
@@ -11,6 +11,8 @@ Source0: https://code.citrite.net/rest/archive/latest/projects/XSU/repos/blktap/
 
 Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XSU/repos/blktap/archive?at=v3.37.0&format=tar.gz&prefix=blktap-3.37.0#/blktap-3.37.0.tar.gz) = ed613eaa5ed2802922b2397ec51df4b16c910802
 
+# XCP-ng patches
+Patch1000: blktap-3.30.0-drbd-support.XCP-ng.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{release}-buildroot
 Obsoletes: xen-blktap
@@ -137,6 +139,9 @@ fi
 %{?_cov_results_package}
 
 %changelog
+* Wed Aug 19 2020 Ronan Abhamon <ronan.abhamon@vates.fr> - 3.37.0-1.0.1
+- Patch blktap-3.30.0-drbd-support.XCP-ng.patch added
+
 * Wed May 20 2020 Mark Syms <mark.syms@citrix.com> - 3.37.0-1
 - CA-338603: fix out of band write in tapdisk-control
 
