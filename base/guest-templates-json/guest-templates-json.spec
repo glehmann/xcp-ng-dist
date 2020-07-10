@@ -1,18 +1,13 @@
 Name:    guest-templates-json
 Summary: Creates the default guest templates
 Version: 1.8.19
-Release: 1.1%{?dist}
+Release: 1.2%{?dist}
 License: BSD
 
 Source0: https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.8.19&format=tar.gz&prefix=guest-templates-json-1.8.19#/guest-templates-json-1.8.19.tar.gz
 
 
 Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.8.19&format=tar.gz&prefix=guest-templates-json-1.8.19#/guest-templates-json-1.8.19.tar.gz) = be00e5fc3d649b03a9b0d8bc3fedc2ce04390d67
-
-
-# XCP-ng patches
-Patch1000: guest-templates-json-1.7.21-dont-update-db-on-slaves.XCP-ng.patch
-
 
 BuildArch: noarch
 
@@ -186,6 +181,11 @@ fi
 %{templatedir}/other-install-media.json
 
 %changelog
+* Fri Jul 10 2020 Samuel Verschelde <stormi-xcp@ylix.fr> - 1.8.19-1.2
+- Remove guest-templates-json-1.7.21-dont-update-db-on-slaves.XCP-ng.patch...
+- ... The new create-guest-template-wrapper script now checks for master vs others
+- We're back in sync with CH's SRPM
+
 * Tue Jun 30 2020 Samuel Verschelde <stormi-xcp@ylix.fr> - 1.8.19-1.1
 - Reapply patch to disable create-guest-templates on slave hosts
 - Related to https://github.com/xcp-ng/xcp/issues/265
