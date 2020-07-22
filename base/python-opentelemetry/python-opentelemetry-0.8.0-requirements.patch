@@ -1,6 +1,6 @@
 diff -up ./ext/opentelemetry-ext-grpc/setup.cfg.orig ./ext/opentelemetry-ext-grpc/setup.cfg
 --- ./ext/opentelemetry-ext-grpc/setup.cfg.orig	2020-05-28 00:01:25.000000000 +0200
-+++ ./ext/opentelemetry-ext-grpc/setup.cfg	2020-06-16 00:43:49.473406328 +0200
++++ ./ext/opentelemetry-ext-grpc/setup.cfg	2020-07-22 15:36:54.423409039 +0200
 @@ -41,7 +41,7 @@ package_dir=
  packages=find_namespace:
  install_requires =
@@ -12,7 +12,7 @@ diff -up ./ext/opentelemetry-ext-grpc/setup.cfg.orig ./ext/opentelemetry-ext-grp
  test =
 diff -up ./ext/opentelemetry-ext-psycopg2/setup.cfg.orig ./ext/opentelemetry-ext-psycopg2/setup.cfg
 --- ./ext/opentelemetry-ext-psycopg2/setup.cfg.orig	2020-05-28 00:01:25.000000000 +0200
-+++ ./ext/opentelemetry-ext-psycopg2/setup.cfg	2020-06-16 00:36:18.692531417 +0200
++++ ./ext/opentelemetry-ext-psycopg2/setup.cfg	2020-07-22 15:36:54.424409014 +0200
 @@ -43,7 +43,7 @@ install_requires =
      opentelemetry-api == 0.8b0
      opentelemetry-ext-dbapi == 0.8b0
@@ -22,9 +22,21 @@ diff -up ./ext/opentelemetry-ext-psycopg2/setup.cfg.orig ./ext/opentelemetry-ext
      wrapt >= 1.0.0, < 2.0.0
  
  [options.extras_require]
+diff -up ./ext/opentelemetry-ext-pymysql/setup.cfg.orig ./ext/opentelemetry-ext-pymysql/setup.cfg
+--- ./ext/opentelemetry-ext-pymysql/setup.cfg.orig	2020-05-28 00:01:25.000000000 +0200
++++ ./ext/opentelemetry-ext-pymysql/setup.cfg	2020-07-22 15:46:53.190393966 +0200
+@@ -43,7 +43,7 @@ install_requires =
+     opentelemetry-api == 0.8b0
+     opentelemetry-ext-dbapi == 0.8b0
+     opentelemetry-auto-instrumentation == 0.8b0
+-    PyMySQL ~=  0.9.3
++    PyMySQL
+ 
+ [options.extras_require]
+ test =
 diff -up ./ext/opentelemetry-ext-redis/setup.cfg.orig ./ext/opentelemetry-ext-redis/setup.cfg
 --- ./ext/opentelemetry-ext-redis/setup.cfg.orig	2020-05-28 00:01:25.000000000 +0200
-+++ ./ext/opentelemetry-ext-redis/setup.cfg	2020-06-16 00:44:40.056163347 +0200
++++ ./ext/opentelemetry-ext-redis/setup.cfg	2020-07-22 15:36:54.424409014 +0200
 @@ -43,7 +43,7 @@ install_requires =
      opentelemetry-api == 0.8b0
      opentelemetry-auto-instrumentation == 0.8b0

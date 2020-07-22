@@ -3,12 +3,12 @@
 
 Name:           python-%{srcname}
 Version:        0.8.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        The OpenTelemetry Python client
 
 License:        ASL 2.0
 URL:            https://github.com/open-telemetry/%{srcname}-python/
-Source0:        %{url}/archive/v%{version}/%{name}-%{version}.tar.gz
+Source0:        %{url}/archive/v%{version}/%{srcname}-%{version}.tar.gz
 # Fix Python requirement versions
 Patch0:         %{name}-0.8.0-requirements.patch
 
@@ -267,7 +267,9 @@ This package provides documentation for %{name}.
 %autosetup -p0 -n %{srcname}-python-%{version}
 
 # Remove bundled egg-info
-rm -rf *.egg-info
+for i in $(find . -name "setup.py"); do
+    rm -rf ${i%/*}/src/*.egg-info
+done
 
 # Delete extensions which can't be installed because of missing dependencies in
 # Fedora
@@ -327,8 +329,6 @@ popd
 export PYTHONPATH=$RPM_BUILD_ROOT/%{python3_sitelib}/:tests/util/src/
 for i in $(find . -name "setup.py" -not -path "./tests/*" -not -path "./docs/*"); do
     d=${i%/*}
-    pytest_args=()
-    [[ "$d" == "./opentelemetry-sdk" ]] && pytest_args=("-k" "not test_shutdown")
     pytest-%{python3_version} ${i%/*} \
         --deselect=opentelemetry-sdk/tests/trace/test_trace.py::TestTracer::test_shutdown
 done
@@ -540,6 +540,9 @@ done
 
 
 %changelog
+* Wed Jul 22 2020 Mohamed El Morabity <melmorabity@fedoraproject.org> - 0.8.0-2
+- Update requirements patch to drop version condition on PyMySQL (RHBZ #1858698)
+
 * Thu Jun 18 2020 Mohamed El Morabity <melmorabity@fedoraproject.org> - 0.8.0-1
 - Update to 0.8.0
 
