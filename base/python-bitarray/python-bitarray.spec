@@ -3,7 +3,7 @@
 
 Name:           python-%{srcname}
 Version:        1.2.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        %{sum}
 
 License:        Python
@@ -58,6 +58,9 @@ This is Python 3 version.
 
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sun Jun 21 2020 Sérgio Basto <sergio@serjux.com> - 1.2.2-1
 - Update python-bitarray to 1.2.2 (#1837147)
 
