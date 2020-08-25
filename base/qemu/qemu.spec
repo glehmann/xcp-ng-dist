@@ -2,7 +2,7 @@ Summary: qemu-dm device model
 Name: qemu
 Epoch: 2
 Version: 2.10.2
-Release: 4.5.2
+Release: 4.5.3
 License: GPL
 Requires: jemalloc
 Requires: xs-clipboardd
@@ -11,7 +11,7 @@ Requires: xengt-userspace
 ## so we have to carry a conflicts line to say we broke it.
 Conflicts: xenopsd-xc < 0.123.0
 
-Source0: https://code.citrite.net/rest/archive/latest/projects/XSU/repos/qemu/archive?at=v2.10.2&format=tar.gz&prefix=qemu-2.10.2#/qemu-2.10.2.tar.gz
+Source0: qemu.tar.gz
 Source1: SOURCES/qemu/qemu_trad_image.py
 
 Patch0: 0001-seccomp-changing-from-whitelist-to-blacklist.patch
@@ -172,9 +172,11 @@ Patch154: do_not_register_xen_backend_for_qdisk.patch
 Patch155: add-an-ide-read-cache.patch
 Patch156: disable-dirty-vram-tracking.patch
 Patch157: build-configuration.patch
+Patch158: 0001-usb-fix-setup_len-init-CVE-2020-14364.patch
+Patch159: 0001-rtl8139-fix-possible-out-of-bound-access.patch
 
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XSU/repos/qemu/archive?at=v2.10.2&format=tar.gz&prefix=qemu-2.10.2#/qemu-2.10.2.tar.gz) = ba87166e14ffd7299c35badc4c11f3fa3c129ec6
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/qemu.pg/archive?format=tar&at=v4.5.2#/qemu.pg.tar) = 066dba139a4c99b2265906ea90c45e35a7f55537
+Provides: gitsha(ssh://git@code.citrite.net/XSU/qemu.git) = ba87166e14ffd7299c35badc4c11f3fa3c129ec6
+Provides: gitsha(ssh://git@code.citrite.net/XS/qemu.pg.git) = e48d13cd01e9548a1fa9186ed38c318f744949bd
 
 BuildRequires: libaio-devel glib2-devel
 BuildRequires: libjpeg-devel libpng-devel pixman-devel xenserver-libdrm-devel
