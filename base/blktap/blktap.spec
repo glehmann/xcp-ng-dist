@@ -1,7 +1,7 @@
 Summary: blktap user space utilities
 Name: blktap
 Version: 3.37.0
-Release: 1.0.1%{?dist}
+Release: 1.0.2%{?dist}
 License: BSD
 Group: System/Hypervisor
 URL: https://github.com/xapi-project/blktap
@@ -12,6 +12,8 @@ Source0: https://code.citrite.net/rest/archive/latest/projects/XSU/repos/blktap/
 Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XSU/repos/blktap/archive?at=v3.37.0&format=tar.gz&prefix=blktap-3.37.0#/blktap-3.37.0.tar.gz) = ed613eaa5ed2802922b2397ec51df4b16c910802
 
 # XCP-ng patches
+
+# The DRBD patch must be removed after the upstream release of the version 3.42.
 Patch1000: blktap-3.30.0-drbd-support.XCP-ng.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{release}-buildroot
@@ -139,6 +141,9 @@ fi
 %{?_cov_results_package}
 
 %changelog
+* Tue Sep 08 2020 Ronan Abhamon <ronan.abhamon@vates.fr> - 3.37.0-1.0.2
+- Rebase DRBD patch on the upstream repository
+
 * Wed Aug 19 2020 Ronan Abhamon <ronan.abhamon@vates.fr> - 3.37.0-1.0.1
 - Patch blktap-3.30.0-drbd-support.XCP-ng.patch added
 

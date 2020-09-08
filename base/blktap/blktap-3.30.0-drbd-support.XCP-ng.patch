@@ -1,4 +1,4 @@
-From 435cc603763e5ff7404ef65af5362d9a0e661596 Mon Sep 17 00:00:00 2001
+From 8fff3b4321060fefc43bd438ebdd68d664164e6e Mon Sep 17 00:00:00 2001
 From: Ronan Abhamon <ronan.abhamon@vates.fr>
 Date: Wed, 8 Apr 2020 11:33:25 +0200
 Subject: [PATCH 1/3] feat(vhd/canonpath): add support for DRBD resource path
@@ -20,11 +20,11 @@ independently of the DRBD device minor number on each host.
 
 Signed-off-by: Ronan Abhamon <ronan.abhamon@vates.fr>
 ---
- vhd/lib/canonpath.c | 148 +++++++++++++++++++++++++++++++++-----------
- 1 file changed, 113 insertions(+), 35 deletions(-)
+ vhd/lib/canonpath.c | 168 ++++++++++++++++++++++++++++++++++----------
+ 1 file changed, 130 insertions(+), 38 deletions(-)
 
 diff --git a/vhd/lib/canonpath.c b/vhd/lib/canonpath.c
-index a60032b..e5f368e 100644
+index a60032b..7126639 100644
 --- a/vhd/lib/canonpath.c
 +++ b/vhd/lib/canonpath.c
 @@ -32,6 +32,10 @@
@@ -38,12 +38,12 @@ index a60032b..e5f368e 100644
  #include <stdio.h>
  #include <errno.h>
  #include <stdlib.h>
-@@ -41,68 +45,142 @@
+@@ -41,73 +45,161 @@
  
  #include "canonpath.h"
  
 +char *
-+normalize_path(const char *path, size_t path_len, char *normalized_path)
++normalize_path(const char *path, size_t path_len)
 +{
 +	size_t res_len = 0;
 +
@@ -51,13 +51,20 @@ index a60032b..e5f368e 100644
 +	const char *end = path + path_len;
 +	const char *next;
 +
++	char *normalized_path;
 +	if (!path_len || *path != '/') {
 +		// Relative path.
-+		if (!getcwd(normalized_path, PATH_MAX))
++		char *wd = get_current_dir_name();
++		if (!wd)
 +			return NULL;
 +
-+		res_len = strlen(normalized_path);
-+	}
++		res_len = strlen(wd);
++		if (!(normalized_path = realloc(wd, res_len + path_len + 1))) {
++			free(wd);
++			return NULL;
++		}
++	} else if (!(normalized_path = malloc(path_len + 1)))
++		return NULL;
 +
 +	for (ptr = path; ptr < end; ptr = next + 1) {
 +		size_t len;
@@ -95,7 +102,7 @@ index a60032b..e5f368e 100644
   * Return a path name which should be used resolving parent.
   * This could be different from realpath as realpath follows all symlinks.
   * Function try to get a file name (even if symlink) contained in /dev/mapper.
-+ * Symlinks are also kept if a /dev/drbd/by-res/<UUID>/<VOLUME_ID> is used.
++ * Symlinks are also kept if a /dev/drbd/by-res/<UUID>/<VOLUME_ID> path is used.
   */
  char *
  canonpath(const char *path, char *resolved_path)
@@ -113,21 +120,22 @@ index a60032b..e5f368e 100644
 +	static const size_t dev_drbd_prefix_len = sizeof(dev_drbd_prefix) - 1;
 +
  	/* make some cleanup */
- 	char canon[PATH_MAX], *p, *dst;
+-	char canon[PATH_MAX], *p, *dst;
++	char *canon = NULL, *p, *dst;
  	size_t len = strlen(path);
  
  	if (len >= PATH_MAX)
  		goto fallback;
 -	memcpy(canon, path, len+1);
- 
+-
 -	/* "//" -> "/" */
 -	while ((p = strstr(canon, "//")) != NULL)
 -		memmove(p, p+1, strlen(p+1)+1);
--
+ 
 -	/* "/./" -> "/" */
 -	while ((p = strstr(canon, "/./")) != NULL)
 -		memmove(p, p+2, strlen(p+2)+1);
-+	if (!normalize_path(path, len, canon))
++	if (!(canon = normalize_path(path, len)))
 +		return NULL;
  
  	/*
@@ -142,7 +150,8 @@ index a60032b..e5f368e 100644
 +	    strchr(canon + dev_mapper_len, '/') == NULL &&
  	    access(canon, F_OK) == 0) {
  		strcpy(resolved_path, canon);
- 		return resolved_path;
+-		return resolved_path;
++		goto end;
  	}
  
  	/*
@@ -197,30 +206,43 @@ index a60032b..e5f368e 100644
 +		} else if (strncmp(canon + dev_len, dev_drbd_res_path + dev_len, dev_drbd_res_len - dev_len) == 0) {
 +			/* If the path is a real DRBD path, it's a symlink that points to /dev/drbdXXXX,
 +			 * where XXXX are digits. */
-+			if (!realpath(canon, resolved_path))
++			if (!realpath(canon, resolved_path)) {
++				free(canon);
 +				return NULL;
++			}
 +
 +			/* Try to match /dev/drbd. */
 +			if (strncmp(resolved_path, dev_drbd_prefix, dev_drbd_prefix_len) != 0)
-+				return resolved_path;
++				goto end;
 +
 +			/* Check the digits. */
 +			errno = 0;
 +			strtol(resolved_path + dev_drbd_prefix_len, &p, 10);
 +			if (p == resolved_path + dev_drbd_prefix_len || errno == ERANGE || *p != '\0')
-+				return resolved_path; /* Cannot parse correctly pattern. */
++				goto end; /* Cannot parse correctly pattern. */
 +
 +			strcpy(resolved_path, canon);
 +		} else
 +			goto fallback;
  		if (access(resolved_path, F_OK) == 0)
- 			return resolved_path;
+-			return resolved_path;
++			goto end;
  	}
+ 
+ fallback:
++	free(canon);
+ 	return realpath(path, resolved_path);
++
++end:
++	free(canon);
++	return resolved_path;
+ }
+ 
 -- 
-2.25.1
+2.28.0
 
 
-From 117a408b88a085202afe5f9849389a0635eea977 Mon Sep 17 00:00:00 2001
+From fefe31958a5be63bc370d7c656de4c8aa2095ef5 Mon Sep 17 00:00:00 2001
 From: Ronan Abhamon <ronan.abhamon@vates.fr>
 Date: Wed, 17 Jun 2020 14:13:35 +0200
 Subject: [PATCH 2/3] feat(libvhd): try to open DRBD devices using the LVM
@@ -232,11 +254,11 @@ to access it.
 
 Signed-off-by: Ronan Abhamon <ronan.abhamon@vates.fr>
 ---
- vhd/lib/libvhd.c | 105 ++++++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 104 insertions(+), 1 deletion(-)
+ vhd/lib/libvhd.c | 106 ++++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 105 insertions(+), 1 deletion(-)
 
 diff --git a/vhd/lib/libvhd.c b/vhd/lib/libvhd.c
-index 0caef99..14411ea 100644
+index 3d8047b..d53d335 100644
 --- a/vhd/lib/libvhd.c
 +++ b/vhd/lib/libvhd.c
 @@ -35,6 +35,7 @@
@@ -247,7 +269,7 @@ index 0caef99..14411ea 100644
  #include <stdio.h>
  #include <errno.h>
  #include <fcntl.h>
-@@ -119,6 +120,90 @@ old_clear_bit(volatile char *addr, int nr)
+@@ -119,6 +120,91 @@ old_clear_bit(volatile char *addr, int nr)
  	((uint32_t *)addr)[nr >> 5] &= ~(1 << (nr & 31));
  }
  
@@ -306,10 +328,11 @@ index 0caef99..14411ea 100644
 +			else
 +		#endif
 +		{
-+			 struct stat slave_stats;
-+			 stat(ent->d_name, &slave_stats);
-+			 if (!S_ISLNK(slave_stats.st_mode))
-+				 continue;
++			struct stat slave_stats;
++			if (stat(ent->d_name, &slave_stats) == -1)
++				continue;
++			if (!S_ISLNK(slave_stats.st_mode))
++				continue;
 +		}
 +
 +		/* Check if this entry is a valid device mapper. */
@@ -338,7 +361,7 @@ index 0caef99..14411ea 100644
  int
  open_optional_odirect(const char *pathname, int flags, ...)
  {
-@@ -2598,6 +2683,24 @@ vhd_open(vhd_context_t *ctx, const char *file, int flags)
+@@ -2588,6 +2674,24 @@ vhd_open(vhd_context_t *ctx, const char *file, int flags)
  	ctx->fd     = -1;
  	ctx->oflags = flags;
  
@@ -363,7 +386,7 @@ index 0caef99..14411ea 100644
  	err = namedup(&ctx->file, file);
  	if (err)
  		return err;
-@@ -2619,7 +2722,7 @@ vhd_open(vhd_context_t *ctx, const char *file, int flags)
+@@ -2609,7 +2713,7 @@ vhd_open(vhd_context_t *ctx, const char *file, int flags)
  	if (flags & VHD_OPEN_RDWR)
  		oflags |= O_RDWR;
  
@@ -373,10 +396,10 @@ index 0caef99..14411ea 100644
  		err = -errno;
  		VHDLOG("failed to open %s: %d\n", ctx->file, err);
 -- 
-2.25.1
+2.28.0
 
 
-From 84455cc6fd0b49f9297305000932aef2ea150b7d Mon Sep 17 00:00:00 2001
+From 857a2c2679437b3f259ae39f23ba1845155b0237 Mon Sep 17 00:00:00 2001
 From: Ronan Abhamon <ronan.abhamon@vates.fr>
 Date: Fri, 26 Jun 2020 17:54:29 +0200
 Subject: [PATCH 3/3] feat(libvhd): when a DRBD device path is given, do not
@@ -388,7 +411,7 @@ Signed-off-by: Ronan Abhamon <ronan.abhamon@vates.fr>
  1 file changed, 46 insertions(+), 8 deletions(-)
 
 diff --git a/vhd/lib/libvhd.c b/vhd/lib/libvhd.c
-index 14411ea..5a2e09e 100644
+index d53d335..a19d2dd 100644
 --- a/vhd/lib/libvhd.c
 +++ b/vhd/lib/libvhd.c
 @@ -121,7 +121,8 @@ old_clear_bit(volatile char *addr, int nr)
@@ -465,7 +488,7 @@ index 14411ea..5a2e09e 100644
  	const unsigned int dev_minor = minor(stats->st_rdev);
  	char slaves_dir[PATH_MAX];
  	snprintf(slaves_dir, sizeof slaves_dir, "/sys/dev/block/%u:%u/slaves", dev_major, dev_minor);
-@@ -2693,9 +2731,9 @@ vhd_open(vhd_context_t *ctx, const char *file, int flags)
+@@ -2684,9 +2722,9 @@ vhd_open(vhd_context_t *ctx, const char *file, int flags)
  		/* If a DRBD path is used, we try to use the real physical device. */
  		/* Why? Because the device can be locked by any program. */
  		/* Note: We can't use the physical data if the DRBD is a diskless device... */
@@ -478,5 +501,5 @@ index 14411ea..5a2e09e 100644
  				return -errno;
  		}
 -- 
-2.25.1
+2.28.0
 
