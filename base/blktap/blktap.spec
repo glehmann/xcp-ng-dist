@@ -1,15 +1,15 @@
 Summary: blktap user space utilities
 Name: blktap
-Version: 3.37.0
+Version: 3.37.2
 Release: 1.0
 License: BSD
 Group: System/Hypervisor
 URL: https://github.com/xapi-project/blktap
 
-Source0: https://code.citrite.net/rest/archive/latest/projects/XSU/repos/blktap/archive?at=v3.37.0&format=tar.gz&prefix=blktap-3.37.0#/blktap-3.37.0.tar.gz
+Source0: https://code.citrite.net/rest/archive/latest/projects/XS/repos/blktap/archive?at=v3.37.2&format=tar.gz&prefix=blktap-3.37.2#/blktap-3.37.2.tar.gz
 
 
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XSU/repos/blktap/archive?at=v3.37.0&format=tar.gz&prefix=blktap-3.37.0#/blktap-3.37.0.tar.gz) = ed613eaa5ed2802922b2397ec51df4b16c910802
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/blktap/archive?at=v3.37.2&format=tar.gz&prefix=blktap-3.37.2#/blktap-3.37.2.tar.gz) = e449f2aabef1f1935b202d6e385b3d738a91bd55
 
 
 BuildRoot: %{_tmppath}/%{name}-%{release}-buildroot
@@ -39,7 +39,7 @@ destroy and manipulate devices ('tap-ctl'), the 'tapdisk' driver
 program to perform tap devices I/O, and a number of image drivers.
 
 %package devel
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XSU/repos/blktap/archive?at=v3.37.0&format=tar.gz&prefix=blktap-3.37.0#/blktap-3.37.0.tar.gz) = ed613eaa5ed2802922b2397ec51df4b16c910802
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/blktap/archive?at=v3.37.2&format=tar.gz&prefix=blktap-3.37.2#/blktap-3.37.2.tar.gz) = e449f2aabef1f1935b202d6e385b3d738a91bd55
 Summary: BlkTap Development Headers and Libraries
 Requires: blktap = %{version}
 Group: Development/Libraries
@@ -137,6 +137,13 @@ fi
 %{?_cov_results_package}
 
 %changelog
+* Mon Oct 12 2020 Tim Smith <tim.smith@citrix.com> - 3.37.2-1
+- CA-342578: fix switch case fall through error
+- CA-342553: don't try to read encryption key from raw parent
+
+* Wed Sep 30 2020 Tim Smith <tim.smith@citrix.com> - 3.37.1-1
+- CA-340619 - Propagate errors from snaphot creation
+
 * Wed May 20 2020 Mark Syms <mark.syms@citrix.com> - 3.37.0-1
 - CA-338603: fix out of band write in tapdisk-control
 
@@ -324,7 +331,7 @@ fi
 
 
 %package testresults
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XSU/repos/blktap/archive?at=v3.37.0&format=tar.gz&prefix=blktap-3.37.0#/blktap-3.37.0.tar.gz) = ed613eaa5ed2802922b2397ec51df4b16c910802
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/blktap/archive?at=v3.37.2&format=tar.gz&prefix=blktap-3.37.2#/blktap-3.37.2.tar.gz) = e449f2aabef1f1935b202d6e385b3d738a91bd55
 Group:    System/Hypervisor
 Summary:  test results for blktap package
 
@@ -335,7 +342,7 @@ The package contains the build time test results for the blktap package
 /testresults
 
 %package -n vhd-util-standalone
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XSU/repos/blktap/archive?at=v3.37.0&format=tar.gz&prefix=blktap-3.37.0#/blktap-3.37.0.tar.gz) = ed613eaa5ed2802922b2397ec51df4b16c910802
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/blktap/archive?at=v3.37.2&format=tar.gz&prefix=blktap-3.37.2#/blktap-3.37.2.tar.gz) = e449f2aabef1f1935b202d6e385b3d738a91bd55
 Group:   System/Hypervisor
 Summary: Standalone vhd-util binary
 Conflicts: blktap
