@@ -3,16 +3,16 @@
 %global _opamroot %{_libdir}/opamroot
 
 Name: xs-opam-repo
-Version: 6.35.0
+Version: 6.35.1
 Release: 1%{?dist}
 Summary: Build and install OCaml libraries from Opam repository
 License: Various
 URL:     https://github.com/xapi-project/xs-opam
 
-Source0: https://repo.citrite.net/ctx-local-contrib/xs-opam/xs-opam-repo-6.35.0.tar.gz
+Source0: https://repo.citrite.net/ctx-local-contrib/xs-opam/xs-opam-repo-6.35.1.tar.gz
 
 
-Provides: gitsha(https://repo.citrite.net/ctx-local-contrib/xs-opam/xs-opam-repo-6.35.0.tar.gz) = c4f6bad78e4639719dd08deaa7868ca4b0bd0bf0
+Provides: gitsha(https://repo.citrite.net/ctx-local-contrib/xs-opam/xs-opam-repo-6.35.1.tar.gz) = f034c0f55bc608b75a53333e2b6d9ed9e712c519
 
 
 
@@ -99,6 +99,9 @@ echo '%%_opamroot %%{_libdir}/opamroot' >> "%{buildroot}%{_rpmconfigdir}/macros.
 %{_opamroot}
 
 %changelog
+* Mon Sep 28 2020 Ben Anson <ben.anson@citrix.com> - 6.35.1-1
+- CA-342171 bump stdext for Stockholm
+
 * Tue May 12 2020 Christian Lindig <christian.lindig@citrix.com> - 6.35.0-1
 - CA-338596: Update xe to use fpath
 - CA-338596: Move fpath to upstream
