@@ -1,0 +1,51 @@
+From 239b50a863704f7960525799eda82de061c7c458 Mon Sep 17 00:00:00 2001
+From: Igor Druzhinin <igor.druzhinin@citrix.com>
+Date: Tue, 16 Jun 2020 03:49:42 +0100
+Subject: [PATCH 1/1] OvmfPkg: End timer interrupt later to avoid stack
+ overflow under load
+
+RestoreTPL called while at TPL_HIGH_LEVEL unconditionally enables
+interrupts even if called in interrupt handler. That opens a window while
+interrupt is not completely handled but another interrupt could be
+accepted.
+
+If a VM starts on a heavily loaded host hundreds of periodic timer
+interrupts might be queued while vCPU is descheduled (the behavior is
+typical for a Xen host). The next time vCPU is scheduled again all of them
+get delivered back to back causing OVMF to accept each one without
+finishing a previous one and cleaning up the stack. That quickly results
+in stack overflow and a triple fault.
+
+Fix it by postponing sending EOI until we finished processing the current
+tick giving interrupt handler opportunity to clean up the stack before
+accepting the next tick.
+
+Signed-off-by: Igor Druzhinin <igor.druzhinin@citrix.com>
+Message-Id: <1592275782-9369-1-git-send-email-igor.druzhinin@citrix.com>
+Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+Ref: https://bugzilla.tianocore.org/show_bug.cgi?id=2815
+Acked-by: Laszlo Ersek <lersek@redhat.com>
+[lersek@redhat.com: add BZ ref; rewrap msg to silence PatchCheck.py]
+diff --git a/PcAtChipsetPkg/8254TimerDxe/Timer.c b/PcAtChipsetPkg/8254TimerDxe/Timer.c
+index 2cd888a..cfb4b10 100644
+--- a/PcAtChipsetPkg/8254TimerDxe/Timer.c
++++ b/PcAtChipsetPkg/8254TimerDxe/Timer.c
+@@ -85,8 +85,6 @@ TimerInterruptHandler (
+ 
+   OriginalTPL = gBS->RaiseTPL (TPL_HIGH_LEVEL);
+ 
+-  mLegacy8259->EndOfInterrupt (mLegacy8259, Efi8259Irq0);
+-
+   if (mTimerNotifyFunction != NULL) {
+     //
+     // @bug : This does not handle missed timer interrupts
+@@ -95,6 +93,9 @@ TimerInterruptHandler (
+   }
+ 
+   gBS->RestoreTPL (OriginalTPL);
++
++  DisableInterrupts ();
++  mLegacy8259->EndOfInterrupt (mLegacy8259, Efi8259Irq0);
+ }
+ 
+ /**

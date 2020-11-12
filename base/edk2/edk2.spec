@@ -4,7 +4,7 @@
 Name: edk2
 Summary: EFI Development Kit II
 Version: %{edk2_date}git%{edk2_githash}
-Release: 1.4.2%{?dist}
+Release: 1.4.3%{?dist}
 
 License: BSD and MIT
 URL: https://github.com/tianocore/edk2
@@ -14,19 +14,20 @@ Source0: https://code.citrite.net/rest/archive/latest/projects/XSU/repos/edk2/ar
 Patch0: 0001-OvmfPkg-XenSupport-remove-usage-of-prefetchable-PCI-.patch
 Patch1: 0002-OvmfPkg-XenSupport-use-a-correct-PCI-host-bridge-ape.patch
 Patch2: 0003-OvmfPkg-XenSupport-turn-off-address-decoding-before-.patch
-Patch3: openssl.patch
-Patch4: nvidia-vgpu-support.patch
-Patch5: gvt-g-support.patch
-Patch6: set-default-resolution-1024-768.patch
-Patch7: embed-nic-drivers.patch
-Patch8: add-xen-variable.patch
-Patch9: add-xen-platform-device-id.patch
-Patch10: disable-modules.patch
-Patch11: xenorder.patch
-Patch12: keep-caching-enabled.patch
-Patch13: remove-unused-crypto.patch
+Patch3: 0001-OvmfPkg-End-timer-interrupt-later-to-avoid-stack-ove.patch
+Patch4: openssl.patch
+Patch5: nvidia-vgpu-support.patch
+Patch6: gvt-g-support.patch
+Patch7: set-default-resolution-1024-768.patch
+Patch8: embed-nic-drivers.patch
+Patch9: add-xen-variable.patch
+Patch10: add-xen-platform-device-id.patch
+Patch11: disable-modules.patch
+Patch12: xenorder.patch
+Patch13: keep-caching-enabled.patch
+Patch14: remove-unused-crypto.patch
 
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/edk2.pg/archive?at=1.4.2&format=tar#/edk2.pg.tar) = 925e88bff6e61154110846a54a98ab6422129594
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/edk2.pg/archive?at=1.4.3&format=tar#/edk2.pg.tar) = bb5c235f41e70827aa496f3a1f1113ddf0e92b7d
 
 
 BuildRequires: gcc gcc-c++
@@ -94,6 +95,9 @@ cp OvmfPkg/License.txt License.ovmf
 
 
 %changelog
+* Wed Jun 24 2020 Ross Lagerwall <ross.lagerwall@citrix.com> - 20180522git4b8552d-1.4.3
+- CA-337679: Fix triple fault while booting on a heavy loaded host
+
 * Thu Jul 04 2019 Ross Lagerwall <ross.lagerwall@citrix.com> - 20180522git4b8552d-1.4.2
 - CA-322248: Prevent guest attempting to accessing priv regsiters
 
