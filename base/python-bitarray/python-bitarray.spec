@@ -2,8 +2,8 @@
 %global sum Efficient Array of Booleans --C Extensions
 
 Name:           python-%{srcname}
-Version:        1.2.2
-Release:        2%{?dist}
+Version:        1.6.1
+Release:        1%{?dist}
 Summary:        %{sum}
 
 License:        Python
@@ -58,6 +58,9 @@ This is Python 3 version.
 
 
 %changelog
+* Fri Nov 06 2020 Fedora Release Monitoring <release-monitoring@fedoraproject.org> - 1.6.1-1
+- Update to 1.6.1 (#1853987)
+
 * Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.2-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
 
