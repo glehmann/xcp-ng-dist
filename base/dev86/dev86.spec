@@ -15,6 +15,7 @@ Obsoletes: bin86
 %define __os_install_post    /usr/lib/rpm/brp-compress /usr/lib/rpm/brp-strip %{__strip} /usr/lib/rpm/brp-strip-comment-note %{__strip} %{__objdump} %{nil}
 
 BuildRequires:  gcc
+BuildRequires: make
 %description
 The dev86 package provides an assembler and linker for real mode 80x86
 instructions. You'll need to have this package installed in order to
