@@ -12,6 +12,7 @@ Source0:        %{url}/archive/v%{version}/%{srcname}-%{version}.tar.gz
 # Fix Python requirement versions
 Patch0:         %{name}-0.8.0-requirements.patch
 
+BuildRequires: make
 BuildRequires:  python3-devel
 BuildRequires:  %{py3_dist setuptools}
 # Required for tests
