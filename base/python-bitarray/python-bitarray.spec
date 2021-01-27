@@ -3,7 +3,7 @@
 
 Name:           python-%{srcname}
 Version:        1.6.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        %{sum}
 
 License:        Python
@@ -58,6 +58,9 @@ This is Python 3 version.
 
 
 %changelog
+* Wed Jan 27 2021 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_34_Mass_Rebuild
+
 * Fri Nov 06 2020 Fedora Release Monitoring <release-monitoring@fedoraproject.org> - 1.6.1-1
 - Update to 1.6.1 (#1853987)
 
