@@ -29,7 +29,7 @@ Display a clearer error message when the XAPI service is down.
          if len(data.derived.managementpifs([])) == 0:
 -            inPane.AddWrappedTextField(Lang("<No network configured>"))
 +            db = HotAccessor()
-+            if not Data.Inst().IsXAPIRunning():
++            if not data.IsXAPIRunning():
 +                inPane.AddWrappedTextField(Lang("XAPI service is not running."))
 +            elif db.host(None) is not None:
 +                inPane.AddWrappedTextField(Lang("Finishing start-up."))
