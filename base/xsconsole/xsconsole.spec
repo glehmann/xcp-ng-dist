@@ -1,7 +1,7 @@
 Summary: XCP-ng Host Configuration Console
 Name: xsconsole
 Version: 10.1.11
-Release: 1.3%{?dist}
+Release: 1.1%{?dist}
 License: GPL2
 Group: Administration/System
 
@@ -60,11 +60,9 @@ Console tool for configuring a XCP-ng installation.
 %{_unitdir}/xsconsole.service
 
 %changelog
-* Wed Feb 17 2021 Benjamin Reis <benjamin.reis@vates.fr> - 10.1.11-1.3
-- Add xsconsole-10.1.11-fix-DNS-storage-entries-by-xsconsole.XCP-ng.patch
-
-* Mon Feb 15 2021 Benjamin Reis <benjamin.reis@vates.fr> - 10.1.11-1.2
+* Next release
 - Add xsconsole-10.1.11-clearer-error-message-xapi-down.XCP-ng.patch
+- Add xsconsole-10.1.11-fix-DNS-storage-entries-by-xsconsole.XCP-ng.patch
 
 * Wed Jul 01 2020 Samuel Verschelde <stormi-xcp@ylix.fr> - 10.1.11-1.1
 - Rebase on CH 8.2
