@@ -1,7 +1,7 @@
 Summary: blktap user space utilities
 Name: blktap
 Version: 3.37.2
-Release: 1.0.1%{?dist}
+Release: 1.0.2%{?dist}
 License: BSD
 Group: System/Hypervisor
 URL: https://github.com/xapi-project/blktap
@@ -13,8 +13,9 @@ Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/
 
 # XCP-ng patches
 
-# The DRBD patch must be removed after the upstream release of the version 3.42.
+# The DRBD patches below must be removed after the upstream release of the version 3.43.
 Patch1000: blktap-3.30.0-drbd-support.XCP-ng.patch
+Patch1001: blktap-3.30.0-allocate-sufficient-space-in-normalize_path.backport.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{release}-buildroot
 Obsoletes: xen-blktap
@@ -141,6 +142,9 @@ fi
 %{?_cov_results_package}
 
 %changelog
+* Wed Apr 21 2021 Ronan Abhamon <ronan.abhamon@vates.fr> - 3.37.2-1.0.2
+- Patch blktap-3.30.0-allocate-sufficient-space-in-normalize_path.backport.patch added
+
 * Wed Nov 04 2020 Samuel Verschelde <stormi-xcp@ylix.fr> - 3.37.2-1.0.1
 - Sync with hotfix XS82E006
 - CA-340619: Propagate errors from snaphot creation
