@@ -1,0 +1,27 @@
+From b8e3f431e347660596fc2833c0e894984c15d403 Mon Sep 17 00:00:00 2001
+From: Mark Syms <mark.syms@citrix.com>
+Date: Mon, 21 Sep 2020 10:13:38 +0100
+Subject: [PATCH] CA-345193: allocate sufficient space in normalize_path
+
+Signed-off-by: Mark Syms <mark.syms@citrix.com>
+---
+ vhd/lib/canonpath.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/vhd/lib/canonpath.c b/vhd/lib/canonpath.c
+index 7126639..a5a1e2e 100644
+--- a/vhd/lib/canonpath.c
++++ b/vhd/lib/canonpath.c
+@@ -62,7 +62,8 @@ normalize_path(const char *path, size_t path_len)
+ 			return NULL;
+ 
+ 		res_len = strlen(wd);
+-		if (!(normalized_path = realloc(wd, res_len + path_len + 1))) {
++		/* Add 2 to accomodate the / and the \0 */
++		if (!(normalized_path = realloc(wd, res_len + path_len + 2))) {
+ 			free(wd);
+ 			return NULL;
+ 		}
+-- 
+2.30.1
+
