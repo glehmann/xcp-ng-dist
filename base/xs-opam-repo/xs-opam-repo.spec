@@ -3,16 +3,16 @@
 %global _opamroot %{_libdir}/opamroot
 
 Name: xs-opam-repo
-Version: 6.35.1
+Version: 6.35.6
 Release: 1%{?dist}
 Summary: Build and install OCaml libraries from Opam repository
 License: Various
 URL:     https://github.com/xapi-project/xs-opam
 
-Source0: https://repo.citrite.net/ctx-local-contrib/xs-opam/xs-opam-repo-6.35.1.tar.gz
+Source0: https://repo.citrite.net/ctx-local-contrib/xs-opam/xs-opam-repo-6.35.6.tar.gz
 
 
-Provides: gitsha(https://repo.citrite.net/ctx-local-contrib/xs-opam/xs-opam-repo-6.35.1.tar.gz) = f034c0f55bc608b75a53333e2b6d9ed9e712c519
+Provides: gitsha(https://repo.citrite.net/ctx-local-contrib/xs-opam/xs-opam-repo-6.35.6.tar.gz) = 06bc5e21c83a9013e9473b19993223f90706718f
 
 
 
@@ -99,6 +99,23 @@ echo '%%_opamroot %%{_libdir}/opamroot' >> "%{buildroot}%{_rpmconfigdir}/macros.
 %{_opamroot}
 
 %changelog
+* Mon Feb 15 2021 Ben Anson <ben.anson@citrix.com> - 6.35.6-1
+- UPD-678 bump ezxenstore to v0.4.1
+
+* Thu Feb 11 2021 Ben Anson <ben.anson@citrix.com> - 6.35.5-1
+- CA-350872: backport change in rsa check
+
+* Thu Feb 11 2021 Ben Anson <ben.anson@citrix.com> - 6.35.4-1
+- detect failed downloads
+
+* Thu Feb 11 2021 Ben Anson <ben.anson@citrix.com> - 6.35.3-1
+- maintenance: fix broken links for oasis, ocamlify, ocamlmod
+
+* Thu Feb 11 2021 Ben Anson <ben.anson@citrix.com> - 6.35.2-1
+- bump stdext to v4.11.2
+- tools: change distro variable for travis CI
+- stockholm: point to lcm branches
+
 * Mon Sep 28 2020 Ben Anson <ben.anson@citrix.com> - 6.35.1-1
 - CA-342171 bump stdext for Stockholm
 
