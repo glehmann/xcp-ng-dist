@@ -3,7 +3,7 @@
 
 Name:           python-%{srcname}
 Version:        0.8.0
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        The OpenTelemetry Python client
 
 License:        ASL 2.0
@@ -518,6 +518,9 @@ done
 
 
 %changelog
+* Fri Jul 23 2021 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.0-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_35_Mass_Rebuild
+
 * Fri Jun 04 2021 Python Maint <python-maint@redhat.com> - 0.8.0-6
 - Rebuilt for Python 3.10
 
