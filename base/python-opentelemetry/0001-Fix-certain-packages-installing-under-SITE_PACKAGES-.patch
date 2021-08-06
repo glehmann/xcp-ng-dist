@@ -1,0 +1,82 @@
+From a5bc3e18fc9267649449ae4aa8f96eaf8a4538a7 Mon Sep 17 00:00:00 2001
+From: "Benjamin A. Beasley" <code@musicinmybrain.net>
+Date: Thu, 5 Aug 2021 16:23:58 -0400
+Subject: [PATCH] =?UTF-8?q?Fix=20certain=20packages=20installing=20under?=
+ =?UTF-8?q?=20<SITE=5FPACKAGES>/src/=E2=80=A6?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+This fixes the following packages installing under
+<SITE_PACKAGES>/src/opentelemetry/ instead of
+<SITE_PACKAGES>/opentelemetry/:
+
+  • opentelemetry-exporter-jaeger
+  • opentelemetry-exporter-otlp
+  • opentelemetry-exporter-zipkin
+---
+ exporter/opentelemetry-exporter-jaeger/setup.cfg | 6 +++++-
+ exporter/opentelemetry-exporter-otlp/setup.cfg   | 5 +++++
+ exporter/opentelemetry-exporter-zipkin/setup.cfg | 5 +++++
+ 3 files changed, 15 insertions(+), 1 deletion(-)
+
+diff --git a/exporter/opentelemetry-exporter-jaeger/setup.cfg b/exporter/opentelemetry-exporter-jaeger/setup.cfg
+index fe632390..eb2a16a6 100644
+--- a/exporter/opentelemetry-exporter-jaeger/setup.cfg
++++ b/exporter/opentelemetry-exporter-jaeger/setup.cfg
+@@ -36,11 +36,15 @@ classifiers =
+ 
+ [options]
+ python_requires = >=3.6
+-
++package_dir=
++    =src
+ packages=find_namespace:
+ install_requires =
+     opentelemetry-exporter-jaeger-proto-grpc == 1.4.1
+     opentelemetry-exporter-jaeger-thrift == 1.4.1
+ 
++[options.packages.find]
++where = src
++
+ [options.extras_require]
+ test =
+diff --git a/exporter/opentelemetry-exporter-otlp/setup.cfg b/exporter/opentelemetry-exporter-otlp/setup.cfg
+index 4b1239d5..b3110cfe 100644
+--- a/exporter/opentelemetry-exporter-otlp/setup.cfg
++++ b/exporter/opentelemetry-exporter-otlp/setup.cfg
+@@ -36,6 +36,11 @@ classifiers =
+ 
+ [options]
+ python_requires = >=3.6
++package_dir=
++    =src
+ packages=find_namespace:
+ install_requires =
+     opentelemetry-exporter-otlp-proto-grpc == 1.4.1
++
++[options.packages.find]
++where = src
+diff --git a/exporter/opentelemetry-exporter-zipkin/setup.cfg b/exporter/opentelemetry-exporter-zipkin/setup.cfg
+index d919ad7d..1e776478 100644
+--- a/exporter/opentelemetry-exporter-zipkin/setup.cfg
++++ b/exporter/opentelemetry-exporter-zipkin/setup.cfg
+@@ -36,10 +36,15 @@ classifiers =
+ 
+ [options]
+ python_requires = >=3.6
++package_dir=
++    =src
+ packages=find_namespace:
+ install_requires =
+     opentelemetry-exporter-zipkin-json == 1.4.1
+     opentelemetry-exporter-zipkin-proto-http == 1.4.1
+ 
++[options.packages.find]
++where = src
++
+ [options.extras_require]
+ test =
+-- 
+2.31.1
+

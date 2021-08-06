@@ -1,0 +1,48 @@
+From 92fbbe9b018d5f35f037d1df5c28aad58e5eb7e3 Mon Sep 17 00:00:00 2001
+From: "Benjamin A. Beasley" <code@musicinmybrain.net>
+Date: Thu, 5 Aug 2021 09:50:37 -0400
+Subject: [PATCH] Handle traceback.format_exception() API change in Python 3.10
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+The first argument of traceback.format_exception() has been renamed from
+“etype” to “exc” and is now positional-only. Passing it as a positional
+argument rather than a keyword argument fixes a TypeError on Python 3.10
+while remaining compatible with previous Python releases:
+  • On Python 3.10, the parameter *should* be the exception object; it
+    is now possible to call format_exception() with only the exception
+    object, omitting “value” and “tb”. Here the type of the exception
+    object is given instead; however, this is OK because “value” and
+    “tb” are also given, and therefore the positional “exc” parameter is
+    ignored and may have any value or type whatsoever.
+  • From Python 3.5 to 3.9, the first argument is “etype” and is
+    correctly the type of the exception object; however, its actual
+    value is still ignored in favor of the type of “value”.
+  • Prior to Python 3.5, the “etype” would actually be used, if this
+    project supported those Python versions.
+
+The changes in the traceback module in Python 3.10 are documented at:
+https://docs.python.org/3.10/library/traceback.html#traceback.print_exception
+https://docs.python.org/3.10/library/traceback.html#traceback.format_exception
+https://docs.python.org/3.10/library/traceback.html#traceback.format_exception_only
+https://docs.python.org/3.10/library/traceback.html#traceback.TracebackException.format_exception_only
+---
+ shim/opentelemetry-opentracing-shim/tests/test_shim.py | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+
+diff --git a/shim/opentelemetry-opentracing-shim/tests/test_shim.py b/shim/opentelemetry-opentracing-shim/tests/test_shim.py
+index 828097270f..e27f779734 100644
+--- a/shim/opentelemetry-opentracing-shim/tests/test_shim.py
++++ b/shim/opentelemetry-opentracing-shim/tests/test_shim.py
+@@ -482,9 +482,7 @@ def test_span_on_error(self):
+ 
+         ex = exc_ctx.exception
+         expected_stack = "".join(
+-            traceback.format_exception(
+-                etype=type(ex), value=ex, tb=ex.__traceback__
+-            )
++            traceback.format_exception(type(ex), value=ex, tb=ex.__traceback__)
+         )
+         # Verify exception details have been added to span.
+         exc_event = scope.span.unwrap().events[0]
