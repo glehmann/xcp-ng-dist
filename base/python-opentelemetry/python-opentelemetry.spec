@@ -686,9 +686,9 @@ This package provides documentation for %{name}.
 # These contain entry points used by corresponding scripts in %%{_bindir}, but
 # the modules are not—and should not be—executable. Hence they should not have
 # shebangs.
-sed -r -i '1{/^#!/d}' \
-    src/opentelemetry/instrumentation/auto_instrumentation/__init__.py \
-    src/opentelemetry/instrumentation/bootstrap.py
+pushd 'opentelemetry-instrumentation/src/opentelemetry/instrumentation'
+sed -r -i '1{/^#!/d}' 'auto_instrumentation/__init__.py' 'bootstrap.py'
+popd
 
 %py3_shebang_fix .
 
