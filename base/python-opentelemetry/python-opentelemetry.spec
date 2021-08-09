@@ -3,8 +3,7 @@
 
 # Need to package python-pytest-grpc to run tests for:
 #   • opentelemetry-exporter-otlp-proto-grpc
-# Currently, it lacks MIT license text
-# (https://github.com/kataev/pytest-grpc/pull/17).
+# https://bugzilla.redhat.com/show_bug.cgi?id=1990917
 %bcond_with pytest_grpc
 
 # See eachdist.ini:
