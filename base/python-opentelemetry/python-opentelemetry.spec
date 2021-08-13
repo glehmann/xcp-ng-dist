@@ -42,6 +42,9 @@ License:        ASL 2.0
 URL:            %{forgeurl}
 Source0:        %{forgesource}
 
+Source1:        opentelemetry-bootstrap.1
+Source2:        opentelemetry-instrument.1
+
 # Handle traceback.format_exception() API change in Python 3.10
 # https://github.com/open-telemetry/opentelemetry-python/pull/2018
 Patch0:         %{forgeurl}/pull/2018/commits/92fbbe9b018d5f35f037d1df5c28aad58e5eb7e3.patch
@@ -682,6 +685,10 @@ This package provides documentation for %{name}.
 %prep
 %autosetup -n opentelemetry-python-%{stable_version} -p1
 
+# Downstream man pages
+mkdir -p man
+cp -p '%{SOURCE1}' '%{SOURCE2}' ./man/
+
 # These contain entry points used by corresponding scripts in %%{_bindir}, but
 # the modules are not—and should not be—executable. Hence they should not have
 # shebangs.
@@ -791,6 +798,8 @@ do
   %py3_install
   popd
 done
+
+install -t '%{buildroot}%{_mandir}/man1' -m 0644 -p -D man/*.1
 
 
 %check
@@ -1040,6 +1049,8 @@ done
 
 %{_bindir}/opentelemetry-bootstrap
 %{_bindir}/opentelemetry-instrument
+%{_mandir}/man1/opentelemetry-bootstrap.1*
+%{_mandir}/man1/opentelemetry-instrument.1*
 %endif
 
 

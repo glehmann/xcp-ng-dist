@@ -1,0 +1,48 @@
+.TH OPENTELEMETRY\-INSTRUMENT "1" "August 2021" "" "User Commands"
+.SH NAME
+.B opentelemetry\-instrument
+\(en automatically instruments a Python program and its dependencies and then runs the program
+.SH SYNOPSIS
+.B opentelemetry\-instrument
+.RB [ \-h ]
+.RB [ \-\-trace\-exporter
+.IR TRACE_EXPORTER ]
+.RB [ \-\-id\-generator
+.IR ID_GENERATOR ]
+.I command
+...
+.SH OPTIONS
+.SS "POSITIONAL ARGUMENTS"
+.TP
+.I command
+Your Python application.
+.TP
+.I command_args
+Arguments for your application.
+.SS OPTIONS
+.TP
+.B \-h\fR,\ \fB\-\-help
+show a help message and exit
+.TP
+.B \-\-trace\-exporter\ \fITRACE_EXPORTER
+Uses the specified exporter to export spans.
+Accepts multiple exporters as comma separated values.
+.IP
+Examples:
+.in +4n
+.EX
+.B \-\-trace\-exporter\=jaeger
+.EE
+.in
+.TP
+.B \-\-id\-generator\ \fIID_GENERATOR
+The IDs Generator to be used with the Tracer Provider.
+.IP
+Examples:
+.in +4n
+.EX
+.B \-\-id\-generator=random
+.EE
+.in
+.SH "SEE\ ALSO"
+.BR opentelemetry\-bootstrap (1)
