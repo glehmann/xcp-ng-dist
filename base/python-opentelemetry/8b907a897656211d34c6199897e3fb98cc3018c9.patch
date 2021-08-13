@@ -1,0 +1,82 @@
+From 8b907a897656211d34c6199897e3fb98cc3018c9 Mon Sep 17 00:00:00 2001
+From: "Benjamin A. Beasley" <code@musicinmybrain.net>
+Date: Fri, 13 Aug 2021 10:18:40 -0400
+Subject: [PATCH] =?UTF-8?q?Fix=20typos=20of=20=E2=80=9Cit's=E2=80=9D=20whe?=
+ =?UTF-8?q?re=20=E2=80=9Cits=E2=80=9D=20is=20meant?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+---
+ opentelemetry-api/src/opentelemetry/trace/__init__.py           | 2 +-
+ .../instrumentation/auto_instrumentation/__init__.py            | 2 +-
+ .../src/opentelemetry/instrumentation/propagators.py            | 2 +-
+ opentelemetry-sdk/src/opentelemetry/sdk/trace/__init__.py       | 2 +-
+ .../src/opentelemetry/semconv/trace/__init__.py                 | 2 +-
+ 5 files changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/opentelemetry-api/src/opentelemetry/trace/__init__.py b/opentelemetry-api/src/opentelemetry/trace/__init__.py
+index 487592f60d..58d75bbea8 100644
+--- a/opentelemetry-api/src/opentelemetry/trace/__init__.py
++++ b/opentelemetry-api/src/opentelemetry/trace/__init__.py
+@@ -320,7 +320,7 @@ def start_as_current_span(
+         as the current span in this tracer's context.
+ 
+         Exiting the context manager will call the span's end method,
+-        as well as return the current span to it's previous value by
++        as well as return the current span to its previous value by
+         returning to the previous context.
+ 
+         Example::
+diff --git a/opentelemetry-instrumentation/src/opentelemetry/instrumentation/auto_instrumentation/__init__.py b/opentelemetry-instrumentation/src/opentelemetry/instrumentation/auto_instrumentation/__init__.py
+index 45a1f2a221..9f076b340e 100644
+--- a/opentelemetry-instrumentation/src/opentelemetry/instrumentation/auto_instrumentation/__init__.py
++++ b/opentelemetry-instrumentation/src/opentelemetry/instrumentation/auto_instrumentation/__init__.py
+@@ -32,7 +32,7 @@ def parse_args():
+     parser = argparse.ArgumentParser(
+         description="""
+         opentelemetry-instrument automatically instruments a Python
+-        program and it's dependencies and then runs the program.
++        program and its dependencies and then runs the program.
+         """
+     )
+ 
+diff --git a/opentelemetry-instrumentation/src/opentelemetry/instrumentation/propagators.py b/opentelemetry-instrumentation/src/opentelemetry/instrumentation/propagators.py
+index 96a771d719..4d6ce39eae 100644
+--- a/opentelemetry-instrumentation/src/opentelemetry/instrumentation/propagators.py
++++ b/opentelemetry-instrumentation/src/opentelemetry/instrumentation/propagators.py
+@@ -16,7 +16,7 @@
+ This module implements experimental propagators to inject trace context
+ into response carriers. This is useful for server side frameworks that start traces
+ when server requests and want to share the trace context with the client so the
+-client can add it's spans to the same trace.
++client can add its spans to the same trace.
+ 
+ This is part of an upcoming W3C spec and will eventually make it to the Otel spec.
+ 
+diff --git a/opentelemetry-sdk/src/opentelemetry/sdk/trace/__init__.py b/opentelemetry-sdk/src/opentelemetry/sdk/trace/__init__.py
+index 19531a75a5..ca22f39ee8 100644
+--- a/opentelemetry-sdk/src/opentelemetry/sdk/trace/__init__.py
++++ b/opentelemetry-sdk/src/opentelemetry/sdk/trace/__init__.py
+@@ -532,7 +532,7 @@ class SpanLimits:
+     All limit arguments must be either a non-negative integer, ``None`` or ``SpanLimits.UNSET``.
+ 
+     - All limit arguments are optional.
+-    - If a limit argument is not set, the class will try to read it's value from the corresponding
++    - If a limit argument is not set, the class will try to read its value from the corresponding
+       environment variable.
+     - If the environment variable is not set, the default value for the limit is used.
+ 
+diff --git a/opentelemetry-semantic-conventions/src/opentelemetry/semconv/trace/__init__.py b/opentelemetry-semantic-conventions/src/opentelemetry/semconv/trace/__init__.py
+index 36184ca955..5ecfd2946b 100644
+--- a/opentelemetry-semantic-conventions/src/opentelemetry/semconv/trace/__init__.py
++++ b/opentelemetry-semantic-conventions/src/opentelemetry/semconv/trace/__init__.py
+@@ -608,7 +608,7 @@ class SpanAttributes:
+     MESSAGING_KAFKA_MESSAGE_KEY = "messaging.kafka.message_key"
+     """
+     Message keys in Kafka are used for grouping alike messages to ensure they're processed on the same partition. They differ from `messaging.message_id` in that they're not unique. If the key is `null`, the attribute MUST NOT be set.
+-    Note: If the key type is not string, it's string representation has to be supplied for the attribute. If the key has no unambiguous, canonical string form, don't include its value.
++    Note: If the key type is not string, its string representation has to be supplied for the attribute. If the key has no unambiguous, canonical string form, don't include its value.
+     """
+ 
+     MESSAGING_KAFKA_CONSUMER_GROUP = "messaging.kafka.consumer_group"

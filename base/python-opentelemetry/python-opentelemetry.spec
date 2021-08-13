@@ -50,6 +50,9 @@ Source2:        opentelemetry-instrument.1
 Patch0:         %{forgeurl}/pull/2018/commits/92fbbe9b018d5f35f037d1df5c28aad58e5eb7e3.patch
 # https://github.com/open-telemetry/opentelemetry-python/issues/2020
 Patch1:         0001-Fix-certain-packages-installing-under-SITE_PACKAGES-.patch
+# Fix typos of “it's” where “its” is meant
+# https://github.com/open-telemetry/opentelemetry-python/pull/2039
+Patch2:         %{forgeurl}/pull/2039/commits/8b907a897656211d34c6199897e3fb98cc3018c9.patch
 
 BuildRequires:  python3-devel
 BuildRequires:  %{py3_dist setuptools}
