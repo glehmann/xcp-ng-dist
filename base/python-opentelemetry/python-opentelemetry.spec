@@ -1,11 +1,6 @@
 %global srcname opentelemetry
 %global forgeurl https://github.com/open-telemetry/%{srcname}-python
 
-# Need to package python-pytest-grpc to run tests for:
-#   • opentelemetry-exporter-otlp-proto-grpc
-# https://bugzilla.redhat.com/show_bug.cgi?id=1990917
-%bcond_with pytest_grpc
-
 # See eachdist.ini:
 %global stable_version 1.4.1
 %global prerel_version 0.23~b2
@@ -158,10 +153,8 @@ BuildRequires:  %{py3_dist pytest} >= 6.0
 # tox.ini testenv.deps: test: pytest-benchmark
 BuildRequires:  %{py3_dist pytest-benchmark}
 
-%if %{with pytest_grpc}
 # opentelemetry-exporter-otlp-proto-grpc extras_require[test]: pytest-grpc
 BuildRequires:  %{py3_dist pytest-grpc}
-%endif
 
 # dev-requirements.txt: readme-renderer~=24.0
 # (does not seem to actually be used anywhere)
@@ -825,9 +818,7 @@ for pkg in \
     exporter/opentelemetry-exporter-zipkin-proto-http \
     exporter/opentelemetry-exporter-zipkin-json \
     exporter/opentelemetry-exporter-zipkin \
-%if %{with pytest_grpc}
     exporter/opentelemetry-exporter-otlp-proto-grpc \
-%endif
     exporter/opentelemetry-exporter-otlp \
     exporter/opentelemetry-exporter-jaeger-thrift \
     exporter/opentelemetry-exporter-jaeger-proto-grpc \
