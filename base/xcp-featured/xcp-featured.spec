@@ -1,6 +1,6 @@
 Name:           xcp-featured
 Version:        1.1.3
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        XCP-ng feature daemon
 Group:          System/Hypervisor
 License:        ISC
@@ -44,6 +44,10 @@ ln -s /opt/xensource/libexec/xcp-featured %{buildroot}/opt/xensource/libexec/v6d
 %{_unitdir}/v6d.service
 
 %changelog
+* Wed Sep 08 2021 Samuel Verschelde <stormi-xcp@ylix.fr> - 1.1.3-2
+- Rebuild to take new(ish) feature from XAPI into account (pool secret rotation)
+- Static linking is evil!
+
 * Mon Jul 06 2020 Samuel Verschelde <stormi-xcp@ylix.fr> - 1.1.3-1
 - Update to 1.1.3 which @benjamreis ported from jbuilder to dune 2
 
