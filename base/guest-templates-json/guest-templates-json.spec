@@ -1,13 +1,13 @@
 Name:    guest-templates-json
 Summary: Creates the default guest templates
-Version: 1.8.19
-Release: 1.2%{?dist}
+Version: 1.9.4
+Release: 1.1%{?dist}
 License: BSD
 
-Source0: https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.8.19&format=tar.gz&prefix=guest-templates-json-1.8.19#/guest-templates-json-1.8.19.tar.gz
+Source0: https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.9.4&format=tar.gz&prefix=guest-templates-json-1.9.4#/guest-templates-json-1.9.4.tar.gz
 
 
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.8.19&format=tar.gz&prefix=guest-templates-json-1.8.19#/guest-templates-json-1.8.19.tar.gz) = be00e5fc3d649b03a9b0d8bc3fedc2ce04390d67
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.9.4&format=tar.gz&prefix=guest-templates-json-1.9.4#/guest-templates-json-1.9.4.tar.gz) = 48d547977dd6620dee32d9769ce704246a400810
 
 BuildArch: noarch
 
@@ -26,7 +26,7 @@ Creates the default guest templates during first boot or package
 install/upgrade.
 
 %package data-pv
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.8.19&format=tar.gz&prefix=guest-templates-json-1.8.19#/guest-templates-json-1.8.19.tar.gz) = be00e5fc3d649b03a9b0d8bc3fedc2ce04390d67
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.9.4&format=tar.gz&prefix=guest-templates-json-1.9.4#/guest-templates-json-1.9.4.tar.gz) = 48d547977dd6620dee32d9769ce704246a400810
 Summary: Contains the PV guest templates
 Requires(post): %{name} = %{version}-%{release}
 
@@ -34,7 +34,7 @@ Requires(post): %{name} = %{version}-%{release}
 Contains the PV guest templates.
 
 %package data-linux
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.8.19&format=tar.gz&prefix=guest-templates-json-1.8.19#/guest-templates-json-1.8.19.tar.gz) = be00e5fc3d649b03a9b0d8bc3fedc2ce04390d67
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.9.4&format=tar.gz&prefix=guest-templates-json-1.9.4#/guest-templates-json-1.9.4.tar.gz) = 48d547977dd6620dee32d9769ce704246a400810
 Summary: Contains the default Linux guest templates
 Requires(post): %{name} = %{version}-%{release}
 
@@ -42,7 +42,7 @@ Requires(post): %{name} = %{version}-%{release}
 Contains the default Linux guest templates.
 
 %package data-windows
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.8.19&format=tar.gz&prefix=guest-templates-json-1.8.19#/guest-templates-json-1.8.19.tar.gz) = be00e5fc3d649b03a9b0d8bc3fedc2ce04390d67
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.9.4&format=tar.gz&prefix=guest-templates-json-1.9.4#/guest-templates-json-1.9.4.tar.gz) = 48d547977dd6620dee32d9769ce704246a400810
 Summary: Contains the default Windows guest templates
 Requires(post): %{name} = %{version}-%{release}
 
@@ -50,7 +50,7 @@ Requires(post): %{name} = %{version}-%{release}
 Contains the default Windows guest templates.
 
 %package data-other
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.8.19&format=tar.gz&prefix=guest-templates-json-1.8.19#/guest-templates-json-1.8.19.tar.gz) = be00e5fc3d649b03a9b0d8bc3fedc2ce04390d67
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.9.4&format=tar.gz&prefix=guest-templates-json-1.9.4#/guest-templates-json-1.9.4.tar.gz) = 48d547977dd6620dee32d9769ce704246a400810
 Summary: Contains the default other guest templates
 Requires(post): %{name} = %{version}-%{release}
 
@@ -172,6 +172,8 @@ fi
 %{templatedir}/sled-12-sp[34]-64bit.json
 %{templatedir}/sles-12-sp[3-5]-64bit.json
 %{templatedir}/ubuntu*.json
+%{templatedir}/gooroom-2.json
+%{templatedir}/rocky-8.json
 
 %files data-windows
 %{templatedir}/base-windows*.json
@@ -181,6 +183,14 @@ fi
 %{templatedir}/other-install-media.json
 
 %changelog
+* Thu Sep 09 2021 Samuel Verschelde <stormi-xcp@ylix.fr> - 1.9.4-1.1
+- Sync with hotfix XS82E033
+- *** Upstream changelog ***
+- * Fri Aug 20 2021 Xihuan Yang <xihuan.yang@citrix.com> - 1.9.4-1
+- - CP-37595: Add template for Rocky Linux 8
+- * Wed Mar 17 2021 Xihuan Yang <xihuan.yang@citrix.com> - 1.9.2-1
+- - CP-36311: add template for gooroom os
+
 * Fri Jul 10 2020 Samuel Verschelde <stormi-xcp@ylix.fr> - 1.8.19-1.2
 - Remove guest-templates-json-1.7.21-dont-update-db-on-slaves.XCP-ng.patch...
 - ... The new create-guest-template-wrapper script now checks for master vs others
