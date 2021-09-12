@@ -1,5 +1,4 @@
-%global srcname opentelemetry
-%global forgeurl https://github.com/open-telemetry/%{srcname}-python
+%global forgeurl https://github.com/open-telemetry/opentelemetry-python
 
 # See eachdist.ini:
 %global stable_version 1.4.1
@@ -27,7 +26,7 @@
 # grpc-doc will not be availalbe.
 %bcond_with bootstrap
 
-Name:           python-%{srcname}
+Name:           python-opentelemetry
 Version:        %{stable_version}
 %forgemeta
 Release:        %autorelease
@@ -664,7 +663,7 @@ Requires:       python3-opentelemetry-sdk = %{stable_version}-%{release}
 
 
 %package doc
-Summary:        Documentation for %{name}
+Summary:        Documentation for python-opentelemetry
 Version:        %{stable_version}
 
 Requires:       python-opentracing-doc
@@ -675,7 +674,7 @@ Requires:       grpc-doc
 %endif
 
 %description doc
-This package provides documentation for %{name}.
+This package provides documentation for python-opentelemetry.
 
 
 %prep
