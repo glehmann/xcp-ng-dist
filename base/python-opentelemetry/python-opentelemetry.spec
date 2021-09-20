@@ -168,7 +168,8 @@ BuildRequires:  %{py3_dist sphinx-autodoc-typehints}
 
 # dev-requirements.txt: sphinx-rtd-theme~=0.5
 # docs-requirements.txt: sphinx-rtd-theme~=0.5
-BuildRequires:  ((%{py3_dist sphinx-rtd-theme} >= 0.5) with (%{py3_dist sphinx-rtd-theme} < 0.6))
+# NOTE: We must loosen this to allow sphinx-rtd-theme~=1.0.
+BuildRequires:  ((%{py3_dist sphinx-rtd-theme} >= 0.5) with (%{py3_dist sphinx-rtd-theme} < 2.0))
 
 # dev-requirements.txt: sphinx~=3.5.4
 # docs-requirements.txt: sphinx~=3.5.4
