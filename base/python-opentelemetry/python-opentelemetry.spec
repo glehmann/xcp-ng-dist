@@ -762,7 +762,7 @@ done
 
 # Build documentation
 %make_build -C docs/ html SPHINXOPTS='%{?_smp_mflags}'
-rm docs/_build/html/.??*
+find docs/_build/html -maxdepth 1 -name '.*' -exec rm -rvf '{}' '+'
 
 
 %install
