@@ -828,8 +828,8 @@ do
   if [ "${pkg}" = 'exporter/opentelemetry-exporter-jaeger-proto-grpc' ]
   then
     # https://github.com/open-telemetry/opentelemetry-python/issues/1975
-    k='not (TestJaegerExporter and test_export)'
-    k="${k} and not (TestJaegerExporter and test_export_span_service_name)"
+    k="${k-}${k+ and }not (TestJaegerExporter and test_export)"
+    k="${k-}${k+ and }not (TestJaegerExporter and test_export_span_service_name)"
   fi
   if [ "${pkg}" = 'exporter/opentelemetry-exporter-otlp-proto-grpc' ]
   then
@@ -881,7 +881,7 @@ do
     # E           Expected: sleep(4)
     # E           Actual: sleep(1)
     # /usr/lib64/python3.10/unittest/mock.py:919: AssertionError
-    k='not (TestOLTPSpanExporter and test_unavailable_delay)'
+    k="${k-}${k+ and }not (TestOLTPSpanExporter and test_unavailable_delay)"
   fi
   %pytest "${pkg}" -k "${k-}"
 done
