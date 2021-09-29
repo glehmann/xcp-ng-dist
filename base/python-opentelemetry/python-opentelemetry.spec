@@ -13,8 +13,7 @@
 # version, but currently none of these actually exist. We will avoid packaging
 # them if at all possible.
 
-# During bootstrapping, python-pymongo and grpc do not build their -doc
-# subpackages.
+# During bootstrapping, python-pymongo does not build its -doc subpackage.
 #
 # Note that this package is a dependency for python-xds-protos, which is a
 # dependency for grpc when not bootstrapping, which creates a circular
@@ -22,9 +21,14 @@
 # grpc subpackages. The grpc package breaks this chain (and another one through
 # python-xds-protos directly) during bootstrapping by dropping the dependency
 # on python-xds-protos at the cost of not building a few subpackages. We
-# shouldn’t have to do anything special inthis package except expect that
-# grpc-doc will not be availalbe.
+# shouldn’t have to do anything special in this package.
 %bcond_with bootstrap
+
+# Sphinx-generated HTML documentation is not suitable for packaging; see
+# https://bugzilla.redhat.com/show_bug.cgi?id=2006555 for discussion.
+#
+# We can generate PDF documentation as a lesser substitute.
+%bcond_without doc_pdf
 
 Name:           python-opentelemetry
 Version:        %{stable_version}
@@ -52,12 +56,15 @@ BuildRequires:  python3-devel
 BuildRequires:  %{py3_dist setuptools}
 
 # Documentation
+%if %{with doc_pdf}
 BuildRequires:  make
+BuildRequires:  python3-sphinx-latex
+BuildRequires:  latexmk
 BuildRequires:  python-opentracing-doc
 BuildRequires:  python-wrapt-doc
 %if %{without bootstrap}
 BuildRequires:  python-pymongo-doc
-BuildRequires:  grpc-doc
+%endif
 %endif
 
 # opentelemetry-proto install_requires: aiocontextvars; python_version<'3.7'
@@ -671,7 +678,6 @@ Requires:       python-opentracing-doc
 Requires:       python-wrapt-doc
 %if %{without bootstrap}
 Requires:       python-pymongo-doc
-Requires:       grpc-doc
 %endif
 
 %description doc
@@ -704,6 +710,7 @@ sed -r -i 's|shutil\.which\("python"\)|"%{__python3}"|' \
 # Currently, the following mappings are removed because the corresponding
 # Sphinx documentation is not available in an RPM package.
 #   'aiohttp': ('https://aiohttp.readthedocs.io/en/stable/', None)
+#   'grpc': ('https://grpc.github.io/grpc/python/', None)
 # Others are removed during bootstrapping only.
 sed -r -i \
     -e 's@https://docs.python.org/3?@/%{_docdir}/python3-docs/html@' \
@@ -712,11 +719,7 @@ sed -r -i \
     -e 's@https://(wrapt%{?!with_bootstrap:|pymongo}).readthedocs.io/[^"]+@'\
 '/%{_docdir}/python-\1-doc/html@' \
     -e '/(aiohttp%{?with_bootstrap:|pymongo}).*https.*readthedocs/d' \
-%if %{with bootstrap}
     -e '/grpc.*https.*/d' \
-%else
-    -e 's@https://(grpc)\.[^"]+@/%{_docdir}/\1-doc/python/html@' \
-%endif
     docs/conf.py
 
 
@@ -761,8 +764,10 @@ do
 done
 
 # Build documentation
-%make_build -C docs/ html SPHINXOPTS='%{?_smp_mflags}'
-find docs/_build/html -maxdepth 1 -name '.*' -exec rm -rvf '{}' '+'
+%if %{with doc_pdf}
+%make_build -C docs latex SPHINXOPTS='%{?_smp_mflags}'
+%make_build -C docs/_build/latex
+%endif
 
 
 %install
@@ -1201,7 +1206,9 @@ done
 
 %files doc
 %license LICENSE
-%doc docs/_build/html/
+%if %{with doc_pdf}
+%doc docs/_build/latex/opentelemetrypython.pdf
+%endif
 
 %changelog
 %autochangelog
