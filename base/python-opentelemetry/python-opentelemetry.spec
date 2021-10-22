@@ -27,7 +27,7 @@
 # Sphinx-generated HTML documentation is not suitable for packaging; see
 # https://bugzilla.redhat.com/show_bug.cgi?id=2006555 for discussion.
 #
-# We can generate PDF documentation as a lesser substitute.
+# We can generate PDF documentation as a substitute.
 %bcond_without doc_pdf
 
 Name:           python-opentelemetry
@@ -176,7 +176,7 @@ BuildRequires:  %{py3_dist sphinx-autodoc-typehints}
 # dev-requirements.txt: sphinx-rtd-theme~=0.5
 # docs-requirements.txt: sphinx-rtd-theme~=0.5
 # NOTE: We must loosen this to allow sphinx-rtd-theme~=1.0.
-BuildRequires:  ((%{py3_dist sphinx-rtd-theme} >= 0.5) with (%{py3_dist sphinx-rtd-theme} < 2.0))
+# HOWEVER: we do not build the HTML documentation, so we can do without.
 
 # dev-requirements.txt: sphinx~=3.5.4
 # docs-requirements.txt: sphinx~=3.5.4
@@ -1209,6 +1209,7 @@ done
 %if %{with doc_pdf}
 %doc docs/_build/latex/opentelemetrypython.pdf
 %endif
+
 
 %changelog
 %autochangelog
