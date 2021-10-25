@@ -702,7 +702,7 @@ popd
 
 # Fix a test that shells out to the unversioned Python command. This is OK
 # upstream, but not in Fedora.
-sed -r -i 's|shutil\.which\("python"\)|"%{__python3}"|' \
+sed -r -i 's|shutil\.which\("python"\)|"%{python3}"|' \
     opentelemetry-sdk/tests/trace/test_trace.py
 
 # Use local inventories in intersphinx mappings.
@@ -758,7 +758,7 @@ for pkg in \
 do
   pushd "${pkg}"
   %py3_build
-  %{__python3} %{py_setup} %{?py_setup_args} install \
+  %{python3} %{py_setup} %{?py_setup_args} install \
       -O1 --skip-build --root "${PYROOT}"
   popd
 done
