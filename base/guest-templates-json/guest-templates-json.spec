@@ -1,11 +1,14 @@
 Name:    guest-templates-json
 Summary: Creates the default guest templates
 Version: 1.9.4
-Release: 1.1%{?dist}
+Release: 1.2%{?dist}
 License: BSD
 
 Source0: https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.9.4&format=tar.gz&prefix=guest-templates-json-1.9.4#/guest-templates-json-1.9.4.tar.gz
 
+# XCP-ng patches
+Source1000: almalinux-8.json
+Source1001: debian-11.json
 
 Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.9.4&format=tar.gz&prefix=guest-templates-json-1.9.4#/guest-templates-json-1.9.4.tar.gz) = 48d547977dd6620dee32d9769ce704246a400810
 
@@ -70,6 +73,7 @@ Contains the default other guest templates.
 
 install -d %{buildroot}%{templatedir}
 install -m 644 json/*.json %{buildroot}%{templatedir}
+install -m 644 %{SOURCE1000} %{SOURCE1001} %{buildroot}%{templatedir}
 install -d %{buildroot}%{_sysconfdir}/xapi.d/vm-templates
 
 install -m 755 service/create-guest-templates-wrapper %{buildroot}%{_bindir}
@@ -156,6 +160,7 @@ fi
 %{templatedir}/sles-12-sp[12]-64bit.json
 
 %files data-linux
+%{templatedir}/almalinux-8.json
 %{templatedir}/base-el-7.json
 %{templatedir}/base-hvmlinux.json
 %{templatedir}/base-kylin-7.json
@@ -183,6 +188,9 @@ fi
 %{templatedir}/other-install-media.json
 
 %changelog
+* Mon Nov 22 2021 Gael Duperrey <gduperrey@vates.fr> - 1.9.4-1.2
+- Add template for AlmaLinux 8 and Debian 11 Bullseye
+
 * Thu Sep 09 2021 Samuel Verschelde <stormi-xcp@ylix.fr> - 1.9.4-1.1
 - Sync with hotfix XS82E033
 - *** Upstream changelog ***

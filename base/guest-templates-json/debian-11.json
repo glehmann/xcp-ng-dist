@@ -1,0 +1,8 @@
+{
+    "uuid": "bfb0c8e5-e1db-4a32-9d85-757b3de0f19f",
+    "reference_label": "debian-11",
+    "name_label": "Debian Bullseye 11",
+    "derived_from": "base-hvmlinux.json",
+    "min_memory": "512M",
+    "disks": [ { "size": "10G" } ]
+}

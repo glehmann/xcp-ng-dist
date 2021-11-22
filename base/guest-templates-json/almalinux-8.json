@@ -1,0 +1,6 @@
+{
+    "uuid": "7aa32be8-a06c-4ade-8a1d-49e51e03e9d2",
+    "reference_label": "almalinux-8",
+    "name_label": "AlmaLinux 8",
+    "derived_from": "base-el-7.json"
+}
