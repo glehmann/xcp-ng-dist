@@ -766,7 +766,7 @@ done
 # Build documentation
 %if %{with doc_pdf}
 %make_build -C docs latex SPHINXOPTS='%{?_smp_mflags}'
-%make_build -C docs/_build/latex
+%make_build -C docs/_build/latex LATEXMKOPTS='-quiet'
 %endif
 
 
