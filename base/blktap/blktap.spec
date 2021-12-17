@@ -1,15 +1,15 @@
 Summary: blktap user space utilities
 Name: blktap
-Version: 3.37.2
+Version: 3.37.3
 Release: 1.0
 License: BSD
 Group: System/Hypervisor
 URL: https://github.com/xapi-project/blktap
 
-Source0: https://code.citrite.net/rest/archive/latest/projects/XS/repos/blktap/archive?at=v3.37.2&format=tar.gz&prefix=blktap-3.37.2#/blktap-3.37.2.tar.gz
+Source0: https://code.citrite.net/rest/archive/latest/projects/XS/repos/blktap/archive?at=v3.37.3&format=tar.gz&prefix=blktap-3.37.3#/blktap-3.37.3.tar.gz
 
 
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/blktap/archive?at=v3.37.2&format=tar.gz&prefix=blktap-3.37.2#/blktap-3.37.2.tar.gz) = e449f2aabef1f1935b202d6e385b3d738a91bd55
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/blktap/archive?at=v3.37.3&format=tar.gz&prefix=blktap-3.37.3#/blktap-3.37.3.tar.gz) = 3070c7a8295d563f2914ecb40c53002390bd6280
 
 
 BuildRoot: %{_tmppath}/%{name}-%{release}-buildroot
@@ -39,7 +39,7 @@ destroy and manipulate devices ('tap-ctl'), the 'tapdisk' driver
 program to perform tap devices I/O, and a number of image drivers.
 
 %package devel
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/blktap/archive?at=v3.37.2&format=tar.gz&prefix=blktap-3.37.2#/blktap-3.37.2.tar.gz) = e449f2aabef1f1935b202d6e385b3d738a91bd55
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/blktap/archive?at=v3.37.3&format=tar.gz&prefix=blktap-3.37.3#/blktap-3.37.3.tar.gz) = 3070c7a8295d563f2914ecb40c53002390bd6280
 Summary: BlkTap Development Headers and Libraries
 Requires: blktap = %{version}
 Group: Development/Libraries
@@ -137,6 +137,10 @@ fi
 %{?_cov_results_package}
 
 %changelog
+* Thu Oct  7 2021 Mark Syms <mark.syms@citrix.com> - 3.37.3-1.0
+- CA-355145: guard vbd_stats
+- CA-183182: Don't error if there are no tapdisks to signal
+
 * Mon Oct 12 2020 Tim Smith <tim.smith@citrix.com> - 3.37.2-1
 - CA-342578: fix switch case fall through error
 - CA-342553: don't try to read encryption key from raw parent
@@ -331,7 +335,7 @@ fi
 
 
 %package testresults
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/blktap/archive?at=v3.37.2&format=tar.gz&prefix=blktap-3.37.2#/blktap-3.37.2.tar.gz) = e449f2aabef1f1935b202d6e385b3d738a91bd55
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/blktap/archive?at=v3.37.3&format=tar.gz&prefix=blktap-3.37.3#/blktap-3.37.3.tar.gz) = 3070c7a8295d563f2914ecb40c53002390bd6280
 Group:    System/Hypervisor
 Summary:  test results for blktap package
 
@@ -342,7 +346,7 @@ The package contains the build time test results for the blktap package
 /testresults
 
 %package -n vhd-util-standalone
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/blktap/archive?at=v3.37.2&format=tar.gz&prefix=blktap-3.37.2#/blktap-3.37.2.tar.gz) = e449f2aabef1f1935b202d6e385b3d738a91bd55
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/blktap/archive?at=v3.37.3&format=tar.gz&prefix=blktap-3.37.3#/blktap-3.37.3.tar.gz) = 3070c7a8295d563f2914ecb40c53002390bd6280
 Group:   System/Hypervisor
 Summary: Standalone vhd-util binary
 Conflicts: blktap
