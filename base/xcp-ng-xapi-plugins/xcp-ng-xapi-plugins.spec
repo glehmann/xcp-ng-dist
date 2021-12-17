@@ -1,7 +1,7 @@
 Summary: XAPI additional plugins for XCP-ng
 Name: xcp-ng-xapi-plugins
-Version: 1.6.1
-Release: 3%{?dist}
+Version: 1.7.0
+Release: 1%{?dist}
 URL: https://github.com/xcp-ng/xcp-ng-xapi-plugins
 Source0: https://github.com/xcp-ng/xcp-ng-xapi-plugins/archive/v%{version}/%{name}-%{version}.tar.gz
 License: AGPLv3
@@ -32,6 +32,11 @@ install SOURCES/etc/xapi.d/plugins/xcpngutils/*.py %{buildroot}/etc/xapi.d/plugi
 %dir /var/lib/xcp-ng-xapi-plugins
 
 %changelog
+* Fri Dec 17 2021 Benjamin Reis <benjamin.reis@vates.fr> - 1.7.0-1
+- Fix lock in updater plugin (See: https://github.com/xcp-ng/xcp/issues/523)
+- Normalize plugins output
+- Add plugin to display return of lsblk
+
 * Wed Jul 01 2020 Samuel Verschelde <stormi-xcp@ylix.fr> - 1.6.1-3
 - Rebuild for XCP-ng 8.2.0
 
