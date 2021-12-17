@@ -1,16 +1,16 @@
 Name:    guest-templates-json
 Summary: Creates the default guest templates
-Version: 1.9.4
-Release: 1.2%{?dist}
+Version: 1.9.6
+Release: 1.1%{?dist}
 License: BSD
 
-Source0: https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.9.4&format=tar.gz&prefix=guest-templates-json-1.9.4#/guest-templates-json-1.9.4.tar.gz
+Source0: https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.9.6&format=tar.gz&prefix=guest-templates-json-1.9.6#/guest-templates-json-1.9.6.tar.gz
 
 # XCP-ng patches
 Source1000: almalinux-8.json
 Source1001: debian-11.json
 
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.9.4&format=tar.gz&prefix=guest-templates-json-1.9.4#/guest-templates-json-1.9.4.tar.gz) = 48d547977dd6620dee32d9769ce704246a400810
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.9.6&format=tar.gz&prefix=guest-templates-json-1.9.6#/guest-templates-json-1.9.6.tar.gz) = 7c1a85a4cba851a1abb2f54d884f1345b648ee38
 
 BuildArch: noarch
 
@@ -29,7 +29,7 @@ Creates the default guest templates during first boot or package
 install/upgrade.
 
 %package data-pv
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.9.4&format=tar.gz&prefix=guest-templates-json-1.9.4#/guest-templates-json-1.9.4.tar.gz) = 48d547977dd6620dee32d9769ce704246a400810
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.9.6&format=tar.gz&prefix=guest-templates-json-1.9.6#/guest-templates-json-1.9.6.tar.gz) = 7c1a85a4cba851a1abb2f54d884f1345b648ee38
 Summary: Contains the PV guest templates
 Requires(post): %{name} = %{version}-%{release}
 
@@ -37,7 +37,7 @@ Requires(post): %{name} = %{version}-%{release}
 Contains the PV guest templates.
 
 %package data-linux
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.9.4&format=tar.gz&prefix=guest-templates-json-1.9.4#/guest-templates-json-1.9.4.tar.gz) = 48d547977dd6620dee32d9769ce704246a400810
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.9.6&format=tar.gz&prefix=guest-templates-json-1.9.6#/guest-templates-json-1.9.6.tar.gz) = 7c1a85a4cba851a1abb2f54d884f1345b648ee38
 Summary: Contains the default Linux guest templates
 Requires(post): %{name} = %{version}-%{release}
 
@@ -45,7 +45,7 @@ Requires(post): %{name} = %{version}-%{release}
 Contains the default Linux guest templates.
 
 %package data-windows
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.9.4&format=tar.gz&prefix=guest-templates-json-1.9.4#/guest-templates-json-1.9.4.tar.gz) = 48d547977dd6620dee32d9769ce704246a400810
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.9.6&format=tar.gz&prefix=guest-templates-json-1.9.6#/guest-templates-json-1.9.6.tar.gz) = 7c1a85a4cba851a1abb2f54d884f1345b648ee38
 Summary: Contains the default Windows guest templates
 Requires(post): %{name} = %{version}-%{release}
 
@@ -53,7 +53,7 @@ Requires(post): %{name} = %{version}-%{release}
 Contains the default Windows guest templates.
 
 %package data-other
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.9.4&format=tar.gz&prefix=guest-templates-json-1.9.4#/guest-templates-json-1.9.4.tar.gz) = 48d547977dd6620dee32d9769ce704246a400810
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.9.6&format=tar.gz&prefix=guest-templates-json-1.9.6#/guest-templates-json-1.9.6.tar.gz) = 7c1a85a4cba851a1abb2f54d884f1345b648ee38
 Summary: Contains the default other guest templates
 Requires(post): %{name} = %{version}-%{release}
 
@@ -188,6 +188,14 @@ fi
 %{templatedir}/other-install-media.json
 
 %changelog
+* Fri Dec 17 2021 Samuel Verschelde <stormi-xcp@ylix.fr> - 1.9.6-1.1
+- Sync with CH 8.2.1
+- *** Upstream changelog ***
+- * Mon Oct 11 2021 Martin Harvey <martin.harvey@citrix.com> - 1.9.6-1
+- - CP-38270: Windows Server 2022 template not experimental in yangtze.
+- * Tue Sep 21 2021 Martin Harvey <martin.harvey@citrix.com> - 1.9.5-1
+- - CP-37828: Commit windows server 2022 template into release
+
 * Mon Nov 22 2021 Gael Duperrey <gduperrey@vates.fr> - 1.9.4-1.2
 - Add template for AlmaLinux 8 and Debian 11 Bullseye
 
