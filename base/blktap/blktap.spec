@@ -1,15 +1,15 @@
 Summary: blktap user space utilities
 Name: blktap
-Version: 3.37.2
-Release: 1.0.2%{?dist}
+Version: 3.37.3
+Release: 1.0.1%{?dist}
 License: BSD
 Group: System/Hypervisor
 URL: https://github.com/xapi-project/blktap
 
-Source0: https://code.citrite.net/rest/archive/latest/projects/XS/repos/blktap/archive?at=v3.37.2&format=tar.gz&prefix=blktap-3.37.2#/blktap-3.37.2.tar.gz
+Source0: https://code.citrite.net/rest/archive/latest/projects/XS/repos/blktap/archive?at=v3.37.3&format=tar.gz&prefix=blktap-3.37.3#/blktap-3.37.3.tar.gz
 
 
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/blktap/archive?at=v3.37.2&format=tar.gz&prefix=blktap-3.37.2#/blktap-3.37.2.tar.gz) = e449f2aabef1f1935b202d6e385b3d738a91bd55
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/blktap/archive?at=v3.37.3&format=tar.gz&prefix=blktap-3.37.3#/blktap-3.37.3.tar.gz) = 3070c7a8295d563f2914ecb40c53002390bd6280
 
 # XCP-ng patches
 
@@ -44,7 +44,7 @@ destroy and manipulate devices ('tap-ctl'), the 'tapdisk' driver
 program to perform tap devices I/O, and a number of image drivers.
 
 %package devel
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/blktap/archive?at=v3.37.2&format=tar.gz&prefix=blktap-3.37.2#/blktap-3.37.2.tar.gz) = e449f2aabef1f1935b202d6e385b3d738a91bd55
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/blktap/archive?at=v3.37.3&format=tar.gz&prefix=blktap-3.37.3#/blktap-3.37.3.tar.gz) = 3070c7a8295d563f2914ecb40c53002390bd6280
 Summary: BlkTap Development Headers and Libraries
 Requires: blktap = %{version}
 Group: Development/Libraries
@@ -142,6 +142,13 @@ fi
 %{?_cov_results_package}
 
 %changelog
+* Fri Dec 17 2021 Samuel Verschelde <stormi-xcp@ylix.fr> - 3.37.3-1.0.1
+- Sync with CH 8.2.1
+- *** Upstream changelog ***
+- * Thu Oct  7 2021 Mark Syms <mark.syms@citrix.com> - 3.37.3-1.0
+- - CA-355145: guard vbd_stats
+- - CA-183182: Don't error if there are no tapdisks to signal
+
 * Wed Apr 21 2021 Ronan Abhamon <ronan.abhamon@vates.fr> - 3.37.2-1.0.2
 - Patch blktap-3.30.0-allocate-sufficient-space-in-normalize_path.backport.patch added
 
@@ -344,7 +351,7 @@ fi
 
 
 %package testresults
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/blktap/archive?at=v3.37.2&format=tar.gz&prefix=blktap-3.37.2#/blktap-3.37.2.tar.gz) = e449f2aabef1f1935b202d6e385b3d738a91bd55
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/blktap/archive?at=v3.37.3&format=tar.gz&prefix=blktap-3.37.3#/blktap-3.37.3.tar.gz) = 3070c7a8295d563f2914ecb40c53002390bd6280
 Group:    System/Hypervisor
 Summary:  test results for blktap package
 
@@ -355,7 +362,7 @@ The package contains the build time test results for the blktap package
 /testresults
 
 %package -n vhd-util-standalone
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/blktap/archive?at=v3.37.2&format=tar.gz&prefix=blktap-3.37.2#/blktap-3.37.2.tar.gz) = e449f2aabef1f1935b202d6e385b3d738a91bd55
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/blktap/archive?at=v3.37.3&format=tar.gz&prefix=blktap-3.37.3#/blktap-3.37.3.tar.gz) = 3070c7a8295d563f2914ecb40c53002390bd6280
 Group:   System/Hypervisor
 Summary: Standalone vhd-util binary
 Conflicts: blktap
