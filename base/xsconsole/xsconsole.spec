@@ -1,14 +1,14 @@
 Summary: XenServer Host Configuration Console
 Name: xsconsole
-Version: 10.1.11
+Version: 10.1.13
 Release: 1
 License: GPL2
 Group: Administration/System
 
-Source0: https://code.citrite.net/rest/archive/latest/projects/XS/repos/xsconsole/archive?at=v10.1.11&format=tar.gz&prefix=xsconsole-10.1.11#/xsconsole.tar.gz
+Source0: https://code.citrite.net/rest/archive/latest/projects/XSU/repos/xsconsole/archive?at=v10.1.13&format=tar.gz&prefix=xsconsole-10.1.13#/xsconsole.tar.gz
 
 
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/xsconsole/archive?at=v10.1.11&format=tar.gz&prefix=xsconsole-10.1.11#/xsconsole.tar.gz) = fa8fe9002367f8b9e6370aa6c6fa6df7dc182470
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XSU/repos/xsconsole/archive?at=v10.1.13&format=tar.gz&prefix=xsconsole-10.1.13#/xsconsole.tar.gz) = 856ce4c4438905f71fe915597ad803e9c3cfb47a
 
 Provides: xsconsole0
 BuildRequires: python2-devel
@@ -22,7 +22,7 @@ Requires(postun): systemd
 Console tool for configuring a XenServer installation.
 
 %package incloudsphere
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/xsconsole/archive?at=v10.1.11&format=tar.gz&prefix=xsconsole-10.1.11#/xsconsole.tar.gz) = fa8fe9002367f8b9e6370aa6c6fa6df7dc182470
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XSU/repos/xsconsole/archive?at=v10.1.13&format=tar.gz&prefix=xsconsole-10.1.13#/xsconsole.tar.gz) = 856ce4c4438905f71fe915597ad803e9c3cfb47a
 Summary: InCloud Sphere plugins for %{name}
 Requires: %{name}%{?_isa} = %{version}-%{release}
 
@@ -65,6 +65,15 @@ InCloud Sphere.
 %{_libdir}/xsconsole/plugins-oem/XSFeatureLicenseNag.py*
 
 %changelog
+* Fri Jul 09 2021 Ross Lagerwall <ross.lagerwall@citrix.com> - 10.1.13-1
+- Display 'Ext' instead of 'Ext3' for `ext` SRs
+- CA-355872: Use XAPI to edit DNS entries within xsconsole
+- Display clearer error message when XAPI unreachable
+- rework is_master to raise in case of failure
+
+* Fri Feb 19 2021 Ross Lagerwall <ross.lagerwall@citrix.com> - 10.1.12-1
+- CA-348699: Fix full version display if the build number is empty
+
 * Wed Jan 08 2020 Ross Lagerwall <ross.lagerwall@citrix.com> - 10.1.11-1
 - CA-310799: Fix performance information
 
