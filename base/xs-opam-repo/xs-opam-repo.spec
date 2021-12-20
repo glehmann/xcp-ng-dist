@@ -3,16 +3,16 @@
 %global _opamroot %{_libdir}/opamroot
 
 Name: xs-opam-repo
-Version: 6.35.6
-Release: 1%{?dist}
+Version: 6.35.8
+Release: 3%{?dist}
 Summary: Build and install OCaml libraries from Opam repository
 License: Various
 URL:     https://github.com/xapi-project/xs-opam
 
-Source0: https://repo.citrite.net/ctx-local-contrib/xs-opam/xs-opam-repo-6.35.6.tar.gz
+Source0: https://repo.citrite.net/ctx-local-contrib/xs-opam/xs-opam-repo-6.35.8.tar.gz
 
 
-Provides: gitsha(https://repo.citrite.net/ctx-local-contrib/xs-opam/xs-opam-repo-6.35.6.tar.gz) = 06bc5e21c83a9013e9473b19993223f90706718f
+Provides: gitsha(https://repo.citrite.net/ctx-local-contrib/xs-opam/xs-opam-repo-6.35.8.tar.gz) = aff7ba062f0924d7b51416d2bd81ba96e3d87106
 
 
 
@@ -27,6 +27,7 @@ Requires:      opam >= 2.0.0
 Requires:      ocaml
 Requires:      gmp
 Requires:      bubblewrap
+Requires:      libev-devel
 
 BuildRequires: autoconf
 BuildRequires: dlm-devel
@@ -48,6 +49,7 @@ BuildRequires: systemd-devel
 BuildRequires: which
 BuildRequires: xen-ocaml-devel
 BuildRequires: zlib-devel
+BuildRequires: libev-devel
 
 %description
 Opam repository that contains all libraries necessary to compile the
@@ -99,6 +101,33 @@ echo '%%_opamroot %%{_libdir}/opamroot' >> "%{buildroot}%{_rpmconfigdir}/macros.
 %{_opamroot}
 
 %changelog
+* Mon Sep 27 2021 Pau Ruiz Safont <pau.safont@citrix.com> - 6.35.8-3
+- Bump package for libev dependency
+
+* Mon Sep 27 2021 Pau Ruiz Safont <pau.safont@citrix.com> - 6.35.8-2
+- Bump package after xs-opam update
+
+* Thu Sep 23 2021 Pau Ruiz Safont <pau.safont@citrix.com> - 6.35.8-1
+- CA-341597: add conf-libev
+- CA-341597: Use the lcm branch for varstored-guard
+- CA-341597: add libev as dependency
+- CA-341597: make libev available to packages that depend on xs-opam-repo
+
+* Mon Aug 23 2021 Pau Ruiz Safont <pau.safont@citrix.com> - 6.35.7-1
+- xs: update xapi-inventory to actually use dune
+- maintenance: fix ocaml compilation with GCC 10 and later
+- maintenance: fix depexts
+- CP-38064: update ppxlib to 0.13.0 and dependents
+- ci: use updated container images
+- Rename stockholm to yangtze in xs-opam-ci.env
+- Update workflow for yangtze branch
+- CP-37282: Update mock xenctrl for TSX changes
+- fix: broken links from inria's gitlab
+- maintenance: pin stockholm branches in xs-extra
+
+* Tue Jul 13 2021 Edwin Török <edvin.torok@citrix.com> - 6.35.6-2
+- CP-37236: rebuild for new Xenctrl
+
 * Mon Feb 15 2021 Ben Anson <ben.anson@citrix.com> - 6.35.6-1
 - UPD-678 bump ezxenstore to v0.4.1
 
