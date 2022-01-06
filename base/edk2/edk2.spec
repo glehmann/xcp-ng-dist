@@ -4,7 +4,7 @@
 Name: edk2
 Summary: EFI Development Kit II
 Version: %{edk2_date}git%{edk2_githash}
-Release: 1.4.3
+Release: 1.4.5
 
 License: BSD and MIT
 URL: https://github.com/tianocore/edk2
@@ -15,19 +15,20 @@ Patch0: 0001-OvmfPkg-XenSupport-remove-usage-of-prefetchable-PCI-.patch
 Patch1: 0002-OvmfPkg-XenSupport-use-a-correct-PCI-host-bridge-ape.patch
 Patch2: 0003-OvmfPkg-XenSupport-turn-off-address-decoding-before-.patch
 Patch3: 0001-OvmfPkg-End-timer-interrupt-later-to-avoid-stack-ove.patch
-Patch4: openssl.patch
-Patch5: nvidia-vgpu-support.patch
-Patch6: gvt-g-support.patch
-Patch7: set-default-resolution-1024-768.patch
-Patch8: embed-nic-drivers.patch
-Patch9: add-xen-variable.patch
-Patch10: add-xen-platform-device-id.patch
-Patch11: disable-modules.patch
-Patch12: xenorder.patch
-Patch13: keep-caching-enabled.patch
-Patch14: remove-unused-crypto.patch
+Patch4: 0001-OvmfPkg-XenPlatformPei-Use-CPUID-to-get-physical-add.patch
+Patch5: openssl.patch
+Patch6: nvidia-vgpu-support.patch
+Patch7: gvt-g-support.patch
+Patch8: set-default-resolution-1024-768.patch
+Patch9: embed-nic-drivers.patch
+Patch10: add-xen-variable.patch
+Patch11: add-xen-platform-device-id.patch
+Patch12: disable-modules.patch
+Patch13: xenorder.patch
+Patch14: keep-caching-enabled.patch
+Patch15: remove-unused-crypto.patch
 
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/edk2.pg/archive?at=1.4.3&format=tar#/edk2.pg.tar) = bb5c235f41e70827aa496f3a1f1113ddf0e92b7d
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/edk2.pg/archive?at=1.4.5&format=tar#/edk2.pg.tar) = 0d14222c5c953c330843dff9849df87037b269bb
 
 
 BuildRequires: gcc gcc-c++
@@ -95,6 +96,9 @@ cp OvmfPkg/License.txt License.ovmf
 
 
 %changelog
+* Fri Jan 22 2021 Jennifer Herbert <jennifer.herbert@citrix.com> - 20180522git4b8552d-1.4.5
+- CA-350259: Fix PCI passthrough of devices with 64+ GB BARs
+
 * Wed Jun 24 2020 Ross Lagerwall <ross.lagerwall@citrix.com> - 20180522git4b8552d-1.4.3
 - CA-337679: Fix triple fault while booting on a heavy loaded host
 
