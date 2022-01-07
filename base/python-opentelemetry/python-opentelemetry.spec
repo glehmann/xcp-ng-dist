@@ -13,17 +13,6 @@
 # version, but currently none of these actually exist. We will avoid packaging
 # them if at all possible.
 
-# During bootstrapping, python-pymongo does not build its -doc subpackage.
-#
-# Note that this package is a dependency for python-xds-protos, which is a
-# dependency for grpc when not bootstrapping, which creates a circular
-# dependency chain since a number of subpackages in this packages depend on
-# grpc subpackages. The grpc package breaks this chain (and another one through
-# python-xds-protos directly) during bootstrapping by dropping the dependency
-# on python-xds-protos at the cost of not building a few subpackages. We
-# shouldn’t have to do anything special in this package.
-%bcond_with bootstrap
-
 # Sphinx-generated HTML documentation is not suitable for packaging; see
 # https://bugzilla.redhat.com/show_bug.cgi?id=2006555 for discussion.
 #
@@ -60,11 +49,6 @@ BuildRequires:  %{py3_dist setuptools}
 BuildRequires:  make
 BuildRequires:  python3-sphinx-latex
 BuildRequires:  latexmk
-BuildRequires:  python-opentracing-doc
-BuildRequires:  python-wrapt-doc
-%if %{without bootstrap}
-BuildRequires:  python-pymongo-doc
-%endif
 %endif
 
 # opentelemetry-proto install_requires: aiocontextvars; python_version<'3.7'
@@ -674,12 +658,6 @@ Requires:       python3-opentelemetry-sdk = %{stable_version}-%{release}
 Summary:        Documentation for python-opentelemetry
 Version:        %{stable_version}
 
-Requires:       python-opentracing-doc
-Requires:       python-wrapt-doc
-%if %{without bootstrap}
-Requires:       python-pymongo-doc
-%endif
-
 %description doc
 This package provides documentation for python-opentelemetry.
 
@@ -705,22 +683,10 @@ popd
 sed -r -i 's|shutil\.which\("python"\)|"%{python3}"|' \
     opentelemetry-sdk/tests/trace/test_trace.py
 
-# Use local inventories in intersphinx mappings.
-#
-# Currently, the following mappings are removed because the corresponding
-# Sphinx documentation is not available in an RPM package.
-#   'aiohttp': ('https://aiohttp.readthedocs.io/en/stable/', None)
-#   'grpc': ('https://grpc.github.io/grpc/python/', None)
-# Others are removed during bootstrapping only.
-sed -r -i \
-    -e 's@https://docs.python.org/3?@/%{_docdir}/python3-docs/html@' \
-    -e 's@https://(opentracing)-(python).readthedocs.io/[^"]+@'\
-'/%{_docdir}/\2-\1-doc/html@' \
-    -e 's@https://(wrapt%{?!with_bootstrap:|pymongo}).readthedocs.io/[^"]+@'\
-'/%{_docdir}/python-\1-doc/html@' \
-    -e '/(aiohttp%{?with_bootstrap:|pymongo}).*https.*readthedocs/d' \
-    -e '/grpc.*https.*/d' \
-    docs/conf.py
+# Drop intersphinx mappings, since we can’t download remote inventories and
+# can’t easily produce working hyperlinks from inventories in local
+# documentation packages.
+echo 'intersphinx_mapping.clear()' >> docs/conf.py
 
 
 %build
