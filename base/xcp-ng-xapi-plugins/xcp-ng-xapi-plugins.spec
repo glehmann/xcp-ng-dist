@@ -1,6 +1,6 @@
 Summary: XAPI additional plugins for XCP-ng
 Name: xcp-ng-xapi-plugins
-Version: 1.7.0
+Version: 1.7.1
 Release: 1%{?dist}
 URL: https://github.com/xcp-ng/xcp-ng-xapi-plugins
 Source0: https://github.com/xcp-ng/xcp-ng-xapi-plugins/archive/v%{version}/%{name}-%{version}.tar.gz
@@ -32,6 +32,10 @@ install SOURCES/etc/xapi.d/plugins/xcpngutils/*.py %{buildroot}/etc/xapi.d/plugi
 %dir /var/lib/xcp-ng-xapi-plugins
 
 %changelog
+* Thu Feb 10 2022 Ronan Abhamon <ronan.abhamon@vates.fr> - 1.7.1-1
+- Fix invalid `run_command` implementation
+- Fix installation of netdata package
+
 * Fri Dec 17 2021 Benjamin Reis <benjamin.reis@vates.fr> - 1.7.0-1
 - Fix lock in updater plugin (See: https://github.com/xcp-ng/xcp/issues/523)
 - Normalize plugins output
