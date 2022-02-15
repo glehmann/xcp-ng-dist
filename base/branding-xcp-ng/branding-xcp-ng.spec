@@ -1,6 +1,6 @@
 Name:           branding-xcp-ng
 Version:        8.2.1
-Release:        1
+Release:        2
 Summary:        XCP-ng branding
 License:        ISC
 URL:            https://github.com/xcp-ng/branding-xcp-ng
@@ -33,6 +33,9 @@ This package contains branding information for XCP-ng.
 %exclude %{_usrsrc}/branding/*.pyo
 
 %changelog
+* Tue Feb 15 2022 Samuel Verschelde <stormi-xcp@ylix.fr> - 8.2.1-2
+- Update year to 2022
+
 * Tue Jan 04 2021 Samuel Verschelde <stormi-xcp@ylix.fr> - 8.2.1-1
 - Update for XCP-ng 8.2.1
 
