@@ -1,8 +1,8 @@
 %global forgeurl https://github.com/open-telemetry/opentelemetry-python
 
 # See eachdist.ini:
-%global stable_version 1.4.1
-%global prerel_version 0.23~b2
+%global stable_version 1.5.0
+%global prerel_version 0.24~b0
 
 # Unfortunately, we cannot disable the prerelease packages without breaking
 # almost all of the stable packages, because opentelemetry-sdk depends on the
@@ -32,14 +32,9 @@ Source0:        %{forgesource}
 Source1:        opentelemetry-bootstrap.1
 Source2:        opentelemetry-instrument.1
 
-# Handle traceback.format_exception() API change in Python 3.10
-# https://github.com/open-telemetry/opentelemetry-python/pull/2018
-Patch0:         %{forgeurl}/pull/2018/commits/92fbbe9b018d5f35f037d1df5c28aad58e5eb7e3.patch
+# Wrong installation path in exporter “convenience” packages
 # https://github.com/open-telemetry/opentelemetry-python/issues/2020
-Patch1:         0001-Fix-certain-packages-installing-under-SITE_PACKAGES-.patch
-# Fix typos of “it's” where “its” is meant
-# https://github.com/open-telemetry/opentelemetry-python/pull/2039
-Patch2:         %{forgeurl}/pull/2039/commits/8b907a897656211d34c6199897e3fb98cc3018c9.patch
+Patch0:         opentelemetry-python-1.5.0-issue-2020.patch
 
 BuildRequires:  python3-devel
 BuildRequires:  %{py3_dist setuptools}
@@ -54,6 +49,7 @@ BuildRequires:  latexmk
 # opentelemetry-proto install_requires: aiocontextvars; python_version<'3.7'
 
 # opentelemetry-exporter-otlp-proto-grpc install_requires: backoff ~= 1.10.0
+# opentelemetry-exporter-otlp-proto-http install_requires: backoff ~= 1.10.0
 BuildRequires:  ((%{py3_dist backoff} >= 1.10) with (%{py3_dist backoff} < 1.11.0))
 
 # dev-requirements.txt: black~=20.8b1
@@ -86,6 +82,8 @@ BuildRequires:  ((%{py3_dist flask} >= 1.0) with (%{py3_dist flask} < 3.0))
 # opentelemetry-exporter-jaeger-proto-grpc install_requires:
 #   googleapis-common-protos ~= 1.52
 # opentelemetry-exporter-otlp-proto-grpc install_requires:
+#   googleapis-common-protos ~= 1.52
+# opentelemetry-exporter-otlp-proto-http install_requires:
 #   googleapis-common-protos ~= 1.52
 BuildRequires:  ((%{py3_dist googleapis-common-protos} >= 1.52) with (%{py3_dist googleapis-common-protos} < 2.0))
 
@@ -151,6 +149,7 @@ BuildRequires:  %{py3_dist pytest-grpc}
 
 # opentelemetry-exporter-zipkin-json install_requires: requests ~= 2.7
 # opentelemetry-exporter-zipkin-proto-http install_requires: requests ~= 2.7
+# opentelemetry-exporter-otlp-proto-http install_requires: requests ~= 2.7
 BuildRequires:  ((%{py3_dist requests} >= 2.7) with (%{py3_dist requests} < 3.0))
 
 # dev-requirements.txt: sphinx-autodoc-typehints
@@ -187,7 +186,7 @@ BuildRequires:  ((%{py3_dist wrapt} >= 1.0.0) with (%{py3_dist wrapt} < 2.0.0))
 # docs-requirements.txt: ./opentelemetry-api
 # opentelemetry-distro install_requires: opentelemetry-api ~= 1.3
 # opentelemetry-instrumentation install_requires:
-#   opentelemetry-api == %%{stable_version}
+#   opentelemetry-api ~= 1.4
 # opentelemetry-sdk install_requires: opentelemetry-api == %%{stable_version}
 # opentelemetry-propagator-b3 install_requires: opentelemetry-api ~= 1.3
 # opentelemetry-propagator-jaeger install_requires: opentelemetry-api ~= 1.3
@@ -197,6 +196,8 @@ BuildRequires:  ((%{py3_dist wrapt} >= 1.0.0) with (%{py3_dist wrapt} < 2.0.0))
 #   opentelemetry-api ~= 1.3
 # opentelemetry-exporter-opencensus install_requires: opentelemetry-api ~= 1.3
 # opentelemetry-exporter-otlp-proto-grpc install_requires:
+#   opentelemetry-api ~= 1.3
+# opentelemetry-exporter-otlp-proto-http install_requires:
 #   opentelemetry-api ~= 1.3
 # opentelemetry-exporter-zipkin-json install_requires:
 #   opentelemetry-api ~= 1.3
@@ -209,6 +210,8 @@ BuildRequires:  ((%{py3_dist wrapt} >= 1.0.0) with (%{py3_dist wrapt} < 2.0.0))
 #   opentelemetry-exporter-otlp == %%{stable_version}
 
 # opentelemetry-exporter-otlp-proto-grpc install_requires:
+#   opentelemetry-proto == %%{stable_version}
+# opentelemetry-exporter-otlp-proto-http install_requires:
 #   opentelemetry-proto == %%{stable_version}
 
 # docs-requirements.txt: # Need to install the api/sdk in the venv for
@@ -228,6 +231,8 @@ BuildRequires:  ((%{py3_dist wrapt} >= 1.0.0) with (%{py3_dist wrapt} < 2.0.0))
 #   opentelemetry-sdk ~= 1.3
 # opentelemetry-exporter-opencensus install_requires: opentelemetry-sdk ~= 1.3
 # opentelemetry-exporter-otlp-proto-grpc install_requires:
+#   opentelemetry-sdk ~= 1.3
+# opentelemetry-exporter-otlp-proto-http install_requires:
 #   opentelemetry-sdk ~= 1.3
 # opentelemetry-exporter-zipkin-json install_requires:
 #   opentelemetry-sdk ~= 1.3
@@ -359,6 +364,21 @@ This library allows to export data to the OpenTelemetry Collector using the
 OpenTelemetry Protocol using Protobuf over gRPC.
 
 
+%package -n python3-opentelemetry-exporter-otlp-proto-http
+Summary:        OpenTelemetry Collector Protobuf over HTTP Exporter
+Version:        %{stable_version}
+
+# Dependencies across subpackages should be fully-versioned. See comments
+# following BuildRequires for a tabulation of such interdependencies.
+Requires:       python3-opentelemetry-api = %{stable_version}-%{release}
+Requires:       python3-opentelemetry-sdk = %{stable_version}-%{release}
+Requires:       python3-opentelemetry-proto = %{stable_version}-%{release}
+
+%description -n python3-opentelemetry-exporter-otlp-proto-http
+This library allows to export data to the OpenTelemetry Collector using the
+OpenTelemetry Protocol using Protobuf over HTTP.
+
+
 %package -n python3-opentelemetry-exporter-otlp
 Summary:        OpenTelemetry Collector Exporters
 Version:        %{stable_version}
@@ -372,10 +392,10 @@ This library is provided as a convenience to install all supported
 OpenTelemetry Collector Exporters. Currently it installs:
 
   • opentelemetry-exporter-otlp-proto-grpc
+  • opentelemetry-exporter-otlp-proto-http
 
 In the future, additional packages will be available:
 
-  • opentelemetry-exporter-otlp-proto-http
   • opentelemetry-exporter-otlp-json-http
 
 To avoid unnecessary dependencies, users should install the specific package
@@ -716,6 +736,7 @@ for pkg in \
     exporter/opentelemetry-exporter-zipkin-json \
     exporter/opentelemetry-exporter-zipkin \
     exporter/opentelemetry-exporter-otlp-proto-grpc \
+    exporter/opentelemetry-exporter-otlp-proto-http \
     exporter/opentelemetry-exporter-otlp \
     exporter/opentelemetry-exporter-jaeger-thrift \
     exporter/opentelemetry-exporter-jaeger-proto-grpc \
@@ -755,6 +776,7 @@ for pkg in \
     exporter/opentelemetry-exporter-zipkin-json \
     exporter/opentelemetry-exporter-zipkin \
     exporter/opentelemetry-exporter-otlp-proto-grpc \
+    exporter/opentelemetry-exporter-otlp-proto-http \
     exporter/opentelemetry-exporter-otlp \
     exporter/opentelemetry-exporter-jaeger-thrift \
     exporter/opentelemetry-exporter-jaeger-proto-grpc \
@@ -790,6 +812,7 @@ for pkg in \
     exporter/opentelemetry-exporter-zipkin-json \
     exporter/opentelemetry-exporter-zipkin \
     exporter/opentelemetry-exporter-otlp-proto-grpc \
+    exporter/opentelemetry-exporter-otlp-proto-http \
     exporter/opentelemetry-exporter-otlp \
     exporter/opentelemetry-exporter-jaeger-thrift \
     exporter/opentelemetry-exporter-jaeger-proto-grpc \
@@ -939,6 +962,22 @@ done
 %{python3_sitelib}/opentelemetry_exporter_otlp_proto_grpc-%{stable_egginfo}
 
 
+%files -n python3-opentelemetry-exporter-otlp-proto-http
+# Note that the contents are identical to the top-level LICENSE file.
+%license exporter/opentelemetry-exporter-otlp-proto-http/LICENSE
+%doc exporter/opentelemetry-exporter-otlp-proto-http/README.rst
+
+# Shared namespace directories
+%dir %{python3_sitelib}/opentelemetry
+%{python3_sitelib}/opentelemetry/py.typed
+%dir %{python3_sitelib}/opentelemetry/exporter
+%dir %{python3_sitelib}/opentelemetry/exporter/otlp
+%dir %{python3_sitelib}/opentelemetry/exporter/otlp/proto
+
+%{python3_sitelib}/opentelemetry/exporter/otlp/proto/http
+%{python3_sitelib}/opentelemetry_exporter_otlp_proto_http-%{stable_egginfo}
+
+
 %files -n python3-opentelemetry-exporter-otlp
 # Note that the contents are identical to the top-level LICENSE file.
 %license exporter/opentelemetry-exporter-otlp/LICENSE
@@ -1055,7 +1094,8 @@ done
 
 %if %{with prerelease}
 %files -n python3-opentelemetry-instrumentation
-%license LICENSE
+# Note that the contents are identical to the top-level LICENSE file.
+%license opentelemetry-instrumentation/LICENSE
 
 # Shared namespace directories
 %dir %{python3_sitelib}/opentelemetry
