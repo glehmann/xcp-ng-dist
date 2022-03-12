@@ -1,7 +1,7 @@
 
 # See eachdist.ini:
-%global stable_version 1.7.1
-%global prerel_version 0.26~b1
+%global stable_version 1.8.0
+%global prerel_version 0.27~b0
 # Contents of python3-opentelemetry-proto are generated from proto files in a
 # separate repository with a separate version number. We treat these as
 # generated sources: we aren’t required by the guidelines to re-generate them
@@ -40,7 +40,7 @@ Source1:        %{proto_url}/archive/v%{proto_version}/opentelemetry-proto-%{pro
 
 # Wrong installation path in exporter “convenience” packages
 # https://github.com/open-telemetry/opentelemetry-python/issues/2020
-Patch0:         opentelemetry-python-1.7.1-issue-2020.patch
+Patch0:         opentelemetry-python-1.8.0-issue-2020.patch
 
 BuildRequires:  python3-devel
 BuildRequires:  %{py3_dist setuptools}
