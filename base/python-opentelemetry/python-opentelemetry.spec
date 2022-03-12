@@ -1,8 +1,14 @@
-%global forgeurl https://github.com/open-telemetry/opentelemetry-python
 
 # See eachdist.ini:
-%global stable_version 1.6.2
-%global prerel_version 0.25~b2
+%global stable_version 1.7.1
+%global prerel_version 0.26~b1
+# Contents of python3-opentelemetry-proto are generated from proto files in a
+# separate repository with a separate version number. We treat these as
+# generated sources: we aren’t required by the guidelines to re-generate them
+# (although we *may*) but we must include the original sources.
+#
+# See opentelemetry-proto/README.rst for the correct version number.
+%global proto_version 0.9.0
 
 # Unfortunately, we cannot disable the prerelease packages without breaking
 # almost all of the stable packages, because opentelemetry-sdk depends on the
@@ -25,12 +31,16 @@ Release:        %autorelease
 Summary:        OpenTelemetry Python API and SDK
 
 License:        ASL 2.0
-URL:            %{forgeurl}
-Source0:        %{forgesource}
+URL:            https://github.com/open-telemetry/opentelemetry-python
+Source0:        %{url}/archive/v%{version}/opentelemetry-python-%{version}.tar.gz
+# Note that we do not currently use this source, but it contains the original
+# .proto files for python3-opentelemetry-proto, so we must include it.
+%global proto_url https://github.com/open-telemetry/opentelemetry-proto
+Source1:        %{proto_url}/archive/v%{proto_version}/opentelemetry-proto-%{proto_version}.tar.gz
 
 # Wrong installation path in exporter “convenience” packages
 # https://github.com/open-telemetry/opentelemetry-python/issues/2020
-Patch0:         opentelemetry-python-1.6.2-issue-2020.patch
+Patch0:         opentelemetry-python-1.7.1-issue-2020.patch
 
 BuildRequires:  python3-devel
 BuildRequires:  %{py3_dist setuptools}
@@ -71,7 +81,7 @@ BuildRequires:  %{py3_dist django} >= 2.2
 
 # docs-requirements.txt: # Required by instrumentation and exporter packages
 # docs-requirements.txt: flask~=1.0
-# opentelemetry-test extras_require[test]: flask~=1.0
+# opentelemetry-test-utils extras_require[test]: flask~=1.0
 # NOTE: We must loosen this to allow flask~=2.0.
 BuildRequires:  ((%{py3_dist flask} >= 1.0) with (%{py3_dist flask} < 3.0))
 
@@ -201,7 +211,7 @@ BuildRequires:  %{py3_dist thrift} >= 0.10.0
 # opentelemetry-exporter-zipkin-proto-http install_requires:
 #   opentelemetry-api ~= 1.3
 # opentelemetry-opentracing-shim install_requires: opentelemetry-api ~= 1.3
-# opentelemetry-test install_requires: opentelemetry-api ~= 1.3
+# opentelemetry-test-utils install_requires: opentelemetry-api ~= 1.3
 
 # opentelemetry-exporter-otlp-proto-grpc install_requires:
 #   opentelemetry-proto == %%{stable_version}
@@ -225,7 +235,7 @@ BuildRequires:  %{py3_dist thrift} >= 0.10.0
 #   opentelemetry-sdk ~= 1.3
 # opentelemetry-exporter-zipkin-proto-http install_requires:
 #   opentelemetry-sdk ~= 1.3
-# opentelemetry-test install_requires: opentelemetry-sdk ~= 1.3
+# opentelemetry-test-utils install_requires: opentelemetry-sdk ~= 1.3
 
 # docs-requirements.txt: # Need to install the api/sdk in the venv for
 #   autodoc. Modifying sys.path
@@ -255,7 +265,7 @@ BuildRequires:  %{py3_dist thrift} >= 0.10.0
 #   opentelemetry-exporter-zipkin-proto-http == %%{stable_version}
 
 # opentelemetry-opentracing-shim extras_require[test]:
-#   opentelemetry-test == %%{prerel_version}
+#   opentelemetry-test-utils == %%{prerel_version}
 
 BuildArch:      noarch
 
@@ -587,8 +597,8 @@ Requires:       python3-opentelemetry-api = %{stable_version}-%{release}
 
 
 %if %{with prerelease}
-%package -n python3-opentelemetry-test
-Summary:        OpenTracing Shim for OpenTelemetry
+%package -n python3-opentelemetry-test-utils
+Summary:        OpenTracing Test Utilities
 Version:        %{prerel_version}
 
 # Dependencies across subpackages should be fully-versioned. See comments
@@ -596,8 +606,14 @@ Version:        %{prerel_version}
 Requires:       python3-opentelemetry-api = %{stable_version}-%{release}
 Requires:       python3-opentelemetry-sdk = %{stable_version}-%{release}
 
-%description -n python3-opentelemetry-test
-%{summary}.
+# Subpackage was renamed upstream
+Obsoletes:      python3-opentelemetry-test < 0.26~b1-1
+
+%description -n python3-opentelemetry-test-utils
+This package provides internal testing utilities for the OpenTelemetry Python
+project and provides no stability or quality guarantees. Please do not use it
+for anything other than writing or running tests for the OpenTelemetry Python
+project (github.com/open-telemetry/opentelemetry-python).
 %endif
 
 
@@ -640,7 +656,7 @@ for pkg in \
     shim/opentelemetry-opentracing-shim \
     exporter/opentelemetry-exporter-opencensus \
     opentelemetry-semantic-conventions \
-    tests/util \
+    tests/opentelemetry-test-utils \
 %endif
     opentelemetry-sdk \
     opentelemetry-proto \
@@ -678,7 +694,7 @@ for pkg in \
     shim/opentelemetry-opentracing-shim \
     exporter/opentelemetry-exporter-opencensus \
     opentelemetry-semantic-conventions \
-    tests/util \
+    tests/opentelemetry-test-utils \
 %endif
     opentelemetry-sdk \
     opentelemetry-proto \
@@ -702,8 +718,9 @@ done
 
 
 %check
-# Note we do not attempt to run tests for opentelemetry-test, i.e. tests/util;
-# there are none in practice, and pytest would indicate failure.
+# Note we do not attempt to run tests for opentelemetry-test-utils, i.e.
+# tests/opentelemetry-test-utils; there are none in practice, and pytest would
+# indicate failure.
 #
 # See eachdist.ini:
 for pkg in \
@@ -911,6 +928,7 @@ done
 %{python3_sitelib}/opentelemetry/py.typed
 %dir %{python3_sitelib}/opentelemetry/propagators
 
+%{python3_sitelib}/opentelemetry/_metrics
 %{python3_sitelib}/opentelemetry/attributes
 %{python3_sitelib}/opentelemetry/baggage
 %{python3_sitelib}/opentelemetry/context
@@ -1011,16 +1029,16 @@ done
 
 
 %if %{with prerelease}
-%files -n python3-opentelemetry-test
+%files -n python3-opentelemetry-test-utils
 %license LICENSE
-%doc tests/util/README.rst
+%doc tests/opentelemetry-test-utils/README.rst
 
 # Shared namespace directories
 %dir %{python3_sitelib}/opentelemetry
 %{python3_sitelib}/opentelemetry/py.typed
 
 %{python3_sitelib}/opentelemetry/test
-%{python3_sitelib}/opentelemetry_test-%{prerel_egginfo}
+%{python3_sitelib}/opentelemetry_test_utils-%{prerel_egginfo}
 %endif
 
 
