@@ -1,13 +1,12 @@
 %global forgeurl https://github.com/open-telemetry/opentelemetry-python
 
 # See eachdist.ini:
-%global stable_version 1.6.0
-%global prerel_version 0.25~b0
+%global stable_version 1.6.1
+%global prerel_version 0.25~b1
 
 # Unfortunately, we cannot disable the prerelease packages without breaking
 # almost all of the stable packages, because opentelemetry-sdk depends on the
-# prerelease packages opentelementry-semantic-conventions and
-# opentelemetry-instrumentation.
+# prerelease package opentelementry-semantic-conventions.
 %bcond_without prerelease
 # There are also experimental packages in eachdist.ini, with yet another
 # version, but currently none of these actually exist. We will avoid packaging
@@ -29,12 +28,9 @@ License:        ASL 2.0
 URL:            %{forgeurl}
 Source0:        %{forgesource}
 
-Source1:        opentelemetry-bootstrap.1
-Source2:        opentelemetry-instrument.1
-
 # Wrong installation path in exporter “convenience” packages
 # https://github.com/open-telemetry/opentelemetry-python/issues/2020
-Patch0:         opentelemetry-python-1.6.0-issue-2020.patch
+Patch0:         opentelemetry-python-1.6.1-issue-2020.patch
 
 BuildRequires:  python3-devel
 BuildRequires:  %{py3_dist setuptools}
@@ -96,7 +92,7 @@ BuildRequires:  ((%{py3_dist googleapis-common-protos} >= 1.52) with (%{py3_dist
 #   grpcio >= 1.0.0, < 2.0.0
 BuildRequires:  ((%{py3_dist grpcio} >= 1.27) with (%{py3_dist grpcio} < 2.0))
 
-# dev-requirements.txt: grpcio-tools==1.29.0
+# dev-requirements.txt: grpcio-tools~=1.41.0
 # (needed only if we run scripts/proto_codegen.sh)
 
 # dev-requirements.txt: httpretty~=1.0
@@ -105,7 +101,7 @@ BuildRequires:  ((%{py3_dist grpcio} >= 1.27) with (%{py3_dist grpcio} < 2.0))
 # dev-requirements.txt: isort~=5.8
 # (formatters/linters/typecheckers/coverage omitted)
 
-# dev-requirements.txt: mypy-protobuf>=1.23
+# dev-requirements.txt: mypy-protobuf~=3.0.0
 # (formatters/linters/typecheckers/coverage omitted)
 
 # dev-requirements.txt: mypy==0.812
@@ -122,11 +118,12 @@ BuildRequires:  ((%{py3_dist opencensus-proto} >= 0.1.0) with (%{py3_dist opence
 # NOTE: We must loosen this to allow opentracing 2.3.0 and 2.4.0.
 BuildRequires:  ((%{py3_dist opentracing} >= 2.2.0) with (%{py3_dist opentracing} < 2.5.0))
 
-# dev-requirements.txt: protobuf>=3.13.0
+# dev-requirements.txt: protobuf>=3.18.1
+# (possibly needed only if we run scripts/proto_codegen.sh?)
 # opentelemetry-proto install_requires: protobuf>=3.13.0
 # opentelemetry-exporter-opencensus install_requires: protobuf >= 3.13.0
 # opentelemetry-exporter-zipkin-proto-http install_requires: protobuf >= 3.12
-BuildRequires:  %{py3_dist protobuf} >= 3.13.0
+BuildRequires:  %{py3_dist protobuf} >= 3.18.1
 
 # dev-requirements.txt: pylint==2.7.1
 # (formatters/linters/typecheckers/coverage omitted)
@@ -152,9 +149,10 @@ BuildRequires:  %{py3_dist pytest-grpc}
 # opentelemetry-exporter-otlp-proto-http install_requires: requests ~= 2.7
 BuildRequires:  ((%{py3_dist requests} >= 2.7) with (%{py3_dist requests} < 3.0))
 
-# dev-requirements.txt: sphinx-autodoc-typehints
-# docs-requirements.txt: sphinx-autodoc-typehints
-BuildRequires:  %{py3_dist sphinx-autodoc-typehints}
+# dev-requirements.txt: sphinx-autodoc-typehints~=1.12.0
+# docs-requirements.txt: sphinx-autodoc-typehints~=1.12.0
+# NOTE: We must loosen this to allow sphinx-autodoc-typehints~=1.12.
+BuildRequires:  ((%{py3_dist sphinx-autodoc-typehints} >= 1.12.0) with (%{py3_dist sphinx-autodoc-typehints} < 2.0))
 
 # dev-requirements.txt: sphinx-rtd-theme~=0.5
 # docs-requirements.txt: sphinx-rtd-theme~=0.5
@@ -177,16 +175,15 @@ BuildRequires:  %{py3_dist thrift} >= 0.10.0
 
 # docs-requirements.txt: # Required by instrumentation and exporter packages
 # docs-requirements.txt: wrapt>=1.0.0,<2.0.0
-# opentelemetry-instrumentation install_requires: wrapt >= 1.0.0, < 2.0.0
-BuildRequires:  ((%{py3_dist wrapt} >= 1.0.0) with (%{py3_dist wrapt} < 2.0.0))
+# Now that instrumentation is moved to contrib, this is no longer used
+# directly. (It is a dependency for some examples, and is in the intersphinx
+# mapping, which we don’t use since the build is offline, for the docs.)
+# BuildRequires:  ((%%{py3_dist wrapt} >= 1.0.0) with (%%{py3_dist wrapt} < 2.0.0))
 
 # docs-requirements.txt: # Need to install the api/sdk in the venv for
 #   autodoc. Modifying sys.path
 # docs-requirements.txt: # doesn't work for pkg_resources.
 # docs-requirements.txt: ./opentelemetry-api
-# opentelemetry-distro install_requires: opentelemetry-api ~= 1.3
-# opentelemetry-instrumentation install_requires:
-#   opentelemetry-api ~= 1.4
 # opentelemetry-sdk install_requires: opentelemetry-api == %%{stable_version}
 # opentelemetry-propagator-b3 install_requires: opentelemetry-api ~= 1.3
 # opentelemetry-propagator-jaeger install_requires: opentelemetry-api ~= 1.3
@@ -206,9 +203,6 @@ BuildRequires:  ((%{py3_dist wrapt} >= 1.0.0) with (%{py3_dist wrapt} < 2.0.0))
 # opentelemetry-opentracing-shim install_requires: opentelemetry-api ~= 1.3
 # opentelemetry-test install_requires: opentelemetry-api ~= 1.3
 
-# opentelemetry-distro extras_require[otlp]:
-#   opentelemetry-exporter-otlp == %%{stable_version}
-
 # opentelemetry-exporter-otlp-proto-grpc install_requires:
 #   opentelemetry-proto == %%{stable_version}
 # opentelemetry-exporter-otlp-proto-http install_requires:
@@ -217,16 +211,7 @@ BuildRequires:  ((%{py3_dist wrapt} >= 1.0.0) with (%{py3_dist wrapt} < 2.0.0))
 # docs-requirements.txt: # Need to install the api/sdk in the venv for
 #   autodoc. Modifying sys.path
 # docs-requirements.txt: # doesn't work for pkg_resources.
-# docs-requirements.txt: ./opentelemetry-instrumentation
-# opentelemetry-distro install_requires:
-#   opentelemetry-instrumentation == %%{prerel_version}
-# opentelemetry-sdk install_requires: opentelemetry-instrumentation == %%{prerel_version}
-
-# docs-requirements.txt: # Need to install the api/sdk in the venv for
-#   autodoc. Modifying sys.path
-# docs-requirements.txt: # doesn't work for pkg_resources.
 # docs-requirements.txt: ./opentelemetry-sdk
-# opentelemetry-distro install_requires: opentelemetry-sdk == %%{stable_version}
 # opentelemetry-exporter-jaeger-proto-grpc install_requires:
 #   opentelemetry-sdk ~= 1.3
 # opentelemetry-exporter-opencensus install_requires: opentelemetry-sdk ~= 1.3
@@ -462,55 +447,17 @@ once they've determined their preferred serialization method.
 Summary:        OpenTelemetry Python API
 Version:        %{stable_version}
 
-%description -n python3-opentelemetry-api
-%{summary}.
-
-
-%if %{with prerelease}
-%package -n python3-opentelemetry-distro
-Summary:        OpenTelemetry Python Distro
-Version:        %{prerel_version}
-
-# Dependencies across subpackages should be fully-versioned. See comments
-# following BuildRequires for a tabulation of such interdependencies.
-Requires:       python3-opentelemetry-api = %{stable_version}-%{release}
-Requires:       python3-opentelemetry-instrumentation = %{prerel_version}-%{release}
-Requires:       python3-opentelemetry-sdk = %{stable_version}-%{release}
-
-%description -n python3-opentelemetry-distro
-This package provides entrypoints to configure OpenTelemetry.
-%endif
-
-
-%if %{with prerelease}
-# Manual definition of package for opentelemetry-distro[otlp], so that the
-# dependency on another subpackage can be fully-versioned. Based on the output
-# of “rpm -E '%%python_extras_subpkg -n python3-opentelemetry-distro -i
-# %%{python3_sitelib}/*.egg-info otlp'”:
-%package -n python3-opentelemetry-distro+otlp
-Summary:        Metapackage for python3-opentelemetry-distro: otlp extras
-Version:        %{prerel_version}
-
-Requires:       python3-opentelemetry-distro = %{prerel_version}-%{release}
-Requires:       python3-opentelemetry-exporter-otlp = %{stable_version}-%{release}
-
-%description -n python3-opentelemetry-distro+otlp
-This is a metapackage bringing in otlp extras requires for
-python3-opentelemetry-distro.
-It makes sure the dependencies are installed.
-%endif
-
-
-%if %{with prerelease}
 # Note that the huge number of instrumentation packages are released in
 # https://github.com/open-telemetry/opentelemetry-python-contrib and are not
 # currently packaged.
-
-%package -n python3-opentelemetry-instrumentation
-Summary:        Instrumentation Tools & Auto Instrumentation for OpenTelemetry Python
-Version:        %{prerel_version}
-
+#
+# The base opentelemetry-instrumentation package was also moved to “contrib” in
+# release 1.6.1/0.25~b1. We therefore obsolete it…
+Obsoletes:      python3-opentelemetry-instrumentation < 0.25~b1.1
+# …and its pre-1.0 name…
 Obsoletes:      python3-opentelemetry-auto-instrumentation < 1.0
+# …and the pre-1.0 packages it was obsoleting. (Most of these are
+# instrumentation extensions.)
 
 # These have all been renamed and are now part of opentelemetry-python-contrib.
 # They have a prerelease version number, which is less than the version number
@@ -518,10 +465,9 @@ Obsoletes:      python3-opentelemetry-auto-instrumentation < 1.0
 # It is fortunate, then, that they also have new names, and it is unlikely the
 # old names will ever come back in any form.
 #
-# Renamed packages that remain in this repository are obsoleted by the
-# corresponding new packages. For the rest, since most of them are
-# instrumentation packages, this is as good a place as any to obsolete them.
-#
+# Any renamed pre-1.0 packages that remain in this repository are instead
+# obsoleted by the corresponding new packages.
+
 #   • opentelemetry-instrumentation-aiohttp-client
 Obsoletes:      python3-opentelemetry-ext-aiohttp-client < 1.0
 #   • opentelemetry-instrumentation-asgi
@@ -560,34 +506,13 @@ Obsoletes:      python3-opentelemetry-ext-datadog < 1.0
 #   • (opentelemetry-exporter-prometheus; not present in a current release)
 Obsoletes:      python3-opentelemetry-ext-prometheus < 1.0
 
-# Dependencies across subpackages should be fully-versioned. See comments
-# following BuildRequires for a tabulation of such interdependencies.
-Requires:       python3-opentelemetry-api = %{stable_version}-%{release}
+# The opentelemetry-distro package was moved to “contrib” in release
+# 1.6.1/0.25~b1.
+Obsoletes:      python3-opentelemetry-distro < 0.25~b1.1
+Obsoletes:      python3-opentelemetry-distro+otlp < 0.25~b1.1
 
-%description -n python3-opentelemetry-instrumentation
-This package provides a couple of commands that help automatically instruments a program:
-
-opentelemetry-bootstrap
------------------------
-
-This command inspects the active Python site-packages and figures out which
-instrumentation packages the user might want to install. By default it prints
-out a list of the suggested instrumentation packages which can be added to a
-requirements.txt file. It also supports installing the suggested packages when
-run with --action=install flag.
-
-
-opentelemetry-instrument
-------------------------
-
-The instrument command will try to automatically detect packages used by your
-python program and when possible, apply automatic tracing instrumentation on
-them. This means your program will get automatic distributed tracing for free
-without having to make any code changes at all. This will also configure a
-global tracer and tracing exporter without you having to make any code changes.
-By default, the instrument command will use the OTLP exporter but this can be
-overriden when needed.
-%endif
+%description -n python3-opentelemetry-api
+%{summary}.
 
 
 %package -n python3-opentelemetry-proto
@@ -606,7 +531,6 @@ Version:        %{stable_version}
 # following BuildRequires for a tabulation of such interdependencies.
 Requires:       python3-opentelemetry-api = %{stable_version}-%{release}
 Requires:       python3-opentelemetry-semantic-conventions = %{prerel_version}-%{release}
-Requires:       python3-opentelemetry-instrumentation = %{prerel_version}-.%{release}
 
 %description -n python3-opentelemetry-sdk
 %{summary}.
@@ -688,17 +612,6 @@ This package provides documentation for python-opentelemetry.
 %prep
 %autosetup -n opentelemetry-python-%{stable_version} -p1
 
-# Downstream man pages
-mkdir -p man
-cp -p '%{SOURCE1}' '%{SOURCE2}' ./man/
-
-# These contain entry points used by corresponding scripts in %%{_bindir}, but
-# the modules are not—and should not be—executable. Hence they should not have
-# shebangs.
-pushd 'opentelemetry-instrumentation/src/opentelemetry/instrumentation'
-sed -r -i '1{/^#!/d}' 'auto_instrumentation/__init__.py' 'bootstrap.py'
-popd
-
 %py3_shebang_fix .
 
 # Fix a test that shells out to the unversioned Python command. This is OK
@@ -726,10 +639,8 @@ for pkg in \
 %if %{with prerelease}
     shim/opentelemetry-opentracing-shim \
     exporter/opentelemetry-exporter-opencensus \
-    opentelemetry-distro \
     opentelemetry-semantic-conventions \
     tests/util \
-    opentelemetry-instrumentation \
 %endif
     opentelemetry-sdk \
     opentelemetry-proto \
@@ -766,10 +677,8 @@ for pkg in \
 %if %{with prerelease}
     shim/opentelemetry-opentracing-shim \
     exporter/opentelemetry-exporter-opencensus \
-    opentelemetry-distro \
     opentelemetry-semantic-conventions \
     tests/util \
-    opentelemetry-instrumentation \
 %endif
     opentelemetry-sdk \
     opentelemetry-proto \
@@ -791,8 +700,6 @@ do
   popd
 done
 
-install -t '%{buildroot}%{_mandir}/man1' -m 0644 -p -D man/*.1
-
 
 %check
 # Note we do not attempt to run tests for opentelemetry-test, i.e. tests/util;
@@ -803,9 +710,7 @@ for pkg in \
 %if %{with prerelease}
     shim/opentelemetry-opentracing-shim \
     exporter/opentelemetry-exporter-opencensus \
-    opentelemetry-distro \
     opentelemetry-semantic-conventions \
-    opentelemetry-instrumentation \
 %endif
     opentelemetry-sdk \
     opentelemetry-proto \
@@ -1018,48 +923,6 @@ done
 %pycached %{python3_sitelib}/opentelemetry/environment_variables.py
 %pycached %{python3_sitelib}/opentelemetry/version.py
 %{python3_sitelib}/opentelemetry_api-%{stable_egginfo}
-
-
-%if %{with prerelease}
-%files -n python3-opentelemetry-distro
-%license LICENSE
-
-# Shared namespace directories
-%dir %{python3_sitelib}/opentelemetry
-%{python3_sitelib}/opentelemetry/py.typed
-
-%{python3_sitelib}/opentelemetry/distro
-%{python3_sitelib}/opentelemetry_distro-%{prerel_egginfo}
-%endif
-
-
-%if %{with prerelease}
-# Manual definition of package for opentelemetry-distro[otlp], so that the
-# dependency on another subpackage can be fully-versioned. Based on the output
-# of “rpm -E '%%python_extras_subpkg -n python3-opentelemetry-distro -i
-# %%{python3_sitelib}/opentelemetry_distro*.egg-info otlp'”.
-%files -n python3-opentelemetry-distro+otlp
-%ghost %{python3_sitelib}/opentelemetry_distro-%{prerel_egginfo}
-%endif
-
-
-%if %{with prerelease}
-%files -n python3-opentelemetry-instrumentation
-# Note that the contents are identical to the top-level LICENSE file.
-%license opentelemetry-instrumentation/LICENSE
-
-# Shared namespace directories
-%dir %{python3_sitelib}/opentelemetry
-%{python3_sitelib}/opentelemetry/py.typed
-
-%{python3_sitelib}/opentelemetry/instrumentation
-%{python3_sitelib}/opentelemetry_instrumentation-%{prerel_egginfo}
-
-%{_bindir}/opentelemetry-bootstrap
-%{_bindir}/opentelemetry-instrument
-%{_mandir}/man1/opentelemetry-bootstrap.1*
-%{_mandir}/man1/opentelemetry-instrument.1*
-%endif
 
 
 %files -n python3-opentelemetry-proto
