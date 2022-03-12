@@ -1,8 +1,8 @@
 %global forgeurl https://github.com/open-telemetry/opentelemetry-python
 
 # See eachdist.ini:
-%global stable_version 1.5.0
-%global prerel_version 0.24~b0
+%global stable_version 1.6.0
+%global prerel_version 0.25~b0
 
 # Unfortunately, we cannot disable the prerelease packages without breaking
 # almost all of the stable packages, because opentelemetry-sdk depends on the
@@ -34,7 +34,7 @@ Source2:        opentelemetry-instrument.1
 
 # Wrong installation path in exporter “convenience” packages
 # https://github.com/open-telemetry/opentelemetry-python/issues/2020
-Patch0:         opentelemetry-python-1.5.0-issue-2020.patch
+Patch0:         opentelemetry-python-1.6.0-issue-2020.patch
 
 BuildRequires:  python3-devel
 BuildRequires:  %{py3_dist setuptools}
@@ -257,6 +257,9 @@ BuildRequires:  ((%{py3_dist wrapt} >= 1.0.0) with (%{py3_dist wrapt} < 2.0.0))
 
 # opentelemetry-exporter-otlp install_requires:
 #   opentelemetry-exporter-otlp-proto-grpc == %%{stable_version}
+
+# opentelemetry-exporter-otlp install_requires:
+#   opentelemetry-exporter-otlp-proto-http == %%{stable_version}
 
 # opentelemetry-exporter-zipkin-proto-http install_requires:
 #   opentelemetry-exporter-zipkin-json == %%{stable_version}
@@ -1006,13 +1009,13 @@ done
 %{python3_sitelib}/opentelemetry/attributes
 %{python3_sitelib}/opentelemetry/baggage
 %{python3_sitelib}/opentelemetry/context
-%{python3_sitelib}/opentelemetry/environment_variables
 %{python3_sitelib}/opentelemetry/propagate
 %pycached %{python3_sitelib}/opentelemetry/propagators/composite.py
 %pycached %{python3_sitelib}/opentelemetry/propagators/textmap.py
 %{python3_sitelib}/opentelemetry/trace
 %{python3_sitelib}/opentelemetry/util
 %dir %{python3_sitelib}/opentelemetry/__pycache__
+%pycached %{python3_sitelib}/opentelemetry/environment_variables.py
 %pycached %{python3_sitelib}/opentelemetry/version.py
 %{python3_sitelib}/opentelemetry_api-%{stable_egginfo}
 
