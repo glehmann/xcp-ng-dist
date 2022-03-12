@@ -1,8 +1,8 @@
 %global forgeurl https://github.com/open-telemetry/opentelemetry-python
 
 # See eachdist.ini:
-%global stable_version 1.6.1
-%global prerel_version 0.25~b1
+%global stable_version 1.6.2
+%global prerel_version 0.25~b2
 
 # Unfortunately, we cannot disable the prerelease packages without breaking
 # almost all of the stable packages, because opentelemetry-sdk depends on the
@@ -30,7 +30,7 @@ Source0:        %{forgesource}
 
 # Wrong installation path in exporter “convenience” packages
 # https://github.com/open-telemetry/opentelemetry-python/issues/2020
-Patch0:         opentelemetry-python-1.6.1-issue-2020.patch
+Patch0:         opentelemetry-python-1.6.2-issue-2020.patch
 
 BuildRequires:  python3-devel
 BuildRequires:  %{py3_dist setuptools}
