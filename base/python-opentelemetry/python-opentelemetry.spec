@@ -1,14 +1,15 @@
 
 # See eachdist.ini:
-%global stable_version 1.9.0
-%global prerel_version 0.28~b0
+%global stable_version 1.9.1
+%global prerel_version 0.28~b1
 # Contents of python3-opentelemetry-proto are generated from proto files in a
 # separate repository with a separate version number. We treat these as
 # generated sources: we aren’t required by the guidelines to re-generate them
 # (although we *may*) but we must include the original sources.
 #
-# See opentelemetry-proto/README.rst for the correct version number.
-%global proto_version 0.9.0
+# See PROTO_REPO_BRANCH_OR_COMMIT in scripts/proto_codegen.sh for the correct
+# version number.
+%global proto_version 0.12.0
 
 # Unfortunately, we cannot disable the prerelease packages without breaking
 # almost all of the stable packages, because opentelemetry-sdk depends on the
@@ -40,12 +41,7 @@ Source1:        %{proto_url}/archive/v%{proto_version}/opentelemetry-proto-%{pro
 
 # Wrong installation path in exporter “convenience” packages
 # https://github.com/open-telemetry/opentelemetry-python/issues/2020
-Patch0:         opentelemetry-python-1.9.0-issue-2020.patch
-# TestPeriodicExportingMetricReader.test_ticker_collects_metrics fails randomly
-# https://github.com/open-telemetry/opentelemetry-python/issues/2416
-#
-# Slightly decrease wait time
-Patch1:         %{url}/pull/2417.patch
+Patch0:         opentelemetry-python-1.9.1-issue-2020.patch
 
 BuildRequires:  python3-devel
 # opentelemetry-exporter-opencensus install_requires: setuptools >= 16.0
