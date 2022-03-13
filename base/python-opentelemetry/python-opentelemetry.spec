@@ -1,7 +1,7 @@
 
 # See eachdist.ini:
-%global stable_version 1.8.0
-%global prerel_version 0.27~b0
+%global stable_version 1.9.0
+%global prerel_version 0.28~b0
 # Contents of python3-opentelemetry-proto are generated from proto files in a
 # separate repository with a separate version number. We treat these as
 # generated sources: we aren’t required by the guidelines to re-generate them
@@ -40,10 +40,18 @@ Source1:        %{proto_url}/archive/v%{proto_version}/opentelemetry-proto-%{pro
 
 # Wrong installation path in exporter “convenience” packages
 # https://github.com/open-telemetry/opentelemetry-python/issues/2020
-Patch0:         opentelemetry-python-1.8.0-issue-2020.patch
+Patch0:         opentelemetry-python-1.9.0-issue-2020.patch
+# TestPeriodicExportingMetricReader.test_ticker_collects_metrics fails randomly
+# https://github.com/open-telemetry/opentelemetry-python/issues/2416
+#
+# Slightly decrease wait time
+Patch1:         %{url}/pull/2417.patch
 
 BuildRequires:  python3-devel
-BuildRequires:  %{py3_dist setuptools}
+# opentelemetry-exporter-opencensus install_requires: setuptools >= 16.0
+# opentelemetry-api install_requires: setuptools >= 16.0
+# opentelemetry-sdk install_requires: setuptools >= 16.0
+BuildRequires:  %{py3_dist setuptools} >= 16.0
 
 # Documentation
 %if %{with doc_pdf}
@@ -182,6 +190,9 @@ BuildRequires:  ((%{py3_dist sphinx} >= 3.5.4) with (%{py3_dist sphinx} < 5.0))
 # docs-requirements.txt: thrift>=0.10.0
 # opentelemetry-exporter-jaeger-thrift install_requires: thrift >= 0.10.0
 BuildRequires:  %{py3_dist thrift} >= 0.10.0
+
+# opentelemetry-sdk install_requires: typing-extensions >= 3.7.4
+BuildRequires:  %{py3_dist typing-extensions} >= 3.7.4
 
 # docs-requirements.txt: # Required by instrumentation and exporter packages
 # docs-requirements.txt: wrapt>=1.0.0,<2.0.0

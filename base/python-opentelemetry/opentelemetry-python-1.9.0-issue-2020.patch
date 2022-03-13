@@ -1,0 +1,61 @@
+diff -Naur opentelemetry-python-1.9.0-original/exporter/opentelemetry-exporter-jaeger/setup.cfg opentelemetry-python-1.9.0/exporter/opentelemetry-exporter-jaeger/setup.cfg
+--- opentelemetry-python-1.9.0-original/exporter/opentelemetry-exporter-jaeger/setup.cfg	2022-01-26 13:00:31.000000000 -0500
++++ opentelemetry-python-1.9.0/exporter/opentelemetry-exporter-jaeger/setup.cfg	2022-03-12 17:41:14.987368913 -0500
+@@ -37,12 +37,16 @@
+ 
+ [options]
+ python_requires = >=3.6
+-
++package_dir=
++    =src
+ packages=find_namespace:
+ install_requires =
+     opentelemetry-exporter-jaeger-proto-grpc == 1.9.0
+     opentelemetry-exporter-jaeger-thrift == 1.9.0
+ 
++[options.packages.find]
++where = src
++
+ [options.extras_require]
+ test =
+ 
+diff -Naur opentelemetry-python-1.9.0-original/exporter/opentelemetry-exporter-otlp/setup.cfg opentelemetry-python-1.9.0/exporter/opentelemetry-exporter-otlp/setup.cfg
+--- opentelemetry-python-1.9.0-original/exporter/opentelemetry-exporter-otlp/setup.cfg	2022-01-26 13:00:31.000000000 -0500
++++ opentelemetry-python-1.9.0/exporter/opentelemetry-exporter-otlp/setup.cfg	2022-03-12 17:41:12.271335247 -0500
+@@ -37,11 +37,16 @@
+ 
+ [options]
+ python_requires = >=3.6
++package_dir=
++    =src
+ packages=find_namespace:
+ install_requires =
+     opentelemetry-exporter-otlp-proto-grpc == 1.9.0
+     opentelemetry-exporter-otlp-proto-http == 1.9.0
+ 
++[options.packages.find]
++where = src
++
+ [options.entry_points]
+ opentelemetry_traces_exporter =
+     otlp = opentelemetry.exporter.otlp.proto.grpc.trace_exporter:OTLPSpanExporter
+diff -Naur opentelemetry-python-1.9.0-original/exporter/opentelemetry-exporter-zipkin/setup.cfg opentelemetry-python-1.9.0/exporter/opentelemetry-exporter-zipkin/setup.cfg
+--- opentelemetry-python-1.9.0-original/exporter/opentelemetry-exporter-zipkin/setup.cfg	2022-01-26 13:00:31.000000000 -0500
++++ opentelemetry-python-1.9.0/exporter/opentelemetry-exporter-zipkin/setup.cfg	2022-03-12 17:41:09.129296301 -0500
+@@ -37,11 +37,16 @@
+ 
+ [options]
+ python_requires = >=3.6
++package_dir=
++    =src
+ packages=find_namespace:
+ install_requires =
+     opentelemetry-exporter-zipkin-json == 1.9.0
+     opentelemetry-exporter-zipkin-proto-http == 1.9.0
+ 
++[options.packages.find]
++where = src
++
+ [options.extras_require]
+ test =
+ 
