@@ -1,7 +1,7 @@
 
 # See eachdist.ini:
-%global stable_version 1.9.1
-%global prerel_version 0.28~b1
+%global stable_version 1.10.0
+%global prerel_version 0.29~b0
 # Contents of python3-opentelemetry-proto are generated from proto files in a
 # separate repository with a separate version number. We treat these as
 # generated sources: we aren’t required by the guidelines to re-generate them
@@ -41,7 +41,14 @@ Source1:        %{proto_url}/archive/v%{proto_version}/opentelemetry-proto-%{pro
 
 # Wrong installation path in exporter “convenience” packages
 # https://github.com/open-telemetry/opentelemetry-python/issues/2020
-Patch0:         opentelemetry-python-1.9.1-issue-2020.patch
+#
+# Fix exporter-{jaeger,otlp,zipkin} install paths
+# https://github.com/open-telemetry/opentelemetry-python/pull/2525
+Patch0:         %{url}/pull/2525.patch
+
+# Fix a mixed-up changelog entry
+# https://github.com/open-telemetry/opentelemetry-python/pull/2526
+Patch1:         %{url}/pull/2526.patch
 
 BuildRequires:  python3-devel
 # opentelemetry-exporter-opencensus install_requires: setuptools >= 16.0
@@ -82,6 +89,9 @@ BuildRequires:  %{py3_dist django} >= 2.2
 
 # dev-requirements.txt: flake8~=3.7
 # (formatters/linters/typecheckers/coverage omitted)
+
+# tox.ini testenv.deps: opentelemetry: flaky
+BuildRequires:  %{py3_dist flaky}
 
 # docs-requirements.txt: # Required by instrumentation and exporter packages
 # docs-requirements.txt: flask~=1.0
@@ -131,6 +141,10 @@ BuildRequires:  ((%{py3_dist opencensus-proto} >= 0.1.0) with (%{py3_dist opence
 # opentelemetry-opentracing-shim extras_require[test]: opentracing ~= 2.2.0
 # NOTE: We must loosen this to allow opentracing 2.3.0 and 2.4.0.
 BuildRequires:  ((%{py3_dist opentracing} >= 2.2.0) with (%{py3_dist opentracing} < 2.5.0))
+
+# opentelemetry-exporter-prometheus install_requires:
+#   prometheus_client >= 0.5.0, < 1.0.0
+BuildRequires:  ((%{py3_dist prometheus_client} >= 0.5.0) with (%{py3_dist prometheus_client} < 1.0.0))
 
 # dev-requirements.txt: protobuf>=3.18.1
 # (possibly needed only if we run scripts/proto_codegen.sh?)
@@ -213,6 +227,8 @@ BuildRequires:  %{py3_dist typing-extensions} >= 3.7.4
 #   opentelemetry-api ~= 1.3
 # opentelemetry-exporter-otlp-proto-http install_requires:
 #   opentelemetry-api ~= 1.3
+# opentelemetry-exporter-prometheus install_requires:
+#   opentelemetry-api >= 1.10.0
 # opentelemetry-exporter-zipkin-json install_requires:
 #   opentelemetry-api ~= 1.3
 # opentelemetry-exporter-zipkin-proto-http install_requires:
@@ -233,9 +249,11 @@ BuildRequires:  %{py3_dist typing-extensions} >= 3.7.4
 #   opentelemetry-sdk ~= 1.3
 # opentelemetry-exporter-opencensus install_requires: opentelemetry-sdk ~= 1.3
 # opentelemetry-exporter-otlp-proto-grpc install_requires:
-#   opentelemetry-sdk ~= 1.3
+#   opentelemetry-sdk ~= 1.10.0
 # opentelemetry-exporter-otlp-proto-http install_requires:
 #   opentelemetry-sdk ~= 1.3
+# opentelemetry-exporter-prometheus install_requires:
+#   opentelemetry-sdk >= 1.10.0
 # opentelemetry-exporter-zipkin-json install_requires:
 #   opentelemetry-sdk ~= 1.3
 # opentelemetry-exporter-jaeger-thrift install_requires:
@@ -407,6 +425,23 @@ To avoid unnecessary dependencies, users should install the specific package
 once they’ve determined their preferred serialization and protocol method.
 
 
+%package -n python3-opentelemetry-exporter-prometheus
+Summary:        OpenTelemetry Prometheus Exporter
+Version:        %{prerel_version}
+
+Obsoletes:      python3-opentelemetry-ext-prometheus < 1.0
+
+Requires:       ((%{py3_dist prometheus_client} >= 0.5.0) with (%{py3_dist prometheus_client} < 1.0.0))
+# Dependencies across subpackages should be fully-versioned. See comments
+# following BuildRequires for a tabulation of such interdependencies.
+Requires:       python3-opentelemetry-api = %{stable_version}-%{release}
+Requires:       python3-opentelemetry-sdk = %{stable_version}-%{release}
+
+%description -n python3-opentelemetry-exporter-prometheus
+This library allows to export metrics data to Prometheus
+(https://prometheus.io).
+
+
 %package -n python3-opentelemetry-exporter-zipkin-json
 Summary:        Zipkin Span JSON Exporter for OpenTelemetry
 Version:        %{stable_version}
@@ -520,8 +555,6 @@ Obsoletes:      python3-opentelemetry-ext-wsgi < 1.0
 
 #   • opentelemetry-exporter-datadog
 Obsoletes:      python3-opentelemetry-ext-datadog < 1.0
-#   • (opentelemetry-exporter-prometheus; not present in a current release)
-Obsoletes:      python3-opentelemetry-ext-prometheus < 1.0
 
 # The opentelemetry-distro package was moved to “contrib” in release
 # 1.6.1/0.25~b1.
@@ -672,6 +705,7 @@ for pkg in \
     exporter/opentelemetry-exporter-zipkin-proto-http \
     exporter/opentelemetry-exporter-zipkin-json \
     exporter/opentelemetry-exporter-zipkin \
+    exporter/opentelemetry-exporter-prometheus \
     exporter/opentelemetry-exporter-otlp-proto-grpc \
     exporter/opentelemetry-exporter-otlp-proto-http \
     exporter/opentelemetry-exporter-otlp \
@@ -710,6 +744,7 @@ for pkg in \
     exporter/opentelemetry-exporter-zipkin-proto-http \
     exporter/opentelemetry-exporter-zipkin-json \
     exporter/opentelemetry-exporter-zipkin \
+    exporter/opentelemetry-exporter-prometheus \
     exporter/opentelemetry-exporter-otlp-proto-grpc \
     exporter/opentelemetry-exporter-otlp-proto-http \
     exporter/opentelemetry-exporter-otlp \
@@ -743,6 +778,7 @@ for pkg in \
     exporter/opentelemetry-exporter-zipkin-proto-http \
     exporter/opentelemetry-exporter-zipkin-json \
     exporter/opentelemetry-exporter-zipkin \
+    exporter/opentelemetry-exporter-prometheus \
     exporter/opentelemetry-exporter-otlp-proto-grpc \
     exporter/opentelemetry-exporter-otlp-proto-http \
     exporter/opentelemetry-exporter-otlp \
@@ -874,6 +910,20 @@ done
 %{python3_sitelib}/opentelemetry_exporter_otlp-%{stable_egginfo}
 
 
+%files -n python3-opentelemetry-exporter-prometheus
+# Note that the contents are identical to the top-level LICENSE file.
+%license exporter/opentelemetry-exporter-prometheus/LICENSE
+%doc exporter/opentelemetry-exporter-prometheus/README.rst
+
+# Shared namespace directories
+%dir %{python3_sitelib}/opentelemetry
+%{python3_sitelib}/opentelemetry/py.typed
+%dir %{python3_sitelib}/opentelemetry/exporter
+
+%{python3_sitelib}/opentelemetry/exporter/prometheus
+%{python3_sitelib}/opentelemetry_exporter_prometheus-%{prerel_egginfo}
+
+
 %files -n python3-opentelemetry-exporter-zipkin-json
 # Note that the contents are identical to the top-level LICENSE file.
 %license exporter/opentelemetry-exporter-zipkin-json/LICENSE
@@ -940,6 +990,7 @@ done
 %{python3_sitelib}/opentelemetry/baggage
 %{python3_sitelib}/opentelemetry/context
 %{python3_sitelib}/opentelemetry/propagate
+%dir %{python3_sitelib}/opentelemetry/propagators/__pycache__
 %pycached %{python3_sitelib}/opentelemetry/propagators/composite.py
 %pycached %{python3_sitelib}/opentelemetry/propagators/textmap.py
 %{python3_sitelib}/opentelemetry/trace
