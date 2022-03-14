@@ -592,7 +592,8 @@ Summary:        OpenTelemetry Python Semantic Conventions
 Version:        %{prerel_version}
 
 %description -n python3-opentelemetry-semantic-conventions
-This library contains generated code for the semantic conventions defined by the OpenTelemetry specification.
+This library contains generated code for the semantic conventions defined by
+the OpenTelemetry specification.
 %endif
 
 
