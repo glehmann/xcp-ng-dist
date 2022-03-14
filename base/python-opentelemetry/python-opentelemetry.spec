@@ -927,7 +927,8 @@ done
 %files -n python3-opentelemetry-exporter-zipkin-json
 # Note that the contents are identical to the top-level LICENSE file.
 %license exporter/opentelemetry-exporter-zipkin-json/LICENSE
-%doc exporter/opentelemetry-exporter-zipkin-json/CHANGELOG.md
+# Not packaged since it is a zero-length file:
+#doc exporter/opentelemetry-exporter-zipkin-json/CHANGELOG.md
 %doc exporter/opentelemetry-exporter-zipkin-json/README.rst
 
 # Shared namespace directories
@@ -945,7 +946,8 @@ done
 %files -n python3-opentelemetry-exporter-zipkin-proto-http
 # Note that the contents are identical to the top-level LICENSE file.
 %license exporter/opentelemetry-exporter-zipkin-proto-http/LICENSE
-%doc exporter/opentelemetry-exporter-zipkin-proto-http/CHANGELOG.md
+# Not packaged since it is a zero-length file:
+#doc exporter/opentelemetry-exporter-zipkin-proto-http/CHANGELOG.md
 %doc exporter/opentelemetry-exporter-zipkin-proto-http/README.rst
 
 # Shared namespace directories
