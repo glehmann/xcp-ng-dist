@@ -54,7 +54,7 @@ BuildRequires:  python3-devel
 # opentelemetry-exporter-opencensus install_requires: setuptools >= 16.0
 # opentelemetry-api install_requires: setuptools >= 16.0
 # opentelemetry-sdk install_requires: setuptools >= 16.0
-BuildRequires:  %{py3_dist setuptools} >= 16.0
+BuildRequires:  %{py3_dist setuptools} >= 16
 
 # Documentation
 %if %{with doc_pdf}
@@ -67,7 +67,7 @@ BuildRequires:  latexmk
 
 # opentelemetry-exporter-otlp-proto-grpc install_requires: backoff ~= 1.10.0
 # opentelemetry-exporter-otlp-proto-http install_requires: backoff ~= 1.10.0
-BuildRequires:  ((%{py3_dist backoff} >= 1.10) with (%{py3_dist backoff} < 1.11.0))
+BuildRequires:  ((%{py3_dist backoff} >= 1.10) with (%{py3_dist backoff} < 1.11))
 
 # dev-requirements.txt: black~=20.8b1
 # (formatters/linters/typecheckers/coverage omitted)
@@ -97,7 +97,7 @@ BuildRequires:  %{py3_dist flaky}
 # docs-requirements.txt: flask~=1.0
 # opentelemetry-test-utils extras_require[test]: flask~=1.0
 # NOTE: We must loosen this to allow flask~=2.0.
-BuildRequires:  ((%{py3_dist flask} >= 1.0) with (%{py3_dist flask} < 3.0))
+BuildRequires:  ((%{py3_dist flask} >= 1) with (%{py3_dist flask} < 3))
 
 # opentelemetry-exporter-jaeger-proto-grpc install_requires:
 #   googleapis-common-protos ~= 1.52
@@ -105,7 +105,7 @@ BuildRequires:  ((%{py3_dist flask} >= 1.0) with (%{py3_dist flask} < 3.0))
 #   googleapis-common-protos ~= 1.52
 # opentelemetry-exporter-otlp-proto-http install_requires:
 #   googleapis-common-protos ~= 1.52
-BuildRequires:  ((%{py3_dist googleapis-common-protos} >= 1.52) with (%{py3_dist googleapis-common-protos} < 2.0))
+BuildRequires:  ((%{py3_dist googleapis-common-protos} >= 1.52) with (%{py3_dist googleapis-common-protos} < 2))
 
 # docs-requirements.txt: # Required by instrumentation and exporter packages
 # docs-requirements.txt: grpcio~=1.27
@@ -114,7 +114,7 @@ BuildRequires:  ((%{py3_dist googleapis-common-protos} >= 1.52) with (%{py3_dist
 # opentelemetry-exporter-opencensus install_requires: grpcio >= 1.0.0, < 2.0.0
 # opentelemetry-exporter-otlp-proto-grpc install_requires:
 #   grpcio >= 1.0.0, < 2.0.0
-BuildRequires:  ((%{py3_dist grpcio} >= 1.27) with (%{py3_dist grpcio} < 2.0))
+BuildRequires:  ((%{py3_dist grpcio} >= 1.27) with (%{py3_dist grpcio} < 2))
 
 # dev-requirements.txt: grpcio-tools~=1.41.0
 # (needed only if we run scripts/proto_codegen.sh)
@@ -133,18 +133,18 @@ BuildRequires:  ((%{py3_dist grpcio} >= 1.27) with (%{py3_dist grpcio} < 2.0))
 
 # opentelemetry-exporter-opencensus install_requires:
 #   opencensus-proto >= 0.1.0, < 1.0.0
-BuildRequires:  ((%{py3_dist opencensus-proto} >= 0.1.0) with (%{py3_dist opencensus-proto} < 1.0.0))
+BuildRequires:  ((%{py3_dist opencensus-proto} >= 0.1) with (%{py3_dist opencensus-proto} < 1))
 
 # docs-requirements.txt: # Required by instrumentation and exporter packages
 # docs-requirements.txt: opentracing~=2.2.0
 # opentelemetry-opentracing-shim install_requires: opentracing ~= 2.0
 # opentelemetry-opentracing-shim extras_require[test]: opentracing ~= 2.2.0
 # NOTE: We must loosen this to allow opentracing 2.3.0 and 2.4.0.
-BuildRequires:  ((%{py3_dist opentracing} >= 2.2.0) with (%{py3_dist opentracing} < 2.5.0))
+BuildRequires:  ((%{py3_dist opentracing} >= 2.2) with (%{py3_dist opentracing} < 2.5))
 
 # opentelemetry-exporter-prometheus install_requires:
 #   prometheus_client >= 0.5.0, < 1.0.0
-BuildRequires:  ((%{py3_dist prometheus_client} >= 0.5.0) with (%{py3_dist prometheus_client} < 1.0.0))
+BuildRequires:  ((%{py3_dist prometheus_client} >= 0.5) with (%{py3_dist prometheus_client} < 1))
 
 # dev-requirements.txt: protobuf>=3.18.1
 # (possibly needed only if we run scripts/proto_codegen.sh?)
@@ -161,7 +161,7 @@ BuildRequires:  %{py3_dist protobuf} >= 3.18.1
 
 # dev-requirements.txt: pytest>=6.0
 # tox.ini testenv.deps: test: pytest
-BuildRequires:  %{py3_dist pytest} >= 6.0
+BuildRequires:  %{py3_dist pytest} >= 6
 
 # tox.ini testenv.deps: test: pytest-benchmark
 BuildRequires:  %{py3_dist pytest-benchmark}
@@ -175,12 +175,12 @@ BuildRequires:  %{py3_dist pytest-grpc}
 # opentelemetry-exporter-zipkin-json install_requires: requests ~= 2.7
 # opentelemetry-exporter-zipkin-proto-http install_requires: requests ~= 2.7
 # opentelemetry-exporter-otlp-proto-http install_requires: requests ~= 2.7
-BuildRequires:  ((%{py3_dist requests} >= 2.7) with (%{py3_dist requests} < 3.0))
+BuildRequires:  ((%{py3_dist requests} >= 2.7) with (%{py3_dist requests} < 3))
 
 # dev-requirements.txt: sphinx-autodoc-typehints~=1.12.0
 # docs-requirements.txt: sphinx-autodoc-typehints~=1.12.0
 # NOTE: We must loosen this to allow sphinx-autodoc-typehints~=1.12.
-BuildRequires:  ((%{py3_dist sphinx-autodoc-typehints} >= 1.12.0) with (%{py3_dist sphinx-autodoc-typehints} < 2.0))
+BuildRequires:  ((%{py3_dist sphinx-autodoc-typehints} >= 1.12) with (%{py3_dist sphinx-autodoc-typehints} < 2))
 
 # dev-requirements.txt: sphinx-rtd-theme~=0.5
 # docs-requirements.txt: sphinx-rtd-theme~=0.5
@@ -190,7 +190,7 @@ BuildRequires:  ((%{py3_dist sphinx-autodoc-typehints} >= 1.12.0) with (%{py3_di
 # dev-requirements.txt: sphinx~=3.5.4
 # docs-requirements.txt: sphinx~=3.5.4
 # NOTE: We must loosen this to allow Sphinx 3.6+ and 4.x.
-BuildRequires:  ((%{py3_dist sphinx} >= 3.5.4) with (%{py3_dist sphinx} < 5.0))
+BuildRequires:  ((%{py3_dist sphinx} >= 3.5.4) with (%{py3_dist sphinx} < 5))
 
 # docs-requirements.txt: # used to generate docs for the website
 # docs-requirements.txt: sphinx-jekyll-builder
@@ -199,7 +199,7 @@ BuildRequires:  ((%{py3_dist sphinx} >= 3.5.4) with (%{py3_dist sphinx} < 5.0))
 # docs-requirements.txt: # Required by instrumentation and exporter packages
 # docs-requirements.txt: thrift>=0.10.0
 # opentelemetry-exporter-jaeger-thrift install_requires: thrift >= 0.10.0
-BuildRequires:  %{py3_dist thrift} >= 0.10.0
+BuildRequires:  %{py3_dist thrift} >= 0.10
 
 # opentelemetry-sdk install_requires: typing-extensions >= 3.7.4
 BuildRequires:  %{py3_dist typing-extensions} >= 3.7.4
@@ -209,7 +209,7 @@ BuildRequires:  %{py3_dist typing-extensions} >= 3.7.4
 # Now that instrumentation is moved to contrib, this is no longer used
 # directly. (It is a dependency for some examples, and is in the intersphinx
 # mapping, which we don’t use since the build is offline, for the docs.)
-# BuildRequires:  ((%%{py3_dist wrapt} >= 1.0.0) with (%%{py3_dist wrapt} < 2.0.0))
+# BuildRequires:  ((%%{py3_dist wrapt} >= 1) with (%%{py3_dist wrapt} < 2))
 
 # docs-requirements.txt: # Need to install the api/sdk in the venv for
 #   autodoc. Modifying sys.path
@@ -431,7 +431,7 @@ Version:        %{prerel_version}
 
 Obsoletes:      python3-opentelemetry-ext-prometheus < 1.0
 
-Requires:       ((%{py3_dist prometheus_client} >= 0.5.0) with (%{py3_dist prometheus_client} < 1.0.0))
+Requires:       ((%{py3_dist prometheus_client} >= 0.5) with (%{py3_dist prometheus_client} < 1))
 # Dependencies across subpackages should be fully-versioned. See comments
 # following BuildRequires for a tabulation of such interdependencies.
 Requires:       python3-opentelemetry-api = %{stable_version}-%{release}
