@@ -788,13 +788,7 @@ for pkg in \
     exporter/opentelemetry-exporter-jaeger \
     opentelemetry-api
 do
-  if [ "${pkg}" = 'exporter/opentelemetry-exporter-jaeger-proto-grpc' ]
-  then
-    # https://github.com/open-telemetry/opentelemetry-python/issues/1975
-    k="${k-}${k+ and }not (TestJaegerExporter and test_export)"
-    k="${k-}${k+ and }not (TestJaegerExporter and test_export_span_service_name)"
-  fi
-  %pytest "${pkg}" -k "${k-}"
+  %pytest "${pkg}"
 done
 
 
