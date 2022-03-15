@@ -1,4 +1,3 @@
-
 # See eachdist.ini:
 %global stable_version 1.10.0
 %global prerel_version 0.29~b0
@@ -27,7 +26,6 @@
 
 Name:           python-opentelemetry
 Version:        %{stable_version}
-%forgemeta
 Release:        %autorelease
 Summary:        OpenTelemetry Python API and SDK
 
