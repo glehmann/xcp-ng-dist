@@ -1,6 +1,6 @@
 # See eachdist.ini:
-%global stable_version 1.10.0
-%global prerel_version 0.29~b0
+%global stable_version 1.11.1
+%global prerel_version 0.30~b1
 # Contents of python3-opentelemetry-proto are generated from proto files in a
 # separate repository with a separate version number. We treat these as
 # generated sources: we aren’t required by the guidelines to re-generate them
@@ -8,7 +8,7 @@
 #
 # See PROTO_REPO_BRANCH_OR_COMMIT in scripts/proto_codegen.sh for the correct
 # version number.
-%global proto_version 0.12.0
+%global proto_version 0.16.0
 
 # Unfortunately, we cannot disable the prerelease packages without breaking
 # almost all of the stable packages, because opentelemetry-sdk depends on the
@@ -36,17 +36,6 @@ Source0:        %{url}/archive/v%{version}/opentelemetry-python-%{version}.tar.g
 # .proto files for python3-opentelemetry-proto, so we must include it.
 %global proto_url https://github.com/open-telemetry/opentelemetry-proto
 Source1:        %{proto_url}/archive/v%{proto_version}/opentelemetry-proto-%{proto_version}.tar.gz
-
-# Wrong installation path in exporter “convenience” packages
-# https://github.com/open-telemetry/opentelemetry-python/issues/2020
-#
-# Fix exporter-{jaeger,otlp,zipkin} install paths
-# https://github.com/open-telemetry/opentelemetry-python/pull/2525
-Patch:          %{url}/pull/2525.patch
-
-# Fix a mixed-up changelog entry
-# https://github.com/open-telemetry/opentelemetry-python/pull/2526
-Patch:          %{url}/pull/2526.patch
 
 BuildRequires:  python3-devel
 # opentelemetry-exporter-opencensus install_requires: setuptools >= 16.0
@@ -676,7 +665,7 @@ This package provides documentation for python-opentelemetry.
 
 
 %prep
-%autosetup -n opentelemetry-python-%{stable_version} -p1
+%autosetup -n opentelemetry-python-%{stable_version}
 
 %py3_shebang_fix .
 
@@ -1108,13 +1097,17 @@ done
 
 %files doc
 %license LICENSE
+%doc CHANGELOG.md
+%doc CONTRIBUTING.md
+%doc rationale.md
+%doc README.md
 %if %{with doc_pdf}
 %doc docs/_build/latex/opentelemetrypython.pdf
 %endif
 
 
 %changelog
-* Wed Jan 22 2025 Yann Dirson <yann.dirson@vates.tech> - 1.10.0-1
+* Wed Jan 22 2025 Yann Dirson <yann.dirson@vates.tech> - 1.11.0-1
 - Backport to el7, based on fc36 package
 - Back to old layout
 - Nuke the '(Build)Requires: ... with ...' syntax
