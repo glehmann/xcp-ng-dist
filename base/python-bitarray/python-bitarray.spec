@@ -3,7 +3,7 @@
 
 Name:           python-%{srcname}
 Version:        1.6.3
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        %{sum}
 
 License:        Python
@@ -58,6 +58,9 @@ This is Python 3 version.
 
 
 %changelog
+* Mon Jun 13 2022 Python Maint <python-maint@redhat.com> - 1.6.3-5
+- Rebuilt for Python 3.11
+
 * Fri Jan 21 2022 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.3-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_36_Mass_Rebuild
 
