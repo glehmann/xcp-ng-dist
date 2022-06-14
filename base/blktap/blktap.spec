@@ -1,15 +1,15 @@
 Summary: blktap user space utilities
 Name: blktap
-Version: 3.37.3
+Version: 3.37.4
 Release: 1.0.1%{?dist}
 License: BSD
 Group: System/Hypervisor
 URL: https://github.com/xapi-project/blktap
 
-Source0: https://code.citrite.net/rest/archive/latest/projects/XS/repos/blktap/archive?at=v3.37.3&format=tar.gz&prefix=blktap-3.37.3#/blktap-3.37.3.tar.gz
+Source0: https://code.citrite.net/rest/archive/latest/projects/XS/repos/blktap/archive?at=v3.37.4&format=tar.gz&prefix=blktap-3.37.4#/blktap-3.37.4.tar.gz
 
 
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/blktap/archive?at=v3.37.3&format=tar.gz&prefix=blktap-3.37.3#/blktap-3.37.3.tar.gz) = 3070c7a8295d563f2914ecb40c53002390bd6280
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/blktap/archive?at=v3.37.4&format=tar.gz&prefix=blktap-3.37.4#/blktap-3.37.4.tar.gz) = dd4f7fe297d27cf2470efe0b8cb767ada5b3466c
 
 # XCP-ng patches
 
@@ -44,7 +44,7 @@ destroy and manipulate devices ('tap-ctl'), the 'tapdisk' driver
 program to perform tap devices I/O, and a number of image drivers.
 
 %package devel
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/blktap/archive?at=v3.37.3&format=tar.gz&prefix=blktap-3.37.3#/blktap-3.37.3.tar.gz) = 3070c7a8295d563f2914ecb40c53002390bd6280
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/blktap/archive?at=v3.37.4&format=tar.gz&prefix=blktap-3.37.4#/blktap-3.37.4.tar.gz) = dd4f7fe297d27cf2470efe0b8cb767ada5b3466c
 Summary: BlkTap Development Headers and Libraries
 Requires: blktap = %{version}
 Group: Development/Libraries
@@ -142,6 +142,12 @@ fi
 %{?_cov_results_package}
 
 %changelog
+* Tue Jun 14 2022 Samuel Verschelde <stormi-xcp@ylix.fr> - 3.37.4-1.0.1
+- Sync with hotfix XS82ECU1009
+- *** Upstream changelog ***
+- * Fri Apr 29 2022 Mark Syms <mark.syms@citrix.com> - 3.37.4-1.0
+- - CA-350300: remove duplicated and unchecked call to canonpath
+
 * Fri Dec 17 2021 Samuel Verschelde <stormi-xcp@ylix.fr> - 3.37.3-1.0.1
 - Sync with CH 8.2.1
 - *** Upstream changelog ***
@@ -351,7 +357,7 @@ fi
 
 
 %package testresults
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/blktap/archive?at=v3.37.3&format=tar.gz&prefix=blktap-3.37.3#/blktap-3.37.3.tar.gz) = 3070c7a8295d563f2914ecb40c53002390bd6280
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/blktap/archive?at=v3.37.4&format=tar.gz&prefix=blktap-3.37.4#/blktap-3.37.4.tar.gz) = dd4f7fe297d27cf2470efe0b8cb767ada5b3466c
 Group:    System/Hypervisor
 Summary:  test results for blktap package
 
@@ -362,7 +368,7 @@ The package contains the build time test results for the blktap package
 /testresults
 
 %package -n vhd-util-standalone
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/blktap/archive?at=v3.37.3&format=tar.gz&prefix=blktap-3.37.3#/blktap-3.37.3.tar.gz) = 3070c7a8295d563f2914ecb40c53002390bd6280
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/blktap/archive?at=v3.37.4&format=tar.gz&prefix=blktap-3.37.4#/blktap-3.37.4.tar.gz) = dd4f7fe297d27cf2470efe0b8cb767ada5b3466c
 Group:   System/Hypervisor
 Summary: Standalone vhd-util binary
 Conflicts: blktap
