@@ -9,7 +9,7 @@ Summary: qemu-dm device model
 Name: qemu
 Epoch: 2
 Version: 4.2.1
-Release: 4.6.1.1%{?dist}
+Release: 4.6.2.1%{?dist}
 License: GPL
 Requires: xcp-clipboardd
 Requires: xengt-userspace
@@ -17,7 +17,7 @@ Requires: xengt-userspace
 ## so we have to carry a conflicts line to say we broke it.
 Conflicts: xenopsd-xc < 0.123.0
 
-Source0: https://code.citrite.net/rest/archive/latest/projects/XSU/repos/qemu/archive?at=v4.2.1&format=tar.gz&prefix=qemu-4.2.1#/qemu-4.2.1.tar.gz
+Source0: qemu.tar.gz
 Source1: SOURCES/qemu/qemu_trad_image.py
 Source2: https://code.citrite.net/rest/archive/latest/projects/XSU/repos/keycodemapdb/archive?at=6b3d716e2b6472eb7189d3220552280ef3d832ce&format=tar.gz&prefix=ui/keycodemapdb#/keycodemapdb-6b3d716e2b6472eb7189d3220552280ef3d832ce.tar.gz
 
@@ -37,24 +37,24 @@ Patch12: 0002-e1000-switch-to-use-qemu_receive_packet-for-loopback.patch
 Patch13: 0003-rtl8139-switch-to-use-qemu_receive_packet-for-loopba.patch
 Patch14: 0001-aio-posix-fix-use-after-leaving-scope-in-aio_poll.patch
 Patch15: 0001-xen-mapcache-avoid-a-race-on-memory-map-while-using-.patch
-Patch16: hw-ide__check_null_block_before__cancel_dma_sync.patch
-Patch17: xen-platform-add-device-id-property.patch
-Patch18: xen-platform-add-class-id-property.patch
-Patch19: xen-platform-add-revision-property.patch
-Patch20: 0001-xen-platform-Handle-write-of-four-byte-build-number-.patch
-Patch21: 0002-xen-platform-Provide-QMP-query-commands-for-XEN-PV-d.patch
-Patch22: 0003-xen-platform-Emit-XEN_PLATFORM_PV_DRIVER_INFO-after-.patch
-Patch23: dont-set-a20-on-xen.patch
-Patch24: dont-init-cpus-on-xen.patch
-Patch25: 0001-xen-Emit-RTC_CHANGE-upon-TIMEOFFSET-ioreq.patch
-Patch26: remove-ioapic.patch
-Patch27: ignore-rtc-century-changes.patch
-Patch28: 0001-CP-33348-Allow-media-replace-qmp-command-to-take-a-n.patch
-Patch29: 0001-pc-Do-not-expect-to-have-a-fw_cfg-device.patch
-Patch30: 0003-xen-apic-Implement-unrealize.patch
-Patch31: 0004-hotplug-Implement-legacy-CPU-hot-unplug.patch
-Patch32: igd-upt.patch
-Patch33: pt-avoid-invalid-bar-registers.patch
+Patch16: 0001-xen-mapcache-Avoid-entry-lock-overflow.patch
+Patch17: hw-ide__check_null_block_before__cancel_dma_sync.patch
+Patch18: xen-platform-add-device-id-property.patch
+Patch19: xen-platform-add-class-id-property.patch
+Patch20: xen-platform-add-revision-property.patch
+Patch21: 0001-xen-platform-Handle-write-of-four-byte-build-number-.patch
+Patch22: 0002-xen-platform-Provide-QMP-query-commands-for-XEN-PV-d.patch
+Patch23: 0003-xen-platform-Emit-XEN_PLATFORM_PV_DRIVER_INFO-after-.patch
+Patch24: dont-set-a20-on-xen.patch
+Patch25: dont-init-cpus-on-xen.patch
+Patch26: 0001-xen-Emit-RTC_CHANGE-upon-TIMEOFFSET-ioreq.patch
+Patch27: remove-ioapic.patch
+Patch28: ignore-rtc-century-changes.patch
+Patch29: 0001-CP-33348-Allow-media-replace-qmp-command-to-take-a-n.patch
+Patch30: 0001-pc-Do-not-expect-to-have-a-fw_cfg-device.patch
+Patch31: 0003-xen-apic-Implement-unrealize.patch
+Patch32: 0004-hotplug-Implement-legacy-CPU-hot-unplug.patch
+Patch33: igd-upt.patch
 Patch34: check-unmigratable-devices-when-saving.patch
 Patch35: query-migratable.patch
 Patch36: 0001-nvme-simplify-namespace-code.patch
@@ -102,8 +102,8 @@ Patch77: add-an-ide-read-cache.patch
 Patch78: disable-dirty-vram-tracking.patch
 Patch79: build-configuration.patch
 
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XSU/repos/qemu/archive?at=v4.2.1&format=tar.gz&prefix=qemu-4.2.1#/qemu-4.2.1.tar.gz) = 6cdf8c4efa073eac7d5f9894329e2d07743c2955
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/qemu.pg/archive?format=tar&at=v4.6.1#/qemu.pg.tar) = 9c94f538b1a17b10b0554963268c976f59727f4c
+Provides: gitsha(ssh://git@code.citrite.net/XSU/qemu.git) = 6cdf8c4efa073eac7d5f9894329e2d07743c2955
+Provides: gitsha(ssh://git@code.citrite.net/XS/qemu.pg.git) = d0c5a0ab4d584544185763863efe52acdd4b1a5b
 
 BuildRequires: gcc
 BuildRequires: python2-devel
@@ -190,6 +190,13 @@ cp -r scripts/qmp %{buildroot}%{_datarootdir}/qemu
 %{?_cov_results_package}
 
 %changelog
+* Wed Jul 20 2022 Gael Duperrey <gduperrey@vates.fr> - 4.2.1-4.6.2.1
+- Sync to hotfix XS82ECU1013
+- *** Upstream changelog ***
+- * Wed May 25 2022 Ross Lagerwall <ross.lagerwall@citrix.com> - 4.2.1-4.6.2
+- - CA-366527: Fix passthrough of multiple different devices
+- - CA-362592: Fix mapcache/iothread SIGBUS
+
 * Fri Dec 17 2021 Samuel Verschelde <stormi-xcp@ylix.fr> - 4.2.1-4.6.1.1
 - Sync with CH 8.2.1
 - *** Upstream changelog ***
