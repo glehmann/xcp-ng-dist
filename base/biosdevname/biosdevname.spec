@@ -1,31 +1,32 @@
-Name:		biosdevname
-Version:	0.3.10
-Release:	2
-Summary:	Helper for naming devices per BIOS names
+%global package_speccommit 9412dca73064cb738b3e8e52e1270d91b0771503
+%global usver 0.3.10
+%global xsver 4
+%global xsrel %{xsver}%{?xscount}%{?xshash}
 
-Group:		System Environment/Base
-License:	GPLv2
-URL:		http://linux.dell.com/files/%{name}
-Provides:   xenserver-biosdevname
+Name:         biosdevname
+Version:      0.3.10
+Release:      %{?xsrel}%{?dist}
+Summary:      Helper for naming devices per BIOS names
+
+Group:        System Environment/Base
+License:      GPLv2
+URL:          http://linux.dell.com/files/%{name}
+Provides:     xenserver-biosdevname
 # SMBIOS only exists on these arches.  It's also likely that other
 # arches don't expect the PCI bus to be sorted breadth-first, or of
 # so, there haven't been any comments about that on LKML.
-ExclusiveArch:	%{ix86} x86_64 ia64
+ExclusiveArch: %{ix86} x86_64 ia64
+Source0: biosdevname-0.3.10.tar.gz
+Patch0: biosdevname-disable-udev.patch
+Patch1: biosdevname-CA13344.patch
+Patch2: biosdevname-revert-default-policy.patch
+Patch3: biosdevname-remove-virtual-devices.patch
+Patch4: biosdevname-disable-vm-check.patch
+Patch5: biosdevname-fix-output-format.patch
 
-Source0: https://repo.citrite.net/xs-local-contrib/dell/biosdevname-0.3.10.tar.gz
-Patch0: SOURCES/biosdevname/biosdevname-disable-udev.patch
-Patch1: SOURCES/biosdevname/biosdevname-CA13344.patch
-Patch2: SOURCES/biosdevname/biosdevname-revert-default-policy.patch
-Patch3: SOURCES/biosdevname/biosdevname-remove-virtual-devices.patch
-Patch4: SOURCES/biosdevname/biosdevname-disable-vm-check.patch
-Patch5: SOURCES/biosdevname/biosdevname-fix-output-format.patch
-
-
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/biosdevname/archive?at=1.1.0&format=tar#/biosdevname.patches.tar) = d537600dae9ae8013c344414c9df7755508a00d0
-
-
-BuildRoot:	%(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
-BuildRequires:	pciutils-devel, zlib-devel
+BuildRequires: pciutils-devel
+BuildRequires: zlib-devel
+%{?_cov_buildrequires}
 
 %define _default_patch_fuzz 0
 
@@ -37,28 +38,17 @@ the chassis is "Gb1") doesn't map directly and obviously to the kernel
 name (e.g. eth0).
 
 %prep
-%setup
-pwd
-%patch0 -p1
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
-%patch5 -p1
+%autosetup -p1
+%{?_cov_prepare}
 
 %build
-rm -rf %{buildroot}
 %configure --disable-rpath --prefix=/ --sbindir=/sbin
-make %{?_smp_mflags}
+%{?_cov_wrap} make %{?_smp_mflags}
 
 
 %install
-rm -rf %{buildroot}
 make install install-data DESTDIR=%{buildroot}
-
-
-%clean
-rm -rf %{buildroot}
+%{?_cov_install}
 
 %files
 %defattr(-,root,root,-)
@@ -66,8 +56,16 @@ rm -rf %{buildroot}
 /sbin/%{name}
 %{_mandir}/man1/%{name}.1*.gz
 
+%{?_cov_results_package}
+
 
 %changelog
+* Mon Feb 21 2022 Ross Lagerwall <ross.lagerwall@citrix.com> - 0.3.10-4
+- CP-38416: Enable static analysis
+
+* Tue Dec 08 2020 Ross Lagerwall <ross.lagerwall@citrix.com> - 0.3.10-3
+- CP-35517: Package for koji
+
 * Fri Feb 18 2011 Andrew Cooper <Andrew.Cooper3@citrix.com> - 0.3.7-1@XS_RELEASE@
 - Apply XenServer specific patches
 - Remove udev rules
@@ -107,7 +105,7 @@ rm -rf %{buildroot}
 - fix for multi-port cards with bridges
 - removal of code for seriously obsolete systems
 
-* Mon Nov 28 2010 Matt Domsch <Matt_Domsch@dell.com> 0.3.1-1
+* Mon Nov 29 2010 Matt Domsch <Matt_Domsch@dell.com> 0.3.1-1
 - remove all policies except 'physical' and 'all_ethN'
 - handle SR-IOV devices properly
 
@@ -132,7 +130,7 @@ rm -rf %{buildroot}
 
 * Fri Sep 21 2007 Matt Domsch <Matt_Domsch@dell.com> 0.2.4-3
 - fix manpage entry in files
- 
+
 * Fri Sep 21 2007 Matt Domsch <Matt_Domsch@dell.com> 0.2.4-2
 - rebuild with Requires: udev > 115-3.20070920git
 
