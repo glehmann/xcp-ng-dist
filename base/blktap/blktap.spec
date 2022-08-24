@@ -1,24 +1,16 @@
+%global package_speccommit 3b9af3cbb910b71f0062c7cf7a264d23879a6b80
+%global package_srccommit v3.51.6
 Summary: blktap user space utilities
 Name: blktap
-Version: 3.37.4
-Release: 1.0.1%{?dist}
+Version: 3.51.6
+Release: 1%{?xsrel}%{?dist}
 License: BSD
 Group: System/Hypervisor
 URL: https://github.com/xapi-project/blktap
-
-Source0: https://code.citrite.net/rest/archive/latest/projects/XS/repos/blktap/archive?at=v3.37.4&format=tar.gz&prefix=blktap-3.37.4#/blktap-3.37.4.tar.gz
-
-
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/blktap/archive?at=v3.37.4&format=tar.gz&prefix=blktap-3.37.4#/blktap-3.37.4.tar.gz) = dd4f7fe297d27cf2470efe0b8cb767ada5b3466c
-
-# XCP-ng patches
-
-# The DRBD patches below must be removed after the upstream release of the version 3.43.
-Patch1000: blktap-3.30.0-drbd-support.XCP-ng.patch
-Patch1001: blktap-3.30.0-allocate-sufficient-space-in-normalize_path.backport.patch
+Source0: blktap-3.51.6.tar.gz
 
 BuildRoot: %{_tmppath}/%{name}-%{release}-buildroot
-Obsoletes: xen-blktap
+Obsoletes: xen-blktap < 4
 BuildRequires: e2fsprogs-devel, libaio-devel, systemd, autogen, autoconf, automake, libtool, libuuid-devel
 BuildRequires: xen-devel, kernel-headers, xen-dom0-libs-devel, zlib-devel, xen-libs-devel, libcmocka-devel, lcov, git
 BuildRequires: xs-openssl-devel >= 1.1.1
@@ -44,11 +36,9 @@ destroy and manipulate devices ('tap-ctl'), the 'tapdisk' driver
 program to perform tap devices I/O, and a number of image drivers.
 
 %package devel
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/blktap/archive?at=v3.37.4&format=tar.gz&prefix=blktap-3.37.4#/blktap-3.37.4.tar.gz) = dd4f7fe297d27cf2470efe0b8cb767ada5b3466c
 Summary: BlkTap Development Headers and Libraries
 Requires: blktap = %{version}
 Group: Development/Libraries
-Obsoletes: xen-blktap
 
 %description devel
 Blktap and VHD development files.
@@ -100,6 +90,7 @@ cat /usr/lib/udev/rules.d/65-md-incremental.rules >> /etc/udev/rules.d/65-md-inc
 %{_sbindir}/vhdpartx
 %{_libexecdir}/tapdisk
 %{_sysconfdir}/logrotate.d/blktap
+%{_sysconfdir}/cron.daily/prune_tapdisk_logs
 %{_sysconfdir}/xensource/bugtool/tapdisk-logs.xml
 %{_sysconfdir}/xensource/bugtool/tapdisk-logs/description.xml
 %{_localstatedir}/log/blktap
@@ -142,33 +133,108 @@ fi
 %{?_cov_results_package}
 
 %changelog
-* Tue Jun 14 2022 Samuel Verschelde <stormi-xcp@ylix.fr> - 3.37.4-1.0.1
-- Sync with hotfix XS82ECU1009
-- *** Upstream changelog ***
-- * Fri Apr 29 2022 Mark Syms <mark.syms@citrix.com> - 3.37.4-1.0
-- - CA-350300: remove duplicated and unchecked call to canonpath
+* Wed May 18 2022 Mark Syms <mark.syms@citrix.com> - 3.51.6-1
+- CA-366761: fix off by one size calculation in snprintf
 
-* Fri Dec 17 2021 Samuel Verschelde <stormi-xcp@ylix.fr> - 3.37.3-1.0.1
-- Sync with CH 8.2.1
-- *** Upstream changelog ***
-- * Thu Oct  7 2021 Mark Syms <mark.syms@citrix.com> - 3.37.3-1.0
-- - CA-355145: guard vbd_stats
-- - CA-183182: Don't error if there are no tapdisks to signal
+* Fri May 13 2022 Mark Syms <mark.syms@citrix.com> - 3.51.5-1
+- CA-366761: fix coverity issues
 
-* Wed Apr 21 2021 Ronan Abhamon <ronan.abhamon@vates.fr> - 3.37.2-1.0.2
-- Patch blktap-3.30.0-allocate-sufficient-space-in-normalize_path.backport.patch added
+* Tue May 03 2022 Mark Syms <mark.syms@citrix.com> - 3.51.4-1
+- CA-366614: prune old blktap logs
 
-* Wed Nov 04 2020 Samuel Verschelde <stormi-xcp@ylix.fr> - 3.37.2-1.0.1
-- Sync with hotfix XS82E006
-- CA-340619: Propagate errors from snaphot creation
-- CA-342578: fix switch case fall through error
+* Wed Mar 09 2022 Mark Syms <mark.syms@citrix.com> - 3.51.3-1
+- Various bugfixes from OpenXT
+
+* Wed Nov 17 2021 Mark Syms <mark.syms@citrix.com> - 3.51.2-4
+- Rebuild
+
+* Mon Aug 23 2021 Mark Syms <mark.syms@citrix.com> - 3.51.2-3
+- Revert "CA-356983: move udev rules for td devices to sm"
+
+* Thu Aug 12 2021 Mark Syms <mark.syms@citrix.com> - 3.51.2-2
+- CA-356983: move udev rules for td devices to sm
+
+* Thu Jul 15 2021 Mark Syms <mark.syms@citrix.com> - 3.51.2-1
+- CA-356180: ensure queue is valid before debug dumping it
+- CA-356215: Add more error logs to vhd-util and report on stderr
+- CA-356508: handle EINTR in tap-ctl IPC
+
+* Mon Jun 07 2021 Tim Smith <tim.smith@citrix.com> - 3.51.1-1
+- CA-353265 Disable posix AIO backend
+
+* Wed Jun 02 2021 Mark Syms <mark.syms@citrix.com> - 3.51.0-1
+- CA-355145: guard vbd_stats
+- CA-183182: Don't error if there are no tapdisks to signal
+
+* Thu Mar 11 2021 Mark Syms <mark.syms@citrix.com> - 3.50.0-1
+- CA-35250 - Fix Coverity issues introduced by CP-32853
+
+* Thu Mar 04 2021 Mark Syms <mark.syms@citrix.com> - 3.49.0-1
+- CP-32853 - Add posixaio io backend for read only files.
+
+* Mon Jan 18 2021 Mark Syms <mark.syms@citrix.com> - 3.48.0-1
+- CP-35115: implement "New fixed style" nbd option negotiation.
+
+* Mon Jan 04 2021 Mark Syms <mark.syms@citrix.com> - 3.47.0-1
+- Update to v3.47.0
+- CA-350300: remove duplicated and unchecked call to canonpath
+
+* Fri Dec 11 2020 Mark Syms <mark.syms@citrix.com> - 3.46.0-1
+- More coverity fixes
+
+* Fri Dec 04 2020 Mark Syms <mark.syms@citrix.com> - 3.45.0-1
+- Various coverity fixes
+
+* Fri Nov 06 2020 Mark Syms <mark.syms@citrix.com> - 3.44.0-1
+- CA-347165: validate the VHD header blocksize
+
+* Wed Sep 30 2020 Mark Syms <mark.syms@citrix.com> - 3.43.0-1
+- CA-345193: allocate sufficient space in normalize_path
+- CA-345193: add unit test to exercise memory allocation error
+
+* Tue Sep 15 2020 Mark Syms <mark.syms@citrix.com> - 3.42.0-1
+- CA-343797: (Coverity) fix set of Unintentional integer overflow issues
+- CA-343796: (Coverity) exit when insufficient args supplied
+- Errno model removal.
+- CP-34900: remove command lookup by environment
+- feat(vhd/canonpath): add support for DRBD resource path
+- feat(libvhd): try to open DRBD devices using the LVM layer
+- feat(libvhd): when a DRBD device path is given, do not use LVM layer if device is not up to date
+- libvhd: properly check data alignment
+- CA-344119: return correct error, snprintf doesn't set errno
+- CA-344424: ensure we don't get division by 0
+
+* Tue Sep 01 2020 Mark Syms <mark.syms@citrix.com> - 3.41.0-1
+- CP-34221 - Remove unused obsolete MD5
+- CP-32988 - In CA-225067 it was discovered cgexec which used to wrap
+- CA-343704: Correct the error return for vhd_footer_offset_at_eof
+- CP-34867: Reduce use of lseek by storing the current offset in the vhd context
+
+* Tue Jul 21 2020 Mark Syms <mark.syms@citrix.com> - 3.40.0-1
 - CA-342553: don't try to read encryption key from raw parent
+- CA-342578: fix switch case fall through error
 
-* Tue Sep 08 2020 Ronan Abhamon <ronan.abhamon@vates.fr> - 3.37.0-1.0.2
-- Rebase DRBD patch on the upstream repository
+* Mon Jul 13 2020 Mark Syms <mark.syms@citrix.com> - 3.39.0-1
+- CP-34313: Fix Coverity Nesting_Indent_Mismatch error
+- CP-34313: Coverity: correctly check for non-writeable file
+- CP-34313: Coverity: refactor to remove dead code
+- CP-34313: Coverity: #if out unused code
+- CP-34313: Coverity: remove dead code for ctx_match
+- CP-34313: Coverity: call driver td_validate function
+- CP-34313: Coverity: remove unreachable code in block_cache_hash
+- CP-34313: Coverity: fix STACK_USE errors
+- CP-34313: Coverity: ensure nbd id is terminated
+- CP-34313: Coverity: use PAGESIZE instead of reading sysconf on each request
+- CP-34313: Coverity: use valid printf format string
+- CP-34313: Coverity: check that event->fd is valid
+- CP-34313: Coverity: close sock in error path
+- CP-34313: Coverity: ensure sfd is closed
+- CP-34313: Coverity: fix several unused value errors
+- Coverity: add model for posix_memalign
+- CP-34313: free prv->remote in error path
 
-* Wed Aug 19 2020 Ronan Abhamon <ronan.abhamon@vates.fr> - 3.37.0-1.0.1
-- Patch blktap-3.30.0-drbd-support.XCP-ng.patch added
+* Wed Jun 17 2020 Mark Syms <mark.syms@citrix.com> - 3.38.0-1
+- CA-340619 - Propagate errors from snaphot creation
 
 * Wed May 20 2020 Mark Syms <mark.syms@citrix.com> - 3.37.0-1
 - CA-338603: fix out of band write in tapdisk-control
@@ -357,7 +423,6 @@ fi
 
 
 %package testresults
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/blktap/archive?at=v3.37.4&format=tar.gz&prefix=blktap-3.37.4#/blktap-3.37.4.tar.gz) = dd4f7fe297d27cf2470efe0b8cb767ada5b3466c
 Group:    System/Hypervisor
 Summary:  test results for blktap package
 
@@ -368,7 +433,6 @@ The package contains the build time test results for the blktap package
 /testresults
 
 %package -n vhd-util-standalone
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/blktap/archive?at=v3.37.4&format=tar.gz&prefix=blktap-3.37.4#/blktap-3.37.4.tar.gz) = dd4f7fe297d27cf2470efe0b8cb767ada5b3466c
 Group:   System/Hypervisor
 Summary: Standalone vhd-util binary
 Conflicts: blktap
