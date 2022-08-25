@@ -1,35 +1,34 @@
-%global edk2_date 20180522
-%global edk2_githash 4b8552d
+%global package_speccommit bfccfc8b9a261f9ac9b18957cc821e4c86f50f39
+%global usver 20180522git4b8552d
+%global xsver 1.4.7
+%global xsrel %{xsver}%{?xscount}%{?xshash}
+%global package_srccommit 4b8552d
 
 Name: edk2
 Summary: EFI Development Kit II
-Version: %{edk2_date}git%{edk2_githash}
-Release: 1.4.5
+Version: 20180522git4b8552d
+Release: %{?xsrel}%{?dist}
 
 License: BSD and MIT
 URL: https://github.com/tianocore/edk2
-
-Source0: https://code.citrite.net/rest/archive/latest/projects/XSU/repos/edk2/archive?at=4b8552d&format=tar.gz&prefix=edk2-20180522git4b8552d#/edk2-20180522git4b8552d.tar.gz
-
+Source0: edk2-20180522git4b8552d.tar.gz
 Patch0: 0001-OvmfPkg-XenSupport-remove-usage-of-prefetchable-PCI-.patch
 Patch1: 0002-OvmfPkg-XenSupport-use-a-correct-PCI-host-bridge-ape.patch
 Patch2: 0003-OvmfPkg-XenSupport-turn-off-address-decoding-before-.patch
 Patch3: 0001-OvmfPkg-End-timer-interrupt-later-to-avoid-stack-ove.patch
-Patch4: 0001-OvmfPkg-XenPlatformPei-Use-CPUID-to-get-physical-add.patch
-Patch5: openssl.patch
-Patch6: nvidia-vgpu-support.patch
-Patch7: gvt-g-support.patch
-Patch8: set-default-resolution-1024-768.patch
-Patch9: embed-nic-drivers.patch
-Patch10: add-xen-variable.patch
-Patch11: add-xen-platform-device-id.patch
-Patch12: disable-modules.patch
-Patch13: xenorder.patch
-Patch14: keep-caching-enabled.patch
-Patch15: remove-unused-crypto.patch
-
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/edk2.pg/archive?at=1.4.5&format=tar#/edk2.pg.tar) = 0d14222c5c953c330843dff9849df87037b269bb
-
+Patch4: 0001-fix-type-in-ini-py.patch
+Patch5: 0001-OvmfPkg-XenPlatformPei-Use-CPUID-to-get-physical-add.patch
+Patch6: openssl.patch
+Patch7: nvidia-vgpu-support.patch
+Patch8: gvt-g-support.patch
+Patch9: set-default-resolution-1024-768.patch
+Patch10: embed-nic-drivers.patch
+Patch11: add-xen-variable.patch
+Patch12: add-xen-platform-device-id.patch
+Patch13: disable-modules.patch
+Patch14: xenorder.patch
+Patch15: keep-caching-enabled.patch
+Patch16: remove-unused-crypto.patch
 
 BuildRequires: gcc gcc-c++
 BuildRequires: python
@@ -37,6 +36,7 @@ BuildRequires: libuuid-devel
 BuildRequires: nasm
 BuildRequires: iasl
 BuildRequires: ipxe-efi
+%{?_cov_buildrequires}
 
 
 %description
@@ -47,13 +47,14 @@ as firmware in a virtual machine.
 
 %prep
 %autosetup -p1
+%{?_cov_prepare}
 
 
 %build
 cp %{_datadir}/ipxe/10ec8139.efi .
 cp %{_datadir}/ipxe/8086100e.efi .
 
-OvmfPkg/build.sh \
+%{?_cov_wrap} OvmfPkg/build.sh \
     -D SECURE_BOOT_ENABLE=TRUE \
     -D NETWORK_IP6_ENABLE=FALSE \
     -D IPXE_ENABLE=TRUE \
@@ -65,7 +66,7 @@ OvmfPkg/build.sh \
     -b DEBUG \
     -a X64 -n %{?_smp_flags}
 
-OvmfPkg/build.sh \
+%{?_cov_wrap} OvmfPkg/build.sh \
     -D SECURE_BOOT_ENABLE=TRUE \
     -D NETWORK_IP6_ENABLE=FALSE \
     -D IPXE_ENABLE=TRUE \
@@ -87,6 +88,8 @@ ln -sf OVMF-release.fd %{buildroot}/%{_datadir}/%{name}/OVMF.fd
 cp OvmfPkg/License.txt License.ovmf
 # cp CryptoPkg/Library/OpensslLib/openssl-xs/LICENSE LICENSE.openssl
 
+%{?_cov_install}
+
 
 %files
 %license License.txt
@@ -94,10 +97,21 @@ cp OvmfPkg/License.txt License.ovmf
 #%license LICENSE.openssl
 %{_datadir}/%{name}
 
+%{?_cov_results_package}
+
 
 %changelog
-* Fri Jan 22 2021 Jennifer Herbert <jennifer.herbert@citrix.com> - 20180522git4b8552d-1.4.5
+* Fri Jun 17 2022 Mark Syms <mark.syms@citrix.com> - 20180522git4b8552d-1.4.7
+- Fix script typo which breaks static analysis
+
+* Mon Feb 21 2022 Ross Lagerwall <ross.lagerwall@citrix.com> - 20180522git4b8552d-1.4.6
+- CP-38416: Enable static analysis
+
+* Mon Jan 18 2021 Ross Lagerwall <ross.lagerwall@citrix.com> - 20180522git4b8552d-1.4.5
 - CA-350259: Fix PCI passthrough of devices with 64+ GB BARs
+
+* Fri Dec 04 2020 Ross Lagerwall <ross.lagerwall@citrix.com> - 20180522git4b8552d-1.4.4
+- CP-35517: Bump release to rebuild
 
 * Wed Jun 24 2020 Ross Lagerwall <ross.lagerwall@citrix.com> - 20180522git4b8552d-1.4.3
 - CA-337679: Fix triple fault while booting on a heavy loaded host
