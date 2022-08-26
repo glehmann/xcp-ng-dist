@@ -1,14 +1,14 @@
 Summary: XCP-ng Host Configuration Console
 Name: xsconsole
-Version: 10.1.11
+Version: 10.1.13
 Release: 1.1%{?dist}
 License: GPL2
 Group: Administration/System
 
-Source0: https://code.citrite.net/rest/archive/latest/projects/XS/repos/xsconsole/archive?at=v10.1.11&format=tar.gz&prefix=xsconsole-10.1.11#/xsconsole.tar.gz
+Source0: https://code.citrite.net/rest/archive/latest/projects/XSU/repos/xsconsole/archive?at=v10.1.13&format=tar.gz&prefix=xsconsole-10.1.13#/xsconsole.tar.gz
 
 
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/xsconsole/archive?at=v10.1.11&format=tar.gz&prefix=xsconsole-10.1.11#/xsconsole.tar.gz) = fa8fe9002367f8b9e6370aa6c6fa6df7dc182470
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XSU/repos/xsconsole/archive?at=v10.1.13&format=tar.gz&prefix=xsconsole-10.1.13#/xsconsole.tar.gz) = 856ce4c4438905f71fe915597ad803e9c3cfb47a
 
 Provides: xsconsole0
 BuildRequires: python2-devel
@@ -21,9 +21,6 @@ Requires(postun): systemd
 # XCP-ng patches
 Patch1000: xsconsole-10.1.9-rebrand-xsconsole-service.XCP-ng.patch
 Patch1001: xsconsole-10.1.9-define-xcp-ng-colors.XCP-ng.patch
-Patch1002: xsconsole-10.1.10-replace-ext3-with-ext.XCP-ng.patch
-Patch1003: xsconsole-10.1.11-clearer-error-message-xapi-down.XCP-ng.patch
-Patch1004: xsconsole-10.1.11-fix-DNS-storage-entries-by-xsconsole.XCP-ng.patch
 
 %description
 Console tool for configuring a XCP-ng installation.
@@ -60,8 +57,19 @@ Console tool for configuring a XCP-ng installation.
 %{_unitdir}/xsconsole.service
 
 %changelog
-* Next release
-- Add xsconsole-10.1.11-clearer-error-message-xapi-down.XCP-ng.patch
+* Mon Dec 20 2021 Samuel Verschelde <stormi-xcp@ylix.fr> - 10.1.13-1.1
+- Sync with CH 8.2.1
+- Remove patches contributed and merged upstream
+- *** Upstream changelog ***
+- * Fri Jul 09 2021 Ross Lagerwall <ross.lagerwall@citrix.com> - 10.1.13-1
+- - Display 'Ext' instead of 'Ext3' for `ext` SRs
+- - CA-355872: Use XAPI to edit DNS entries within xsconsole
+- - Display clearer error message when XAPI unreachable
+- - rework is_master to raise in case of failure
+- * Fri Feb 19 2021 Ross Lagerwall <ross.lagerwall@citrix.com> - 10.1.12-1
+- - CA-348699: Fix full version display if the build number is empty
+
+* Thu Mar 04 2021 Benjamin Reis <benjamin.reis@vates.fr> - 10.1.11-1.2
 - Add xsconsole-10.1.11-fix-DNS-storage-entries-by-xsconsole.XCP-ng.patch
 
 * Wed Jul 01 2020 Samuel Verschelde <stormi-xcp@ylix.fr> - 10.1.11-1.1
