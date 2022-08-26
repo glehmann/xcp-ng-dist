@@ -1,17 +1,15 @@
+%global package_speccommit 74fc4a4964b27100377816a1efc99018576732bb
+%global package_srccommit v1.1.0
 Summary: A library of functions for running an emp server
 Name: libempserver
 Version: 1.1.0
-Release: 1%{?dist}
+Release: 2%{?xsrel}%{?dist}
 License: BSD
-
-Source0: https://code.citrite.net/rest/archive/latest/projects/XS/repos/libempserver/archive?at=v1.1.0&prefix=libempserver-1.1.0&format=tar.gz#/libempserver-1.1.0.tar.gz
-
-
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/libempserver/archive?at=v1.1.0&prefix=libempserver-1.1.0&format=tar.gz#/libempserver-1.1.0.tar.gz) = 35d7c3fa13b60bb3d9863d98a92ae05398211acc
-
+Source0: libempserver-1.1.0.tar.gz
 
 BuildRequires: gcc
 BuildRequires: json-c-devel
+%{?_cov_buildrequires}
 Requires(post): /sbin/ldconfig
 Requires(postun): /sbin/ldconfig
 
@@ -23,22 +21,25 @@ hardware emulators used to support a virtual machine.
 
 %prep
 %autosetup -p1
+%{?_cov_prepare}
 
 %build
-%{make_build}
+%{?_cov_wrap} %{make_build}
 
 %install
 %{makeinstall}
+%{?_cov_install}
 
 %files
 %{_libdir}/%{name}.so.1
 %{_libdir}/%{name}.so.1.1
 
+%{?_cov_results_package}
+
 %post -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
 
 %package devel
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/libempserver/archive?at=v1.1.0&prefix=libempserver-1.1.0&format=tar.gz#/libempserver-1.1.0.tar.gz) = 35d7c3fa13b60bb3d9863d98a92ae05398211acc
 Summary: Development headers for libempserver
 Requires: %{name}%{?_isa} = %{version}-%{release}
 
@@ -59,6 +60,9 @@ libempserver
 %{_libdir}/%{name}.so
 
 %changelog
+* Thu Feb 10 2022 Ross Lagerwall <ross.lagerwall@citrix.com> - 1.1.0-2
+- CP-38416: Enable static analysis
+
 * Thu Mar 19 2020 Jennifer Herbert <jennifer.herbert@citrix.com> - 1.1.0-1
 - CA-326958 - Add function to provide default path
 
