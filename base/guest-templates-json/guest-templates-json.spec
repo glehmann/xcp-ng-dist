@@ -1,16 +1,15 @@
+%global package_speccommit b01d26de04ca8b3a252343b9b4303bb4b4675100
+%global package_srccommit v1.10.1
 Name:    guest-templates-json
 Summary: Creates the default guest templates
-Version: 1.9.6
-Release: 1.1%{?dist}
+Version: 1.10.1
+Release: 2.1%{?xsrel}%{?dist}
 License: BSD
-
-Source0: https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.9.6&format=tar.gz&prefix=guest-templates-json-1.9.6#/guest-templates-json-1.9.6.tar.gz
+Source0: guest-templates-json-1.10.1.tar.gz
 
 # XCP-ng patches
 Source1000: almalinux-8.json
 Source1001: debian-11.json
-
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.9.6&format=tar.gz&prefix=guest-templates-json-1.9.6#/guest-templates-json-1.9.6.tar.gz) = 7c1a85a4cba851a1abb2f54d884f1345b648ee38
 
 BuildArch: noarch
 
@@ -29,7 +28,6 @@ Creates the default guest templates during first boot or package
 install/upgrade.
 
 %package data-pv
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.9.6&format=tar.gz&prefix=guest-templates-json-1.9.6#/guest-templates-json-1.9.6.tar.gz) = 7c1a85a4cba851a1abb2f54d884f1345b648ee38
 Summary: Contains the PV guest templates
 Requires(post): %{name} = %{version}-%{release}
 
@@ -37,7 +35,6 @@ Requires(post): %{name} = %{version}-%{release}
 Contains the PV guest templates.
 
 %package data-linux
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.9.6&format=tar.gz&prefix=guest-templates-json-1.9.6#/guest-templates-json-1.9.6.tar.gz) = 7c1a85a4cba851a1abb2f54d884f1345b648ee38
 Summary: Contains the default Linux guest templates
 Requires(post): %{name} = %{version}-%{release}
 
@@ -45,7 +42,6 @@ Requires(post): %{name} = %{version}-%{release}
 Contains the default Linux guest templates.
 
 %package data-windows
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.9.6&format=tar.gz&prefix=guest-templates-json-1.9.6#/guest-templates-json-1.9.6.tar.gz) = 7c1a85a4cba851a1abb2f54d884f1345b648ee38
 Summary: Contains the default Windows guest templates
 Requires(post): %{name} = %{version}-%{release}
 
@@ -53,7 +49,6 @@ Requires(post): %{name} = %{version}-%{release}
 Contains the default Windows guest templates.
 
 %package data-other
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.9.6&format=tar.gz&prefix=guest-templates-json-1.9.6#/guest-templates-json-1.9.6.tar.gz) = 7c1a85a4cba851a1abb2f54d884f1345b648ee38
 Summary: Contains the default other guest templates
 Requires(post): %{name} = %{version}-%{release}
 
@@ -188,33 +183,27 @@ fi
 %{templatedir}/other-install-media.json
 
 %changelog
-* Fri Dec 17 2021 Samuel Verschelde <stormi-xcp@ylix.fr> - 1.9.6-1.1
-- Sync with CH 8.2.1
-- *** Upstream changelog ***
-- * Mon Oct 11 2021 Martin Harvey <martin.harvey@citrix.com> - 1.9.6-1
-- - CP-38270: Windows Server 2022 template not experimental in yangtze.
-- * Tue Sep 21 2021 Martin Harvey <martin.harvey@citrix.com> - 1.9.5-1
-- - CP-37828: Commit windows server 2022 template into release
+* Fri Aug 26 2022 Samuel Verschelde <stormi-xcp@ylix.fr> - 1.10.1-2.1
+- Re-sync with CH 8.3 preview (including changelog)
+- Re-add our patches (almalinux 8 and debian 11 templates).
 
-* Mon Nov 22 2021 Gael Duperrey <gduperrey@vates.fr> - 1.9.4-1.2
-- Add template for AlmaLinux 8 and Debian 11 Bullseye
+* Mon Aug 23 2021 Xihuan Yang <xihuan.yang@citrix.com> - 1.10.1-2
+- CP-37115: Update file size and sha256 in CHECKSUMS after include Windows Server 2022
 
-* Thu Sep 09 2021 Samuel Verschelde <stormi-xcp@ylix.fr> - 1.9.4-1.1
-- Sync with hotfix XS82E033
-- *** Upstream changelog ***
-- * Fri Aug 20 2021 Xihuan Yang <xihuan.yang@citrix.com> - 1.9.4-1
-- - CP-37595: Add template for Rocky Linux 8
-- * Wed Mar 17 2021 Xihuan Yang <xihuan.yang@citrix.com> - 1.9.2-1
-- - CP-36311: add template for gooroom os
+* Tue Aug 10 2021 Xihuan Yang <xihuan.yang@citrix.com> - 1.10.1-1
+- CP-37115: Add Rocky Linux 8 template
 
-* Fri Jul 10 2020 Samuel Verschelde <stormi-xcp@ylix.fr> - 1.8.19-1.2
-- Remove guest-templates-json-1.7.21-dont-update-db-on-slaves.XCP-ng.patch...
-- ... The new create-guest-template-wrapper script now checks for master vs others
-- We're back in sync with CH's SRPM
+* Thu Jul 08 2021 Ross Lagerwall <ross.lagerwall@citrix.com> - 1.10.0-1
+- Add Windows Server 2022 template
 
-* Tue Jun 30 2020 Samuel Verschelde <stormi-xcp@ylix.fr> - 1.8.19-1.1
-- Reapply patch to disable create-guest-templates on slave hosts
-- Related to https://github.com/xcp-ng/xcp/issues/265
+* Fri Nov 06 2020 Xihuan Yang <xihuan.yang@citrix.com> - 1.9.2-1
+- CP-33714: add template for gooroom os
+
+* Thu Sep 10 2020 Ross Lagerwall <ross.lagerwall@citrix.com> - 1.9.1-1
+- CA-342292: Skip running if xensource-inventory does not exist
+
+* Wed Jun 24 2020 Ross Lagerwall <ross.lagerwall@citrix.com> - 1.9.0-1
+- CA-340484 improve error message when template import fails
 
 * Fri May 29 2020 Ross Lagerwall <ross.lagerwall@citrix.com> - 1.8.19-1
 - CP-33714: add template for gooroom os
