@@ -1,3 +1,9 @@
+%global package_speccommit 9047e9f1fa9daad02098fb628df6270f760fdf4e
+%global usver 20121005
+%global xsver 1.0.6
+%global xsrel %{xsver}%{?xscount}%{?xshash}
+%global package_srccommit a712dae709a
+
 # Resulting binary formats we want from iPXE
 %global formats rom
 
@@ -30,32 +36,27 @@
 
 Summary: A network boot loader
 Name: ipxe
-Version: %{date}
-Release: 1.0.3%{?dist}
+Version: 20121005
+Release: %{?xsrel}%{?dist}
 License: GPLv2
-
-Source0: https://code.citrite.net/rest/archive/latest/projects/XSU/repos/ipxe/archive?at=a712dae709a&format=tar.gz&prefix=ipxe-20121005#/ipxe-20121005.tar.gz
-
-Patch0: makefile.patch
-Patch1: ipxe-eb5a2ba5962579e514b377f5fdab7292be0fb2a7.patch
-Patch2: ipxe-9df238a8aa1c6074f98280d9dfa08c4ea7e1ff86.patch
-Patch3: ipxe-66ea4581256449fe9dcb26340851c09ffd9d6290.patch
-Patch4: 0001-dhcp-Check-for-matching-chaddr-in-received-DHCP-pack.patch
-Patch5: 0001-pxe-Maintain-a-queue-for-received-PXE-UDP-packets.patch
-Patch6: pxe-tftp-load-from-program-pxecall.patch
-Patch7: ipxe-do-not-implement-UNDI-GET_NEXT-if-PVS.patch
-Patch8: ipxe-udp-write-blocking.patch
-Patch9: ipxe-no-post-prompt.patch
-Patch10: 0001-Check-Vendor-Class-ID-from-PROXYDHCP_SETTINGS_NAME.patch
-Patch11: 0001-CA-247413-Make-pxebs-accept-broadcast-DHCP-packets.patch
-Patch12: 0001-dhcp-Remove-obsolete-dhcp_chaddr-function.patch
-Patch13: 0002-dhcp-Allow-pseudo-DHCP-servers-to-use-pseudo-identif.patch
-Patch14: 0003-dhcp-Ignore-ProxyDHCPACKs-without-PXE-options.patch
-Patch15: 0004-dhcp-Do-not-skip-ProxyDHCPREQUEST-if-next-server-is-.patch
-Patch16: ipxe-238050dfd46e3c4a87329da1d48b4d8dde5af8a1.patch
-
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/ipxe.pg/archive?at=1.0.3&format=tar#/ipxe-source.patches.tar) = aab2a53c9c1dca65bf17fb73c707607aba916cc7
-
+Source0: ipxe-20121005.tar.gz
+Patch0: ipxe-eb5a2ba5962579e514b377f5fdab7292be0fb2a7.patch
+Patch1: ipxe-9df238a8aa1c6074f98280d9dfa08c4ea7e1ff86.patch
+Patch2: ipxe-66ea4581256449fe9dcb26340851c09ffd9d6290.patch
+Patch3: 0001-dhcp-Check-for-matching-chaddr-in-received-DHCP-pack.patch
+Patch4: 0001-pxe-Maintain-a-queue-for-received-PXE-UDP-packets.patch
+Patch5: pxe-tftp-load-from-program-pxecall.patch
+Patch6: ipxe-do-not-implement-UNDI-GET_NEXT-if-PVS.patch
+Patch7: ipxe-udp-write-blocking.patch
+Patch8: ipxe-no-post-prompt.patch
+Patch9: 0001-Check-Vendor-Class-ID-from-PROXYDHCP_SETTINGS_NAME.patch
+Patch10: 0001-CA-247413-Make-pxebs-accept-broadcast-DHCP-packets.patch
+Patch11: 0001-dhcp-Remove-obsolete-dhcp_chaddr-function.patch
+Patch12: 0002-dhcp-Allow-pseudo-DHCP-servers-to-use-pseudo-identif.patch
+Patch13: 0003-dhcp-Ignore-ProxyDHCPACKs-without-PXE-options.patch
+Patch14: 0004-dhcp-Do-not-skip-ProxyDHCPREQUEST-if-next-server-is-.patch
+Patch15: ipxe-238050dfd46e3c4a87329da1d48b4d8dde5af8a1.patch
+Patch16: serial-console.patch
 BuildArch: noarch
 
 BuildRequires: gcc
@@ -65,6 +66,7 @@ BuildRequires: mtools
 BuildRequires: mkisofs
 BuildRequires: binutils-devel
 BuildRequires: xz-devel
+%{?_cov_buildrequires}
 
 %description
 iPXE is an open source network bootloader. It provides a direct
@@ -73,19 +75,32 @@ DNS, HTTP, iSCSI, etc.
 
 %prep
 %autosetup -p1 -n %{src_name}-%{version}
+%{?_cov_prepare}
 
 %build
-make %{?_smp_mflags} -C src bin/rtl8139.rom
-make %{?_smp_mflags} -C src bin/8086100e.rom
+%{?_cov_wrap} make %{?_smp_mflags} -C src bin/rtl8139.rom
+%{?_cov_wrap} make %{?_smp_mflags} -C src bin/8086100e.rom
 
 %install
 cat src/bin/rtl8139.rom src/bin/8086100e.rom > src/bin/ipxe.bin
 install -D -m 0644 src/bin/ipxe.bin %{buildroot}/%{_datadir}/%{name}/ipxe.bin
+%{?_cov_install}
 
 %files
 %{_datadir}/%{name}/ipxe.bin
 
+%{?_cov_results_package}
+
 %changelog
+* Fri Feb 11 2022 Ross Lagerwall <ross.lagerwall@citrix.com> - 20121005-1.0.6
+- CP-38416: Enable static analysis
+
+* Tue Nov 30 2021 Ross Lagerwall <ross.lagerwall@citrix.com> - 20121005-1.0.5
+- CA-359977: Output to the serial console by default
+
+* Fri Dec 04 2020 Ross Lagerwall <ross.lagerwall@citrix.com> - 20121005-1.0.4
+- CP-35517: Bump release to rebuild
+
 * Fri Apr 12 2019 Ross Lagerwall <ross.lagerwall@citrix.com> - 20121005-1.0.3
 - CA-294898: Backport patch for gcc bug
 
