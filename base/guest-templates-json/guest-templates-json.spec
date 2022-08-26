@@ -1,14 +1,11 @@
+%global package_speccommit b01d26de04ca8b3a252343b9b4303bb4b4675100
+%global package_srccommit v1.10.1
 Name:    guest-templates-json
 Summary: Creates the default guest templates
-Version: 1.9.6
-Release: 1
+Version: 1.10.1
+Release: 2%{?xsrel}%{?dist}
 License: BSD
-
-Source0: https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.9.6&format=tar.gz&prefix=guest-templates-json-1.9.6#/guest-templates-json-1.9.6.tar.gz
-
-
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.9.6&format=tar.gz&prefix=guest-templates-json-1.9.6#/guest-templates-json-1.9.6.tar.gz) = 7c1a85a4cba851a1abb2f54d884f1345b648ee38
-
+Source0: guest-templates-json-1.10.1.tar.gz
 BuildArch: noarch
 
 Requires: xapi-core
@@ -26,7 +23,6 @@ Creates the default guest templates during first boot or package
 install/upgrade.
 
 %package data-pv
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.9.6&format=tar.gz&prefix=guest-templates-json-1.9.6#/guest-templates-json-1.9.6.tar.gz) = 7c1a85a4cba851a1abb2f54d884f1345b648ee38
 Summary: Contains the PV guest templates
 Requires(post): %{name} = %{version}-%{release}
 
@@ -34,7 +30,6 @@ Requires(post): %{name} = %{version}-%{release}
 Contains the PV guest templates.
 
 %package data-linux
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.9.6&format=tar.gz&prefix=guest-templates-json-1.9.6#/guest-templates-json-1.9.6.tar.gz) = 7c1a85a4cba851a1abb2f54d884f1345b648ee38
 Summary: Contains the default Linux guest templates
 Requires(post): %{name} = %{version}-%{release}
 
@@ -42,7 +37,6 @@ Requires(post): %{name} = %{version}-%{release}
 Contains the default Linux guest templates.
 
 %package data-windows
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.9.6&format=tar.gz&prefix=guest-templates-json-1.9.6#/guest-templates-json-1.9.6.tar.gz) = 7c1a85a4cba851a1abb2f54d884f1345b648ee38
 Summary: Contains the default Windows guest templates
 Requires(post): %{name} = %{version}-%{release}
 
@@ -50,7 +44,6 @@ Requires(post): %{name} = %{version}-%{release}
 Contains the default Windows guest templates.
 
 %package data-other
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/guest-templates-json/archive?at=v1.9.6&format=tar.gz&prefix=guest-templates-json-1.9.6#/guest-templates-json-1.9.6.tar.gz) = 7c1a85a4cba851a1abb2f54d884f1345b648ee38
 Summary: Contains the default other guest templates
 Requires(post): %{name} = %{version}-%{release}
 
@@ -183,17 +176,23 @@ fi
 %{templatedir}/other-install-media.json
 
 %changelog
-* Mon Oct 11 2021 Martin Harvey <martin.harvey@citrix.com> - 1.9.6-1
-- CP-38270: Windows Server 2022 template not experimental in yangtze.
+* Mon Aug 23 2021 Xihuan Yang <xihuan.yang@citrix.com> - 1.10.1-2
+- CP-37115: Update file size and sha256 in CHECKSUMS after include Windows Server 2022
 
-* Tue Sep 21 2021 Martin Harvey <martin.harvey@citrix.com> - 1.9.5-1
-- CP-37828: Commit windows server 2022 template into release
+* Tue Aug 10 2021 Xihuan Yang <xihuan.yang@citrix.com> - 1.10.1-1
+- CP-37115: Add Rocky Linux 8 template
 
-* Fri Aug 20 2021 Xihuan Yang <xihuan.yang@citrix.com> - 1.9.4-1
-- CP-37595: Add template for Rocky Linux 8
+* Thu Jul 08 2021 Ross Lagerwall <ross.lagerwall@citrix.com> - 1.10.0-1
+- Add Windows Server 2022 template
 
-* Wed Mar 17 2021 Xihuan Yang <xihuan.yang@citrix.com> - 1.9.2-1
-- CP-36311: add template for gooroom os
+* Fri Nov 06 2020 Xihuan Yang <xihuan.yang@citrix.com> - 1.9.2-1
+- CP-33714: add template for gooroom os
+
+* Thu Sep 10 2020 Ross Lagerwall <ross.lagerwall@citrix.com> - 1.9.1-1
+- CA-342292: Skip running if xensource-inventory does not exist
+
+* Wed Jun 24 2020 Ross Lagerwall <ross.lagerwall@citrix.com> - 1.9.0-1
+- CA-340484 improve error message when template import fails
 
 * Fri May 29 2020 Ross Lagerwall <ross.lagerwall@citrix.com> - 1.8.19-1
 - CP-33714: add template for gooroom os
