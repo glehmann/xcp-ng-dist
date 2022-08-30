@@ -1,15 +1,13 @@
+%global package_speccommit bb755d9778efa8174dbc5c6fd25337de1faafe7e
+%global package_srccommit v2.5.6
+
 Name: xen-crashdump-analyser
 Summary: Xen crashdump analyser
-Version: 2.5.5
-Release: 2
+Version: 2.5.6
+Release: 1%{?xsrel}%{?dist}
 License: GPL
 Group: Applications/System
-
-Source0: https://code.citrite.net/rest/archive/latest/projects/XS/repos/xen-crashdump-analyser/archive?at=v2.5.5&format=tar.gz&prefix=xen-crashdump-analyser-2.5.5#/xen-crashdump-analyser.tar.gz
-
-
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/xen-crashdump-analyser/archive?at=v2.5.5&format=tar.gz&prefix=xen-crashdump-analyser-2.5.5#/xen-crashdump-analyser.tar.gz) = fefca33e42b60670d7c5326c822a9ecb450a52a2
-
+Source0: xen-crashdump-analyser-2.5.6.tar.gz
 BuildRequires: gcc-c++
 %{?_cov_buildrequires}
 
@@ -44,6 +42,12 @@ instructions, examples and more.
 %{?_cov_results_package}
 
 %changelog
+* Wed Jun 01 2022 Roger Pau Monné <roger.pau@citrix.com> - 2.5.6-1
+- Remove shr_pages field usage to cope with upstream removal
+
+* Tue Nov 02 2021 Igor Druzhinin <igor.druzhinin@citrix.com> - 2.5.5-3
+- CP-38201: Enable static analysis with Coverity
+
 * Fri Feb 21 2020 Steven Woods <steven.woods@citrix.com> - 2.5.5-2
 - CP33120: Add Coverity build macros
 
