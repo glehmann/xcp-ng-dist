@@ -1,26 +1,30 @@
+%global package_speccommit 8f44f8aae53c53f47b194816c227ae47e878e3eb
+%global usver 6.58.0
+%global xsver 1
+%global xsrel %{xsver}%{?xscount}%{?xshash}
 ## This has to match the declaration in xs-opam-src, which
 ## creates the directory and makes it WORLD WRITABLE
 %global _opamroot %{_libdir}/opamroot
 
 Name: xs-opam-repo
-Version: 6.35.8
-Release: 3%{?dist}
+Version: 6.58.0
+Release: %{?xsrel}%{?dist}
 Summary: Build and install OCaml libraries from Opam repository
-License: Various
+# The license field is produced by running print-license.sh
+# Please update licenses.txt on every new version and then run the script to
+# keep these in sync.
+License: Apache-1.0 and BSD-2-Clause and BSD-3-Clause and GPL-1.0-or-later and GPL-2.0-only and ISC and LGPL-2.0-only with OCaml-LGPL-linking-exception and LGPL-2.0-only WITH OCaml-LGPL-linking-exception and LGPL-2.0-or-later and LGPL-2.0-or-later WITH OCaml-LGPL-linking-exception and LGPL-2.1-only and LGPL-2.1-only WITH OCaml-LGPL-linking-exception and LGPL-2.1-or-later WITH OCaml-LGPL-linking-exception and LGPL-2.1 with OCaml-LGPL-linking-exception and LGPL-3.0-only and LGPL-3.0-only WITH OCaml-LGPL-linking-exception and LGPL with OpenSSL linking exception and MIT and PSF
 URL:     https://github.com/xapi-project/xs-opam
-
-Source0: https://repo.citrite.net/ctx-local-contrib/xs-opam/xs-opam-repo-6.35.8.tar.gz
-
-
-Provides: gitsha(https://repo.citrite.net/ctx-local-contrib/xs-opam/xs-opam-repo-6.35.8.tar.gz) = aff7ba062f0924d7b51416d2bd81ba96e3d87106
-
-
-
+Source0: xs-opam-repo-6.58.0.tar.gz
 # To "pin" a package during development, see below the example
-# where qmp is pinned to its master branch. Note that currently
-# you can pin to a repository outside Citrix.
+# where ezxenstore is pinned to an internal master branch.
+# You need the Source1 line, and the below 'tar' and 'opam pin' lines, and comment-out the OPAMFETCH
+# Replace YOURUSER below with your CITRITE userid where you put the repo
+# (make sure you gave 'stash-users' read permissions on it)
+# Note that Jenkins will likely not pick up commits on this repo, and you have to hit 'Build Now'
+# when you want a new build.
+# Source1: https://code.citrite.net/rest/archive/latest/projects/~YOURUSER/repos/ezxenstore/archive?at=master&format=tar.gz&prefix=ezxenstore#/ezxenstore.tar.gz
 
-AutoReqProv: no
 BuildRequires: xs-opam-src >= 5.1.0
 
 Requires:      opam >= 2.0.0
@@ -36,18 +40,20 @@ BuildRequires: gmp
 BuildRequires: gmp-devel
 BuildRequires: hwdata
 BuildRequires: libffi-devel
-BuildRequires: libnl3
+BuildRequires: libnl3-devel
 BuildRequires: m4
 BuildRequires: ocaml
 BuildRequires: ocamldoc
 BuildRequires: opam >= 2.0.0
 BuildRequires: openssl-devel
+BuildRequires: pam-devel
 BuildRequires: pciutils-devel
 BuildRequires: perl
+BuildRequires: python
 BuildRequires: rsync
 BuildRequires: systemd-devel
 BuildRequires: which
-BuildRequires: xen-ocaml-devel
+BuildRequires: xen-ocaml-devel >= 4.13.3-10.10
 BuildRequires: zlib-devel
 BuildRequires: libev-devel
 
@@ -62,16 +68,19 @@ Toolstack components of the Citrix Hypervisor.
 %install
 
 PKG=""
-PKG="$PKG $(ls -1 packages/upstream | grep -v 'ppx_tools.*4.06.0')"
+PKG="$PKG $(ls -1 packages/upstream)"
 PKG="$PKG $(ls -1 packages/xs)"
 
-# install into the real opam root to avoid problems with 
+# install into the real opam root to avoid problems with
 # embedded paths.
 export OPAMROOT=%{_opamroot}
 # sandbox is incompatible with the xenctrl package
 opam init --disable-sandboxing -y local file://${PWD}
 opam switch create ocaml-system
-# opam pin add -n qmp 'https://github.com/xapi-project/ocaml-qmp.git#master'
+
+# To pin a package, uncomment the lines below, and adjust the name of the tarball you pinned
+# tar xvf %%{SOURCE1}
+# opam pin add -n ezxenstore/
 # comment out the next line if you use the "opam pin"
 export OPAMFETCH=/bin/false
 opam config exec -- opam install %{?_smp_mflags} -y $PKG
@@ -101,52 +110,319 @@ echo '%%_opamroot %%{_libdir}/opamroot' >> "%{buildroot}%{_rpmconfigdir}/macros.
 %{_opamroot}
 
 %changelog
-* Mon Sep 27 2021 Pau Ruiz Safont <pau.safont@citrix.com> - 6.35.8-3
-- Bump package for libev dependency
+* Mon Mar 07 2022 Pau Ruiz Safont <pau.safont@citrix.com> - 6.58.0-1
+- xs: add ounit as dependency to dlm
+- update ocamlfind to 1.9.3
+- upstream: add memtrace 0.2.1.2
+- update logs-syslog to 0.2.2
+- upstream: update metadata for existing packages
+- update rresult to 0.7.0
+- update rpclib packages to 8.1.1
+- update re to 1.10.3
+- update ipaddr packages to 5.2.0
+- update buenzli's unicode packages to 14.0.0
+- update mtime to 1.3.0
+- update conf-libev to 4-12
+- update ocplib-endian to 1.2
+- update topkg to 1.0.4
+- update fmt to 0.9.0
+- update asn1-combinators to 0.2.6
+- update lwt-dllist to 1.0.1
+- update sha to 1.15.1
+- update domain-name to 0.3.1
+- update duration to 0.2.0
+- update uri packages to 4.2.0
+- update tyxml to 4.5.0
+- update lwt packages to 5.5.0
+- update ocaml-compiler-libs to v.0.12.4
+- update ocaml-version to 3.1.0
+- update magic-mime to 1.2.0
+- update cppo to 1.6.8
+- update eqaf to 0.8
+- update bigstringaf to 0.8.0
+- update integers to 0.5.1
+- update cstruct packages to 6.0.1
+- update menhir libraries to 20211128
+- Update qcheck packages to 0.18
+- update janestreet packages to their latest 0.14.x version
+- upstream: update alcotest to 1.5.0
+- CP-38617: expose xentoollog as a package and use it
+- CA-359981: Replace 'typeof OCaml system' with a recognized SPDX
+- ci: package and publish tarball to github on tag
+- maintenance: drop previous ocaml versions
+- CA-359981: Tweak licenses to avoid duplicates
 
-* Mon Sep 27 2021 Pau Ruiz Safont <pau.safont@citrix.com> - 6.35.8-2
-- Bump package after xs-opam update
+* Fri Feb 18 2022 Pau Ruiz Safont <pau.safont@citrix.com> - 6.57.0-3
+- CA-359981: Include licenses.txt with all the libraries' licenses
+- CA-359981: Populate license field with all the pertinent licenses
 
-* Thu Sep 23 2021 Pau Ruiz Safont <pau.safont@citrix.com> - 6.35.8-1
-- CA-341597: add conf-libev
-- CA-341597: Use the lcm branch for varstored-guard
-- CA-341597: add libev as dependency
-- CA-341597: make libev available to packages that depend on xs-opam-repo
+* Tue Feb 15 2022 Rob Hoes <rob.hoes@citrix.com> - 6.57.0-2
+- Bump release and rebuild with OCaml 4.13.1 compiler.
 
-* Mon Aug 23 2021 Pau Ruiz Safont <pau.safont@citrix.com> - 6.35.7-1
-- xs: update xapi-inventory to actually use dune
-- maintenance: fix ocaml compilation with GCC 10 and later
-- maintenance: fix depexts
-- CP-38064: update ppxlib to 0.13.0 and dependents
+* Fri Feb 04 2022 Pau Ruiz Safont <pau.safont@citrix.com> - 6.57.0-1
+- update libraries to be compatible with OCaml 4.13:
+- upstream: update ocamlformat to 0.19.0
+- upstream: update vhd-format to 0.12.2
+- upstream: update JST libraries for ocaml 4.13.1
+- upstream: update ppx_tools to 6.4
+- upstream: update ppxlib to 0.22.2
+- upstream: upgrade ocaml-migrate-parsetree to 2.3.0
+
+* Tue Jan 25 2022 Christian Lindig <christian.lindig@citrix.com> - 6.56.0-1
+- CA-359981: Use correct SPDX identifiers
+- CI: add stockholm LCM badge
+- ci: detect unused packages
+- CI: update status badge
 - ci: use updated container images
-- Rename stockholm to yangtze in xs-opam-ci.env
-- Update workflow for yangtze branch
-- CP-37282: Update mock xenctrl for TSX changes
+- conduit: allow turning TLS hostname verification off by setting..
+- CP-34942: Update dune to 2.9.0
+- CP-34942: Update dune to 2.9.1
+- CP-34942: Update ocamlfind to 1.9.1
+- CP-34942: update unix-errno
+- CP-37034: add tyre: library for typed regular expressions
+- CP-37368: merge xapi-idl into message-switch
+- CP-37369: merge squeezed into xenopsd
+- CP-37931: merge forkexecd into message-switch
+- CP-38206: transitional libs are in the xapi's main repo
+- maintenance: fix depexts
+- maintenance: remove mentions of docker in the readme
+- maintenance: remove unused conf-m4
+- maintenance: remove unused upstream packages
+- maintenance: schedule builds for the yangtze branch
+- remove xapi-libs-transitional metapackage
+- specsavers: merge xapi-storage(-script) into message-switch
+- specsavers: merge xcp-networkd into xen-api
+- specsavers: merge xen-api-client into xen-api
+- specsavers: merge xenopsd into xen-api
+- specsavers move message-switch code to xen-api
+- specsavers: move remaining independent daemons to xen-api
+- specsavers move xen-api-sdk code to xen-api
+- specsavers: relocate vhd-tool
+- specsavers: remove tapctl
+- specsavers: rrdd-plugins -> xcp-rrdd
+- specsavers: xcp-rrdd -> xapi
+- upstream: update ctypes to 0.19.1
+- upstream: update python2-7 to 1.2
+- upstream: update unix-errno to 0.6.0
+- xs-extra: stop using archive/master/master.tar.gz
+- xs-extra: update metadata from xen-api repo
+- xs-extra: use -j parameter to run tests
+- xs: update dlm to 0.3.2
+- xs: update xapi-inventory to 1.2.2
+- Use the official cache as a mirror
+- repo: use local folder as well for cache
+
+* Tue Jan 11 2022 Rob Hoes <rob.hoes@citrix.com> - 6.54.0-5
+- Bump release and rebuild
+
+* Mon Dec 06 2021 Rob Hoes <rob.hoes@citrix.com> - 6.54.0-4
+- Bump release and rebuild
+
+* Thu Sep 16 2021 Rob Hoes <rob.hoes@citrix.com> - 6.54.0-3
+- Bump release and rebuild
+
+* Thu Jun 24 2021 Edwin Török <edvin.torok@citrix.com> - 6.54.0-2
+- CP-37034: rebuild with new xenctrl
+
+* Wed Jun 23 2021 Pau Ruiz Safont <pau.safont@citrix.com> - 6.54.0-1
+- CP-34942: update lwt to 5.4.1
+- CP-34942: update pci to 1.0.4
+- CP-34643: Update xapi-stdext packages to 4.18.0
+- CP-34942: Update ppxlib to 0.22.1
+- xs-extra: add lwt to xapi-idl's dependencies
+- CP-36097 REQ-403 patch ocaml-conduit
+- maintenance: point to correct versions of conduit
+
+* Thu May 20 2021 Pau Ruiz Safont <pau.safont@citrix.com> - 6.53.0-1
+- Update toolstack packages to use nbd-unix
+- CP-34942: Update ppxlib and mirage ecosystem
 - fix: broken links from inria's gitlab
-- maintenance: pin stockholm branches in xs-extra
+- Upgrade upstream-extra packages
+- upstream-extra: add charInfo_width, required by zed
+- CP-34942: Update alcotest packages to 1.3.0
+- CP-34942: update asn1-combinators to 0.2.5
+- CP-34942: update ocaml-lsp-server to 1.4.1
+- CP-34942: update fix to 20201120
+- CP-34942: update menhir packages to 20210310
+- CP-34942: update csexp to 1.5.1
+- CP-34942: Update odoc to 1.5.2
+- CP-34942: update sha to 1.14
+- CP-34942: update zarith to 1.12
+- CP-34942: update conf-libssl and conf-pkg-config packages
+- CP-34942: update polly to 0.2.2
+- CP-34942: update dune packages to 2.8.5
+- CP-34942: update base64 to 3.5.0
+- CP-34675: Update default OCaml to 4.10.1
+- CP-34942: update dune packages to 2.8.4
+- xs-extra: update xapi.master to use external pci library
+- xs: update xapi-stdext packages to v4.17.0
 
-* Tue Jul 13 2021 Edwin Török <edvin.torok@citrix.com> - 6.35.6-2
-- CP-37236: rebuild for new Xenctrl
+* Fri Feb 26 2021 Rob Hoes <rob.hoes@citrix.com> - 6.52.0-2
+- Bump release to rebuild
 
-* Mon Feb 15 2021 Ben Anson <ben.anson@citrix.com> - 6.35.6-1
-- UPD-678 bump ezxenstore to v0.4.1
+* Mon Feb 15 2021 Christian Lindig <christian.lindig@citrix.com> - 6.52.0-1
+- fix: downgrade ocaml-ssl to 0.5.9
+- fix: update cstruct-sexp to 5.2.0
 
-* Thu Feb 11 2021 Ben Anson <ben.anson@citrix.com> - 6.35.5-1
-- CA-350872: backport change in rsa check
+* Mon Feb 15 2021 Christian Lindig <christian.lindig@citrix.com> - 6.50.0-1
+- CP-34942: update dune packages to 2.8.2
+- CP-34942:  update ocaml-compiler-libs to v0.12.3
+- CP-34942: update stdlib-shims to 0.3.0
+- CP-34942: update integers to 0.4.0
+- CP-34942: update ctypes to 0.17.1
+- CP-34942: update num to 1.4
+- CP-34942: update zarith to 1.11
+- CP-34942: update bigstringaf to 0.7.0
+- CP-34942: update magic-mime to 1.1.3
+- CP-34942: update cppo to 1.6.7
+- CP-34942: update ppx_tools to 6.3
+- CP-34942: update ocaml-migrate-parsetree to 1.8.0
+- CP-34942: update ssl to 0.5.10
+- CP-34942: update lwt to 5.4.0
+- CP-34942: update ezjsonm to 1.2.0
+- CP-34942: update menhir packages to 20201216
+- CP-34942: update ounit packages
+- CP-34942: update uri packages to 4.1.0
+- CP-34942: update conf packages
+- CP-34942: update base and core to v0.14.1
+- CP-34942: update cstruct packages
+- CP-34942: refresh ctypes-foreign
+- xs-extra-dummy: add ocaml-lsp-server
+- xs-extra-dummy: alcotest-lwt is a build-dep
+- upstream-extra: update ocaml-lsp-server to 1.4.0
+- upstream-extra: update merlin packages to 3.4.2
 
-* Thu Feb 11 2021 Ben Anson <ben.anson@citrix.com> - 6.35.4-1
+
+* Mon Jan 25 2021 Christian Lindig <christian.lindig@citrix.com> - 6.49.0-1
+- tools: include script used for syncing metadata
+- maintenance: sync packages from default repo
+- CA-350872: update mirage-crypto packages
+- fixup! Update xenstore_transport to 1.3.0
+- Update xenstore_transport to 1.3.0
+- Update xenstore_transport to 1.2.0
+- detect failed downloads
 - detect failed downloads
 
-* Thu Feb 11 2021 Ben Anson <ben.anson@citrix.com> - 6.35.3-1
-- maintenance: fix broken links for oasis, ocamlify, ocamlmod
+* Tue Jan 5 2021 Ben Anson <ben.anson@citrix.com> - 6.48.0-1
+-  maintenance: bump stdext
 
-* Thu Feb 11 2021 Ben Anson <ben.anson@citrix.com> - 6.35.2-1
-- bump stdext to v4.11.2
+* Thu Dec 17 2020 Pau Ruiz Safont <pau.safont@citrix.com> - 6.47.0-2
+- Added BuildRequires for the conf-* packages added in 6.47
+- Remove special case to ignore outdated ppx_tools packages, it's not used anymore.
+
+* Wed Dec 16 2020 Christian Lindig <christian.lindig@citrix.com> - 6.47.0.1
+- maintenance: use profile release for http-svr
+- maintenance: bump stdext
+- xs: update xapi-rrd to 1.8.2
+- xs: update nbd packages to 4.0.3
+- CP-34942: update opam-depext to 1.1.5
+- maintenance: cleanup depexts
+- xs-extra: update opam metadata
+- ci: detect if there are packages with multiple versions
+- upstream: add conf-libnl3 and conf-xen
+
+* Tue Dec 01 2020 Christian Lindig <christian.lindig@citrix.com> - 6.46.0-1
+- fix: remove ppxlib 0.13.0, since a newer version is available
+
+* Tue Dec 01 2020 Christian Lindig <christian.lindig@citrix.com> - 6.45.0-1
+- ci: drop Travis
+- ci: enable caching for versioned packages
+- ci: fix failure to download apt packages
+- ci: refresh opam metadata before trying to upgrade packages
+- ci: stop using container-based workflow
+- CP-33121: remove stdext package metadata
+- CP-34942: update angstrom to 0.15.0 (breaking change)
+- CP-34942: Update bisect_ppx to 2.5.0
+- CP-34942: update dbuenzli packages
+- CP-34942: update dune packages to 2.7.1
+- CP-34942: update jst packages
+- CP-34942: update lwt to 5.3.0
+- CP-34942: update mirage crypto libraries and libssl
+- CP-34942: update mirage's addresses library
+- CP-34942: update testing frameworks
+- maintenance: sync toolstack package metadata
+- maintenance: update github actions dependency
+- readme: replace ci instructions to use github actions
 - tools: change distro variable for travis CI
-- stockholm: point to lcm branches
+- upstream-extras: add ocaml-lsp-server package
 
-* Mon Sep 28 2020 Ben Anson <ben.anson@citrix.com> - 6.35.1-1
-- CA-342171 bump stdext for Stockholm
+* Tue Nov 17 2020 Edwin Török <edvin.torok@citrix.com> - 6.44.0-2
+- Re-enabled automatic ocaml dependency generator
+
+* Thu Nov 05 2020 Christian Lindig <christian.lindig@citrix.com> - 6.44.0-1
+- travis: create switch for 4.10.1
+- CP-34675: use ocaml 4.10.1 instead of 4.10.0
+- CP-32673: replace ocaml-rrdd-plugin with xcp-rrdd
+
+* Tue Oct 06 2020 Christian Lindig <christian.lindig@citrix.com> - 6.43.0-1
+- fix: update cstruct-sexp to 5.1.1
+
+* Mon Oct 05 2020 Christian Lindig <christian.lindig@citrix.com> - 6.42.0-1
+- Update rpclib to 8.0.0
+- xs-extra: use jobs for compiling and testing when using dune
+- Revert "xs-extra: pin fixes for rpclib 7"
+- xs-extra: pin fixes for rpclib 7
+- Use ocaml 4.10 instead of 4.09 in CI builds
+- maintenance: bump ocaml-pci
+- Add xs/polly.0.2.0
+
+* Thu Aug 13 2020 Christian Lindig <christian.lindig@citrix.com> - 6.41.0-1
+- Update ezxenstore to 0.4.1 for CA-342986
+
+* Tue Aug 11 2020 Christian Lindig <christian.lindig@citrix.com> - 6.40.0-1
+- Update stdext to 4.14.0
+- Update xapi-stdext to 4.13.0 for time handling
+- CP-32672 add dune-build-info lib to xapi-rrdd
+- CP-32672 merge rrd-transport into xcp-rrdd
+- add dune-build-info
+
+* Tue Jul 28 2020 Christian Lindig <christian.lindig@citrix.com> - 6.39.0-1
+- Move uucp to upstream as required by uuseg
+- maintenance: drop opasswd
+
+* Mon Jul 27 2020 Christian Lindig <christian.lindig@citrix.com> - 6.38.0-1
+-  maintenance: remove unused packages
+-  maintenance: refresh packages to run cleanup tool
+-  ocamlformat: move dependencies to upstream
+-  CP-34356: update xs-extra packages
+-  CP-33121: Update stdext modules
+-  Update README for Docker use case (#497)
+-  Add nolicense target to report pkgs w/o license
+-  Add licenses target to report them
+-  CP-34439: merge rrd2csv into xen-api
+-  maintenance: replace xenops-cli with xapi-xenopsd-cli
+-  xs: update xapi-test-utils to 1.4.0
+-  ci: do not limit builds to master branch
+-  xs-extra: sync metadata with repositories
+-  Move ocamlformat to upstream/ so we build it by default
+-  maintenance: remove packages hosted in the xenops repository
+-  xs-extra: update opam metadata from repositories
+-  ci: schedule jobs for stockholm lcm branch
+
+* Mon Jul 13 2020 Christian Lindig <christian.lindig@citrix.com> - 6.37.0-1
+- xs: update nbd packages to 4.0.2
+- xs: do not specify version in file for crc
+- ci: get notified when 4.09 breaks
+- upstream: update base metadata ocaml bounds
+- maintenance: remove ocaml 4.07.1 from repo
+- maintenance: use 4.09.1 instead of 4.09.0
+- ci: choose container depending on ocaml version
+- updated alcotest to 1.1.0
+- maintenance: remove unmaintained xenctrlext library
+- ci: enable github action for stockholm branch
+- ci: run daily to detect breaking changes in xs-extra
+- CI: run only jobs with tests
+- ci: remove job for testing all upstream packages
+- Travis: use debian-10-ocaml-4.08
+- github actions: enable builds on pull requests
+- CI: use valid names whe nexporting env vars
+- ci: enable github actions on PRs and tags
+- CI: ensure env vars are picked correctly on github actions
+
+* Wed Jun 24 2020 Edwin Török <edvin.torok@citrix.com> - 6.36.0-1
+- CA-341597: add conf-libev
+- maintenance: remove obsolete packages
+- upstream opam file and CI changes
 
 * Tue May 12 2020 Christian Lindig <christian.lindig@citrix.com> - 6.35.0-1
 - CA-338596: Update xe to use fpath
