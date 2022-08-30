@@ -1,15 +1,12 @@
+%global package_speccommit 22f6030293d6c199b094ea63363919dffba78b52
+%global package_srccommit v10.1.13
 Summary: XCP-ng Host Configuration Console
 Name: xsconsole
 Version: 10.1.13
-Release: 1.1%{?dist}
+Release: 1%{?xsrel}%{?dist}
 License: GPL2
 Group: Administration/System
-
-Source0: https://code.citrite.net/rest/archive/latest/projects/XSU/repos/xsconsole/archive?at=v10.1.13&format=tar.gz&prefix=xsconsole-10.1.13#/xsconsole.tar.gz
-
-
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XSU/repos/xsconsole/archive?at=v10.1.13&format=tar.gz&prefix=xsconsole-10.1.13#/xsconsole.tar.gz) = 856ce4c4438905f71fe915597ad803e9c3cfb47a
-
+Source0: xsconsole-10.1.13.tar.gz
 Provides: xsconsole0
 BuildRequires: python2-devel
 BuildRequires: systemd
@@ -57,27 +54,22 @@ Console tool for configuring a XCP-ng installation.
 %{_unitdir}/xsconsole.service
 
 %changelog
-* Mon Dec 20 2021 Samuel Verschelde <stormi-xcp@ylix.fr> - 10.1.13-1.1
-- Sync with CH 8.2.1
-- Remove patches contributed and merged upstream
-- *** Upstream changelog ***
-- * Fri Jul 09 2021 Ross Lagerwall <ross.lagerwall@citrix.com> - 10.1.13-1
-- - Display 'Ext' instead of 'Ext3' for `ext` SRs
-- - CA-355872: Use XAPI to edit DNS entries within xsconsole
-- - Display clearer error message when XAPI unreachable
-- - rework is_master to raise in case of failure
-- * Fri Feb 19 2021 Ross Lagerwall <ross.lagerwall@citrix.com> - 10.1.12-1
-- - CA-348699: Fix full version display if the build number is empty
-
-* Thu Mar 04 2021 Benjamin Reis <benjamin.reis@vates.fr> - 10.1.11-1.2
-- Add xsconsole-10.1.11-fix-DNS-storage-entries-by-xsconsole.XCP-ng.patch
-
-* Wed Jul 01 2020 Samuel Verschelde <stormi-xcp@ylix.fr> - 10.1.11-1.1
-- Rebase on CH 8.2
+* Tue Aug 30 2022 Samuel Verschelde <stormi-xcp@ylix.fr> - 10.1.13-1.1
+- Rebase on CH 8.3 Preview
 - Re-remove incloudsphere subpackage
 - Keep xsconsole-10.1.9-rebrand-xsconsole-service.XCP-ng.patch
 - Keep xsconsole-10.1.9-define-xcp-ng-colors.XCP-ng.patch
-- Keep xsconsole-10.1.10-replace-ext3-with-ext.XCP-ng.patch
+
+* Fri Jul 09 2021 Ross Lagerwall <ross.lagerwall@citrix.com> - 10.1.13-1
+- Switch upstream to GitHub
+- Display 'Ext' instead of 'Ext3' for `ext` SRs
+- CA-355872: Use XAPI to edit DNS entries within xsconsole
+- Display clearer error message when XAPI unreachable
+- rework is_master to raise in case of failure
+
+* Fri Feb 19 2021 Ross Lagerwall <ross.lagerwall@citrix.com> - 10.1.12-1
+- Add version to tarball filename
+- CA-348699: Fix full version display if the build number is empty
 
 * Wed Jan 08 2020 Ross Lagerwall <ross.lagerwall@citrix.com> - 10.1.11-1
 - CA-310799: Fix performance information
