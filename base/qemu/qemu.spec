@@ -1,3 +1,9 @@
+%global package_speccommit d47f2fa35652f4fda02abbf4cf8f5b6aade2b33e
+%global usver 4.2.1
+%global xsver 5.0.6
+%global xsrel %{xsver}%{?xscount}%{?xshash}
+%global package_srccommit v4.2.1
+
 # submodule ui/keycodemapdb
 %define keycodemapdb_cset 6b3d716e2b6472eb7189d3220552280ef3d832ce
 %define keycodemapdb_path ui/keycodemapdb
@@ -9,18 +15,16 @@ Summary: qemu-dm device model
 Name: qemu
 Epoch: 2
 Version: 4.2.1
-Release: 4.6.2.1%{?dist}
+Release: %{?xsrel}%{?dist}
 License: GPL
 Requires: xcp-clipboardd
 Requires: xengt-userspace
 ## We broke an interface used by xenopsd-xc without version signalling
 ## so we have to carry a conflicts line to say we broke it.
 Conflicts: xenopsd-xc < 0.123.0
-
-Source0: qemu.tar.gz
-Source1: SOURCES/qemu/qemu_trad_image.py
-Source2: https://code.citrite.net/rest/archive/latest/projects/XSU/repos/keycodemapdb/archive?at=6b3d716e2b6472eb7189d3220552280ef3d832ce&format=tar.gz&prefix=ui/keycodemapdb#/keycodemapdb-6b3d716e2b6472eb7189d3220552280ef3d832ce.tar.gz
-
+Source0: qemu-4.2.1.tar.gz
+Source1: qemu_trad_image.py
+Source2: keycodemapdb-6b3d716e2b6472eb7189d3220552280ef3d832ce.tar.gz
 Patch0: 0001-usb-fix-setup_len-init-CVE-2020-14364.patch
 Patch1: 0001-scripts-qmp-Fix-shebang-and-imports.patch
 Patch2: 0001-xen-rework-pci_piix3_xen_ide_unplug.patch
@@ -101,9 +105,6 @@ Patch76: do_not_register_xen_backend_for_qdisk.patch
 Patch77: add-an-ide-read-cache.patch
 Patch78: disable-dirty-vram-tracking.patch
 Patch79: build-configuration.patch
-
-Provides: gitsha(ssh://git@code.citrite.net/XSU/qemu.git) = 6cdf8c4efa073eac7d5f9894329e2d07743c2955
-Provides: gitsha(ssh://git@code.citrite.net/XS/qemu.pg.git) = d0c5a0ab4d584544185763863efe52acdd4b1a5b
 
 BuildRequires: gcc
 BuildRequires: python2-devel
@@ -190,25 +191,34 @@ cp -r scripts/qmp %{buildroot}%{_datarootdir}/qemu
 %{?_cov_results_package}
 
 %changelog
-* Wed Jul 20 2022 Gael Duperrey <gduperrey@vates.fr> - 4.2.1-4.6.2.1
-- Sync to hotfix XS82ECU1013
-- *** Upstream changelog ***
-- * Wed May 25 2022 Ross Lagerwall <ross.lagerwall@citrix.com> - 4.2.1-4.6.2
-- - CA-366527: Fix passthrough of multiple different devices
-- - CA-362592: Fix mapcache/iothread SIGBUS
+* Tue Jun 14 2022 Ross Lagerwall <ross.lagerwall@citrix.com> - 4.2.1-5.0.6
+- CA-366527: Fix passthrough of multiple different devices
 
-* Fri Dec 17 2021 Samuel Verschelde <stormi-xcp@ylix.fr> - 4.2.1-4.6.1.1
-- Sync with CH 8.2.1
-- *** Upstream changelog ***
-- * Fri Jul 16 2021 Anthony PERARD <anthony.perard@citrix.com> - 4.2.1-4.6.1
-- - CP-36452: Import patch queue from trunk / QEMU 4.2
+* Fri Feb 25 2022 Ross Lagerwall <ross.lagerwall@citrix.com> - 4.2.1-5.0.5
+- CA-362592: Fix mapcache/iothread SIGBUS
 
-* Wed Jun 23 2021 Samuel Verschelde <stormi-xcp@ylix.fr> - 2.10.2-4.5.4
-- Security update, synced from XS82E025
+* Thu Feb 10 2022 Ross Lagerwall <ross.lagerwall@citrix.com> - 4.2.1-5.0.4
+- CP-38416: Enable static analysis
 
-* Tue Aug 25 2020 Samuel Verschelde <stormi-xcp@ylix.fr> - 2.10.2-4.5.3
-- Security update
-- See http://xenbits.xen.org/xsa/advisory-335.html
+* Mon May 10 2021 Ross Lagerwall <ross.lagerwall@citrix.com> - 4.2.1-5.0.3
+- CA-352456: Backport aio-posix: fix use after leaving scope in aio_poll()
+- Fix patch Update-fd-handlers-to-support-sysfs_notify
+- CA-352456: Fix QEMU memory corruption during migration
+
+* Tue Apr 13 2021 Ross Lagerwall <ross.lagerwall@citrix.com> - 4.2.1-5.0.2
+- CP-36580: Replace legacy xen-dom0-devel alias
+- CA-352135: Fix CVE-2021-20257 - e1000 infinite loop
+- CA-352998: Fix CVE-2021-3416 - infinite loop in net loopback mode
+
+* Fri Feb 19 2021 Ross Lagerwall <ross.lagerwall@citrix.com> - 4.2.1-5.0.1
+- CA-351961: Fix OOB accesses in ATAPI emulation
+
+* Thu Jan 28 2021 Anthony PERARD <anthony.perard@citrix.com> - 4.2.1-5.0.0
+- CP-33898: Upgrade QEMU to 4.2.1 upstream release
+
+* Thu Sep 10 2020 Ross Lagerwall <ross.lagerwall@citrix.com> - 2.10.2-4.6.0
+- CA-343524: XSA-335: Buffer overrun in QEMU USB subsystem
+- CA-343531: CVE-2018-17598: Buffer overflow in rtl8139_do_receive
 
 * Thu Apr 30 2020 Ross Lagerwall <ross.lagerwall@citrix.com> - 2.10.2-4.5.2
 - CA-3216958: Move vgpu fifo to tempfs
