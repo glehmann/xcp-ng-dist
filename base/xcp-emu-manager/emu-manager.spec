@@ -4,7 +4,7 @@
 
 Name:           xcp-emu-manager
 Version:        1.1.3
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Tool used for managing xenguest
 License:        GPLv3
 URL:            https://github.com/xcp-ng/xcp-emu-manager
@@ -42,6 +42,9 @@ cd build
 %{_libdir}/xen/bin/emu-manager
 
 %changelog
+* Fri Sep 16 2022 Samuel Verschelde <stormi-xcp@ylix.fr> - 1.1.3-2
+- Rebuild for XCP-ng 8.3 alpha
+
 * Thu Jul 16 2020 Ronan Abhamon <ronan.abhamon@vates.fr> - 1.1.3-1
 - New version 1.1.3
 - Fix suspend action for XCP-ng 8.2
