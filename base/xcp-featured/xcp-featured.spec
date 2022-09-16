@@ -9,7 +9,7 @@ Source0:        https://github.com/xcp-ng/xcp-featured/archive/v%{version}/xcp-f
 Source1:        v6d.service
 BuildRequires:  systemd-devel
 BuildRequires:  xs-opam-repo
-BuildRequires:  ocaml-xcp-idl-devel
+BuildRequires:  xapi-idl-devel
 BuildRequires:  xapi-client-devel
 
 %{?systemd_requires}
@@ -46,6 +46,7 @@ ln -s /opt/xensource/libexec/xcp-featured %{buildroot}/opt/xensource/libexec/v6d
 %changelog
 * Fri Sep 16 2022 Samuel Verschelde <stormi-xcp@ylix.fr> - 1.1.3-4
 - Rebuild for XCP-ng 8.3 alpha
+- Update Buildrequires: ocaml-xcp-idl-devel => xapi-idl-devel
 
 * Tue Jan 11 2022 Samuel Verschelde <stormi-xcp@ylix.fr> - 1.1.3-3
 - Rebuild for XCP-ng 8.2.1
