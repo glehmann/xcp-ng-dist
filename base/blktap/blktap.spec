@@ -3,7 +3,7 @@
 Summary: blktap user space utilities
 Name: blktap
 Version: 3.51.6
-Release: 1%{?xsrel}%{?dist}
+Release: 1.1%{?xsrel}%{?dist}
 License: BSD
 Group: System/Hypervisor
 URL: https://github.com/xapi-project/blktap
@@ -133,6 +133,9 @@ fi
 %{?_cov_results_package}
 
 %changelog
+* Fri Sep 16 2022 Samuel Verschelde <stormi-xcp@ylix.fr> - 3.51.6-1.1
+- Rebuild for *downgraded* cmocka (because of samba's build)
+
 * Wed May 18 2022 Mark Syms <mark.syms@citrix.com> - 3.51.6-1
 - CA-366761: fix off by one size calculation in snprintf
 
