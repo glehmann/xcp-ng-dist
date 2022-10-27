@@ -1,6 +1,6 @@
 Name:           xcp-featured
-Version:        1.1.3
-Release:        4%{?dist}
+Version:        1.1.4
+Release:        1%{?dist}
 Summary:        XCP-ng feature daemon
 Group:          System/Hypervisor
 License:        ISC
@@ -44,6 +44,9 @@ ln -s /opt/xensource/libexec/xcp-featured %{buildroot}/opt/xensource/libexec/v6d
 %{_unitdir}/v6d.service
 
 %changelog
+* Thu Oct 27 2022 Benjamin Reis <benjamin.reis@vates.fr> - 1.1.4-1
+- Update to 1.1.4
+
 * Fri Sep 16 2022 Samuel Verschelde <stormi-xcp@ylix.fr> - 1.1.3-4
 - Rebuild for XCP-ng 8.3 alpha
 - Update Buildrequires: ocaml-xcp-idl-devel => xapi-idl-devel
