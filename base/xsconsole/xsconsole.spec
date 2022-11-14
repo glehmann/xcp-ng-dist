@@ -3,7 +3,7 @@
 Summary: XCP-ng Host Configuration Console
 Name: xsconsole
 Version: 10.1.13
-Release: 1%{?xsrel}%{?dist}
+Release: 1.2%{?xsrel}%{?dist}
 License: GPL2
 Group: Administration/System
 Source0: xsconsole-10.1.13.tar.gz
@@ -17,7 +17,7 @@ Requires(postun): systemd
 
 # XCP-ng patches
 Patch1000: xsconsole-10.1.9-rebrand-xsconsole-service.XCP-ng.patch
-Patch1001: xsconsole-10.1.9-define-xcp-ng-colors.XCP-ng.patch
+Patch1001: xsconsole-10.1.13-define-xcp-ng-colors.XCP-ng.patch
 
 %description
 Console tool for configuring a XCP-ng installation.
@@ -54,6 +54,10 @@ Console tool for configuring a XCP-ng installation.
 %{_unitdir}/xsconsole.service
 
 %changelog
+* Mon Nov 14 2022 Yann Dirson <yann.dirson@vates.fr> - 10.1.13-1.2
+- Update colors to match new branding
+- Bump patchname to xsconsole-10.1.13-define-xcp-ng-colors.XCP-ng.patch
+
 * Tue Aug 30 2022 Samuel Verschelde <stormi-xcp@ylix.fr> - 10.1.13-1.1
 - Rebase on CH 8.3 Preview
 - Re-remove incloudsphere subpackage
