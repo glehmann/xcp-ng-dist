@@ -1,0 +1,67 @@
+From b8675deaa819631db2667df63f89799fe65fc906 Mon Sep 17 00:00:00 2001
+From: Stefan Berger <stefanb@linux.vnet.ibm.com>
+Date: Wed, 15 Sep 2021 09:25:04 +0800
+Subject: [PATCH 1/1] OvmfPkg: Handle TPM 2 physical presence opcodes much
+ earlier
+
+Handle the TPM 2 physical presence interface (PPI) opcodes in
+PlatformBootManagerBeforeConsole() before the TPM 2 platform hierarchy
+is disabled. Since the handling of the PPI opcodes may require inter-
+action with the user, initialize the keyboard before handling PPI codes.
+
+Cc: Rebecca Cran <rebecca@bsdio.com>
+Cc: Peter Grehan <grehan@freebsd.org>
+Cc: Brijesh Singh <brijesh.singh@amd.com>
+Cc: Erdem Aktas <erdemaktas@google.com>
+Cc: James Bottomley <jejb@linux.ibm.com>
+Cc: Jiewen Yao <jiewen.yao@intel.com>
+Cc: Min Xu <min.m.xu@intel.com>
+Cc: Tom Lendacky <thomas.lendacky@amd.com>
+Cc: Ard Biesheuvel <ardb+tianocore@kernel.org>
+Cc: Jordan Justen <jordan.l.justen@intel.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
+Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
+Reviewed-by: Jiewen Yao <Jiewen.yao@intel.com>
+diff --git a/OvmfPkg/Library/PlatformBootManagerLib/BdsPlatform.c b/OvmfPkg/Library/PlatformBootManagerLib/BdsPlatform.c
+index 57870cb856..5dad970512 100644
+--- a/OvmfPkg/Library/PlatformBootManagerLib/BdsPlatform.c
++++ b/OvmfPkg/Library/PlatformBootManagerLib/BdsPlatform.c
+@@ -388,8 +388,18 @@ PlatformBootManagerBeforeConsole (
+     SaveS3BootScript ();
+   }
+ 
++  // We need to connect all trusted consoles for TCG PP. Here we treat all
++  // consoles in OVMF to be trusted consoles.
++  PlatformInitializeConsole (gPlatformConsole);
++
++  //
++  // Process TPM PPI request; this may require keyboard input
++  //
++  Tcg2PhysicalPresenceLibProcessRequest (NULL);
++
+   //
+   // Prevent further changes to LockBoxes or SMRAM.
++  // Any TPM 2 Physical Presence Interface opcode must be handled before.
+   //
+   Handle = NULL;
+   Status = gBS->InstallProtocolInterface (&Handle,
+@@ -403,7 +413,6 @@ PlatformBootManagerBeforeConsole (
+   //
+   EfiBootManagerDispatchDeferredImages ();
+ 
+-  PlatformInitializeConsole (gPlatformConsole);
+   PcdStatus = PcdSet16S (PcdPlatformBootTimeOut,
+                 GetFrontPageTimeoutFromQemu ());
+   ASSERT_RETURN_ERROR (PcdStatus);
+@@ -1516,11 +1525,6 @@ PlatformBootManagerAfterConsole (
+   //
+   PciAcpiInitialization ();
+ 
+-  //
+-  // Process TPM PPI request
+-  //
+-  Tcg2PhysicalPresenceLibProcessRequest (NULL);
+-
+   //
+   // Process QEMU's -kernel command line option
+   //

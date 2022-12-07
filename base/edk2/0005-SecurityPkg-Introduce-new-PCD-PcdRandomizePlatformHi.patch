@@ -1,0 +1,45 @@
+From f108178c569c189b4a63417b50154c51ed1b986a Mon Sep 17 00:00:00 2001
+From: Stefan Berger <stefanb@linux.vnet.ibm.com>
+Date: Mon, 13 Sep 2021 22:21:01 +0800
+Subject: [PATCH 1/1] SecurityPkg: Introduce new PCD
+ PcdRandomizePlatformHierarchy
+
+Introduce the new PCD
+gEfiSecurityPkgTokenSpaceGuid.PcdRandomizePlatformHierarchy.
+We need it for TpmPlatformHierarchyLib.
+
+Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
+Reviewed-by: Jiewen Yao <jiewen.yao@intel.com>
+diff --git a/SecurityPkg/Library/PeiDxeTpmPlatformHierarchyLib/PeiDxeTpmPlatformHierarchyLib.inf b/SecurityPkg/Library/PeiDxeTpmPlatformHierarchyLib/PeiDxeTpmPlatformHierarchyLib.inf
+index 7bf666794f..efe560e7ff 100644
+--- a/SecurityPkg/Library/PeiDxeTpmPlatformHierarchyLib/PeiDxeTpmPlatformHierarchyLib.inf
++++ b/SecurityPkg/Library/PeiDxeTpmPlatformHierarchyLib/PeiDxeTpmPlatformHierarchyLib.inf
+@@ -35,10 +35,9 @@
+   MdeModulePkg/MdeModulePkg.dec
+   SecurityPkg/SecurityPkg.dec
+   CryptoPkg/CryptoPkg.dec
+-  MinPlatformPkg/MinPlatformPkg.dec
+ 
+ [Sources]
+   PeiDxeTpmPlatformHierarchyLib.c
+ 
+ [Pcd]
+-  gMinPlatformPkgTokenSpaceGuid.PcdRandomizePlatformHierarchy
++  gEfiSecurityPkgTokenSpaceGuid.PcdRandomizePlatformHierarchy
+diff --git a/SecurityPkg/SecurityPkg.dec b/SecurityPkg/SecurityPkg.dec
+index 497354634b..d0ebfa0b7c 100644
+--- a/SecurityPkg/SecurityPkg.dec
++++ b/SecurityPkg/SecurityPkg.dec
+@@ -296,6 +296,12 @@
+   # @Prompt Physical presence of the platform operator.
+   gEfiSecurityPkgTokenSpaceGuid.PcdTpmPhysicalPresence|TRUE|BOOLEAN|0x00010001
+ 
++  ## Indicates whether the TPM2 platform hierarchy will be disabled by using
++  #  a random password or by disabling the hierarchy
++  #   TRUE  - A random password will be used
++  #   FALSE - The hierarchy will be disabled
++  gEfiSecurityPkgTokenSpaceGuid.PcdRandomizePlatformHierarchy|TRUE|BOOLEAN|0x00010024
++
+ [PcdsFixedAtBuild, PcdsPatchableInModule, PcdsDynamic, PcdsDynamicEx]
+   ## Indicates whether TPM physical presence is locked during platform initialization.  
+   #  Once it is locked, it can not be unlocked for TPM life time.<BR><BR>

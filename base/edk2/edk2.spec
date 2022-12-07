@@ -1,6 +1,6 @@
-%global package_speccommit bfccfc8b9a261f9ac9b18957cc821e4c86f50f39
+%global package_speccommit 3cab3ff7d054278e785cadb0c91847a444063912
 %global usver 20180522git4b8552d
-%global xsver 1.4.7
+%global xsver 1.5.0
 %global xsrel %{xsver}%{?xscount}%{?xshash}
 %global package_srccommit 4b8552d
 
@@ -17,18 +17,39 @@ Patch1: 0002-OvmfPkg-XenSupport-use-a-correct-PCI-host-bridge-ape.patch
 Patch2: 0003-OvmfPkg-XenSupport-turn-off-address-decoding-before-.patch
 Patch3: 0001-OvmfPkg-End-timer-interrupt-later-to-avoid-stack-ove.patch
 Patch4: 0001-fix-type-in-ini-py.patch
-Patch5: 0001-OvmfPkg-XenPlatformPei-Use-CPUID-to-get-physical-add.patch
-Patch6: openssl.patch
-Patch7: nvidia-vgpu-support.patch
-Patch8: gvt-g-support.patch
-Patch9: set-default-resolution-1024-768.patch
-Patch10: embed-nic-drivers.patch
-Patch11: add-xen-variable.patch
-Patch12: add-xen-platform-device-id.patch
-Patch13: disable-modules.patch
-Patch14: xenorder.patch
-Patch15: keep-caching-enabled.patch
-Patch16: remove-unused-crypto.patch
+Patch5: 0001-MdePkg-TimerRngLib-Added-RngLib-that-uses-TimerLib.patch
+Patch6: 0001-OvmfPkg-Add-RngLib-based-on-TimerLib-for-Crypto.patch
+Patch7: 0001-SecurityPkg-TPM-Import-PeiDxeTpmPlatformHierarchyLib.patch
+Patch8: 0002-SecurityPkg-TPM-Fix-bugs-in-imported-PeiDxeTpmPlatfo.patch
+Patch9: 0003-SecrutiyPkg-Tcg-Import-Tcg2PlatformDxe-from-edk2-pla.patch
+Patch10: 0004-SecurityPkg-Tcg-Make-Tcg2PlatformDxe-buildable-and-f.patch
+Patch11: 0005-SecurityPkg-Introduce-new-PCD-PcdRandomizePlatformHi.patch
+Patch12: 0006-SecurityPkg-Tcg-Import-Tcg2PlatformPei-from-edk2-pla.patch
+Patch13: 0007-SecurityPkg-Tcg-Make-Tcg2PlatformPei-buildable-and-f.patch
+Patch14: 0008-SecurityPkg-Add-references-to-header-and-inf-files-t.patch
+Patch15: 0001-OvmfPkg-Reference-new-Tcg2PlatformPei-in-the-build-s.patch
+Patch16: 0002-OvmfPkg-Reference-new-Tcg2PlatformDxe-in-the-build-s.patch
+Patch17: 0003-OvmfPkg-Handle-TPM-2-physical-presence-opcodes-much-.patch
+Patch18: 0004-OvmfPkg-TPM-PPI-Connect-default-consoles-for-user-in.patch
+Patch19: 0001-OvmfPkg-Call-PlatformInitializeConsole-for-GPU-passt.patch
+Patch20: ovmfpkg__add_tcg2_configuration_menu_to_the_device_manager_menu.patch
+Patch21: 0001-OvmfPkg-XenPlatformPei-Use-CPUID-to-get-physical-add.patch
+Patch22: ovmfpkg-xenpvblkdxe__fix_memory_barrier_macro.patch
+Patch23: openssl.patch
+Patch24: nvidia-vgpu-support.patch
+Patch25: gvt-g-support.patch
+Patch26: set-default-resolution-1024-768.patch
+Patch27: embed-nic-drivers.patch
+Patch28: add-xen-variable.patch
+Patch29: add-xen-platform-device-id.patch
+Patch30: disable-modules.patch
+Patch31: xenorder.patch
+Patch32: keep-caching-enabled.patch
+Patch33: remove-unused-crypto.patch
+Patch34: add-Tcg2PhysicalPresenceLibXen.patch
+Patch35: tcg2config-fix-operation-parameter-prompt.patch
+Patch36: set-tpm2-acpi-table-revision.patch
+Patch37: disable-config-option-in-TCG2-config-screen.patch
 
 BuildRequires: gcc gcc-c++
 BuildRequires: python
@@ -63,6 +84,8 @@ cp %{_datadir}/ipxe/8086100e.efi .
     -D XEN_VARIABLE_ENABLE=TRUE \
     -D EXTRA_MODULES_ENABLE=FALSE \
     -D FD_SIZE_2MB \
+    -D TPM2_ENABLE \
+    -D TPM2_CONFIG_ENABLE \
     -b DEBUG \
     -a X64 -n %{?_smp_flags}
 
@@ -75,6 +98,8 @@ cp %{_datadir}/ipxe/8086100e.efi .
     -D XEN_VARIABLE_ENABLE=TRUE \
     -D EXTRA_MODULES_ENABLE=FALSE \
     -D FD_SIZE_2MB \
+    -D TPM2_ENABLE \
+    -D TPM2_CONFIG_ENABLE \
     -b RELEASE \
     -a X64 -n %{?_smp_flags}
 
@@ -101,6 +126,12 @@ cp OvmfPkg/License.txt License.ovmf
 
 
 %changelog
+* Wed Aug 17 2022 Ross Lagerwall <ross.lagerwall@citrix.com> - 20180522git4b8552d-1.5.0
+- Add TPM support
+
+* Mon Aug 01 2022 Ross Lagerwall <ross.lagerwall@citrix.com> - 20180522git4b8552d-1.4.8
+- CA-343027: Fix hang in OVMF
+
 * Fri Jun 17 2022 Mark Syms <mark.syms@citrix.com> - 20180522git4b8552d-1.4.7
 - Fix script typo which breaks static analysis
 

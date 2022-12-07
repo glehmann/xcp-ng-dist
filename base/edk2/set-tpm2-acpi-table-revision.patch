@@ -1,0 +1,19 @@
+Ovmf: Set TPM2 ACPI table revision for Xen
+
+This is the value of ACPI_2_0_TMP2_REVISION as #defined in xen.git.
+
+Signed-off-by: Anthony PERARD <anthony.perard@citrix.com>
+diff --git a/OvmfPkg/OvmfPkgX64.dsc b/OvmfPkg/OvmfPkgX64.dsc
+index 69f6fefc69..e74e718fbf 100644
+--- a/OvmfPkg/OvmfPkgX64.dsc
++++ b/OvmfPkg/OvmfPkgX64.dsc
+@@ -547,6 +547,9 @@
+   # We populate DXE IPL tables with 1G pages preferably on Xen
+   gEfiMdeModulePkgTokenSpaceGuid.PcdUse1GPageTable|TRUE
+ 
++  # Xen provides Rev 4 of the TPM2 ACPI table
++  gEfiSecurityPkgTokenSpaceGuid.PcdTpm2AcpiTableRev|4
++
+ ################################################################################
+ #
+ # Pcd Dynamic Section - list of all EDK II PCD Entries defined by this Platform
