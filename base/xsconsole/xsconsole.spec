@@ -1,12 +1,12 @@
-%global package_speccommit 22f6030293d6c199b094ea63363919dffba78b52
-%global package_srccommit v10.1.13
+%global package_speccommit 3ec6960e837f7c4f2f624aef36602de88460ed23
+%global package_srccommit v10.1.14
 Summary: XenServer Host Configuration Console
 Name: xsconsole
-Version: 10.1.13
+Version: 10.1.14
 Release: 1%{?xsrel}%{?dist}
 License: GPL2
 Group: Administration/System
-Source0: xsconsole-10.1.13.tar.gz
+Source0: xsconsole-10.1.14.tar.gz
 Provides: xsconsole0
 BuildRequires: python2-devel
 BuildRequires: systemd
@@ -61,6 +61,9 @@ InCloud Sphere.
 %{_libdir}/xsconsole/plugins-oem/XSFeatureLicenseNag.py*
 
 %changelog
+* Tue Oct 04 2022 Ross Lagerwall <ross.lagerwall@citrix.com> - 10.1.14-1
+- CP-40640: Show the textual rather than numeric product version
+
 * Fri Jul 09 2021 Ross Lagerwall <ross.lagerwall@citrix.com> - 10.1.13-1
 - Switch upstream to GitHub
 - Display 'Ext' instead of 'Ext3' for `ext` SRs
