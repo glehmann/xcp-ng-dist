@@ -1,5 +1,5 @@
-%global package_speccommit 8f44f8aae53c53f47b194816c227ae47e878e3eb
-%global usver 6.58.0
+%global package_speccommit 80fc679666d57f699a20f6cae4c3981adb5cb1d5
+%global usver 6.60.0
 %global xsver 1
 %global xsrel %{xsver}%{?xscount}%{?xshash}
 ## This has to match the declaration in xs-opam-src, which
@@ -7,15 +7,15 @@
 %global _opamroot %{_libdir}/opamroot
 
 Name: xs-opam-repo
-Version: 6.58.0
+Version: 6.60.0
 Release: %{?xsrel}%{?dist}
 Summary: Build and install OCaml libraries from Opam repository
 # The license field is produced by running print-license.sh
 # Please update licenses.txt on every new version and then run the script to
 # keep these in sync.
-License: Apache-1.0 and BSD-2-Clause and BSD-3-Clause and GPL-1.0-or-later and GPL-2.0-only and ISC and LGPL-2.0-only with OCaml-LGPL-linking-exception and LGPL-2.0-only WITH OCaml-LGPL-linking-exception and LGPL-2.0-or-later and LGPL-2.0-or-later WITH OCaml-LGPL-linking-exception and LGPL-2.1-only and LGPL-2.1-only WITH OCaml-LGPL-linking-exception and LGPL-2.1-or-later WITH OCaml-LGPL-linking-exception and LGPL-2.1 with OCaml-LGPL-linking-exception and LGPL-3.0-only and LGPL-3.0-only WITH OCaml-LGPL-linking-exception and LGPL with OpenSSL linking exception and MIT and PSF
+License: Apache-1.0 and BSD-2-Clause and BSD-3-Clause and GPL-1.0-or-later and GPL-2.0-only and ISC and LGPL-2.0-only WITH OCaml-LGPL-linking-exception and LGPL-2.0-or-later and LGPL-2.0-or-later WITH OCaml-LGPL-linking-exception and LGPL-2.1-only and LGPL-2.1-only WITH OCaml-LGPL-linking-exception and LGPL-2.1-or-later WITH OCaml-LGPL-linking-exception and LGPL-3.0-only and LGPL-3.0-only WITH OCaml-LGPL-linking-exception and LGPL with OpenSSL linking exception and MIT and PSF
 URL:     https://github.com/xapi-project/xs-opam
-Source0: xs-opam-repo-6.58.0.tar.gz
+Source0: xs-opam-repo-6.60.0.tar.gz
 # To "pin" a package during development, see below the example
 # where ezxenstore is pinned to an internal master branch.
 # You need the Source1 line, and the below 'tar' and 'opam pin' lines, and comment-out the OPAMFETCH
@@ -110,6 +110,35 @@ echo '%%_opamroot %%{_libdir}/opamroot' >> "%{buildroot}%{_rpmconfigdir}/macros.
 %{_opamroot}
 
 %changelog
+* Fri Oct 28 2022 Pau Ruiz Safont <pau.safont@citrix.com> - 6.60.0-1
+- CA-371780: update xapi-rrd to 1.9.1
+- xs-extra: update xapi package metadata
+- xs-extra: add dependencies to new packages
+- xs-extra: update with the upstream metadata
+- tools: add xapi-log and xapi-open-uri to metadata generator
+- gitignore: ignore cache.log
+- xs-extra: xen-api packages don't need to set XAPI_VERSION anymore
+- CA-367236: update xapi-rrd to 1.9.0
+- CI: deactivate stockholm / 8.2.0 builds
+- xs-extra: xapi-xenopsd now uses zstd for compression
+
+* Mon Aug 08 2022 Pau Ruiz Safont <pau.safont@citrix.com> - 6.59.0-2
+- Bump release and rebuild
+
+* Mon Jul 04 2022 Pau Ruiz Safont <pau.safont@citrix.com> - 6.59.0-1
+- xs-extra: add merge-fmt 0.2
+- CP-39805: update utop to 2.9.2
+- CP-39805: update xapi-stdext packages to 4.19.0
+- CP-39805: update xapi-inventory to 1.2.3
+- CP-39805: update qmp to 0.19.0
+- CP-39805: update dlm to 0.3.3
+- CP-39805: update cmdliner to 1.1.1 and rpclib to 9.0.0
+- CP-39805: update odoc to 2.1.0
+- CP-39805: update ocaml-lsp-server to 1.10.3
+- xs-extra: sync metadata with xen-api
+- upstream-extra: update depext to latest version
+- CP-34028: refresh xs-extra metadata for uuid changes
+
 * Mon Mar 07 2022 Pau Ruiz Safont <pau.safont@citrix.com> - 6.58.0-1
 - xs: add ounit as dependency to dlm
 - update ocamlfind to 1.9.3
