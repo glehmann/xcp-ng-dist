@@ -1,13 +1,13 @@
-%global package_speccommit 3b9af3cbb910b71f0062c7cf7a264d23879a6b80
-%global package_srccommit v3.51.6
+%global package_speccommit 683aba93ab68f1dede6790106fea35b7c69299b1
+%global package_srccommit v3.52.0
 Summary: blktap user space utilities
 Name: blktap
-Version: 3.51.6
-Release: 1.1%{?xsrel}%{?dist}
+Version: 3.52.0
+Release: 1%{?xsrel}%{?dist}
 License: BSD
 Group: System/Hypervisor
 URL: https://github.com/xapi-project/blktap
-Source0: blktap-3.51.6.tar.gz
+Source0: blktap-3.52.0.tar.gz
 
 BuildRoot: %{_tmppath}/%{name}-%{release}-buildroot
 Obsoletes: xen-blktap < 4
@@ -20,6 +20,8 @@ Requires(post): /sbin/ldconfig
 Requires(preun): systemd
 Requires(postun): systemd
 Requires(postun): /sbin/ldconfig
+
+Provides: blktap(nbd) = 2.0
 
 %description
 Blktap creates kernel block devices which realize I/O requests to
@@ -133,8 +135,11 @@ fi
 %{?_cov_results_package}
 
 %changelog
-* Fri Sep 16 2022 Samuel Verschelde <stormi-xcp@ylix.fr> - 3.51.6-1.1
-- Rebuild for *downgraded* cmocka (because of samba's build)
+* Mon Oct 03 2022 Mark Syms <mark.syms@citrix.com> - 3.52.0-1
+- CP-40769: make NBD server listen correctly after open
+
+* Tue Sep 20 2022 Mark Syms <mark.syms@citrix.com> - 3.51.7-1
+- Remvoe deprecated support for Nutanix HC storage.
 
 * Wed May 18 2022 Mark Syms <mark.syms@citrix.com> - 3.51.6-1
 - CA-366761: fix off by one size calculation in snprintf
