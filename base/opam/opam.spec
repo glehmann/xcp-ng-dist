@@ -1,6 +1,6 @@
-%global package_speccommit 888c90d6c6c5892735b0e5538f065636f086011c
+%global package_speccommit 4ab8cced446078da985cdf9f7e6778abe16f2914
 %global usver 2.0.10
-%global xsver 4
+%global xsver 5
 %global xsrel %{xsver}%{?xscount}%{?xshash}
 
 Name:           opam
@@ -47,6 +47,9 @@ rm -rf %{buildroot}%{_prefix}/doc
 %exclude /usr/doc/opam-installer/*
 
 %changelog
+* Thu Aug 04 2022 Pau Ruiz Safont <pau.safont@citrix.com> - 2.0.10-5
+- Bump release and rebuild
+
 * Tue Feb 15 2022 Rob Hoes <rob.hoes@citrix.com> - 2.0.10-4
 - Bump release and rebuild
 
