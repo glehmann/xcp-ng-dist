@@ -1,0 +1,161 @@
+From ebbc8ab2cd047facf17bb11856f8c8001bbb6c63 Mon Sep 17 00:00:00 2001
+From: Stefan Berger <stefanb@linux.vnet.ibm.com>
+Date: Mon, 13 Sep 2021 22:20:59 +0800
+Subject: [PATCH 1/1] SecrutiyPkg/Tcg: Import Tcg2PlatformDxe from
+ edk2-platforms
+
+Import Tcg2PlatformDxe from edk2-platforms without any modifications.
+
+Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
+Reviewed-by: Jiewen Yao <jiewen.yao@intel.com>
+---
+ .../Tcg/Tcg2PlatformDxe/Tcg2PlatformDxe.c     | 85 +++++++++++++++++++
+ .../Tcg/Tcg2PlatformDxe/Tcg2PlatformDxe.inf   | 44 ++++++++++
+ 2 files changed, 129 insertions(+)
+ create mode 100644 SecurityPkg/Tcg/Tcg2PlatformDxe/Tcg2PlatformDxe.c
+ create mode 100644 SecurityPkg/Tcg/Tcg2PlatformDxe/Tcg2PlatformDxe.inf
+
+diff --git a/SecurityPkg/Tcg/Tcg2PlatformDxe/Tcg2PlatformDxe.c b/SecurityPkg/Tcg/Tcg2PlatformDxe/Tcg2PlatformDxe.c
+new file mode 100644
+index 0000000000..150cf748ff
+--- /dev/null
++++ b/SecurityPkg/Tcg/Tcg2PlatformDxe/Tcg2PlatformDxe.c
+@@ -0,0 +1,85 @@
++/** @file
++  Platform specific TPM2 component for configuring the Platform Hierarchy.
++
++  Copyright (c) 2017 - 2019, Intel Corporation. All rights reserved.<BR>
++  SPDX-License-Identifier: BSD-2-Clause-Patent
++
++**/
++
++#include <PiDxe.h>
++
++#include <Library/DebugLib.h>
++#include <Library/UefiBootServicesTableLib.h>
++#include <Library/UefiLib.h>
++#include <Library/TpmPlatformHierarchyLib.h>
++#include <Protocol/DxeSmmReadyToLock.h>
++
++/**
++   This callback function will run at the SmmReadyToLock event.
++
++   Configuration of the TPM's Platform Hierarchy Authorization Value (platformAuth)
++   and Platform Hierarchy Authorization Policy (platformPolicy) can be defined through this function.
++
++  @param  Event   Pointer to this event
++  @param  Context Event hanlder private data
++ **/
++VOID
++EFIAPI
++SmmReadyToLockEventCallBack (
++  IN EFI_EVENT  Event,
++  IN VOID       *Context
++  )
++{
++  EFI_STATUS   Status;
++  VOID         *Interface;
++
++  //
++  // Try to locate it because EfiCreateProtocolNotifyEvent will trigger it once when registration.
++  // Just return if it is not found.
++  //
++  Status = gBS->LocateProtocol (
++                  &gEfiDxeSmmReadyToLockProtocolGuid,
++                  NULL,
++                  &Interface
++                  );
++  if (EFI_ERROR (Status)) {
++    return ;
++  }
++
++  ConfigureTpmPlatformHierarchy ();
++
++  gBS->CloseEvent (Event);
++}
++
++/**
++   The driver's entry point. Will register a function for callback during SmmReadyToLock event to
++   configure the TPM's platform authorization.
++
++   @param[in] ImageHandle  The firmware allocated handle for the EFI image.
++   @param[in] SystemTable  A pointer to the EFI System Table.
++
++   @retval EFI_SUCCESS     The entry point is executed successfully.
++   @retval other           Some error occurs when executing this entry point.
++**/
++EFI_STATUS
++EFIAPI
++Tcg2PlatformDxeEntryPoint (
++  IN    EFI_HANDLE                  ImageHandle,
++  IN    EFI_SYSTEM_TABLE            *SystemTable
++  )
++{
++  VOID       *Registration;
++  EFI_EVENT  Event;
++
++  Event = EfiCreateProtocolNotifyEvent (
++            &gEfiDxeSmmReadyToLockProtocolGuid,
++            TPL_CALLBACK,
++            SmmReadyToLockEventCallBack,
++            NULL,
++            &Registration
++            );
++
++  ASSERT (Event != NULL);
++
++  return EFI_SUCCESS;
++}
+diff --git a/SecurityPkg/Tcg/Tcg2PlatformDxe/Tcg2PlatformDxe.inf b/SecurityPkg/Tcg/Tcg2PlatformDxe/Tcg2PlatformDxe.inf
+new file mode 100644
+index 0000000000..af29c1cd98
+--- /dev/null
++++ b/SecurityPkg/Tcg/Tcg2PlatformDxe/Tcg2PlatformDxe.inf
+@@ -0,0 +1,44 @@
++### @file
++# Platform specific TPM2 component.
++#
++# Copyright (c) 2017 - 2019, Intel Corporation. All rights reserved.<BR>
++#
++# SPDX-License-Identifier: BSD-2-Clause-Patent
++#
++###
++
++[Defines]
++  INF_VERSION                    = 0x00010017
++  BASE_NAME                      = Tcg2PlatformDxe
++  FILE_GUID                      = 5CAB08D5-AD8F-4d8b-B828-D17A8D9FE977
++  VERSION_STRING                 = 1.0
++  MODULE_TYPE                    = DXE_DRIVER
++  ENTRY_POINT                    = Tcg2PlatformDxeEntryPoint
++#
++# The following information is for reference only and not required by the build tools.
++#
++# VALID_ARCHITECTURES = IA32 X64 IPF
++#
++
++[LibraryClasses]
++  BaseLib
++  UefiBootServicesTableLib
++  UefiDriverEntryPoint
++  DebugLib
++  UefiLib
++  TpmPlatformHierarchyLib
++
++[Packages]
++  MdePkg/MdePkg.dec
++  MdeModulePkg/MdeModulePkg.dec
++  MinPlatformPkg/MinPlatformPkg.dec
++  SecurityPkg/SecurityPkg.dec
++
++[Sources]
++  Tcg2PlatformDxe.c
++
++[Protocols]
++  gEfiDxeSmmReadyToLockProtocolGuid             ## SOMETIMES_CONSUMES ## NOTIFY
++
++[Depex]
++  gEfiTcg2ProtocolGuid
+-- 
+2.31.1
+
