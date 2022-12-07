@@ -56,10 +56,10 @@ index cdb01f9de9..cb1d85c367 100644
 +crypto-obj-y = hash.o
 +crypto-obj-$(if $(CONFIG_NETTLE),n,$(if $(CONFIG_GCRYPT),n,y)) += hash-glib.o
 diff --git a/default-configs/i386-softmmu.mak b/default-configs/i386-softmmu.mak
-index 4cc64dafa2..f2024c9aa3 100644
+index 4cc64dafa2..098f64b681 100644
 --- a/default-configs/i386-softmmu.mak
 +++ b/default-configs/i386-softmmu.mak
-@@ -25,7 +25,30 @@
+@@ -25,7 +25,32 @@
  
  # Boards:
  #
@@ -84,6 +84,8 @@ index 4cc64dafa2..f2024c9aa3 100644
 +CONFIG_NVME_PCI=y
 +CONFIG_PARALLEL=y
 +CONFIG_RTL8139_PCI=y
++CONFIG_TPM_EMULATOR=y
++CONFIG_TPM_CRB=y
 +CONFIG_USB=y
 +CONFIG_USB_EHCI=y
 +CONFIG_USB_EHCI_PCI=y
