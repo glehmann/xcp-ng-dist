@@ -1,0 +1,74 @@
+From 499c4608b13df0738213329722cdcb0ac838f3ad Mon Sep 17 00:00:00 2001
+From: Stefan Berger <stefanb@linux.vnet.ibm.com>
+Date: Wed, 15 Sep 2021 09:25:03 +0800
+Subject: [PATCH 1/1] OvmfPkg/TPM PPI: Connect default consoles for user
+ interaction
+
+Activate the default console when user interaction is required for
+the processing of TPM 2 physical presence interface opcodes.
+
+Background:
+TPM 2 physical presence interface (PPI) opcodes need to be handled before
+the TPM 2 platform hierarchy is disabled. Due to this requirement we will
+move the function call to handle the PPI opcodes into
+PlatformBootManagerBeforeConsole() which runs before the initialization
+of the consoles. However, since for interaction with the user we need
+the console to be available, activate it now before displaying any message
+to the user.
+
+Cc: Rebecca Cran <rebecca@bsdio.com>
+Cc: Peter Grehan <grehan@freebsd.org>
+Cc: Brijesh Singh <brijesh.singh@amd.com>
+Cc: Erdem Aktas <erdemaktas@google.com>
+Cc: James Bottomley <jejb@linux.ibm.com>
+Cc: Jiewen Yao <jiewen.yao@intel.com>
+Cc: Min Xu <min.m.xu@intel.com>
+Cc: Tom Lendacky <thomas.lendacky@amd.com>
+Cc: Ard Biesheuvel <ardb+tianocore@kernel.org>
+Cc: Jordan Justen <jordan.l.justen@intel.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
+Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
+Reviewed-by: Jiewen Yao <Jiewen.yao@intel.com>
+---
+ .../Tcg2PhysicalPresenceLibQemu/DxeTcg2PhysicalPresenceLib.c | 5 +++++
+ .../DxeTcg2PhysicalPresenceLib.inf                           | 1 +
+ 2 files changed, 6 insertions(+)
+
+diff --git a/OvmfPkg/Library/Tcg2PhysicalPresenceLibQemu/DxeTcg2PhysicalPresenceLib.c b/OvmfPkg/Library/Tcg2PhysicalPresenceLibQemu/DxeTcg2PhysicalPresenceLib.c
+index 00d76ba2c2..33a470f6d8 100644
+--- a/OvmfPkg/Library/Tcg2PhysicalPresenceLibQemu/DxeTcg2PhysicalPresenceLib.c
++++ b/OvmfPkg/Library/Tcg2PhysicalPresenceLibQemu/DxeTcg2PhysicalPresenceLib.c
+@@ -32,6 +32,7 @@ SPDX-License-Identifier: BSD-2-Clause-Patent
+ #include <Library/UefiBootServicesTableLib.h>
+ #include <Library/UefiLib.h>
+ #include <Library/UefiRuntimeServicesTableLib.h>
++#include <Library/UefiBootManagerLib.h>
+ 
+ #include <Library/Tcg2PhysicalPresenceLib.h>
+ 
+@@ -591,6 +592,10 @@ Tcg2UserConfirm (
+     return FALSE;
+   }
+ 
++  // Console for user interaction
++  // We need to connect all trusted consoles for TCG PP. Here we treat all consoles in OVMF to be trusted consoles.
++  EfiBootManagerConnectAllDefaultConsoles ();
++
+   if (TpmPpCommand < TCG2_PHYSICAL_PRESENCE_STORAGE_MANAGEMENT_BEGIN) {
+     if (CautionKey) {
+       TmpStr1 = Tcg2PhysicalPresenceGetStringById (STRING_TOKEN (TPM_CAUTION_KEY));
+diff --git a/OvmfPkg/Library/Tcg2PhysicalPresenceLibQemu/DxeTcg2PhysicalPresenceLib.inf b/OvmfPkg/Library/Tcg2PhysicalPresenceLibQemu/DxeTcg2PhysicalPresenceLib.inf
+index 85ce0e2b29..5b5417c321 100644
+--- a/OvmfPkg/Library/Tcg2PhysicalPresenceLibQemu/DxeTcg2PhysicalPresenceLib.inf
++++ b/OvmfPkg/Library/Tcg2PhysicalPresenceLibQemu/DxeTcg2PhysicalPresenceLib.inf
+@@ -59,6 +59,7 @@
+   PrintLib
+   QemuFwCfgLib
+   Tpm2CommandLib
++  UefiBootManagerLib
+   UefiBootServicesTableLib
+   UefiLib
+   UefiRuntimeServicesTableLib
+-- 
+2.31.1
+
