@@ -1,11 +1,11 @@
-%global package_speccommit b01d26de04ca8b3a252343b9b4303bb4b4675100
-%global package_srccommit v1.10.1
+%global package_speccommit 3c935b597558fd9b8a0906158c2317c4bea752af
+%global package_srccommit v1.11.1
 Name:    guest-templates-json
 Summary: Creates the default guest templates
-Version: 1.10.1
-Release: 2.1%{?xsrel}%{?dist}
+Version: 1.11.1
+Release: 1.1%{?xsrel}%{?dist}
 License: BSD
-Source0: guest-templates-json-1.10.1.tar.gz
+Source0: guest-templates-json-1.11.1.tar.gz
 
 # XCP-ng patches
 Source1000: almalinux-8.json
@@ -47,6 +47,13 @@ Requires(post): %{name} = %{version}-%{release}
 
 %description data-windows
 Contains the default Windows guest templates.
+
+%package data-windows-11
+Summary: Contains the Windows 11 guest template(s)
+Requires(post): %{name} = %{version}-%{release}
+
+%description data-windows-11
+Contains the Windows 11 guest template(s).
 
 %package data-other
 Summary: Contains the default other guest templates
@@ -105,6 +112,9 @@ fi
 %post data-windows
 > %{statefile}
 
+%post data-windows-11
+> %{statefile}
+
 %post data-other
 > %{statefile}
 
@@ -115,6 +125,12 @@ if [ -e %{statefile} ]; then
 fi
 
 %posttrans data-pv
+if [ -e %{statefile} ]; then
+    rm %{statefile}
+    /usr/bin/create-guest-templates-wrapper > /dev/null ||:
+fi
+
+%posttrans data-windows-11
 if [ -e %{statefile} ]; then
     rm %{statefile}
     /usr/bin/create-guest-templates-wrapper > /dev/null ||:
@@ -161,7 +177,7 @@ fi
 %{templatedir}/base-kylin-7.json
 %{templatedir}/base-sle-hvm-64bit.json
 %{templatedir}/base-sle-hvm.json
-%{templatedir}/centos-[78].json
+%{templatedir}/centos-[7].json
 %{templatedir}/coreos.json
 %{templatedir}/debian*.json
 %{templatedir}/kylin-7.json
@@ -169,8 +185,7 @@ fi
 %{templatedir}/rhel-[78].json
 %{templatedir}/sl-7.json
 %{templatedir}/sle-15-64bit.json
-%{templatedir}/sled-12-sp[34]-64bit.json
-%{templatedir}/sles-12-sp[3-5]-64bit.json
+%{templatedir}/sles-12-sp[4-5]-64bit.json
 %{templatedir}/ubuntu*.json
 %{templatedir}/gooroom-2.json
 %{templatedir}/rocky-8.json
@@ -178,11 +193,25 @@ fi
 %files data-windows
 %{templatedir}/base-windows*.json
 %{templatedir}/windows*.json
+%exclude %{templatedir}/windows-11.json
+
+%files data-windows-11
+%{templatedir}/windows-11.json
 
 %files data-other
 %{templatedir}/other-install-media.json
 
 %changelog
+* Wed Dec 07 2022 Samuel Verschelde <stormi-xcp@ylix.fr> - 1.11.1-1.1
+- Update from XS 8.3 pre-release updates
+- *** Upstream changelog ***
+- * Tue Sep 13 2022 Xihuan Yang <xihuan.yang@citrix.com> - 1.11.1-1
+- - CP-40462: Remove EOL templates from Next
+- * Wed Aug 31 2022 Ross Lagerwall <ross.lagerwall@citrix.com> - 1.11.0-1
+- - Add Windows 11 preview template
+- * Wed Jun 01 2022 Xihuan Yang <xihuan.yang@citrix.com> - 1.10.2-1
+- - CP-39797: Add Debian Bullseye 11 (experimental) template
+
 * Fri Aug 26 2022 Samuel Verschelde <stormi-xcp@ylix.fr> - 1.10.1-2.1
 - Re-sync with CH 8.3 preview (including changelog)
 - Re-add our patches (almalinux 8 and debian 11 templates).
