@@ -1,12 +1,12 @@
-%global package_speccommit 22f6030293d6c199b094ea63363919dffba78b52
-%global package_srccommit v10.1.13
+%global package_speccommit 3ec6960e837f7c4f2f624aef36602de88460ed23
+%global package_srccommit v10.1.14
 Summary: XCP-ng Host Configuration Console
 Name: xsconsole
-Version: 10.1.13
-Release: 1.2%{?xsrel}%{?dist}
+Version: 10.1.14
+Release: 1.1%{?xsrel}%{?dist}
 License: GPL2
 Group: Administration/System
-Source0: xsconsole-10.1.13.tar.gz
+Source0: xsconsole-10.1.14.tar.gz
 Provides: xsconsole0
 BuildRequires: python2-devel
 BuildRequires: systemd
@@ -54,6 +54,12 @@ Console tool for configuring a XCP-ng installation.
 %{_unitdir}/xsconsole.service
 
 %changelog
+* Wed Dec 07 2022 Samuel Verschelde <stormi-xcp@ylix.fr> - 10.1.14-1.1
+- Update from XS 8.3 pre-release updates
+- *** Upstream changelog ***
+- * Tue Oct 04 2022 Ross Lagerwall <ross.lagerwall@citrix.com> - 10.1.14-1
+- - CP-40640: Show the textual rather than numeric product version
+
 * Mon Nov 14 2022 Yann Dirson <yann.dirson@vates.fr> - 10.1.13-1.2
 - Update colors to match new branding
 - Bump patchname to xsconsole-10.1.13-define-xcp-ng-colors.XCP-ng.patch
