@@ -1,13 +1,16 @@
+%global package_speccommit 18488cb39cf59200b46c82745e219f8eb8978b45
+%global usver 5.1.0
+%global xsver 4
+%global xsrel %{xsver}%{?xscount}%{?xshash}
 ## This has to match the declaration in xs-opam-repo, which
 ## relies on this directory and being WORLD WRITABLE
 %global _opamroot %{_libdir}/opamroot
 
 Name: xs-opam-src
 Version: 5.1.0
-Release: 1.1%{?dist}
+Release: %{?xsrel}%{?dist}
 Summary: Opam repository
-License: Various
-AutoReqProv: no
+License: LGPL-2.0-or-later
 
 %description
 Opam repository containing all upstream and development libraries
@@ -27,8 +30,14 @@ chmod 777 %{buildroot}%{_opamroot}
 %attr(777, root, wheel) %{_opamroot}
 
 %changelog
-* Thu Sep 15 2022 Samuel Verschelde <stormi-xcp@ylix.fr> - 5.1.0-1.1
-- Rebuild for XCP-ng 8.3. Citrix did not provide the SRPM in their source ISO.
+* Thu Sep 15 2022 Pau Ruiz Safont <pau.safont@citrix.com> - 5.1.0-4
+- Use a license that ensures source availability for building xapi
+
+* Thu Apr 28 2022 Rob Hoes <rob.hoes@citrix.com> - 5.1.0-3
+- Bump release and rebuild
+
+* Tue Nov 17 2020 Edwin Török <edvin.torok@citrix.com> - 5.1.0-2
+- Re-enabled automatic ocaml dependency generator
 
 * Tue May 28 2019 Christian Lindig <christian.lindig@citrix.com> - 5.1.0-1
 - CA-319332 defining _opamroot requires version bump
