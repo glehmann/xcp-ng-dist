@@ -204,6 +204,7 @@ fi
 %changelog
 * Wed Dec 07 2022 Samuel Verschelde <stormi-xcp@ylix.fr> - 1.11.1-1.1
 - Update from XS 8.3 pre-release updates
+- Keep our debian 11 template until the upstream one is not displayed as experimental anymore
 - *** Upstream changelog ***
 - * Tue Sep 13 2022 Xihuan Yang <xihuan.yang@citrix.com> - 1.11.1-1
 - - CP-40462: Remove EOL templates from Next
