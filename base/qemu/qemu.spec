@@ -104,7 +104,8 @@ Patch75: add-an-ide-read-cache.patch
 Patch76: disable-dirty-vram-tracking.patch
 Patch77: build-configuration.patch
 BuildRequires: python2-devel
-BuildRequires: gcc # XCP-ng
+# XCP-ng: explicit build dep on gcc
+BuildRequires: gcc
 BuildRequires: libaio-devel glib2-devel
 BuildRequires: libjpeg-devel libpng-devel pixman-devel xenserver-libdrm-devel
 BuildRequires: xen-dom0-libs-devel xen-libs-devel libusbx-devel
