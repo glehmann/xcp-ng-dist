@@ -1,12 +1,16 @@
 Name:           branding-xcp-ng
 Version:        8.3.0
-Release:        1
+Release:        2.73c8834
 Summary:        XCP-ng branding
 License:        ISC
 URL:            https://github.com/xcp-ng/branding-xcp-ng
 Source0:        https://github.com/xcp-ng/branding-xcp-ng/archive/v%{version}/branding-xcp-ng-%{version}.tar.gz
 BuildArch:      noarch
-Requires:       python
+Requires:       python3
+
+BuildRequires:  python3-devel
+# Make brp-python-bytecompile use python3
+%define __python /usr/bin/python3
 
 %description
 This package contains branding information for XCP-ng.
@@ -29,10 +33,14 @@ This package contains branding information for XCP-ng.
 %{_usrsrc}/branding/branding-compile.py
 %{_usrsrc}/branding/EULA
 %{_usrsrc}/branding/LICENSES
-%exclude %{_usrsrc}/branding/*.pyc
-%exclude %{_usrsrc}/branding/*.pyo
+%{_usrsrc}/branding/__pycache__
 
 %changelog
+* Thu Feb 02 2023 Yann Dirson <yann.dirson@vates.fr> - 8.3.0-2.73c8834
+- Switch to python3
+- COMPANY_NAME update to "Vates, XenServer and others"
+- COPYRIGHT_YEARS up to 2023
+
 * Thu Sep 01 2022 Samuel Verschelde <stormi-xcp@ylix.fr> - 8.3.0-1
 - Update for XCP-ng 8.3.0
 
