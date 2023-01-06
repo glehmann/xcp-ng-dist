@@ -1,0 +1,7 @@
+{
+    "uuid": "535915de-8908-4506-bad8-e3696b0fb110",
+    "reference_label": "centos-stream-9",
+    "name_label": "CentOS Stream 9",
+    "derived_from": "base-el-7.json",
+    "disks": [ { "size": "15G" } ]
+}

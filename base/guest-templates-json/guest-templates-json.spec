@@ -3,13 +3,19 @@
 Name:    guest-templates-json
 Summary: Creates the default guest templates
 Version: 1.11.1
-Release: 1.1%{?xsrel}%{?dist}
+Release: 1.2%{?xsrel}%{?dist}
 License: BSD
 Source0: guest-templates-json-1.11.1.tar.gz
 
 # XCP-ng patches
 Source1000: almalinux-8.json
 Source1001: debian-11.json
+Source1002: almalinux-9.json
+Source1003: centos-stream-8.json
+Source1004: centos-stream-9.json
+Source1005: oel-9.json
+Source1006: rhel-9.json
+Source1007: rocky-9.json
 
 BuildArch: noarch
 
@@ -75,7 +81,7 @@ Contains the default other guest templates.
 
 install -d %{buildroot}%{templatedir}
 install -m 644 json/*.json %{buildroot}%{templatedir}
-install -m 644 %{SOURCE1000} %{SOURCE1001} %{buildroot}%{templatedir}
+install -m 644 %{SOURCE1000} %{SOURCE1001} %{SOURCE1002} %{SOURCE1003} %{SOURCE1004} %{SOURCE1005} %{SOURCE1006} %{SOURCE1007} %{buildroot}%{templatedir}
 install -d %{buildroot}%{_sysconfdir}/xapi.d/vm-templates
 
 install -m 755 service/create-guest-templates-wrapper %{buildroot}%{_bindir}
@@ -171,24 +177,25 @@ fi
 %{templatedir}/sles-12-sp[12]-64bit.json
 
 %files data-linux
-%{templatedir}/almalinux-8.json
+%{templatedir}/almalinux-[89].json
 %{templatedir}/base-el-7.json
 %{templatedir}/base-hvmlinux.json
 %{templatedir}/base-kylin-7.json
 %{templatedir}/base-sle-hvm-64bit.json
 %{templatedir}/base-sle-hvm.json
 %{templatedir}/centos-[7].json
+%{templatedir}/centos-stream-[89].json
 %{templatedir}/coreos.json
 %{templatedir}/debian*.json
 %{templatedir}/kylin-7.json
-%{templatedir}/oel-[78].json
-%{templatedir}/rhel-[78].json
+%{templatedir}/oel-[789].json
+%{templatedir}/rhel-[789].json
 %{templatedir}/sl-7.json
 %{templatedir}/sle-15-64bit.json
 %{templatedir}/sles-12-sp[4-5]-64bit.json
 %{templatedir}/ubuntu*.json
 %{templatedir}/gooroom-2.json
-%{templatedir}/rocky-8.json
+%{templatedir}/rocky-[89].json
 
 %files data-windows
 %{templatedir}/base-windows*.json
@@ -202,6 +209,9 @@ fi
 %{templatedir}/other-install-media.json
 
 %changelog
+* Fri Jan 06 2023 Gael Duperrey <gduperrey@vates.fr> - 1.11.1-1.2
+- Add templates for rhel 9, CentOS Stream 8 and 9, Almalinux 9, Rockylinux 9, Oracle linux 9
+
 * Wed Dec 07 2022 Samuel Verschelde <stormi-xcp@ylix.fr> - 1.11.1-1.1
 - Update from XS 8.3 pre-release updates
 - Keep our debian 11 template until the upstream one is not displayed as experimental anymore

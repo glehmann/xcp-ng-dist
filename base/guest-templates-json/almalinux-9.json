@@ -1,0 +1,7 @@
+{
+    "uuid": "09d6b4cc-dd4b-4619-aacb-01576ccd5b0f",
+    "reference_label": "almalinux-9",
+    "name_label": "AlmaLinux 9",
+    "derived_from": "base-el-7.json",
+    "disks": [ { "size": "15G" } ]
+}

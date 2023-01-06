@@ -1,0 +1,7 @@
+{
+    "uuid": "c7544734-70be-4b58-9e11-a27e451d5553",
+    "reference_label": "rhel-9",
+    "name_label": "Red Hat Enterprise Linux 9",
+    "derived_from": "base-el-7.json",
+    "disks": [ { "size": "15G" } ]
+}
