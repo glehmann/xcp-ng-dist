@@ -1,11 +1,11 @@
-%global package_speccommit 3c935b597558fd9b8a0906158c2317c4bea752af
-%global package_srccommit v1.11.1
+%global package_speccommit e7bf8d5d31c28a851b75fee72f95aef5a2a28587
+%global package_srccommit v1.11.2
 Name:    guest-templates-json
 Summary: Creates the default guest templates
-Version: 1.11.1
-Release: 1.2%{?xsrel}%{?dist}
+Version: 1.11.2
+Release: 1.1%{?xsrel}%{?dist}
 License: BSD
-Source0: guest-templates-json-1.11.1.tar.gz
+Source0: guest-templates-json-1.11.2.tar.gz
 
 # XCP-ng patches
 Source1000: almalinux-8.json
@@ -209,6 +209,12 @@ fi
 %{templatedir}/other-install-media.json
 
 %changelog
+* Wed Jan 18 2023 Samuel Verschelde <stormi-xcp@ylix.fr> - 1.11.2-1.1
+- Update to 1.11.2-1
+- *** Upstream changelog ***
+- * Tue Nov 29 2022 Xihuan Yang <xihuan.yang@citrix.com> - 1.11.2-1
+- - CP-39690: Add Ubuntu Jammy 11 (experimental) template
+
 * Fri Jan 06 2023 Gael Duperrey <gduperrey@vates.fr> - 1.11.1-1.2
 - Add templates for rhel 9, CentOS Stream 8 and 9, Almalinux 9, Rockylinux 9, Oracle linux 9
 
