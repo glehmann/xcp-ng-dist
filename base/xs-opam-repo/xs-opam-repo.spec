@@ -1,5 +1,5 @@
-%global package_speccommit 8f29981d2a4c88664264f3a78faec51c4429465a
-%global usver 6.61.0
+%global package_speccommit 1f1b88631d03534f5a6b2b9319d37b96fcd4328c
+%global usver 6.63.0
 %global xsver 1
 %global xsrel %{xsver}%{?xscount}%{?xshash}
 ## This has to match the declaration in xs-opam-src, which
@@ -7,7 +7,7 @@
 %global _opamroot %{_libdir}/opamroot
 
 Name: xs-opam-repo
-Version: 6.61.0
+Version: 6.63.0
 Release: %{?xsrel}%{?dist}
 Summary: Build and install OCaml libraries from Opam repository
 # The license field is produced by running print-license.sh
@@ -15,7 +15,7 @@ Summary: Build and install OCaml libraries from Opam repository
 # keep these in sync.
 License: Apache-1.0 and BSD-2-Clause and BSD-3-Clause and GPL-1.0-or-later and GPL-2.0-only and ISC and LGPL-2.0-only WITH OCaml-LGPL-linking-exception and LGPL-2.0-or-later and LGPL-2.0-or-later WITH OCaml-LGPL-linking-exception and LGPL-2.1-only and LGPL-2.1-only WITH OCaml-LGPL-linking-exception and LGPL-2.1-or-later WITH OCaml-LGPL-linking-exception and LGPL-3.0-only and LGPL-3.0-only WITH OCaml-LGPL-linking-exception and LGPL with OpenSSL linking exception and MIT and PSF
 URL:     https://github.com/xapi-project/xs-opam
-Source0: xs-opam-repo-6.61.0.tar.gz
+Source0: xs-opam-repo-6.63.0.tar.gz
 # To "pin" a package during development, see below the example
 # where ezxenstore is pinned to an internal master branch.
 # You need the Source1 line, and the below 'tar' and 'opam pin' lines, and comment-out the OPAMFETCH
@@ -110,6 +110,12 @@ echo '%%_opamroot %%{_libdir}/opamroot' >> "%{buildroot}%{_rpmconfigdir}/macros.
 %{_opamroot}
 
 %changelog
+* Tue Dec 06 2022 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.63.0-1
+- xs: update ezxenstore to 0.4.2
+
+* Thu Dec 01 2022 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.62.0-1
+- xs: update xapi-stdext to 4.21.0
+
 * Fri Nov 11 2022 Pau Ruiz Safont <pau.safont@citrix.com> - 6.61.0-1
 - upstream: add crowbar to use it for testing in xapi
 
