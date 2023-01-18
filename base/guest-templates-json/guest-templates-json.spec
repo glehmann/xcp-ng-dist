@@ -1,11 +1,11 @@
-%global package_speccommit 3c935b597558fd9b8a0906158c2317c4bea752af
-%global package_srccommit v1.11.1
+%global package_speccommit e7bf8d5d31c28a851b75fee72f95aef5a2a28587
+%global package_srccommit v1.11.2
 Name:    guest-templates-json
 Summary: Creates the default guest templates
-Version: 1.11.1
+Version: 1.11.2
 Release: 1%{?xsrel}%{?dist}
 License: BSD
-Source0: guest-templates-json-1.11.1.tar.gz
+Source0: guest-templates-json-1.11.2.tar.gz
 BuildArch: noarch
 
 Requires: xapi-core
@@ -195,6 +195,9 @@ fi
 %{templatedir}/other-install-media.json
 
 %changelog
+* Tue Nov 29 2022 Xihuan Yang <xihuan.yang@citrix.com> - 1.11.2-1
+- CP-39690: Add Ubuntu Jammy 11 (experimental) template
+
 * Tue Sep 13 2022 Xihuan Yang <xihuan.yang@citrix.com> - 1.11.1-1
 - CP-40462: Remove EOL templates from Next
 
