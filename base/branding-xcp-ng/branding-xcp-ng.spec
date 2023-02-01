@@ -4,6 +4,10 @@ Release:        1
 Summary:        XCP-ng branding
 License:        ISC
 URL:            https://github.com/xcp-ng/branding-xcp-ng
+
+# For snapshots before we tag the final release, archives are exported this way from the source repository:
+# export VER=8.3.0; git archive --format tgz master . --prefix branding-xcp-ng-$VER/ -o /path/to/SOURCES/branding-xcp-ng-$VER.tar.gz
+# Document the git hash of the commit corresponding to the tarball in the Release tag. Example: 2.d5ffe4d.
 Source0:        https://github.com/xcp-ng/branding-xcp-ng/archive/v%{version}/branding-xcp-ng-%{version}.tar.gz
 BuildArch:      noarch
 Requires:       python
