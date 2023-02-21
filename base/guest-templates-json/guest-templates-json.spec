@@ -1,19 +1,19 @@
-%global package_speccommit e7bf8d5d31c28a851b75fee72f95aef5a2a28587
-%global package_srccommit v1.11.2
+%global package_speccommit b6b4ec32ebd0714a94dc942494cc1fda5bf789fa
+%global package_srccommit v2.0.0
 Name:    guest-templates-json
 Summary: Creates the default guest templates
-Version: 1.11.2
+Version: 2.0.0
 Release: 1%{?xsrel}%{?dist}
 License: BSD
-Source0: guest-templates-json-1.11.2.tar.gz
+Source0: guest-templates-json-2.0.0.tar.gz
 BuildArch: noarch
 
 Requires: xapi-core
 Requires(post): systemd
 Requires(preun): systemd
 Requires(postun): systemd
-BuildRequires: python2-devel
-BuildRequires: python-setuptools
+BuildRequires: python3-devel
+# python-demjson is only required for jsonlint
 BuildRequires: python-demjson
 BuildRequires: systemd-devel
 Obsoletes: guest-templates-json-data-xenapp
@@ -63,10 +63,10 @@ Contains the default other guest templates.
 %autosetup -p1
 
 %build
-%{__python2} setup.py build
+%{__python3} setup.py build
 
 %install
-%{__python2} setup.py install --root %{buildroot}
+%{__python3} setup.py install --root %{buildroot}
 
 install -d %{buildroot}%{templatedir}
 install -m 644 json/*.json %{buildroot}%{templatedir}
@@ -132,7 +132,7 @@ fi
 
 %files
 %{_bindir}/*
-%{python2_sitelib}/*
+%{python3_sitelib}/*
 %dir %{templatedir}
 %{_sysconfdir}/xapi.d/*
 %{_unitdir}/*
@@ -195,6 +195,11 @@ fi
 %{templatedir}/other-install-media.json
 
 %changelog
+* Thu Jan 19 2023 Ross Lagerwall <ross.lagerwall@citrix.com> - 2.0.0-1
+- Switch upstream to GitHub
+- Build for Python 3 and drop Python 2 support
+- CP-41654: Check for duplicate uuids and reflabels in templates
+
 * Tue Nov 29 2022 Xihuan Yang <xihuan.yang@citrix.com> - 1.11.2-1
 - CP-39690: Add Ubuntu Jammy 11 (experimental) template
 
