@@ -1,6 +1,6 @@
-%global package_speccommit 18488cb39cf59200b46c82745e219f8eb8978b45
+%global package_speccommit 9ea3ba5f3d8ac989d4bde84eb6da2c0611002649
 %global usver 5.1.0
-%global xsver 4
+%global xsver 5
 %global xsrel %{xsver}%{?xscount}%{?xshash}
 ## This has to match the declaration in xs-opam-repo, which
 ## relies on this directory and being WORLD WRITABLE
