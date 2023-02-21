@@ -1,5 +1,5 @@
-%global package_speccommit 1f1b88631d03534f5a6b2b9319d37b96fcd4328c
-%global usver 6.63.0
+%global package_speccommit e05d072ac22425dcfe80e765c548d04b3cf775ca
+%global usver 6.66.0
 %global xsver 1
 %global xsrel %{xsver}%{?xscount}%{?xshash}
 ## This has to match the declaration in xs-opam-src, which
@@ -7,15 +7,15 @@
 %global _opamroot %{_libdir}/opamroot
 
 Name: xs-opam-repo
-Version: 6.63.0
+Version: 6.66.0
 Release: %{?xsrel}%{?dist}
 Summary: Build and install OCaml libraries from Opam repository
 # The license field is produced by running print-license.sh
 # Please update licenses.txt on every new version and then run the script to
 # keep these in sync.
-License: Apache-1.0 and BSD-2-Clause and BSD-3-Clause and GPL-1.0-or-later and GPL-2.0-only and ISC and LGPL-2.0-only WITH OCaml-LGPL-linking-exception and LGPL-2.0-or-later and LGPL-2.0-or-later WITH OCaml-LGPL-linking-exception and LGPL-2.1-only and LGPL-2.1-only WITH OCaml-LGPL-linking-exception and LGPL-2.1-or-later WITH OCaml-LGPL-linking-exception and LGPL-3.0-only and LGPL-3.0-only WITH OCaml-LGPL-linking-exception and LGPL with OpenSSL linking exception and MIT and PSF
+License: Apache-1.0 and BSD-2-Clause and BSD-3-Clause and BSD-like and GPL-1.0-or-later and GPL-2.0-only and ISC and LGPL-2.0-only WITH OCaml-LGPL-linking-exception and LGPL-2.0-or-later and LGPL-2.0-or-later WITH OCaml-LGPL-linking-exception and LGPL-2.1-only and LGPL-2.1-only WITH OCaml-LGPL-linking-exception and LGPL-2.1-or-later WITH OCaml-LGPL-linking-exception and LGPL-3.0-only and LGPL-3.0-only WITH OCaml-LGPL-linking-exception and LGPL WITH OpenSSL linking exception and MIT and PSF
 URL:     https://github.com/xapi-project/xs-opam
-Source0: xs-opam-repo-6.63.0.tar.gz
+Source0: xs-opam-repo-6.66.0.tar.gz
 # To "pin" a package during development, see below the example
 # where ezxenstore is pinned to an internal master branch.
 # You need the Source1 line, and the below 'tar' and 'opam pin' lines, and comment-out the OPAMFETCH
@@ -34,6 +34,7 @@ Requires:      bubblewrap
 Requires:      libev-devel
 
 BuildRequires: autoconf
+BuildRequires: curl-devel
 BuildRequires: dlm-devel
 BuildRequires: git
 BuildRequires: gmp
@@ -110,6 +111,68 @@ echo '%%_opamroot %%{_libdir}/opamroot' >> "%{buildroot}%{_rpmconfigdir}/macros.
 %{_opamroot}
 
 %changelog
+* Thu Feb 02 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.66.0-1
+- upstream: Add opentelemetry libraries for testing, includes ocurl and ezcurl
+
+* Fri Jan 27 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.65.0-1
+- CP-40716, General update of dependencies:
+- upstream: update conduit packages to 6.1.0
+- upstream: update bisect_ppx to 2.8.1
+- upstream: update io-page packages to 3.0.0
+- upstream: update conduit packages to 5.1.1
+- upstream: update x509 to 0.16.0
+- upstream: update mirage-crypto packages to 0.10.7
+- upstream: update tar packages to 2.0.1
+- upstream: update mirage-clock packages to 4.2.0
+- upstream: update ctypes to 0.20.1
+- upstream: update mirage-time packages to 3.0.0
+- upstream: update xenstore to 2.2.0
+- upstream: update lwt packages to 5.6.1
+- upstream: update vhd-format packages to 0.12.3
+- upstream: update ezjsonm to 1.3.0
+- upstream: update eqaf to 0.9
+- upstream: update hex to 1.5.0
+- upstream: update ounit packages to 2.2.6
+- upstream-extra: update react to 1.2.2
+- upstream: update ipaddr packages to 5.3.1
+- upstream: update bigarray-compat to 1.1.0
+- upstream: update integers to 0.7.0
+- upstream: update ocaml-version to 3.5.0
+- upstream: update domain-name to 0.4.0
+- upstream-extra: update odoc to 2.1.1
+- upstream: update qcheck packages to 0.19.1
+- upstream: update ocamlbuild to 0.14.1
+- upstream: update bigstringaf to 0.9.0
+- upstream: update inotify to 2.4
+- upstream: update ocaml-migrate-parsetree to 2.4.0
+- upstream: update cppo to 1.6.9
+- upstream: update re to 1.10.4
+- upstream: update sha to 1.15.2
+- upstream: update Janestreet libraries to v0.15.x
+- upstream: update cohttp packages to 2.5.6
+- upstream: update fix to 20220121
+- upstream: update menhir libraries to 20220210
+- upstream: update alcotest packages to 1.6.0
+- upstream: update uutf to 1.0.3
+- upstream: update xmlm to 1.4.0
+- upstream: update uuidm to 0.9.8
+- upstream: update topkg to 1.0.5
+- upstream: update ptime to 1.0.0
+- upstream: update conf packages
+- upstream: update ssl to 0.5.13
+- upstream: update yojson to 2.0.0 and dependencies
+- upstream-extra: update utop to 2.10.0
+- upstream-extra: update merlin to 4.5
+- upstream: update to ppx_tools to 6.5
+- upstream: update dune to 3.4.1
+- upstream: update metadata from opam-repository
+
+* Thu Jan 26 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.64.0-2
+- Bump release and rebuild
+
+* Tue Jan 10 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.64.0-1
+- xs: update polly to 0.3.0
+
 * Tue Dec 06 2022 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.63.0-1
 - xs: update ezxenstore to 0.4.2
 
