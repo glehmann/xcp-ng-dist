@@ -8,7 +8,7 @@
 
 Name: xs-opam-repo
 Version: 6.66.0
-Release: %{?xsrel}%{?dist}
+Release: %{?xsrel}.1%{?dist}
 Summary: Build and install OCaml libraries from Opam repository
 # The license field is produced by running print-license.sh
 # Please update licenses.txt on every new version and then run the script to
@@ -35,7 +35,6 @@ Requires:      libev-devel
 
 BuildRequires: autoconf
 BuildRequires: curl-devel
-BuildRequires: dlm-devel
 BuildRequires: git
 BuildRequires: gmp
 BuildRequires: gmp-devel
@@ -64,6 +63,8 @@ Toolstack components of the Citrix Hypervisor.
 
 %prep
 %autosetup -p1 -n xs-opam-repo-%{version}
+# XCP-ng: remove dlm, which is only required by proprietary xapi-clusterd
+rm -rf packages/xs/dlm.*
 
 %build
 %install
@@ -111,6 +112,10 @@ echo '%%_opamroot %%{_libdir}/opamroot' >> "%{buildroot}%{_rpmconfigdir}/macros.
 %{_opamroot}
 
 %changelog
+* Thu Mar 16 2023 Samuel Verschelde <stormi-xcp@ylix.fr> - 6.66.0-1.1
+- Remove dlm, which is only required by proprietary xapi-clusterd
+- Drop the dlm-devel BuildRequires
+
 * Thu Feb 02 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.66.0-1
 - upstream: Add opentelemetry libraries for testing, includes ocurl and ezcurl
 
