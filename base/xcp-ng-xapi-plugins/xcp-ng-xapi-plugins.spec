@@ -1,6 +1,6 @@
 Summary: XAPI additional plugins for XCP-ng
 Name: xcp-ng-xapi-plugins
-Version: 1.7.3
+Version: 1.8.0
 Release: 1%{?dist}
 URL: https://github.com/xcp-ng/xcp-ng-xapi-plugins
 Source0: https://github.com/xcp-ng/xcp-ng-xapi-plugins/archive/v%{version}/%{name}-%{version}.tar.gz
@@ -32,7 +32,13 @@ install SOURCES/etc/xapi.d/plugins/xcpngutils/*.py %{buildroot}/etc/xapi.d/plugi
 %dir /var/lib/xcp-ng-xapi-plugins
 
 %changelog
+
+* Mon Jun 12 2023 Ronan Abhamon <ronan.abhamon@vates.fr> - 1.8.0-1
+- Add a way to install packages with updater.py
+- xcp-ng-linstor is now a default repo of updater.py
+
 * Fri Feb 03 2023 Benjamin Reis <benjamin.reis@vates.fr> - 1.7.3-1
+- Add LVM plugin to list and create PVs, VGs and LVs
 - RAID plugin: handle gracefully when no RAID is present
 
 * Fri Sep 16 2022 Samuel Verschelde <stormi-xcp@ylix.fr> - 1.7.2-2
@@ -86,4 +92,3 @@ install SOURCES/etc/xapi.d/plugins/xcpngutils/*.py %{buildroot}/etc/xapi.d/plugi
 
 * Fri Jun 29 2018 Samuel Verschelde <stormi-xcp@ylix.fr> - 1.0.0-1
 - Initial package.
-
