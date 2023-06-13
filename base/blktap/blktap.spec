@@ -3,7 +3,7 @@
 Summary: blktap user space utilities
 Name: blktap
 Version: 3.53.0
-Release: 1%{?xsrel}%{?dist}
+Release: 1.1%{?xsrel}%{?dist}
 License: BSD
 Group: System/Hypervisor
 URL: https://github.com/xapi-project/blktap
@@ -24,6 +24,10 @@ Requires(postun): /sbin/ldconfig
 Conflicts: sm < 3.0.1
 
 Provides: blktap(nbd) = 2.0
+
+# XCP-ng patches
+# Required by XOSTOR
+Patch1001: 0001-Add-an-option-to-never-resolve-parent-path-when-vhd-.patch
 
 %description
 Blktap creates kernel block devices which realize I/O requests to
@@ -137,6 +141,9 @@ fi
 %{?_cov_results_package}
 
 %changelog
+* Thu Jul 13 2023 Ronan Abhamon <ronan.abhamon@vates.fr> - 3.53.0-1.1
+- Add 0001-Add-an-option-to-never-resolve-parent-path-when-vhd-.patch
+
 * Thu Jan 12 2023 Mark Syms <mark.syms@citrix.com> - 3.53.0-1
 - Use NBD in IntelliCache
 - Use optimized SMP barriers
