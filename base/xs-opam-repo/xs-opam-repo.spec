@@ -8,7 +8,7 @@
 
 Name: xs-opam-repo
 Version: 6.66.0
-Release: %{?xsrel}.1%{?dist}
+Release: %{?xsrel}.2%{?dist}
 Summary: Build and install OCaml libraries from Opam repository
 # The license field is produced by running print-license.sh
 # Please update licenses.txt on every new version and then run the script to
@@ -16,6 +16,10 @@ Summary: Build and install OCaml libraries from Opam repository
 License: Apache-1.0 and BSD-2-Clause and BSD-3-Clause and BSD-like and GPL-1.0-or-later and GPL-2.0-only and ISC and LGPL-2.0-only WITH OCaml-LGPL-linking-exception and LGPL-2.0-or-later and LGPL-2.0-or-later WITH OCaml-LGPL-linking-exception and LGPL-2.1-only and LGPL-2.1-only WITH OCaml-LGPL-linking-exception and LGPL-2.1-or-later WITH OCaml-LGPL-linking-exception and LGPL-3.0-only and LGPL-3.0-only WITH OCaml-LGPL-linking-exception and LGPL WITH OpenSSL linking exception and MIT and PSF
 URL:     https://github.com/xapi-project/xs-opam
 Source0: xs-opam-repo-6.66.0.tar.gz
+
+# XCP-ng patches
+Patch1000: xs-opam-repo-6.66.0-fix-ipv6-uri.XCP-ng.patch
+
 # To "pin" a package during development, see below the example
 # where ezxenstore is pinned to an internal master branch.
 # You need the Source1 line, and the below 'tar' and 'opam pin' lines, and comment-out the OPAMFETCH
@@ -112,6 +116,9 @@ echo '%%_opamroot %%{_libdir}/opamroot' >> "%{buildroot}%{_rpmconfigdir}/macros.
 %{_opamroot}
 
 %changelog
+* Fri Jul 07 2023 Benjamin Reis <benjamin.reis@vates.fr> - 6.66.0-1.2
+- Patch `ocaml-uri` for IPv6 URI parsing
+
 * Thu Mar 16 2023 Samuel Verschelde <stormi-xcp@ylix.fr> - 6.66.0-1.1
 - Remove dlm, which is only required by proprietary xapi-clusterd
 - Drop the dlm-devel BuildRequires
