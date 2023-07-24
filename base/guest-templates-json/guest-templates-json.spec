@@ -3,7 +3,7 @@
 Name:    guest-templates-json
 Summary: Creates the default guest templates
 Version: 2.0.0
-Release: 1.1%{?xsrel}%{?dist}
+Release: 1.2%{?xsrel}%{?dist}
 License: BSD
 Source0: guest-templates-json-2.0.0.tar.gz
 
@@ -16,6 +16,7 @@ Source1004: centos-stream-9.json
 Source1005: oel-9.json
 Source1006: rhel-9.json
 Source1007: rocky-9.json
+Source1008: debian-12.json
 
 BuildArch: noarch
 
@@ -81,7 +82,7 @@ Contains the default other guest templates.
 
 install -d %{buildroot}%{templatedir}
 install -m 644 json/*.json %{buildroot}%{templatedir}
-install -m 644 %{SOURCE1000} %{SOURCE1001} %{SOURCE1002} %{SOURCE1003} %{SOURCE1004} %{SOURCE1005} %{SOURCE1006} %{SOURCE1007} %{buildroot}%{templatedir}
+install -m 644 %{SOURCE1000} %{SOURCE1001} %{SOURCE1002} %{SOURCE1003} %{SOURCE1004} %{SOURCE1005} %{SOURCE1006} %{SOURCE1007} %{SOURCE1008} %{buildroot}%{templatedir}
 install -d %{buildroot}%{_sysconfdir}/xapi.d/vm-templates
 
 install -m 755 service/create-guest-templates-wrapper %{buildroot}%{_bindir}
@@ -209,6 +210,9 @@ fi
 %{templatedir}/other-install-media.json
 
 %changelog
+* Fri Jul 24 2023 Gael Duperrey <gduperrey@vates.fr> - 2.0.0-1.2
+- Add template for Debian 12
+
 * Tue Feb 21 2023 Samuel Verschelde <stormi-xcp@ylix.fr> - 2.0.0-1.1
 - Update to 2.0.0-1
 - *** Upstream changelog ***
