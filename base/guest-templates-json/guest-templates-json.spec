@@ -210,7 +210,7 @@ fi
 %{templatedir}/other-install-media.json
 
 %changelog
-* Fri Jul 24 2023 Gael Duperrey <gduperrey@vates.fr> - 2.0.0-1.2
+* Mon Jul 24 2023 Gael Duperrey <gduperrey@vates.fr> - 2.0.0-1.2
 - Add template for Debian 12
 
 * Tue Feb 21 2023 Samuel Verschelde <stormi-xcp@ylix.fr> - 2.0.0-1.1
