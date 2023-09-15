@@ -1,24 +1,23 @@
-diff --git a/OvmfPkg/OvmfPkgX64.dsc b/OvmfPkg/OvmfPkgX64.dsc
-index 67f7e155ee..ca4379331c 100644
---- a/OvmfPkg/OvmfPkgX64.dsc
-+++ b/OvmfPkg/OvmfPkgX64.dsc
-@@ -40,6 +40,7 @@
-   DEFINE SMM_REQUIRE             = FALSE
-   DEFINE TLS_ENABLE              = FALSE
-   DEFINE TPM2_ENABLE             = FALSE
+diff --git a/OvmfPkg/OvmfXen.dsc b/OvmfPkg/OvmfXen.dsc
+index 06cbe8ca72..c472518803 100644
+--- a/OvmfPkg/OvmfXen.dsc
++++ b/OvmfPkg/OvmfXen.dsc
+@@ -31,6 +31,7 @@ [Defines]
+   # -D FLAG=VALUE
+   #
+   DEFINE SOURCE_DEBUG_ENABLE     = FALSE
 +  DEFINE IPXE_ENABLE             = FALSE
  
-   #
-   # Flash size selection. Setting FD_SIZE_IN_KB on the command line directly to
-diff --git a/OvmfPkg/OvmfPkgX64.fdf b/OvmfPkg/OvmfPkgX64.fdf
-index 2e2a1749b5..f2e1fa8506 100644
---- a/OvmfPkg/OvmfPkgX64.fdf
-+++ b/OvmfPkg/OvmfPkgX64.fdf
-@@ -305,6 +305,14 @@ INF MdeModulePkg/Logo/LogoDxe.inf
-   FILE DRIVER = 5D695E11-9B3F-4b83-B25F-4A8D5D69BE07 {
+ !include OvmfPkg/OvmfTpmDefines.dsc.inc
+ 
+diff --git a/OvmfPkg/OvmfXen.fdf b/OvmfPkg/OvmfXen.fdf
+index 60b2fdb4ca..41fce471cb 100644
+--- a/OvmfPkg/OvmfXen.fdf
++++ b/OvmfPkg/OvmfXen.fdf
+@@ -325,6 +325,14 @@ [FV.DXEFV]
      SECTION PE32 = Intel3.5/EFIX64/E3522X2.EFI
    }
-+!endif
+ !endif
 +!if $(IPXE_ENABLE) == TRUE
 +  FILE DRIVER = 9C1011A2-FC75-4C61-BFF1-AFAACA86DCD0 {
 +    SECTION PE32 = 10ec8139.efi
@@ -26,6 +25,7 @@ index 2e2a1749b5..f2e1fa8506 100644
 +  FILE DRIVER = C4F14A61-D11E-499E-AE53-3CC64428E55A {
 +    SECTION PE32 = 8086100e.efi
 +  }
- !endif
-   INF  MdeModulePkg/Universal/Network/SnpDxe/SnpDxe.inf
-   INF  MdeModulePkg/Universal/Network/DpcDxe/DpcDxe.inf
++!endif
+ !include NetworkPkg/Network.fdf.inc
+ 
+ #

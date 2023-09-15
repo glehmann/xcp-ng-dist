@@ -6,60 +6,41 @@ the build.
 Modules that are disabled:
 * All disks are disabled except for PV drivers, otherwise it ends up
   with multiple ways of accessing the disk (PV and emulated).
-* Virtio modules
+* Virtio modules (already removed in XenOvmf)
 * Scanning USB devices takes some time and is not necessary.
-diff --git a/OvmfPkg/OvmfPkgX64.dsc b/OvmfPkg/OvmfPkgX64.dsc
-index 78519f9339..0aa2e22c30 100644
---- a/OvmfPkg/OvmfPkgX64.dsc
-+++ b/OvmfPkg/OvmfPkgX64.dsc
-@@ -42,6 +42,7 @@
-   DEFINE TPM2_ENABLE             = FALSE
+diff --git a/OvmfPkg/OvmfXen.dsc b/OvmfPkg/OvmfXen.dsc
+index 75acb49d7b..4e0a731d2a 100644
+--- a/OvmfPkg/OvmfXen.dsc
++++ b/OvmfPkg/OvmfXen.dsc
+@@ -33,6 +33,7 @@ [Defines]
+   DEFINE SOURCE_DEBUG_ENABLE     = FALSE
    DEFINE IPXE_ENABLE             = FALSE
    DEFINE XEN_VARIABLE_ENABLE     = FALSE
 +  DEFINE EXTRA_MODULES_ENABLE    = TRUE
  
-   #
-   # Flash size selection. Setting FD_SIZE_IN_KB on the command line directly to
-@@ -152,10 +153,14 @@
-   IpIoLib|MdeModulePkg/Library/DxeIpIoLib/DxeIpIoLib.inf
-   UdpIoLib|MdeModulePkg/Library/DxeUdpIoLib/DxeUdpIoLib.inf
-   DpcLib|MdeModulePkg/Library/DxeDpcLib/DxeDpcLib.inf
+ !include OvmfPkg/OvmfTpmDefines.dsc.inc
+ 
+@@ -167,7 +168,9 @@ [LibraryClasses]
+   FileHandleLib|MdePkg/Library/UefiFileHandleLib/UefiFileHandleLib.inf
+   UefiCpuLib|UefiCpuPkg/Library/BaseUefiCpuLib/BaseUefiCpuLib.inf
+   SecurityManagementLib|MdeModulePkg/Library/DxeSecurityManagementLib/DxeSecurityManagementLib.inf
 +!if $(EXTRA_MODULES_ENABLE) == TRUE
    UefiUsbLib|MdePkg/Library/UefiUsbLib/UefiUsbLib.inf
 +!endif
    SerializeVariablesLib|OvmfPkg/Library/SerializeVariablesLib/SerializeVariablesLib.inf
    QemuFwCfgLib|OvmfPkg/Library/QemuFwCfgLib/QemuFwCfgDxeLib.inf
-+!if $(EXTRA_MODULES_ENABLE) == TRUE
-   VirtioLib|OvmfPkg/Library/VirtioLib/VirtioLib.inf
-+!endif
-   LoadLinuxLib|OvmfPkg/Library/LoadLinuxLib/LoadLinuxLib.inf
-   MemEncryptSevLib|OvmfPkg/Library/BaseMemEncryptSevLib/BaseMemEncryptSevLib.inf
- !if $(SMM_REQUIRE) == FALSE
-@@ -336,7 +341,9 @@
- !else
-   DebugLib|OvmfPkg/Library/PlatformDebugLibIoPort/PlatformDebugLibIoPort.inf
- !endif
+   QemuLoadImageLib|OvmfPkg/Library/GenericQemuLoadImageLib/GenericQemuLoadImageLib.inf
+@@ -326,7 +329,9 @@ [LibraryClasses.common.UEFI_DRIVER]
+   DxeCoreEntryPoint|MdePkg/Library/DxeCoreEntryPoint/DxeCoreEntryPoint.inf
+   MemoryAllocationLib|MdePkg/Library/UefiMemoryAllocationLib/UefiMemoryAllocationLib.inf
+   ReportStatusCodeLib|MdeModulePkg/Library/DxeReportStatusCodeLib/DxeReportStatusCodeLib.inf
 +!if $(EXTRA_MODULES_ENABLE) == TRUE
    UefiScsiLib|MdePkg/Library/UefiScsiLib/UefiScsiLib.inf
 +!endif
    PciLib|OvmfPkg/Library/DxePciLibI440FxQ35/DxePciLibI440FxQ35.inf
  
  [LibraryClasses.common.DXE_DRIVER]
-@@ -711,11 +718,13 @@
-       NULL|IntelFrameworkModulePkg/Library/LegacyBootMaintUiLib/LegacyBootMaintUiLib.inf
- !endif
-   }
-+!if $(EXTRA_MODULES_ENABLE) == TRUE
-   OvmfPkg/VirtioPciDeviceDxe/VirtioPciDeviceDxe.inf
-   OvmfPkg/Virtio10Dxe/Virtio10.inf
-   OvmfPkg/VirtioBlkDxe/VirtioBlk.inf
-   OvmfPkg/VirtioScsiDxe/VirtioScsi.inf
-   OvmfPkg/VirtioRngDxe/VirtioRng.inf
-+!endif
-   OvmfPkg/XenIoPciDxe/XenIoPciDxe.inf
-   OvmfPkg/XenBusDxe/XenBusDxe.inf
-   OvmfPkg/XenPvBlkDxe/XenPvBlkDxe.inf
-@@ -741,19 +750,23 @@
+@@ -655,12 +660,14 @@ [Components]
    MdeModulePkg/Universal/Disk/UnicodeCollation/EnglishDxe/EnglishDxe.inf
    FatPkg/EnhancedFatDxe/Fat.inf
    MdeModulePkg/Universal/Disk/UdfDxe/UdfDxe.inf
@@ -74,60 +55,26 @@ index 78519f9339..0aa2e22c30 100644
    MdeModulePkg/Universal/HiiDatabaseDxe/HiiDatabaseDxe.inf
    MdeModulePkg/Universal/SetupBrowserDxe/SetupBrowserDxe.inf
    MdeModulePkg/Universal/DisplayEngineDxe/DisplayEngineDxe.inf
-   MdeModulePkg/Universal/MemoryTest/NullMemoryTestDxe/NullMemoryTestDxe.inf
- 
-   OvmfPkg/QemuVideoDxe/QemuVideoDxe.inf
-+!if $(EXTRA_MODULES_ENABLE) == TRUE
-   OvmfPkg/VirtioGpuDxe/VirtioGpu.inf
-+!endif
- 
+@@ -709,12 +716,14 @@ [Components]
    #
-   # ISA Support
-@@ -762,7 +775,9 @@
-   IntelFrameworkModulePkg/Bus/Isa/IsaBusDxe/IsaBusDxe.inf
-   IntelFrameworkModulePkg/Bus/Isa/IsaSerialDxe/IsaSerialDxe.inf
-   IntelFrameworkModulePkg/Bus/Isa/Ps2KeyboardDxe/Ps2keyboardDxe.inf
-+!if $(EXTRA_MODULES_ENABLE) == TRUE
-   IntelFrameworkModulePkg/Bus/Isa/IsaFloppyDxe/IsaFloppyDxe.inf
-+!endif
- 
+   # Usb Support
    #
-   # SMBIOS Support
-@@ -821,6 +836,7 @@
-       NULL|OvmfPkg/Library/TlsAuthConfigLib/TlsAuthConfigLib.inf
-   }
- !endif
 +!if $(EXTRA_MODULES_ENABLE) == TRUE
-   OvmfPkg/VirtioNetDxe/VirtioNet.inf
- 
-   #
-@@ -832,6 +848,7 @@
+   MdeModulePkg/Bus/Pci/UhciDxe/UhciDxe.inf
+   MdeModulePkg/Bus/Pci/EhciDxe/EhciDxe.inf
+   MdeModulePkg/Bus/Pci/XhciDxe/XhciDxe.inf
    MdeModulePkg/Bus/Usb/UsbBusDxe/UsbBusDxe.inf
    MdeModulePkg/Bus/Usb/UsbKbDxe/UsbKbDxe.inf
    MdeModulePkg/Bus/Usb/UsbMassStorageDxe/UsbMassStorageDxe.inf
 +!endif
  
  !ifdef $(CSM_ENABLE)
-   IntelFrameworkModulePkg/Csm/BiosThunk/VideoDxe/VideoDxe.inf {
-diff --git a/OvmfPkg/OvmfPkgX64.fdf b/OvmfPkg/OvmfPkgX64.fdf
-index dba683c6e6..8a35ade3f8 100644
---- a/OvmfPkg/OvmfPkgX64.fdf
-+++ b/OvmfPkg/OvmfPkgX64.fdf
-@@ -228,11 +228,13 @@ INF  MdeModulePkg/Universal/ResetSystemRuntimeDxe/ResetSystemRuntimeDxe.inf
- INF  MdeModulePkg/Universal/Metronome/Metronome.inf
- INF  PcAtChipsetPkg/PcatRealTimeClockRuntimeDxe/PcatRealTimeClockRuntimeDxe.inf
- 
-+!if $(EXTRA_MODULES_ENABLE) == TRUE
- INF  OvmfPkg/VirtioPciDeviceDxe/VirtioPciDeviceDxe.inf
- INF  OvmfPkg/Virtio10Dxe/Virtio10.inf
- INF  OvmfPkg/VirtioBlkDxe/VirtioBlk.inf
- INF  OvmfPkg/VirtioScsiDxe/VirtioScsi.inf
- INF  OvmfPkg/VirtioRngDxe/VirtioRng.inf
-+!endif
- INF  OvmfPkg/XenIoPciDxe/XenIoPciDxe.inf
- INF  OvmfPkg/XenBusDxe/XenBusDxe.inf
- INF  OvmfPkg/XenPvBlkDxe/XenPvBlkDxe.inf
-@@ -257,12 +259,14 @@ INF  MdeModulePkg/Universal/Disk/DiskIoDxe/DiskIoDxe.inf
+   OvmfPkg/Csm/BiosThunk/VideoDxe/VideoDxe.inf {
+diff --git a/OvmfPkg/OvmfXen.fdf b/OvmfPkg/OvmfXen.fdf
+index db0466ca47..12f50aaa03 100644
+--- a/OvmfPkg/OvmfXen.fdf
++++ b/OvmfPkg/OvmfXen.fdf
+@@ -281,12 +281,14 @@ [FV.DXEFV]
  INF  MdeModulePkg/Universal/Disk/PartitionDxe/PartitionDxe.inf
  INF  MdeModulePkg/Universal/Disk/RamDiskDxe/RamDiskDxe.inf
  INF  MdeModulePkg/Universal/Disk/UnicodeCollation/EnglishDxe/EnglishDxe.inf
@@ -142,39 +89,18 @@ index dba683c6e6..8a35ade3f8 100644
  INF  MdeModulePkg/Universal/HiiDatabaseDxe/HiiDatabaseDxe.inf
  INF  MdeModulePkg/Universal/SetupBrowserDxe/SetupBrowserDxe.inf
  INF  MdeModulePkg/Universal/DisplayEngineDxe/DisplayEngineDxe.inf
-@@ -276,7 +280,9 @@ INF  IntelFrameworkModulePkg/Bus/Isa/IsaSerialDxe/IsaSerialDxe.inf
- !endif
- 
- INF  IntelFrameworkModulePkg/Bus/Isa/Ps2KeyboardDxe/Ps2keyboardDxe.inf
-+!if $(EXTRA_MODULES_ENABLE) == TRUE
- INF  IntelFrameworkModulePkg/Bus/Isa/IsaFloppyDxe/IsaFloppyDxe.inf
-+!endif
- 
- INF  MdeModulePkg/Universal/SmbiosDxe/SmbiosDxe.inf
- INF  OvmfPkg/SmbiosPlatformDxe/SmbiosPlatformDxe.inf
-@@ -348,6 +354,7 @@ INF MdeModulePkg/Logo/LogoDxe.inf
-   INF  NetworkPkg/TlsDxe/TlsDxe.inf
-   INF  NetworkPkg/TlsAuthConfigDxe/TlsAuthConfigDxe.inf
- !endif
-+!if $(EXTRA_MODULES_ENABLE) == TRUE
-   INF  OvmfPkg/VirtioNetDxe/VirtioNet.inf
- 
+@@ -340,12 +342,14 @@ [FV.DXEFV]
  #
-@@ -359,6 +366,7 @@ INF  MdeModulePkg/Bus/Pci/XhciDxe/XhciDxe.inf
+ # Usb Support
+ #
++!if $(EXTRA_MODULES_ENABLE) == TRUE
+ INF  MdeModulePkg/Bus/Pci/UhciDxe/UhciDxe.inf
+ INF  MdeModulePkg/Bus/Pci/EhciDxe/EhciDxe.inf
+ INF  MdeModulePkg/Bus/Pci/XhciDxe/XhciDxe.inf
  INF  MdeModulePkg/Bus/Usb/UsbBusDxe/UsbBusDxe.inf
  INF  MdeModulePkg/Bus/Usb/UsbKbDxe/UsbKbDxe.inf
  INF  MdeModulePkg/Bus/Usb/UsbMassStorageDxe/UsbMassStorageDxe.inf
 +!endif
  
  !ifdef $(CSM_ENABLE)
- INF  IntelFrameworkModulePkg/Csm/BiosThunk/VideoDxe/VideoDxe.inf
-@@ -367,7 +375,9 @@ INF  RuleOverride=CSM OvmfPkg/Csm/Csm16/Csm16.inf
- !endif
- 
- INF  OvmfPkg/QemuVideoDxe/QemuVideoDxe.inf
-+!if $(EXTRA_MODULES_ENABLE) == TRUE
- INF  OvmfPkg/VirtioGpuDxe/VirtioGpu.inf
-+!endif
- INF  OvmfPkg/PlatformDxe/Platform.inf
- INF  OvmfPkg/AmdSevDxe/AmdSevDxe.inf
- INF  OvmfPkg/IoMmuDxe/IoMmuDxe.inf
+ INF  OvmfPkg/Csm/BiosThunk/VideoDxe/VideoDxe.inf

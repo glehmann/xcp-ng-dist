@@ -1,67 +1,59 @@
-%global package_speccommit 06a9e04f5905e3a3f76236873078f567bd4496cf
-%global usver 20180522git4b8552d
-%global xsver 1.5.1
+%global package_speccommit a92bee86f47e6720d9ad50d7ebcba761297e60df
+%global usver 20220801
+%global xsver 1.7.1
 %global xsrel %{xsver}%{?xscount}%{?xshash}
-%global package_srccommit 4b8552d
+%global package_srccommit edk2-stable202208
+
+# submodule CryptoPkg/Library/OpensslLib/openssl
+%define openssllib_cset d82e959e621a3d597f1e0d50ff8c2d8b96915fd7
+%define openssllib_path CryptoPkg/Library/OpensslLib/openssl
+
+# submodule BaseTools/Source/C/BrotliCompress/brotli
+%define brotli_basetools_cset f4153a09f87cbb9c826d8fc12c74642bb2d879ea
+%define brotli_basetools_path BaseTools/Source/C/BrotliCompress/brotli
+
+# submodule MdeModulePkg/Library/BrotliCustomDecompressLib/brotli
+%define brotli_lib_cset f4153a09f87cbb9c826d8fc12c74642bb2d879ea
+%define brotli_lib_path MdeModulePkg/Library/BrotliCustomDecompressLib/brotli
 
 Name: edk2
 Summary: EFI Development Kit II
-Version: 20180522git4b8552d
+Version: 20220801
 Release: %{?xsrel}%{?dist}
 
 License: BSD and MIT
 URL: https://github.com/tianocore/edk2
-Source0: edk2-20180522git4b8552d.tar.gz
+Source0: edk2-20220801.tar.gz
 Source1: calc-pcrs.py
-Patch0: 0001-OvmfPkg-XenSupport-remove-usage-of-prefetchable-PCI-.patch
-Patch1: 0002-OvmfPkg-XenSupport-use-a-correct-PCI-host-bridge-ape.patch
-Patch2: 0003-OvmfPkg-XenSupport-turn-off-address-decoding-before-.patch
-Patch3: 0001-OvmfPkg-End-timer-interrupt-later-to-avoid-stack-ove.patch
-Patch4: 0001-fix-type-in-ini-py.patch
-Patch5: 0001-MdeModulePkg-Core-Create-Migrated-FV-Info-Hob-for-ca.patch
-Patch6: 0001-SecurityPkg-Tcg2Pei-Use-Migrated-FV-Info-Hob-for-cal.patch
-Patch7: 0001-MdePkg-TimerRngLib-Added-RngLib-that-uses-TimerLib.patch
-Patch8: 0001-OvmfPkg-Add-RngLib-based-on-TimerLib-for-Crypto.patch
-Patch9: 0001-SecurityPkg-TPM-Import-PeiDxeTpmPlatformHierarchyLib.patch
-Patch10: 0002-SecurityPkg-TPM-Fix-bugs-in-imported-PeiDxeTpmPlatfo.patch
-Patch11: 0003-SecrutiyPkg-Tcg-Import-Tcg2PlatformDxe-from-edk2-pla.patch
-Patch12: 0004-SecurityPkg-Tcg-Make-Tcg2PlatformDxe-buildable-and-f.patch
-Patch13: 0005-SecurityPkg-Introduce-new-PCD-PcdRandomizePlatformHi.patch
-Patch14: 0006-SecurityPkg-Tcg-Import-Tcg2PlatformPei-from-edk2-pla.patch
-Patch15: 0007-SecurityPkg-Tcg-Make-Tcg2PlatformPei-buildable-and-f.patch
-Patch16: 0008-SecurityPkg-Add-references-to-header-and-inf-files-t.patch
-Patch17: 0001-OvmfPkg-Reference-new-Tcg2PlatformPei-in-the-build-s.patch
-Patch18: 0002-OvmfPkg-Reference-new-Tcg2PlatformDxe-in-the-build-s.patch
-Patch19: 0003-OvmfPkg-Handle-TPM-2-physical-presence-opcodes-much-.patch
-Patch20: 0004-OvmfPkg-TPM-PPI-Connect-default-consoles-for-user-in.patch
-Patch21: 0001-OvmfPkg-Call-PlatformInitializeConsole-for-GPU-passt.patch
-Patch22: ovmfpkg__add_tcg2_configuration_menu_to_the_device_manager_menu.patch
-Patch23: 0001-OvmfPkg-XenPlatformPei-Use-CPUID-to-get-physical-add.patch
-Patch24: ovmfpkg-xenpvblkdxe__fix_memory_barrier_macro.patch
-Patch25: openssl.patch
-Patch26: nvidia-vgpu-support.patch
-Patch27: gvt-g-support.patch
-Patch28: set-default-resolution-1024-768.patch
-Patch29: embed-nic-drivers.patch
-Patch30: add-xen-variable.patch
-Patch31: add-xen-platform-device-id.patch
-Patch32: disable-modules.patch
-Patch33: xenorder.patch
-Patch34: keep-caching-enabled.patch
-Patch35: remove-unused-crypto.patch
-Patch36: add-Tcg2PhysicalPresenceLibXen.patch
-Patch37: tcg2config-fix-operation-parameter-prompt.patch
-Patch38: set-tpm2-acpi-table-revision.patch
-Patch39: disable-config-option-in-TCG2-config-screen.patch
-Patch40: shadow-pei-for-consistent-measurements.patch
+Source2: openssl-d82e959e621a3d597f1e0d50ff8c2d8b96915fd7.tar.gz
+Source3: brotli-basetools-f4153a09f87cbb9c826d8fc12c74642bb2d879ea.tar.gz
+Source4: brotli-lib-f4153a09f87cbb9c826d8fc12c74642bb2d879ea.tar.gz
+Patch0: ovmfpkg-xenpvblkdxe__fix_memory_barrier_macro.patch
+Patch1: ovmfxen-add-tpm-support.patch
+Patch2: MdePkg-SecPeiDxeTimerLibCpu-Support-for-dynamic-PcdF.patch
+Patch3: OvmfPkg-OvmfXen-Use-RuntimeTimerLibCpu-for-DXE_DRIVER.patch
+Patch4: nvidia-vgpu-support.patch
+Patch5: gvt-g-support.patch
+Patch6: embed-nic-drivers.patch
+Patch7: add-xen-variable.patch
+Patch8: add-xen-platform-device-id.patch
+Patch9: disable-modules.patch
+Patch10: xenorder.patch
+Patch11: keep-caching-enabled.patch
+Patch12: remove-unused-crypto.patch
+Patch13: add-Tcg2PhysicalPresenceLibXen.patch
+Patch14: tcg2config-fix-operation-parameter-prompt.patch
+Patch15: set-tpm2-acpi-table-revision.patch
+Patch16: disable-config-option-in-TCG2-config-screen.patch
+Patch17: shadow-pei-for-consistent-measurements.patch
+Patch18: set-default-resolution-1024-768.patch
 
-BuildRequires: gcc gcc-c++
-BuildRequires: python
+BuildRequires: devtoolset-11-gcc devtoolset-11-binutils
+BuildRequires: python3
 BuildRequires: libuuid-devel
-BuildRequires: nasm
+BuildRequires: nasm >= 2.15
 BuildRequires: iasl
 BuildRequires: ipxe-efi
-BuildRequires: python3
 %{?_cov_buildrequires}
 
 
@@ -75,48 +67,66 @@ as firmware in a virtual machine.
 %autosetup -p1
 %{?_cov_prepare}
 
+# submodule CryptoPkg/Library/OpensslLib/openssl
+tar xzf %{SOURCE2}
+# submodule BaseTools/Source/C/BrotliCompress/brotli
+tar xzf %{SOURCE3}
+# submodule MdeModulePkg/Library/BrotliCustomDecompressLib/brotli
+tar xzf %{SOURCE4}
+
 
 %build
+
+source /opt/rh/devtoolset-11/enable
+
 cp %{_datadir}/ipxe/10ec8139.efi .
 cp %{_datadir}/ipxe/8086100e.efi .
 
+# Add "-D DEBUG_ON_HYPERVISOR_CONSOLE" to print logs to Xen's console and avoid
+# the need to change qemu-wrapper.
+
 %{?_cov_wrap} OvmfPkg/build.sh \
     -D SECURE_BOOT_ENABLE=TRUE \
-    -D NETWORK_IP6_ENABLE=FALSE \
+    -D NETWORK_IP6_ENABLE=TRUE \
     -D IPXE_ENABLE=TRUE \
-    -D HTTP_BOOT_ENABLE=FALSE \
-    -D TLS_ENABLE=FALSE \
+    -D NETWORK_HTTP_BOOT_ENABLE=FALSE \
+    -D NETWORK_TLS_ENABLE=FALSE \
+    -D NETWORK_ISCSI_ENABLE=FALSE \
     -D XEN_VARIABLE_ENABLE=TRUE \
     -D EXTRA_MODULES_ENABLE=FALSE \
     -D FD_SIZE_2MB \
+    -D TPM1_ENABLE=FALSE \
     -D TPM2_ENABLE \
-    -D TPM2_CONFIG_ENABLE \
     -b DEBUG \
-    -a X64 -n %{?_smp_flags}
+    -p OvmfPkg/OvmfXen.dsc -n %{?_smp_flags}
 
-python3 %{SOURCE1} Build/OvmfX64/DEBUG_GCC*/FV/PEIFV.Fv Build/OvmfX64/DEBUG_GCC*/FV/DXEFV.Fv > OVMF-debug.pcrs
+python3 %{SOURCE1} Build/OvmfXen/DEBUG_GCC*/FV/PEIFV.Fv Build/OvmfXen/DEBUG_GCC*/FV/DXEFV.Fv > OVMF-debug.pcrs
 
 %{?_cov_wrap} OvmfPkg/build.sh \
     -D SECURE_BOOT_ENABLE=TRUE \
-    -D NETWORK_IP6_ENABLE=FALSE \
+    -D NETWORK_IP6_ENABLE=TRUE \
     -D IPXE_ENABLE=TRUE \
-    -D HTTP_BOOT_ENABLE=FALSE \
-    -D TLS_ENABLE=FALSE \
+    -D NETWORK_HTTP_BOOT_ENABLE=FALSE \
+    -D NETWORK_TLS_ENABLE=FALSE \
+    -D NETWORK_ISCSI_ENABLE=FALSE \
     -D XEN_VARIABLE_ENABLE=TRUE \
     -D EXTRA_MODULES_ENABLE=FALSE \
     -D FD_SIZE_2MB \
+    -D TPM1_ENABLE=FALSE \
     -D TPM2_ENABLE \
-    -D TPM2_CONFIG_ENABLE \
     -b RELEASE \
-    -a X64 -n %{?_smp_flags}
+    -p OvmfPkg/OvmfXen.dsc -n %{?_smp_flags}
 
-python3 %{SOURCE1} Build/OvmfX64/RELEASE_GCC*/FV/PEIFV.Fv Build/OvmfX64/RELEASE_GCC*/FV/DXEFV.Fv > OVMF-release.pcrs
+python3 %{SOURCE1} Build/OvmfXen/RELEASE_GCC*/FV/PEIFV.Fv Build/OvmfXen/RELEASE_GCC*/FV/DXEFV.Fv > OVMF-release.pcrs
 
 
 %install
+
+source /opt/rh/devtoolset-11/enable
+
 install -m 755 -d %{buildroot}/%{_datadir}/%{name}
-install -m 644 Build/OvmfX64/DEBUG_GCC*/FV/OVMF.fd %{buildroot}/%{_datadir}/%{name}/OVMF-debug.fd
-install -m 644 Build/OvmfX64/RELEASE_GCC*/FV/OVMF.fd %{buildroot}/%{_datadir}/%{name}/OVMF-release.fd
+install -m 644 Build/OvmfXen/DEBUG_GCC*/FV/OVMF.fd %{buildroot}/%{_datadir}/%{name}/OVMF-debug.fd
+install -m 644 Build/OvmfXen/RELEASE_GCC*/FV/OVMF.fd %{buildroot}/%{_datadir}/%{name}/OVMF-release.fd
 ln -sf OVMF-release.fd %{buildroot}/%{_datadir}/%{name}/OVMF.fd
 
 install -m 644 OVMF-debug.pcrs %{buildroot}/%{_datadir}/%{name}/OVMF-debug.pcrs
@@ -138,6 +148,15 @@ cp OvmfPkg/License.txt License.ovmf
 
 
 %changelog
+* Fri May 26 2023 Ross Lagerwall <ross.lagerwall@citrix.com> - 20220801-1.7.1
+- CA-377781: Set default resolution back to 1024x768
+
+* Thu Mar 30 2023 Anthony PERARD <anthony.perard@citrix.com> - 20220801-1.7.0
+- Update to newer version, edk2-stable202208 release.
+
+* Wed Mar 29 2023 Ross Lagerwall <ross.lagerwall@citrix.com> - 20180522git4b8552d-1.6.0
+- CP-41446: Enable IPv6 support
+
 * Fri Nov 11 2022 Ross Lagerwall <ross.lagerwall@citrix.com> - 20180522git4b8552d-1.5.1
 - CA-372205: OVMF: Shadow PEI for consistent measurements
 - CA-372205: Calculate PCR 0 and 2 at build time

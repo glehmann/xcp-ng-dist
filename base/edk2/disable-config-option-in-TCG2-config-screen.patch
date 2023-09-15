@@ -7,10 +7,10 @@ Add new PPI commands that the Xen module supports.
 
 Signed-off-by: Anthony PERARD <anthony.perard@citrix.com>
 diff --git a/SecurityPkg/Tcg/Tcg2Config/Tcg2Config.vfr b/SecurityPkg/Tcg/Tcg2Config/Tcg2Config.vfr
-index 6b132d08c6..45abaa9dd2 100644
+index aec96e0c1e..56932dff5a 100644
 --- a/SecurityPkg/Tcg/Tcg2Config/Tcg2Config.vfr
 +++ b/SecurityPkg/Tcg/Tcg2Config/Tcg2Config.vfr
-@@ -48,6 +48,7 @@ formset
+@@ -42,6 +42,7 @@ formset
        text   = STRING_TOKEN(STR_TCG2_DEVICE_STATE_PROMPT),
          text   = STRING_TOKEN(STR_TCG2_DEVICE_STATE_CONTENT);
  
@@ -18,7 +18,7 @@ index 6b132d08c6..45abaa9dd2 100644
      oneof varid  = TCG2_CONFIGURATION.TpmDevice,
            questionid = KEY_TPM_DEVICE,
            prompt = STRING_TOKEN(STR_TCG2_DEVICE_PROMPT),
-@@ -56,6 +57,7 @@ formset
+@@ -50,6 +51,7 @@ formset
              option text = STRING_TOKEN(STR_TCG2_TPM_1_2),          value = TPM_DEVICE_1_2,          flags = DEFAULT | MANUFACTURING | RESET_REQUIRED;
              option text = STRING_TOKEN(STR_TCG2_TPM_2_0_DTPM),     value = TPM_DEVICE_2_0_DTPM,     flags = RESET_REQUIRED;
      endoneof;
@@ -26,7 +26,7 @@ index 6b132d08c6..45abaa9dd2 100644
  
      suppressif ideqvallist TCG2_CONFIGURATION.TpmDevice == TPM_DEVICE_NULL TPM_DEVICE_1_2;
  
-@@ -71,6 +73,7 @@ formset
+@@ -65,6 +67,7 @@ formset
        text   = STRING_TOKEN(STR_TPM2_ACPI_REVISION_STATE_PROMPT),
          text   = STRING_TOKEN(STR_TPM2_ACPI_REVISION_STATE_CONTENT);
  
@@ -34,7 +34,7 @@ index 6b132d08c6..45abaa9dd2 100644
      oneof varid  = TCG2_VERSION.Tpm2AcpiTableRev,
            questionid = KEY_TPM2_ACPI_REVISION,
            prompt = STRING_TOKEN(STR_TPM2_ACPI_REVISION_PROMPT),
-@@ -79,6 +82,7 @@ formset
+@@ -73,6 +76,7 @@ formset
              option text = STRING_TOKEN(STR_TPM2_ACPI_REVISION_3),     value = TPM2_ACPI_REVISION_3,     flags = RESET_REQUIRED;
              option text = STRING_TOKEN(STR_TPM2_ACPI_REVISION_4),     value = TPM2_ACPI_REVISION_4,     flags = DEFAULT | MANUFACTURING | RESET_REQUIRED;
      endoneof;
@@ -42,7 +42,7 @@ index 6b132d08c6..45abaa9dd2 100644
  
      subtitle text = STRING_TOKEN(STR_NULL);
  
-@@ -131,6 +135,7 @@ formset
+@@ -125,6 +129,7 @@ formset
        text   = STRING_TOKEN(STR_TCG2_PPI_VERSION_STATE_PROMPT),
          text   = STRING_TOKEN(STR_TCG2_PPI_VERSION_STATE_CONTENT);
  
@@ -50,7 +50,7 @@ index 6b132d08c6..45abaa9dd2 100644
      oneof varid  = TCG2_VERSION.PpiVersion,
            questionid = KEY_TCG2_PPI_VERSION,
            prompt = STRING_TOKEN(STR_TCG2_PPI_VERSION_PROMPT),
-@@ -139,6 +144,7 @@ formset
+@@ -133,6 +138,7 @@ formset
              option text = STRING_TOKEN(STR_TCG2_PPI_VERSION_1_2), value = TCG2_PPI_VERSION_1_2, flags = RESET_REQUIRED;
              option text = STRING_TOKEN(STR_TCG2_PPI_VERSION_1_3), value = TCG2_PPI_VERSION_1_3, flags = DEFAULT | MANUFACTURING | RESET_REQUIRED;
      endoneof;
@@ -58,7 +58,7 @@ index 6b132d08c6..45abaa9dd2 100644
  
      oneof name = Tpm2Operation,
            questionid = KEY_TPM2_OPERATION,
-@@ -146,13 +152,33 @@ formset
+@@ -140,15 +146,34 @@ formset
            help   = STRING_TOKEN(STR_TCG2_OPERATION_HELP),
            flags  = INTERACTIVE | NUMERIC_SIZE_1,
              option text = STRING_TOKEN(STR_TCG2_NO_ACTION), value = TCG2_PHYSICAL_PRESENCE_NO_ACTION, flags = DEFAULT | MANUFACTURING | RESET_REQUIRED;
@@ -68,7 +68,9 @@ index 6b132d08c6..45abaa9dd2 100644
 +            endif;
              option text = STRING_TOKEN(STR_TCG2_CLEAR), value = TCG2_PHYSICAL_PRESENCE_CLEAR, flags = RESET_REQUIRED;
              option text = STRING_TOKEN(STR_TCG2_SET_PCD_BANKS), value = TCG2_PHYSICAL_PRESENCE_SET_PCR_BANKS, flags = RESET_REQUIRED;
+             suppressif ideqval TCG2_CONFIGURATION_INFO.ChangeEPSSupported == 0;
              option text = STRING_TOKEN(STR_TCG2_CHANGE_EPS), value = TCG2_PHYSICAL_PRESENCE_CHANGE_EPS, flags = RESET_REQUIRED;
+             endif
              option text = STRING_TOKEN(STR_TCG2_LOG_ALL_DIGESTS), value = TCG2_PHYSICAL_PRESENCE_LOG_ALL_DIGESTS, flags = RESET_REQUIRED;
 +            suppressif ideqval TCG2_CONFIGURATION_INFO.ChangeEndorsementSupported == 0;
              option text = STRING_TOKEN(STR_TCG2_DISABLE_ENDORSEMENT_ENABLE_STORAGE_HIERARCHY), value = TCG2_PHYSICAL_PRESENCE_DISABLE_ENDORSEMENT_ENABLE_STORAGE_HIERARCHY, flags = RESET_REQUIRED;
@@ -88,15 +90,14 @@ index 6b132d08c6..45abaa9dd2 100644
 +            option text = STRING_TOKEN(STR_TCG2_SET_PP_REQUIRED_FOR_DISABLE_BLOCK_SID_FUNC_TRUE), value = TCG2_PHYSICAL_PRESENCE_SET_PP_REQUIRED_FOR_DISABLE_BLOCK_SID_FUNC_TRUE, flags = RESET_REQUIRED;
 +            option text = STRING_TOKEN(STR_TCG2_SET_PP_REQUIRED_FOR_DISABLE_BLOCK_SID_FUNC_FALSE), value = TCG2_PHYSICAL_PRESENCE_SET_PP_REQUIRED_FOR_DISABLE_BLOCK_SID_FUNC_FALSE, flags = RESET_REQUIRED;
 +            endif;
-+
      endoneof;
-     
+ 
      suppressif questionref(Tpm2Operation) != TCG2_PHYSICAL_PRESENCE_SET_PCR_BANKS;
 diff --git a/SecurityPkg/Tcg/Tcg2Config/Tcg2ConfigImpl.c b/SecurityPkg/Tcg/Tcg2Config/Tcg2ConfigImpl.c
-index 4195b6c68f..343c627347 100644
+index 6eb04c0144..81ac6a0fab 100644
 --- a/SecurityPkg/Tcg/Tcg2Config/Tcg2ConfigImpl.c
 +++ b/SecurityPkg/Tcg/Tcg2Config/Tcg2ConfigImpl.c
-@@ -980,6 +980,13 @@ InstallTcg2ConfigForm (
+@@ -986,6 +986,13 @@ InstallTcg2ConfigForm (
      }
    }
  
@@ -111,13 +112,13 @@ index 4195b6c68f..343c627347 100644
    // Set ConfigInfo, to control the check box.
    //
 diff --git a/SecurityPkg/Tcg/Tcg2Config/Tcg2ConfigNvData.h b/SecurityPkg/Tcg/Tcg2Config/Tcg2ConfigNvData.h
-index 5960446421..82ff27ae5c 100644
+index 69ef560047..312f33d72a 100644
 --- a/SecurityPkg/Tcg/Tcg2Config/Tcg2ConfigNvData.h
 +++ b/SecurityPkg/Tcg/Tcg2Config/Tcg2ConfigNvData.h
-@@ -88,6 +88,12 @@ typedef struct {
-   UINT8    TpmDeviceInterfaceAttempt;
-   BOOLEAN  TpmDeviceInterfacePtpFifoSupported;
-   BOOLEAN  TpmDeviceInterfacePtpCrbSupported;
+@@ -71,6 +71,12 @@ typedef struct {
+   BOOLEAN    TpmDeviceInterfacePtpFifoSupported;
+   BOOLEAN    TpmDeviceInterfacePtpCrbSupported;
+   BOOLEAN    ChangeEPSSupported;
 +  BOOLEAN  TpmConfigVersionSupported;
 +  BOOLEAN  TpmConfigPpiVersionSupported;
 +  BOOLEAN  ChangePpiManagementFlagsSupported;
@@ -128,10 +129,10 @@ index 5960446421..82ff27ae5c 100644
  
  //
 diff --git a/SecurityPkg/Tcg/Tcg2Config/Tcg2ConfigStrings.uni b/SecurityPkg/Tcg/Tcg2Config/Tcg2ConfigStrings.uni
-index a7d62bcbe6..8896a9d848 100644
+index ee7fa081b6..c65369384e 100644
 --- a/SecurityPkg/Tcg/Tcg2Config/Tcg2ConfigStrings.uni
 +++ b/SecurityPkg/Tcg/Tcg2Config/Tcg2ConfigStrings.uni
-@@ -76,6 +76,18 @@ WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED.
+@@ -70,6 +70,18 @@ SPDX-License-Identifier: BSD-2-Clause-Patent
  #string STR_TCG2_CHANGE_EPS                #language en-US "TPM2 ChangeEPS"
  #string STR_TCG2_LOG_ALL_DIGESTS           #language en-US "TCG2 LogAllDigests"
  #string STR_TCG2_DISABLE_ENDORSEMENT_ENABLE_STORAGE_HIERARCHY   #language en-US "TPM2 HierarchyControl (TPM_RH_OWNER NO, TPM_RH_ENDORSEMENT YES)"
