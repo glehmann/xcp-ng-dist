@@ -1,15 +1,15 @@
-diff --git a/OvmfPkg/OvmfPkgX64.dsc b/OvmfPkg/OvmfPkgX64.dsc
-index 579a6fe..487a1e0 100644
---- a/OvmfPkg/OvmfPkgX64.dsc
-+++ b/OvmfPkg/OvmfPkgX64.dsc
-@@ -541,8 +541,8 @@
+diff --git a/OvmfPkg/OvmfXen.dsc b/OvmfPkg/OvmfXen.dsc
+index 0cc6098ba1..5f2e1dc9aa 100644
+--- a/OvmfPkg/OvmfXen.dsc
++++ b/OvmfPkg/OvmfXen.dsc
+@@ -492,8 +492,8 @@
+   gEfiMdeModulePkgTokenSpaceGuid.PcdFlashNvStorageFtwSpareBase64|0
    gEfiMdeModulePkgTokenSpaceGuid.PcdFlashNvStorageFtwWorkingBase|0
    gEfiMdeModulePkgTokenSpaceGuid.PcdFlashNvStorageFtwSpareBase|0
-   gEfiMdeModulePkgTokenSpaceGuid.PcdPciDisableBusEnumeration|FALSE
--  gEfiMdeModulePkgTokenSpaceGuid.PcdVideoHorizontalResolution|800
--  gEfiMdeModulePkgTokenSpaceGuid.PcdVideoVerticalResolution|600
+-  gEfiMdeModulePkgTokenSpaceGuid.PcdVideoHorizontalResolution|1280
+-  gEfiMdeModulePkgTokenSpaceGuid.PcdVideoVerticalResolution|800
 +  gEfiMdeModulePkgTokenSpaceGuid.PcdVideoHorizontalResolution|1024
 +  gEfiMdeModulePkgTokenSpaceGuid.PcdVideoVerticalResolution|768
+   gEfiMdeModulePkgTokenSpaceGuid.PcdConOutRow|0
+   gEfiMdeModulePkgTokenSpaceGuid.PcdConOutColumn|0
    gEfiMdeModulePkgTokenSpaceGuid.PcdAcpiS3Enable|FALSE
-   gUefiOvmfPkgTokenSpaceGuid.PcdOvmfHostBridgePciDevId|0
-   gUefiOvmfPkgTokenSpaceGuid.PcdPciIoBase|0x0

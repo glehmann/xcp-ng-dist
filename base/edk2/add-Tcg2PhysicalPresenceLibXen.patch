@@ -1425,19 +1425,19 @@ index 0000000000..e962ff59d7
 +#string TCG_STORAGE_PP_DISABLE_BLOCK_SID      #language en-US    "disable blocking SID authentication"
 +
 +#string TCG_PP_SET_PCR_BANKS                  #language en-US    "change the format of the boot measurement log"
-diff --git a/OvmfPkg/OvmfPkgX64.dsc b/OvmfPkg/OvmfPkgX64.dsc
-index 326b9e1453..69f6fefc69 100644
---- a/OvmfPkg/OvmfPkgX64.dsc
-+++ b/OvmfPkg/OvmfPkgX64.dsc
-@@ -222,7 +222,11 @@
+diff --git a/OvmfPkg/OvmfXen.dsc b/OvmfPkg/OvmfXen.dsc
+index d3455d62b1..8f116be565 100644
+--- a/OvmfPkg/OvmfXen.dsc
++++ b/OvmfPkg/OvmfXen.dsc
+@@ -238,6 +238,11 @@ [LibraryClasses]
  
- !if $(TPM2_ENABLE) == TRUE
-   Tpm2CommandLib|SecurityPkg/Library/Tpm2CommandLib/Tpm2CommandLib.inf
-+!if $(XEN_VARIABLE_ENABLE) == TRUE
+ !include OvmfPkg/OvmfTpmLibs.dsc.inc
+ 
++# Override Tcg2PhysicalPresenceLib that's already in OvmfTpmLibs.dsc.inc
++!if $(XEN_VARIABLE_ENABLE) == TRUE && $(TPM2_ENABLE) == TRUE
 +  Tcg2PhysicalPresenceLib|OvmfPkg/Library/Tcg2PhysicalPresenceLibXen/DxeTcg2PhysicalPresenceLib.inf
-+!else
-   Tcg2PhysicalPresenceLib|OvmfPkg/Library/Tcg2PhysicalPresenceLibQemu/DxeTcg2PhysicalPresenceLib.inf
 +!endif
-   Tcg2PpVendorLib|SecurityPkg/Library/Tcg2PpVendorLibNull/Tcg2PpVendorLibNull.inf
- !else
-   Tcg2PhysicalPresenceLib|OvmfPkg/Library/Tcg2PhysicalPresenceLibNull/DxeTcg2PhysicalPresenceLib.inf
++
+ [LibraryClasses.common]
+   BaseCryptLib|CryptoPkg/Library/BaseCryptLib/BaseCryptLib.inf
+   VmgExitLib|UefiCpuPkg/Library/VmgExitLibNull/VmgExitLibNull.inf

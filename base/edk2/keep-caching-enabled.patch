@@ -20,28 +20,30 @@ operations) and make sure they are WB. Restore previous
 MTRR state right before jumping into PEI Core which is located
 in low memory and should be WB already.
 
+[anthony] rebase note:
+For OvmfXen, we use XenResetVector, which have CR0 already set with caching
+enabled. No need to change UefiCpuPkg/ResetVector anymore.
 diff --git a/OvmfPkg/Sec/SecMain.c b/OvmfPkg/Sec/SecMain.c
-index f7fec3d..76b90d8 100644
+index 1167d22a68..192bc9b55c 100644
 --- a/OvmfPkg/Sec/SecMain.c
 +++ b/OvmfPkg/Sec/SecMain.c
-@@ -30,6 +30,7 @@
+@@ -26,6 +26,7 @@
  #include <Library/PeCoffExtraActionLib.h>
  #include <Library/ExtractGuidedSectionLib.h>
  #include <Library/LocalApicLib.h>
 +#include <Library/MtrrLib.h>
- 
+ #include <Library/CpuExceptionHandlerLib.h>
  #include <Ppi/TemporaryRamSupport.h>
- 
-@@ -846,9 +847,21 @@ SecStartupPhase2(
-   EFI_SEC_PEI_HAND_OFF        *SecCoreData;
+ #include <Ppi/MpInitLibDep.h>
+@@ -956,9 +957,21 @@ SecStartupPhase2 (
    EFI_FIRMWARE_VOLUME_HEADER  *BootFv;
    EFI_PEI_CORE_ENTRY_POINT    PeiCoreEntryPoint;
+   EFI_PEI_PPI_DESCRIPTOR      *EfiPeiPpiDescriptor;
 +  MTRR_SETTINGS               SavedMtrrSettings;
 +  MTRR_SETTINGS               MtrrSettings;
-   
-   SecCoreData = (EFI_SEC_PEI_HAND_OFF *) Context;
--  
-+
+ 
+   SecCoreData = (EFI_SEC_PEI_HAND_OFF *)Context;
+ 
 +  //
 +  // Temporary make all memory above 1MB WB cacheable during FV decompression.
 +  // Restore the original settings back right before jumping into PEI Core.
@@ -55,9 +57,9 @@ index f7fec3d..76b90d8 100644
    //
    // Find PEI Core entry point. It will report SEC and Pei Core debug information if remote debug
    // is enabled.
-@@ -858,6 +871,8 @@ SecStartupPhase2(
-   SecCoreData->BootFirmwareVolumeBase = BootFv;
-   SecCoreData->BootFirmwareVolumeSize = (UINTN) BootFv->FvLength;
+@@ -978,6 +991,8 @@ SecStartupPhase2 (
+     EfiPeiPpiDescriptor = (EFI_PEI_PPI_DESCRIPTOR *)&mPrivateDispatchTableMp;
+   }
  
 +  MtrrSetAllMtrrs (&SavedMtrrSettings);
 +
@@ -65,27 +67,14 @@ index f7fec3d..76b90d8 100644
    // Transfer the control to the PEI core
    //
 diff --git a/OvmfPkg/Sec/SecMain.inf b/OvmfPkg/Sec/SecMain.inf
-index 6051cb3..4312a3b 100644
+index 561a840f29..64ae28a476 100644
 --- a/OvmfPkg/Sec/SecMain.inf
 +++ b/OvmfPkg/Sec/SecMain.inf
-@@ -56,6 +56,7 @@
+@@ -53,6 +53,7 @@ [LibraryClasses]
    PeCoffExtraActionLib
    ExtractGuidedSectionLib
    LocalApicLib
 +  MtrrLib
- 
- [Ppis]
-   gEfiTemporaryRamSupportPpiGuid                # PPI ALWAYS_PRODUCED
-diff --git a/UefiCpuPkg/ResetVector/Vtf0/Ia16/Real16ToFlat32.asm b/UefiCpuPkg/ResetVector/Vtf0/Ia16/Real16ToFlat32.asm
-index bc68c8d..06b2fd5 100644
---- a/UefiCpuPkg/ResetVector/Vtf0/Ia16/Real16ToFlat32.asm
-+++ b/UefiCpuPkg/ResetVector/Vtf0/Ia16/Real16ToFlat32.asm
-@@ -13,7 +13,7 @@
- ;
- ;------------------------------------------------------------------------------
- 
--%define SEC_DEFAULT_CR0  0x40000023
-+%define SEC_DEFAULT_CR0  0x00000023
- %define SEC_DEFAULT_CR4  0x640
- 
- BITS    16
+   MemEncryptSevLib
+   CpuExceptionHandlerLib
+   CcProbeLib

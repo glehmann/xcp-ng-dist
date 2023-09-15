@@ -122,25 +122,25 @@ index 0000000000..fcb08f7601
 +  _mm_mfence ();
 +}
 diff --git a/OvmfPkg/XenPvBlkDxe/XenPvBlkDxe.h b/OvmfPkg/XenPvBlkDxe/XenPvBlkDxe.h
-index c0b62c4f38..ce1760c2e2 100644
+index 350b7bd309..67ee1899e9 100644
 --- a/OvmfPkg/XenPvBlkDxe/XenPvBlkDxe.h
 +++ b/OvmfPkg/XenPvBlkDxe/XenPvBlkDxe.h
-@@ -17,8 +17,9 @@
+@@ -11,8 +11,9 @@
  #define __EFI_XEN_PV_BLK_DXE_H__
  
  #include <Uefi.h>
 +#include "FullMemoryFence.h"
  
--#define xen_mb() MemoryFence()
+-#define xen_mb()   MemoryFence()
 +#define xen_mb()   FullMemoryFence()
- #define xen_rmb() MemoryFence()
- #define xen_wmb() MemoryFence()
+ #define xen_rmb()  MemoryFence()
+ #define xen_wmb()  MemoryFence()
  
 diff --git a/OvmfPkg/XenPvBlkDxe/XenPvBlkDxe.inf b/OvmfPkg/XenPvBlkDxe/XenPvBlkDxe.inf
-index b3dd7c7029..053738803f 100644
+index 5dd8e8be11..dc91865265 100644
 --- a/OvmfPkg/XenPvBlkDxe/XenPvBlkDxe.inf
 +++ b/OvmfPkg/XenPvBlkDxe/XenPvBlkDxe.inf
-@@ -36,9 +36,17 @@
+@@ -30,9 +30,17 @@ [Sources]
    ComponentName.c
    ComponentName.h
    DriverBinding.h
