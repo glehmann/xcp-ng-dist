@@ -1,19 +1,23 @@
-%global package_speccommit 2d46a6e2060060e77e5b18ccb8694584bffd50cb
-%global package_srccommit v3.53.0
+%global package_speccommit 3481bbfb5cc2b62671c29a7fffbedf9f87a700b4
+%global package_srccommit v3.54.5
+
 Summary: blktap user space utilities
 Name: blktap
-Version: 3.53.0
+Version: 3.54.5
 Release: 1%{?xsrel}%{?dist}
 License: BSD
 Group: System/Hypervisor
 URL: https://github.com/xapi-project/blktap
-Source0: blktap-3.53.0.tar.gz
+Source0: blktap-3.54.5.tar.gz
 
 BuildRoot: %{_tmppath}/%{name}-%{release}-buildroot
 Obsoletes: xen-blktap < 4
 BuildRequires: e2fsprogs-devel, libaio-devel, systemd, autogen, autoconf, automake, libtool, libuuid-devel
 BuildRequires: xen-devel, kernel-headers, xen-dom0-libs-devel, zlib-devel, xen-libs-devel, libcmocka-devel, lcov, git
 BuildRequires: xs-openssl-devel >= 1.1.1
+BuildRequires: devtoolset-11-gcc
+BuildRequires: devtoolset-11-binutils
+BuildRequires: devtoolset-11-liblsan-devel
 %{?_cov_buildrequires}
 Requires(post): systemd
 Requires(post): /sbin/ldconfig
@@ -52,10 +56,15 @@ Blktap and VHD development files.
 %{?_cov_prepare}
 
 %build
+source /opt/rh/devtoolset-11/enable
+
 %{?_cov_make_model:%{_cov_make_model misc/coverity/model.c}}
 echo -n %{version} > VERSION
 sh autogen.sh
-%configure LDFLAGS="$LDFLAGS -Wl,-rpath=/lib64/citrix"
+# The following can be used for leak tracing
+#%%configure LDFLAGS="$LDFLAGS -Wl,-rpath=/lib64/citrix -lrt -static-liblsan" CFLAGS="$CFLAGS  -Wno-stringop-truncation -fsanitize=leak -ggdb -fno-omit-frame-pointer"
+#%%configure LDFLAGS="$LDFLAGS -Wl,-rpath=/lib64/citrix" CFLAGS="$CFLAGS -Wno-stringop-truncation -Wno-error=analyzer-malloc-leak -Wno-error=analyzer-use-after-free -Wno-error=analyzer-double-free -Wno-error=analyzer-null-dereference -fanalyzer"
+%configure LDFLAGS="$LDFLAGS -Wl,-rpath=/lib64/citrix" CFLAGS="$CFLAGS -Wno-stringop-truncation"
 %{?_cov_wrap} make %{?coverage:GCOV=true}
 
 %check
@@ -90,8 +99,6 @@ cat /usr/lib/udev/rules.d/65-md-incremental.rules >> /etc/udev/rules.d/65-md-inc
 %{_sbindir}/tap-ctl
 %{_sbindir}/td-util
 %{_sbindir}/td-rated
-%{_sbindir}/part-util
-%{_sbindir}/vhdpartx
 %{_libexecdir}/tapdisk
 %{_sysconfdir}/logrotate.d/blktap
 %{_sysconfdir}/cron.daily/prune_tapdisk_logs
@@ -136,7 +143,55 @@ fi
 
 %{?_cov_results_package}
 
+%package testresults
+Group:    System/Hypervisor
+Summary:  test results for blktap package
+
+%description testresults
+The package contains the build time test results for the blktap package
+
+%files testresults
+/testresults
+
+%package -n vhd-util-standalone
+Group:   System/Hypervisor
+Summary: Standalone vhd-util binary
+Conflicts: blktap
+
+%description -n vhd-util-standalone
+The package contains a standalone vhd-util binary which can be installed
+without requiring other libraries
+
+%files -n vhd-util-standalone
+%{_bindir}/vhd-util
+%{_libdir}/libvhd.so.*
+%{_libdir}/libblockcrypto.so.*
+
 %changelog
+* Tue Aug 01 2023 Mark Syms <mark.syms@citrix.com> - 3.54.5-1
+- Report control timeouts correctly
+
+* Wed Jun 21 2023 Mark Syms <mark.syms@citrix.com> - 3.54.4-1
+- Remove unused and broken libvhdio
+- CA-377624: Guard against NULL tiocb in lio event handler
+
+* Wed Apr 12 2023 Mark Syms <mark.syms@citrix.com> - 3.54.3-2
+- Rebuild
+
+* Wed Mar 29 2023 Mark Syms <mark.syms@citrix.com> - 3.54.3-1
+- Rebuild
+
+* Mon Feb 27 2023 Mark Syms <mark.syms@citrix.com> - 3.54.2-1
+- Rebuild
+
+* Fri Feb 17 2023 Mark Syms <mark.syms@citrix.com> - 3.54.1-1
+- Rebuild
+
+* Thu Feb 16 2023 Mark Syms <mark.syms@citrix.com> - 3.54.0-1
+- Release 3.54.0
+- Update compiler set
+- Various NBD server improvements
+
 * Thu Jan 12 2023 Mark Syms <mark.syms@citrix.com> - 3.53.0-1
 - Use NBD in IntelliCache
 - Use optimized SMP barriers
@@ -434,28 +489,3 @@ fi
 - CP-23545: Extend tap-ctl create to consider CBT parameters
 - CP-23920: [Unit test] Increase test coverage for cbt-util coalesce
 - CP-24547: [Unit test] Increase test coverage for cbt-util set
-
-
-%package testresults
-Group:    System/Hypervisor
-Summary:  test results for blktap package
-
-%description testresults
-The package contains the build time test results for the blktap package
-
-%files testresults
-/testresults
-
-%package -n vhd-util-standalone
-Group:   System/Hypervisor
-Summary: Standalone vhd-util binary
-Conflicts: blktap
-
-%description -n vhd-util-standalone
-The package contains a standalone vhd-util binary which can be installed
-without requiring other libraries
-
-%files -n vhd-util-standalone
-%{_bindir}/vhd-util
-%{_libdir}/libvhd.so.*
-%{_libdir}/libblockcrypto.so.*
