@@ -45,54 +45,46 @@ index 0000000000..e7a074482f
 +
 +#endif
 diff --git a/OvmfPkg/Library/PlatformBootManagerLib/BdsPlatform.c b/OvmfPkg/Library/PlatformBootManagerLib/BdsPlatform.c
-index 57870cb856..7fe21e2661 100644
+index 51016a5548..7230f1d140 100644
 --- a/OvmfPkg/Library/PlatformBootManagerLib/BdsPlatform.c
 +++ b/OvmfPkg/Library/PlatformBootManagerLib/BdsPlatform.c
-@@ -1541,7 +1541,8 @@ PlatformBootManagerAfterConsole (
+@@ -1716,7 +1716,8 @@ PlatformBootManagerAfterConsole (
      );
  
    RemoveStaleFvFileOptions ();
 -  SetBootOrderFromQemu ();
 +  if (SetBootOrderFromQemu () == RETURN_UNSUPPORTED)
 +    SetBootOrderFromXen ();
- }
  
- /**
+   PlatformBmPrintScRegisterHandler ();
+ }
 diff --git a/OvmfPkg/Library/PlatformBootManagerLib/BdsPlatform.h b/OvmfPkg/Library/PlatformBootManagerLib/BdsPlatform.h
-index 4948ca6518..c9bedc921c 100644
+index 1676d61616..01545498b9 100644
 --- a/OvmfPkg/Library/PlatformBootManagerLib/BdsPlatform.h
 +++ b/OvmfPkg/Library/PlatformBootManagerLib/BdsPlatform.h
-@@ -23,7 +23,6 @@ Abstract:
- #ifndef _PLATFORM_SPECIFIC_BDS_PLATFORM_H_
- #define _PLATFORM_SPECIFIC_BDS_PLATFORM_H_
- 
--
- #include <PiDxe.h>
- 
- #include <IndustryStandard/Pci.h>
-@@ -51,6 +50,7 @@ Abstract:
+@@ -44,6 +44,7 @@ Module Name:
  #include <Library/QemuFwCfgLib.h>
  #include <Library/QemuFwCfgS3Lib.h>
  #include <Library/QemuBootOrderLib.h>
-+#include <Library/XenBootOrderLib.h> 
++#include <Library/XenBootOrderLib.h>
  
  #include <Protocol/Decompress.h>
  #include <Protocol/PciIo.h>
 diff --git a/OvmfPkg/Library/PlatformBootManagerLib/PlatformBootManagerLib.inf b/OvmfPkg/Library/PlatformBootManagerLib/PlatformBootManagerLib.inf
-index 4b72c44bcf..709f4f5953 100644
+index c249a3cf1e..0809a68711 100644
 --- a/OvmfPkg/Library/PlatformBootManagerLib/PlatformBootManagerLib.inf
 +++ b/OvmfPkg/Library/PlatformBootManagerLib/PlatformBootManagerLib.inf
-@@ -56,6 +56,7 @@
-   QemuFwCfgS3Lib
-   LoadLinuxLib
-   QemuBootOrderLib
-+  XenBootOrderLib
+@@ -55,6 +55,7 @@ [LibraryClasses]
    UefiLib
+   PlatformBmPrintScLib
    Tcg2PhysicalPresenceLib
++  XenBootOrderLib
+   XenPlatformLib
  
+ [Pcd]
 diff --git a/OvmfPkg/Library/XenBootOrderLib/XenBootOrderLib.c b/OvmfPkg/Library/XenBootOrderLib/XenBootOrderLib.c
 new file mode 100644
-index 0000000000..2380bf588d
+index 0000000000..777a119b90
 --- /dev/null
 +++ b/OvmfPkg/Library/XenBootOrderLib/XenBootOrderLib.c
 @@ -0,0 +1,273 @@
@@ -434,12 +426,12 @@ index 0000000000..43bd538014
 +  gXenBusProtocolGuid
 +  gEfiSimpleNetworkProtocolGuid
 diff --git a/OvmfPkg/OvmfPkg.dec b/OvmfPkg/OvmfPkg.dec
-index c01a2ca721..96439bda1e 100644
+index 5af76a5405..8f75dc708b 100644
 --- a/OvmfPkg/OvmfPkg.dec
 +++ b/OvmfPkg/OvmfPkg.dec
-@@ -44,6 +44,10 @@
+@@ -90,6 +90,10 @@ [LibraryClasses]
    #
-   QemuBootOrderLib|Include/Library/QemuBootOrderLib.h
+   QemuLoadImageLib|Include/Library/QemuLoadImageLib.h
  
 +  ##  @libraryclass  Rewrite the BootOrder Var based on CMOS order set by QEMU.
 +  #
@@ -449,14 +441,26 @@ index c01a2ca721..96439bda1e 100644
    #
    SerializeVariablesLib|Include/Library/SerializeVariablesLib.h
 diff --git a/OvmfPkg/OvmfPkgX64.dsc b/OvmfPkg/OvmfPkgX64.dsc
-index 0aa2e22c30..5c8cc8200f 100644
+index 6e68f60dc9..0751e85365 100644
 --- a/OvmfPkg/OvmfPkgX64.dsc
 +++ b/OvmfPkg/OvmfPkgX64.dsc
-@@ -364,6 +364,7 @@
-   DpcLib|MdeModulePkg/Library/DxeDpcLib/DxeDpcLib.inf
+@@ -404,6 +404,7 @@ [LibraryClasses.common.DXE_DRIVER]
    PlatformBootManagerLib|OvmfPkg/Library/PlatformBootManagerLib/PlatformBootManagerLib.inf
+   PlatformBmPrintScLib|OvmfPkg/Library/PlatformBmPrintScLib/PlatformBmPrintScLib.inf
    QemuBootOrderLib|OvmfPkg/Library/QemuBootOrderLib/QemuBootOrderLib.inf
 +  XenBootOrderLib|OvmfPkg/Library/XenBootOrderLib/XenBootOrderLib.inf
    CpuExceptionHandlerLib|UefiCpuPkg/Library/CpuExceptionHandlerLib/DxeCpuExceptionHandlerLib.inf
  !if $(SMM_REQUIRE) == TRUE
    LockBoxLib|MdeModulePkg/Library/SmmLockBoxLib/SmmLockBoxDxeLib.inf
+diff --git a/OvmfPkg/OvmfXen.dsc b/OvmfPkg/OvmfXen.dsc
+index 4e0a731d2a..d3455d62b1 100644
+--- a/OvmfPkg/OvmfXen.dsc
++++ b/OvmfPkg/OvmfXen.dsc
+@@ -344,6 +344,7 @@ [LibraryClasses.common.DXE_DRIVER]
+   PlatformBootManagerLib|OvmfPkg/Library/PlatformBootManagerLib/PlatformBootManagerLib.inf
+   PlatformBmPrintScLib|OvmfPkg/Library/PlatformBmPrintScLib/PlatformBmPrintScLib.inf
+   QemuBootOrderLib|OvmfPkg/Library/QemuBootOrderLib/QemuBootOrderLib.inf
++  XenBootOrderLib|OvmfPkg/Library/XenBootOrderLib/XenBootOrderLib.inf
+   CpuExceptionHandlerLib|UefiCpuPkg/Library/CpuExceptionHandlerLib/DxeCpuExceptionHandlerLib.inf
+   LockBoxLib|OvmfPkg/Library/LockBoxLib/LockBoxDxeLib.inf
+ !if $(SOURCE_DEBUG_ENABLE) == TRUE
