@@ -1,11 +1,11 @@
-%global package_speccommit b6b4ec32ebd0714a94dc942494cc1fda5bf789fa
-%global package_srccommit v2.0.0
+%global package_speccommit 610aca2166b50082ba65404f771fe9651dee2f08
+%global package_srccommit v2.0.3
 Name:    guest-templates-json
 Summary: Creates the default guest templates
-Version: 2.0.0
+Version: 2.0.3
 Release: 1%{?xsrel}%{?dist}
 License: BSD
-Source0: guest-templates-json-2.0.0.tar.gz
+Source0: guest-templates-json-2.0.3.tar.gz
 BuildArch: noarch
 
 Requires: xapi-core
@@ -40,15 +40,11 @@ Contains the default Linux guest templates.
 Summary: Contains the default Windows guest templates
 Requires(post): %{name} = %{version}-%{release}
 
+Obsoletes: %{name}-data-windows-11 < 2.0.0-2
+Conflicts: %{name}-data-windows-11 < 2.0.0-2
+
 %description data-windows
 Contains the default Windows guest templates.
-
-%package data-windows-11
-Summary: Contains the Windows 11 guest template(s)
-Requires(post): %{name} = %{version}-%{release}
-
-%description data-windows-11
-Contains the Windows 11 guest template(s).
 
 %package data-other
 Summary: Contains the default other guest templates
@@ -106,9 +102,6 @@ fi
 %post data-windows
 > %{statefile}
 
-%post data-windows-11
-> %{statefile}
-
 %post data-other
 > %{statefile}
 
@@ -119,12 +112,6 @@ if [ -e %{statefile} ]; then
 fi
 
 %posttrans data-pv
-if [ -e %{statefile} ]; then
-    rm %{statefile}
-    /usr/bin/create-guest-templates-wrapper > /dev/null ||:
-fi
-
-%posttrans data-windows-11
 if [ -e %{statefile} ]; then
     rm %{statefile}
     /usr/bin/create-guest-templates-wrapper > /dev/null ||:
@@ -171,7 +158,6 @@ fi
 %{templatedir}/base-sle-hvm-64bit.json
 %{templatedir}/base-sle-hvm.json
 %{templatedir}/centos-[7].json
-%{templatedir}/coreos.json
 %{templatedir}/debian*.json
 %{templatedir}/kylin-7.json
 %{templatedir}/oel-[78].json
@@ -186,15 +172,23 @@ fi
 %files data-windows
 %{templatedir}/base-windows*.json
 %{templatedir}/windows*.json
-%exclude %{templatedir}/windows-11.json
-
-%files data-windows-11
-%{templatedir}/windows-11.json
 
 %files data-other
 %{templatedir}/other-install-media.json
 
 %changelog
+* Fri Jul 14 2023 Alex Brett <alex.brett@cloud.com> - 2.0.3-1
+- CP-43952: Remove 32-bit Windows 10
+
+* Fri May 05 2023 Xihuan Yang <xihuan.yang@citrix.com> - 2.0.2-1
+- CP-41630: Support up to 64 vCPUs for HVM guests
+
+* Thu Feb 16 2023 Minghui Hu <minghui.hu@citrix.com> - 2.0.1-1
+- CP-41650: Remove CoreOS templates from Next
+
+* Tue Feb 14 2023 Ross Lagerwall <ross.lagerwall@citrix.com> - 2.0.0-2
+- CP-42132: Install Windows 11 template by default
+
 * Thu Jan 19 2023 Ross Lagerwall <ross.lagerwall@citrix.com> - 2.0.0-1
 - Switch upstream to GitHub
 - Build for Python 3 and drop Python 2 support
