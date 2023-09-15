@@ -1,22 +1,21 @@
-%global package_speccommit b6b4ec32ebd0714a94dc942494cc1fda5bf789fa
-%global package_srccommit v2.0.0
+%global package_speccommit 610aca2166b50082ba65404f771fe9651dee2f08
+%global package_srccommit v2.0.3
 Name:    guest-templates-json
 Summary: Creates the default guest templates
-Version: 2.0.0
-Release: 1.2%{?xsrel}%{?dist}
+Version: 2.0.3
+Release: 1.1%{?xsrel}%{?dist}
 License: BSD
-Source0: guest-templates-json-2.0.0.tar.gz
+Source0: guest-templates-json-2.0.3.tar.gz
 
 # XCP-ng patches
 Source1000: almalinux-8.json
-Source1001: debian-11.json
-Source1002: almalinux-9.json
-Source1003: centos-stream-8.json
-Source1004: centos-stream-9.json
-Source1005: oel-9.json
-Source1006: rhel-9.json
-Source1007: rocky-9.json
-Source1008: debian-12.json
+Source1001: almalinux-9.json
+Source1002: centos-stream-8.json
+Source1003: centos-stream-9.json
+Source1004: oel-9.json
+Source1005: rhel-9.json
+Source1006: rocky-9.json
+Source1007: debian-12.json
 
 BuildArch: noarch
 
@@ -52,15 +51,11 @@ Contains the default Linux guest templates.
 Summary: Contains the default Windows guest templates
 Requires(post): %{name} = %{version}-%{release}
 
+Obsoletes: %{name}-data-windows-11 < 2.0.0-2
+Conflicts: %{name}-data-windows-11 < 2.0.0-2
+
 %description data-windows
 Contains the default Windows guest templates.
-
-%package data-windows-11
-Summary: Contains the Windows 11 guest template(s)
-Requires(post): %{name} = %{version}-%{release}
-
-%description data-windows-11
-Contains the Windows 11 guest template(s).
 
 %package data-other
 Summary: Contains the default other guest templates
@@ -82,7 +77,7 @@ Contains the default other guest templates.
 
 install -d %{buildroot}%{templatedir}
 install -m 644 json/*.json %{buildroot}%{templatedir}
-install -m 644 %{SOURCE1000} %{SOURCE1001} %{SOURCE1002} %{SOURCE1003} %{SOURCE1004} %{SOURCE1005} %{SOURCE1006} %{SOURCE1007} %{SOURCE1008} %{buildroot}%{templatedir}
+install -m 644 %{SOURCE1000} %{SOURCE1001} %{SOURCE1002} %{SOURCE1003} %{SOURCE1004} %{SOURCE1005} %{SOURCE1006} %{SOURCE1007} %{buildroot}%{templatedir}
 install -d %{buildroot}%{_sysconfdir}/xapi.d/vm-templates
 
 install -m 755 service/create-guest-templates-wrapper %{buildroot}%{_bindir}
@@ -119,9 +114,6 @@ fi
 %post data-windows
 > %{statefile}
 
-%post data-windows-11
-> %{statefile}
-
 %post data-other
 > %{statefile}
 
@@ -132,12 +124,6 @@ if [ -e %{statefile} ]; then
 fi
 
 %posttrans data-pv
-if [ -e %{statefile} ]; then
-    rm %{statefile}
-    /usr/bin/create-guest-templates-wrapper > /dev/null ||:
-fi
-
-%posttrans data-windows-11
 if [ -e %{statefile} ]; then
     rm %{statefile}
     /usr/bin/create-guest-templates-wrapper > /dev/null ||:
@@ -186,7 +172,6 @@ fi
 %{templatedir}/base-sle-hvm.json
 %{templatedir}/centos-[7].json
 %{templatedir}/centos-stream-[89].json
-%{templatedir}/coreos.json
 %{templatedir}/debian*.json
 %{templatedir}/kylin-7.json
 %{templatedir}/oel-[789].json
@@ -201,15 +186,24 @@ fi
 %files data-windows
 %{templatedir}/base-windows*.json
 %{templatedir}/windows*.json
-%exclude %{templatedir}/windows-11.json
-
-%files data-windows-11
-%{templatedir}/windows-11.json
 
 %files data-other
 %{templatedir}/other-install-media.json
 
 %changelog
+* Fri Sep 15 2023 Samuel Verschelde <stormi-xcp@ylix.fr> - 2.0.3-1.1
+- Update to 2.0.3-1
+- Remove our Debian 11 template, as upstream's one is not marked experimental anymore
+- *** Upstream changelog ***
+- * Fri Jul 14 2023 Alex Brett <alex.brett@cloud.com> - 2.0.3-1
+- - CP-43952: Remove 32-bit Windows 10
+- * Fri May 05 2023 Xihuan Yang <xihuan.yang@citrix.com> - 2.0.2-1
+- - CP-41630: Support up to 64 vCPUs for HVM guests
+- * Thu Feb 16 2023 Minghui Hu <minghui.hu@citrix.com> - 2.0.1-1
+- - CP-41650: Remove CoreOS templates from Next
+- * Tue Feb 14 2023 Ross Lagerwall <ross.lagerwall@citrix.com> - 2.0.0-2
+- - CP-42132: Install Windows 11 template by default
+
 * Mon Jul 24 2023 Gael Duperrey <gduperrey@vates.fr> - 2.0.0-1.2
 - Add template for Debian 12
 
