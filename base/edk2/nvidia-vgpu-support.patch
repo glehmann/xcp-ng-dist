@@ -3,42 +3,42 @@ Add support for NVIDIA vGPU
 When NVIDIA vGPU is used, demu emulates something very similar to QEMU's
 stdvga. Tweak the code to support it.
 diff --git a/OvmfPkg/QemuVideoDxe/Driver.c b/OvmfPkg/QemuVideoDxe/Driver.c
-index 73eb2ca..3310a47 100644
+index b91909a14e..e4df1ee9f5 100644
 --- a/OvmfPkg/QemuVideoDxe/Driver.c
 +++ b/OvmfPkg/QemuVideoDxe/Driver.c
-@@ -73,6 +73,12 @@ QEMU_VIDEO_CARD gQemuVideoCardList[] = {
-         L"QEMU VirtIO VGA"
-     },{
-         PCI_CLASS_DISPLAY_VGA,
-+        0x10de,
-+        0,
-+        QEMU_VIDEO_BOCHS_NVIDIA,
-+        L"NVIDIA vGPU"
-+    },{
-+        PCI_CLASS_DISPLAY_VGA,
-         VMWARE_PCI_VENDOR_ID_VMWARE,
-         VMWARE_PCI_DEVICE_ID_VMWARE_SVGA2,
-         QEMU_VIDEO_VMWARE_SVGA,
-@@ -94,7 +100,8 @@ QemuVideoDetect(
+@@ -69,6 +69,12 @@ QEMU_VIDEO_CARD  gQemuVideoCardList[] = {
+     0x0405,
+     QEMU_VIDEO_VMWARE_SVGA,
+     L"QEMU VMWare SVGA"
++  },{
++    PCI_CLASS_DISPLAY_VGA,
++    0x10de,
++    0,
++    QEMU_VIDEO_BOCHS_NVIDIA,
++    L"NVIDIA vGPU"
+   },{
+     0     /* end of list */
+   }
+@@ -86,7 +92,8 @@ QemuVideoDetect (
    while (gQemuVideoCardList[Index].VendorId != 0) {
-     if (gQemuVideoCardList[Index].SubClass == SubClass &&
-         gQemuVideoCardList[Index].VendorId == VendorId &&
--        gQemuVideoCardList[Index].DeviceId == DeviceId) {
-+        (gQemuVideoCardList[Index].DeviceId == DeviceId ||
-+         gQemuVideoCardList[Index].VendorId == 0x10de)) {
+     if ((gQemuVideoCardList[Index].SubClass == SubClass) &&
+         (gQemuVideoCardList[Index].VendorId == VendorId) &&
+-        (gQemuVideoCardList[Index].DeviceId == DeviceId))
++        ((gQemuVideoCardList[Index].DeviceId == DeviceId) ||
++         (gQemuVideoCardList[Index].VendorId == 0x10de)))
+     {
        return gQemuVideoCardList + Index;
      }
-     Index++;
-@@ -443,6 +450,7 @@ QemuVideoControllerDriverStart (
-     Status = QemuVideoCirrusModeSetup (Private);
-     break;
-   case QEMU_VIDEO_BOCHS_MMIO:
-+  case QEMU_VIDEO_BOCHS_NVIDIA:
-   case QEMU_VIDEO_BOCHS:
-     Status = QemuVideoBochsModeSetup (Private, IsQxl);
-     break;
-@@ -1054,7 +1062,8 @@ InitializeBochsGraphicsMode (
-               VBE_DISPI_ENABLED | VBE_DISPI_LFB_ENABLED);
+@@ -420,6 +427,7 @@ QemuVideoControllerDriverStart (
+       Status = QemuVideoCirrusModeSetup (Private);
+       break;
+     case QEMU_VIDEO_BOCHS_MMIO:
++    case QEMU_VIDEO_BOCHS_NVIDIA:
+     case QEMU_VIDEO_BOCHS:
+       Status = QemuVideoBochsModeSetup (Private, IsQxl);
+       break;
+@@ -1019,7 +1027,8 @@ InitializeBochsGraphicsMode (
+     );
  
    SetDefaultPalette (Private);
 -  ClearScreen (Private);
@@ -46,14 +46,14 @@ index 73eb2ca..3310a47 100644
 +    ClearScreen (Private);
  }
  
- VOID
+ EFI_STATUS
 diff --git a/OvmfPkg/QemuVideoDxe/Gop.c b/OvmfPkg/QemuVideoDxe/Gop.c
-index c9941ef..d6cec33 100644
+index 7a9fe208c9..3ff71e2317 100644
 --- a/OvmfPkg/QemuVideoDxe/Gop.c
 +++ b/OvmfPkg/QemuVideoDxe/Gop.c
 @@ -66,7 +66,12 @@ QemuVideoCompleteModeData (
-                         (VOID**) &FrameBufDesc
-                         );
+                     (VOID **)&FrameBufDesc
+                     );
  
 -  Mode->FrameBufferBase = FrameBufDesc->AddrRangeMin;
 +  if (Private->Variant == QEMU_VIDEO_BOCHS_NVIDIA)
@@ -65,19 +65,19 @@ index c9941ef..d6cec33 100644
    Mode->FrameBufferSize = Info->HorizontalResolution * Info->VerticalResolution;
    Mode->FrameBufferSize = Mode->FrameBufferSize * ((ModeData->ColorDepth + 7) / 8);
    Mode->FrameBufferSize = EFI_PAGES_TO_SIZE (
-@@ -221,6 +226,7 @@ Routine Description:
-     InitializeCirrusGraphicsMode (Private, &QemuVideoCirrusModes[ModeData->InternalModeIndex]);
-     break;
-   case QEMU_VIDEO_BOCHS_MMIO:
-+  case QEMU_VIDEO_BOCHS_NVIDIA:
-   case QEMU_VIDEO_BOCHS:
-     InitializeBochsGraphicsMode (Private, &QemuVideoBochsModes[ModeData->InternalModeIndex]);
-     break;
+@@ -183,6 +188,7 @@ Routine Description:
+       InitializeCirrusGraphicsMode (Private, &QemuVideoCirrusModes[ModeData->InternalModeIndex]);
+       break;
+     case QEMU_VIDEO_BOCHS_MMIO:
++    case QEMU_VIDEO_BOCHS_NVIDIA:
+     case QEMU_VIDEO_BOCHS:
+       InitializeBochsGraphicsMode (Private, ModeData);
+       break;
 diff --git a/OvmfPkg/QemuVideoDxe/Qemu.h b/OvmfPkg/QemuVideoDxe/Qemu.h
-index bc49f86..c59e3aa 100644
+index 57341a0bbf..6dce753f3d 100644
 --- a/OvmfPkg/QemuVideoDxe/Qemu.h
 +++ b/OvmfPkg/QemuVideoDxe/Qemu.h
-@@ -92,6 +92,7 @@ typedef enum {
+@@ -85,6 +85,7 @@ typedef enum {
    QEMU_VIDEO_CIRRUS_5446,
    QEMU_VIDEO_BOCHS,
    QEMU_VIDEO_BOCHS_MMIO,
@@ -85,12 +85,12 @@ index bc49f86..c59e3aa 100644
    QEMU_VIDEO_VMWARE_SVGA,
  } QEMU_VIDEO_VARIANT;
  
-@@ -196,6 +197,8 @@ extern EFI_DRIVER_SUPPORTED_EFI_VERSION_PROTOCOL  gQemuVideoDriverSupportedEfiVe
- #define VBE_DISPI_INDEX_X_OFFSET         0x8
- #define VBE_DISPI_INDEX_Y_OFFSET         0x9
- #define VBE_DISPI_INDEX_VIDEO_MEMORY_64K 0xa
+@@ -185,6 +186,8 @@ extern EFI_COMPONENT_NAME2_PROTOCOL  gQemuVideoComponentName2;
+ #define VBE_DISPI_INDEX_X_OFFSET          0x8
+ #define VBE_DISPI_INDEX_Y_OFFSET          0x9
+ #define VBE_DISPI_INDEX_VIDEO_MEMORY_64K  0xa
 +#define VBE_DISPI_INDEX_LFB_ADDRESS_H    0xb
 +#define VBE_DISPI_INDEX_LFB_ADDRESS_L    0xc
  
- #define VBE_DISPI_ID0                    0xB0C0
- #define VBE_DISPI_ID1                    0xB0C1
+ #define VBE_DISPI_ID0  0xB0C0
+ #define VBE_DISPI_ID1  0xB0C1
