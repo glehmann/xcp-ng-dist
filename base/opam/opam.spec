@@ -1,19 +1,38 @@
-%global package_speccommit 4ab8cced446078da985cdf9f7e6778abe16f2914
-%global usver 2.0.10
-%global xsver 5
+%global package_speccommit f40573a915953b3b1a24591e90b15a1bb9a8ff80
+%global usver 2.1.4
+%global xsver 4
 %global xsrel %{xsver}%{?xscount}%{?xshash}
 
 Name:           opam
-Version:        2.0.10
+Version:        2.1.4
 Release:        %{?xsrel}%{?dist}
 Summary:        Source-based OCaml package manager
 License:        LGPL-2.1-only WITH OCaml-LGPL-linking-exception
 URL:            https://github.com/ocaml/opam
-Source0: opam-full-2.0.10.tar.gz
+Source0: opam-full-2.1.4.tar.gz
+BuildRequires:  make
 BuildRequires:  curl
+BuildRequires:  git
 BuildRequires:  ocaml
-BuildRequires:  ocaml-findlib
-BuildRequires:  gcc gcc-c++
+
+%if 0%{?xenserver} < 9
+BuildRequires:  devtoolset-11-gcc-c++
+Requires:       devtoolset-11-gcc devtoolset-11-binutils
+%else
+BuildRequires:  gcc-c++
+Requires:       gcc binutils
+%endif
+
+# Needed to install packages and run opam init.
+Requires:       bubblewrap
+Requires:       bzip2
+Requires:       diffutils
+Requires:       gzip
+Requires:       make
+Requires:       m4
+Requires:       patch
+Requires:       unzip
+Requires:       tar
 
 %description
 Opam is a source-based package manager for OCaml. It supports multiple
@@ -24,6 +43,11 @@ a Git-friendly development workflow.
 %autosetup -n %{name}-full-%{version} -p1
 
 %build
+
+%if 0%{?xenserver} < 9
+source /opt/rh/devtoolset-11/enable
+%endif
+
 %configure
 make lib-ext
 make
@@ -44,9 +68,21 @@ rm -rf %{buildroot}%{_prefix}/doc
 %{_bindir}/opam-installer
 %license LICENSE
 %{_mandir}/man1/*.1*
-%exclude /usr/doc/opam-installer/*
 
 %changelog
+* Wed Aug 9 2023 Lin Liu <Lin.Liu01@cloud.com> - 2.1.4-4
+- Use GCC to build opam for next platform
+
+* Fri Jul 21 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 2.1.4-3
+- Add dependencies for running opam init
+- Use GCC 11 to build opam
+
+* Mon Jul 17 2023 Edwin Török <edwin.torok@cloud.com> - 2.1.4-2
+- Bump release and rebuild
+
+* Fri May 05 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 2.1.4-1
+- Update to 2.1.4
+
 * Thu Aug 04 2022 Pau Ruiz Safont <pau.safont@citrix.com> - 2.0.10-5
 - Bump release and rebuild
 
