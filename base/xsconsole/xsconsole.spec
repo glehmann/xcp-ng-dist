@@ -1,12 +1,17 @@
-%global package_speccommit 3ec6960e837f7c4f2f624aef36602de88460ed23
+%global package_speccommit 2a6ed5cfb5e197666758c92d76b12a9596d82806
+%global usver 10.1.14
+%global xsver 2
+%global xsrel %{xsver}%{?xscount}%{?xshash}
 %global package_srccommit v10.1.14
+
 Summary: XenServer Host Configuration Console
 Name: xsconsole
 Version: 10.1.14
-Release: 1%{?xsrel}%{?dist}
+Release: %{?xsrel}%{?dist}
 License: GPL2
 Group: Administration/System
 Source0: xsconsole-10.1.14.tar.gz
+Patch0: CP-43942.patch
 Provides: xsconsole0
 BuildRequires: python2-devel
 BuildRequires: systemd
@@ -61,6 +66,9 @@ InCloud Sphere.
 %{_libdir}/xsconsole/plugins-oem/XSFeatureLicenseNag.py*
 
 %changelog
+* Fri Jul 14 2023 Alex Brett <alex.brett@cloud.com> - 10.1.14-2
+- CP-43942: Remove Portable SR feature
+
 * Tue Oct 04 2022 Ross Lagerwall <ross.lagerwall@citrix.com> - 10.1.14-1
 - CP-40640: Show the textual rather than numeric product version
 
