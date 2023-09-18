@@ -1,5 +1,5 @@
-%global package_speccommit e05d072ac22425dcfe80e765c548d04b3cf775ca
-%global usver 6.66.0
+%global package_speccommit f82daa0d555855d64eb319da9eadabebe74a00d1
+%global usver 6.72.0
 %global xsver 1
 %global xsrel %{xsver}%{?xscount}%{?xshash}
 ## This has to match the declaration in xs-opam-src, which
@@ -7,15 +7,15 @@
 %global _opamroot %{_libdir}/opamroot
 
 Name: xs-opam-repo
-Version: 6.66.0
+Version: 6.72.0
 Release: %{?xsrel}%{?dist}
 Summary: Build and install OCaml libraries from Opam repository
 # The license field is produced by running print-license.sh
 # Please update licenses.txt on every new version and then run the script to
 # keep these in sync.
-License: Apache-1.0 and BSD-2-Clause and BSD-3-Clause and BSD-like and GPL-1.0-or-later and GPL-2.0-only and ISC and LGPL-2.0-only WITH OCaml-LGPL-linking-exception and LGPL-2.0-or-later and LGPL-2.0-or-later WITH OCaml-LGPL-linking-exception and LGPL-2.1-only and LGPL-2.1-only WITH OCaml-LGPL-linking-exception and LGPL-2.1-or-later WITH OCaml-LGPL-linking-exception and LGPL-3.0-only and LGPL-3.0-only WITH OCaml-LGPL-linking-exception and LGPL WITH OpenSSL linking exception and MIT and PSF
+License: Apache-1.0 and BSD-2-Clause and BSD-3-Clause and curl and GPL-1.0-or-later and GPL-2.0-only and GPL-2.0-or-later and GPL-3.0-only and ISC and LGPL-2.0-only WITH OCaml-LGPL-linking-exception and LGPL-2.0-or-later and LGPL-2.0-or-later WITH OCaml-LGPL-linking-exception and LGPL-2.1-only and LGPL-2.1-only WITH OCaml-LGPL-linking-exception and LGPL-2.1-or-later WITH OCaml-LGPL-linking-exception and LGPL-2.1-or-later WITH OpenSSL-linking-exception and LGPL-3.0-only WITH OCaml-LGPL-linking-exception and MIT and PSF-2.0 and Unlicense
 URL:     https://github.com/xapi-project/xs-opam
-Source0: xs-opam-repo-6.66.0.tar.gz
+Source0: xs-opam-repo-6.72.0.tar.gz
 # To "pin" a package during development, see below the example
 # where ezxenstore is pinned to an internal master branch.
 # You need the Source1 line, and the below 'tar' and 'opam pin' lines, and comment-out the OPAMFETCH
@@ -30,7 +30,6 @@ BuildRequires: xs-opam-src >= 5.1.0
 Requires:      opam >= 2.0.0
 Requires:      ocaml
 Requires:      gmp
-Requires:      bubblewrap
 Requires:      libev-devel
 
 BuildRequires: autoconf
@@ -42,19 +41,17 @@ BuildRequires: gmp-devel
 BuildRequires: hwdata
 BuildRequires: libffi-devel
 BuildRequires: libnl3-devel
-BuildRequires: m4
 BuildRequires: ocaml
 BuildRequires: ocamldoc
-BuildRequires: opam >= 2.0.0
+BuildRequires: opam > 2.1.4-1
 BuildRequires: openssl-devel
 BuildRequires: pam-devel
 BuildRequires: pciutils-devel
 BuildRequires: perl
-BuildRequires: python
+BuildRequires: python3
 BuildRequires: rsync
 BuildRequires: systemd-devel
 BuildRequires: which
-BuildRequires: xen-ocaml-devel >= 4.13.3-10.10
 BuildRequires: zlib-devel
 BuildRequires: libev-devel
 
@@ -66,7 +63,10 @@ Toolstack components of the Citrix Hypervisor.
 %autosetup -p1 -n xs-opam-repo-%{version}
 
 %build
+
 %install
+
+source /opt/rh/devtoolset-11/enable
 
 PKG=""
 PKG="$PKG $(ls -1 packages/upstream)"
@@ -75,7 +75,7 @@ PKG="$PKG $(ls -1 packages/xs)"
 # install into the real opam root to avoid problems with
 # embedded paths.
 export OPAMROOT=%{_opamroot}
-# sandbox is incompatible with the xenctrl package
+# sandbox is incompatible with rsync, packages modifying /tmp and other issues
 opam init --disable-sandboxing -y local file://${PWD}
 opam switch create ocaml-system
 
@@ -90,6 +90,7 @@ mkdir -p %{buildroot}/etc/profile.d
 mkdir -p %{buildroot}%{_opamroot}
 echo 'export OPAMROOT=%{_opamroot}' > %{buildroot}/etc/profile.d/opam.sh
 echo 'eval `opam config env`' >> %{buildroot}/etc/profile.d/opam.sh
+echo 'source /opt/rh/devtoolset-11/enable' >> %{buildroot}/etc/profile.d/opam.sh
 
 rm -rf %{_opamroot}/ocaml-system/.opam-switch/sources
 rm -rf %{_opamroot}/download-cache/*
@@ -111,6 +112,44 @@ echo '%%_opamroot %%{_libdir}/opamroot' >> "%{buildroot}%{_rpmconfigdir}/macros.
 %{_opamroot}
 
 %changelog
+* Tue Jul 28 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.72.0-1
+- upstream: patch rpclib to support python3, and start using it
+- upstream: patch uri packages to parse ipv6 addresses correctly
+- maintenance: Fix issues spotted by the opam linter
+
+* Mon Jul 17 2023 Edwin Török <edwin.torok@cloud.com> - 6.71.0-2
+- Bump release and rebuild
+
+* Tue Jul 11 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.71.0-1
+- xs: update xapi-rrd to 1.9.2 (memory leak fix)
+- xs: add goblint for static analysis of C stubs
+
+* Mon Jul 10 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.70.0-2
+- Remove build dependencies, they are opam's normal dependencies
+
+* Wed Jun 07 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.70.0-1
+- xs: update xapi-stdext packages
+- upstream: remove unused dependencies, do not depend on xen
+- xs-extra: update metadata from upstream
+- vhd-format: move from upstream to xs-extra
+
+* Tue Jun 06 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.69.0-2
+- Bump release and rebuild
+
+* Fri May 05 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.69.0-1
+- ocaml: Use correct file contents in ocaml-system.4.14.1
+- upstream: Remove old ocamlformat and odoc-parser
+
+* Mon Apr 24 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.68.0-1
+- xs: do not package ezxenstore, it's a part of xen-api
+- ocaml: add 4.14
+
+* Wed Mar 22 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.67.0-1
+- xs: xenctrl.dummy: do not rsync Xen packages we do not use
+- Make xs-opam self-consistent and able to run unit tests
+- upstream: enforce only known licenses
+- upstream: update dune packages to 3.7.0
+
 * Thu Feb 02 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.66.0-1
 - upstream: Add opentelemetry libraries for testing, includes ocurl and ezcurl
 
