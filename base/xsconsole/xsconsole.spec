@@ -1,12 +1,17 @@
-%global package_speccommit 3ec6960e837f7c4f2f624aef36602de88460ed23
+%global package_speccommit 2a6ed5cfb5e197666758c92d76b12a9596d82806
+%global usver 10.1.14
+%global xsver 2
+%global xsrel %{xsver}%{?xscount}%{?xshash}
 %global package_srccommit v10.1.14
+
 Summary: XCP-ng Host Configuration Console
 Name: xsconsole
 Version: 10.1.14
-Release: 1.3%{?xsrel}%{?dist}
+Release: %{?xsrel.1}%{?dist}
 License: GPL2
 Group: Administration/System
 Source0: xsconsole-10.1.14.tar.gz
+Patch0: CP-43942.patch
 Provides: xsconsole0
 BuildRequires: python2-devel
 BuildRequires: systemd
@@ -18,7 +23,9 @@ Requires(postun): systemd
 # XCP-ng patches
 Patch1000: xsconsole-10.1.9-rebrand-xsconsole-service.XCP-ng.patch
 Patch1001: xsconsole-10.1.13-define-xcp-ng-colors.XCP-ng.patch
+# PR pending merge
 Patch1002: xsconsole-10.1.14-support-ipv6.XCP-ng.patch
+# Merged upstream, should come with next version update
 Patch1003: xsconsole-10.1.14-display-vlan.XCP-ng.patch
 
 %description
@@ -56,6 +63,12 @@ Console tool for configuring a XCP-ng installation.
 %{_unitdir}/xsconsole.service
 
 %changelog
+* Mon Sep 18 2023 Samuel Verschelde <stormi-xcp@ylix.fr> - 10.1.14-2.1
+- Update to 10.1.14-2
+- *** Upstream changelog ***
+- * Fri Jul 14 2023 Alex Brett <alex.brett@cloud.com> - 10.1.14-2
+- - CP-43942: Remove Portable SR feature
+
 * Mon Jul 17 2023 Benjamin Reis <benjamin.reis@vates.fr> - 10.1.14-1.3
 - Add xsconsole-10.1.14-display-vlan.XCP-ng.patch
 
