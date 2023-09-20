@@ -1,6 +1,6 @@
 Name:           branding-xcp-ng
 Version:        8.3.0
-Release:        2.73c8834
+Release:        3.5930aef
 Summary:        XCP-ng branding
 License:        ISC
 URL:            https://github.com/xcp-ng/branding-xcp-ng
@@ -40,6 +40,9 @@ This package contains branding information for XCP-ng.
 %{_usrsrc}/branding/__pycache__
 
 %changelog
+* Wed Sep 20 2023 Samuel Verschelde <stormi-xcp@ylix.fr> - 8.3.0-3.5930aef
+- Update PLATFORM_VERSION to 3.4.0
+
 * Thu Feb 02 2023 Yann Dirson <yann.dirson@vates.fr> - 8.3.0-2.73c8834
 - Switch to python3
 - COMPANY_NAME update to "Vates, XenServer and others"
