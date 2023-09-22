@@ -19,7 +19,7 @@
 Name: edk2
 Summary: EFI Development Kit II
 Version: 20220801
-Release: %{?xsrel}%{?dist}
+Release: %{?xsrel}.1%{?dist}
 
 License: BSD and MIT
 URL: https://github.com/tianocore/edk2
@@ -48,7 +48,7 @@ Patch16: disable-config-option-in-TCG2-config-screen.patch
 Patch17: shadow-pei-for-consistent-measurements.patch
 Patch18: set-default-resolution-1024-768.patch
 
-BuildRequires: devtoolset-11-gcc devtoolset-11-binutils
+BuildRequires: devtoolset-11-gcc devtoolset-11-gcc-c++ devtoolset-11-binutils
 BuildRequires: python3
 BuildRequires: libuuid-devel
 BuildRequires: nasm >= 2.15
@@ -148,6 +148,9 @@ cp OvmfPkg/License.txt License.ovmf
 
 
 %changelog
+* Fri Sep 22 2023 Samuel Verschelde <stormi-xcp@ylix.fr> - 20220801-1.7.1.1
+- Add missing BuildRequires: devtoolset-11-gcc-c++
+
 * Fri May 26 2023 Ross Lagerwall <ross.lagerwall@citrix.com> - 20220801-1.7.1
 - CA-377781: Set default resolution back to 1024x768
 
