@@ -1,10 +1,10 @@
 Adaptation of https://github.com/mirage/ocaml-uri/pull/169 to this version of the code.
 
-diff --git c/packages/upstream/uri.4.2.0/files/fix-ipv6-uri-parsing.XCP-ng.patch w/packages/upstream/uri.4.2.0/files/fix-ipv6-uri-parsing.XCP-ng.patch
+diff --git c/packages/upstream/uri.4.3.0/files/fix-ipv6-uri-parsing.XCP-ng.patch w/packages/upstream/uri.4.3.0/files/fix-ipv6-uri-parsing.XCP-ng.patch
 new file mode 100644
 index 00000000..0cd95cca
 --- /dev/null
-+++ w/packages/upstream/uri.4.2.0/files/fix-ipv6-uri-parsing.XCP-ng.patch
++++ w/packages/upstream/uri.4.3.0/files/fix-ipv6-uri-parsing.XCP-ng.patch
 @@ -0,0 +1,361 @@
 +diff --git i/lib/uri.ml w/lib/uri.ml
 +index 7b5af34..38b22e7 100644
@@ -367,10 +367,10 @@ index 00000000..0cd95cca
 + let test_with_uri =
 +   List.map (fun (input, output) ->
 +     input >:: (fun () ->
-diff --git c/packages/upstream/uri.4.2.0/opam w/packages/upstream/uri.4.2.0/opam
+diff --git c/packages/upstream/uri.4.3.0/opam w/packages/upstream/uri.4.3.0/opam
 index 196e5622..58140da6 100644
---- c/packages/upstream/uri.4.2.0/opam
-+++ w/packages/upstream/uri.4.2.0/opam
+--- c/packages/upstream/uri.4.3.0/opam
++++ w/packages/upstream/uri.4.3.0/opam
 @@ -25,6 +25,7 @@ build: [
    ["dune" "build" "-p" name "-j" jobs]
    ["dune" "runtest" "-p" name "-j" jobs] {with-test}

@@ -18,7 +18,7 @@ URL:     https://github.com/xapi-project/xs-opam
 Source0: xs-opam-repo-6.72.0.tar.gz
 
 # XCP-ng patches
-Patch1000: xs-opam-repo-6.66.0-fix-ipv6-uri.XCP-ng.patch
+Patch1000: xs-opam-repo-6.72.0-fix-ipv6-uri.XCP-ng.patch
 
 # To "pin" a package during development, see below the example
 # where ezxenstore is pinned to an internal master branch.
@@ -117,8 +117,9 @@ echo '%%_opamroot %%{_libdir}/opamroot' >> "%{buildroot}%{_rpmconfigdir}/macros.
 %{_opamroot}
 
 %changelog
-* Mon Sep 18 2023 Samuel Verschelde <stormi-xcp@ylix.fr> - 6.72.0-1.1
+* Fri Sep 22 2023 Samuel Verschelde <stormi-xcp@ylix.fr> - 6.72.0-1.1
 - Update to 6.72.0-1
+- Rediff xs-opam-repo-6.72.0-fix-ipv6-uri.XCP-ng.patch
 - *** Upstream changelog ***
 - * Tue Jul 28 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.72.0-1
 - - upstream: patch rpclib to support python3, and start using it
