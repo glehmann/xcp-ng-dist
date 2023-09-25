@@ -1,6 +1,6 @@
 Summary: XAPI additional plugins for XCP-ng
 Name: xcp-ng-xapi-plugins
-Version: 1.8.0
+Version: 1.9.0
 Release: 1%{?dist}
 URL: https://github.com/xcp-ng/xcp-ng-xapi-plugins
 Source0: https://github.com/xcp-ng/xcp-ng-xapi-plugins/archive/v%{version}/%{name}-%{version}.tar.gz
@@ -32,6 +32,8 @@ install SOURCES/etc/xapi.d/plugins/xcpngutils/*.py %{buildroot}/etc/xapi.d/plugi
 %dir /var/lib/xcp-ng-xapi-plugins
 
 %changelog
+* Mon Sep 25 2023 Benjamin Reis <benjamin.reis@vates.fr> - 1.9.0-1
+- Add smartctl plugin to get information and health of physical disks on the host
 
 * Mon Jun 12 2023 Ronan Abhamon <ronan.abhamon@vates.fr> - 1.8.0-1
 - Add a way to install packages with updater.py
