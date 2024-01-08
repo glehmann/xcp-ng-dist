@@ -1,6 +1,6 @@
-%global package_speccommit a92bee86f47e6720d9ad50d7ebcba761297e60df
+%global package_speccommit c25302983dc95fe04c3c36b6af0ce06c5e2811d6
 %global usver 20220801
-%global xsver 1.7.1
+%global xsver 1.7.3
 %global xsrel %{xsver}%{?xscount}%{?xshash}
 %global package_srccommit edk2-stable202208
 
@@ -32,23 +32,29 @@ Patch0: ovmfpkg-xenpvblkdxe__fix_memory_barrier_macro.patch
 Patch1: ovmfxen-add-tpm-support.patch
 Patch2: MdePkg-SecPeiDxeTimerLibCpu-Support-for-dynamic-PcdF.patch
 Patch3: OvmfPkg-OvmfXen-Use-RuntimeTimerLibCpu-for-DXE_DRIVER.patch
-Patch4: nvidia-vgpu-support.patch
-Patch5: gvt-g-support.patch
-Patch6: embed-nic-drivers.patch
-Patch7: add-xen-variable.patch
-Patch8: add-xen-platform-device-id.patch
-Patch9: disable-modules.patch
-Patch10: xenorder.patch
-Patch11: keep-caching-enabled.patch
-Patch12: remove-unused-crypto.patch
-Patch13: add-Tcg2PhysicalPresenceLibXen.patch
-Patch14: tcg2config-fix-operation-parameter-prompt.patch
-Patch15: set-tpm2-acpi-table-revision.patch
-Patch16: disable-config-option-in-TCG2-config-screen.patch
-Patch17: shadow-pei-for-consistent-measurements.patch
-Patch18: set-default-resolution-1024-768.patch
+Patch4: add-option-to-disable-bgrt.patch
+Patch5: use-rtc.patch
+Patch6: move-xenconnect-later.patch
+Patch7: nvidia-vgpu-support.patch
+Patch8: gvt-g-support.patch
+Patch9: embed-nic-drivers.patch
+Patch10: add-xen-variable.patch
+Patch11: add-xen-platform-device-id.patch
+Patch12: disable-modules.patch
+Patch13: xenorder.patch
+Patch14: keep-caching-enabled.patch
+Patch15: remove-unused-crypto.patch
+Patch16: add-Tcg2PhysicalPresenceLibXen.patch
+Patch17: tcg2config-fix-operation-parameter-prompt.patch
+Patch18: set-tpm2-acpi-table-revision.patch
+Patch19: disable-config-option-in-TCG2-config-screen.patch
+Patch20: shadow-pei-for-consistent-measurements.patch
+Patch21: set-default-resolution-1024-768.patch
+Patch22: add-debugging-info.patch
 
-BuildRequires: devtoolset-11-gcc devtoolset-11-binutils
+BuildRequires: devtoolset-11-binutils
+BuildRequires: devtoolset-11-gcc
+BuildRequires: devtoolset-11-gcc-c++
 BuildRequires: python3
 BuildRequires: libuuid-devel
 BuildRequires: nasm >= 2.15
@@ -87,6 +93,7 @@ cp %{_datadir}/ipxe/8086100e.efi .
 
 %{?_cov_wrap} OvmfPkg/build.sh \
     -D SECURE_BOOT_ENABLE=TRUE \
+    -D BGRT_ENABLE=FALSE \
     -D NETWORK_IP6_ENABLE=TRUE \
     -D IPXE_ENABLE=TRUE \
     -D NETWORK_HTTP_BOOT_ENABLE=FALSE \
@@ -98,12 +105,17 @@ cp %{_datadir}/ipxe/8086100e.efi .
     -D TPM1_ENABLE=FALSE \
     -D TPM2_ENABLE \
     -b DEBUG \
+    --pcd gEfiMdePkgTokenSpaceGuid.PcdDebugPrintErrorLevel=0xFFFFFF4F \
+    --pcd gUefiCpuPkgTokenSpaceGuid.PcdCpuMaxLogicalProcessorNumber=96 \
     -p OvmfPkg/OvmfXen.dsc -n %{?_smp_flags}
 
+cp Build/OvmfXen/DEBUG_GCC*/FV/OVMF.fd OVMF-debug.fd
 python3 %{SOURCE1} Build/OvmfXen/DEBUG_GCC*/FV/PEIFV.Fv Build/OvmfXen/DEBUG_GCC*/FV/DXEFV.Fv > OVMF-debug.pcrs
+rm -rf Build/OvmfXen/DEBUG_GCC*
 
 %{?_cov_wrap} OvmfPkg/build.sh \
     -D SECURE_BOOT_ENABLE=TRUE \
+    -D BGRT_ENABLE=FALSE \
     -D NETWORK_IP6_ENABLE=TRUE \
     -D IPXE_ENABLE=TRUE \
     -D NETWORK_HTTP_BOOT_ENABLE=FALSE \
@@ -114,10 +126,13 @@ python3 %{SOURCE1} Build/OvmfXen/DEBUG_GCC*/FV/PEIFV.Fv Build/OvmfXen/DEBUG_GCC*
     -D FD_SIZE_2MB \
     -D TPM1_ENABLE=FALSE \
     -D TPM2_ENABLE \
-    -b RELEASE \
+    -b DEBUG \
+    --pcd gEfiMdePkgTokenSpaceGuid.PcdDebugPrintErrorLevel=0x80000000 \
+    --pcd gUefiCpuPkgTokenSpaceGuid.PcdCpuMaxLogicalProcessorNumber=96 \
     -p OvmfPkg/OvmfXen.dsc -n %{?_smp_flags}
 
-python3 %{SOURCE1} Build/OvmfXen/RELEASE_GCC*/FV/PEIFV.Fv Build/OvmfXen/RELEASE_GCC*/FV/DXEFV.Fv > OVMF-release.pcrs
+cp Build/OvmfXen/DEBUG_GCC*/FV/OVMF.fd OVMF-release.fd
+python3 %{SOURCE1} Build/OvmfXen/DEBUG_GCC*/FV/PEIFV.Fv Build/OvmfXen/DEBUG_GCC*/FV/DXEFV.Fv > OVMF-release.pcrs
 
 
 %install
@@ -125,8 +140,8 @@ python3 %{SOURCE1} Build/OvmfXen/RELEASE_GCC*/FV/PEIFV.Fv Build/OvmfXen/RELEASE_
 source /opt/rh/devtoolset-11/enable
 
 install -m 755 -d %{buildroot}/%{_datadir}/%{name}
-install -m 644 Build/OvmfXen/DEBUG_GCC*/FV/OVMF.fd %{buildroot}/%{_datadir}/%{name}/OVMF-debug.fd
-install -m 644 Build/OvmfXen/RELEASE_GCC*/FV/OVMF.fd %{buildroot}/%{_datadir}/%{name}/OVMF-release.fd
+install -m 644 OVMF-debug.fd %{buildroot}/%{_datadir}/%{name}/OVMF-debug.fd
+install -m 644 OVMF-release.fd %{buildroot}/%{_datadir}/%{name}/OVMF-release.fd
 ln -sf OVMF-release.fd %{buildroot}/%{_datadir}/%{name}/OVMF.fd
 
 install -m 644 OVMF-debug.pcrs %{buildroot}/%{_datadir}/%{name}/OVMF-debug.pcrs
@@ -148,6 +163,18 @@ cp OvmfPkg/License.txt License.ovmf
 
 
 %changelog
+* Tue Nov 28 2023 Alejandro Vallejo <alejandro.vallejo@cloud.com> - 20220801-1.7.3
+- CP-46796: Allow booting up to 96 vCPUs
+
+* Wed Sep 20 2023 Ross Lagerwall <ross.lagerwall@citrix.com> - 20220801-1.7.2
+- CA-383046: Use the emulated RTC to implement time services
+- CA-383095: Add a patch to fix an unusual Windows PXE boot hang
+- CP-45175: Add debug messages to XenVariable
+- CP-45175: Disable the BGRT
+- CP-45175: Add extra debug statements
+- CP-45175: Tweak debug levels
+- Include g++ from devtoolset as a build requirement
+
 * Fri May 26 2023 Ross Lagerwall <ross.lagerwall@citrix.com> - 20220801-1.7.1
 - CA-377781: Set default resolution back to 1024x768
 

@@ -1,0 +1,60 @@
+Allocate memory later to avoid an unusual hang
+
+Commit 12998837d594 ("OvmfPkg/XenPlatformPei: Setup HyperPages earlier") moved
+the allocation of hypercall pages earlier. This causes an unusual hang when PXE
+booting Windows in a certain configuration.
+
+I believe that this is because the allocation happens before the call to
+PublishSystemMemory() which means the PEI allocator uses a temporary heap for
+the allocation. Later, this temporary allocation is gone but the hypercall page
+pointer still points to the original location. Most guests seem to be fine with
+this but this particular Windows setup downloads and spends a lot of time
+before exiting boot services and probably tramples over the memory.
+
+Fix it by moving the XenConnect() call after PublishSystemMemory() and just
+before it is actually needed.
+
+This causes an assertion in XenPvhDetected() so just return FALSE there for
+now. This will require resolving before upstreaming.
+
+Signed-off-by: Ross Lagerwall <ross.lagerwall@citrix.com>
+diff --git a/OvmfPkg/XenPlatformPei/Platform.c b/OvmfPkg/XenPlatformPei/Platform.c
+index 2d97a41ca7..4b29450937 100644
+--- a/OvmfPkg/XenPlatformPei/Platform.c
++++ b/OvmfPkg/XenPlatformPei/Platform.c
+@@ -447,8 +447,6 @@ InitializeXenPlatform (
+     ASSERT_EFI_ERROR (Status);
+   }
+ 
+-  XenConnect ();
+-
+   BootModeInitialization ();
+   AddressWidthInitialization ();
+ 
+@@ -459,6 +457,8 @@ InitializeXenPlatform (
+ 
+   PublishPeiMemory ();
+ 
++  XenConnect ();
++
+   InitializeRamRegions ();
+ 
+   CalibrateLapicTimer ();
+diff --git a/OvmfPkg/XenPlatformPei/Xen.c b/OvmfPkg/XenPlatformPei/Xen.c
+index 7f00eef11e..5ecfecad0c 100644
+--- a/OvmfPkg/XenPlatformPei/Xen.c
++++ b/OvmfPkg/XenPlatformPei/Xen.c
+@@ -280,12 +280,7 @@ XenPvhDetected (
+   VOID
+   )
+ {
+-  //
+-  // This function should only be used after XenConnect
+-  //
+-  ASSERT (mXenInfo.HyperPages != NULL);
+-
+-  return mXenHvmloaderInfo == NULL;
++  return FALSE;
+ }
+ 
+ VOID
