@@ -1,0 +1,107 @@
+Add extra debug statements
+
+These statements are logged at ERROR level so they are present even in
+"release" builds. They make it easier to determine where the VM is in the
+bootup process.
+
+The key points of interest are:
+
+* PV block device connected
+* Bootloader started (StartImage) and any error returned
+* ExitBootServices() called
+* SetVirtualAddressMap() called
+
+diff --git a/MdeModulePkg/Core/Dxe/DxeMain/DxeMain.c b/MdeModulePkg/Core/Dxe/DxeMain/DxeMain.c
+index 5733f0c8ec..9b5c8b7414 100644
+--- a/MdeModulePkg/Core/Dxe/DxeMain/DxeMain.c
++++ b/MdeModulePkg/Core/Dxe/DxeMain/DxeMain.c
+@@ -763,6 +763,8 @@ CoreExitBootServices (
+ {
+   EFI_STATUS  Status;
+ 
++  DEBUG ((DEBUG_ERROR, "ExitBootServices -> (0x%p, 0x%lx)\n", ImageHandle, MapKey));
++
+   //
+   // Disable Timer
+   //
+@@ -777,6 +779,7 @@ CoreExitBootServices (
+     // Notify other drivers that ExitBootServices fail
+     //
+     CoreNotifySignalList (&gEventExitBootServicesFailedGuid);
++    DEBUG ((DEBUG_ERROR, "ExitBootServices <- (%r)\n", Status));
+     return Status;
+   }
+ 
+@@ -834,6 +837,8 @@ CoreExitBootServices (
+   //
+   gRuntime->AtRuntime = TRUE;
+ 
++  DEBUG ((DEBUG_ERROR, "ExitBootServices <- (%r)\n", Status));
++
+   return Status;
+ }
+ 
+diff --git a/MdeModulePkg/Core/RuntimeDxe/Runtime.c b/MdeModulePkg/Core/RuntimeDxe/Runtime.c
+index de8f2bfce0..9249768ac6 100644
+--- a/MdeModulePkg/Core/RuntimeDxe/Runtime.c
++++ b/MdeModulePkg/Core/RuntimeDxe/Runtime.c
+@@ -244,11 +244,14 @@ RuntimeDriverSetVirtualAddressMap (
+   LIST_ENTRY               *Link;
+   EFI_PHYSICAL_ADDRESS     VirtImageBase;
+ 
++  DEBUG ((DEBUG_ERROR, "SetVirtualAddressMap -> (0x%lx, 0x%lx, 0x%x)\n", MemoryMapSize, DescriptorSize, DescriptorVersion));
++
+   //
+   // Can only switch to virtual addresses once the memory map is locked down,
+   // and can only set it once
+   //
+   if (!mRuntime.AtRuntime || mRuntime.VirtualMode) {
++    DEBUG ((DEBUG_ERROR, "SetVirtualAddressMap <- (%r)\n", EFI_UNSUPPORTED));
+     return EFI_UNSUPPORTED;
+   }
+ 
+@@ -256,6 +259,7 @@ RuntimeDriverSetVirtualAddressMap (
+   // Only understand the original descriptor format
+   //
+   if ((DescriptorVersion != EFI_MEMORY_DESCRIPTOR_VERSION) || (DescriptorSize < sizeof (EFI_MEMORY_DESCRIPTOR))) {
++    DEBUG ((DEBUG_ERROR, "SetVirtualAddressMap <- (%r)\n", EFI_INVALID_PARAMETER));
+     return EFI_INVALID_PARAMETER;
+   }
+ 
+@@ -368,6 +372,8 @@ RuntimeDriverSetVirtualAddressMap (
+   mVirtualMap         = NULL;
+   mVirtualMapMaxIndex = 0;
+ 
++  DEBUG ((DEBUG_ERROR, "SetVirtualAddressMap <- (%r)\n", EFI_SUCCESS));
++
+   return EFI_SUCCESS;
+ }
+ 
+diff --git a/MdeModulePkg/Library/UefiBootManagerLib/BmBoot.c b/MdeModulePkg/Library/UefiBootManagerLib/BmBoot.c
+index 962892d38f..de9a0b4f48 100644
+--- a/MdeModulePkg/Library/UefiBootManagerLib/BmBoot.c
++++ b/MdeModulePkg/Library/UefiBootManagerLib/BmBoot.c
+@@ -2036,8 +2036,9 @@ EfiBootManagerBoot (
+ 
+   REPORT_STATUS_CODE (EFI_PROGRESS_CODE, PcdGet32 (PcdProgressCodeOsLoaderStart));
+ 
++  DEBUG ((DEBUG_ERROR, "About to call StartImage (0x%p)\n", ImageHandle));
+   Status = gBS->StartImage (ImageHandle, &BootOption->ExitDataSize, &BootOption->ExitData);
+-  DEBUG ((DEBUG_INFO | DEBUG_LOAD, "Image Return Status = %r\n", Status));
++  DEBUG ((DEBUG_ERROR | DEBUG_LOAD, "Image Return Status = %r\n", Status));
+   BootOption->Status = Status;
+ 
+   //
+diff --git a/OvmfPkg/XenPvBlkDxe/BlockFront.c b/OvmfPkg/XenPvBlkDxe/BlockFront.c
+index 7aa5ef044b..50923ba4c1 100644
+--- a/OvmfPkg/XenPvBlkDxe/BlockFront.c
++++ b/OvmfPkg/XenPvBlkDxe/BlockFront.c
+@@ -355,7 +355,7 @@ Again:
+   }
+ 
+   DEBUG ((
+-    DEBUG_INFO,
++    DEBUG_ERROR,
+     "XenPvBlk: New disk with %ld sectors of %d bytes\n",
+     Dev->MediaInfo.Sectors,
+     Dev->MediaInfo.SectorSize

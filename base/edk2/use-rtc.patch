@@ -1,0 +1,34 @@
+diff --git a/OvmfPkg/OvmfXen.dsc b/OvmfPkg/OvmfXen.dsc
+index 5f2e1dc9aa..f392211604 100644
+--- a/OvmfPkg/OvmfXen.dsc
++++ b/OvmfPkg/OvmfXen.dsc
+@@ -228,7 +228,6 @@
+   XenPlatformLib|OvmfPkg/Library/XenPlatformLib/XenPlatformLib.inf
+   XenIoMmioLib|OvmfPkg/Library/XenIoMmioLib/XenIoMmioLib.inf
+ 
+-  RealTimeClockLib|OvmfPkg/Library/XenRealTimeClockLib/XenRealTimeClockLib.inf
+   TimeBaseLib|EmbeddedPkg/Library/TimeBaseLib/TimeBaseLib.inf
+ !ifdef $(DEBUG_ON_HYPERVISOR_CONSOLE)
+   DebugLib|OvmfPkg/Library/PlatformDebugLibIoPort/PlatformRomDebugLibIoPortNocheck.inf
+@@ -616,7 +615,7 @@
+   }
+   MdeModulePkg/Universal/ResetSystemRuntimeDxe/ResetSystemRuntimeDxe.inf
+   MdeModulePkg/Universal/Metronome/Metronome.inf
+-  EmbeddedPkg/RealTimeClockRuntimeDxe/RealTimeClockRuntimeDxe.inf
++  PcAtChipsetPkg/PcatRealTimeClockRuntimeDxe/PcatRealTimeClockRuntimeDxe.inf
+   MdeModulePkg/Universal/DriverHealthManagerDxe/DriverHealthManagerDxe.inf
+   MdeModulePkg/Universal/BdsDxe/BdsDxe.inf {
+     <LibraryClasses>
+diff --git a/OvmfPkg/OvmfXen.fdf b/OvmfPkg/OvmfXen.fdf
+index 89857c3dac..628babefd9 100644
+--- a/OvmfPkg/OvmfXen.fdf
++++ b/OvmfPkg/OvmfXen.fdf
+@@ -257,7 +257,7 @@ INF  MdeModulePkg/Bus/Pci/PciHostBridgeDxe/PciHostBridgeDxe.inf
+ INF  MdeModulePkg/Bus/Pci/PciBusDxe/PciBusDxe.inf
+ INF  MdeModulePkg/Universal/ResetSystemRuntimeDxe/ResetSystemRuntimeDxe.inf
+ INF  MdeModulePkg/Universal/Metronome/Metronome.inf
+-INF  EmbeddedPkg/RealTimeClockRuntimeDxe/RealTimeClockRuntimeDxe.inf
++INF  PcAtChipsetPkg/PcatRealTimeClockRuntimeDxe/PcatRealTimeClockRuntimeDxe.inf
+ 
+ INF  OvmfPkg/XenIoPvhDxe/XenIoPvhDxe.inf
+ INF  OvmfPkg/XenIoPciDxe/XenIoPciDxe.inf
