@@ -1,5 +1,5 @@
 diff --git a/MdeModulePkg/Core/Dxe/Image/Image.c b/MdeModulePkg/Core/Dxe/Image/Image.c
-index 68bde5c15c..b28f012892 100644
+index 68bde5c15c52..b28f01289281 100644
 --- a/MdeModulePkg/Core/Dxe/Image/Image.c
 +++ b/MdeModulePkg/Core/Dxe/Image/Image.c
 @@ -8,6 +8,7 @@ SPDX-License-Identifier: BSD-2-Clause-Patent
@@ -62,7 +62,7 @@ index 68bde5c15c..b28f012892 100644
    //
 diff --git a/MdeModulePkg/Include/Library/XenVariableLib.h b/MdeModulePkg/Include/Library/XenVariableLib.h
 new file mode 100644
-index 0000000000..5db04e95fd
+index 000000000000..5db04e95fdc0
 --- /dev/null
 +++ b/MdeModulePkg/Include/Library/XenVariableLib.h
 @@ -0,0 +1,141 @@
@@ -208,18 +208,18 @@ index 0000000000..5db04e95fd
 +#endif
 +
 diff --git a/OvmfPkg/OvmfXen.dsc b/OvmfPkg/OvmfXen.dsc
-index c472518803..75acb49d7b 100644
+index f97c58d3448e..bf94a1b70b1a 100644
 --- a/OvmfPkg/OvmfXen.dsc
 +++ b/OvmfPkg/OvmfXen.dsc
-@@ -32,6 +32,7 @@ [Defines]
-   #
+@@ -33,6 +33,7 @@
    DEFINE SOURCE_DEBUG_ENABLE     = FALSE
+   DEFINE BGRT_ENABLE             = TRUE
    DEFINE IPXE_ENABLE             = FALSE
 +  DEFINE XEN_VARIABLE_ENABLE     = FALSE
  
  !include OvmfPkg/OvmfTpmDefines.dsc.inc
  
-@@ -198,7 +199,9 @@ [LibraryClasses]
+@@ -199,7 +200,9 @@
    RngLib|MdePkg/Library/BaseRngLibTimerLib/BaseRngLibTimerLib.inf
  
    AuthVariableLib|MdeModulePkg/Library/AuthVariableLibNull/AuthVariableLibNull.inf
@@ -229,7 +229,7 @@ index c472518803..75acb49d7b 100644
    VariablePolicyLib|MdeModulePkg/Library/VariablePolicyLib/VariablePolicyLib.inf
    VariablePolicyHelperLib|MdeModulePkg/Library/VariablePolicyHelperLib/VariablePolicyHelperLib.inf
    VariableFlashInfoLib|MdeModulePkg/Library/BaseVariableFlashInfoLib/BaseVariableFlashInfoLib.inf
-@@ -769,6 +772,9 @@ [Components]
+@@ -772,6 +775,9 @@
    #
    # Variable driver stack (non-SMM)
    #
@@ -239,7 +239,7 @@ index c472518803..75acb49d7b 100644
    OvmfPkg/QemuFlashFvbServicesRuntimeDxe/FvbServicesRuntimeDxe.inf
    OvmfPkg/EmuVariableFvbRuntimeDxe/Fvb.inf {
      <LibraryClasses>
-@@ -779,6 +785,7 @@ [Components]
+@@ -782,6 +788,7 @@
      <LibraryClasses>
        NULL|MdeModulePkg/Library/VarCheckUefiLib/VarCheckUefiLib.inf
    }
@@ -248,10 +248,10 @@ index c472518803..75acb49d7b 100644
    #
    # TPM support
 diff --git a/OvmfPkg/OvmfXen.fdf b/OvmfPkg/OvmfXen.fdf
-index 41fce471cb..db0466ca47 100644
+index 8c064582f4cb..27705fd63f35 100644
 --- a/OvmfPkg/OvmfXen.fdf
 +++ b/OvmfPkg/OvmfXen.fdf
-@@ -232,7 +232,9 @@ [FV.DXEFV]
+@@ -232,7 +232,9 @@ APRIORI DXE {
    INF  MdeModulePkg/Universal/DevicePathDxe/DevicePathDxe.inf
    INF  MdeModulePkg/Universal/PCD/Dxe/Pcd.inf
    INF  OvmfPkg/AmdSevDxe/AmdSevDxe.inf
@@ -261,7 +261,7 @@ index 41fce471cb..db0466ca47 100644
  }
  
  #
-@@ -360,10 +362,14 @@ [FV.DXEFV]
+@@ -362,10 +364,14 @@ INF  OvmfPkg/IoMmuDxe/IoMmuDxe.inf
  #
  # Variable driver stack (non-SMM)
  #
@@ -278,10 +278,10 @@ index 41fce471cb..db0466ca47 100644
  # TPM support
 diff --git a/OvmfPkg/XenVariable/XenVariable.c b/OvmfPkg/XenVariable/XenVariable.c
 new file mode 100644
-index 0000000000..b4af6010e8
+index 000000000000..b8981ae3661c
 --- /dev/null
 +++ b/OvmfPkg/XenVariable/XenVariable.c
-@@ -0,0 +1,318 @@
+@@ -0,0 +1,342 @@
 +#include "XenVariable.h"
 +#include <Library/XenVariableLib.h>
 +#include <Library/SynchronizationLib.h>
@@ -354,12 +354,18 @@ index 0000000000..b4af6010e8
 +{
 +  EFI_STATUS status;
 +
++  DEBUG ((DEBUG_VARIABLE, "XenGetVariable -> %g-%s (0x%lx)\n", VendorGuid,
++          VariableName, *DataSize));
++
 +  AcquireSpinLock(&var_lock);
 +
 +  status = XenGetVariableLocked(VariableName, VendorGuid, Attributes,
 +                                DataSize, Data);
 +
 +  ReleaseSpinLock(&var_lock);
++
++  DEBUG ((DEBUG_VARIABLE, "XenGetVariable <- %g-%s (0x%lx, %r)\n", VendorGuid,
++          VariableName, *DataSize, status));
 +
 +  return status;
 +}
@@ -420,12 +426,18 @@ index 0000000000..b4af6010e8
 +{
 +  EFI_STATUS status;
 +
++  DEBUG ((DEBUG_VARIABLE, "XenGetNextVariableName -> %g-%s (0x%lx)\n",
++          VendorGuid, VariableName, *VariableNameSize));
++
 +  AcquireSpinLock(&var_lock);
 +
 +  status = XenGetNextVariableNameLocked(VariableNameSize, VariableName,
 +                                        VendorGuid);
 +
 +  ReleaseSpinLock(&var_lock);
++
++  DEBUG ((DEBUG_VARIABLE, "XenGetNextVariableName <- %g-%s (0x%lx, %r)\n",
++          VendorGuid, VariableName, *VariableNameSize, status));
 +
 +  return status;
 +}
@@ -470,12 +482,18 @@ index 0000000000..b4af6010e8
 +{
 +  EFI_STATUS status;
 +
++  DEBUG ((DEBUG_VARIABLE, "XenSetVariable -> %g-%s (0x%x, 0x%lx)\n",
++          VendorGuid, VariableName, Attributes, DataSize));
++
 +  AcquireSpinLock(&var_lock);
 +
 +  status = XenSetVariableLocked(VariableName, VendorGuid, Attributes,
 +                                DataSize, Data);
 +
 +  ReleaseSpinLock(&var_lock);
++
++  DEBUG ((DEBUG_VARIABLE, "XenSetVariable <- %g-%s (%r)\n", VendorGuid,
++          VariableName, status));
 +
 +  return status;
 +}
@@ -525,6 +543,8 @@ index 0000000000..b4af6010e8
 +{
 +  EFI_STATUS status;
 +
++  DEBUG ((DEBUG_VARIABLE, "XenQueryVariableInfo -> (0x%x)\n", Attributes));
++
 +  AcquireSpinLock(&var_lock);
 +
 +  status = XenQueryVariableInfoLocked(Attributes, MaximumVariableStorageSize,
@@ -532,6 +552,10 @@ index 0000000000..b4af6010e8
 +                                      MaximumVariableSize);
 +
 +  ReleaseSpinLock(&var_lock);
++
++  DEBUG ((DEBUG_VARIABLE, "XenQueryVariableInfo <- (0x%lx, 0x%lx, 0x%lx, %r)\n",
++          *MaximumVariableStorageSize, *RemainingVariableStorageSize,
++          *MaximumVariableSize, status));
 +
 +  return status;
 +}
@@ -602,7 +626,7 @@ index 0000000000..b4af6010e8
 +}
 diff --git a/OvmfPkg/XenVariable/XenVariable.h b/OvmfPkg/XenVariable/XenVariable.h
 new file mode 100644
-index 0000000000..c4bb2c04e2
+index 000000000000..c4bb2c04e275
 --- /dev/null
 +++ b/OvmfPkg/XenVariable/XenVariable.h
 @@ -0,0 +1,38 @@
@@ -646,7 +670,7 @@ index 0000000000..c4bb2c04e2
 +#endif
 diff --git a/OvmfPkg/XenVariable/XenVariable.inf b/OvmfPkg/XenVariable/XenVariable.inf
 new file mode 100644
-index 0000000000..9a20e9a599
+index 000000000000..9a20e9a5997a
 --- /dev/null
 +++ b/OvmfPkg/XenVariable/XenVariable.inf
 @@ -0,0 +1,51 @@

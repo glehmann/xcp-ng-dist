@@ -9,18 +9,18 @@ Modules that are disabled:
 * Virtio modules (already removed in XenOvmf)
 * Scanning USB devices takes some time and is not necessary.
 diff --git a/OvmfPkg/OvmfXen.dsc b/OvmfPkg/OvmfXen.dsc
-index 75acb49d7b..4e0a731d2a 100644
+index bf94a1b70b1a..7bddcc3b1c09 100644
 --- a/OvmfPkg/OvmfXen.dsc
 +++ b/OvmfPkg/OvmfXen.dsc
-@@ -33,6 +33,7 @@ [Defines]
-   DEFINE SOURCE_DEBUG_ENABLE     = FALSE
+@@ -34,6 +34,7 @@
+   DEFINE BGRT_ENABLE             = TRUE
    DEFINE IPXE_ENABLE             = FALSE
    DEFINE XEN_VARIABLE_ENABLE     = FALSE
 +  DEFINE EXTRA_MODULES_ENABLE    = TRUE
  
  !include OvmfPkg/OvmfTpmDefines.dsc.inc
  
-@@ -167,7 +168,9 @@ [LibraryClasses]
+@@ -168,7 +169,9 @@
    FileHandleLib|MdePkg/Library/UefiFileHandleLib/UefiFileHandleLib.inf
    UefiCpuLib|UefiCpuPkg/Library/BaseUefiCpuLib/BaseUefiCpuLib.inf
    SecurityManagementLib|MdeModulePkg/Library/DxeSecurityManagementLib/DxeSecurityManagementLib.inf
@@ -30,7 +30,7 @@ index 75acb49d7b..4e0a731d2a 100644
    SerializeVariablesLib|OvmfPkg/Library/SerializeVariablesLib/SerializeVariablesLib.inf
    QemuFwCfgLib|OvmfPkg/Library/QemuFwCfgLib/QemuFwCfgDxeLib.inf
    QemuLoadImageLib|OvmfPkg/Library/GenericQemuLoadImageLib/GenericQemuLoadImageLib.inf
-@@ -326,7 +329,9 @@ [LibraryClasses.common.UEFI_DRIVER]
+@@ -327,7 +330,9 @@
    DxeCoreEntryPoint|MdePkg/Library/DxeCoreEntryPoint/DxeCoreEntryPoint.inf
    MemoryAllocationLib|MdePkg/Library/UefiMemoryAllocationLib/UefiMemoryAllocationLib.inf
    ReportStatusCodeLib|MdeModulePkg/Library/DxeReportStatusCodeLib/DxeReportStatusCodeLib.inf
@@ -40,7 +40,7 @@ index 75acb49d7b..4e0a731d2a 100644
    PciLib|OvmfPkg/Library/DxePciLibI440FxQ35/DxePciLibI440FxQ35.inf
  
  [LibraryClasses.common.DXE_DRIVER]
-@@ -655,12 +660,14 @@ [Components]
+@@ -656,12 +661,14 @@
    MdeModulePkg/Universal/Disk/UnicodeCollation/EnglishDxe/EnglishDxe.inf
    FatPkg/EnhancedFatDxe/Fat.inf
    MdeModulePkg/Universal/Disk/UdfDxe/UdfDxe.inf
@@ -55,7 +55,7 @@ index 75acb49d7b..4e0a731d2a 100644
    MdeModulePkg/Universal/HiiDatabaseDxe/HiiDatabaseDxe.inf
    MdeModulePkg/Universal/SetupBrowserDxe/SetupBrowserDxe.inf
    MdeModulePkg/Universal/DisplayEngineDxe/DisplayEngineDxe.inf
-@@ -709,12 +716,14 @@ [Components]
+@@ -712,12 +719,14 @@
    #
    # Usb Support
    #
@@ -71,10 +71,10 @@ index 75acb49d7b..4e0a731d2a 100644
  !ifdef $(CSM_ENABLE)
    OvmfPkg/Csm/BiosThunk/VideoDxe/VideoDxe.inf {
 diff --git a/OvmfPkg/OvmfXen.fdf b/OvmfPkg/OvmfXen.fdf
-index db0466ca47..12f50aaa03 100644
+index 27705fd63f35..85e4450dd68a 100644
 --- a/OvmfPkg/OvmfXen.fdf
 +++ b/OvmfPkg/OvmfXen.fdf
-@@ -281,12 +281,14 @@ [FV.DXEFV]
+@@ -281,12 +281,14 @@ INF  MdeModulePkg/Universal/Disk/DiskIoDxe/DiskIoDxe.inf
  INF  MdeModulePkg/Universal/Disk/PartitionDxe/PartitionDxe.inf
  INF  MdeModulePkg/Universal/Disk/RamDiskDxe/RamDiskDxe.inf
  INF  MdeModulePkg/Universal/Disk/UnicodeCollation/EnglishDxe/EnglishDxe.inf
@@ -89,7 +89,7 @@ index db0466ca47..12f50aaa03 100644
  INF  MdeModulePkg/Universal/HiiDatabaseDxe/HiiDatabaseDxe.inf
  INF  MdeModulePkg/Universal/SetupBrowserDxe/SetupBrowserDxe.inf
  INF  MdeModulePkg/Universal/DisplayEngineDxe/DisplayEngineDxe.inf
-@@ -340,12 +342,14 @@ [FV.DXEFV]
+@@ -342,12 +344,14 @@ INF MdeModulePkg/Logo/LogoDxe.inf
  #
  # Usb Support
  #

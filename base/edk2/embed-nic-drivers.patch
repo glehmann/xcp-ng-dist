@@ -1,20 +1,20 @@
 diff --git a/OvmfPkg/OvmfXen.dsc b/OvmfPkg/OvmfXen.dsc
-index 06cbe8ca72..c472518803 100644
+index e565d528217a..f97c58d3448e 100644
 --- a/OvmfPkg/OvmfXen.dsc
 +++ b/OvmfPkg/OvmfXen.dsc
-@@ -31,6 +31,7 @@ [Defines]
-   # -D FLAG=VALUE
+@@ -32,6 +32,7 @@
    #
    DEFINE SOURCE_DEBUG_ENABLE     = FALSE
+   DEFINE BGRT_ENABLE             = TRUE
 +  DEFINE IPXE_ENABLE             = FALSE
  
  !include OvmfPkg/OvmfTpmDefines.dsc.inc
  
 diff --git a/OvmfPkg/OvmfXen.fdf b/OvmfPkg/OvmfXen.fdf
-index 60b2fdb4ca..41fce471cb 100644
+index 1ede502bac61..8c064582f4cb 100644
 --- a/OvmfPkg/OvmfXen.fdf
 +++ b/OvmfPkg/OvmfXen.fdf
-@@ -325,6 +325,14 @@ [FV.DXEFV]
+@@ -327,6 +327,14 @@ INF MdeModulePkg/Logo/LogoDxe.inf
      SECTION PE32 = Intel3.5/EFIX64/E3522X2.EFI
    }
  !endif
