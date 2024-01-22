@@ -1,0 +1,35 @@
+CP-34834: unregister retry event on close if set
+
+From: Mark Syms <mark.syms@citrix.com>
+
+Signed-off-by: Mark Syms <mark.syms@citrix.com>
+
+diff --git a/drivers/block-valve.c b/drivers/block-valve.c
+index 52e6c20..37dc9fa 100644
+--- a/drivers/block-valve.c
++++ b/drivers/block-valve.c
+@@ -313,8 +313,10 @@ __valve_retry_timeout(event_id_t id, char mode, void *private)
+ 	int err;
+ 
+ 	err = valve_sock_open(valve);
+-	if (!err)
++	if (!err) {
+ 		tapdisk_server_unregister_event(valve->retry_id);
++		valve->retry_id = -1;
++	}
+ }
+ 
+ static void
+@@ -361,6 +363,12 @@ valve_conn_close(td_valve_t *valve, int reset)
+ 			valve_free_request(valve, req);
+ 		}
+ 
++	/* Unregister the retry event if it's active */
++	if (valve->retry_id != -1) {
++		tapdisk_server_unregister_event(valve->retry_id);
++		valve->retry_id = -1;
++	}
++
+ 	WARN_ON(!list_empty(&valve->stor));
+ }
+ 
