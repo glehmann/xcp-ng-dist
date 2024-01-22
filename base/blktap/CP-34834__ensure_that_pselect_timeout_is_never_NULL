@@ -1,0 +1,23 @@
+CP-34834: ensure that pselect timeout is never NULL
+
+From: Mark Syms <mark.syms@citrix.com>
+
+Signed-off-by: Mark Syms <mark.syms@citrix.com>
+
+diff --git a/drivers/td-rated.c b/drivers/td-rated.c
+index 8d0b053..f877b65 100644
+--- a/drivers/td-rated.c
++++ b/drivers/td-rated.c
+@@ -1443,8 +1443,10 @@ rlb_main_iterate(td_rlb_t *rlb)
+ 	rlb->valve.ops->settimeo(rlb, &tv, rlb->valve.data);
+ 	if (tv) {
+ 		TIMEVAL_TO_TIMESPEC(tv, ts);
+-	} else
+-		ts = NULL;
++	} else {
++		_ts = (struct timespec){ 5, 0 };
++		ts = &_ts;
++	}
+ 
+ 	rlb->ts = rlb->now;
+ 

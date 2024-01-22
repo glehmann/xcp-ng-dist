@@ -1,0 +1,22 @@
+No error from valve validate-parent in block-valve
+
+Block valve can be applied to any type of block layer
+so there is no reason for it to ever refuse to
+validate its parent.
+
+From: Mark Syms <mark.syms@citrix.com>
+Signed-off-by: Mark Syms <mark.syms@citrix.com>
+
+diff --git a/drivers/block-valve.c b/drivers/block-valve.c
+index 46824e1..52e6c20 100644
+--- a/drivers/block-valve.c
++++ b/drivers/block-valve.c
+@@ -647,7 +647,7 @@ static int
+ td_valve_validate_parent(td_driver_t *driver,
+ 			 td_driver_t *parent_driver, td_flag_t flags)
+ {
+-	return -EINVAL;
++	return 0;
+ }
+ 
+ static void

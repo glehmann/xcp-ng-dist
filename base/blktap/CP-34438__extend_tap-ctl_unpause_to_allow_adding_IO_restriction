@@ -1,0 +1,362 @@
+CP-34438: extend tap-ctl unpause to allow adding IO restriction
+
+From: Mark Syms <mark.syms@citrix.com>
+
+diff --git a/control/tap-ctl-ipc.c b/control/tap-ctl-ipc.c
+index dd28778..945d6df 100644
+--- a/control/tap-ctl-ipc.c
++++ b/control/tap-ctl-ipc.c
+@@ -175,7 +175,8 @@ tap_ctl_send_and_receive(int sfd, tapdisk_message_t *message,
+ 
+ int
+ tap_ctl_send_and_receive_ex(int sfd, tapdisk_message_t *message,
+-			    const char *logpath, uint8_t key_size,
++			    const char *logpath, const char *sockpath,
++			    uint8_t key_size,
+ 			    const uint8_t *encryption_key,
+ 			    struct timeval *timeout)
+ {
+@@ -217,6 +218,19 @@ tap_ctl_send_and_receive_ex(int sfd, tapdisk_message_t *message,
+ 		}
+ 	}
+ 
++	if (message->u.params.flags & TAPDISK_MESSAGE_FLAG_RATED) {
++		DPRINTF("Sending socket for td-rated\n");
++		char buf[TAPDISK_MESSAGE_MAX_PATH_LENGTH];
++		snprintf(buf, TAPDISK_MESSAGE_MAX_PATH_LENGTH - 1, "%s", sockpath);
++
++		ret = write(sfd,  &buf, sizeof(buf));
++
++		if (ret == -1) {
++			EPRINTF("Failed to send sockpath with '%s' message\n",
++				tapdisk_message_name(message->type));
++		}
++	}
++
+ 	err = tap_ctl_read_message(sfd, message, timeout);
+ 	if (err) {
+ 		EPRINTF("failed to receive '%s' message\n",
+@@ -323,7 +337,9 @@ tap_ctl_connect_send_and_receive(int id, tapdisk_message_t *message,
+ 
+ int
+ tap_ctl_connect_send_receive_ex(int id, tapdisk_message_t *message,
+-				const char *logpath, uint8_t key_size,
++				const char *logpath,
++				const char *sockpath,
++				uint8_t key_size,
+ 				const uint8_t *encryption_key,
+ 				struct timeval *timeout)
+ {
+@@ -333,7 +349,7 @@ tap_ctl_connect_send_receive_ex(int id, tapdisk_message_t *message,
+ 	if (err)
+ 		return err;
+ 
+-	err = tap_ctl_send_and_receive_ex(sfd, message, logpath, key_size, encryption_key, timeout);
++	err = tap_ctl_send_and_receive_ex(sfd, message, logpath, sockpath, key_size, encryption_key, timeout);
+ 
+ 	close(sfd);
+ 	return err;
+diff --git a/control/tap-ctl-open.c b/control/tap-ctl-open.c
+index 690d847..a9e7c86 100644
+--- a/control/tap-ctl-open.c
++++ b/control/tap-ctl-open.c
+@@ -75,7 +75,7 @@ tap_ctl_open(const int id, const int minor, const char *params, int flags,
+ 	}
+ 	if (flags & (TAPDISK_MESSAGE_FLAG_ADD_LOG | TAPDISK_MESSAGE_FLAG_OPEN_ENCRYPTED)) {
+ 		err = tap_ctl_connect_send_receive_ex(
+-			id, &message, logpath, key_size, encryption_key, NULL);
++			id, &message, logpath, NULL, key_size, encryption_key, NULL);
+ 	}
+ 	else {
+ 		err = tap_ctl_connect_send_and_receive(id, &message, NULL);
+diff --git a/control/tap-ctl-unpause.c b/control/tap-ctl-unpause.c
+index 277ef88..a4241a0 100644
+--- a/control/tap-ctl-unpause.c
++++ b/control/tap-ctl-unpause.c
+@@ -44,7 +44,7 @@
+ 
+ int
+ tap_ctl_unpause(const int id, const int minor, const char *params, int flags,
+-		char *secondary, const char *logpath)
++		char *secondary, const char *logpath, const char *sockpath)
+ {
+ 	int err;
+ 	tapdisk_message_t message;
+@@ -66,8 +66,8 @@ tap_ctl_unpause(const int id, const int minor, const char *params, int flags,
+ 			return -ENAMETOOLONG;
+ 		}
+ 	}
+-	if (logpath) {
+-		err = tap_ctl_connect_send_receive_ex(id, &message, logpath, 0, NULL, NULL);
++	if (logpath || sockpath) {
++		err = tap_ctl_connect_send_receive_ex(id, &message, logpath, sockpath, 0, NULL, NULL);
+ 	}
+ 	else {
+ 		err = tap_ctl_connect_send_and_receive(id, &message, NULL);
+diff --git a/control/tap-ctl.c b/control/tap-ctl.c
+index 0ff3de2..f8089cc 100644
+--- a/control/tap-ctl.c
++++ b/control/tap-ctl.c
+@@ -639,13 +639,14 @@ tap_cli_unpause_usage(FILE *stream)
+ {
+ 	fprintf(stream, "usage: unpause <-p pid> <-m minor> [-a type:/path/to/file] "
+     "[-2 secondary] "
+-    "[-c </path/to/logfile> insert log layer to track changed blocks]\n");
++    "[-c </path/to/logfile> insert log layer to track changed blocks] "
++    "[-l </path/to/td-rated/socket> use a td-rated valve for IO limiting]\n");
+ }
+ 
+ int
+ tap_cli_unpause(int argc, char **argv)
+ {
+-	const char *args, *logpath;
++	const char *args, *logpath, *sockpath;
+ 	char *secondary;
+ 	int c, pid, minor, flags;
+ 
+@@ -654,10 +655,11 @@ tap_cli_unpause(int argc, char **argv)
+ 	args  = NULL;
+ 	secondary  = NULL;
+ 	flags      = 0;
+-	logpath	   = NULL;	
++	logpath	   = NULL;
++	sockpath   = NULL;
+ 
+ 	optind = 0;
+-	while ((c = getopt(argc, argv, "p:m:a:2:c:h")) != -1) {
++	while ((c = getopt(argc, argv, "p:m:a:2:c:l:h")) != -1) {
+ 		switch (c) {
+ 		case 'p':
+ 			pid = atoi(optarg);
+@@ -676,6 +678,10 @@ tap_cli_unpause(int argc, char **argv)
+ 			logpath = optarg;
+ 			flags |= TAPDISK_MESSAGE_FLAG_ADD_LOG;
+ 			break;
++		case 'l':
++			sockpath = optarg;
++			flags |= TAPDISK_MESSAGE_FLAG_RATED;
++			break;
+ 		case '?':
+ 			goto usage;
+ 		case 'h':
+@@ -687,7 +693,7 @@ tap_cli_unpause(int argc, char **argv)
+ 	if (pid == -1 || minor == -1)
+ 		goto usage;
+ 
+-	return tap_ctl_unpause(pid, minor, args, flags, secondary, logpath);
++	return tap_ctl_unpause(pid, minor, args, flags, secondary, logpath, sockpath);
+ 
+ usage:
+ 	tap_cli_unpause_usage(stderr);
+diff --git a/drivers/tapdisk-control.c b/drivers/tapdisk-control.c
+index 4493736..c51036b 100644
+--- a/drivers/tapdisk-control.c
++++ b/drivers/tapdisk-control.c
+@@ -1080,7 +1080,7 @@ tapdisk_control_resume_vbd(struct tapdisk_ctl_conn *conn,
+ 			free(logpath);
+ 			goto out;
+ 		}
+-		*(logpath + TAPDISK_MESSAGE_MAX_PATH_LENGTH) = '\0';
++		logpath[ret] = '\0';
+ 		vbd->logpath = logpath;
+ 		vbd->flags |= TD_OPEN_ADD_LOG;
+ 	} else {
+@@ -1091,6 +1091,29 @@ tapdisk_control_resume_vbd(struct tapdisk_ctl_conn *conn,
+ 		vbd->flags &= ~TD_OPEN_ADD_LOG;
+ 	}
+ 
++	if (request->u.params.flags & TAPDISK_MESSAGE_FLAG_RATED) {
++		char *sockpath = malloc(TAPDISK_MESSAGE_MAX_PATH_LENGTH + 1);
++		if (!sockpath) {
++			err = -ENOMEM;
++			goto out;
++		}
++		ret = read(conn->fd, sockpath, TAPDISK_MESSAGE_MAX_PATH_LENGTH);
++		if (ret < 0) {
++			err = -EIO;
++			free(sockpath);
++			goto out;
++		}
++		sockpath[ret] = '\0';
++		vbd->rated_sockpath = sockpath;
++		vbd->flags |= TD_OPEN_RATED;
++	} else {
++		if (vbd->rated_sockpath) {
++			free (vbd->rated_sockpath);
++			vbd->rated_sockpath = NULL;
++		}
++		vbd->flags &= ~TD_OPEN_RATED;
++	}
++
+ 	if (request->u.params.path[0])
+ 		desc = request->u.params.path;
+ 
+diff --git a/drivers/tapdisk-vbd.c b/drivers/tapdisk-vbd.c
+index 8fb81d6..8c020ec 100644
+--- a/drivers/tapdisk-vbd.c
++++ b/drivers/tapdisk-vbd.c
+@@ -571,6 +571,55 @@ fail:
+ 	return err;
+ }
+ 
++static int tapdisk_vbd_add_rated(td_vbd_t *vbd)
++{
++	int err;
++	td_driver_t *driver;
++	td_image_t *valve, *parent;
++
++	driver = NULL;
++	valve = NULL;
++
++	DPRINTF("VALVE:tapdisk_vbd_add_rated called for %s with %s\n",
++		vbd->name, vbd->rated_sockpath);
++
++	parent = tapdisk_vbd_first_image(vbd);
++
++	if (!parent)
++		return -EINVAL;
++
++	valve = tapdisk_image_allocate(vbd->rated_sockpath,
++				       DISK_TYPE_VALVE,
++				       parent->flags);
++
++	if (!valve)
++		return -ENOMEM;
++
++	driver = tapdisk_driver_allocate(valve->type,
++					 valve->name,
++					 valve->flags);
++
++	if (!driver) {
++		err = -ENOMEM;
++		goto fail;
++	}
++
++	driver->info = parent->driver->info;
++	valve->driver = driver;
++
++	err = td_open(valve, &vbd->encryption);
++	if (err)
++		goto fail;
++
++	list_add(&valve->next, parent->next.prev);
++	tapdisk_vbd_debug(vbd);
++	return 0;
++
++fail:
++	tapdisk_image_free(valve);
++	return err;
++}
++
+ int 
+ tapdisk_vbd_open_vdi(td_vbd_t *vbd, const char *name, td_flag_t flags, int prt_devnum)
+ {
+@@ -624,9 +673,28 @@ tapdisk_vbd_open_vdi(td_vbd_t *vbd, const char *name, td_flag_t flags, int prt_d
+ 			goto fail;
+ 	}
+ 
++	if (td_flag_test(vbd->flags, TD_OPEN_RATED)) {
++		if (!vbd->rated_sockpath) {
++			err = -EINVAL;
++			goto fail;
++		}
++		err = tapdisk_vbd_add_rated(vbd);
++		if (err) {
++			EPRINTF("VBD %d Error adding valve, %s\n",
++				vbd->uuid, strerror(-err));
++			goto fail;
++		}
++		td_flag_set(vbd->state, TD_VBD_RATE_LIMITED);
++	} else {
++		td_flag_clear(vbd->state, TD_VBD_RATE_LIMITED);
++	}
++
+ 	err = tapdisk_vbd_validate_chain(vbd);
+-	if (err)
++	if (err) {
++		EPRINTF("VBD: failed to validate chain %s\n",
++			strerror(-err));
+ 		goto fail;
++	}
+ 
+ 	if (td_flag_test(vbd->flags, TD_OPEN_SECONDARY)) {
+ 		err = tapdisk_vbd_add_secondary(vbd);
+@@ -765,6 +833,10 @@ tapdisk_vbd_shutdown(td_vbd_t *vbd)
+ 	tapdisk_vbd_detach(vbd);
+ 	tapdisk_server_remove_vbd(vbd);
+ 	free(vbd->name);
++	if (vbd->logpath)
++		free(vbd->logpath);
++	if (vbd->rated_sockpath)
++		free(vbd->rated_sockpath);
+ 	free(vbd);
+ 
+ 	return 0;
+diff --git a/drivers/tapdisk-vbd.h b/drivers/tapdisk-vbd.h
+index aae9404..40fbf66 100644
+--- a/drivers/tapdisk-vbd.h
++++ b/drivers/tapdisk-vbd.h
+@@ -56,6 +56,7 @@
+ #define TD_VBD_LOCKING              0x0080
+ #define TD_VBD_LOG_DROPPED          0x0100
+ #define TD_VBD_RESUME_FAILED        0x0200
++#define TD_VBD_RATE_LIMITED         0x0400
+ 
+ #define TD_VBD_SECONDARY_DISABLED   0
+ #define TD_VBD_SECONDARY_MIRROR     1
+@@ -166,6 +167,9 @@ struct td_vbd_handle {
+ 	struct td_vbd_encryption   encryption;
+ 
+ 	bool                       watchdog_warned;
++
++	/* Socket path for IO rating service */
++	char                       *rated_sockpath;
+ };
+ 
+ #define tapdisk_vbd_for_each_request(vreq, tmp, list)	                \
+diff --git a/drivers/tapdisk.h b/drivers/tapdisk.h
+index 96849e7..fbae467 100644
+--- a/drivers/tapdisk.h
++++ b/drivers/tapdisk.h
+@@ -107,6 +107,7 @@ enum TD_OPS{
+ #define TD_IGNORE_ENOSPC             0x01000
+ #define TD_OPEN_NO_O_DIRECT          0x02000
+ #define TD_USE_NEW_NBD               0x04000
++#define TD_OPEN_RATED                0x08000
+ 
+ #define TD_CREATE_SPARSE             0x00001
+ #define TD_CREATE_MULTITYPE          0x00002
+diff --git a/include/tap-ctl.h b/include/tap-ctl.h
+index adf7569..7c09d55 100644
+--- a/include/tap-ctl.h
++++ b/include/tap-ctl.h
+@@ -80,6 +80,7 @@ int tap_ctl_connect_send_and_receive(int id,
+ int tap_ctl_connect_send_receive_ex(int id,
+ 				    tapdisk_message_t *message,
+ 				    const char *logpath,
++				    const char *sockpath,
+ 				    uint8_t key_size,
+ 				    const uint8_t *encryption_key,
+ 				    struct timeval *timeout);
+@@ -136,7 +137,8 @@ int tap_ctl_pause(const int id, const int minor, struct timeval *timeout);
+  * Unpauses the VBD
+  */
+ int tap_ctl_unpause(const int id, const int minor, const char *params,
+-		int flags, char *secondary, const char *logpath);
++		    int flags, char *secondary, const char *logpath,
++		    const char *sockpath);
+ 
+ ssize_t tap_ctl_stats(pid_t pid, int minor, char *buf, size_t size);
+ int tap_ctl_stats_fwrite(pid_t pid, int minor, FILE *out);
+diff --git a/include/tapdisk-message.h b/include/tapdisk-message.h
+index dceddbb..e9a5c37 100644
+--- a/include/tapdisk-message.h
++++ b/include/tapdisk-message.h
+@@ -56,6 +56,7 @@
+ #define TAPDISK_MESSAGE_FLAG_STANDBY     0x100
+ #define TAPDISK_MESSAGE_FLAG_NO_O_DIRECT 0x200
+ #define TAPDISK_MESSAGE_FLAG_OPEN_ENCRYPTED 0x400
++#define TAPDISK_MESSAGE_FLAG_RATED       0x800
+ 
+ typedef struct tapdisk_message           tapdisk_message_t;
+ typedef uint32_t                         tapdisk_message_flag_t;
