@@ -1,14 +1,24 @@
-%global package_speccommit 3481bbfb5cc2b62671c29a7fffbedf9f87a700b4
-%global package_srccommit v3.54.5
+%global package_speccommit 69fa2442f175cfbafb4c0bd40cbcd6af666f25e5
+%global usver 3.54.6
+%global xsver 2
+%global xsrel %{xsver}%{?xscount}%{?xshash}
+%global package_srccommit v3.54.6
 
 Summary: blktap user space utilities
 Name: blktap
-Version: 3.54.5
-Release: 1%{?xsrel}%{?dist}
+Version: 3.54.6
+Release: %{?xsrel}%{?dist}
 License: BSD
 Group: System/Hypervisor
 URL: https://github.com/xapi-project/blktap
-Source0: blktap-3.54.5.tar.gz
+Source0: blktap-3.54.6.tar.gz
+Patch0: CP-37221__only_write_footer_when_extending_BAT
+Patch1: CP-34438__no_error_from_valve_validate-parent
+Patch2: CP-34438__extend_tap-ctl_unpause_to_allow_adding_IO_restriction
+Patch3: CP-34834__Add_foreground_mode_to_td-rated
+Patch4: CP-34834__ensure_that_pselect_timeout_is_never_NULL
+Patch5: CP-34834__unregister_retry_event_on_close_if_set
+Patch6: CP-34834__dont_warn_on_no_timer_value
 
 BuildRoot: %{_tmppath}/%{name}-%{release}-buildroot
 Obsoletes: xen-blktap < 4
@@ -168,6 +178,14 @@ without requiring other libraries
 %{_libdir}/libblockcrypto.so.*
 
 %changelog
+* Thu Sep 28 2023 Mark Syms <mark.syms@citrix.com> - 3.54.6-2
+- CP-40871: Enable rate limit control on unpause
+
+* Thu Sep 07 2023 Mark Syms <mark.syms@citrix.com> - 3.54.6-1
+- CP-40871: return the number of sectors coalesced from vhd-util
+- CP-45025: Avoid retries except in a few specific cases
+- CA-382087: Only write the bitmap if the contents have changed
+
 * Tue Aug 01 2023 Mark Syms <mark.syms@citrix.com> - 3.54.5-1
 - Report control timeouts correctly
 
@@ -182,7 +200,8 @@ without requiring other libraries
 - Rebuild
 
 * Mon Feb 27 2023 Mark Syms <mark.syms@citrix.com> - 3.54.2-1
-- Rebuild
+- Add configurure options for -fanalyzer
+- Fix use after free in NBD client handling
 
 * Fri Feb 17 2023 Mark Syms <mark.syms@citrix.com> - 3.54.1-1
 - Rebuild
