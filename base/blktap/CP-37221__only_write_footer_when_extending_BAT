@@ -1,0 +1,39 @@
+CP-37221: only write footer when extending BAT
+
+From: Mark Syms <mark.syms@citrix.com>
+
+Signed-off-by: Mark Syms <mark.syms@citrix.com>
+
+diff --git a/vhd/lib/libvhd.c b/vhd/lib/libvhd.c
+index b3e299d..2766e0d 100644
+--- a/vhd/lib/libvhd.c
++++ b/vhd/lib/libvhd.c
+@@ -3775,7 +3775,9 @@ __vhd_io_dynamic_write(vhd_context_t *ctx,
+ 	char *map;
+ 	off64_t off;
+ 	uint32_t blk, sec;
+-	int i, err, cnt, ret;
++	int i, err, cnt;
++	int ret = 0;
++	bool update_footer = false;
+ 
+ 	if (vhd_sectors_to_bytes(sector + secs) > ctx->footer.curr_size)
+ 		return -ERANGE;
+@@ -3807,6 +3809,7 @@ __vhd_io_dynamic_write(vhd_context_t *ctx,
+ 				return err;
+ 
+ 			off = ctx->bat.bat[blk];
++			update_footer = true;
+ 		}
+ 
+ 		/*
+@@ -3865,7 +3868,8 @@ __vhd_io_dynamic_write(vhd_context_t *ctx,
+ 	err = 0;
+ 
+ out:
+-	ret = vhd_write_footer(ctx, &ctx->footer);
++	if (update_footer)
++		ret = vhd_write_footer(ctx, &ctx->footer);
+ 	return (err ? err : ret);
+ 
+ fail:

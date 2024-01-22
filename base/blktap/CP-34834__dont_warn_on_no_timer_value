@@ -1,0 +1,29 @@
+CP-34834: Don't warn on no timer value
+
+If the calculated timer is less than the token rate then
+the timeval will be all 0s and considered to be unset.
+Instead of warning, detect this and set the output to
+NULL so the default pselect timout can take effect.
+
+From: Mark Syms <mark.syms@citrix.com>
+
+Signed-off-by: Mark Syms <mark.syms@citrix.com>
+
+diff --git a/drivers/td-rated.c b/drivers/td-rated.c
+index f877b65..52dd161 100644
+--- a/drivers/td-rated.c
++++ b/drivers/td-rated.c
+@@ -714,9 +714,10 @@ rlb_token_settimeo(td_rlb_t *rlb, struct timeval **_tv, void *data)
+ 	tv->tv_sec  = us / 1000000;
+ 	tv->tv_usec = us % 1000000;
+ 
+-	WARN_ON(!timerisset(tv));
+-
+-	*_tv = tv;
++	if (timerisset(tv))
++		*_tv = tv;
++	else
++		*_tv = NULL;
+ }
+ 
+ static void
