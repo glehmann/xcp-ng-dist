@@ -1,11 +1,11 @@
-%global package_speccommit 610aca2166b50082ba65404f771fe9651dee2f08
-%global package_srccommit v2.0.3
+%global package_speccommit fcd2a68e457d23593af246496a28e81d87d37774
+%global package_srccommit v2.0.6
 Name:    guest-templates-json
 Summary: Creates the default guest templates
-Version: 2.0.3
+Version: 2.0.6
 Release: 1%{?xsrel}%{?dist}
 License: BSD
-Source0: guest-templates-json-2.0.3.tar.gz
+Source0: guest-templates-json-2.0.6.tar.gz
 BuildArch: noarch
 
 Requires: xapi-core
@@ -14,7 +14,7 @@ Requires(preun): systemd
 Requires(postun): systemd
 BuildRequires: python3-devel
 # python-demjson is only required for jsonlint
-BuildRequires: python-demjson
+BuildRequires: python-demjson python-setuptools
 BuildRequires: systemd-devel
 Obsoletes: guest-templates-json-data-xenapp
 
@@ -157,17 +157,17 @@ fi
 %{templatedir}/base-kylin-7.json
 %{templatedir}/base-sle-hvm-64bit.json
 %{templatedir}/base-sle-hvm.json
-%{templatedir}/centos-[7].json
+%{templatedir}/centos-[79].json
 %{templatedir}/debian*.json
 %{templatedir}/kylin-7.json
 %{templatedir}/oel-[78].json
-%{templatedir}/rhel-[78].json
+%{templatedir}/rhel-[789].json
 %{templatedir}/sl-7.json
 %{templatedir}/sle-15-64bit.json
 %{templatedir}/sles-12-sp[4-5]-64bit.json
 %{templatedir}/ubuntu*.json
 %{templatedir}/gooroom-2.json
-%{templatedir}/rocky-8.json
+%{templatedir}/rocky-[89].json
 
 %files data-windows
 %{templatedir}/base-windows*.json
@@ -177,6 +177,18 @@ fi
 %{templatedir}/other-install-media.json
 
 %changelog
+* Thu Oct 19 2023 Lunfan Zhang <Lunfan.Zhang@citrix.com> - 2.0.6-1
+- CP-44378: Remove 'preview' From Ubuntu 22.04 Guest template
+
+* Thu Sep 14 2023 Lunfan Zhang <Lunfan.Zhang@citrix.com> - 2.0.5-1
+- CP-44127: Add New Guest templates Rocky Linux 9, CentOS Stream 9 and Debian 12
+
+* Fri Sep 8 2023 Lunfan Zhang <Lunfan.Zhang@citrix.com> - 2.0.4-1
+- CP-44042: Add Red Hat Enterprise Linux 9 (preview) template
+
+* Wed Sep 6 2023 Lin Liu<Lin.Liu01@cloud.com> - 2.0.3-2
+- BuildRequires python-setuptools to support xs9
+
 * Fri Jul 14 2023 Alex Brett <alex.brett@cloud.com> - 2.0.3-1
 - CP-43952: Remove 32-bit Windows 10
 
