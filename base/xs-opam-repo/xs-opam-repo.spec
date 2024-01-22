@@ -1,25 +1,25 @@
-%global package_speccommit f82daa0d555855d64eb319da9eadabebe74a00d1
-%global usver 6.72.0
+%global package_speccommit a0dee6581f5814363bfea045844b6cdeb947f4ec
+%global usver 6.74.0
 %global xsver 1
 %global xsrel %{xsver}%{?xscount}%{?xshash}
 ## This has to match the declaration in xs-opam-src, which
 ## creates the directory and makes it WORLD WRITABLE
 %global _opamroot %{_libdir}/opamroot
 
+# The following has no effect on XS 8, only on XS 9.
+# However, something needs to be fixed on XS 9 to not need it anymore.
+%global _debugsource_template %{nil}
+
 Name: xs-opam-repo
-Version: 6.72.0
+Version: 6.74.0
 Release: %{?xsrel}.1%{?dist}
 Summary: Build and install OCaml libraries from Opam repository
 # The license field is produced by running print-license.sh
 # Please update licenses.txt on every new version and then run the script to
 # keep these in sync.
-License: Apache-1.0 and BSD-2-Clause and BSD-3-Clause and curl and GPL-1.0-or-later and GPL-2.0-only and GPL-2.0-or-later and GPL-3.0-only and ISC and LGPL-2.0-only WITH OCaml-LGPL-linking-exception and LGPL-2.0-or-later and LGPL-2.0-or-later WITH OCaml-LGPL-linking-exception and LGPL-2.1-only and LGPL-2.1-only WITH OCaml-LGPL-linking-exception and LGPL-2.1-or-later WITH OCaml-LGPL-linking-exception and LGPL-2.1-or-later WITH OpenSSL-linking-exception and LGPL-3.0-only WITH OCaml-LGPL-linking-exception and MIT and PSF-2.0 and Unlicense
+License: Apache-1.0 and BSD-2-Clause and BSD-3-Clause and curl and GPL-1.0-or-later and GPL-2.0-only and GPL-2.0-or-later and GPL-3.0-only and ISC and LGPL-2.0-only WITH OCaml-LGPL-linking-exception and LGPL-2.0-or-later WITH OCaml-LGPL-linking-exception and LGPL-2.1-only and LGPL-2.1-only WITH OCaml-LGPL-linking-exception and LGPL-2.1-or-later WITH OCaml-LGPL-linking-exception and LGPL-2.1-or-later WITH OpenSSL-linking-exception and LGPL-3.0-only WITH OCaml-LGPL-linking-exception and MIT and PSF-2.0 and Unlicense
 URL:     https://github.com/xapi-project/xs-opam
-Source0: xs-opam-repo-6.72.0.tar.gz
-
-# XCP-ng patches
-Patch1000: xs-opam-repo-6.72.0-fix-ipv6-uri.XCP-ng.patch
-
+Source0: xs-opam-repo-6.74.0.tar.gz
 # To "pin" a package during development, see below the example
 # where ezxenstore is pinned to an internal master branch.
 # You need the Source1 line, and the below 'tar' and 'opam pin' lines, and comment-out the OPAMFETCH
@@ -38,6 +38,8 @@ Requires:      libev-devel
 
 BuildRequires: autoconf
 BuildRequires: curl-devel
+# XCP-ng: remove dlm, which is only required by proprietary xapi-clusterd
+#BuildRequires: dlm-devel
 BuildRequires: git
 BuildRequires: gmp
 BuildRequires: gmp-devel
@@ -71,7 +73,9 @@ rm -rf packages/xs/dlm.*
 
 %install
 
+%if 0%{?xenserver} < 9
 source /opt/rh/devtoolset-11/enable
+%endif
 
 PKG=""
 PKG="$PKG $(ls -1 packages/upstream)"
@@ -95,7 +99,9 @@ mkdir -p %{buildroot}/etc/profile.d
 mkdir -p %{buildroot}%{_opamroot}
 echo 'export OPAMROOT=%{_opamroot}' > %{buildroot}/etc/profile.d/opam.sh
 echo 'eval `opam config env`' >> %{buildroot}/etc/profile.d/opam.sh
+%if 0%{?xenserver} < 9
 echo 'source /opt/rh/devtoolset-11/enable' >> %{buildroot}/etc/profile.d/opam.sh
+%endif
 
 rm -rf %{_opamroot}/ocaml-system/.opam-switch/sources
 rm -rf %{_opamroot}/download-cache/*
@@ -117,6 +123,19 @@ echo '%%_opamroot %%{_libdir}/opamroot' >> "%{buildroot}%{_rpmconfigdir}/macros.
 %{_opamroot}
 
 %changelog
+* Mon Jan 22 2024 Samuel Verschelde <stormi-xcp@ylix.fr> - 6.74.0-1.1
+- Update to 6.74.0-1
+- Drop xs-opam-repo-6.72.0-fix-ipv6-uri.XCP-ng.patch, applied by XS
+- *** Upstream changelog ***
+- * Thu Nov 02 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.74.0-1
+- - xs: update xapi-stext packages to 4.23.0
+- - licenses: update package licenses
+- * Fri Oct 27 2023 Lin Liu <Lin.Liu01@cloud.com> - 6.73.0-2
+- - Build with gcc for xs9
+- * Wed Sep 27 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.73.0-1
+- - xs: update polly and qmp
+- - upstream: update many packages, there are no breaking changes
+
 * Fri Sep 22 2023 Samuel Verschelde <stormi-xcp@ylix.fr> - 6.72.0-1.1
 - Update to 6.72.0-1
 - Rediff xs-opam-repo-6.72.0-fix-ipv6-uri.XCP-ng.patch
