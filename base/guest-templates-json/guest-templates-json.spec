@@ -1,21 +1,17 @@
-%global package_speccommit 610aca2166b50082ba65404f771fe9651dee2f08
-%global package_srccommit v2.0.3
+%global package_speccommit fcd2a68e457d23593af246496a28e81d87d37774
+%global package_srccommit v2.0.6
 Name:    guest-templates-json
 Summary: Creates the default guest templates
-Version: 2.0.3
+Version: 2.0.6
 Release: 1.1%{?xsrel}%{?dist}
 License: BSD
-Source0: guest-templates-json-2.0.3.tar.gz
+Source0: guest-templates-json-2.0.6.tar.gz
 
 # XCP-ng patches
 Source1000: almalinux-8.json
 Source1001: almalinux-9.json
 Source1002: centos-stream-8.json
-Source1003: centos-stream-9.json
-Source1004: oel-9.json
-Source1005: rhel-9.json
-Source1006: rocky-9.json
-Source1007: debian-12.json
+Source1003: oel-9.json
 
 BuildArch: noarch
 
@@ -25,7 +21,7 @@ Requires(preun): systemd
 Requires(postun): systemd
 BuildRequires: python3-devel
 # python-demjson is only required for jsonlint
-BuildRequires: python-demjson
+BuildRequires: python-demjson python-setuptools
 BuildRequires: systemd-devel
 Obsoletes: guest-templates-json-data-xenapp
 
@@ -77,7 +73,7 @@ Contains the default other guest templates.
 
 install -d %{buildroot}%{templatedir}
 install -m 644 json/*.json %{buildroot}%{templatedir}
-install -m 644 %{SOURCE1000} %{SOURCE1001} %{SOURCE1002} %{SOURCE1003} %{SOURCE1004} %{SOURCE1005} %{SOURCE1006} %{SOURCE1007} %{buildroot}%{templatedir}
+install -m 644 %{SOURCE1000} %{SOURCE1001} %{SOURCE1002} %{SOURCE1003} %{buildroot}%{templatedir}
 install -d %{buildroot}%{_sysconfdir}/xapi.d/vm-templates
 
 install -m 755 service/create-guest-templates-wrapper %{buildroot}%{_bindir}
@@ -170,8 +166,8 @@ fi
 %{templatedir}/base-kylin-7.json
 %{templatedir}/base-sle-hvm-64bit.json
 %{templatedir}/base-sle-hvm.json
-%{templatedir}/centos-[7].json
-%{templatedir}/centos-stream-[89].json
+%{templatedir}/centos-[79].json
+%{templatedir}/centos-stream-8.json
 %{templatedir}/debian*.json
 %{templatedir}/kylin-7.json
 %{templatedir}/oel-[789].json
@@ -191,6 +187,19 @@ fi
 %{templatedir}/other-install-media.json
 
 %changelog
+* Mon Jan 22 2024 Samuel Verschelde <stormi-xcp@ylix.fr> - 2.0.6-1.1
+- Update to 2.0.6-1
+- Remove our Debian 12, RHEL 9, Rocky Linux 9, and Centos Stream 9 templates, now provided upstream
+- *** Upstream changelog ***
+- * Thu Oct 19 2023 Lunfan Zhang <Lunfan.Zhang@citrix.com> - 2.0.6-1
+- - CP-44378: Remove 'preview' From Ubuntu 22.04 Guest template
+- * Thu Sep 14 2023 Lunfan Zhang <Lunfan.Zhang@citrix.com> - 2.0.5-1
+- - CP-44127: Add New Guest templates Rocky Linux 9, CentOS Stream 9 and Debian 12
+- * Fri Sep 8 2023 Lunfan Zhang <Lunfan.Zhang@citrix.com> - 2.0.4-1
+- - CP-44042: Add Red Hat Enterprise Linux 9 (preview) template
+- * Wed Sep 6 2023 Lin Liu<Lin.Liu01@cloud.com> - 2.0.3-2
+- - BuildRequires python-setuptools to support xs9
+
 * Fri Sep 15 2023 Samuel Verschelde <stormi-xcp@ylix.fr> - 2.0.3-1.1
 - Update to 2.0.3-1
 - Remove our Debian 11 template, as upstream's one is not marked experimental anymore
