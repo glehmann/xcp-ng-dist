@@ -1,6 +1,6 @@
-%global package_speccommit 22a93c5b814612d970e6dad48cda32ed9996ceac
+%global package_speccommit 2f3137d75674b279554438a869ea902943d5da06
 %global usver 20180514gite7f67d5
-%global xsver 1.0.2
+%global xsver 1.0.3
 %global xsrel %{xsver}%{?xscount}%{?xshash}
 %global package_srccommit e7f67d5
 
@@ -11,9 +11,10 @@ Release: %{?xsrel}%{?dist}
 
 License: GPLv2
 Source0: ipxe-efi-20180514gite7f67d5.tar.gz
-Patch0: increase-heap-size.patch
-Patch1: realtek-increase-rx-desc.patch
-Patch2: efi-snp-limit-rx-queue.patch
+Patch0: 0001-efi-Exclude-link-layer-header-length-from-MaxPacketS.patch
+Patch1: increase-heap-size.patch
+Patch2: realtek-increase-rx-desc.patch
+Patch3: efi-snp-limit-rx-queue.patch
 
 %{?_cov_buildrequires}
 
@@ -49,6 +50,9 @@ install -m 644 src/bin-x86_64-efi/8086100e.drv.efi %{buildroot}/%{_datadir}/ipxe
 
 
 %changelog
+* Thu Sep 21 2023 Ross Lagerwall <ross.lagerwall@citrix.com> - 20180514gite7f67d5-1.0.3
+- CA-383067: Fix oversized TFTP block size
+
 * Fri Feb 11 2022 Ross Lagerwall <ross.lagerwall@citrix.com> - 20180514gite7f67d5-1.0.2
 - CP-38416: Enable static analysis
 
