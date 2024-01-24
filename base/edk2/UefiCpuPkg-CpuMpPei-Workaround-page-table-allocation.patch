@@ -1,0 +1,48 @@
+From a7c07007a860d195ba956b1946c8badcedb4e1bc Mon Sep 17 00:00:00 2001
+From: Thierry Escande <thierry.escande@vates.tech>
+Date: Tue, 23 Jan 2024 09:47:52 +0100
+Subject: [PATCH] UefiCpuPkg/CpuMpPei: Workaround page table allocation crash
+Content-Type: text/plain; charset = "utf-8"
+Content-Transfert-Encoding: 8bit
+
+When creating the page table, the number of entries in the table is
+calculated with '1 << (PhyAdressWidth - MaxPageSizeOffset)'.
+
+On some systems the physical address width might be less than the
+detected address bit offset. For example, an Intel Xeon X3440 has a
+physical address width of 36 bits and with IA-32e Mode Active, the top
+level page size is 512GB with a 39 bits offset, giving a negative shift
+value and thus a gigantic number of entries to allocate.
+
+Limiting the number of entry to 1 in such case fixes the issue.
+
+Signed-off-by: Thierry Escande <thierry.escande@vates.tech>
+---
+ UefiCpuPkg/CpuMpPei/CpuPaging.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/UefiCpuPkg/CpuMpPei/CpuPaging.c b/UefiCpuPkg/CpuMpPei/CpuPaging.c
+index 1354222253..a37985f882 100644
+--- a/UefiCpuPkg/CpuMpPei/CpuPaging.c
++++ b/UefiCpuPkg/CpuMpPei/CpuPaging.c
+@@ -433,11 +433,15 @@ CreatePageTable (
+   UINT64                AddressEncMask;
+   UINT64                *PageEntry;
+   EFI_PHYSICAL_ADDRESS  PhysicalAddress;
++  INTN                  Shift;
+ 
+   TopLevelPageAttr    = (PAGE_ATTRIBUTE)GetPageTableTopLevelType ();
+   PhysicalAddressBits = GetPhysicalAddressWidth ();
+-  NumberOfEntries     = (UINTN)1 << (PhysicalAddressBits -
+-                                     mPageAttributeTable[TopLevelPageAttr].AddressBitOffset);
++  NumberOfEntries     = (UINTN)1;
++  Shift = PhysicalAddressBits - mPageAttributeTable[TopLevelPageAttr].AddressBitOffset;
++  if (Shift > 0) {
++    NumberOfEntries <<= Shift;
++  }
+ 
+   PageTable = (UINTN)AllocatePageTableMemory (1);
+   if (PageTable == 0) {
+-- 
+2.43.0
+
