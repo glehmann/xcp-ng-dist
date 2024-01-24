@@ -19,7 +19,7 @@
 Name: edk2
 Summary: EFI Development Kit II
 Version: 20220801
-Release: %{?xsrel}%{?dist}
+Release: %{?xsrel}.1%{?dist}
 
 License: BSD and MIT
 URL: https://github.com/tianocore/edk2
@@ -51,6 +51,9 @@ Patch19: disable-config-option-in-TCG2-config-screen.patch
 Patch20: shadow-pei-for-consistent-measurements.patch
 Patch21: set-default-resolution-1024-768.patch
 Patch22: add-debugging-info.patch
+
+# XCP-ng patches
+Patch1001: UefiCpuPkg-CpuMpPei-Workaround-page-table-allocation.patch
 
 BuildRequires: devtoolset-11-binutils
 BuildRequires: devtoolset-11-gcc
@@ -163,6 +166,9 @@ cp OvmfPkg/License.txt License.ovmf
 
 
 %changelog
+* Wed Jan 24 2024 Thierry Escande <thierry.escande@vates.tech> - 20220801-1.7.3.1
+- Add patch to workaround crash in page table allocation
+
 * Tue Nov 28 2023 Alejandro Vallejo <alejandro.vallejo@cloud.com> - 20220801-1.7.3
 - CP-46796: Allow booting up to 96 vCPUs
 
