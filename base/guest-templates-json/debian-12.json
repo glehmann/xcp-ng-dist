@@ -1,8 +1,0 @@
-{
-    "uuid": "3de5e9c4-bafa-4f20-8720-7788e0eab29e",
-    "reference_label": "debian-12",
-    "name_label": "Debian Bookworm 12",
-    "derived_from": "base-hvmlinux.json",
-    "min_memory": "512M",
-    "disks": [ { "size": "10G" } ]
-}

@@ -1,7 +1,0 @@
-{
-    "uuid": "86b70a78-b1fb-446c-a1f1-0d36bcec5c50",
-    "reference_label": "rocky-9",
-    "name_label": "Rocky Linux 9",
-    "derived_from": "base-el-7.json",
-    "disks": [ { "size": "15G" } ]
-}
