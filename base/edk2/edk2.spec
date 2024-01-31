@@ -19,7 +19,7 @@
 Name: edk2
 Summary: EFI Development Kit II
 Version: 20220801
-Release: %{?xsrel}.1%{?dist}
+Release: %{?xsrel}.2%{?dist}
 
 License: BSD and MIT
 URL: https://github.com/tianocore/edk2
@@ -166,6 +166,9 @@ cp OvmfPkg/License.txt License.ovmf
 
 
 %changelog
+* Wed Jan 31 2024 Samuel Verschelde <stormi-xcp@ylix.fr> - 20220801-1.7.3.2
+- Rebuild for ipxe-efi-20180514gite7f67d5-1.0.3.xcpng8.3
+
 * Wed Jan 24 2024 Thierry Escande <thierry.escande@vates.tech> - 20220801-1.7.3.1
 - Add patch to workaround crash in page table allocation
 
