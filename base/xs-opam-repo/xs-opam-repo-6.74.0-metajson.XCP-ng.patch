@@ -1,0 +1,35 @@
+diff -ruN xs-opam-repo-6.74.0.orig/packages/xs/xapi-rrd.1.10.0/metajson.patch xs-opam-repo-6.74.0/packages/xs/xapi-rrd.1.10.0/metajson.patch
+--- xs-opam-repo-6.74.0.orig/packages/xs/xapi-rrd.1.10.0/files/metajson.patch	1970-01-01 01:00:00.000000000 +0100
++++ xs-opam-repo-6.74.0/packages/xs/xapi-rrd.1.10.0/files/metajson.patch	2024-02-14 17:43:43.660000000 +0100
+@@ -0,0 +1,15 @@
++diff -ru xapi-rrd-1.10.0.orig/lib/rrd_updates.ml xapi-rrd-1.10.0/lib/rrd_updates.ml
++--- xapi-rrd-1.10.0.orig/lib/rrd_updates.ml	2023-08-16 12:36:58.000000000 +0200
+++++ xapi-rrd-1.10.0/lib/rrd_updates.ml	2024-02-14 17:41:23.532000000 +0100
++@@ -194,9 +194,9 @@
++             ; ("rows", int (Array.length t.data))
++             ; ("columns", int (Array.length t.legend))
++             ; ("legend", array (map_to_list string t.legend))
++-            ; ("data", array (map_to_list data_record t.data))
++             ]
++         )
+++      ; ("data", array (map_to_list data_record t.data))
++       ]
++   in
++   Yojson.to_string meta
++Only in xapi-rrd-1.10.0/lib: rrd_updates.ml~
+diff -ruN xs-opam-repo-6.74.0.orig/packages/xs/xapi-rrd.1.10.0/opam xs-opam-repo-6.74.0/packages/xs/xapi-rrd.1.10.0/opam
+--- xs-opam-repo-6.74.0.orig/packages/xs/xapi-rrd.1.10.0/opam	2023-11-02 11:49:49.000000000 +0100
++++ xs-opam-repo-6.74.0/packages/xs/xapi-rrd.1.10.0/opam	2024-02-14 17:45:14.155000000 +0100
+@@ -32,6 +32,12 @@
+   ["dune" "build" "-p" name "-j" jobs]
+   ["dune" "runtest" "-p" name "-j" jobs] {with-test}
+ ]
++patches: [
++  "metajson.patch"
++]
++extra-files: [
++  ["metajson.patch" "sha256=7a1542670d68639d214a39534a2fb00f1f693c72845181cc312873e30294c2c1"]
++]
+ dev-repo: "git+https://github.com/xapi-project/xcp-rrd.git"
+ url {
+   src:
