@@ -12,7 +12,7 @@
 
 Name: xs-opam-repo
 Version: 6.74.0
-Release: %{?xsrel}.1%{?dist}
+Release: %{?xsrel}.2%{?dist}
 Summary: Build and install OCaml libraries from Opam repository
 # The license field is produced by running print-license.sh
 # Please update licenses.txt on every new version and then run the script to
@@ -28,6 +28,9 @@ Source0: xs-opam-repo-6.74.0.tar.gz
 # Note that Jenkins will likely not pick up commits on this repo, and you have to hit 'Build Now'
 # when you want a new build.
 # Source1: https://code.citrite.net/rest/archive/latest/projects/~YOURUSER/repos/ezxenstore/archive?at=master&format=tar.gz&prefix=ezxenstore#/ezxenstore.tar.gz
+
+# XCP-ng backport xapi-project/xen-api#5456
+Patch0: xs-opam-repo-6.74.0-metajson.XCP-ng.patch
 
 BuildRequires: xs-opam-src >= 5.1.0
 
@@ -123,6 +126,9 @@ echo '%%_opamroot %%{_libdir}/opamroot' >> "%{buildroot}%{_rpmconfigdir}/macros.
 %{_opamroot}
 
 %changelog
+* Wed Feb 14 2024 Yann Dirson <yann.dirson@vates.tech> - 6.74.0-1.2
+- backport xapi-project/xen-api#5456
+
 * Mon Jan 22 2024 Samuel Verschelde <stormi-xcp@ylix.fr> - 6.74.0-1.1
 - Update to 6.74.0-1
 - Drop xs-opam-repo-6.72.0-fix-ipv6-uri.XCP-ng.patch, applied by XS
