@@ -7,7 +7,7 @@
 Summary: XCP-ng Host Configuration Console
 Name: xsconsole
 Version: 10.1.14
-Release: %{?xsrel}.1%{?dist}
+Release: %{?xsrel}.2%{?dist}
 License: GPL2
 Group: Administration/System
 Source0: xsconsole-10.1.14.tar.gz
@@ -27,6 +27,7 @@ Patch1001: xsconsole-10.1.13-define-xcp-ng-colors.XCP-ng.patch
 Patch1002: xsconsole-10.1.14-support-ipv6.XCP-ng.patch
 # Merged upstream, should come with next version update
 Patch1003: xsconsole-10.1.14-display-vlan.XCP-ng.patch
+Patch1004: xsconsole-10.1.14-ipv6-autoconf.XCP-ng.patch
 
 %description
 Console tool for configuring a XCP-ng installation.
@@ -63,6 +64,9 @@ Console tool for configuring a XCP-ng installation.
 %{_unitdir}/xsconsole.service
 
 %changelog
+* Fri Feb 16 2024 Benjamin Reis <benjamin.reis@vates.tech> - 10.1.14-2.2
+- Add xsconsole-10.1.14-ipv6-autoconf.XCP-ng.patch
+
 * Mon Sep 18 2023 Samuel Verschelde <stormi-xcp@ylix.fr> - 10.1.14-2.1
 - Update to 10.1.14-2
 - *** Upstream changelog ***
