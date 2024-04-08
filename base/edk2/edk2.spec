@@ -1,6 +1,6 @@
-%global package_speccommit c25302983dc95fe04c3c36b6af0ce06c5e2811d6
+%global package_speccommit 0a26e09d15847bc818e90fa455367b35d486df5e
 %global usver 20220801
-%global xsver 1.7.3
+%global xsver 1.7.4
 %global xsrel %{xsver}%{?xscount}%{?xshash}
 %global package_srccommit edk2-stable202208
 
@@ -51,6 +51,18 @@ Patch19: disable-config-option-in-TCG2-config-screen.patch
 Patch20: shadow-pei-for-consistent-measurements.patch
 Patch21: set-default-resolution-1024-768.patch
 Patch22: add-debugging-info.patch
+Patch23: pixiefail-p1.patch
+Patch24: pixiefail-p2.patch
+Patch25: pixiefail-p3.patch
+Patch26: pixiefail-p4.patch
+Patch27: pixiefail-p5.patch
+Patch28: pixiefail-p6.patch
+Patch29: pixiefail-p7.patch
+Patch30: pixiefail-p8.patch
+Patch31: pixiefail-p9.patch
+Patch32: pixiefail-p10.patch
+Patch33: pixiefail-p11.patch
+Patch34: pixiefail-p12.patch
 
 BuildRequires: devtoolset-11-binutils
 BuildRequires: devtoolset-11-gcc
@@ -163,6 +175,16 @@ cp OvmfPkg/License.txt License.ovmf
 
 
 %changelog
+* Fri Feb 02 2024 Ross Lagerwall <ross.lagerwall@citrix.com> - 20220801-1.7.4
+- CA-388017: Fix most PixieFail vulnerabilities
+- Fix CVE-2023-45229 - Integer underflow when processing IA_NA/IA_TA options in a DHCPv6 Advertise message
+- Fix CVE-2023-45230 - Buffer overflow in the DHCPv6 client via a long Server ID option
+- Fix CVE-2023-45231 - Out of Bounds read when handling a ND Redirect message with truncated options
+- Fix CVE-2023-45232 - Infinite loop when parsing unknown options in the Destination Options header
+- Fix CVE-2023-45233 - Infinite loop when parsing a PadN option in the Destination Options header
+- Fix CVE-2023-45234 - Buffer overflow when processing DNS Servers option in a DHCPv6 Advertise message
+- Fix CVE-2023-45235 - Buffer overflow when handling Server ID option from a DHCPv6 proxy Advertise message
+
 * Tue Nov 28 2023 Alejandro Vallejo <alejandro.vallejo@cloud.com> - 20220801-1.7.3
 - CP-46796: Allow booting up to 96 vCPUs
 
