@@ -1,6 +1,6 @@
-%global package_speccommit 69fa2442f175cfbafb4c0bd40cbcd6af666f25e5
+%global package_speccommit d43c80f248a6875436549a5f42d3dc9edc52c0e0
 %global usver 3.54.6
-%global xsver 2
+%global xsver 3
 %global xsrel %{xsver}%{?xscount}%{?xshash}
 %global package_srccommit v3.54.6
 
@@ -182,6 +182,12 @@ without requiring other libraries
 %{_libdir}/libblockcrypto.so.*
 
 %changelog
+* Mon Apr 08 2024 Samuel Verschelde <stormi-xcp@ylix.fr> - 3.54.6-3.1
+- Sync with 3.54.6-3
+- *** Upstream changelog ***
+- * Fri Jan 26 2024 Mark Syms <mark.syms@citrix.com> - 3.54.6-3
+--- Rebuild against libxenstore.so.4
+
 * Mon Jan 22 2024 Samuel Verschelde <stormi-xcp@ylix.fr> - 3.54.6-2.1
 - Update to 3.54.6-2
 - *** Upstream changelog ***
