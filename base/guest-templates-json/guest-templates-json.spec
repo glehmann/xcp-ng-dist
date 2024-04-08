@@ -1,11 +1,11 @@
-%global package_speccommit fcd2a68e457d23593af246496a28e81d87d37774
-%global package_srccommit v2.0.6
+%global package_speccommit 761e10b9b2492be22f40019ed9ff1259e261c540
+%global package_srccommit v2.0.9
 Name:    guest-templates-json
 Summary: Creates the default guest templates
-Version: 2.0.6
+Version: 2.0.9
 Release: 1%{?xsrel}%{?dist}
 License: BSD
-Source0: guest-templates-json-2.0.6.tar.gz
+Source0: guest-templates-json-2.0.9.tar.gz
 BuildArch: noarch
 
 Requires: xapi-core
@@ -157,6 +157,7 @@ fi
 %{templatedir}/base-kylin-7.json
 %{templatedir}/base-sle-hvm-64bit.json
 %{templatedir}/base-sle-hvm.json
+%{templatedir}/base-linux-uefi.json
 %{templatedir}/centos-[79].json
 %{templatedir}/debian*.json
 %{templatedir}/kylin-7.json
@@ -177,6 +178,9 @@ fi
 %{templatedir}/other-install-media.json
 
 %changelog
+* Tue Feb 13 2024 Ross Lagerwall <ross.lagerwall@citrix.com> - 2.0.9-1
+- CP-46356 Remove 'preview' from Windows 11 template
+
 * Thu Oct 19 2023 Lunfan Zhang <Lunfan.Zhang@citrix.com> - 2.0.6-1
 - CP-44378: Remove 'preview' From Ubuntu 22.04 Guest template
 
