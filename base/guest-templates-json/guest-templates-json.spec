@@ -1,11 +1,11 @@
-%global package_speccommit fcd2a68e457d23593af246496a28e81d87d37774
-%global package_srccommit v2.0.6
+%global package_speccommit 761e10b9b2492be22f40019ed9ff1259e261c540
+%global package_srccommit v2.0.9
 Name:    guest-templates-json
 Summary: Creates the default guest templates
-Version: 2.0.6
+Version: 2.0.9
 Release: 1.1%{?xsrel}%{?dist}
 License: BSD
-Source0: guest-templates-json-2.0.6.tar.gz
+Source0: guest-templates-json-2.0.9.tar.gz
 
 # XCP-ng patches
 Source1000: almalinux-8.json
@@ -166,6 +166,7 @@ fi
 %{templatedir}/base-kylin-7.json
 %{templatedir}/base-sle-hvm-64bit.json
 %{templatedir}/base-sle-hvm.json
+%{templatedir}/base-linux-uefi.json
 %{templatedir}/centos-[79].json
 %{templatedir}/centos-stream-8.json
 %{templatedir}/debian*.json
@@ -187,6 +188,13 @@ fi
 %{templatedir}/other-install-media.json
 
 %changelog
+* next - 2.0.9-1.1
+- Sync with 2.0.9-1
+- TODO check changes and our patches
+- *** Upstream changelog ***
+- * Tue Feb 13 2024 Ross Lagerwall <ross.lagerwall@citrix.com> - 2.0.9-1
+- - CP-46356 Remove 'preview' from Windows 11 template
+
 * Mon Jan 22 2024 Samuel Verschelde <stormi-xcp@ylix.fr> - 2.0.6-1.1
 - Update to 2.0.6-1
 - Remove our Debian 12, RHEL 9, Rocky Linux 9, and Centos Stream 9 templates, now provided upstream
