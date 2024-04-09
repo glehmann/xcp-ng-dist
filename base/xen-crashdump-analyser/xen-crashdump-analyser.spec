@@ -1,13 +1,13 @@
-%global package_speccommit bb755d9778efa8174dbc5c6fd25337de1faafe7e
-%global package_srccommit v2.5.6
+%global package_speccommit a66e3708d76488513549adb825127fd938a8fa67
+%global package_srccommit v2.6.1
 
 Name: xen-crashdump-analyser
 Summary: Xen crashdump analyser
-Version: 2.5.6
+Version: 2.6.1
 Release: 1%{?xsrel}%{?dist}
 License: GPL
 Group: Applications/System
-Source0: xen-crashdump-analyser-2.5.6.tar.gz
+Source0: xen-crashdump-analyser-2.6.1.tar.gz
 BuildRequires: gcc-c++
 %{?_cov_buildrequires}
 
@@ -42,6 +42,10 @@ instructions, examples and more.
 %{?_cov_results_package}
 
 %changelog
+* Mon Jan 15 2024 Roger Pau Monné <roger.pau@citrix.com> - 2.6.1
+- Fix for fetching dom0 console with kernels >= 5.10
+- Fix to deal with Xen builds without PV32 support.
+
 * Wed Jun 01 2022 Roger Pau Monné <roger.pau@citrix.com> - 2.5.6-1
 - Remove shr_pages field usage to cope with upstream removal
 
