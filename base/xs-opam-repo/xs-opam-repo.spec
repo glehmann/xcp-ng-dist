@@ -1,5 +1,5 @@
-%global package_speccommit a0dee6581f5814363bfea045844b6cdeb947f4ec
-%global usver 6.74.0
+%global package_speccommit 08660a98b6ffeb41a30acef3c59bad8c68cc1e82
+%global usver 6.77.0
 %global xsver 1
 %global xsrel %{xsver}%{?xscount}%{?xshash}
 ## This has to match the declaration in xs-opam-src, which
@@ -11,15 +11,15 @@
 %global _debugsource_template %{nil}
 
 Name: xs-opam-repo
-Version: 6.74.0
-Release: %{?xsrel}.2%{?dist}
+Version: 6.77.0
+Release: %{?xsrel}.1%{?dist}
 Summary: Build and install OCaml libraries from Opam repository
 # The license field is produced by running print-license.sh
 # Please update licenses.txt on every new version and then run the script to
 # keep these in sync.
 License: Apache-1.0 and BSD-2-Clause and BSD-3-Clause and curl and GPL-1.0-or-later and GPL-2.0-only and GPL-2.0-or-later and GPL-3.0-only and ISC and LGPL-2.0-only WITH OCaml-LGPL-linking-exception and LGPL-2.0-or-later WITH OCaml-LGPL-linking-exception and LGPL-2.1-only and LGPL-2.1-only WITH OCaml-LGPL-linking-exception and LGPL-2.1-or-later WITH OCaml-LGPL-linking-exception and LGPL-2.1-or-later WITH OpenSSL-linking-exception and LGPL-3.0-only WITH OCaml-LGPL-linking-exception and MIT and PSF-2.0 and Unlicense
 URL:     https://github.com/xapi-project/xs-opam
-Source0: xs-opam-repo-6.74.0.tar.gz
+Source0: xs-opam-repo-6.77.0.tar.gz
 # To "pin" a package during development, see below the example
 # where ezxenstore is pinned to an internal master branch.
 # You need the Source1 line, and the below 'tar' and 'opam pin' lines, and comment-out the OPAMFETCH
@@ -126,6 +126,20 @@ echo '%%_opamroot %%{_libdir}/opamroot' >> "%{buildroot}%{_rpmconfigdir}/macros.
 %{_opamroot}
 
 %changelog
+* next - 6.77.0-1.1
+- Rebase on 6.77.0-1
+- TODO: review patch and drop if needed
+- *** Upstream changelog ***
+- * Wed Jan 31 2024 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.77.0-1
+- - Remove xapi-rd, xapi-inventory and xapi-stext-* packages
+- * Wed Dec 20 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.76.0-2
+- - Bump release
+- * Tue Dec 19 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.76.0-1
+- - upstream: update ocamlformat to the latest version
+- - update inotify to 2.5.0 and uri to 4.4.0
+- * Fri Nov 17 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.75.0-1
+- - xs: update xapi-rrd to 1.11.0
+
 * Wed Feb 14 2024 Yann Dirson <yann.dirson@vates.tech> - 6.74.0-1.2
 - backport xapi-project/xen-api#5456
 
