@@ -29,9 +29,6 @@ Source0: xs-opam-repo-6.77.0.tar.gz
 # when you want a new build.
 # Source1: https://code.citrite.net/rest/archive/latest/projects/~YOURUSER/repos/ezxenstore/archive?at=master&format=tar.gz&prefix=ezxenstore#/ezxenstore.tar.gz
 
-# XCP-ng backport xapi-project/xen-api#5456
-Patch0: xs-opam-repo-6.74.0-metajson.XCP-ng.patch
-
 BuildRequires: xs-opam-src >= 5.1.0
 
 Requires:      opam >= 2.0.0
@@ -126,9 +123,9 @@ echo '%%_opamroot %%{_libdir}/opamroot' >> "%{buildroot}%{_rpmconfigdir}/macros.
 %{_opamroot}
 
 %changelog
-* next - 6.77.0-1.1
+* Wed Apr 10 2024 Benjamin Reis <benjamin.reis@vates.tech> - 6.77.0-1.1
 - Rebase on 6.77.0-1
-- TODO: review patch and drop if needed
+- Drop xs-opam-repo-6.74.0-metajson.XCP-ng.patch
 - *** Upstream changelog ***
 - * Wed Jan 31 2024 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.77.0-1
 - - Remove xapi-rd, xapi-inventory and xapi-stext-* packages
