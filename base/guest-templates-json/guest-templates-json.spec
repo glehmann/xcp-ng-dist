@@ -188,9 +188,8 @@ fi
 %{templatedir}/other-install-media.json
 
 %changelog
-* next - 2.0.9-1.1
+* Wed Apr 10 2024 Gael Duperrey <gduperrey@vates.tech> - 2.0.9-1.1
 - Sync with 2.0.9-1
-- TODO check changes and our patches
 - *** Upstream changelog ***
 - * Tue Feb 13 2024 Ross Lagerwall <ross.lagerwall@citrix.com> - 2.0.9-1
 - - CP-46356 Remove 'preview' from Windows 11 template
