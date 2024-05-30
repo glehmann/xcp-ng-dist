@@ -27,12 +27,12 @@ mode from their source code.
 
 %prep
 %setup -q
-%patch0 -p1 -b .noelks
+%patch -P0 -p1 -b .noelks
 %if 0%{?__isa_bits} == 64
-%patch1 -p1 -b .64bit
+%patch -P1 -p1 -b .64bit
 %endif
-%patch2 -p1 -b .nostrip
-%patch4 -p1 -b .long
+%patch -P2 -p1 -b .nostrip
+%patch -P4 -p1 -b .long
 
 %build
 %global build_type_safety_c 0
