@@ -1,6 +1,7 @@
 Name:           branding-xcp-ng
 Version:        8.3.0
-Release:        3.5930aef
+# When increasing the first number, also update the hash if needed
+Release:        4.2637627
 Summary:        XCP-ng branding
 License:        ISC
 URL:            https://github.com/xcp-ng/branding-xcp-ng
@@ -40,6 +41,9 @@ This package contains branding information for XCP-ng.
 %{_usrsrc}/branding/__pycache__
 
 %changelog
+* Wed Jun 12 2024 Samuel Verschelde <stormi-xcp@ylix.fr> - 8.3.0-4.2637627
+- COPYRIGHT_YEARS up to 2024
+
 * Wed Sep 20 2023 Samuel Verschelde <stormi-xcp@ylix.fr> - 8.3.0-3.5930aef
 - Update PLATFORM_VERSION to 3.4.0
 
