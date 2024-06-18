@@ -1,5 +1,5 @@
-%global package_speccommit 08660a98b6ffeb41a30acef3c59bad8c68cc1e82
-%global usver 6.77.0
+%global package_speccommit 851bd364fb5cf99ee42f7fec2e00672e15e52007
+%global usver 6.78.0
 %global xsver 1
 %global xsrel %{xsver}%{?xscount}%{?xshash}
 ## This has to match the declaration in xs-opam-src, which
@@ -10,16 +10,24 @@
 # However, something needs to be fixed on XS 9 to not need it anymore.
 %global _debugsource_template %{nil}
 
+%global _version 6.78.0
+
+# Uncomment the following line and fill in VALUE to use an untagged tarball
+# e.g. -34-gab48a58c for 6.77.0-34-gab48a58c
+# %{!?_vextra: %_vextra VALUE}
+
+%global _version_full %{_version}%{?_vextra}
+
 Name: xs-opam-repo
-Version: 6.77.0
+Version: %{_version}
 Release: %{?xsrel}%{?dist}
 Summary: Build and install OCaml libraries from Opam repository
 # The license field is produced by running print-license.sh
 # Please update licenses.txt on every new version and then run the script to
 # keep these in sync.
-License: Apache-1.0 and BSD-2-Clause and BSD-3-Clause and curl and GPL-1.0-or-later and GPL-2.0-only and GPL-2.0-or-later and GPL-3.0-only and ISC and LGPL-2.0-only WITH OCaml-LGPL-linking-exception and LGPL-2.0-or-later WITH OCaml-LGPL-linking-exception and LGPL-2.1-only and LGPL-2.1-only WITH OCaml-LGPL-linking-exception and LGPL-2.1-or-later WITH OCaml-LGPL-linking-exception and LGPL-2.1-or-later WITH OpenSSL-linking-exception and LGPL-3.0-only WITH OCaml-LGPL-linking-exception and MIT and PSF-2.0 and Unlicense
+License: Apache-1.0 and BSD-2-Clause and BSD-3-Clause and curl and GPL-1.0-or-later and GPL-2.0-only and GPL-2.0-or-later and GPL-3.0-only and ISC and LGPL-2.0-only WITH OCaml-LGPL-linking-exception and LGPL-2.0-or-later WITH OCaml-LGPL-linking-exception and LGPL-2.1-only and LGPL-2.1-only WITH OCaml-LGPL-linking-exception and LGPL-2.1-or-later WITH OCaml-LGPL-linking-exception and LGPL-2.1-or-later WITH OpenSSL-linking-exception and LGPL-3.0-only WITH OCaml-LGPL-linking-exception and MIT and PSF-2.0
 URL:     https://github.com/xapi-project/xs-opam
-Source0: xs-opam-repo-6.77.0.tar.gz
+Source0: xs-opam-repo-6.78.0.tar.gz
 # To "pin" a package during development, see below the example
 # where ezxenstore is pinned to an internal master branch.
 # You need the Source1 line, and the below 'tar' and 'opam pin' lines, and comment-out the OPAMFETCH
@@ -64,7 +72,7 @@ Opam repository that contains all libraries necessary to compile the
 Toolstack components of the Citrix Hypervisor.
 
 %prep
-%autosetup -p1 -n xs-opam-repo-%{version}
+%autosetup -p1 -n xs-opam-repo-%{_version_full}
 
 %build
 
@@ -120,6 +128,10 @@ echo '%%_opamroot %%{_libdir}/opamroot' >> "%{buildroot}%{_rpmconfigdir}/macros.
 %{_opamroot}
 
 %changelog
+* Thu Mar 07 2024 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.78.0-1
+- Add patch for rpclib to accept empty variants
+- Non-breaking update of upstream dependencies
+
 * Wed Jan 31 2024 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.77.0-1
 - Remove xapi-rd, xapi-inventory and xapi-stext-* packages
 
