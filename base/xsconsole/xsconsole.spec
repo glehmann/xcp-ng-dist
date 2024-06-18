@@ -1,21 +1,29 @@
-%global package_speccommit 2a6ed5cfb5e197666758c92d76b12a9596d82806
-%global usver 10.1.14
-%global xsver 2
+%global package_speccommit 022075fd2250025dcf7bd675722a3c8f8acd34af
+%global usver 11.0.2
+%global xsver 1
 %global xsrel %{xsver}%{?xscount}%{?xshash}
-%global package_srccommit v10.1.14
+%global package_srccommit v11.0.2
 
 Summary: XCP-ng Host Configuration Console
 Name: xsconsole
-Version: 10.1.14
-Release: %{?xsrel}.2%{?dist}
+Version: 11.0.2
+Release: %{?xsrel}.1%{?dist}
 License: GPL2
 Group: Administration/System
-Source0: xsconsole-10.1.14.tar.gz
+Source0: xsconsole-11.0.2.tar.gz
 Patch0: CP-43942.patch
 Provides: xsconsole0
-BuildRequires: python2-devel
+BuildRequires: python3-devel
 BuildRequires: systemd
-Requires: PyPAM
+Requires: ipmitool
+Requires: python3-pam
+Requires: pciutils
+Requires: dmidecode
+Requires: ncurses >= 6.4-2
+%if 0%{?xenserver} > 8
+Requires: glibc-langpack-en
+%endif
+
 Requires(post): systemd
 Requires(preun): systemd
 Requires(postun): systemd
@@ -24,10 +32,7 @@ Requires(postun): systemd
 Patch1000: xsconsole-10.1.9-rebrand-xsconsole-service.XCP-ng.patch
 Patch1001: xsconsole-10.1.13-define-xcp-ng-colors.XCP-ng.patch
 # PR pending merge
-Patch1002: xsconsole-10.1.14-support-ipv6.XCP-ng.patch
-# Merged upstream, should come with next version update
-Patch1003: xsconsole-10.1.14-display-vlan.XCP-ng.patch
-Patch1004: xsconsole-10.1.14-ipv6-autoconf.XCP-ng.patch
+Patch1002: xsconsole-11.0.2-support-ipv6.XCP-ng.patch
 
 %description
 Console tool for configuring a XCP-ng installation.
@@ -64,6 +69,21 @@ Console tool for configuring a XCP-ng installation.
 %{_unitdir}/xsconsole.service
 
 %changelog
+* Wed Jun 19 2024 Benjamin Reis <benjamin.reis@vates.tech> - 11.0.2-1.1
+- Update to 11.0.2-1
+- Redo xsconsole-11.0.2-support-ipv6.XCP-ng.patch (now contains xsconsole-10.1.14-ipv6-autoconf.XCP-ng.patch)
+- Drop xsconsole-10.1.14-display-vlan.XCP-ng.patch
+- *** Upstream changelog ***
+- * Tue Mar 19 2024 Gerald Elder-Vass <gerald.elder-vass@cloud.com> - 11.0.2-1
+- - CA-369899: Add NTP config control for DHCP|Default|Manual|None options
+- - CA-389475: Update the timezone when it changes
+- * Thu Feb 29 2024 Mark Syms <mark.syms@citrix.com> - 11.0.1-1
+- - CA-389275: return insrtype if no translation
+- * Thu Feb 29 2024 Fei Su<fei.su@cloud.com> - 11.0.0-2
+- - CP-48192 Requires glibc-langpack-en to fix the locale.Error on xs9
+- * Mon Feb 05 2024 Stephen Cheng <stephen.cheng@cloud.com> - 11.0.0-1
+- - CP-44690: Upgrade to python 3
+
 * Fri Feb 16 2024 Benjamin Reis <benjamin.reis@vates.tech> - 10.1.14-2.2
 - Add xsconsole-10.1.14-ipv6-autoconf.XCP-ng.patch
 

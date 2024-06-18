@@ -1,5 +1,5 @@
 diff --git a/Makefile b/Makefile
-index 87f9dbe..eab2024 100644
+index 6950a6a..eda21ba 100644
 --- a/Makefile
 +++ b/Makefile
 @@ -48,9 +48,6 @@ PLUGINS_BASE :=
@@ -25,10 +25,10 @@ index 87f9dbe..eab2024 100644
  
 diff --git a/plugins-base/XSFeatureDRBackup.py b/plugins-base/XSFeatureDRBackup.py
 deleted file mode 100644
-index b05ac49..0000000
+index 55b2f2c..0000000
 --- a/plugins-base/XSFeatureDRBackup.py
 +++ /dev/null
-@@ -1,86 +0,0 @@
+@@ -1,85 +0,0 @@
 -# Copyright (c) 2008-2009 Citrix Systems Inc.
 -#
 -# This program is free software; you can redistribute it and/or modify
@@ -67,8 +67,7 @@ index b05ac49..0000000
 -            sr_uuid = inSR['uuid']
 -            command = "%s/xe-backup-metadata -n -u %s" % (Config.Inst().HelperPath(), sr_uuid)
 -
--            status, output = commands.getstatusoutput(command)
--            status = os.WEXITSTATUS(status)
+-            status, output = getstatusoutput(command)
 -            initalize_vdi = ""
 -            if status == 3:
 -               initalize_vdi = "-c"
@@ -77,12 +76,12 @@ index b05ac49..0000000
 -
 -            Layout.Inst().TransientBanner(Lang("Backing up metadata... This may take several minutes."))
 -            command = "%s/xe-backup-metadata %s -u %s" % (Config.Inst().HelperPath(), initalize_vdi, sr_uuid)
--            status, output = commands.getstatusoutput(command)
+-            status, output = getstatusoutput(command)
 -            if status == 0:
 -                Layout.Inst().PushDialogue(InfoDialogue(Lang("Backup Successful"), output))
 -            else:
 -                raise Exception(output)
--        except Exception, e:
+-        except Exception as e:
 -            Layout.Inst().PushDialogue(InfoDialogue(Lang("Metadata Backup failed: ")+Lang(e)))
 -        Data.Inst().Update()
 -
@@ -117,10 +116,10 @@ index b05ac49..0000000
 -XSFeatureDRBackup().Register()
 diff --git a/plugins-base/XSFeatureDRRestore.py b/plugins-base/XSFeatureDRRestore.py
 deleted file mode 100644
-index 2cadde5..0000000
+index 2fa6b8e..0000000
 --- a/plugins-base/XSFeatureDRRestore.py
 +++ /dev/null
-@@ -1,205 +0,0 @@
+@@ -1,204 +0,0 @@
 -# Copyright (c) 2008-2009 Citrix Systems Inc.
 -#
 -# This program is free software; you can redistribute it and/or modify
@@ -215,8 +214,7 @@ index 2cadde5..0000000
 -              dry_flag=""
 -            Layout.Inst().TransientBanner(Lang("Restoring VM Metadata.  This may take a few minutes..."))
 -            command = "%s/xe-restore-metadata -y %s -u %s -x %s -d %s -m %s" % (Config.Inst().HelperPath(), dry_flag, self.sr_uuid, self.vdi_uuid, self.chosen_date, chosen_mode)
--            status, output = commands.getstatusoutput(command)
--            status = os.WEXITSTATUS(status)
+-            status, output = getstatusoutput(command)
 -            Layout.Inst().PopDialogue()
 -            if status == 0:
 -                Layout.Inst().PushDialogue(InfoDialogue(Lang("Metadata Restore Succeeded: ") + output))
@@ -293,7 +291,7 @@ index 2cadde5..0000000
 -            if status != 0:
 -                raise Exception("(%s,%s)" % (output,errput))
 -            Layout.Inst().PushDialogue(DRRestoreSelection(output, vdi_uuid, sr_uuid))
--        except Exception, e:
+-        except Exception as e:
 -            Layout.Inst().PushDialogue(InfoDialogue( Lang("Metadata Restore failed: ")+Lang(e)))
 -        Data.Inst().Update()
 -
@@ -445,16 +443,16 @@ index 339b657..0000000
 -# Register this plugin when module is imported
 -XSFeatureDRSchedule().Register()
 diff --git a/plugins-base/XSMenuLayout.py b/plugins-base/XSMenuLayout.py
-index e284ee9..706a026 100644
+index 5a592a0..fe9c1f1 100644
 --- a/plugins-base/XSMenuLayout.py
 +++ b/plugins-base/XSMenuLayout.py
-@@ -166,13 +166,6 @@ class XSMenuLayout:
+@@ -168,13 +168,6 @@ class XSMenuLayout:
          inPane.AddWrappedTextField(Lang("This menu configures remote services, such as access by "
              "remote shell (ssh) and remote logging (syslog) to other servers."))
  
 -    def UpdateFieldsBUR(self, inPane):
 -        inPane.AddTitleField(Lang("Backup, Restore and Update"))
--   
+-
 -        inPane.AddWrappedTextField(Lang(
 -            "From this menu you can backup and restore the system database and Virtual Machine metadata, and apply "
 -            "software updates to the system."))
@@ -462,7 +460,7 @@ index e284ee9..706a026 100644
      def ActivateHandler(self, inName):
          Layout.Inst().TopDialogue().ChangeMenu(inName)
  
-@@ -196,8 +189,6 @@ class XSMenuLayout:
+@@ -198,8 +191,6 @@ class XSMenuLayout:
                  lambda: self.ActivateHandler('MENU_MANAGEMENT'), self.UpdateFieldsMANAGEMENT ],
              [ 'MENU_REMOTE', Lang("Remote Service Configuration"),
                  lambda: self.ActivateHandler('MENU_REMOTE'), self.UpdateFieldsREMOTE ],
@@ -473,7 +471,7 @@ index e284ee9..706a026 100644
              [ 'MENU_REBOOTSHUTDOWN', Lang("Reboot or Shutdown"),
 diff --git a/plugins-oem/XSFeatureOEMBackup.py b/plugins-oem/XSFeatureOEMBackup.py
 deleted file mode 100644
-index 9049986..0000000
+index 334181c..0000000
 --- a/plugins-oem/XSFeatureOEMBackup.py
 +++ /dev/null
 @@ -1,123 +0,0 @@
@@ -547,7 +545,7 @@ index 9049986..0000000
 -                filename = self.vdiMount.MountedPath(self.filename)
 -                FileUtils.AssertSafePath(filename)
 -                command = "/opt/xensource/bin/xe host-backup file-name='"+filename+"' host="+hostRef
--                status, output = commands.getstatusoutput(command)
+-                status, output = getstatusoutput(command)
 -
 -                if status != 0:
 -                    raise Exception(output)
@@ -557,7 +555,7 @@ index 9049986..0000000
 -                    Lang("Backup Successful")))
 -                XSLog('Backup successful')
 -
--            except Exception, e:
+-            except Exception as e:
 -                try: os.unlink(filename)
 -                except: pass
 -                Layout.Inst().PopDialogue()
@@ -566,7 +564,7 @@ index 9049986..0000000
 -        finally:
 -            try:
 -                self.PreExitActions()
--            except Exception, e:
+-            except Exception as e:
 -                Layout.Inst().PushDialogue(InfoDialogue( Lang("Backup Failed"), Lang(e)))
 -
 -
@@ -602,7 +600,7 @@ index 9049986..0000000
 -XSFeatureOEMBackup().Register()
 diff --git a/plugins-oem/XSFeatureOEMRestore.py b/plugins-oem/XSFeatureOEMRestore.py
 deleted file mode 100644
-index 9207b02..0000000
+index 39770d2..0000000
 --- a/plugins-oem/XSFeatureOEMRestore.py
 +++ /dev/null
 @@ -1,114 +0,0 @@
@@ -666,7 +664,7 @@ index 9207b02..0000000
 -                filename = self.vdiMount.MountedPath(self.filename)
 -                FileUtils.AssertSafePath(filename)
 -                command = "/opt/xensource/bin/xe host-restore file-name='"+filename+"' host="+hostRef
--                status, output = commands.getstatusoutput(command)
+-                status, output = getstatusoutput(command)
 -
 -                if status != 0:
 -                    raise Exception(output)
@@ -677,7 +675,7 @@ index 9207b02..0000000
 -                XSLog('Restore successful')
 -                hostEnabled = False
 -
--            except Exception, e:
+-            except Exception as e:
 -                Layout.Inst().PopDialogue()
 -                Layout.Inst().PushDialogue(InfoDialogue( Lang("Restore Failed"), Lang(e)))
 -
@@ -687,7 +685,7 @@ index 9207b02..0000000
 -                if hostEnabled:
 -                    # Dont leave the host disabled if restoration has failed
 -                    Data.Inst().LocalHostEnable()
--            except Exception, e:
+-            except Exception as e:
 -                Layout.Inst().PushDialogue(InfoDialogue( Lang("Restore Failed"), Lang(e)))
 -
 -
@@ -722,7 +720,7 @@ index 9207b02..0000000
 -XSFeatureOEMRestore().Register()
 diff --git a/plugins-oem/XSFeatureUpdate.py b/plugins-oem/XSFeatureUpdate.py
 deleted file mode 100644
-index 88bc7fb..0000000
+index 538c1f6..0000000
 --- a/plugins-oem/XSFeatureUpdate.py
 +++ /dev/null
 @@ -1,113 +0,0 @@
@@ -743,7 +741,7 @@ index 88bc7fb..0000000
 -
 -if __name__ == "__main__":
 -    raise Exception("This script is a plugin for xsconsole and cannot run independently")
--    
+-
 -from XSConsoleStandard import *
 -
 -class UpdateDialogue(FileDialogue):
@@ -758,22 +756,22 @@ index 88bc7fb..0000000
 -            'mode' : 'ro'
 -        }
 -        FileDialogue.__init__(self) # Must fill in self.custom before calling __init__
--        
+-
 -    def DoAction(self):
 -        success = False
--        
+-
 -        Layout.Inst().PopDialogue()
--        
+-
 -        Layout.Inst().PushDialogue(BannerDialogue(
 -            Lang("Applying update... This may take several minutes.  Press <Ctrl-C> to abort.")))
--        
+-
 -        hostEnabled = Data.Inst().host.enabled(False)
 -
 -        try:
 -            try:
 -                Layout.Inst().Refresh()
 -                Layout.Inst().DoUpdate()
--                
+-
 -                if VMUtils.numLocalResidentVMs() > 0:
 -                    raise Exception(Lang("One or more Virtual Machines are running on this host.  Please migrate, shut down or suspend Virtual Machines before continuing."))
 -
@@ -782,32 +780,32 @@ index 88bc7fb..0000000
 -                hostRef = Data.Inst().host.uuid(None)
 -                if hostRef is None:
 -                    raise Exception("Internal error 1")
--                    
+-
 -                filename = self.vdiMount.MountedPath(self.filename)
 -                FileUtils.AssertSafePath(filename)
 -                command = "/opt/xensource/bin/xe update-upload file-name='"+filename+"' host-uuid="+hostRef
--                status, output = commands.getstatusoutput(command)
--                
+-                status, output = getstatusoutput(command)
+-
 -                if status != 0:
 -                    raise Exception(output)
--                
+-
 -                Layout.Inst().PopDialogue()
 -                Layout.Inst().PushDialogue(InfoDialogue(
 -                    Lang("Update Successful"), Lang("Please reboot to use the newly installed software.")))
 -                XSLog('Software updated')
 -                hostEnabled = False
 -
--            except Exception, e:
+-            except Exception as e:
 -                Layout.Inst().PopDialogue()
 -                Layout.Inst().PushDialogue(InfoDialogue( Lang("Software Update Failed"), Lang(e)))
--                
+-
 -        finally:
 -            try:
 -                self.PreExitActions()
 -                if hostEnabled:
 -                    # Dont leave the host disabled if the update has failed
 -                    Data.Inst().LocalHostEnable()
--            except Exception, e:
+-            except Exception as e:
 -                Layout.Inst().PushDialogue(InfoDialogue( Lang("Software Update Failed"), Lang(e)))
 -
 -class XSFeatureUpdate:
@@ -819,11 +817,11 @@ index 88bc7fb..0000000
 -        inPane.AddWrappedTextField(Lang(
 -            "Press <Enter> to apply a software update."))
 -        inPane.AddKeyHelpField( { Lang("<Enter>") : Lang("Update") } )
--        
+-
 -    @classmethod
 -    def ActivateHandler(cls):
 -        DialogueUtils.AuthenticatedOnly(lambda: Layout.Inst().PushDialogue(UpdateDialogue()))
--        
+-
 -    def Register(self):
 -        Importer.RegisterNamedPlugIn(
 -            self,
