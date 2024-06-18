@@ -12,7 +12,7 @@ The key points of interest are:
 * SetVirtualAddressMap() called
 
 diff --git a/MdeModulePkg/Core/Dxe/DxeMain/DxeMain.c b/MdeModulePkg/Core/Dxe/DxeMain/DxeMain.c
-index 5733f0c8ec..9b5c8b7414 100644
+index 5733f0c8ec84..9b5c8b74149a 100644
 --- a/MdeModulePkg/Core/Dxe/DxeMain/DxeMain.c
 +++ b/MdeModulePkg/Core/Dxe/DxeMain/DxeMain.c
 @@ -763,6 +763,8 @@ CoreExitBootServices (
@@ -41,8 +41,47 @@ index 5733f0c8ec..9b5c8b7414 100644
    return Status;
  }
  
+diff --git a/MdeModulePkg/Core/Dxe/Image/Image.c b/MdeModulePkg/Core/Dxe/Image/Image.c
+index b28f01289281..a69c750bde50 100644
+--- a/MdeModulePkg/Core/Dxe/Image/Image.c
++++ b/MdeModulePkg/Core/Dxe/Image/Image.c
+@@ -1734,7 +1734,11 @@ CoreStartImage (
+     //
+     DEBUG_CODE_BEGIN ();
+     if (EFI_ERROR (Image->Status)) {
+-      DEBUG ((DEBUG_ERROR, "Error: Image at %11p start failed: %r\n", Image->Info.ImageBase, Image->Status));
++      if (Image->Status == EFI_UNSUPPORTED) {
++        DEBUG ((DEBUG_WARN, "Error: Image at %11p start failed: %r\n", Image->Info.ImageBase, Image->Status));
++      } else {
++        DEBUG ((DEBUG_ERROR, "Error: Image at %11p start failed: %r\n", Image->Info.ImageBase, Image->Status));
++      }
+     }
+ 
+     DEBUG_CODE_END ();
+diff --git a/MdeModulePkg/Core/Dxe/Mem/Page.c b/MdeModulePkg/Core/Dxe/Mem/Page.c
+index cc0b90ac0df5..e9e1e70adecf 100644
+--- a/MdeModulePkg/Core/Dxe/Mem/Page.c
++++ b/MdeModulePkg/Core/Dxe/Mem/Page.c
+@@ -771,7 +771,7 @@ CoreConvertPagesEx (
+     }
+ 
+     if (Link == &gMemoryMap) {
+-      DEBUG ((DEBUG_ERROR | DEBUG_PAGE, "ConvertPages: failed to find range %lx - %lx\n", Start, End));
++      DEBUG ((DEBUG_WARN | DEBUG_PAGE, "ConvertPages: failed to find range %lx - %lx\n", Start, End));
+       return EFI_NOT_FOUND;
+     }
+ 
+@@ -782,7 +782,7 @@ CoreConvertPagesEx (
+     //
+     if (ChangingType && (NewType != EfiConventionalMemory)) {
+       if (Entry->End < End) {
+-        DEBUG ((DEBUG_ERROR | DEBUG_PAGE, "ConvertPages: range %lx - %lx covers multiple entries\n", Start, End));
++        DEBUG ((DEBUG_WARN | DEBUG_PAGE, "ConvertPages: range %lx - %lx covers multiple entries\n", Start, End));
+         return EFI_NOT_FOUND;
+       }
+     }
 diff --git a/MdeModulePkg/Core/RuntimeDxe/Runtime.c b/MdeModulePkg/Core/RuntimeDxe/Runtime.c
-index de8f2bfce0..9249768ac6 100644
+index de8f2bfce0f8..9249768ac672 100644
 --- a/MdeModulePkg/Core/RuntimeDxe/Runtime.c
 +++ b/MdeModulePkg/Core/RuntimeDxe/Runtime.c
 @@ -244,11 +244,14 @@ RuntimeDriverSetVirtualAddressMap (
@@ -78,7 +117,7 @@ index de8f2bfce0..9249768ac6 100644
  }
  
 diff --git a/MdeModulePkg/Library/UefiBootManagerLib/BmBoot.c b/MdeModulePkg/Library/UefiBootManagerLib/BmBoot.c
-index 962892d38f..de9a0b4f48 100644
+index 962892d38f14..de9a0b4f483f 100644
 --- a/MdeModulePkg/Library/UefiBootManagerLib/BmBoot.c
 +++ b/MdeModulePkg/Library/UefiBootManagerLib/BmBoot.c
 @@ -2036,8 +2036,9 @@ EfiBootManagerBoot (
@@ -93,7 +132,7 @@ index 962892d38f..de9a0b4f48 100644
  
    //
 diff --git a/OvmfPkg/XenPvBlkDxe/BlockFront.c b/OvmfPkg/XenPvBlkDxe/BlockFront.c
-index 7aa5ef044b..50923ba4c1 100644
+index 7aa5ef044be0..50923ba4c138 100644
 --- a/OvmfPkg/XenPvBlkDxe/BlockFront.c
 +++ b/OvmfPkg/XenPvBlkDxe/BlockFront.c
 @@ -355,7 +355,7 @@ Again:
