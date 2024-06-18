@@ -8,8 +8,12 @@ Modules that are disabled:
   with multiple ways of accessing the disk (PV and emulated).
 * Virtio modules (already removed in XenOvmf)
 * Scanning USB devices takes some time and is not necessary.
+* Loading kernels / initrds from QEMU - this isn't used on XenServer
+* QEMU RAM framebuffer - this isn't used on XenServer
+* AMD SEV support - this is not supported on XenServer
+* S3 save support - this is not supported on XenServer
 diff --git a/OvmfPkg/OvmfXen.dsc b/OvmfPkg/OvmfXen.dsc
-index bf94a1b70b1a..7bddcc3b1c09 100644
+index 14fe382c9a2b..4c6ea8a86a2e 100644
 --- a/OvmfPkg/OvmfXen.dsc
 +++ b/OvmfPkg/OvmfXen.dsc
 @@ -34,6 +34,7 @@
@@ -30,7 +34,7 @@ index bf94a1b70b1a..7bddcc3b1c09 100644
    SerializeVariablesLib|OvmfPkg/Library/SerializeVariablesLib/SerializeVariablesLib.inf
    QemuFwCfgLib|OvmfPkg/Library/QemuFwCfgLib/QemuFwCfgDxeLib.inf
    QemuLoadImageLib|OvmfPkg/Library/GenericQemuLoadImageLib/GenericQemuLoadImageLib.inf
-@@ -327,7 +330,9 @@
+@@ -326,7 +329,9 @@
    DxeCoreEntryPoint|MdePkg/Library/DxeCoreEntryPoint/DxeCoreEntryPoint.inf
    MemoryAllocationLib|MdePkg/Library/UefiMemoryAllocationLib/UefiMemoryAllocationLib.inf
    ReportStatusCodeLib|MdeModulePkg/Library/DxeReportStatusCodeLib/DxeReportStatusCodeLib.inf
@@ -40,7 +44,20 @@ index bf94a1b70b1a..7bddcc3b1c09 100644
    PciLib|OvmfPkg/Library/DxePciLibI440FxQ35/DxePciLibI440FxQ35.inf
  
  [LibraryClasses.common.DXE_DRIVER]
-@@ -656,12 +661,14 @@
+@@ -622,10 +627,12 @@
+       NULL|OvmfPkg/Csm/LegacyBootMaintUiLib/LegacyBootMaintUiLib.inf
+ !endif
+   }
++!if $(EXTRA_MODULES_ENABLE) == TRUE
+   OvmfPkg/QemuKernelLoaderFsDxe/QemuKernelLoaderFsDxe.inf {
+     <LibraryClasses>
+       NULL|OvmfPkg/Library/BlobVerifierLibNull/BlobVerifierLibNull.inf
+   }
++!endif
+   OvmfPkg/XenIoPvhDxe/XenIoPvhDxe.inf
+   OvmfPkg/XenIoPciDxe/XenIoPciDxe.inf
+   OvmfPkg/XenBusDxe/XenBusDxe.inf
+@@ -655,19 +662,23 @@
    MdeModulePkg/Universal/Disk/UnicodeCollation/EnglishDxe/EnglishDxe.inf
    FatPkg/EnhancedFatDxe/Fat.inf
    MdeModulePkg/Universal/Disk/UdfDxe/UdfDxe.inf
@@ -55,7 +72,26 @@ index bf94a1b70b1a..7bddcc3b1c09 100644
    MdeModulePkg/Universal/HiiDatabaseDxe/HiiDatabaseDxe.inf
    MdeModulePkg/Universal/SetupBrowserDxe/SetupBrowserDxe.inf
    MdeModulePkg/Universal/DisplayEngineDxe/DisplayEngineDxe.inf
-@@ -712,12 +719,14 @@
+   MdeModulePkg/Universal/MemoryTest/NullMemoryTestDxe/NullMemoryTestDxe.inf
+ 
+   OvmfPkg/QemuVideoDxe/QemuVideoDxe.inf
++!if $(EXTRA_MODULES_ENABLE) == TRUE
+   OvmfPkg/QemuRamfbDxe/QemuRamfbDxe.inf
++!endif
+ 
+   #
+   # ISA Support
+@@ -690,7 +701,9 @@
+   #
+   MdeModulePkg/Universal/Acpi/AcpiTableDxe/AcpiTableDxe.inf
+   OvmfPkg/XenAcpiPlatformDxe/XenAcpiPlatformDxe.inf
++!if $(EXTRA_MODULES_ENABLE) == TRUE
+   MdeModulePkg/Universal/Acpi/S3SaveStateDxe/S3SaveStateDxe.inf
++!endif
+   MdeModulePkg/Universal/Acpi/BootScriptExecutorDxe/BootScriptExecutorDxe.inf
+ !if $(BGRT_ENABLE) == TRUE
+   MdeModulePkg/Universal/Acpi/BootGraphicsResourceTableDxe/BootGraphicsResourceTableDxe.inf
+@@ -711,12 +724,14 @@
    #
    # Usb Support
    #
@@ -70,11 +106,42 @@ index bf94a1b70b1a..7bddcc3b1c09 100644
  
  !ifdef $(CSM_ENABLE)
    OvmfPkg/Csm/BiosThunk/VideoDxe/VideoDxe.inf {
+@@ -765,10 +780,12 @@
+   }
+ 
+   OvmfPkg/PlatformDxe/Platform.inf
++!if $(EXTRA_MODULES_ENABLE) == TRUE
+   OvmfPkg/AmdSevDxe/AmdSevDxe.inf {
+     <LibraryClasses>
+     PciLib|MdePkg/Library/BasePciLibCf8/BasePciLibCf8.inf
+   }
++!endif
+   OvmfPkg/IoMmuDxe/IoMmuDxe.inf
+ 
+   #
 diff --git a/OvmfPkg/OvmfXen.fdf b/OvmfPkg/OvmfXen.fdf
-index 27705fd63f35..85e4450dd68a 100644
+index 3e9b4b64efd4..f5bad3de3bea 100644
 --- a/OvmfPkg/OvmfXen.fdf
 +++ b/OvmfPkg/OvmfXen.fdf
-@@ -281,12 +281,14 @@ INF  MdeModulePkg/Universal/Disk/DiskIoDxe/DiskIoDxe.inf
+@@ -231,7 +231,9 @@ READ_LOCK_STATUS   = TRUE
+ APRIORI DXE {
+   INF  MdeModulePkg/Universal/DevicePathDxe/DevicePathDxe.inf
+   INF  MdeModulePkg/Universal/PCD/Dxe/Pcd.inf
++!if $(EXTRA_MODULES_ENABLE) == TRUE
+   INF  OvmfPkg/AmdSevDxe/AmdSevDxe.inf
++!endif
+ !if $(XEN_VARIABLE_ENABLE) == FALSE
+   INF  OvmfPkg/QemuFlashFvbServicesRuntimeDxe/FvbServicesRuntimeDxe.inf
+ !endif
+@@ -275,18 +277,22 @@ INF  MdeModulePkg/Universal/Console/TerminalDxe/TerminalDxe.inf
+ INF  MdeModulePkg/Universal/DriverHealthManagerDxe/DriverHealthManagerDxe.inf
+ INF  MdeModulePkg/Universal/BdsDxe/BdsDxe.inf
+ INF  MdeModulePkg/Application/UiApp/UiApp.inf
++!if $(EXTRA_MODULES_ENABLE) == TRUE
+ INF  OvmfPkg/QemuKernelLoaderFsDxe/QemuKernelLoaderFsDxe.inf
++!endif
+ INF  MdeModulePkg/Universal/DevicePathDxe/DevicePathDxe.inf
+ INF  MdeModulePkg/Universal/Disk/DiskIoDxe/DiskIoDxe.inf
  INF  MdeModulePkg/Universal/Disk/PartitionDxe/PartitionDxe.inf
  INF  MdeModulePkg/Universal/Disk/RamDiskDxe/RamDiskDxe.inf
  INF  MdeModulePkg/Universal/Disk/UnicodeCollation/EnglishDxe/EnglishDxe.inf
@@ -89,7 +156,17 @@ index 27705fd63f35..85e4450dd68a 100644
  INF  MdeModulePkg/Universal/HiiDatabaseDxe/HiiDatabaseDxe.inf
  INF  MdeModulePkg/Universal/SetupBrowserDxe/SetupBrowserDxe.inf
  INF  MdeModulePkg/Universal/DisplayEngineDxe/DisplayEngineDxe.inf
-@@ -342,12 +344,14 @@ INF MdeModulePkg/Logo/LogoDxe.inf
+@@ -303,7 +309,9 @@ INF  OvmfPkg/SmbiosPlatformDxe/XenSmbiosPlatformDxe.inf
+ 
+ INF  MdeModulePkg/Universal/Acpi/AcpiTableDxe/AcpiTableDxe.inf
+ INF  OvmfPkg/XenAcpiPlatformDxe/XenAcpiPlatformDxe.inf
++!if $(EXTRA_MODULES_ENABLE) == TRUE
+ INF  MdeModulePkg/Universal/Acpi/S3SaveStateDxe/S3SaveStateDxe.inf
++!endif
+ INF  MdeModulePkg/Universal/Acpi/BootScriptExecutorDxe/BootScriptExecutorDxe.inf
+ !if $(BGRT_ENABLE) == TRUE
+ INF  MdeModulePkg/Universal/Acpi/BootGraphicsResourceTableDxe/BootGraphicsResourceTableDxe.inf
+@@ -342,12 +350,14 @@ INF MdeModulePkg/Logo/LogoDxe.inf
  #
  # Usb Support
  #
@@ -104,3 +181,17 @@ index 27705fd63f35..85e4450dd68a 100644
  
  !ifdef $(CSM_ENABLE)
  INF  OvmfPkg/Csm/BiosThunk/VideoDxe/VideoDxe.inf
+@@ -356,9 +366,13 @@ INF  RuleOverride=CSM OvmfPkg/Csm/Csm16/Csm16.inf
+ !endif
+ 
+ INF  OvmfPkg/QemuVideoDxe/QemuVideoDxe.inf
++!if $(EXTRA_MODULES_ENABLE) == TRUE
+ INF  OvmfPkg/QemuRamfbDxe/QemuRamfbDxe.inf
++!endif
+ INF  OvmfPkg/PlatformDxe/Platform.inf
++!if $(EXTRA_MODULES_ENABLE) == TRUE
+ INF  OvmfPkg/AmdSevDxe/AmdSevDxe.inf
++!endif
+ INF  OvmfPkg/IoMmuDxe/IoMmuDxe.inf
+ 
+ #

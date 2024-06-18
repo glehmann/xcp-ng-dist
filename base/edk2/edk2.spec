@@ -1,6 +1,6 @@
-%global package_speccommit 0a26e09d15847bc818e90fa455367b35d486df5e
+%global package_speccommit 625e0d471768b079d3ea755ea73c9e821dac8b31
 %global usver 20220801
-%global xsver 1.7.4
+%global xsver 1.7.5
 %global xsrel %{xsver}%{?xscount}%{?xshash}
 %global package_srccommit edk2-stable202208
 
@@ -178,6 +178,13 @@ cp OvmfPkg/License.txt License.ovmf
 
 
 %changelog
+* Tue Jun 18 2024 Samuel Verschelde <stormi-xcp@ylix.fr> - 20220801-1.7.5.1
+- Sync with 20220801-1.7.5
+- *** Upstream changelog ***
+- * Wed Mar 20 2024 Ross Lagerwall <ross.lagerwall@citrix.com> - 20220801-1.7.5
+- - CA-390410: Disable some unneeded modules
+- - CA-390410: Downgrade some errors to warnings
+
 * Mon Apr 08 2024 Samuel Verschelde <stormi-xcp@ylix.fr> - 20220801-1.7.4.1
 - Sync with 20220801-1.7.4
 - *** Upstream changelog ***
