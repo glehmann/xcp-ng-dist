@@ -1,21 +1,29 @@
-%global package_speccommit 2a6ed5cfb5e197666758c92d76b12a9596d82806
-%global usver 10.1.14
-%global xsver 2
+%global package_speccommit 022075fd2250025dcf7bd675722a3c8f8acd34af
+%global usver 11.0.2
+%global xsver 1
 %global xsrel %{xsver}%{?xscount}%{?xshash}
-%global package_srccommit v10.1.14
+%global package_srccommit v11.0.2
 
 Summary: XenServer Host Configuration Console
 Name: xsconsole
-Version: 10.1.14
+Version: 11.0.2
 Release: %{?xsrel}%{?dist}
 License: GPL2
 Group: Administration/System
-Source0: xsconsole-10.1.14.tar.gz
+Source0: xsconsole-11.0.2.tar.gz
 Patch0: CP-43942.patch
 Provides: xsconsole0
-BuildRequires: python2-devel
+BuildRequires: python3-devel
 BuildRequires: systemd
-Requires: PyPAM
+Requires: ipmitool
+Requires: python3-pam
+Requires: pciutils
+Requires: dmidecode
+Requires: ncurses >= 6.4-2
+%if 0%{?xenserver} > 8
+Requires: glibc-langpack-en
+%endif
+
 Requires(post): systemd
 Requires(preun): systemd
 Requires(postun): systemd
@@ -66,6 +74,19 @@ InCloud Sphere.
 %{_libdir}/xsconsole/plugins-oem/XSFeatureLicenseNag.py*
 
 %changelog
+* Tue Mar 19 2024 Gerald Elder-Vass <gerald.elder-vass@cloud.com> - 11.0.2-1
+- CA-369899: Add NTP config control for DHCP|Default|Manual|None options
+- CA-389475: Update the timezone when it changes
+
+* Thu Feb 29 2024 Mark Syms <mark.syms@citrix.com> - 11.0.1-1
+- CA-389275: return insrtype if no translation
+
+* Thu Feb 29 2024 Fei Su<fei.su@cloud.com> - 11.0.0-2
+- CP-48192 Requires glibc-langpack-en to fix the locale.Error on xs9
+
+* Mon Feb 05 2024 Stephen Cheng <stephen.cheng@cloud.com> - 11.0.0-1
+- CP-44690: Upgrade to python 3
+
 * Fri Jul 14 2023 Alex Brett <alex.brett@cloud.com> - 10.1.14-2
 - CP-43942: Remove Portable SR feature
 
