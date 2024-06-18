@@ -1,24 +1,14 @@
-%global package_speccommit d43c80f248a6875436549a5f42d3dc9edc52c0e0
-%global usver 3.54.6
-%global xsver 3
-%global xsrel %{xsver}%{?xscount}%{?xshash}
-%global package_srccommit v3.54.6
+%global package_speccommit d1beaa5873cef8add580a58782dbef8fe81fc31a
+%global package_srccommit v3.54.9
 
 Summary: blktap user space utilities
 Name: blktap
-Version: 3.54.6
-Release: %{?xsrel}%{?dist}
+Version: 3.54.9
+Release: 1%{?xsrel}%{?dist}
 License: BSD
 Group: System/Hypervisor
 URL: https://github.com/xapi-project/blktap
-Source0: blktap-3.54.6.tar.gz
-Patch0: CP-37221__only_write_footer_when_extending_BAT
-Patch1: CP-34438__no_error_from_valve_validate-parent
-Patch2: CP-34438__extend_tap-ctl_unpause_to_allow_adding_IO_restriction
-Patch3: CP-34834__Add_foreground_mode_to_td-rated
-Patch4: CP-34834__ensure_that_pselect_timeout_is_never_NULL
-Patch5: CP-34834__unregister_retry_event_on_close_if_set
-Patch6: CP-34834__dont_warn_on_no_timer_value
+Source0: blktap-3.54.9.tar.gz
 
 BuildRoot: %{_tmppath}/%{name}-%{release}-buildroot
 Obsoletes: xen-blktap < 4
@@ -78,7 +68,8 @@ sh autogen.sh
 %{?_cov_wrap} make %{?coverage:GCOV=true}
 
 %check
-make check || (find mockatests -name \*.log -print -exec cat {} \; && false)
+make clean
+make check GCOV=true || (find mockatests -name \*.log -print -exec cat {} \; && false)
 ./collect-test-results.sh %{buildroot}/testresults
 
 %install
@@ -178,11 +169,24 @@ without requiring other libraries
 %{_libdir}/libblockcrypto.so.*
 
 %changelog
-* Fri Jan 26 2024 Mark Syms <mark.syms@citrix.com> - 3.54.6-3
-- Rebuild against libxenstore.so.4
+* Thu Apr 25 2024 Mark Syms <mark.syms@citrix.com> - 3.54.9-1
+- Address various memory management issues
 
-* Thu Sep 28 2023 Mark Syms <mark.syms@citrix.com> - 3.54.6-2
-- CP-40871: Enable rate limit control on unpause
+* Wed Mar 27 2024 Mark Syms <mark.syms@citrix.com> - 3.54.8-1
+- CP-48048: Blktap fix code coverage (XS8 only)
+- tap-ctl: Improve list output filtering
+- CP-46763: When VBD queue is not ready call the driver completion
+- CP-46778: always issue request via issue_requests
+- CP-46771: separate queue checks for completed and new requests.
+- CP-46764: mask ring event handlers before quiescing the queue
+- CP-46764: When the VBD is quiesced skip checking for requests to submit
+- Fix setting of CFLAGS for mockatests
+- Do not free iconv cd if allocation fails
+- Fix the order of linker options in CBT
+- Fixup various bits of incorrect automake usage
+- CA-384162: Send completions for all partial responses
+- CA-390490: allocate vhd request before locking bat
+- CP-48057: Add unit tests for drivers/scheduler.c
 
 * Thu Sep 07 2023 Mark Syms <mark.syms@citrix.com> - 3.54.6-1
 - CP-40871: return the number of sectors coalesced from vhd-util
@@ -203,8 +207,7 @@ without requiring other libraries
 - Rebuild
 
 * Mon Feb 27 2023 Mark Syms <mark.syms@citrix.com> - 3.54.2-1
-- Add configurure options for -fanalyzer
-- Fix use after free in NBD client handling
+- Rebuild
 
 * Fri Feb 17 2023 Mark Syms <mark.syms@citrix.com> - 3.54.1-1
 - Rebuild
