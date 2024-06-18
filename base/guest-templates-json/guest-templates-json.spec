@@ -1,11 +1,11 @@
-%global package_speccommit 761e10b9b2492be22f40019ed9ff1259e261c540
-%global package_srccommit v2.0.9
+%global package_speccommit d34dbbaefeb9bfcb486671cb86400c3a45b03b8c
+%global package_srccommit v2.0.10
 Name:    guest-templates-json
 Summary: Creates the default guest templates
-Version: 2.0.9
+Version: 2.0.10
 Release: 1.1%{?xsrel}%{?dist}
 License: BSD
-Source0: guest-templates-json-2.0.9.tar.gz
+Source0: guest-templates-json-2.0.10.tar.gz
 
 # XCP-ng patches
 Source1000: almalinux-8.json
@@ -188,6 +188,12 @@ fi
 %{templatedir}/other-install-media.json
 
 %changelog
+* Tue Jun 18 2024 Samuel Verschelde <stormi-xcp@ylix.fr> - 2.0.10-1.1
+- Sync with 2.0.10-1
+- *** Upstream changelog ***
+- - CP-47662 Remove deprecated guest templates SUSE Linux 12 SP4 and Ubuntu 18.04
+- - CP-48082 Update Guest Templates to support UEFI Secure boot
+
 * Wed Apr 10 2024 Gael Duperrey <gduperrey@vates.tech> - 2.0.9-1.1
 - Sync with 2.0.9-1
 - *** Upstream changelog ***
