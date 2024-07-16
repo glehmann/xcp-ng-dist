@@ -3,7 +3,7 @@
 Name:    guest-templates-json
 Summary: Creates the default guest templates
 Version: 2.0.10
-Release: 1.1%{?xsrel}%{?dist}
+Release: 1.2%{?xsrel}%{?dist}
 License: BSD
 Source0: guest-templates-json-2.0.10.tar.gz
 
@@ -12,6 +12,7 @@ Source1000: almalinux-8.json
 Source1001: almalinux-9.json
 Source1002: centos-stream-8.json
 Source1003: oel-9.json
+Patch1000: 0001-Remove-preview-from-4-json-files.patch
 
 BuildArch: noarch
 
@@ -188,6 +189,9 @@ fi
 %{templatedir}/other-install-media.json
 
 %changelog
+* Tue Jul 16 2024 Gael Duperrey <gduperrey@vates.tech> - 2.0.10-1.2
+- Remove "preview" from templates Centos 9, Debian 12, rhel 9, Rocky 9.
+
 * Tue Jun 18 2024 Samuel Verschelde <stormi-xcp@ylix.fr> - 2.0.10-1.1
 - Sync with 2.0.10-1
 - *** Upstream changelog ***
