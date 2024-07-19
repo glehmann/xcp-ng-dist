@@ -3,7 +3,7 @@
 
 Name:           python-%{srcname}
 Version:        2.8.5
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        %{sum}
 
 License:        Python
@@ -58,6 +58,9 @@ This is Python 3 version.
 
 
 %changelog
+* Fri Jul 19 2024 Fedora Release Engineering <releng@fedoraproject.org> - 2.8.5-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_41_Mass_Rebuild
+
 * Fri Jun 07 2024 Python Maint <python-maint@redhat.com> - 2.8.5-4
 - Rebuilt for Python 3.13
 
