@@ -3,7 +3,7 @@
 Name:    guest-templates-json
 Summary: Creates the default guest templates
 Version: 2.0.10
-Release: 1.2%{?xsrel}%{?dist}
+Release: 1.3%{?xsrel}%{?dist}
 License: BSD
 Source0: guest-templates-json-2.0.10.tar.gz
 
@@ -12,6 +12,8 @@ Source1000: almalinux-8.json
 Source1001: almalinux-9.json
 Source1002: centos-stream-8.json
 Source1003: oel-9.json
+Source1004: generic-linux-bios.json 
+Source1005: generic-linux-uefi.json
 Patch1000: 0001-Remove-preview-from-4-json-files.patch
 
 BuildArch: noarch
@@ -74,7 +76,7 @@ Contains the default other guest templates.
 
 install -d %{buildroot}%{templatedir}
 install -m 644 json/*.json %{buildroot}%{templatedir}
-install -m 644 %{SOURCE1000} %{SOURCE1001} %{SOURCE1002} %{SOURCE1003} %{buildroot}%{templatedir}
+install -m 644 %{SOURCE1000} %{SOURCE1001} %{SOURCE1002} %{SOURCE1003} %{SOURCE1004} %{SOURCE1005} %{buildroot}%{templatedir}
 install -d %{buildroot}%{_sysconfdir}/xapi.d/vm-templates
 
 install -m 755 service/create-guest-templates-wrapper %{buildroot}%{_bindir}
@@ -180,6 +182,8 @@ fi
 %{templatedir}/ubuntu*.json
 %{templatedir}/gooroom-2.json
 %{templatedir}/rocky-[89].json
+%{templatedir}/generic-linux-bios.json
+%{templatedir}/generic-linux-uefi.json
 
 %files data-windows
 %{templatedir}/base-windows*.json
@@ -189,6 +193,9 @@ fi
 %{templatedir}/other-install-media.json
 
 %changelog
+* Tue Jul 23 2024 Gael Duperrey <gduperrey@vates.tech> - 2.0.10-1.3
+- Add generic templates for Linux BIOS and UEFI
+
 * Tue Jul 16 2024 Gael Duperrey <gduperrey@vates.tech> - 2.0.10-1.2
 - Remove "preview" from templates Centos 9, Debian 12, rhel 9, Rocky 9.
 
