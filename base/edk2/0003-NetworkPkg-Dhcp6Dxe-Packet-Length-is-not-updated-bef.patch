@@ -1,0 +1,50 @@
+From 75deaf5c3c0d164c61653258c331151241bb69d8 Mon Sep 17 00:00:00 2001
+From: Doug Flick <dougflick@microsoft.com>
+Date: Tue, 13 Feb 2024 10:46:02 -0800
+Subject: [PATCH 3/3] NetworkPkg: Dhcp6Dxe: Packet-Length is not updated before
+ appending
+
+In order for Dhcp6AppendIaAddrOption (..) to safely append the IA
+Address option, the Packet-Length field must be updated before appending
+the option.
+
+Cc: Saloni Kasbekar <saloni.kasbekar@intel.com>
+Cc: Zachary Clark-williams <zachary.clark-williams@intel.com>
+Signed-off-by: Doug Flick [MSFT] <doug.edk2@gmail.com>
+Reviewed-by: Saloni Kasbekar <saloni.kasbekar@intel.com>
+Reviewed-by: Leif Lindholm <quic_llindhol@quicinc.com>
+---
+ NetworkPkg/Dhcp6Dxe/Dhcp6Utility.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/NetworkPkg/Dhcp6Dxe/Dhcp6Utility.c b/NetworkPkg/Dhcp6Dxe/Dhcp6Utility.c
+index e4e072562296..f38e3ee3fe1a 100644
+--- a/NetworkPkg/Dhcp6Dxe/Dhcp6Utility.c
++++ b/NetworkPkg/Dhcp6Dxe/Dhcp6Utility.c
+@@ -924,6 +924,11 @@ Dhcp6AppendIaOption (
+     *PacketCursor += sizeof (T2);
+   }
+ 
++  //
++  // Update the packet length
++  //
++  Packet->Length += BytesNeeded;
++
+   //
+   // Fill all the addresses belong to the Ia
+   //
+@@ -935,11 +940,6 @@ Dhcp6AppendIaOption (
+     }
+   }
+ 
+-  //
+-  // Update the packet length
+-  //
+-  Packet->Length += BytesNeeded;
+-
+   //
+   // Fill the value of Ia option length
+   //
+-- 
+2.45.0
+
