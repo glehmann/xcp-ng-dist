@@ -1,0 +1,58 @@
+From 024a291b3e61f345b2f8827ee0412d4bc8721b2b Mon Sep 17 00:00:00 2001
+From: Doug Flick <dougflick@microsoft.com>
+Date: Wed, 8 May 2024 22:56:22 -0700
+Subject: [PATCH 2/2] EmulatorPkg: Add Hash2DxeCrypto to EmulatorPkg
+
+This patch adds Hash2DxeCrypto to EmulatorPkg. The Hash2DxeCrypto is
+used to provide the hashing protocol services.
+
+Cc: Andrew Fish <afish@apple.com>
+Cc: Ray Ni <ray.ni@intel.com>
+
+Signed-off-by: Doug Flick [MSFT] <doug.edk2@gmail.com>
+Reviewed-by: Ray Ni <ray.ni@Intel.com>
+diff --git a/EmulatorPkg/EmulatorPkg.dsc b/EmulatorPkg/EmulatorPkg.dsc
+index 5fe1ecb54785..b8fde7f3a609 100644
+--- a/EmulatorPkg/EmulatorPkg.dsc
++++ b/EmulatorPkg/EmulatorPkg.dsc
+@@ -127,10 +127,11 @@
+   ShellLib|ShellPkg/Library/UefiShellLib/UefiShellLib.inf
+   FileHandleLib|MdePkg/Library/UefiFileHandleLib/UefiFileHandleLib.inf
+   RngLib|MdePkg/Library/BaseRngLibTimerLib/BaseRngLibTimerLib.inf
+-
+-!if $(SECURE_BOOT_ENABLE) == TRUE
+   IntrinsicLib|CryptoPkg/Library/IntrinsicLib/IntrinsicLib.inf
+   OpensslLib|CryptoPkg/Library/OpensslLib/OpensslLibCrypto.inf
++  BaseCryptLib|CryptoPkg/Library/BaseCryptLib/BaseCryptLib.inf
++
++!if $(SECURE_BOOT_ENABLE) == TRUE
+   PlatformSecureLib|SecurityPkg/Library/PlatformSecureLibNull/PlatformSecureLibNull.inf
+   AuthVariableLib|SecurityPkg/Library/AuthVariableLib/AuthVariableLib.inf
+   SecureBootVariableLib|SecurityPkg/Library/SecureBootVariableLib/SecureBootVariableLib.inf
+@@ -380,6 +381,10 @@
+   # Rng Protocol producer
+   #
+   SecurityPkg/RandomNumberGenerator/RngDxe/RngDxe.inf
++  #
++  # Hash2 Protocol producer
++  #
++  SecurityPkg/Hash2DxeCrypto/Hash2DxeCrypto.inf
+ 
+ !if $(SECURE_BOOT_ENABLE) == TRUE
+   SecurityPkg/VariableAuthenticated/SecureBootConfigDxe/SecureBootConfigDxe.inf
+diff --git a/EmulatorPkg/EmulatorPkg.fdf b/EmulatorPkg/EmulatorPkg.fdf
+index d756c144d94d..73d5b0068d3f 100644
+--- a/EmulatorPkg/EmulatorPkg.fdf
++++ b/EmulatorPkg/EmulatorPkg.fdf
+@@ -198,6 +198,11 @@ INF  MdeModulePkg/Universal/DriverSampleDxe/DriverSampleDxe.inf
+ #
+ INF  SecurityPkg/RandomNumberGenerator/RngDxe/RngDxe.inf
+ 
++#
++# Hash2 Protocol producer
++#
++INF  SecurityPkg/Hash2DxeCrypto/Hash2DxeCrypto.inf
++
+ #
+ # Secure Boot Key Enroll
+ #

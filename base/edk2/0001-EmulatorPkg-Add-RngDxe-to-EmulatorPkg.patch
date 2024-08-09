@@ -1,0 +1,61 @@
+From 319bb7223a9690240a0f4a71a2ca2355867583b3 Mon Sep 17 00:00:00 2001
+From: Flickdm <douglas.flick@microsoft.com>
+Date: Mon, 20 May 2024 11:05:18 -0700
+Subject: [PATCH 1/1] EmulatorPkg: Add RngDxe to EmulatorPkg
+
+This patch adds RngDxe to EmulatorPkg. The RngDxe is used to provide
+random number generation services to the UEFI firmware.
+
+Cc: Andrew Fish <afish@apple.com>
+Cc: Ray Ni <ray.ni@intel.com>
+
+Signed-off-by: Doug Flick [MSFT] <doug.edk2@gmail.com>
+Reviewed-by: Ray Ni <ray.ni@intel.com>
+diff --git a/EmulatorPkg/EmulatorPkg.dsc b/EmulatorPkg/EmulatorPkg.dsc
+index b44435d7e6ee..5fe1ecb54785 100644
+--- a/EmulatorPkg/EmulatorPkg.dsc
++++ b/EmulatorPkg/EmulatorPkg.dsc
+@@ -126,9 +126,9 @@
+   SortLib|MdeModulePkg/Library/BaseSortLib/BaseSortLib.inf
+   ShellLib|ShellPkg/Library/UefiShellLib/UefiShellLib.inf
+   FileHandleLib|MdePkg/Library/UefiFileHandleLib/UefiFileHandleLib.inf
++  RngLib|MdePkg/Library/BaseRngLibTimerLib/BaseRngLibTimerLib.inf
+ 
+ !if $(SECURE_BOOT_ENABLE) == TRUE
+-  RngLib|MdePkg/Library/BaseRngLibTimerLib/BaseRngLibTimerLib.inf
+   IntrinsicLib|CryptoPkg/Library/IntrinsicLib/IntrinsicLib.inf
+   OpensslLib|CryptoPkg/Library/OpensslLib/OpensslLibCrypto.inf
+   PlatformSecureLib|SecurityPkg/Library/PlatformSecureLibNull/PlatformSecureLibNull.inf
+@@ -376,6 +376,11 @@
+   EmulatorPkg/PlatformSmbiosDxe/PlatformSmbiosDxe.inf
+   EmulatorPkg/TimerDxe/Timer.inf
+ 
++  #
++  # Rng Protocol producer
++  #
++  SecurityPkg/RandomNumberGenerator/RngDxe/RngDxe.inf
++
+ !if $(SECURE_BOOT_ENABLE) == TRUE
+   SecurityPkg/VariableAuthenticated/SecureBootConfigDxe/SecureBootConfigDxe.inf
+ !endif
+diff --git a/EmulatorPkg/EmulatorPkg.fdf b/EmulatorPkg/EmulatorPkg.fdf
+index 5420756eaa6f..d756c144d94d 100644
+--- a/EmulatorPkg/EmulatorPkg.fdf
++++ b/EmulatorPkg/EmulatorPkg.fdf
+@@ -193,6 +193,11 @@ INF  RuleOverride = UI MdeModulePkg/Application/UiApp/UiApp.inf
+ INF  MdeModulePkg/Application/BootManagerMenuApp/BootManagerMenuApp.inf
+ INF  MdeModulePkg/Universal/DriverSampleDxe/DriverSampleDxe.inf
+ 
++#
++# Rng Protocol producer
++#
++INF  SecurityPkg/RandomNumberGenerator/RngDxe/RngDxe.inf
++
+ #
+ # Secure Boot Key Enroll
+ #
+@@ -320,4 +325,3 @@ INF  ShellPkg/Application/Shell/Shell.inf
+     UI        STRING="$(MODULE_NAME)" Optional
+     VERSION   STRING="$(INF_VERSION)" Optional BUILD_NUM=$(BUILD_NUMBER)
+   }
+-

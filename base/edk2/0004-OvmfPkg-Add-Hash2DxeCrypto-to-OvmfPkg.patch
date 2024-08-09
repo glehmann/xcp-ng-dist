@@ -1,0 +1,182 @@
+From cb9d71189134e78efb00759eb9649ce92bf5b29a Mon Sep 17 00:00:00 2001
+From: Doug Flick <dougflick@microsoft.com>
+Date: Wed, 8 May 2024 22:56:24 -0700
+Subject: [PATCH 4/4] OvmfPkg: Add Hash2DxeCrypto to OvmfPkg
+
+This patch adds Hash2DxeCrypto to OvmfPkg. The Hash2DxeCrypto is
+used to provide the hashing protocol services.
+
+Cc: Ard Biesheuvel <ardb+tianocore@kernel.org>
+Cc: Jiewen Yao <jiewen.yao@intel.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
+
+Signed-off-by: Doug Flick [MSFT] <doug.edk2@gmail.com>
+Tested-by: Gerd Hoffmann <kraxel@redhat.com>
+Acked-by: Gerd Hoffmann <kraxel@redhat.com>
+Reviewed-by: Ard Biesheuvel <ardb@kernel.org>
+---
+ OvmfPkg/OvmfPkgIa32.dsc    | 6 +++++-
+ OvmfPkg/OvmfPkgIa32.fdf    | 5 +++++
+ OvmfPkg/OvmfPkgIa32X64.dsc | 6 +++++-
+ OvmfPkg/OvmfPkgIa32X64.fdf | 5 +++++
+ OvmfPkg/OvmfPkgX64.dsc     | 6 +++++-
+ OvmfPkg/OvmfPkgX64.fdf     | 5 +++++
+ OvmfPkg/OvmfXen.dsc        | 5 +++++
+ OvmfPkg/OvmfXen.fdf        | 5 +++++
+ 8 files changed, 40 insertions(+), 3 deletions(-)
+
+diff --git a/OvmfPkg/OvmfPkgIa32.dsc b/OvmfPkg/OvmfPkgIa32.dsc
+index 1be021be7140..2ca005d768ef 100644
+--- a/OvmfPkg/OvmfPkgIa32.dsc
++++ b/OvmfPkg/OvmfPkgIa32.dsc
+@@ -229,7 +229,6 @@
+   VariablePolicyHelperLib|MdeModulePkg/Library/VariablePolicyHelperLib/VariablePolicyHelperLib.inf
+   VariableFlashInfoLib|MdeModulePkg/Library/BaseVariableFlashInfoLib/BaseVariableFlashInfoLib.inf
+ 
+-
+   #
+   # Network libraries
+   #
+@@ -858,6 +857,11 @@
+   MdeModulePkg/Universal/Acpi/BootScriptExecutorDxe/BootScriptExecutorDxe.inf
+   MdeModulePkg/Universal/Acpi/BootGraphicsResourceTableDxe/BootGraphicsResourceTableDxe.inf
+ 
++  #
++  # Hash2 Protocol producer
++  #
++  SecurityPkg/Hash2DxeCrypto/Hash2DxeCrypto.inf
++
+   #
+   # Network Support
+   #
+diff --git a/OvmfPkg/OvmfPkgIa32.fdf b/OvmfPkg/OvmfPkgIa32.fdf
+index 6eb26f7d4613..0d4abb50a8f7 100644
+--- a/OvmfPkg/OvmfPkgIa32.fdf
++++ b/OvmfPkg/OvmfPkgIa32.fdf
+@@ -295,6 +295,11 @@ INF  OvmfPkg/VirtioFsDxe/VirtioFsDxe.inf
+ 
+ INF MdeModulePkg/Logo/LogoDxe.inf
+ 
++#
++# Hash2 Protocol producer
++#
++INF SecurityPkg/Hash2DxeCrypto/Hash2DxeCrypto.inf
++
+ #
+ # Network modules
+ #
+diff --git a/OvmfPkg/OvmfPkgIa32X64.dsc b/OvmfPkg/OvmfPkgIa32X64.dsc
+index d27a4c7278c2..a39070a62655 100644
+--- a/OvmfPkg/OvmfPkgIa32X64.dsc
++++ b/OvmfPkg/OvmfPkgIa32X64.dsc
+@@ -234,7 +234,6 @@
+   VariablePolicyHelperLib|MdeModulePkg/Library/VariablePolicyHelperLib/VariablePolicyHelperLib.inf
+   VariableFlashInfoLib|MdeModulePkg/Library/BaseVariableFlashInfoLib/BaseVariableFlashInfoLib.inf
+ 
+-
+   #
+   # Network libraries
+   #
+@@ -872,6 +871,11 @@
+   MdeModulePkg/Universal/Acpi/BootScriptExecutorDxe/BootScriptExecutorDxe.inf
+   MdeModulePkg/Universal/Acpi/BootGraphicsResourceTableDxe/BootGraphicsResourceTableDxe.inf
+ 
++  #
++  # Hash2 Protocol producer
++  #
++  SecurityPkg/Hash2DxeCrypto/Hash2DxeCrypto.inf
++
+   #
+   # Network Support
+   #
+diff --git a/OvmfPkg/OvmfPkgIa32X64.fdf b/OvmfPkg/OvmfPkgIa32X64.fdf
+index 080784f722a7..23a825a01298 100644
+--- a/OvmfPkg/OvmfPkgIa32X64.fdf
++++ b/OvmfPkg/OvmfPkgIa32X64.fdf
+@@ -296,6 +296,11 @@ INF  OvmfPkg/VirtioFsDxe/VirtioFsDxe.inf
+ 
+ INF MdeModulePkg/Logo/LogoDxe.inf
+ 
++#
++# Hash2 Protocol producer
++#
++INF SecurityPkg/Hash2DxeCrypto/Hash2DxeCrypto.inf
++
+ #
+ # Network modules
+ #
+diff --git a/OvmfPkg/OvmfPkgX64.dsc b/OvmfPkg/OvmfPkgX64.dsc
+index 8f5cd23b2ec0..1b90aa8f5737 100644
+--- a/OvmfPkg/OvmfPkgX64.dsc
++++ b/OvmfPkg/OvmfPkgX64.dsc
+@@ -250,7 +250,6 @@
+   VariablePolicyHelperLib|MdeModulePkg/Library/VariablePolicyHelperLib/VariablePolicyHelperLib.inf
+   VariableFlashInfoLib|MdeModulePkg/Library/BaseVariableFlashInfoLib/BaseVariableFlashInfoLib.inf
+ 
+-
+   #
+   # Network libraries
+   #
+@@ -940,6 +939,11 @@
+   MdeModulePkg/Universal/Acpi/BootScriptExecutorDxe/BootScriptExecutorDxe.inf
+   MdeModulePkg/Universal/Acpi/BootGraphicsResourceTableDxe/BootGraphicsResourceTableDxe.inf
+ 
++  #
++  # Hash2 Protocol producer
++  #
++  SecurityPkg/Hash2DxeCrypto/Hash2DxeCrypto.inf
++
+   #
+   # Network Support
+   #
+diff --git a/OvmfPkg/OvmfPkgX64.fdf b/OvmfPkg/OvmfPkgX64.fdf
+index b6e8f43566c4..4dcd6a033c5a 100644
+--- a/OvmfPkg/OvmfPkgX64.fdf
++++ b/OvmfPkg/OvmfPkgX64.fdf
+@@ -329,6 +329,11 @@ INF MdeModulePkg/Logo/LogoDxe.inf
+ 
+ INF OvmfPkg/TdxDxe/TdxDxe.inf
+ 
++#
++# Hash2 Protocol producer
++#
++INF SecurityPkg/Hash2DxeCrypto/Hash2DxeCrypto.inf
++
+ #
+ # Network modules
+ #
+diff --git a/OvmfPkg/OvmfXen.dsc b/OvmfPkg/OvmfXen.dsc
+index fa1a570e746a..7fc340d1c1df 100644
+--- a/OvmfPkg/OvmfXen.dsc
++++ b/OvmfPkg/OvmfXen.dsc
+@@ -667,6 +667,11 @@
+   MdeModulePkg/Universal/Acpi/BootScriptExecutorDxe/BootScriptExecutorDxe.inf
+   MdeModulePkg/Universal/Acpi/BootGraphicsResourceTableDxe/BootGraphicsResourceTableDxe.inf
+ 
++  #
++  # Hash2 Protocol producer
++  #
++  SecurityPkg/Hash2DxeCrypto/Hash2DxeCrypto.inf
++
+   #
+   # Network Support
+   #
+diff --git a/OvmfPkg/OvmfXen.fdf b/OvmfPkg/OvmfXen.fdf
+index 5770b173168b..41368f37e254 100644
+--- a/OvmfPkg/OvmfXen.fdf
++++ b/OvmfPkg/OvmfXen.fdf
+@@ -314,6 +314,11 @@ INF  ShellPkg/Application/Shell/Shell.inf
+ 
+ INF MdeModulePkg/Logo/LogoDxe.inf
+ 
++#
++# Hash2 Protocol producer
++#
++INF SecurityPkg/Hash2DxeCrypto/Hash2DxeCrypto.inf
++
+ #
+ # Network modules
+ #
+-- 
+2.45.0
+

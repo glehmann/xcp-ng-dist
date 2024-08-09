@@ -1,0 +1,29 @@
+Add Rng module to Xen build
+
+Networking now depends on a random number generator so include one in the Xen
+build.
+
+Signed-off-by: Ross Lagerwall <ross.lagerwall@citrix.com>
+diff --git a/OvmfPkg/OvmfXen.dsc b/OvmfPkg/OvmfXen.dsc
+index d57fbe9317bf..71a38bbf65cb 100644
+--- a/OvmfPkg/OvmfXen.dsc
++++ b/OvmfPkg/OvmfXen.dsc
+@@ -824,3 +824,5 @@
+   # TPM support
+   #
+ !include OvmfPkg/OvmfTpmComponentsDxe.dsc.inc
++
++  SecurityPkg/RandomNumberGenerator/RngDxe/RngDxe.inf
+diff --git a/OvmfPkg/OvmfXen.fdf b/OvmfPkg/OvmfXen.fdf
+index e41d0cd39575..d88cb2711670 100644
+--- a/OvmfPkg/OvmfXen.fdf
++++ b/OvmfPkg/OvmfXen.fdf
+@@ -397,6 +397,8 @@ INF  MdeModulePkg/Universal/Variable/RuntimeDxe/VariableRuntimeDxe.inf
+ #
+ !include OvmfPkg/OvmfTpmDxe.fdf.inc
+ 
++INF  SecurityPkg/RandomNumberGenerator/RngDxe/RngDxe.inf
++
+ ################################################################################
+ 
+ [FV.FVMAIN_COMPACT]
