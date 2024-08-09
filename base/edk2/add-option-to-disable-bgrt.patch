@@ -6,7 +6,7 @@ obvious from a screenshot where in the boot process the VM is.
 
 Signed-off-by: Ross Lagerwall <ross.lagerwall@citrix.com>
 diff --git a/OvmfPkg/OvmfXen.dsc b/OvmfPkg/OvmfXen.dsc
-index 06cbe8ca721e..e565d528217a 100644
+index 7f02a692b39c..4b77686474d4 100644
 --- a/OvmfPkg/OvmfXen.dsc
 +++ b/OvmfPkg/OvmfXen.dsc
 @@ -31,6 +31,7 @@
@@ -26,9 +26,9 @@ index 06cbe8ca721e..e565d528217a 100644
 +!endif
  
    #
-   # Network Support
+   # Hash2 Protocol producer
 diff --git a/OvmfPkg/OvmfXen.fdf b/OvmfPkg/OvmfXen.fdf
-index 60b2fdb4cab1..1ede502bac61 100644
+index 5b56daaf3910..7b9f9ec5ac32 100644
 --- a/OvmfPkg/OvmfXen.fdf
 +++ b/OvmfPkg/OvmfXen.fdf
 @@ -303,7 +303,9 @@ INF  MdeModulePkg/Universal/Acpi/AcpiTableDxe/AcpiTableDxe.inf

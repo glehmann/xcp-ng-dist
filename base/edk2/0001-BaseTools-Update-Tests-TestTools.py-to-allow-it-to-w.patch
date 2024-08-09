@@ -1,0 +1,41 @@
+From 77f75c7fb8388a1429374419c823d70fc4cf3881 Mon Sep 17 00:00:00 2001
+From: Rebecca Cran <rebecca@bsdio.com>
+Date: Sat, 6 May 2023 05:01:49 -0600
+Subject: [PATCH 1/1] BaseTools: Update Tests/TestTools.py to allow it to work
+ on Windows
+
+On Windows, executables have a '.exe' suffix which needs to be added for
+them to be found in a path.
+
+Also, files need to be explicitly opened as binary.
+
+Signed-off-by: Rebecca Cran <rebecca@bsdio.com>
+---
+ BaseTools/Tests/TestTools.py | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/BaseTools/Tests/TestTools.py b/BaseTools/Tests/TestTools.py
+index 1099fd4eeaea..545e1e3c133a 100644
+--- a/BaseTools/Tests/TestTools.py
++++ b/BaseTools/Tests/TestTools.py
+@@ -109,6 +109,8 @@ class BaseToolsTest(unittest.TestCase):
+         else: logFile = None
+ 
+         if toolName is None: toolName = self.toolName
++        if sys.platform == "win32":
++            toolName += ".exe"
+         bin = self.FindToolBin(toolName)
+         if logFile is not None:
+             logFile = open(os.path.join(self.testDir, logFile), 'w')
+@@ -135,7 +137,7 @@ class BaseToolsTest(unittest.TestCase):
+         return open(os.path.join(self.testDir, fileName), mode)
+ 
+     def ReadTmpFile(self, fileName):
+-        f = open(self.GetTmpFilePath(fileName), 'r')
++        f = open(self.GetTmpFilePath(fileName), 'rb')
+         data = f.read()
+         f.close()
+         return data
+-- 
+2.45.0
+

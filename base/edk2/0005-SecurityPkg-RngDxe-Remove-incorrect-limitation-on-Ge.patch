@@ -1,0 +1,48 @@
+From a85336531cf56e4bb04cf61ec3991a8104320dc4 Mon Sep 17 00:00:00 2001
+From: Flickdm <douglas.flick@microsoft.com>
+Date: Mon, 20 May 2024 11:07:38 -0700
+Subject: [PATCH 5/5] SecurityPkg RngDxe: Remove incorrect limitation on GetRng
+
+Removed from gEfiRngAlgorithmRaw an incorrect assumption that
+Raw cannot return less than 256 bits. The DRNG Algorithms
+should always use a 256 bit seed as per nist standards
+however a caller is free to request less than 256 bits.
+>
+>     //
+>    // When a DRBG is used on the output of a entropy source,
+>    // its security level must be at least 256 bits according to UEFI
+Spec.
+>    //
+>    if (RNGValueLength < 32) {
+>      return EFI_INVALID_PARAMETER;
+>    }
+>
+
+AARCH64 platforms do not have this limitation and this brings both
+implementations into alignment with each other and the spec.
+
+Cc: Jiewen Yao <jiewen.yao@intel.com>
+
+Signed-off-by: Doug Flick [MSFT] <doug.edk2@gmail.com>
+Reviewed-by: Ard Biesheuvel <ardb@kernel.org>
+Reviewed-by: Pierre Gondois <pierre.gondois@arm.com>
+Acked-by: Jiewe Yao <Jiewen.yao@intel.com>
+diff --git a/SecurityPkg/RandomNumberGenerator/RngDxe/Rand/RngDxe.c b/SecurityPkg/RandomNumberGenerator/RngDxe/Rand/RngDxe.c
+index 2df4ed44329a..befe3e0fbd00 100644
+--- a/SecurityPkg/RandomNumberGenerator/RngDxe/Rand/RngDxe.c
++++ b/SecurityPkg/RandomNumberGenerator/RngDxe/Rand/RngDxe.c
+@@ -80,14 +80,6 @@ RngGetRNG (
+   // The "raw" algorithm is intended to provide entropy directly
+   //
+   if (CompareGuid (RNGAlgorithm, &gEfiRngAlgorithmRaw)) {
+-    //
+-    // When a DRBG is used on the output of a entropy source,
+-    // its security level must be at least 256 bits according to UEFI Spec.
+-    //
+-    if (RNGValueLength < 32) {
+-      return EFI_INVALID_PARAMETER;
+-    }
+-
+     Status = RdRandGenerateEntropy (RNGValueLength, RNGValue);
+     return Status;
+   }
