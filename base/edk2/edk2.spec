@@ -1,8 +1,9 @@
-%global package_speccommit 625e0d471768b079d3ea755ea73c9e821dac8b31
+%global package_speccommit 5763e7baae137381a46ef4f86c82f314c5eee9cf
 %global usver 20220801
-%global xsver 1.7.5
+%global xsver 1.7.7
 %global xsrel %{xsver}%{?xscount}%{?xshash}
 %global package_srccommit edk2-stable202208
+%global debug_package %{nil}
 
 # submodule CryptoPkg/Library/OpensslLib/openssl
 %define openssllib_cset d82e959e621a3d597f1e0d50ff8c2d8b96915fd7
@@ -28,45 +29,55 @@ Source1: calc-pcrs.py
 Source2: openssl-d82e959e621a3d597f1e0d50ff8c2d8b96915fd7.tar.gz
 Source3: brotli-basetools-f4153a09f87cbb9c826d8fc12c74642bb2d879ea.tar.gz
 Source4: brotli-lib-f4153a09f87cbb9c826d8fc12c74642bb2d879ea.tar.gz
-Patch0: ovmfpkg-xenpvblkdxe__fix_memory_barrier_macro.patch
-Patch1: ovmfxen-add-tpm-support.patch
-Patch2: MdePkg-SecPeiDxeTimerLibCpu-Support-for-dynamic-PcdF.patch
-Patch3: OvmfPkg-OvmfXen-Use-RuntimeTimerLibCpu-for-DXE_DRIVER.patch
-Patch4: add-option-to-disable-bgrt.patch
-Patch5: use-rtc.patch
-Patch6: move-xenconnect-later.patch
-Patch7: nvidia-vgpu-support.patch
-Patch8: gvt-g-support.patch
-Patch9: embed-nic-drivers.patch
-Patch10: add-xen-variable.patch
-Patch11: add-xen-platform-device-id.patch
-Patch12: disable-modules.patch
-Patch13: xenorder.patch
-Patch14: keep-caching-enabled.patch
-Patch15: remove-unused-crypto.patch
-Patch16: add-Tcg2PhysicalPresenceLibXen.patch
-Patch17: tcg2config-fix-operation-parameter-prompt.patch
-Patch18: set-tpm2-acpi-table-revision.patch
-Patch19: disable-config-option-in-TCG2-config-screen.patch
-Patch20: shadow-pei-for-consistent-measurements.patch
-Patch21: set-default-resolution-1024-768.patch
-Patch22: add-debugging-info.patch
-Patch23: pixiefail-p1.patch
-Patch24: pixiefail-p2.patch
-Patch25: pixiefail-p3.patch
-Patch26: pixiefail-p4.patch
-Patch27: pixiefail-p5.patch
-Patch28: pixiefail-p6.patch
-Patch29: pixiefail-p7.patch
-Patch30: pixiefail-p8.patch
-Patch31: pixiefail-p9.patch
-Patch32: pixiefail-p10.patch
-Patch33: pixiefail-p11.patch
-Patch34: pixiefail-p12.patch
+Patch0: 0001-tools_def-add-fno-omit-frame-pointer-to-GCC48_-IA32-.patch
+Patch1: 0001-BaseTools-Update-Tests-TestTools.py-to-allow-it-to-w.patch
+Patch2: 0001-MdePkg-Rng-Add-GUID-to-describe-Arm-Rndr-Rng-algorit.patch
+Patch3: 0001-NetworkPkg-Dhcp6Dxe-SECURITY-PATCH-CVE-2023-45230-Pa.patch
+Patch4: 0003-NetworkPkg-Dhcp6Dxe-SECURITY-PATCH-CVE-2023-45229-Pa.patch
+Patch5: 0005-NetworkPkg-Ip6Dxe-SECURITY-PATCH-CVE-2023-45231-Patc.patch
+Patch6: 0007-NetworkPkg-Ip6Dxe-SECURITY-PATCH-CVE-2023-45232-Patc.patch
+Patch7: 0009-NetworkPkg-UefiPxeBcDxe-SECURITY-PATCH-CVE-2023-4523.patch
+Patch8: 0011-NetworkPkg-UefiPxeBcDxe-SECURITY-PATCH-CVE-2023-4523.patch
+Patch9: 0001-NetworkPkg-Dhcp6Dxe-SECURITY-PATCH-CVE-2023-45229-Re.patch
+Patch10: 0002-NetworkPkg-Dhcp6Dxe-Removes-duplicate-check-and-repl.patch
+Patch11: 0003-NetworkPkg-Dhcp6Dxe-Packet-Length-is-not-updated-bef.patch
+Patch12: 0001-EmulatorPkg-Add-RngDxe-to-EmulatorPkg.patch
+Patch13: 0002-EmulatorPkg-Add-Hash2DxeCrypto-to-EmulatorPkg.patch
+Patch14: 0004-OvmfPkg-Add-Hash2DxeCrypto-to-OvmfPkg.patch
+Patch15: 0005-SecurityPkg-RngDxe-Remove-incorrect-limitation-on-Ge.patch
+Patch16: 0006-NetworkPkg-SECURITY-PATCH-CVE-2023-45237.patch
+Patch17: 0007-NetworkPkg-TcpDxe-SECURITY-PATCH-CVE-2023-45236.patch
+Patch18: 0008-NetworkPkg-TcpDxe-Fixed-system-stuck-on-PXE-boot-flo.patch
+Patch19: ovmfpkg-xenpvblkdxe__fix_memory_barrier_macro.patch
+Patch20: ovmfxen-add-tpm-support.patch
+Patch21: MdePkg-SecPeiDxeTimerLibCpu-Support-for-dynamic-PcdF.patch
+Patch22: OvmfPkg-OvmfXen-Use-RuntimeTimerLibCpu-for-DXE_DRIVER.patch
+Patch23: add-option-to-disable-bgrt.patch
+Patch24: use-rtc.patch
+Patch25: move-xenconnect-later.patch
+Patch26: xen-rng-dxe.patch
+Patch27: nvidia-vgpu-support.patch
+Patch28: gvt-g-support.patch
+Patch29: embed-nic-drivers.patch
+Patch30: add-xen-variable.patch
+Patch31: add-xen-platform-device-id.patch
+Patch32: disable-modules.patch
+Patch33: xenorder.patch
+Patch34: keep-caching-enabled.patch
+Patch35: remove-unused-crypto.patch
+Patch36: add-Tcg2PhysicalPresenceLibXen.patch
+Patch37: tcg2config-fix-operation-parameter-prompt.patch
+Patch38: set-tpm2-acpi-table-revision.patch
+Patch39: disable-config-option-in-TCG2-config-screen.patch
+Patch40: shadow-pei-for-consistent-measurements.patch
+Patch41: set-default-resolution-1024-768.patch
+Patch42: add-debugging-info.patch
 
+%if 0%{?xenserver} < 9
 BuildRequires: devtoolset-11-binutils
 BuildRequires: devtoolset-11-gcc
 BuildRequires: devtoolset-11-gcc-c++
+%endif
 BuildRequires: python3
 BuildRequires: libuuid-devel
 BuildRequires: nasm >= 2.15
@@ -95,7 +106,9 @@ tar xzf %{SOURCE4}
 
 %build
 
+%if 0%{?xenserver} < 9
 source /opt/rh/devtoolset-11/enable
+%endif
 
 cp %{_datadir}/ipxe/10ec8139.efi .
 cp %{_datadir}/ipxe/8086100e.efi .
@@ -149,7 +162,9 @@ python3 %{SOURCE1} Build/OvmfXen/DEBUG_GCC*/FV/PEIFV.Fv Build/OvmfXen/DEBUG_GCC*
 
 %install
 
+%if 0%{?xenserver} < 9
 source /opt/rh/devtoolset-11/enable
+%endif
 
 install -m 755 -d %{buildroot}/%{_datadir}/%{name}
 install -m 644 OVMF-debug.fd %{buildroot}/%{_datadir}/%{name}/OVMF-debug.fd
@@ -175,6 +190,12 @@ cp OvmfPkg/License.txt License.ovmf
 
 
 %changelog
+* Thu Jun 06 2024 Ross Lagerwall <ross.lagerwall@citrix.com> - 20220801-1.7.7
+- CA-388489: Fix CVE-2023-45236, CVE-2023-45237, and additional fix for CVE-2023-45229
+
+* Tue May 14 2024 Deli Zhang <deli.zhang@cloud.com> - 20220801-1.7.6
+* CP-46076: Support xs9 build
+
 * Wed Mar 20 2024 Ross Lagerwall <ross.lagerwall@citrix.com> - 20220801-1.7.5
 - CA-390410: Disable some unneeded modules
 - CA-390410: Downgrade some errors to warnings
