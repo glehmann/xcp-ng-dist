@@ -1,5 +1,5 @@
-%global package_speccommit 851bd364fb5cf99ee42f7fec2e00672e15e52007
-%global usver 6.78.0
+%global package_speccommit 31c4ffcb2d6c9308e36205ecce293eca3269e265
+%global usver 6.80.0
 %global xsver 1
 %global xsrel %{xsver}%{?xscount}%{?xshash}
 ## This has to match the declaration in xs-opam-src, which
@@ -10,11 +10,12 @@
 # However, something needs to be fixed on XS 9 to not need it anymore.
 %global _debugsource_template %{nil}
 
-%global _version 6.78.0
+%global _version 6.80.0
 
-# Uncomment the following line and fill in VALUE to use an untagged tarball
-# e.g. -34-gab48a58c for 6.77.0-34-gab48a58c
-# %{!?_vextra: %_vextra VALUE}
+# Uncomment the following comment, remove a % from the beginning, and fill in
+# VALUE to use an untagged tarball. e.g. -34-gab48a58c for 6.77.0-34-gab48a58c
+
+# %%{!?_vextra: %_vextra VALUE}
 
 %global _version_full %{_version}%{?_vextra}
 
@@ -27,7 +28,7 @@ Summary: Build and install OCaml libraries from Opam repository
 # keep these in sync.
 License: Apache-1.0 and BSD-2-Clause and BSD-3-Clause and curl and GPL-1.0-or-later and GPL-2.0-only and GPL-2.0-or-later and GPL-3.0-only and ISC and LGPL-2.0-only WITH OCaml-LGPL-linking-exception and LGPL-2.0-or-later WITH OCaml-LGPL-linking-exception and LGPL-2.1-only and LGPL-2.1-only WITH OCaml-LGPL-linking-exception and LGPL-2.1-or-later WITH OCaml-LGPL-linking-exception and LGPL-2.1-or-later WITH OpenSSL-linking-exception and LGPL-3.0-only WITH OCaml-LGPL-linking-exception and MIT and PSF-2.0
 URL:     https://github.com/xapi-project/xs-opam
-Source0: xs-opam-repo-6.78.0.tar.gz
+Source0: xs-opam-repo-6.80.0.tar.gz
 # To "pin" a package during development, see below the example
 # where ezxenstore is pinned to an internal master branch.
 # You need the Source1 line, and the below 'tar' and 'opam pin' lines, and comment-out the OPAMFETCH
@@ -111,6 +112,8 @@ echo 'source /opt/rh/devtoolset-11/enable' >> %{buildroot}/etc/profile.d/opam.sh
 rm -rf %{_opamroot}/ocaml-system/.opam-switch/sources
 rm -rf %{_opamroot}/download-cache/*
 rm -rf %{_opamroot}/repo/local/cache/*
+# remove log as it contains $RPM_BUILD_ROOT env value
+rm -rf %{_opamroot}/log
 find   %{_opamroot}/ocaml-system/lib -type f -name '*.cmt*' -delete
 
 rsync -aW %{_opamroot}/ %{buildroot}%{_opamroot}/
@@ -128,6 +131,13 @@ echo '%%_opamroot %%{_libdir}/opamroot' >> "%{buildroot}%{_rpmconfigdir}/macros.
 %{_opamroot}
 
 %changelog
+* Wed May 22 2024 Rob Hoes <rob.hoes@cloud.com> - 6.80.0-1
+- Add psq 0.2.1
+
+* Mon May 13 2024 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.79.0-1
+- ocaml: add 4.14.2 packages
+- upstream: update non-breaking packages
+
 * Thu Mar 07 2024 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.78.0-1
 - Add patch for rpclib to accept empty variants
 - Non-breaking update of upstream dependencies
