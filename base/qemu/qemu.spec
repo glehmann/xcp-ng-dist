@@ -1,6 +1,6 @@
-%global package_speccommit e3e04d663da896dcd7691699a9cfd626e2eec0e9
+%global package_speccommit aa20fa170b47573c878f6eb7d97afa422e5edc67
 %global usver 4.2.1
-%global xsver 5.2.9
+%global xsver 5.2.10
 %global xsrel %{xsver}%{?xscount}%{?xshash}
 %global package_srccommit v4.2.1
 
@@ -139,6 +139,8 @@ Patch111: add-an-ide-read-cache.patch
 Patch112: disable-dirty-vram-tracking.patch
 Patch113: build-configuration.patch
 Patch114: 0001-CP-46162-Resolve-the-Null-pointer-error-in-configure.patch
+Patch115: 81ef3d06c970c6b7ae4971ad552b2287af376f43.patch
+Patch116: msix_pba_log.patch
 BuildRequires: python3-devel
 BuildRequires: libaio-devel glib2-devel
 BuildRequires: libjpeg-devel libpng-devel pixman-devel xenserver-libdrm-devel
@@ -225,6 +227,9 @@ cp -r scripts/qmp %{buildroot}%{_datarootdir}/qemu
 %{?_cov_results_package}
 
 %changelog
+* Tue Jun 04 2024 Frediano Ziglio <frediano.ziglio@cloud.com> - 4.2.1-5.2.10
+- CP-46254: Make PCI passthrough work in lockdown mode
+
 * Mon Apr 08 2024 Ross Lagerwall <ross.lagerwall@citrix.com> - 4.2.1-5.2.9
 - CA-391031: Reinstate rate limiting of RTC_CHANGE events
 - CA-391069: Avoid livelock due to buffered ioreqs
