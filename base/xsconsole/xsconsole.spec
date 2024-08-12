@@ -1,16 +1,16 @@
-%global package_speccommit 022075fd2250025dcf7bd675722a3c8f8acd34af
-%global usver 11.0.2
+%global package_speccommit 866948553e31d5d98f3339d077fd835f15d0ba2b
+%global usver 11.0.6
 %global xsver 1
 %global xsrel %{xsver}%{?xscount}%{?xshash}
-%global package_srccommit v11.0.2
+%global package_srccommit v11.0.6
 
 Summary: XCP-ng Host Configuration Console
 Name: xsconsole
-Version: 11.0.2
+Version: 11.0.6
 Release: %{?xsrel}.1%{?dist}
 License: GPL2
 Group: Administration/System
-Source0: xsconsole-11.0.2.tar.gz
+Source0: xsconsole-11.0.6.tar.gz
 Patch0: CP-43942.patch
 Provides: xsconsole0
 BuildRequires: python3-devel
@@ -69,6 +69,14 @@ Console tool for configuring a XCP-ng installation.
 %{_unitdir}/xsconsole.service
 
 %changelog
+* Mon Aug 12 2024 Samuel Verschelde <stormi-xcp@ylix.fr> - 11.0.6-1.1
+- Sync with 11.0.6-1
+- *** Upstream changelog ***
+- * Fri Jun 07 2024 Stephen Cheng <stephen.cheng@cloud.com> - 11.0.6-1
+- - CA-388527: Fix 'timed out' when creating an ISCSI SR
+- * Thu May 16 2024 Lin Liu <Lin.Liu01@cloud.com> - 11.0.3-1
+- - CA-357771: Remove obsolete strings: StorageLink(CVSM/cslg) leftovers
+
 * Wed Jun 19 2024 Benjamin Reis <benjamin.reis@vates.tech> - 11.0.2-1.1
 - Update to 11.0.2-1
 - Redo xsconsole-11.0.2-support-ipv6.XCP-ng.patch (now contains xsconsole-10.1.14-ipv6-autoconf.XCP-ng.patch)
