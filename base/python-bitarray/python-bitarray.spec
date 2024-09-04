@@ -3,10 +3,11 @@
 
 Name:           python-%{srcname}
 Version:        2.8.5
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        %{sum}
 
-License:        Python
+# Automatically converted from old format: Python - review is highly recommended.
+License:        LicenseRef-Callaway-Python
 URL:            https://pypi.python.org/pypi/%{srcname}/
 Source0:        https://pypi.python.org/packages/source/b/%{srcname}/%{srcname}-%{version}.tar.gz
 
@@ -58,6 +59,9 @@ This is Python 3 version.
 
 
 %changelog
+* Wed Sep 04 2024 Miroslav Suchý <msuchy@redhat.com> - 2.8.5-6
+- convert license to SPDX
+
 * Fri Jul 19 2024 Fedora Release Engineering <releng@fedoraproject.org> - 2.8.5-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_41_Mass_Rebuild
 
