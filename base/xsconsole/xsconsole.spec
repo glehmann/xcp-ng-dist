@@ -7,7 +7,7 @@
 Summary: XCP-ng Host Configuration Console
 Name: xsconsole
 Version: 11.0.6
-Release: %{?xsrel}.1%{?dist}
+Release: %{?xsrel}.2%{?dist}
 License: GPL2
 Group: Administration/System
 Source0: xsconsole-11.0.6.tar.gz
@@ -33,6 +33,7 @@ Patch1000: xsconsole-10.1.9-rebrand-xsconsole-service.XCP-ng.patch
 Patch1001: xsconsole-10.1.13-define-xcp-ng-colors.XCP-ng.patch
 # PR pending merge
 Patch1002: xsconsole-11.0.2-support-ipv6.XCP-ng.patch
+Patch1003: xsconsole-11.0.6-Ipv6-pool-join.XCP-ng.patch
 
 %description
 Console tool for configuring a XCP-ng installation.
@@ -69,6 +70,9 @@ Console tool for configuring a XCP-ng installation.
 %{_unitdir}/xsconsole.service
 
 %changelog
+* Wed Sep 18 2024 Benjamin Reis <benjamin.reis@vates.tech> - 11.0.6-1.2
+- Add xsconsole-11.0.6-Ipv6-pool-join.XCP-ng.patch
+
 * Mon Aug 12 2024 Samuel Verschelde <stormi-xcp@ylix.fr> - 11.0.6-1.1
 - Sync with 11.0.6-1
 - *** Upstream changelog ***
