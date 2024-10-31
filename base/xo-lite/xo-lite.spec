@@ -1,7 +1,7 @@
 Summary: Xen Orchestra Lite
 Name:    xo-lite
-Version: 0.2.7
-Release: 2%{?dist}
+Version: 0.5.0
+Release: 1%{?dist}
 License: AGPL3-only
 URL:     https://github.com/vatesfr/xen-orchestra
 
@@ -32,6 +32,9 @@ rm %{buildroot}/opt/xensource/www/LICENSE %{buildroot}/opt/xensource/www/CHANGEL
 %doc CHANGELOG.md
 
 %changelog
+* Thu Oct 31 2024 Gael Duperrey <gduperrey@vates.tech> - 0.5.0-1
+- Update to version 0.5.0
+
 * Mon Oct 14 2024 Samuel Verschelde <stormi-xcp@ylix.fr> - 0.2.7-2
 - Add missing xolite.html
 
