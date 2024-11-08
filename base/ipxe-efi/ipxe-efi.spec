@@ -26,9 +26,13 @@ Patch3: efi-snp-limit-rx-queue.patch
 # Patch95: 0001-linux-Centralise-the-linker-script-for-Linux-binarie.patch
 # Patch96: 0001-arm-Inhibit-linker-warnings-about-an-implied-executa.patch
 # # ? c6901792f009cfd824707724b687e99edd4c8ecd
-Patch97: 0001-build-Inhibit-linker-warnings-about-an-implied-execu.patch
 # Patch98: 0001-build-Remove-unnecessary-.text-directives.patch
-Patch99: 0001-build-Fix-building-with-newer-binutils.patch
+
+# YDI: both adapted from upstream
+Patch80: 0001-build-Inhibit-linker-warnings-about-an-implied-execu.patch
+Patch81: 0001-build-Fix-building-with-newer-binutils.patch
+# ... YDI: and same change for a file that was removed before that patch
+Patch82: more-newer-binutils.patch
 
 %{?_cov_buildrequires}
 
@@ -68,6 +72,7 @@ install -m 644 src/bin-x86_64-efi/8086100e.drv.efi %{buildroot}/%{_datadir}/ipxe
 %changelog
 * Fri Nov 08 2024 Yann Dirson <yann.dirson@vates.tech> - 20180514gite7f67d5-1.0.3.1
 - disable -Werror and friends
+- backport patches for new binutils compat
 
 * Thu Sep 21 2023 Ross Lagerwall <ross.lagerwall@citrix.com> - 20180514gite7f67d5-1.0.3
 - CA-383067: Fix oversized TFTP block size

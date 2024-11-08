@@ -1,7 +1,7 @@
-From 6ca597eee9f95b846a3c2dc1231e63cfc02272c1 Mon Sep 17 00:00:00 2001
+From c8ca3561358e799f1bdac44e2aec87010b229700 Mon Sep 17 00:00:00 2001
 From: Michael Brown <mcb30@ipxe.org>
 Date: Sun, 14 Jan 2024 12:12:18 +0000
-Subject: [PATCH] [build] Fix building with newer binutils
+Subject: [PATCH] Fix building with newer binutils
 
 Newer versions of the GNU assembler (observed with binutils 2.41) will
 complain about the ".arch i386" in files assembled with "as --64",
@@ -27,7 +27,6 @@ Signed-off-by: Michael Brown <mcb30@ipxe.org>
  src/arch/x86/interface/pcbios/e820mangler.S | 2 +-
  src/arch/x86/interface/pxe/pxe_entry.S      | 1 +
  src/arch/x86/prefix/bootpart.S              | 2 +-
- src/arch/x86/prefix/dskprefix.S             | 2 +-
  src/arch/x86/prefix/exeprefix.S             | 2 +-
  src/arch/x86/prefix/hdprefix.S              | 2 +-
  src/arch/x86/prefix/libprefix.S             | 1 +
@@ -37,15 +36,14 @@ Signed-off-by: Michael Brown <mcb30@ipxe.org>
  src/arch/x86/prefix/nbiprefix.S             | 2 +-
  src/arch/x86/prefix/nullprefix.S            | 2 +-
  src/arch/x86/prefix/pxeprefix.S             | 2 +-
- src/arch/x86/prefix/rawprefix.S             | 2 +-
  src/arch/x86/prefix/unlzma.S                | 1 +
  src/arch/x86/prefix/usbdisk.S               | 2 +-
  src/arch/x86/transitions/liba20.S           | 1 +
  src/arch/x86/transitions/libkir.S           | 2 +-
- 24 files changed, 22 insertions(+), 19 deletions(-)
+ 22 files changed, 20 insertions(+), 17 deletions(-)
 
 diff --git a/src/arch/i386/core/setjmp.S b/src/arch/i386/core/setjmp.S
-index e0bbb7ef..cbb5e713 100644
+index e0bbb7e..cbb5e71 100644
 --- a/src/arch/i386/core/setjmp.S
 +++ b/src/arch/i386/core/setjmp.S
 @@ -2,8 +2,8 @@ FILE_LICENCE ( GPL2_OR_LATER_OR_UBDL )
@@ -59,7 +57,7 @@ index e0bbb7ef..cbb5e713 100644
  	/* Must match jmp_buf structure layout */
  	.struct	0
 diff --git a/src/arch/i386/tests/gdbstub_test.S b/src/arch/i386/tests/gdbstub_test.S
-index e0c9e6c9..e44c13c2 100644
+index e0c9e6c..e44c13c 100644
 --- a/src/arch/i386/tests/gdbstub_test.S
 +++ b/src/arch/i386/tests/gdbstub_test.S
 @@ -1,4 +1,5 @@
@@ -69,13 +67,13 @@ index e0c9e6c9..e44c13c2 100644
  
  	.section ".data", "aw", @progbits
 diff --git a/src/arch/x86/core/patch_cf.S b/src/arch/x86/core/patch_cf.S
-index ebf62876..62f19e45 100644
+index 63730c3..f475bec 100644
 --- a/src/arch/x86/core/patch_cf.S
 +++ b/src/arch/x86/core/patch_cf.S
-@@ -23,8 +23,8 @@
- FILE_LICENCE ( GPL2_OR_LATER_OR_UBDL )
+@@ -24,8 +24,8 @@ FILE_LICENCE ( GPL2_OR_LATER_OR_UBDL )
  
  	.section ".note.GNU-stack", "", @progbits
+ 	.text
 -	.arch i386
  	.code16
 +	.arch i386
@@ -83,7 +81,7 @@ index ebf62876..62f19e45 100644
  /****************************************************************************
   * Set/clear CF on the stack as appropriate, assumes stack is as it should
 diff --git a/src/arch/x86/core/stack.S b/src/arch/x86/core/stack.S
-index 49345347..1bcaf18f 100644
+index 5aabab5..a03b40b 100644
 --- a/src/arch/x86/core/stack.S
 +++ b/src/arch/x86/core/stack.S
 @@ -1,7 +1,6 @@
@@ -95,7 +93,7 @@ index 49345347..1bcaf18f 100644
  #ifdef __x86_64__
  #define STACK_SIZE 8192
 diff --git a/src/arch/x86/core/stack16.S b/src/arch/x86/core/stack16.S
-index d3949a55..622887ea 100644
+index 85b683b..61751bd 100644
 --- a/src/arch/x86/core/stack16.S
 +++ b/src/arch/x86/core/stack16.S
 @@ -1,7 +1,6 @@
@@ -107,13 +105,13 @@ index d3949a55..622887ea 100644
  /****************************************************************************
   * Internal stack
 diff --git a/src/arch/x86/drivers/net/undiisr.S b/src/arch/x86/drivers/net/undiisr.S
-index aa8991d7..8ba5c535 100644
+index a1098b8..20176ae 100644
 --- a/src/arch/x86/drivers/net/undiisr.S
 +++ b/src/arch/x86/drivers/net/undiisr.S
-@@ -11,8 +11,8 @@ FILE_LICENCE ( GPL2_OR_LATER )
- #define PIC2_ICR 0xa0
+@@ -12,8 +12,8 @@ FILE_LICENCE ( GPL2_OR_LATER )
  	
  	.section ".note.GNU-stack", "", @progbits
+ 	.text
 -	.arch i386
  	.code16
 +	.arch i386
@@ -121,13 +119,13 @@ index aa8991d7..8ba5c535 100644
  	.section ".text16", "ax", @progbits
  	.globl undiisr
 diff --git a/src/arch/x86/interface/pcbios/e820mangler.S b/src/arch/x86/interface/pcbios/e820mangler.S
-index 40f84c70..ef5dc275 100644
+index 22dd3b1..ec5ac9a 100644
 --- a/src/arch/x86/interface/pcbios/e820mangler.S
 +++ b/src/arch/x86/interface/pcbios/e820mangler.S
-@@ -24,8 +24,8 @@
- FILE_LICENCE ( GPL2_OR_LATER_OR_UBDL )
+@@ -25,8 +25,8 @@ FILE_LICENCE ( GPL2_OR_LATER_OR_UBDL )
  
  	.section ".note.GNU-stack", "", @progbits
+ 	.text
 -	.arch i386
  	.code16
 +	.arch i386
@@ -135,7 +133,7 @@ index 40f84c70..ef5dc275 100644
  #define SMAP 0x534d4150
  
 diff --git a/src/arch/x86/interface/pxe/pxe_entry.S b/src/arch/x86/interface/pxe/pxe_entry.S
-index 354dd1b3..3899e1bc 100644
+index 15ae820..22007b0 100644
 --- a/src/arch/x86/interface/pxe/pxe_entry.S
 +++ b/src/arch/x86/interface/pxe/pxe_entry.S
 @@ -27,6 +27,7 @@ FILE_LICENCE ( GPL2_OR_LATER_OR_UBDL )
@@ -147,13 +145,13 @@ index 354dd1b3..3899e1bc 100644
  
  /****************************************************************************
 diff --git a/src/arch/x86/prefix/bootpart.S b/src/arch/x86/prefix/bootpart.S
-index cf75ff79..7b9920fd 100644
+index 575cb1c..afcd49b 100644
 --- a/src/arch/x86/prefix/bootpart.S
 +++ b/src/arch/x86/prefix/bootpart.S
-@@ -6,9 +6,9 @@ FILE_LICENCE ( GPL2_OR_LATER_OR_UBDL )
- #define STACK_SIZE	0x2000
+@@ -7,9 +7,9 @@ FILE_LICENCE ( GPL2_OR_LATER_OR_UBDL )
  	
  	.section ".note.GNU-stack", "", @progbits
+ 	.text
 +	.code16
  	.arch i386
  	.section ".prefix", "awx", @progbits
@@ -161,29 +159,14 @@ index cf75ff79..7b9920fd 100644
  
  /*
   * Find active partition
-diff --git a/src/arch/x86/prefix/dskprefix.S b/src/arch/x86/prefix/dskprefix.S
-index f9d30195..e8e55ef1 100644
---- a/src/arch/x86/prefix/dskprefix.S
-+++ b/src/arch/x86/prefix/dskprefix.S
-@@ -26,9 +26,9 @@ FILE_LICENCE ( GPL2_ONLY )
- 
- 	.section ".note.GNU-stack", "", @progbits
- 	.org	0
-+	.code16
- 	.arch i386
- 	.section ".prefix", "ax", @progbits
--	.code16
- 	.globl	_dsk_start
- _dsk_start:
- 
 diff --git a/src/arch/x86/prefix/exeprefix.S b/src/arch/x86/prefix/exeprefix.S
-index 86333489..98ed6c5f 100644
+index e257ed1..e374c01 100644
 --- a/src/arch/x86/prefix/exeprefix.S
 +++ b/src/arch/x86/prefix/exeprefix.S
-@@ -37,9 +37,9 @@ FILE_LICENCE ( GPL2_OR_LATER_OR_UBDL )
- #define PSP_CMDLINE_START 0x81
+@@ -38,9 +38,9 @@ FILE_LICENCE ( GPL2_OR_LATER_OR_UBDL )
  
  	.section ".note.GNU-stack", "", @progbits
+ 	.text
 +	.code16
  	.arch i386
  	.org 0
@@ -192,13 +175,13 @@ index 86333489..98ed6c5f 100644
  
  signature:
 diff --git a/src/arch/x86/prefix/hdprefix.S b/src/arch/x86/prefix/hdprefix.S
-index 1bbf72dd..3133dec6 100644
+index fbf8d2e..ebbb56d 100644
 --- a/src/arch/x86/prefix/hdprefix.S
 +++ b/src/arch/x86/prefix/hdprefix.S
-@@ -3,9 +3,9 @@ FILE_LICENCE ( GPL2_OR_LATER_OR_UBDL )
- #include <librm.h>
+@@ -4,9 +4,9 @@ FILE_LICENCE ( GPL2_OR_LATER_OR_UBDL )
  
  	.section ".note.GNU-stack", "", @progbits
+ 	.text
 +	.code16
  	.arch i386
  	.section ".prefix", "awx", @progbits
@@ -207,7 +190,7 @@ index 1bbf72dd..3133dec6 100644
  	.globl	_hd_start
  _hd_start:
 diff --git a/src/arch/x86/prefix/libprefix.S b/src/arch/x86/prefix/libprefix.S
-index 380e471d..b08a5782 100644
+index 0445a35..4049eea 100644
 --- a/src/arch/x86/prefix/libprefix.S
 +++ b/src/arch/x86/prefix/libprefix.S
 @@ -27,6 +27,7 @@ FILE_LICENCE ( GPL2_OR_LATER_OR_UBDL )
@@ -219,13 +202,13 @@ index 380e471d..b08a5782 100644
  
  /* Image compression enabled */
 diff --git a/src/arch/x86/prefix/lkrnprefix.S b/src/arch/x86/prefix/lkrnprefix.S
-index 9f1a2f09..c8a04c9d 100644
+index 2c17f79..924a96d 100644
 --- a/src/arch/x86/prefix/lkrnprefix.S
 +++ b/src/arch/x86/prefix/lkrnprefix.S
-@@ -5,8 +5,8 @@ FILE_LICENCE ( GPL2_OR_LATER_OR_UBDL )
- #define BZI_LOAD_HIGH_ADDR 0x100000
+@@ -6,8 +6,8 @@ FILE_LICENCE ( GPL2_OR_LATER_OR_UBDL )
  
  	.section ".note.GNU-stack", "", @progbits
+ 	.text
 -	.arch i386
  	.code16
 +	.arch i386
@@ -233,13 +216,13 @@ index 9f1a2f09..c8a04c9d 100644
  	.globl	_lkrn_start
  _lkrn_start:
 diff --git a/src/arch/x86/prefix/mbr.S b/src/arch/x86/prefix/mbr.S
-index b37eed71..5e0ed5dd 100644
+index 928bb33..8f85bd0 100644
 --- a/src/arch/x86/prefix/mbr.S
 +++ b/src/arch/x86/prefix/mbr.S
-@@ -1,9 +1,9 @@
- FILE_LICENCE ( GPL2_OR_LATER_OR_UBDL )
+@@ -2,9 +2,9 @@ FILE_LICENCE ( GPL2_OR_LATER_OR_UBDL )
  
  	.section ".note.GNU-stack", "", @progbits
+ 	.text
 +	.code16
  	.arch i386
  	.section ".prefix", "awx", @progbits
@@ -248,13 +231,13 @@ index b37eed71..5e0ed5dd 100644
  
  	.globl mbr
 diff --git a/src/arch/x86/prefix/mromprefix.S b/src/arch/x86/prefix/mromprefix.S
-index 543fd006..d05278e6 100644
+index 629d250..5e660ce 100644
 --- a/src/arch/x86/prefix/mromprefix.S
 +++ b/src/arch/x86/prefix/mromprefix.S
-@@ -42,8 +42,8 @@ FILE_LICENCE ( GPL2_OR_LATER_OR_UBDL )
- #include "pciromprefix.S"
+@@ -43,8 +43,8 @@ FILE_LICENCE ( GPL2_OR_LATER_OR_UBDL )
  
  	.section ".note.GNU-stack", "", @progbits
+ 	.text
 -	.arch i386
  	.code16
 +	.arch i386
@@ -262,13 +245,13 @@ index 543fd006..d05278e6 100644
  /* Obtain access to payload by exposing the expansion ROM BAR at the
   * address currently used by a suitably large memory BAR on the same
 diff --git a/src/arch/x86/prefix/nbiprefix.S b/src/arch/x86/prefix/nbiprefix.S
-index 0a74ca71..bbacd4b7 100644
+index cae1009..3f3e140 100644
 --- a/src/arch/x86/prefix/nbiprefix.S
 +++ b/src/arch/x86/prefix/nbiprefix.S
-@@ -3,8 +3,8 @@ FILE_LICENCE ( GPL2_OR_LATER_OR_UBDL )
- #include <librm.h>
+@@ -4,8 +4,8 @@ FILE_LICENCE ( GPL2_OR_LATER_OR_UBDL )
  
  	.section ".note.GNU-stack", "", @progbits
+ 	.text
 -	.arch i386
  	.code16
 +	.arch i386
@@ -276,13 +259,13 @@ index 0a74ca71..bbacd4b7 100644
  	.org 0
  
 diff --git a/src/arch/x86/prefix/nullprefix.S b/src/arch/x86/prefix/nullprefix.S
-index bbc697fd..426f1f2c 100644
+index 1568188..538f689 100644
 --- a/src/arch/x86/prefix/nullprefix.S
 +++ b/src/arch/x86/prefix/nullprefix.S
-@@ -2,10 +2,10 @@ FILE_LICENCE ( GPL2_OR_LATER_OR_UBDL )
- 
+@@ -3,10 +3,10 @@ FILE_LICENCE ( GPL2_OR_LATER_OR_UBDL )
  	.section ".note.GNU-stack", "", @progbits
  	.org	0
+ 	.text
 +	.code16
  	.arch i386
  
@@ -292,13 +275,13 @@ index bbc697fd..426f1f2c 100644
  
  	.section ".text16", "ax", @progbits
 diff --git a/src/arch/x86/prefix/pxeprefix.S b/src/arch/x86/prefix/pxeprefix.S
-index c62a5011..5181ef61 100644
+index 494fbc1..359cf44 100644
 --- a/src/arch/x86/prefix/pxeprefix.S
 +++ b/src/arch/x86/prefix/pxeprefix.S
-@@ -12,9 +12,9 @@ FILE_LICENCE ( GPL2_OR_LATER_OR_UBDL )
- #define PXE_HACK_EB54			0x0001
+@@ -13,9 +13,9 @@ FILE_LICENCE ( GPL2_OR_LATER_OR_UBDL )
  
  	.section ".note.GNU-stack", "", @progbits
+ 	.text
 +	.code16
  	.arch i386
  	.org 0
@@ -306,23 +289,8 @@ index c62a5011..5181ef61 100644
  
  #include <librm.h>
  #include <undi.h>
-diff --git a/src/arch/x86/prefix/rawprefix.S b/src/arch/x86/prefix/rawprefix.S
-index d97b3b51..962c9718 100644
---- a/src/arch/x86/prefix/rawprefix.S
-+++ b/src/arch/x86/prefix/rawprefix.S
-@@ -9,9 +9,9 @@
- FILE_LICENCE ( GPL2_OR_LATER_OR_UBDL )
- 
- 	.section ".note.GNU-stack", "", @progbits
-+	.code16
- 	.arch i386
- 	.org 0
--	.code16
- 
- #include <librm.h>
- 
 diff --git a/src/arch/x86/prefix/unlzma.S b/src/arch/x86/prefix/unlzma.S
-index 4059090b..e4d1e190 100644
+index f31bc1a..d23ce96 100644
 --- a/src/arch/x86/prefix/unlzma.S
 +++ b/src/arch/x86/prefix/unlzma.S
 @@ -44,6 +44,7 @@ FILE_LICENCE ( GPL2_OR_LATER_OR_UBDL );
@@ -330,17 +298,17 @@ index 4059090b..e4d1e190 100644
  
  	.section ".note.GNU-stack", "", @progbits
 +	.code32
- 	.arch i486
+ 	.text
+ 	.arch i586
  	.section ".prefix.lib", "ax", @progbits
- 
 diff --git a/src/arch/x86/prefix/usbdisk.S b/src/arch/x86/prefix/usbdisk.S
-index b8fc5e95..11ab6a46 100644
+index 7400e41..b3c3a3b 100644
 --- a/src/arch/x86/prefix/usbdisk.S
 +++ b/src/arch/x86/prefix/usbdisk.S
-@@ -3,9 +3,9 @@ FILE_LICENCE ( GPL2_OR_LATER_OR_UBDL )
- #include <config/console.h>
+@@ -2,9 +2,9 @@ FILE_LICENCE ( GPL2_OR_LATER_OR_UBDL )
  
  	.section ".note.GNU-stack", "", @progbits
+ 	.text
 +	.code16
  	.arch i386
  	.section ".prefix", "awx", @progbits
@@ -349,7 +317,7 @@ index b8fc5e95..11ab6a46 100644
  
  #include "mbr.S"
 diff --git a/src/arch/x86/transitions/liba20.S b/src/arch/x86/transitions/liba20.S
-index 6c1bac67..971cff22 100644
+index f7245e0..cd7ebd6 100644
 --- a/src/arch/x86/transitions/liba20.S
 +++ b/src/arch/x86/transitions/liba20.S
 @@ -25,6 +25,7 @@
@@ -361,13 +329,13 @@ index 6c1bac67..971cff22 100644
  
  /****************************************************************************
 diff --git a/src/arch/x86/transitions/libkir.S b/src/arch/x86/transitions/libkir.S
-index 5909654c..2c4dc948 100644
+index af090b2..686b34b 100644
 --- a/src/arch/x86/transitions/libkir.S
 +++ b/src/arch/x86/transitions/libkir.S
-@@ -32,9 +32,9 @@ FILE_LICENCE ( GPL2_OR_LATER_OR_UBDL )
- #define BOCHSBP xchgw %bx, %bx
+@@ -33,9 +33,9 @@ FILE_LICENCE ( GPL2_OR_LATER_OR_UBDL )
  
  	.section ".note.GNU-stack", "", @progbits
+ 	.text
 +	.code16
  	.arch i386
  	.section ".text16", "awx", @progbits
