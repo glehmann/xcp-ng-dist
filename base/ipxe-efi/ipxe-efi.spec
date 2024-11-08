@@ -1,7 +1,7 @@
 %global package_speccommit 2f3137d75674b279554438a869ea902943d5da06
 %global usver 20180514gite7f67d5
 %global xsver 1.0.3
-%global xsrel %{xsver}%{?xscount}%{?xshash}
+%global xsrel %{xsver}.1%{?xscount}%{?xshash}
 %global package_srccommit e7f67d5
 
 Name: ipxe-efi
@@ -31,6 +31,7 @@ UEFI environment or embedded into OVMF.
 
 
 %build
+export NO_WERROR=1
 %{?_cov_wrap} make -C src %{?_smp_mflags} bin-x86_64-efi/10ec8139.drv.efi CONFIG=qemu
 %{?_cov_wrap} make -C src %{?_smp_mflags} bin-x86_64-efi/8086100e.drv.efi CONFIG=qemu
 
@@ -51,6 +52,9 @@ install -m 644 src/bin-x86_64-efi/8086100e.drv.efi %{buildroot}/%{_datadir}/ipxe
 
 
 %changelog
+* Fri Nov 08 2024 Yann Dirson <yann.dirson@vates.tech> - 20180514gite7f67d5-1.0.3.1
+- disable -Werror and friends
+
 * Thu Sep 21 2023 Ross Lagerwall <ross.lagerwall@citrix.com> - 20180514gite7f67d5-1.0.3
 - CA-383067: Fix oversized TFTP block size
 
