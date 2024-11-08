@@ -16,6 +16,20 @@ Patch1: increase-heap-size.patch
 Patch2: realtek-increase-rx-desc.patch
 Patch3: efi-snp-limit-rx-queue.patch
 
+
+# Patch89: 0001-build-Fix-use-of-inline-assembly-on-GCC-8-ARM64-buil.patch
+# Patch90: 0001-bios-Define-macros-for-constructing-partition-table-.patch
+# Patch91: 0001-int13con-Create-log-partition-only-when-CONSOLE_INT1.patch
+# Patch92: 0001-build-Use-.balign-directive-instead-of-.align.patch
+# Patch93: 0001-prefix-Add-a-generic-raw-image-prefix.patch
+# Patch94: 0001-prefix-Specify-i486-architecture-for-LZMA-decompress.patch
+# Patch95: 0001-linux-Centralise-the-linker-script-for-Linux-binarie.patch
+# Patch96: 0001-arm-Inhibit-linker-warnings-about-an-implied-executa.patch
+# # ? c6901792f009cfd824707724b687e99edd4c8ecd
+Patch97: 0001-build-Inhibit-linker-warnings-about-an-implied-execu.patch
+# Patch98: 0001-build-Remove-unnecessary-.text-directives.patch
+Patch99: 0001-build-Fix-building-with-newer-binutils.patch
+
 %{?_cov_buildrequires}
 
 BuildRequires: gcc
