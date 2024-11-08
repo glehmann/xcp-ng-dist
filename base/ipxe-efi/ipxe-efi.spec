@@ -34,6 +34,9 @@ Patch81: 0001-build-Fix-building-with-newer-binutils.patch
 # ... YDI: and same change for a file that was removed before that patch
 Patch82: more-newer-binutils.patch
 
+# pure upstream
+Patch90: 0001-build-Handle-R_X86_64_PLT32-from-binutils-2.31.patch
+
 %{?_cov_buildrequires}
 
 BuildRequires: gcc
@@ -73,6 +76,7 @@ install -m 644 src/bin-x86_64-efi/8086100e.drv.efi %{buildroot}/%{_datadir}/ipxe
 * Fri Nov 08 2024 Yann Dirson <yann.dirson@vates.tech> - 20180514gite7f67d5-1.0.3.1
 - disable -Werror and friends
 - backport patches for new binutils compat
+- use upstream patch for relocation type not recognized
 
 * Thu Sep 21 2023 Ross Lagerwall <ross.lagerwall@citrix.com> - 20180514gite7f67d5-1.0.3
 - CA-383067: Fix oversized TFTP block size
