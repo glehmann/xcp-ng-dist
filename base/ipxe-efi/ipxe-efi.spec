@@ -3,6 +3,7 @@
 %global xsver 1.0.3
 %global xsrel %{xsver}.1%{?xscount}%{?xshash}
 %global package_srccommit e7f67d5
+%global debug_package %{nil}
 
 Name: ipxe-efi
 Summary: iPXE EFI drivers
@@ -77,6 +78,7 @@ install -m 644 src/bin-x86_64-efi/8086100e.drv.efi %{buildroot}/%{_datadir}/ipxe
 - disable -Werror and friends
 - backport patches for new binutils compat
 - use upstream patch for relocation type not recognized
+- disable debug so rpm finally builds
 
 * Thu Sep 21 2023 Ross Lagerwall <ross.lagerwall@citrix.com> - 20180514gite7f67d5-1.0.3
 - CA-383067: Fix oversized TFTP block size
