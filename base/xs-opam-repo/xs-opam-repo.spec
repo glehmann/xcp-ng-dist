@@ -1,5 +1,5 @@
-%global package_speccommit 31c4ffcb2d6c9308e36205ecce293eca3269e265
-%global usver 6.80.0
+%global package_speccommit 3e125f96315686c1cfb48fc68a8dbfa605bc687e
+%global usver 6.83.0
 %global xsver 1
 %global xsrel %{xsver}%{?xscount}%{?xshash}
 ## This has to match the declaration in xs-opam-src, which
@@ -10,14 +10,11 @@
 # However, something needs to be fixed on XS 9 to not need it anymore.
 %global _debugsource_template %{nil}
 
-%global _version 6.80.0
+%global _version 6.83.0
 
-# Uncomment the following comment, remove a % from the beginning, and fill in
-# VALUE to use an untagged tarball. e.g. -34-gab48a58c for 6.77.0-34-gab48a58c
-
-# %%{!?_vextra: %_vextra VALUE}
-
-%global _version_full %{_version}%{?_vextra}
+# When building an untagged version, add the number of commits and hash after
+# the variable _version. e.g. -34-gab48a58c for 6.77.0-34-gab48a58c
+%global _version_full %{_version}
 
 Name: xs-opam-repo
 Version: %{_version}
@@ -28,7 +25,7 @@ Summary: Build and install OCaml libraries from Opam repository
 # keep these in sync.
 License: Apache-1.0 and BSD-2-Clause and BSD-3-Clause and curl and GPL-1.0-or-later and GPL-2.0-only and GPL-2.0-or-later and GPL-3.0-only and ISC and LGPL-2.0-only WITH OCaml-LGPL-linking-exception and LGPL-2.0-or-later WITH OCaml-LGPL-linking-exception and LGPL-2.1-only and LGPL-2.1-only WITH OCaml-LGPL-linking-exception and LGPL-2.1-or-later WITH OCaml-LGPL-linking-exception and LGPL-2.1-or-later WITH OpenSSL-linking-exception and LGPL-3.0-only WITH OCaml-LGPL-linking-exception and MIT and PSF-2.0
 URL:     https://github.com/xapi-project/xs-opam
-Source0: xs-opam-repo-6.80.0.tar.gz
+Source0: xs-opam-repo-6.83.0.tar.gz
 # To "pin" a package during development, see below the example
 # where ezxenstore is pinned to an internal master branch.
 # You need the Source1 line, and the below 'tar' and 'opam pin' lines, and comment-out the OPAMFETCH
@@ -94,17 +91,14 @@ export OPAMROOT=%{_opamroot}
 opam init --disable-sandboxing -y local file://${PWD}
 opam switch create ocaml-system
 
-# To pin a package, uncomment the lines below, and adjust the name of the tarball you pinned
-# tar xvf %%{SOURCE1}
-# opam pin add -n ezxenstore/
-# comment out the next line if you use the "opam pin"
 export OPAMFETCH=/bin/false
-opam config exec -- opam install %{?_smp_mflags} -y $PKG
+opam exec -- opam install %{?_smp_mflags} -y $PKG
 
 mkdir -p %{buildroot}/etc/profile.d
 mkdir -p %{buildroot}%{_opamroot}
 echo 'export OPAMROOT=%{_opamroot}' > %{buildroot}/etc/profile.d/opam.sh
 echo 'eval `opam config env`' >> %{buildroot}/etc/profile.d/opam.sh
+echo 'export OCAMLPATH=%{_libdir/ocaml}' >> %{buildroot}/etc/profile.d/opam.sh
 %if 0%{?xenserver} < 9
 echo 'source /opt/rh/devtoolset-11/enable' >> %{buildroot}/etc/profile.d/opam.sh
 %endif
@@ -131,6 +125,16 @@ echo '%%_opamroot %%{_libdir}/opamroot' >> "%{buildroot}%{_rpmconfigdir}/macros.
 %{_opamroot}
 
 %changelog
+* Fri Jul 26 2024 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.83.0-1
+- Patch Uri packages to add path_unencoded
+- jst-config: fix build on Fedora40
+- Metadata refresh, breaking update of upstream libraries
+- Remove systemd library
+
+* Tue Jul 02 2024 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.81.0-1
+- Update crc to 2.2.0
+- Add qcheck and qcheck-alcotest
+
 * Wed May 22 2024 Rob Hoes <rob.hoes@cloud.com> - 6.80.0-1
 - Add psq 0.2.1
 
