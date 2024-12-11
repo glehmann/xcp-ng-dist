@@ -1,5 +1,5 @@
-%global package_speccommit 7a833c518b7ec831554136f1af141db01dd8c5e5
-%global usver 6.84.0
+%global package_speccommit c672227925c767154adf134e288d8c0eef4d4550
+%global usver 6.86.0
 %global xsver 1
 %global xsrel %{xsver}%{?xscount}%{?xshash}
 ## This has to match the declaration in xs-opam-src, which
@@ -10,7 +10,7 @@
 # However, something needs to be fixed on XS 9 to not need it anymore.
 %global _debugsource_template %{nil}
 
-%global _version 6.84.0
+%global _version 6.86.0
 
 # When building an untagged version, add the number of commits and hash after
 # the variable _version. e.g. -34-gab48a58c for 6.77.0-34-gab48a58c
@@ -23,9 +23,9 @@ Summary: Build and install OCaml libraries from Opam repository
 # The license field is produced by running print-license.sh
 # Please update licenses.txt on every new version and then run the script to
 # keep these in sync.
-License: Apache-1.0 and BSD-2-Clause and BSD-3-Clause and curl and GPL-1.0-or-later and GPL-2.0-only and GPL-2.0-or-later and GPL-3.0-only and ISC and LGPL-2.0-only WITH OCaml-LGPL-linking-exception and LGPL-2.0-or-later WITH OCaml-LGPL-linking-exception and LGPL-2.1-only and LGPL-2.1-only WITH OCaml-LGPL-linking-exception and LGPL-2.1-or-later WITH OCaml-LGPL-linking-exception and LGPL-2.1-or-later WITH OpenSSL-linking-exception and MIT and PSF-2.0
+License: Apache-1.0 and BSD-2-Clause and BSD-3-Clause and curl and GPL-1.0-or-later and GPL-2.0-only and GPL-2.0-or-later and GPL-3.0-only and ISC and LGPL-2.0-only WITH OCaml-LGPL-linking-exception and LGPL-2.0-or-later WITH OCaml-LGPL-linking-exception and LGPL-2.1-only and LGPL-2.1-only WITH OCaml-LGPL-linking-exception and LGPL-2.1-or-later WITH OCaml-LGPL-linking-exception and LGPL-2.1-or-later WITH OpenSSL-linking-exception and LGPL-3.0-only and MIT and PSF-2.0
 URL:     https://github.com/xapi-project/xs-opam
-Source0: xs-opam-repo-6.84.0.tar.gz
+Source0: xs-opam-repo-6.86.0.tar.gz
 # To "pin" a package during development, see below the example
 # where ezxenstore is pinned to an internal master branch.
 # You need the Source1 line, and the below 'tar' and 'opam pin' lines, and comment-out the OPAMFETCH
@@ -80,16 +80,13 @@ Toolstack components of the Citrix Hypervisor.
 source /opt/rh/devtoolset-11/enable
 %endif
 
-PKG=""
-PKG="$PKG $(ls -1 packages/upstream)"
-PKG="$PKG $(ls -1 packages/xs)"
-
 # install into the real opam root to avoid problems with
 # embedded paths.
 export OPAMROOT=%{_opamroot}
-# sandbox is incompatible with rsync, packages modifying /tmp and other issues
-opam init --disable-sandboxing -y local file://${PWD}
+opam init --bare --no-setup -k local xs-opam . -y
 opam switch create ocaml-system
+
+PKG=$(opam exec -- opam list --available --short)
 
 export OPAMFETCH=/bin/false
 opam exec -- opam install %{?_smp_mflags} -y $PKG
@@ -125,6 +122,13 @@ echo '%%_opamroot %%{_libdir}/opamroot' >> "%{buildroot}%{_rpmconfigdir}/macros.
 %{_opamroot}
 
 %changelog
+* Wed Oct 09 2024 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.86.0-1
+- Include crowbar library
+
+* Tue Oct 08 2024 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.85.0-1
+- Update Uuidm to 0.9.9
+- Use upstream folder structure, use opam-directed tools for managing it
+
 * Mon Sep 23 2024 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.84.0-1
 - CA-399172: fix potential crash in Uri.of_string
 
