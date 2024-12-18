@@ -4,7 +4,7 @@
 Summary: blktap user space utilities
 Name: blktap
 Version: 3.54.9
-Release: 1%{?xsrel}.1%{?dist}
+Release: 1%{?xsrel}.2%{?dist}
 License: BSD
 Group: System/Hypervisor
 URL: https://github.com/xapi-project/blktap
@@ -32,6 +32,8 @@ Provides: blktap(nbd) = 2.0
 # XCP-ng patches
 # Required by XOSTOR. Upstream PR: https://github.com/xapi-project/blktap/pull/378
 Patch1001: 0001-Add-an-option-to-never-resolve-parent-path-when-vhd-.patch
+# Required by sm (qcow2). Upstream PR: https://github.com/xapi-project/blktap/pull/417
+Patch1002: 0002-Add-an-option-to-use-backup-footer-when-vhd-util-que.patch
 
 %description
 Blktap creates kernel block devices which realize I/O requests to
@@ -173,6 +175,9 @@ without requiring other libraries
 %{_libdir}/libblockcrypto.so.*
 
 %changelog
+* Wed Dec 18 2024 Ronan Abhamon <ronan.abhamon@vates.fr> - 3.54.9-1.2
+- Add 0002-Add-an-option-to-use-backup-footer-when-vhd-util-que.patch
+
 * Tue Jun 18 2024 Samuel Verschelde <stormi-xcp@ylix.fr> - 3.54.9-1.1
 - Sync with 3.54.9-1
 - *** Upstream changelog ***
