@@ -134,35 +134,42 @@ echo '%%_opamroot %%{_libdir}/opamroot' >> "%{buildroot}%{_rpmconfigdir}/macros.
 %{_opamroot}
 
 %changelog
+* Tue Jan 21 2025 Yann Dirson <yann.dirson@vates.tech> - next
+- Reformat changelog to allow diffing with upstream
+
 * Fri Aug 09 2024 Samuel Verschelde <stormi-xcp@ylix.fr> - 6.80.0-1.1
 - Rebase on 6.80.0-1
 - *** Upstream changelog ***
-- * Wed May 22 2024 Rob Hoes <rob.hoes@cloud.com> - 6.80.0-1
-- - Add psq 0.2.1
-- * Mon May 13 2024 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.79.0-1
-- - ocaml: add 4.14.2 packages
-- - upstream: update non-breaking packages
+  * Wed May 22 2024 Rob Hoes <rob.hoes@cloud.com> - 6.80.0-1
+  - Add psq 0.2.1
+
+  * Mon May 13 2024 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.79.0-1
+  - ocaml: add 4.14.2 packages
+  - upstream: update non-breaking packages
 
 * Tue Jun 18 2024 Samuel Verschelde <stormi-xcp@ylix.fr> - 6.78.0-1.1
 - Rebase on 6.78.0-1
 - *** Upstream changelog ***
-- * Thu Mar 07 2024 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.78.0-1
-- - Add patch for rpclib to accept empty variants
-- - Non-breaking update of upstream dependencies
+  * Thu Mar 07 2024 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.78.0-1
+  - Add patch for rpclib to accept empty variants
+  - Non-breaking update of upstream dependencies
 
 * Wed Apr 10 2024 Benjamin Reis <benjamin.reis@vates.tech> - 6.77.0-1.1
 - Rebase on 6.77.0-1
 - Drop xs-opam-repo-6.74.0-metajson.XCP-ng.patch
 - *** Upstream changelog ***
-- * Wed Jan 31 2024 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.77.0-1
-- - Remove xapi-rd, xapi-inventory and xapi-stext-* packages
-- * Wed Dec 20 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.76.0-2
-- - Bump release
-- * Tue Dec 19 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.76.0-1
-- - upstream: update ocamlformat to the latest version
-- - update inotify to 2.5.0 and uri to 4.4.0
-- * Fri Nov 17 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.75.0-1
-- - xs: update xapi-rrd to 1.11.0
+  * Wed Jan 31 2024 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.77.0-1
+  - Remove xapi-rd, xapi-inventory and xapi-stext-* packages
+
+  * Wed Dec 20 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.76.0-2
+  - Bump release
+
+  * Tue Dec 19 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.76.0-1
+  - upstream: update ocamlformat to the latest version
+  - update inotify to 2.5.0 and uri to 4.4.0
+
+  * Fri Nov 17 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.75.0-1
+  - xs: update xapi-rrd to 1.11.0
 
 * Wed Feb 14 2024 Yann Dirson <yann.dirson@vates.tech> - 6.74.0-1.2
 - backport xapi-project/xen-api#5456
@@ -171,50 +178,61 @@ echo '%%_opamroot %%{_libdir}/opamroot' >> "%{buildroot}%{_rpmconfigdir}/macros.
 - Update to 6.74.0-1
 - Drop xs-opam-repo-6.72.0-fix-ipv6-uri.XCP-ng.patch, applied by XS
 - *** Upstream changelog ***
-- * Thu Nov 02 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.74.0-1
-- - xs: update xapi-stext packages to 4.23.0
-- - licenses: update package licenses
-- * Fri Oct 27 2023 Lin Liu <Lin.Liu01@cloud.com> - 6.73.0-2
-- - Build with gcc for xs9
-- * Wed Sep 27 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.73.0-1
-- - xs: update polly and qmp
-- - upstream: update many packages, there are no breaking changes
+  * Thu Nov 02 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.74.0-1
+  - xs: update xapi-stext packages to 4.23.0
+  - licenses: update package licenses
+
+  * Fri Oct 27 2023 Lin Liu <Lin.Liu01@cloud.com> - 6.73.0-2
+  - Build with gcc for xs9
+
+  * Wed Sep 27 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.73.0-1
+  - xs: update polly and qmp
+  - upstream: update many packages, there are no breaking changes
 
 * Fri Sep 22 2023 Samuel Verschelde <stormi-xcp@ylix.fr> - 6.72.0-1.1
 - Update to 6.72.0-1
 - Rediff xs-opam-repo-6.72.0-fix-ipv6-uri.XCP-ng.patch
 - *** Upstream changelog ***
-- * Tue Jul 28 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.72.0-1
-- - upstream: patch rpclib to support python3, and start using it
-- - upstream: patch uri packages to parse ipv6 addresses correctly
-- - maintenance: Fix issues spotted by the opam linter
-- * Mon Jul 17 2023 Edwin Török <edwin.torok@cloud.com> - 6.71.0-2
-- - Bump release and rebuild
-- * Tue Jul 11 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.71.0-1
-- - xs: update xapi-rrd to 1.9.2 (memory leak fix)
-- - xs: add goblint for static analysis of C stubs
-- * Mon Jul 10 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.70.0-2
-- - Remove build dependencies, they are opam's normal dependencies
-- * Wed Jun 07 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.70.0-1
-- - xs: update xapi-stdext packages
-- - upstream: remove unused dependencies, do not depend on xen
-- - xs-extra: update metadata from upstream
-- - vhd-format: move from upstream to xs-extra
-- * Tue Jun 06 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.69.0-2
-- - Bump release and rebuild
-- * Fri May 05 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.69.0-1
-- - ocaml: Use correct file contents in ocaml-system.4.14.1
-- - upstream: Remove old ocamlformat and odoc-parser
-- * Mon Apr 24 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.68.0-1
-- - xs: do not package ezxenstore, it's a part of xen-api
-- - ocaml: add 4.14
-- * Wed Mar 22 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.67.0-1
-- - xs: xenctrl.dummy: do not rsync Xen packages we do not use
-- - Make xs-opam self-consistent and able to run unit tests
-- - upstream: enforce only known licenses
-- - upstream: update dune packages to 3.7.0
-- * Fri Jul 07 2023 Benjamin Reis <benjamin.reis@vates.fr> - 6.66.0-1.2
-- - Patch `ocaml-uri` for IPv6 URI parsing
+  * Tue Jul 28 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.72.0-1
+  - upstream: patch rpclib to support python3, and start using it
+  - upstream: patch uri packages to parse ipv6 addresses correctly
+  - maintenance: Fix issues spotted by the opam linter
+
+  * Mon Jul 17 2023 Edwin Török <edwin.torok@cloud.com> - 6.71.0-2
+  - Bump release and rebuild
+
+  * Tue Jul 11 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.71.0-1
+  - xs: update xapi-rrd to 1.9.2 (memory leak fix)
+  - xs: add goblint for static analysis of C stubs
+
+  * Mon Jul 10 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.70.0-2
+  - Remove build dependencies, they are opam's normal dependencies
+
+  * Wed Jun 07 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.70.0-1
+  - xs: update xapi-stdext packages
+  - upstream: remove unused dependencies, do not depend on xen
+  - xs-extra: update metadata from upstream
+  - vhd-format: move from upstream to xs-extra
+
+  * Tue Jun 06 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.69.0-2
+  - Bump release and rebuild
+
+  * Fri May 05 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.69.0-1
+  - ocaml: Use correct file contents in ocaml-system.4.14.1
+  - upstream: Remove old ocamlformat and odoc-parser
+
+  * Mon Apr 24 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.68.0-1
+  - xs: do not package ezxenstore, it's a part of xen-api
+  - ocaml: add 4.14
+
+  * Wed Mar 22 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.67.0-1
+  - xs: xenctrl.dummy: do not rsync Xen packages we do not use
+  - Make xs-opam self-consistent and able to run unit tests
+  - upstream: enforce only known licenses
+  - upstream: update dune packages to 3.7.0
+
+  * Fri Jul 07 2023 Benjamin Reis <benjamin.reis@vates.fr> - 6.66.0-1.2
+  - Patch `ocaml-uri` for IPv6 URI parsing
 
 * Thu Mar 16 2023 Samuel Verschelde <stormi-xcp@ylix.fr> - 6.66.0-1.1
 - Remove dlm, which is only required by proprietary xapi-clusterd
