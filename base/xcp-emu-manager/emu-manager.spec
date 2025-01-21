@@ -4,7 +4,7 @@
 
 Name:           xcp-emu-manager
 Version:        1.2.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Tool used for managing xenguest
 License:        GPLv3
 URL:            https://github.com/xcp-ng/xcp-emu-manager
@@ -16,6 +16,8 @@ BuildRequires:  gcc
 BuildRequires:  json-c-devel
 BuildRequires:  libempserver-devel
 BuildRequires:  xcp-ng-generic-lib-devel
+# Ensure _vpath_builddir is defined
+BuildRequires:  epel-rpm-macros
 
 Provides: emu-manager
 Obsoletes: emu-manager
@@ -29,19 +31,21 @@ Handles suspend, resume and migrate.
 %autosetup -p1
 
 %build
-mkdir build
-cd build
-%cmake3 ..
+%cmake3
+cd %{_vpath_builddir}
 make
 
 %install
-cd build
+cd %{_vpath_builddir}
 %make_install
 
 %files
 %{_libdir}/xen/bin/emu-manager
 
 %changelog
+* Tue Jan 21 2025 Thierry Escande <thierry.escande@vates.tech> - 1.2.0-2
+- Fix build that was failing because of cmake3 update
+
 * Fri Oct 21 2022 Ronan Abhamon <ronan.abhamon@vates.fr> - 1.2.0-1
 - New version 1.2.0
 - Correctly report error codes when opening an emu stream using a non-sock file
