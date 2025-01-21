@@ -193,7 +193,7 @@ echo '%%_opamroot %%{_libdir}/opamroot' >> "%{buildroot}%{_rpmconfigdir}/macros.
 - Update to 6.72.0-1
 - Rediff xs-opam-repo-6.72.0-fix-ipv6-uri.XCP-ng.patch
 - *** Upstream changelog ***
-  * Tue Jul 28 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.72.0-1
+  * Fri Jul 28 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.72.0-1
   - upstream: patch rpclib to support python3, and start using it
   - upstream: patch uri packages to parse ipv6 addresses correctly
   - maintenance: Fix issues spotted by the opam linter
@@ -231,8 +231,8 @@ echo '%%_opamroot %%{_libdir}/opamroot' >> "%{buildroot}%{_rpmconfigdir}/macros.
   - upstream: enforce only known licenses
   - upstream: update dune packages to 3.7.0
 
-  * Fri Jul 07 2023 Benjamin Reis <benjamin.reis@vates.fr> - 6.66.0-1.2
-  - Patch `ocaml-uri` for IPv6 URI parsing
+* Fri Jul 07 2023 Benjamin Reis <benjamin.reis@vates.fr> - 6.66.0-1.2
+- Patch `ocaml-uri` for IPv6 URI parsing
 
 * Thu Mar 16 2023 Samuel Verschelde <stormi-xcp@ylix.fr> - 6.66.0-1.1
 - Remove dlm, which is only required by proprietary xapi-clusterd
