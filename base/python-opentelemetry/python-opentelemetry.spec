@@ -1,3 +1,17 @@
+## XCP-ng: pycached macro definition adapted from fc30
+%define pycached() %{lua:
+  path = rpm.expand("%{?1}")
+  if (string.sub(path, "-3") ~= ".py") then
+    rpm.expand("%{error:%%pycached can only be used with paths explicitly ending with .py}")
+  else
+    print(path)
+    pyminor = path:match("/python3.(%d+)/") or "*"
+    dirname = path:match("(.*/)")
+    modulename = path:match(".*/([^/]+).py")
+    print("\\n" .. dirname .. "__pycache__/" .. modulename .. ".cpython-3" .. pyminor .. "*.pyc")
+  end
+}
+
 # See eachdist.ini:
 %global stable_version 1.12.0
 %global prerel_version 0.33~b0
