@@ -671,7 +671,7 @@ This package provides documentation for python-opentelemetry.
 
 # Fix a test that shells out to the unversioned Python command. This is OK
 # upstream, but not in Fedora.
-sed -r -i 's|shutil\.which\("python"\)|"%{python3}"|' \
+sed -r -i 's|shutil\.which\("python"\)|"%{__python3}"|' \
     opentelemetry-sdk/tests/trace/test_trace.py
 
 # Drop intersphinx mappings, since we can’t download remote inventories and
@@ -715,7 +715,7 @@ for pkg in \
 do
   pushd "${pkg}"
   %py3_build
-  %{python3} %{py_setup} %{?py_setup_args} install \
+  %{__python3} %{py_setup} %{?py_setup_args} install \
       -O1 --skip-build --root "${PYROOT}"
   popd
 done
