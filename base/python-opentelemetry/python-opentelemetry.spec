@@ -73,15 +73,8 @@ BuildRequires:  latexmk
 # docs-requirements.txt: ddtrace>=0.34.0
 # (mentioned in a README but does not seem to actually be used anywhere)
 
-# docs-requirements.txt: # Required by instrumentation and exporter packages
-# docs-requirements.txt: django>=2.2
-BuildRequires:  %{py3_dist django} >= 2.2
-
 # dev-requirements.txt: flake8~=3.7
 # (formatters/linters/typecheckers/coverage omitted)
-
-# tox.ini testenv.deps: opentelemetry: flaky
-BuildRequires:  %{py3_dist flaky}
 
 # dev-requirements.txt: grpcio-tools==1.29.0
 # (needed only if we run scripts/proto_codegen.sh)
@@ -98,12 +91,6 @@ BuildRequires:  %{py3_dist flaky}
 # dev-requirements.txt: mypy==0.812
 # (formatters/linters/typecheckers/coverage omitted)
 
-# dev-requirements.txt: protobuf>=3.13.0
-# opentelemetry-proto install_requires: protobuf>=3.13.0
-# opentelemetry-exporter-opencensus install_requires: protobuf >= 3.13.0
-# opentelemetry-exporter-zipkin-proto-http install_requires: protobuf >= 3.12
-BuildRequires:  %{py3_dist protobuf} >= 3.18.1
-
 # dev-requirements.txt: pylint==2.7.1
 # (formatters/linters/typecheckers/coverage omitted)
 
@@ -112,36 +99,10 @@ BuildRequires:  %{py3_dist protobuf} >= 3.18.1
 
 # dev-requirements.txt: pytest>=6.0
 # tox.ini testenv.deps: test: pytest
-BuildRequires:  %{py3_dist pytest} >= 6.0
-
-# tox.ini testenv.deps: test: pytest-benchmark
-BuildRequires:  %{py3_dist pytest-benchmark}
+BuildRequires:  pytest
 
 # dev-requirements.txt: readme-renderer~=24.0
 # (does not seem to actually be used anywhere)
-
-# opentelemetry-exporter-zipkin-json install_requires: requests ~= 2.7
-# opentelemetry-exporter-zipkin-proto-http install_requires: requests ~= 2.7
-# opentelemetry-exporter-otlp-proto-http install_requires: requests ~= 2.7
-BuildRequires: %{py3_dist requests} >= 2.7
-BuildRequires: %{py3_dist requests} < 3.0
-
-# dev-requirements.txt: sphinx-autodoc-typehints~=1.12.0
-# docs-requirements.txt: sphinx-autodoc-typehints~=1.12.0
-# NOTE: We must loosen this to allow sphinx-autodoc-typehints~=1.12.
-BuildRequires: %{py3_dist sphinx-autodoc-typehints} >= 1.12.0
-BuildRequires: %{py3_dist sphinx-autodoc-typehints} < 2.0
-
-# dev-requirements.txt: sphinx-rtd-theme~=0.5
-# docs-requirements.txt: sphinx-rtd-theme~=0.5
-# NOTE: We must loosen this to allow sphinx-rtd-theme~=1.0.
-# HOWEVER: we do not build the HTML documentation, so we can do without.
-
-# dev-requirements.txt: sphinx~=3.5.4
-# docs-requirements.txt: sphinx~=3.5.4
-# NOTE: We must loosen this to allow Sphinx 3.6+ and 4.x.
-BuildRequires: %{py3_dist sphinx} >= 3.5.4
-BuildRequires: %{py3_dist sphinx} < 5.0
 
 # docs-requirements.txt: # used to generate docs for the website
 # docs-requirements.txt: sphinx-jekyll-builder
