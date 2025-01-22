@@ -22,7 +22,7 @@
 # https://bugzilla.redhat.com/show_bug.cgi?id=2006555 for discussion.
 #
 # We can generate PDF documentation as a substitute.
-%bcond_without doc_pdf
+%bcond_with doc_pdf
 
 Name:           python-opentelemetry
 Version:        %{stable_version}
