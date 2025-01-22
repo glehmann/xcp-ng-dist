@@ -411,8 +411,6 @@ the OpenTelemetry specification.
 sed -r -i 's/(googleapis-common-protos.*), <.*/\1/' \
     exporter/opentelemetry-exporter-jaeger-proto-grpc/setup.cfg
 
-%py3_shebang_fix .
-
 # Fix a test that shells out to the unversioned Python command. This is OK
 # upstream, but not in Fedora.
 sed -r -i 's|shutil\.which\("python"\)|"%{__python3}"|' \
