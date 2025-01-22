@@ -26,7 +26,7 @@
 
 Name:           python-opentelemetry
 Version:        %{stable_version}
-Release:        %autorelease
+Release:        1
 Summary:        OpenTelemetry Python API and SDK
 
 License:        ASL 2.0
@@ -1114,4 +1114,7 @@ done
 
 
 %changelog
-%autochangelog
+* Wed Jan 22 2025 Yann Dirson <yann.dirson@vates.tech> - 1.10.0-1
+- Backport to el7, based on fc36 package
+- Back to old layout
+- Nuke the '(Build)Requires: ... with ...' syntax
