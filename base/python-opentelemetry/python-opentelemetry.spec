@@ -219,6 +219,8 @@ OpenTelemetry Python API and SDK.}
 Summary:        Zipkin Span JSON Exporter for OpenTelemetry
 Version:        %{stable_version}
 
+Requires:       python3-requests
+
 # Dependencies across subpackages should be fully-versioned. See comments
 # following BuildRequires for a tabulation of such interdependencies.
 Requires:       python3-opentelemetry-api = %{stable_version}-%{release}
@@ -232,6 +234,10 @@ JSON for serialization.
 %package -n python3-opentelemetry-exporter-zipkin-proto-http
 Summary:        Zipkin Span Protobuf Exporter for OpenTelemetry
 Version:        %{stable_version}
+
+#Missing?Requires:       python3-protobuf
+Requires:       python3-requests
+Requires:       python3-typing-extensions
 
 # Dependencies across subpackages should be fully-versioned. See comments
 # following BuildRequires for a tabulation of such interdependencies.
@@ -271,6 +277,13 @@ once they've determined their preferred serialization method.
 %package -n python3-opentelemetry-api
 Summary:        OpenTelemetry Python API
 Version:        %{stable_version}
+
+Requires:       python-aiocontextvars
+Requires:       python3-contextvars
+Requires:       python3-deprecated
+Requires:       python3-requests
+Requires:       python3-typing-extensions
+#XSRequires:       python3-zstd
 
 # Note that the huge number of instrumentation packages are released in
 # https://github.com/open-telemetry/opentelemetry-python-contrib and are not
@@ -341,6 +354,10 @@ Obsoletes:      python3-opentelemetry-distro+otlp < 0.25~b1.1
 %package -n python3-opentelemetry-sdk
 Summary:        OpenTelemetry Python SDK
 Version:        %{stable_version}
+
+#Missing?Requires:       python3-dataclasses
+Requires:       python3-typing-extensions
+Requires:       python3-deprecated
 
 # Dependencies across subpackages should be fully-versioned. See comments
 # following BuildRequires for a tabulation of such interdependencies.
