@@ -55,7 +55,7 @@ BuildRequires:  python3-devel
 # opentelemetry-exporter-opencensus install_requires: setuptools >= 16.0
 # opentelemetry-api install_requires: setuptools >= 16.0
 # opentelemetry-sdk install_requires: setuptools >= 16.0
-BuildRequires:  %{py3_dist setuptools} >= 16.0
+BuildRequires:  python3-setuptools >= 16.0
 
 # Documentation
 %if %{with doc_pdf}
@@ -111,7 +111,7 @@ BuildRequires:  latexmk
 
 # docs-requirements.txt: # Required by instrumentation and exporter packages
 # opentelemetry-sdk install_requires: typing-extensions >= 3.7.4
-BuildRequires:  %{py3_dist typing-extensions} >= 3.7.4
+BuildRequires:  python3-typing-extensions >= 3.7.4
 
 # docs-requirements.txt: # Required by instrumentation and exporter packages
 # docs-requirements.txt: wrapt>=1.0.0,<2.0.0
