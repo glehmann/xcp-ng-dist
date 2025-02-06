@@ -1,6 +1,6 @@
-%global package_speccommit aa20fa170b47573c878f6eb7d97afa422e5edc67
+%global package_speccommit d14b7716009e21986306201bc30bb9d9e90a1380
 %global usver 4.2.1
-%global xsver 5.2.10
+%global xsver 5.2.12
 %global xsrel %{xsver}%{?xscount}%{?xshash}
 %global package_srccommit v4.2.1
 
@@ -231,6 +231,14 @@ cp -r scripts/qmp %{buildroot}%{_datarootdir}/qemu
 %{?_cov_results_package}
 
 %changelog
+* Thu Feb 13 2025 Yann Dirson <yann.dirson@vates.tech> - 4.2.1-5.2.12.1
+- Sync with xs8 4.2.1-5.2.12, no code change, only rebuild against libjemalloc.so.2:
+  * Fri Aug 02 2024 Stephen Cheng <stephen.cheng@cloud.com> - 4.2.1-5.2.12
+  - CP-46112: Rebuild after new version of jemalloc
+  
+  * Fri Aug 02 2024 Stephen Cheng <stephen.cheng@cloud.com> - 4.2.1-5.2.11
+  - CP-46112: Rebuild with new version of jemalloc
+
 * Tue Feb 11 2025 Lucas Ravagnier <lucas.ravagnier@vates.tech> - 4.2.1-5.2.10.1
 - Add qemu-4.2.1-CVE-2023-3354.backport.patch to fix CVE-2023-3354
 
