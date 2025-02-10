@@ -15,7 +15,7 @@ Summary: qemu-dm device model
 Name: qemu
 Epoch: 2
 Version: 4.2.1
-Release: %{?xsrel}%{?dist}
+Release: %{?xsrel}.1%{?dist}
 License: GPL
 Requires: xcp-clipboardd
 Requires: xengt-userspace
@@ -141,6 +141,10 @@ Patch113: build-configuration.patch
 Patch114: 0001-CP-46162-Resolve-the-Null-pointer-error-in-configure.patch
 Patch115: 81ef3d06c970c6b7ae4971ad552b2287af376f43.patch
 Patch116: msix_pba_log.patch
+
+# XCP-ng patches
+Patch1000: qemu-4.2.1-CVE-2023-3354.backport.patch
+
 BuildRequires: python3-devel
 BuildRequires: libaio-devel glib2-devel
 BuildRequires: libjpeg-devel libpng-devel pixman-devel xenserver-libdrm-devel
@@ -227,6 +231,9 @@ cp -r scripts/qmp %{buildroot}%{_datarootdir}/qemu
 %{?_cov_results_package}
 
 %changelog
+* Tue Feb 11 2025 Lucas Ravagnier <lucas.ravagnier@vates.tech> - 4.2.1-5.2.10.1
+- Add qemu-4.2.1-CVE-2023-3354.backport.patch to fix CVE-2023-3354
+
 * Tue Jun 04 2024 Frediano Ziglio <frediano.ziglio@cloud.com> - 4.2.1-5.2.10
 - CP-46254: Make PCI passthrough work in lockdown mode
 
