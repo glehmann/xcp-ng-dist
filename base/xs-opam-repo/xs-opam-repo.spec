@@ -73,7 +73,7 @@ Toolstack components of the Citrix Hypervisor.
 %prep
 %autosetup -p1 -n xs-opam-repo-%{_version_full}
 # XCP-ng: remove dlm, which is only required by proprietary xapi-clusterd
-rm -rf packages/dlm/dlm.*
+rm -r packages/dlm/dlm.*
 
 %build
 
@@ -128,6 +128,7 @@ echo '%%_opamroot %%{_libdir}/opamroot' >> "%{buildroot}%{_rpmconfigdir}/macros.
 * Tue Jan 21 2025 Yann Dirson <yann.dirson@vates.tech> - 6.86.0-1.1
 - Update to 6.86.0-1
 - Refresh removal of dlm package (location changed in source tree)
+- Don't pass "-f" to "rm" while removing packages, to better catch upstream changes
 - Reformat changelog to allow diffing with upstream
 - Upstream changelog:
   * Wed Oct 09 2024 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.86.0-1
