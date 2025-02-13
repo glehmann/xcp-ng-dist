@@ -98,7 +98,7 @@ mkdir -p %{buildroot}/etc/profile.d
 mkdir -p %{buildroot}%{_opamroot}
 echo 'export OPAMROOT=%{_opamroot}' > %{buildroot}/etc/profile.d/opam.sh
 echo 'eval `opam config env`' >> %{buildroot}/etc/profile.d/opam.sh
-echo 'export OCAMLPATH=%{_libdir/ocaml}' >> %{buildroot}/etc/profile.d/opam.sh
+echo 'export OCAMLPATH=%{_libdir}/ocaml' >> %{buildroot}/etc/profile.d/opam.sh
 %if 0%{?xenserver} < 9
 echo 'source /opt/rh/devtoolset-11/enable' >> %{buildroot}/etc/profile.d/opam.sh
 %endif
@@ -129,6 +129,7 @@ echo '%%_opamroot %%{_libdir}/opamroot' >> "%{buildroot}%{_rpmconfigdir}/macros.
 - Update to 6.86.0-1
 - Refresh removal of dlm package (location changed in source tree)
 - Don't pass "-f" to "rm" while removing packages, to better catch upstream changes
+- Fix typo generating /etc/profile.d/opam.sh
 - Reformat changelog to allow diffing with upstream
 - Upstream changelog:
   * Wed Oct 09 2024 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.86.0-1
