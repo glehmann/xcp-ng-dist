@@ -75,6 +75,7 @@ Patch42: add-debugging-info.patch
 
 # XCP-ng patches
 Patch1001: UefiCpuPkg-CpuMpPei-Workaround-page-table-allocation.patch
+Patch1002: 0001-OvmfPkg-XenPlatformPei-Allocate-more-memory-when-PEI.patch
 
 %if 0%{?xenserver} < 9
 BuildRequires: devtoolset-11-binutils
