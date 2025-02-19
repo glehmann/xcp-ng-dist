@@ -1,0 +1,55 @@
+From 33cb33d449928e50eb7aa2fa34f1bdae9a6c40b2 Mon Sep 17 00:00:00 2001
+From: Anthony PERARD <anthony.perard@vates.tech>
+Date: Mon, 17 Feb 2025 16:05:48 +0100
+Subject: [PATCH 1/1] OvmfPkg/XenPlatformPei: Allocate more memory when PEI FV
+ is shadowed
+
+Patch "OVMF: Shadow PEI for consistent measurements" make a pristine
+copy of the PEI FV and create a Migrated FV Info HOB. This lead to the
+allocation of a second set of 1:1 page tables. Sometime, there's not
+enough space for that second set, so allocate space for it.
+
+Usually, the page tables don't take much space and can fit in the
+extra 64MB of miscellaneous allocation. But in some case, like a
+machine that don't report 1GB page support, we are going to need a lot
+more pages to map a machine with a physical memory address width of 45
+with only 2MB page.
+
+This second set of 1:1 mapping is created by
+MemoryDiscoveredPpiNotifyCallback() in UefiCpuPkg/CpuMpPei module when
+there's a MigrateFvInfo HOB.
+
+This patch isn't needed upstream as commit 56ad09ba75be
+("UefiCpuPkg/CpuMpPei: Conditionally enable PAE paging in 32bit mode")
+changed when the page table is created, and mean no more second set of
+1:1 page tables.
+
+Signed-off-by: Anthony PERARD <anthony.perard@vates.tech>
+---
+ OvmfPkg/XenPlatformPei/MemDetect.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/OvmfPkg/XenPlatformPei/MemDetect.c b/OvmfPkg/XenPlatformPei/MemDetect.c
+index d412d1f4db6f..0ecddf5d963c 100644
+--- a/OvmfPkg/XenPlatformPei/MemDetect.c
++++ b/OvmfPkg/XenPlatformPei/MemDetect.c
+@@ -256,6 +256,16 @@ GetPeiMemoryCap (
+                (PdpEntries + 1) * Pml4Entries + 1;
+   ASSERT (TotalPages <= 0x40201);
+ 
++  //
++  // If PcdOvmfShadowPeiBase is set, we create a gEdkiiMigratedFvInfoGuid
++  // in XenPlatformPei. This lead to the creation of a second set of page
++  // tables in MemoryDiscoveredPpiNotifyCallback() in CpuMpPei. Allocate
++  // space for it.
++  //
++  if (PcdGet32 (PcdOvmfShadowPeiBase)) {
++    TotalPages *= 2;
++  }
++
+   //
+   // Add 64 MB for miscellaneous allocations. Note that for
+   // mPhysMemAddressWidth values close to 36, the cap will actually be
+-- 
+Anthony PERARD
+
