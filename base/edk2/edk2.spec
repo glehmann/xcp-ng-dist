@@ -20,7 +20,7 @@
 Name: edk2
 Summary: EFI Development Kit II
 Version: 20220801
-Release: %{?xsrel}.1%{?dist}
+Release: %{?xsrel}.2%{?dist}
 
 License: BSD and MIT
 URL: https://github.com/tianocore/edk2
@@ -194,6 +194,9 @@ cp OvmfPkg/License.txt License.ovmf
 
 
 %changelog
+* Wed Feb 26 2025 anthony.perard@vates.tech - 20220801-1.7.7.2
+- Fix for ENOMEM error when allocating page tables.
+
 * Fri Aug 09 2024 Samuel Verschelde <stormi-xcp@ylix.fr> - 20220801-1.7.7.1
 - Sync with 20220801-1.7.7
 - *** Upstream changelog ***
