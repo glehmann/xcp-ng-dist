@@ -1,6 +1,6 @@
 Summary: XAPI additional plugins for XCP-ng
 Name: xcp-ng-xapi-plugins
-Version: 1.11.0
+Version: 1.12.0
 Release: 1%{?dist}
 URL: https://github.com/xcp-ng/xcp-ng-xapi-plugins
 Source0: https://github.com/xcp-ng/xcp-ng-xapi-plugins/archive/v%{version}/%{name}-%{version}.tar.gz
@@ -32,6 +32,9 @@ install SOURCES/etc/xapi.d/plugins/xcpngutils/*.py %{buildroot}/etc/xapi.d/plugi
 %dir /var/lib/xcp-ng-xapi-plugins
 
 %changelog
+* Thu Feb 27 2025 Ronan Abhamon <ronan.abhamon@vates.tech> - 1.12.0-1
+- Add new service plugin
+
 * Tue Feb 04 2025 Guillaume Thouvenin <guillaume.thouvenin@vates.tech> - 1.11.0-1
 - Update smartctl plugin to report status about megaraid devices.
 - Add a new ipmitool plugin to get information from ipmitool.
