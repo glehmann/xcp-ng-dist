@@ -1,0 +1,34 @@
+From 089e89b46a98284c0495fd9b217c109906523649 Mon Sep 17 00:00:00 2001
+From: Stephen Cheng <stephen.cheng@cloud.com>
+Date: Mon, 29 Jul 2024 05:10:13 +0100
+Subject: [PATCH] CP-46112: Fix gcc warning of `return-type`
+
+This fix is from upsream:
+fb2bedcff3ab30ca2a4bed1aa821d1b1c8f9cfae
+
+Signed-off-by: Stephen Cheng <stephen.cheng@cloud.com>
+---
+ src/arch/i386/include/setjmp.h | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/src/arch/i386/include/setjmp.h b/src/arch/i386/include/setjmp.h
+index 5d3c11b6..a5e52585 100644
+--- a/src/arch/i386/include/setjmp.h
++++ b/src/arch/i386/include/setjmp.h
+@@ -23,8 +23,11 @@ typedef struct {
+ 	uint16_t rm_sp;
+ } rmjmp_buf[1];
+ 
+-extern int __asmcall setjmp ( jmp_buf env );
+-extern void __asmcall longjmp ( jmp_buf env, int val );
++extern int __asmcall __attribute__ (( returns_twice ))
++setjmp ( jmp_buf env );
++
++extern void __asmcall __attribute__ (( noreturn ))
++longjmp ( jmp_buf env, int val );
+ 
+ #define rmsetjmp( _env ) ( {			\
+ 	(_env)->rm_ss = rm_ss;			\
+-- 
+2.45.1
+

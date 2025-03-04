@@ -1,0 +1,27 @@
+From a5885fbc19c4b60dc1a21624d1a9d1b77a93504e Mon Sep 17 00:00:00 2001
+From: Michael Brown <mcb30@ipxe.org>
+Date: Wed, 4 May 2016 15:58:14 +0100
+Subject: [PATCH] [legacy] Fix building with GCC 6
+
+Signed-off-by: Michael Brown <mcb30@ipxe.org>
+---
+ src/include/nic.h | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/src/include/nic.h b/src/include/nic.h
+index 4c91f57a..8b06e88f 100644
+--- a/src/include/nic.h
++++ b/src/include/nic.h
+@@ -209,7 +209,8 @@ static inline void * legacy_isa_get_drvdata ( void *hwdev ) {
+ 
+ #undef DRIVER
+ #define DRIVER(_name_text,_unused2,_unused3,_name,_probe,_disable)	  \
+-	static const char _name ## _text[] = _name_text;		  \
++	static __attribute__ (( unused )) const char			  \
++	_name ## _text[] = _name_text;					  \
+ 	static inline int						  \
+ 	_name ## _probe ( struct nic *nic, void *hwdev ) {		  \
+ 		return _probe ( nic, hwdev );				  \
+-- 
+2.45.1
+
