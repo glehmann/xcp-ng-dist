@@ -1,0 +1,34 @@
+From 76338543f9e48833e7c634d947a7ae278f38aef9 Mon Sep 17 00:00:00 2001
+From: Michael Brown <mcb30@ipxe.org>
+Date: Tue, 28 Jul 2015 14:11:35 +0100
+Subject: [PATCH] [iscsi] Add missing "break" statements
+
+iscsi_tx_done() is missing "break" statements at the end of each case.
+(Fortunately, this happens not to cause a bug in practice, since
+iscsi_login_request_done() is effectively a no-op when completing a
+data-out PDU.)
+
+Reported-by: Wissam Shoukair <wissams@mellanox.com>
+Signed-off-by: Michael Brown <mcb30@ipxe.org>
+---
+ src/net/tcp/iscsi.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/src/net/tcp/iscsi.c b/src/net/tcp/iscsi.c
+index 0099bf5b..019a4c14 100644
+--- a/src/net/tcp/iscsi.c
++++ b/src/net/tcp/iscsi.c
+@@ -1439,8 +1439,10 @@ static void iscsi_tx_done ( struct iscsi_session *iscsi ) {
+ 	switch ( common->opcode & ISCSI_OPCODE_MASK ) {
+ 	case ISCSI_OPCODE_DATA_OUT:
+ 		iscsi_data_out_done ( iscsi );
++		break;
+ 	case ISCSI_OPCODE_LOGIN_REQUEST:
+ 		iscsi_login_request_done ( iscsi );
++		break;
+ 	default:
+ 		/* No action */
+ 		break;
+-- 
+2.45.1
+

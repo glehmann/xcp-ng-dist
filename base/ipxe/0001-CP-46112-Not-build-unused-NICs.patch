@@ -1,0 +1,56 @@
+From 213ec5e7cd6a6254896b51379609983da31b0e6d Mon Sep 17 00:00:00 2001
+From: Stephen Cheng <stephen.cheng@cloud.com>
+Date: Fri, 2 Aug 2024 03:50:19 +0100
+Subject: [PATCH] CP-46112: Not build unused NICs
+
+Signed-off-by: Stephen Cheng <stephen.cheng@cloud.com>
+---
+ src/Makefile | 24 +++++++++++++++---------
+ 1 file changed, 15 insertions(+), 9 deletions(-)
+
+diff --git a/src/Makefile b/src/Makefile
+index a061f834..4f88c79e 100644
+--- a/src/Makefile
++++ b/src/Makefile
+@@ -66,16 +66,7 @@ SRCDIRS		+= drivers/bus
+ SRCDIRS		+= drivers/net
+ SRCDIRS		+= drivers/net/e1000
+ SRCDIRS		+= drivers/net/e1000e
+-SRCDIRS		+= drivers/net/igb
+-SRCDIRS		+= drivers/net/igbvf
+-SRCDIRS		+= drivers/net/phantom
+-SRCDIRS		+= drivers/net/rtl818x
+-SRCDIRS		+= drivers/net/ath
+-SRCDIRS		+= drivers/net/ath/ath5k
+-SRCDIRS		+= drivers/net/ath/ath9k
+-SRCDIRS		+= drivers/net/vxge
+ SRCDIRS		+= drivers/net/efi
+-SRCDIRS		+= drivers/net/tg3
+ SRCDIRS		+= drivers/block
+ SRCDIRS		+= drivers/nvs
+ SRCDIRS		+= drivers/bitbash
+@@ -90,6 +81,21 @@ SRCDIRS		+= hci/keymap
+ SRCDIRS		+= usr
+ SRCDIRS		+= config
+ 
++# Remove multiple directories from SRCDIRS
++# We only use rtl8139 NIC (realtek.c), no need to build other NICs
++REMOVED_SRCDIRS := $(SRCDIRS)
++SRCDIRS := $(filter-out \
++	drivers/net/igb \
++	drivers/net/igbvf \
++	drivers/net/phantom \
++	drivers/net/rtl818x \
++	drivers/net/ath \
++	drivers/net/ath/ath5k \
++	drivers/net/ath/ath9k \
++	drivers/net/vxge \
++	drivers/net/tg3, \
++	$(REMOVED_SRCDIRS))
++
+ # NON_AUTO_SRCS lists files that are excluded from the normal
+ # automatic build system.
+ #
+-- 
+2.45.1
+

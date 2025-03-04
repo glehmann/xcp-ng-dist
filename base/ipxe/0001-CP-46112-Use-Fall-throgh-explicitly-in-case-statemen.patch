@@ -1,0 +1,25 @@
+From ac2dd79d72b5f7a31b2ee9769a5c47a764425917 Mon Sep 17 00:00:00 2001
+From: Stephen Cheng <stephen.cheng@cloud.com>
+Date: Mon, 29 Jul 2024 04:22:57 +0100
+Subject: [PATCH] CP-46112: Use `Fall throgh` explicitly in case statement
+
+Signed-off-by: Stephen Cheng <stephen.cheng@cloud.com>
+---
+ src/arch/i386/interface/pxe/pxe_undi.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/src/arch/i386/interface/pxe/pxe_undi.c b/src/arch/i386/interface/pxe/pxe_undi.c
+index b102759f..49d00f0f 100644
+--- a/src/arch/i386/interface/pxe/pxe_undi.c
++++ b/src/arch/i386/interface/pxe/pxe_undi.c
+@@ -960,6 +960,7 @@ static PXENV_EXIT_t pxenv_undi_isr ( struct s_PXENV_UNDI_ISR *undi_isr ) {
+ 			break;
+ 		}
+ 		/* NOTE fall through if (!running_pvs_nbp) */
++		/* fall through */
+ 
+ 	case PXENV_UNDI_ISR_IN_PROCESS :
+ 		DBGC2 ( &pxenv_undi_isr, " %s",
+-- 
+2.45.1
+

@@ -1,0 +1,28 @@
+From 6d87cb0b088c0ded64edbbc5c8ff433cfecce8a0 Mon Sep 17 00:00:00 2001
+From: Stephen Cheng <stephen.cheng@cloud.com>
+Date: Thu, 25 Jul 2024 10:32:24 +0100
+Subject: [PATCH] CP-46112: Fix gcc warnings for `unused variable`
+
+Signed-off-by: Stephen Cheng <stephen.cheng@cloud.com>
+---
+ src/drivers/net/via-velocity.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/src/drivers/net/via-velocity.c b/src/drivers/net/via-velocity.c
+index f50b1590..85abcdca 100644
+--- a/src/drivers/net/via-velocity.c
++++ b/src/drivers/net/via-velocity.c
+@@ -70,7 +70,9 @@ static u32 BASE;
+ 
+ /* NIC specific static variables go here */
+ #define VELOCITY_PARAM(N,D) \
+-        static const int N[MAX_UNITS]=OPTION_DEFAULT;
++        static const int N[MAX_UNITS] = OPTION_DEFAULT; \
++        static const int* __attribute__((unused)) unused_##N = N; \
++        static const char* __attribute__((unused)) unused_string_##N = D;
+ /*        MODULE_PARM(N, "1-" __MODULE_STRING(MAX_UNITS) "i");\
+         MODULE_PARM_DESC(N, D); */
+ 
+-- 
+2.45.1
+

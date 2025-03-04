@@ -1,6 +1,6 @@
-From 66ea4581256449fe9dcb26340851c09ffd9d6290 Mon Sep 17 00:00:00 2001
+From 0012fb93fad954241e62c356536f686e40d305f0 Mon Sep 17 00:00:00 2001
 From: Michael Brown <mcb30@ipxe.org>
-Date: Sat, 13 Jul 2013 15:06:20 +0200
+Date: Thu, 25 Jul 2024 06:02:11 +0100
 Subject: [PATCH] [settings] Make "netX" settings block function as a symbolic
  link
 
@@ -16,18 +16,18 @@ improve conformance to the principle of least astonishment.
 
 Signed-off-by: Michael Brown <mcb30@ipxe.org>
 ---
- src/core/settings.c         |   73 +++++++++++++++++++++++++++++-------------
- src/hci/tui/settings_ui.c   |    2 +-
- src/include/ipxe/settings.h |    7 ++++
- src/net/netdev_settings.c   |   49 +++++++++++++++++++++++++++++
+ src/core/settings.c         | 73 +++++++++++++++++++++++++------------
+ src/hci/tui/settings_ui.c   |  2 +-
+ src/include/ipxe/settings.h |  7 ++++
+ src/net/netdev_settings.c   | 49 +++++++++++++++++++++++++
  4 files changed, 107 insertions(+), 24 deletions(-)
 
 diff --git a/src/core/settings.c b/src/core/settings.c
-index 927ad84..80cd6a9 100644
+index 20b7f949..5aa44c0d 100644
 --- a/src/core/settings.c
 +++ b/src/core/settings.c
-@@ -271,6 +271,9 @@ struct settings * find_child_settings ( struct settings *parent,
- 					const char *name ) {
+@@ -269,6 +269,9 @@ static struct settings * find_child_settings ( struct settings *parent,
+ 					       const char *name ) {
  	struct settings *settings;
  
 +	/* Find target parent settings block */
@@ -36,7 +36,7 @@ index 927ad84..80cd6a9 100644
  	/* Treat empty name as meaning "this block" */
  	if ( ! *name )
  		return parent;
-@@ -278,7 +281,7 @@ struct settings * find_child_settings ( struct settings *parent,
+@@ -276,7 +279,7 @@ static struct settings * find_child_settings ( struct settings *parent,
  	/* Look for child with matching name */
  	list_for_each_entry ( settings, &parent->children, siblings ) {
  		if ( strcmp ( settings->name, name ) == 0 )
@@ -45,7 +45,7 @@ index 927ad84..80cd6a9 100644
  	}
  
  	return NULL;
-@@ -299,6 +302,9 @@ static struct settings * autovivify_child_settings ( struct settings *parent,
+@@ -297,6 +300,9 @@ static struct settings * autovivify_child_settings ( struct settings *parent,
  	} *new_child;
  	struct settings *settings;
  
@@ -55,7 +55,7 @@ index 927ad84..80cd6a9 100644
  	/* Return existing settings, if existent */
  	if ( ( settings = find_child_settings ( parent, name ) ) != NULL )
  		return settings;
-@@ -330,6 +336,10 @@ const char * settings_name ( struct settings *settings ) {
+@@ -328,6 +334,10 @@ const char * settings_name ( struct settings *settings ) {
  	static char buf[16];
  	char tmp[ sizeof ( buf ) ];
  
@@ -66,7 +66,7 @@ index 927ad84..80cd6a9 100644
  	for ( buf[2] = buf[0] = 0 ; settings ; settings = settings->parent ) {
  		memcpy ( tmp, buf, sizeof ( tmp ) );
  		snprintf ( buf, sizeof ( buf ), ".%s%s", settings->name, tmp );
-@@ -359,20 +369,11 @@ parse_settings_name ( const char *name,
+@@ -357,20 +367,11 @@ parse_settings_name ( const char *name,
  
  	/* Parse each name component in turn */
  	while ( remainder ) {
@@ -88,7 +88,7 @@ index 927ad84..80cd6a9 100644
  		if ( ! settings )
  			break;
  	}
-@@ -460,10 +461,11 @@ int register_settings ( struct settings *settings, struct settings *parent,
+@@ -458,10 +459,11 @@ int register_settings ( struct settings *settings, struct settings *parent,
  			const char *name ) {
  	struct settings *old_settings;
  
@@ -103,10 +103,11 @@ index 927ad84..80cd6a9 100644
  
  	/* Apply settings block name */
  	settings->name = name;
-@@ -524,6 +526,26 @@ void unregister_settings ( struct settings *settings ) {
+@@ -521,6 +523,26 @@ void unregister_settings ( struct settings *settings ) {
+  ******************************************************************************
   */
  
- /**
++/**
 + * Redirect to target settings block
 + *
 + * @v settings		Settings block, or NULL
@@ -126,11 +127,10 @@ index 927ad84..80cd6a9 100644
 +	return settings;
 +}
 +
-+/**
+ /**
   * Check applicability of setting
   *
-  * @v settings		Settings block
-@@ -532,6 +554,10 @@ void unregister_settings ( struct settings *settings ) {
+@@ -530,6 +552,10 @@ void unregister_settings ( struct settings *settings ) {
   */
  int setting_applies ( struct settings *settings, struct setting *setting ) {
  
@@ -141,7 +141,7 @@ index 927ad84..80cd6a9 100644
  	return ( settings->op->applies ?
  		 settings->op->applies ( settings, setting ) : 1 );
  }
-@@ -549,9 +575,8 @@ int store_setting ( struct settings *settings, struct setting *setting,
+@@ -547,9 +573,8 @@ int store_setting ( struct settings *settings, struct setting *setting,
  		    const void *data, size_t len ) {
  	int rc;
  
@@ -153,7 +153,7 @@ index 927ad84..80cd6a9 100644
  
  	/* Fail if tag does not apply to this settings block */
  	if ( ! setting_applies ( settings, setting ) )
-@@ -609,9 +634,8 @@ static int fetch_setting_and_origin ( struct settings *settings,
+@@ -607,9 +632,8 @@ static int fetch_setting_and_origin ( struct settings *settings,
  	if ( origin )
  		*origin = NULL;
  
@@ -165,7 +165,7 @@ index 927ad84..80cd6a9 100644
  
  	/* Sanity check */
  	if ( ! settings->op->fetch )
-@@ -971,6 +995,11 @@ int fetch_uuid_setting ( struct settings *settings, struct setting *setting,
+@@ -969,6 +993,11 @@ int fetch_uuid_setting ( struct settings *settings, struct setting *setting,
   * @v settings		Settings block
   */
  void clear_settings ( struct settings *settings ) {
@@ -177,7 +177,7 @@ index 927ad84..80cd6a9 100644
  	if ( settings->op->clear )
  		settings->op->clear ( settings );
  }
-@@ -1230,9 +1259,7 @@ int setting_name ( struct settings *settings, struct setting *setting,
+@@ -1229,9 +1258,7 @@ int setting_name ( struct settings *settings, struct setting *setting,
  		   char *buf, size_t len ) {
  	const char *name;
  
@@ -189,7 +189,7 @@ index 927ad84..80cd6a9 100644
  	return snprintf ( buf, len, "%s%s%s:%s", name, ( name[0] ? "/" : "" ),
  			  setting->name, setting->type->name );
 diff --git a/src/hci/tui/settings_ui.c b/src/hci/tui/settings_ui.c
-index 403d124..eb82ae5 100644
+index 403d1245..eb82ae54 100644
 --- a/src/hci/tui/settings_ui.c
 +++ b/src/hci/tui/settings_ui.c
 @@ -441,7 +441,7 @@ static void reveal_setting_row ( struct setting_widget *widget,
@@ -202,10 +202,10 @@ index 403d124..eb82ae5 100644
  	widget->first_visible = SETTINGS_LIST_ROWS;
  	draw_title_row ( widget );
 diff --git a/src/include/ipxe/settings.h b/src/include/ipxe/settings.h
-index 8ee9516..6e75251 100644
+index a81e5ccf..ee6ff744 100644
 --- a/src/include/ipxe/settings.h
 +++ b/src/include/ipxe/settings.h
-@@ -77,6 +77,12 @@ struct setting {
+@@ -90,6 +90,12 @@ struct setting {
  
  /** Settings block operations */
  struct settings_operations {
@@ -218,7 +218,7 @@ index 8ee9516..6e75251 100644
  	/** Check applicability of setting
  	 *
  	 * @v settings		Settings block
-@@ -248,6 +254,7 @@ extern int register_settings ( struct settings *settings,
+@@ -231,6 +237,7 @@ extern int register_settings ( struct settings *settings,
  			       struct settings *parent, const char *name );
  extern void unregister_settings ( struct settings *settings );
  
@@ -227,7 +227,7 @@ index 8ee9516..6e75251 100644
  			     struct setting *setting );
  extern int store_setting ( struct settings *settings, struct setting *setting,
 diff --git a/src/net/netdev_settings.c b/src/net/netdev_settings.c
-index 3ea7ace..7215276 100644
+index 9efe6811..725236a8 100644
 --- a/src/net/netdev_settings.c
 +++ b/src/net/netdev_settings.c
 @@ -27,6 +27,7 @@ FILE_LICENCE ( GPL2_OR_LATER );
@@ -238,7 +238,7 @@ index 3ea7ace..7215276 100644
  
  /** @file
   *
-@@ -295,3 +296,51 @@ struct settings_operations netdev_settings_operations = {
+@@ -139,3 +140,51 @@ struct settings_operations netdev_settings_operations = {
  	.fetch = netdev_fetch,
  	.clear = netdev_clear,
  };
@@ -291,5 +291,5 @@ index 3ea7ace..7215276 100644
 +	.initialise = netdev_redirect_settings_init,
 +};
 -- 
-1.7.9
+2.45.1
 
