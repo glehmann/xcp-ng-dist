@@ -1,19 +1,19 @@
-%global package_speccommit d1beaa5873cef8add580a58782dbef8fe81fc31a
-%global package_srccommit v3.54.9
+%global package_speccommit 266dddc02a877617a4c52a36d4dd86ef515c45ec
+%global package_srccommit v3.55.4
 
 Summary: blktap user space utilities
 Name: blktap
-Version: 3.54.9
+Version: 3.55.4
 Release: 1%{?xsrel}%{?dist}
 License: BSD
 Group: System/Hypervisor
 URL: https://github.com/xapi-project/blktap
-Source0: blktap-3.54.9.tar.gz
+Source0: blktap-3.55.4.tar.gz
 
 BuildRoot: %{_tmppath}/%{name}-%{release}-buildroot
 Obsoletes: xen-blktap < 4
 BuildRequires: e2fsprogs-devel, libaio-devel, systemd, autogen, autoconf, automake, libtool, libuuid-devel
-BuildRequires: xen-devel, kernel-headers, xen-dom0-libs-devel, zlib-devel, xen-libs-devel, libcmocka-devel, lcov, git
+BuildRequires: kernel-headers, xen-libs-devel, zlib-devel, libcmocka-devel, lcov, git
 BuildRequires: xs-openssl-devel >= 1.1.1
 BuildRequires: devtoolset-11-gcc
 BuildRequires: devtoolset-11-binutils
@@ -80,6 +80,10 @@ mkdir -p %{buildroot}%{_localstatedir}/log/blktap
 %if 0%{?coverage:1}
 cd ../ && find -name "*.gcno" | grep -v '.libs/' | xargs -d "\n" tar -cvjSf %{buildroot}/%{name}-%{version}.gcno.tar.bz2
 %endif
+## Remove libtool archive files; they should never be installed
+rm -f %{buildroot}%{_libdir}/*.la
+## Remove static libraries; they should not be used by other packages
+rm -f %{buildroot}%{_libdir}/*.a
 
 %triggerin -- mdadm
 echo 'KERNEL=="td[a-z]*", GOTO="md_end"' > /etc/udev/rules.d/65-md-incremental.rules
@@ -91,7 +95,6 @@ cat /usr/lib/udev/rules.d/65-md-incremental.rules >> /etc/udev/rules.d/65-md-inc
 /usr/share/doc/%{name}
 %{_libdir}/*.so.*
 %{_bindir}/vhd-util
-%{_bindir}/vhd-update
 %{_bindir}/vhd-index
 %{_bindir}/tapback
 %{_bindir}/cpumond
@@ -113,8 +116,6 @@ cat /usr/lib/udev/rules.d/65-md-incremental.rules >> /etc/udev/rules.d/65-md-inc
 %defattr(-,root,root,-)
 %doc
 %{_libdir}/*.so
-%{_libdir}/*.a
-%{_libdir}/*.la
 %{_includedir}/vhd/*
 %{_includedir}/blktap/*
 %if 0%{?coverage:1}
@@ -169,6 +170,35 @@ without requiring other libraries
 %{_libdir}/libblockcrypto.so.*
 
 %changelog
+* Tue Dec 03 2024 Mark Syms <mark.syms@cloud.com> - 3.55.4-1
+- CA-392151 lcache.c uses wrong buffer size definition
+- CA-403297: when storing read-through do not mirror
+
+* Mon Nov 18 2024 Mark Syms <mark.syms@cloud.com> - 3.55.3-1
+- CP-52620: enable local caching after opening all other images
+
+* Tue Nov 05 2024 Tim Smith <tim.smith@cloud.com> - 3.55.2-1
+- CA-387575 Remove static libraries and libtool archives from devel package
+- Correct name of exposed NBD server
+- CA-401174 Filedescriptor leak in NBD option negotiation
+
+* Mon Sep 16 2024 Tim Smith <tim.smith@cloud.com> - 3.55.1-1
+- Redo the revert of an incorrect NBD FD leak fix
+
+* Fri Sep 13 2024 Tim Smith <tim.smith@cloud.com> - 3.55.0-1
+- CP-46765 - Fix asan issues in unit tests
+- CA-396659: rationalise bitops and fix overflow issues
+- CA-396659: delete legacy debt utility vhd-update
+- Handle scheduler uuid overflow explictly
+- CP-50952 Autodetect NBD server protocol version on client connect
+- Fix use of incorrect label in error case
+- CA-397082 Properly fix FD leak in NBD server
+- CP-50955 Add a new-style NBD server for each VDI
+
+* Tue Aug 06 2024 Mark Syms <mark.syms@cloud.com> - 3.54.10-1
+- CA-391882: fix nbd connection fd leak bug
+- Remove some unnecessary build dependencies
+
 * Thu Apr 25 2024 Mark Syms <mark.syms@citrix.com> - 3.54.9-1
 - Address various memory management issues
 
