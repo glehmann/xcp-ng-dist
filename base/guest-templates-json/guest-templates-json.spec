@@ -1,11 +1,11 @@
-%global package_speccommit d34dbbaefeb9bfcb486671cb86400c3a45b03b8c
-%global package_srccommit v2.0.10
+%global package_speccommit a01d5135a69c50861087fb1093cfa29b55a8822c
+%global package_srccommit v2.0.13
 Name:    guest-templates-json
 Summary: Creates the default guest templates
-Version: 2.0.10
+Version: 2.0.13
 Release: 1%{?xsrel}%{?dist}
 License: BSD
-Source0: guest-templates-json-2.0.10.tar.gz
+Source0: guest-templates-json-2.0.13.tar.gz
 BuildArch: noarch
 
 Requires: xapi-core
@@ -178,6 +178,16 @@ fi
 %{templatedir}/other-install-media.json
 
 %changelog
+* Tue Nov 19 2024 Gerald Elder-Vass <gerald.elder-vass@cloud.com> - 2.0.13-1
+- CP-50305: Remove '(preview') from Windows Server 2025 template
+
+* Thu Sep 19 2024 Gerald Elder-Vass <gerald.elder-vass@cloud.com> - 2.0.12-1
+- CP-50304 Add Windows Server 2025 preview template
+
+* Tue Sep 03 2024 Lunfan Zhang <Lunfan.Zhang@cloud.com> - 2.0.11-1
+- CP-47949 Add New Guest template Ubuntu 24.04
+- CP-47949 Remove 'preview' label from RHEL9, Rocky9, CentOS Stream 9 and Debian 12
+
 * Mon Mar 25 2024 Lunfan Zhang <Lunfan.Zhang@cloud.com> - 2.0.10-1
 - CP-47662 Remove deprecated guest templates SUSE Linux 12 SP4 and Ubuntu 18.04
 - CP-48082 Update Guest Templates to support UEFI Secure boot
