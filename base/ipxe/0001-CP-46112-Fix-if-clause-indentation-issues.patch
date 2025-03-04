@@ -1,0 +1,41 @@
+From 7ad1bff67aeda2f4f636af41c226e7d456858a12 Mon Sep 17 00:00:00 2001
+From: Stephen Cheng <stephen.cheng@cloud.com>
+Date: Thu, 25 Jul 2024 09:54:25 +0100
+Subject: [PATCH] CP-46112: Fix `if` clause indentation issues
+
+This code seems never used.
+Correct the indentation as the original logic.
+
+Signed-off-by: Stephen Cheng <stephen.cheng@cloud.com>
+---
+ src/drivers/net/via-rhine.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/src/drivers/net/via-rhine.c b/src/drivers/net/via-rhine.c
+index 439a4a5d..43a028a3 100644
+--- a/src/drivers/net/via-rhine.c
++++ b/src/drivers/net/via-rhine.c
+@@ -947,14 +947,14 @@ void rhine_irq ( struct nic *nic, irq_action_t action ) {
+             // if (tp->chip_id == 0x3065)
+             if( tp->chip_revision < 0x80 && tp->chip_revision >=0x40 )
+                 intr_status |= inb(nic->ioaddr + IntrStatus2) << 16;
+-                intr_status = (intr_status & ~DEFAULT_INTR);
+-                if ( action == ENABLE ) 
+-                    intr_status = intr_status | DEFAULT_INTR;
+-                    outw(intr_status, nic->ioaddr + IntrEnable);
+-                break;
++            intr_status = (intr_status & ~DEFAULT_INTR);
++            if ( action == ENABLE ) 
++                intr_status = intr_status | DEFAULT_INTR;
++            outw(intr_status, nic->ioaddr + IntrEnable);
++            break;
+         case FORCE :
+             outw(0x0010, nic->ioaddr + 0x84);
+-           break;
++            break;
+         }
+ }
+ 
+-- 
+2.45.1
+

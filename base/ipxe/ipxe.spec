@@ -1,6 +1,6 @@
-%global package_speccommit 9047e9f1fa9daad02098fb628df6270f760fdf4e
+%global package_speccommit 9b634abd4f9d0fee463e45ace05e21f84c353540
 %global usver 20121005
-%global xsver 1.0.6
+%global xsver 1.0.7
 %global xsrel %{xsver}%{?xscount}%{?xshash}
 %global package_srccommit a712dae709a
 
@@ -57,12 +57,28 @@ Patch13: 0003-dhcp-Ignore-ProxyDHCPACKs-without-PXE-options.patch
 Patch14: 0004-dhcp-Do-not-skip-ProxyDHCPREQUEST-if-next-server-is-.patch
 Patch15: ipxe-238050dfd46e3c4a87329da1d48b4d8dde5af8a1.patch
 Patch16: serial-console.patch
+Patch17: 0001-CP-46112-Inhibit-gcc-false-positive-warnings.patch
+Patch18: 0001-CP-46112-Fix-if-clause-indentation-issues.patch
+Patch19: 0001-CP-46112-Fix-gcc-warnings-for-unused-variable.patch
+Patch20: 0001-CP-46112-build-uninitialized-variable-issue.patch
+Patch21: 0001-CP-46112-Use-Fall-throgh-explicitly-in-case-statemen.patch
+Patch22: 0001-CP-46112-Fix-gcc-warning-of-return-type.patch
+Patch23: 0001-CP-46112-Not-build-unused-NICs.patch
+Patch24: 0001-iscsi-Add-missing-break-statements.patch
+Patch25: 0001-build-Add-missing-const-qualifiers.patch
+Patch26: 0001-legacy-Fix-building-with-GCC-6.patch
+Patch27: 0001-sis190-Fix-building-with-GCC-6.patch
+Patch28: 0001-skge-Fix-building-with-GCC-6.patch
+Patch29: 0001-build-Avoid-implicit-fallthrough-warnings-on-GCC-7.patch
+Patch30: 0001-mucurses-Fix-erroneous-__nonnull-attribute.patch
+Patch31: 0001-zbin-Fix-compiler-warning-with-GCC-9.patch
+Patch32: 0001-build-Be-explicit-about-fcommon-compiler-directive.patch
 BuildArch: noarch
 
 BuildRequires: perl
-BuildRequires: syslinux
-BuildRequires: mtools
-BuildRequires: mkisofs
+# BuildRequires: syslinux
+# BuildRequires: mtools
+# BuildRequires: mkisofs
 BuildRequires: binutils-devel
 BuildRequires: xz-devel
 %{?_cov_buildrequires}
@@ -91,6 +107,9 @@ install -D -m 0644 src/bin/ipxe.bin %{buildroot}/%{_datadir}/%{name}/ipxe.bin
 %{?_cov_results_package}
 
 %changelog
+* Mon Jul 29 2024 Stephen Cheng <stephen.cheng@cloud.com> - 20121005-1.0.7
+- CP-46112: Build compatible with XS9
+
 * Fri Feb 11 2022 Ross Lagerwall <ross.lagerwall@citrix.com> - 20121005-1.0.6
 - CP-38416: Enable static analysis
 

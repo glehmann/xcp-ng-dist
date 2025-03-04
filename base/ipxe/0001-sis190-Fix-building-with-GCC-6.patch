@@ -1,0 +1,49 @@
+From 65b32a0b7000f70a5bb1d33190d40f9b04c93172 Mon Sep 17 00:00:00 2001
+From: Michael Brown <mcb30@ipxe.org>
+Date: Wed, 4 May 2016 15:53:52 +0100
+Subject: [PATCH] [sis190] Fix building with GCC 6
+
+Signed-off-by: Michael Brown <mcb30@ipxe.org>
+---
+ src/drivers/net/sis190.c | 6 ------
+ src/drivers/net/sis190.h | 7 -------
+ 2 files changed, 13 deletions(-)
+
+diff --git a/src/drivers/net/sis190.c b/src/drivers/net/sis190.c
+index 991c30f9..81f3d984 100644
+--- a/src/drivers/net/sis190.c
++++ b/src/drivers/net/sis190.c
+@@ -72,12 +72,6 @@ struct pci_driver sis190_isa_bridge_driver __pci_driver = {
+ static const u32 sis190_intr_mask =
+ 	RxQEmpty | RxQInt | TxQ1Int | TxQ0Int | RxHalt | TxHalt | LinkChange;
+ 
+-/*
+- * Maximum number of multicast addresses to filter (vs. Rx-all-multicast).
+- * The chips use a 64 element hash table based on the Ethernet CRC.
+- */
+-static const int multicast_filter_limit = 32;
+-
+ static void __mdio_cmd(void *ioaddr, u32 ctl)
+ {
+ 	unsigned int i;
+diff --git a/src/drivers/net/sis190.h b/src/drivers/net/sis190.h
+index 0551333d..79f94d2d 100644
+--- a/src/drivers/net/sis190.h
++++ b/src/drivers/net/sis190.h
+@@ -297,13 +297,6 @@ static struct mii_chip_info {
+ 	{ NULL, { 0x00, 0x00 }, 0, 0 }
+ };
+ 
+-static const struct {
+-	const char *name;
+-} sis_chip_info[] = {
+-	{ "SiS 190 PCI Fast Ethernet adapter" },
+-	{ "SiS 191 PCI Gigabit Ethernet adapter" },
+-};
+-
+ static void sis190_phy_task(struct sis190_private *tp);
+ static void sis190_free(struct net_device *dev);
+ static inline void sis190_init_rxfilter(struct net_device *dev);
+-- 
+2.45.1
+

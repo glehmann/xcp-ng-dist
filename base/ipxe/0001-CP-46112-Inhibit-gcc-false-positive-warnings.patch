@@ -1,0 +1,57 @@
+From 16c712d927d6ae5277641d5e24a4dc778079759d Mon Sep 17 00:00:00 2001
+From: Stephen Cheng <stephen.cheng@cloud.com>
+Date: Thu, 25 Jul 2024 07:07:34 +0100
+Subject: [PATCH] CP-46112: Inhibit gcc false positive warnings
+
+These changes partly from the latest code of ipxe and
+partly added by me.
+
+Signed-off-by: Stephen Cheng <stephen.cheng@cloud.com>
+---
+ src/Makefile.housekeeping | 30 ++++++++++++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
+
+diff --git a/src/Makefile.housekeeping b/src/Makefile.housekeeping
+index 1e05beba..9b846f2a 100644
+--- a/src/Makefile.housekeeping
++++ b/src/Makefile.housekeeping
+@@ -175,6 +175,36 @@ ifeq ($(CCTYPE),gcc)
+ WNA_TEST = $(CC) -Wno-address -x c -c /dev/null -o /dev/null >/dev/null 2>&1
+ WNA_FLAGS := $(shell $(WNA_TEST) && $(ECHO) '-Wno-address')
+ WORKAROUND_CFLAGS += $(WNA_FLAGS)
++
++# gcc 8.0 generates warnings for certain suspect string operations. Our
++# sources have been vetted for correct usage.  Turn off these warnings.
++#
++WNST_TEST = $(CC) -Wstringop-truncation -x c -c /dev/null -o /dev/null \
++		  >/dev/null 2>&1
++WNST_FLAGS := $(shell $(WNST_TEST) && $(ECHO) '-Wno-stringop-truncation')
++WORKAROUND_CFLAGS += $(WNST_FLAGS)
++
++# gcc 9.1 generates warnings for taking address of packed member which
++# may result in an unaligned pointer value.  Inhibit the warnings.
++#
++WNAPM_TEST = $(CC) -Wno-address-of-packed-member -x c -c /dev/null \
++		   -o /dev/null >/dev/null 2>&1
++WNAPM_FLAGS := $(shell $(WNAPM_TEST) && \
++		 $(ECHO) '-Wno-address-of-packed-member')
++WORKAROUND_CFLAGS += $(WNAPM_FLAGS)
++
++# gcc 12 generates array-bounds false positive warning
++# Inhibit this.
++# Check https://gcc.gnu.org/bugzilla/show_bug.cgi?id=98503
++#
++WNAB_TEST = $(CC) -Wno-array-bounds -x c -c /dev/null -o /dev/null >/dev/null 2>&1
++WNAB_FLAGS := $(shell $(WNAB_TEST) && $(ECHO) '-Wno-array-bounds')
++WORKAROUND_CFLAGS += $(WNAB_FLAGS)
++
++# Inhibit warnings of [-Werror=nonnull-compare]
++WNNC_TEST = $(CC) -Wno-nonnull-compare -x c -c /dev/null -o /dev/null >/dev/null 2>&1
++WNNC_FLAGS := $(shell $(WNNC_TEST) && $(ECHO) '-Wno-nonnull-compare')
++WORKAROUND_CFLAGS += $(WNNC_FLAGS)
+ endif
+ 
+ # Some versions of gas choke on division operators, treating them as
+-- 
+2.45.1
+
