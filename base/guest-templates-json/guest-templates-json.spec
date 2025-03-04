@@ -1,11 +1,11 @@
-%global package_speccommit d34dbbaefeb9bfcb486671cb86400c3a45b03b8c
-%global package_srccommit v2.0.10
+%global package_speccommit a01d5135a69c50861087fb1093cfa29b55a8822c
+%global package_srccommit v2.0.13
 Name:    guest-templates-json
 Summary: Creates the default guest templates
-Version: 2.0.10
-Release: 1.3%{?xsrel}%{?dist}
+Version: 2.0.13
+Release: 1%{?xsrel}.1%{?dist}
 License: BSD
-Source0: guest-templates-json-2.0.10.tar.gz
+Source0: guest-templates-json-2.0.13.tar.gz
 
 # XCP-ng patches
 Source1000: almalinux-8.json
@@ -14,7 +14,6 @@ Source1002: centos-stream-8.json
 Source1003: oel-9.json
 Source1004: generic-linux-bios.json 
 Source1005: generic-linux-uefi.json
-Patch1000: 0001-Remove-preview-from-4-json-files.patch
 
 BuildArch: noarch
 
@@ -193,6 +192,17 @@ fi
 %{templatedir}/other-install-media.json
 
 %changelog
+* Tue Mar 04 2025 Samuel Verschelde <stormi-xcp@ylix.fr> - 2.0.13-1.1
+- Rebase on 2.0.13-1
+- *** Upstream changelog ***
+  * Tue Nov 19 2024 Gerald Elder-Vass <gerald.elder-vass@cloud.com> - 2.0.13-1
+  - CP-50305: Remove '(preview') from Windows Server 2025 template
+  * Thu Sep 19 2024 Gerald Elder-Vass <gerald.elder-vass@cloud.com> - 2.0.12-1
+  - CP-50304 Add Windows Server 2025 preview template
+  * Tue Sep 03 2024 Lunfan Zhang <Lunfan.Zhang@cloud.com> - 2.0.11-1
+  - CP-47949 Add New Guest template Ubuntu 24.04
+  - CP-47949 Remove 'preview' label from RHEL9, Rocky9, CentOS Stream 9 and Debian 12
+
 * Tue Jul 23 2024 Gael Duperrey <gduperrey@vates.tech> - 2.0.10-1.3
 - Add generic templates for Linux BIOS and UEFI
 
@@ -202,6 +212,7 @@ fi
 * Tue Jun 18 2024 Samuel Verschelde <stormi-xcp@ylix.fr> - 2.0.10-1.1
 - Sync with 2.0.10-1
 - *** Upstream changelog ***
+- * Mon Mar 25 2024 Lunfan Zhang <Lunfan.Zhang@cloud.com> - 2.0.10-1
 - - CP-47662 Remove deprecated guest templates SUSE Linux 12 SP4 and Ubuntu 18.04
 - - CP-48082 Update Guest Templates to support UEFI Secure boot
 
