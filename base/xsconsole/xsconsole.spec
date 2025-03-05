@@ -1,17 +1,14 @@
-%global package_speccommit 866948553e31d5d98f3339d077fd835f15d0ba2b
-%global usver 11.0.6
-%global xsver 1
-%global xsrel %{xsver}%{?xscount}%{?xshash}
-%global package_srccommit v11.0.6
+%global package_speccommit 4180d42f5bdbceb1769b36a8c65a049950ba92b3
+%global package_srccommit v11.0.8
+%{!?xsrel: %global xsrel 1}
 
 Summary: XenServer Host Configuration Console
 Name: xsconsole
-Version: 11.0.6
+Version: 11.0.8
 Release: %{?xsrel}%{?dist}
 License: GPL2
 Group: Administration/System
-Source0: xsconsole-11.0.6.tar.gz
-Patch0: CP-43942.patch
+Source0: xsconsole-11.0.8.tar.gz
 Provides: xsconsole0
 BuildRequires: python3-devel
 BuildRequires: systemd
@@ -23,6 +20,10 @@ Requires: ncurses >= 6.4-2
 %if 0%{?xenserver} > 8
 Requires: glibc-langpack-en
 %endif
+
+# Metadata backup/restore functionality does not work with Xapi versions without
+# the scripts present
+Conflicts: xapi-core < 24.20.0
 
 Requires(post): systemd
 Requires(preun): systemd
@@ -74,6 +75,12 @@ InCloud Sphere.
 %{_libdir}/xsconsole/plugins-oem/XSFeatureLicenseNag.py*
 
 %changelog
+* Tue Jul 23 2024 Gerald Elder-Vass <gerald.elder-vass@cloud.com> - 11.0.8-1
+- CA-390512: Improved xenapi error handling
+
+* Tue Jul 23 2024 Alex Brett <alex.brett@cloud.com> - 11.0.7-1
+- CP-49228: Reintroduce Portable SR feature
+
 * Fri Jun 07 2024 Stephen Cheng <stephen.cheng@cloud.com> - 11.0.6-1
 - CA-388527: Fix 'timed out' when creating an ISCSI SR
 
