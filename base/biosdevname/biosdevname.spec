@@ -1,11 +1,11 @@
-%global package_speccommit 9412dca73064cb738b3e8e52e1270d91b0771503
+%global package_speccommit 39584bc3190200fe5e4f8277686c314e2e5c95b9
 %global usver 0.3.10
-%global xsver 4
+%global xsver 5
 %global xsrel %{xsver}%{?xscount}%{?xshash}
 
 Name:         biosdevname
 Version:      0.3.10
-Release:      %{?xsrel}%{?dist}
+Release: %{?xsrel}%{?dist}
 Summary:      Helper for naming devices per BIOS names
 
 Group:        System Environment/Base
@@ -23,6 +23,8 @@ Patch2: biosdevname-revert-default-policy.patch
 Patch3: biosdevname-remove-virtual-devices.patch
 Patch4: biosdevname-disable-vm-check.patch
 Patch5: biosdevname-fix-output-format.patch
+Patch6: Fix-man-help-pages.patch
+Patch7: Fix-command-line-parsing.patch
 
 BuildRequires: gcc
 BuildRequires: pciutils-devel
@@ -61,6 +63,9 @@ make install install-data DESTDIR=%{buildroot}
 
 
 %changelog
+* Thu Nov 14 2024 Ross Lagerwall <ross.lagerwall@citrix.com> - 0.3.10-5
+- CA-392459: Accept the -x flag
+
 * Mon Feb 21 2022 Ross Lagerwall <ross.lagerwall@citrix.com> - 0.3.10-4
 - CP-38416: Enable static analysis
 
