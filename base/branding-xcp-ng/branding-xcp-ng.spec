@@ -1,12 +1,13 @@
 Name:           branding-xcp-ng
 Version:        8.3.0
 # When increasing the first number, also update the hash if needed
-Release:        4.2637627
+Release:        5.74d9cc1
 Summary:        XCP-ng branding
 License:        ISC
 URL:            https://github.com/xcp-ng/branding-xcp-ng
 
-# For snapshots before we tag the final release, archives are exported this way from the source repository:
+# As we don't tag for each change, because we want the release number to remain fixed for a given XCP-ng release,
+# archives are exported this way from the source repository:
 # export VER=8.3.0; git archive --format tgz master . --prefix branding-xcp-ng-$VER/ -o /path/to/SOURCES/branding-xcp-ng-$VER.tar.gz
 # Document the git hash of the commit corresponding to the tarball in the Release tag. Example: 2.d5ffe4d.
 Source0:        https://github.com/xcp-ng/branding-xcp-ng/archive/v%{version}/branding-xcp-ng-%{version}.tar.gz
@@ -41,6 +42,10 @@ This package contains branding information for XCP-ng.
 %{_usrsrc}/branding/__pycache__
 
 %changelog
+* Wed Apr 09 2025 Samuel Verschelde <stormi-xcp@ylix.fr> - 8.3.0-5.74d9cc1
+- COPYRIGHT_YEARS up to 2025
+- Improved EULA text (formatting, wording, URLs)
+
 * Wed Jun 12 2024 Samuel Verschelde <stormi-xcp@ylix.fr> - 8.3.0-4.2637627
 - COPYRIGHT_YEARS up to 2024
 
