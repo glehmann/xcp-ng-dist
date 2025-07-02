@@ -35,6 +35,10 @@ Patch1001: xsconsole-10.1.13-define-xcp-ng-colors.XCP-ng.patch
 # PR pending merge
 Patch1002: xsconsole-11.0.2-support-ipv6.XCP-ng.patch
 Patch1003: xsconsole-11.0.6-Ipv6-pool-join.XCP-ng.patch
+# v9
+Patch2000: 0001-pyproject-use-a-more-correct-requires-python.patch
+Patch2001: 0002-pyproject-drop-superseded-license-classifiers.patch
+Patch2003: 0003-XSConsoleImported-switch-from-imp-to-importlib-for-p.patch
 
 %description
 Console tool for configuring a XCP-ng installation.
@@ -73,6 +77,7 @@ Console tool for configuring a XCP-ng installation.
 %changelog
 * Mon Dec 08 2025 Yann Dirson <yann.dirson@vates.tech> - 11.1.2-0.0.ydi.1
 - New upstream release targeting v9
+- Support for python 3.12
 
 * Tue Sep 02 2025 Guillaume Thouvenin <guillaume.thouvenin@vates.tech> - 11.0.9.1-1.1
 - Sync with 11.0.9.1-1
