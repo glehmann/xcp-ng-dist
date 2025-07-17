@@ -1,6 +1,6 @@
-%global package_speccommit bc3578107227efe491aa47e33ed450096deecc82
+%global package_speccommit ef40b9426d900d2a477ae2c9ef46d0ac679fb8f8
 %global usver 6.87.0
-%global xsver 1
+%global xsver 2
 %global xsrel %{xsver}%{?xscount}%{?xshash}
 ## This has to match the declaration in xs-opam-src, which
 ## creates the directory and makes it WORLD WRITABLE
@@ -122,6 +122,9 @@ echo '%%_opamroot %%{_libdir}/opamroot' >> "%{buildroot}%{_rpmconfigdir}/macros.
 %{_opamroot}
 
 %changelog
+* Tue Jan 21 2025 Deli Zhang <deli.zhang@cloud.com> - 6.87.0-2
+- CP-52964: Build with OpenSSL3 for XS8
+
 * Tue Dec 03 2024 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.87.0-1
 - Drop dependency on async and core packages
 - Non-breaking updates of packages
