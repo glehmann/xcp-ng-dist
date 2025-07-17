@@ -1,6 +1,6 @@
-%global package_speccommit ef40b9426d900d2a477ae2c9ef46d0ac679fb8f8
-%global usver 6.87.0
-%global xsver 2
+%global package_speccommit 0bb3f45cefde47dcb212f05b6507948c63883cad
+%global usver 6.88.0
+%global xsver 1
 %global xsrel %{xsver}%{?xscount}%{?xshash}
 ## This has to match the declaration in xs-opam-src, which
 ## creates the directory and makes it WORLD WRITABLE
@@ -10,7 +10,7 @@
 # However, something needs to be fixed on XS 9 to not need it anymore.
 %global _debugsource_template %{nil}
 
-%global _version 6.87.0
+%global _version 6.88.0
 
 # When building an untagged version, add the number of commits and hash after
 # the variable _version. e.g. -34-gab48a58c for 6.77.0-34-gab48a58c
@@ -23,9 +23,9 @@ Summary: Build and install OCaml libraries from Opam repository
 # The license field is produced by running print-license.sh
 # Please update licenses.txt on every new version and then run the script to
 # keep these in sync.
-License: Apache-1.0 and BSD-2-Clause and BSD-3-Clause and curl and GPL-1.0-or-later and GPL-2.0-only and GPL-2.0-or-later and GPL-3.0-only and ISC and LGPL-2.0-only WITH OCaml-LGPL-linking-exception and LGPL-2.0-or-later WITH OCaml-LGPL-linking-exception and LGPL-2.1-only and LGPL-2.1-only WITH OCaml-LGPL-linking-exception and LGPL-2.1-or-later WITH OCaml-LGPL-linking-exception and LGPL-2.1-or-later WITH OpenSSL-linking-exception and LGPL-3.0-only and MIT and PSF-2.0
+License: Apache-1.0 and BSD-2-Clause and BSD-3-Clause and curl and GPL-1.0-or-later and GPL-2.0-only and GPL-2.0-or-later and GPL-3.0-only and GPL-3.0-or-later and ISC and LGPL-2.0-only WITH OCaml-LGPL-linking-exception and LGPL-2.0-or-later WITH OCaml-LGPL-linking-exception and LGPL-2.1-only and LGPL-2.1-only WITH OCaml-LGPL-linking-exception and LGPL-2.1-or-later WITH OCaml-LGPL-linking-exception and LGPL-2.1-or-later WITH OpenSSL-linking-exception and LGPL-3.0-only and MIT and PSF-2.0
 URL:     https://github.com/xapi-project/xs-opam
-Source0: xs-opam-repo-6.87.0.tar.gz
+Source0: xs-opam-repo-6.88.0.tar.gz
 # To "pin" a package during development, see below the example
 # where ezxenstore is pinned to an internal master branch.
 # You need the Source1 line, and the below 'tar' and 'opam pin' lines, and comment-out the OPAMFETCH
@@ -95,7 +95,7 @@ mkdir -p %{buildroot}/etc/profile.d
 mkdir -p %{buildroot}%{_opamroot}
 echo 'export OPAMROOT=%{_opamroot}' > %{buildroot}/etc/profile.d/opam.sh
 echo 'eval `opam config env`' >> %{buildroot}/etc/profile.d/opam.sh
-echo 'export OCAMLPATH=%{_libdir/ocaml}' >> %{buildroot}/etc/profile.d/opam.sh
+echo 'export OCAMLPATH=%{_libdir}/ocaml' >> %{buildroot}/etc/profile.d/opam.sh
 %if 0%{?xenserver} < 9
 echo 'source /opt/rh/devtoolset-11/enable' >> %{buildroot}/etc/profile.d/opam.sh
 %endif
@@ -122,6 +122,10 @@ echo '%%_opamroot %%{_libdir}/opamroot' >> "%{buildroot}%{_rpmconfigdir}/macros.
 %{_opamroot}
 
 %changelog
+* Fri Mar 28 2025 Rob Hoes <rob.hoes@cloud.com> - 6.88.0-1
+- New HTTP packages
+- Non-breaking updates of existing packages
+
 * Tue Jan 21 2025 Deli Zhang <deli.zhang@cloud.com> - 6.87.0-2
 - CP-52964: Build with OpenSSL3 for XS8
 
