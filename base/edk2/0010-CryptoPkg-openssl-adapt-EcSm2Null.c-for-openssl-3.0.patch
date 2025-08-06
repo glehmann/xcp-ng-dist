@@ -1,0 +1,49 @@
+From c99b5f79556a61e4e6e78831e66779f03a0b9ae2 Mon Sep 17 00:00:00 2001
+From: Gerd Hoffmann <kraxel@redhat.com>
+Date: Thu, 3 Aug 2023 12:37:31 +0800
+Subject: [PATCH 11/18] CryptoPkg/openssl: adapt EcSm2Null.c for openssl 3.0
+
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+Cc: Jiewen Yao <jiewen.yao@intel.com>
+Cc: Xiaoyu Lu <xiaoyu1.lu@intel.com>
+Cc: Guomin Jiang <guomin.jiang@intel.com>
+Reviewed-by: Jiewen Yao <jiewen.yao@intel.com>
+Acked-by: Ard Biesheuvel <ardb@kernel.org>
+Tested-by: Ard Biesheuvel <ardb@kernel.org>
+Tested-by: Brian J. Johnson <brian.johnson@hpe.com>
+Tested-by: Kenneth Lautner <klautner@microsoft.com>
+(cherry picked from commit 5e1900f266dc6f250518a449459cdc74269ddf21)
+---
+ CryptoPkg/Library/OpensslLib/EcSm2Null.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+
+diff --git a/CryptoPkg/Library/OpensslLib/EcSm2Null.c b/CryptoPkg/Library/OpensslLib/EcSm2Null.c
+index 6d5ab2d4cc..b72a749189 100644
+--- a/CryptoPkg/Library/OpensslLib/EcSm2Null.c
++++ b/CryptoPkg/Library/OpensslLib/EcSm2Null.c
+@@ -9,8 +9,9 @@
+ #include <Base.h>
+ #include <Library/DebugLib.h>
+ 
+-#undef OPENSSL_NO_EC
++#undef EDK2_OPENSSL_NOEC
+ 
++#include <openssl/types.h>
+ #include <openssl/objects.h>
+ #include <openssl/bn.h>
+ #include <openssl/ec.h>
+@@ -300,9 +301,9 @@ ECDH_compute_key (
+   return 0;
+ }
+ 
+-struct ec_key_st *
++const struct ec_key_st *
+ EVP_PKEY_get0_EC_KEY (
+-  EVP_PKEY  *pkey
++  const EVP_PKEY  *pkey
+   )
+ {
+   ASSERT (FALSE);
+-- 
+2.43.0
+

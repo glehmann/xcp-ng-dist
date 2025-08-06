@@ -1,0 +1,1421 @@
+From eacdf1deecef395159a8be4513cf0b77cefe91b9 Mon Sep 17 00:00:00 2001
+From: Yi Li <yi1.li@intel.com>
+Date: Thu, 3 Aug 2023 12:37:43 +0800
+Subject: [PATCH 15/18] CryptoPkg: add more dummy implement of openssl for size
+ optimization
+
+Add dummy implement of Encoder, Pkcs12 and sslserver.
+OpenSSL libraries which don't need these features can include
+these files to reduce the size of output.
+
+Signed-off-by: Yi Li <yi1.li@intel.com>
+Cc: Jiewen Yao <jiewen.yao@intel.com>
+Cc: Xiaoyu Lu <xiaoyu1.lu@intel.com>
+Cc: Guomin Jiang <guomin.jiang@intel.com>
+Reviewed-by: Jiewen Yao <jiewen.yao@intel.com>
+Acked-by: Ard Biesheuvel <ardb@kernel.org>
+Tested-by: Ard Biesheuvel <ardb@kernel.org>
+Tested-by: Brian J. Johnson <brian.johnson@hpe.com>
+Tested-by: Kenneth Lautner <klautner@microsoft.com>
+(cherry picked from commit dfa6147a79ac792e964cb36da0f53dd99e973dcf)
+---
+ CryptoPkg/Library/OpensslLib/OpensslLib.inf   |   4 +
+ .../Library/OpensslLib/OpensslLibCrypto.inf   |   2 +
+ .../OpensslLib/OpensslStub/EncoderNull.c      | 364 ++++++++++++
+ .../OpensslLib/OpensslStub/Pkcs12Null.c       | 146 +++++
+ .../OpensslLib/OpensslStub/SslExtServNull.c   | 517 ++++++++++++++++++
+ .../OpensslLib/OpensslStub/SslStatServNull.c  | 306 +++++++++++
+ 6 files changed, 1339 insertions(+)
+ create mode 100644 CryptoPkg/Library/OpensslLib/OpensslStub/EncoderNull.c
+ create mode 100644 CryptoPkg/Library/OpensslLib/OpensslStub/Pkcs12Null.c
+ create mode 100644 CryptoPkg/Library/OpensslLib/OpensslStub/SslExtServNull.c
+ create mode 100644 CryptoPkg/Library/OpensslLib/OpensslStub/SslStatServNull.c
+
+diff --git a/CryptoPkg/Library/OpensslLib/OpensslLib.inf b/CryptoPkg/Library/OpensslLib/OpensslLib.inf
+index 1cf296dc61..83439dfe0c 100644
+--- a/CryptoPkg/Library/OpensslLib/OpensslLib.inf
++++ b/CryptoPkg/Library/OpensslLib/OpensslLib.inf
+@@ -34,6 +34,10 @@
+ #  OpensslStub/SslNull.c
+   OpensslStub/EcSm2Null.c
+   OpensslStub/uefiprov.c
++  OpensslStub/EncoderNull.c
++  OpensslStub/SslStatServNull.c
++  OpensslStub/SslExtServNull.c
++  OpensslStub/Pkcs12Null.c
+ 
+ [Packages]
+   MdePkg/MdePkg.dec
+diff --git a/CryptoPkg/Library/OpensslLib/OpensslLibCrypto.inf b/CryptoPkg/Library/OpensslLib/OpensslLibCrypto.inf
+index 806dc89efc..216dd6bf83 100644
+--- a/CryptoPkg/Library/OpensslLib/OpensslLibCrypto.inf
++++ b/CryptoPkg/Library/OpensslLib/OpensslLibCrypto.inf
+@@ -34,6 +34,8 @@
+   OpensslStub/SslNull.c
+   OpensslStub/EcSm2Null.c
+   OpensslStub/uefiprov.c
++  OpensslStub/EncoderNull.c
++  OpensslStub/Pkcs12Null.c
+ 
+ [Packages]
+   MdePkg/MdePkg.dec
+diff --git a/CryptoPkg/Library/OpensslLib/OpensslStub/EncoderNull.c b/CryptoPkg/Library/OpensslLib/OpensslStub/EncoderNull.c
+new file mode 100644
+index 0000000000..f3106cf8ab
+--- /dev/null
++++ b/CryptoPkg/Library/OpensslLib/OpensslStub/EncoderNull.c
+@@ -0,0 +1,364 @@
++/** @file
++  Null implementation of ENCODER functions called by BaseCryptLib.
++
++  Copyright (c) 2022, Intel Corporation. All rights reserved.<BR>
++  SPDX-License-Identifier: BSD-2-Clause-Patent
++
++**/
++
++#include <openssl/encoder.h>
++
++OSSL_ENCODER *
++OSSL_ENCODER_fetch (
++  OSSL_LIB_CTX  *libctx,
++  const char    *name,
++  const char    *properties
++  )
++{
++  return NULL;
++}
++
++int
++OSSL_ENCODER_up_ref (
++  OSSL_ENCODER  *encoder
++  )
++{
++  return 0;
++}
++
++void
++OSSL_ENCODER_free (
++  OSSL_ENCODER  *encoder
++  )
++{
++}
++
++const OSSL_PROVIDER *
++OSSL_ENCODER_get0_provider (
++  const OSSL_ENCODER  *encoder
++  )
++{
++  return NULL;
++}
++
++const char *
++OSSL_ENCODER_get0_properties (
++  const OSSL_ENCODER  *encoder
++  )
++{
++  return NULL;
++}
++
++const char *
++OSSL_ENCODER_get0_name (
++  const OSSL_ENCODER  *kdf
++  )
++{
++  return NULL;
++}
++
++const char *
++OSSL_ENCODER_get0_description (
++  const OSSL_ENCODER  *kdf
++  )
++{
++  return NULL;
++}
++
++int
++OSSL_ENCODER_is_a (
++  const OSSL_ENCODER  *encoder,
++  const char          *name
++  )
++{
++  return 0;
++}
++
++void
++OSSL_ENCODER_do_all_provided (
++  OSSL_LIB_CTX *libctx,
++  void ( *fn )(OSSL_ENCODER *encoder, void *arg),
++  void *arg
++  )
++{
++}
++
++int
++OSSL_ENCODER_names_do_all (
++  const OSSL_ENCODER *encoder,
++  void ( *fn )(const char *name, void *data),
++  void *data
++  )
++{
++  return 0;
++}
++
++const OSSL_PARAM *
++OSSL_ENCODER_gettable_params (
++  OSSL_ENCODER  *encoder
++  )
++{
++  return NULL;
++}
++
++int
++OSSL_ENCODER_get_params (
++  OSSL_ENCODER  *encoder,
++  OSSL_PARAM    params[]
++  )
++{
++  return 0;
++}
++
++const OSSL_PARAM *
++OSSL_ENCODER_settable_ctx_params (
++  OSSL_ENCODER  *encoder
++  )
++{
++  return NULL;
++}
++
++OSSL_ENCODER_CTX *
++OSSL_ENCODER_CTX_new (
++  void
++  )
++{
++  return NULL;
++}
++
++int
++OSSL_ENCODER_CTX_set_params (
++  OSSL_ENCODER_CTX  *ctx,
++  const OSSL_PARAM  params[]
++  )
++{
++  return 0;
++}
++
++void
++OSSL_ENCODER_CTX_free (
++  OSSL_ENCODER_CTX  *ctx
++  )
++{
++}
++
++/* Utilities that help set specific parameters */
++int
++OSSL_ENCODER_CTX_set_passphrase (
++  OSSL_ENCODER_CTX     *ctx,
++  const unsigned char  *kstr,
++  size_t               klen
++  )
++{
++  return 0;
++}
++
++int
++OSSL_ENCODER_CTX_set_pem_password_cb (
++  OSSL_ENCODER_CTX  *ctx,
++  pem_password_cb   *cb,
++  void              *cbarg
++  )
++{
++  return 0;
++}
++
++int
++OSSL_ENCODER_CTX_set_passphrase_cb (
++  OSSL_ENCODER_CTX          *ctx,
++  OSSL_PASSPHRASE_CALLBACK  *cb,
++  void                      *cbarg
++  )
++{
++  return 0;
++}
++
++int
++OSSL_ENCODER_CTX_set_passphrase_ui (
++  OSSL_ENCODER_CTX  *ctx,
++  const UI_METHOD   *ui_method,
++  void              *ui_data
++  )
++{
++  return 0;
++}
++
++int
++OSSL_ENCODER_CTX_set_cipher (
++  OSSL_ENCODER_CTX  *ctx,
++  const char        *cipher_name,
++  const char        *propquery
++  )
++{
++  return 0;
++}
++
++int
++OSSL_ENCODER_CTX_set_selection (
++  OSSL_ENCODER_CTX  *ctx,
++  int               selection
++  )
++{
++  return 0;
++}
++
++int
++OSSL_ENCODER_CTX_set_output_type (
++  OSSL_ENCODER_CTX  *ctx,
++  const char        *output_type
++  )
++{
++  return 0;
++}
++
++int
++OSSL_ENCODER_CTX_set_output_structure (
++  OSSL_ENCODER_CTX  *ctx,
++  const char        *output_structure
++  )
++{
++  return 0;
++}
++
++/* Utilities to add encoders */
++int
++OSSL_ENCODER_CTX_add_encoder (
++  OSSL_ENCODER_CTX  *ctx,
++  OSSL_ENCODER      *encoder
++  )
++{
++  return 0;
++}
++
++int
++OSSL_ENCODER_CTX_add_extra (
++  OSSL_ENCODER_CTX  *ctx,
++  OSSL_LIB_CTX      *libctx,
++  const char        *propq
++  )
++{
++  return 0;
++}
++
++int
++OSSL_ENCODER_CTX_get_num_encoders (
++  OSSL_ENCODER_CTX  *ctx
++  )
++{
++  return 0;
++}
++
++OSSL_ENCODER *
++OSSL_ENCODER_INSTANCE_get_encoder (
++  OSSL_ENCODER_INSTANCE  *encoder_inst
++  )
++{
++  return NULL;
++}
++
++void *
++OSSL_ENCODER_INSTANCE_get_encoder_ctx (
++  OSSL_ENCODER_INSTANCE  *encoder_inst
++  )
++{
++  return NULL;
++}
++
++const char *
++OSSL_ENCODER_INSTANCE_get_output_type (
++  OSSL_ENCODER_INSTANCE  *encoder_inst
++  )
++{
++  return NULL;
++}
++
++const char *
++OSSL_ENCODER_INSTANCE_get_output_structure (
++  OSSL_ENCODER_INSTANCE  *encoder_inst
++  )
++{
++  return NULL;
++}
++
++int
++OSSL_ENCODER_CTX_set_construct (
++  OSSL_ENCODER_CTX        *ctx,
++  OSSL_ENCODER_CONSTRUCT  *construct
++  )
++{
++  return 0;
++}
++
++int
++OSSL_ENCODER_CTX_set_construct_data (
++  OSSL_ENCODER_CTX  *ctx,
++  void              *construct_data
++  )
++{
++  return 0;
++}
++
++int
++OSSL_ENCODER_CTX_set_cleanup (
++  OSSL_ENCODER_CTX      *ctx,
++  OSSL_ENCODER_CLEANUP  *cleanup
++  )
++{
++  return 0;
++}
++
++/* Utilities to output the object to encode */
++int
++OSSL_ENCODER_to_bio (
++  OSSL_ENCODER_CTX  *ctx,
++  BIO               *out
++  )
++{
++  return 0;
++}
++
++#ifndef OPENSSL_NO_STDIO
++int
++OSSL_ENCODER_to_fp (
++  OSSL_ENCODER_CTX  *ctx,
++  FILE              *fp
++  );
++
++#endif
++int
++OSSL_ENCODER_to_data (
++  OSSL_ENCODER_CTX  *ctx,
++  unsigned char     **pdata,
++  size_t            *pdata_len
++  )
++{
++  return 0;
++}
++
++OSSL_ENCODER_CTX *
++OSSL_ENCODER_CTX_new_for_pkey (
++  const EVP_PKEY  *pkey,
++  int             selection,
++  const char      *output_type,
++  const char      *output_struct,
++  const char      *propquery
++  )
++{
++  return NULL;
++}
++
++int
++ossl_encoder_store_remove_all_provided (
++  const OSSL_PROVIDER  *prov
++  )
++{
++  return -1;
++}
++
++int
++ossl_encoder_store_cache_flush (
++  OSSL_LIB_CTX  *libctx
++  )
++{
++  return -1;
++}
+diff --git a/CryptoPkg/Library/OpensslLib/OpensslStub/Pkcs12Null.c b/CryptoPkg/Library/OpensslLib/OpensslStub/Pkcs12Null.c
+new file mode 100644
+index 0000000000..0fb49496d3
+--- /dev/null
++++ b/CryptoPkg/Library/OpensslLib/OpensslStub/Pkcs12Null.c
+@@ -0,0 +1,146 @@
++/** @file
++  Null implementation of PKCS12 and PKCS8 functions called by BaseCryptLib.
++
++  Copyright (c) 2022, Intel Corporation. All rights reserved.<BR>
++  SPDX-License-Identifier: BSD-2-Clause-Patent
++
++**/
++
++#include <openssl/pkcs12.h>
++
++int
++PKCS12_PBE_keyivgen_ex (
++  EVP_CIPHER_CTX    *ctx,
++  const char        *pass,
++  int               passlen,
++  ASN1_TYPE         *param,
++  const EVP_CIPHER  *cipher,
++  const EVP_MD      *md,
++  int               en_de,
++  OSSL_LIB_CTX      *libctx,
++  const char        *propq
++  )
++{
++  return -1;
++}
++
++int
++PKCS12_PBE_keyivgen (
++  EVP_CIPHER_CTX    *ctx,
++  const char        *pass,
++  int               passlen,
++  ASN1_TYPE         *param,
++  const EVP_CIPHER  *cipher,
++  const EVP_MD      *md,
++  int               en_de
++  )
++{
++  return -1;
++}
++
++X509_SIG *
++PKCS8_encrypt (
++  int                  pbe_nid,
++  const EVP_CIPHER     *cipher,
++  const char           *pass,
++  int                  passlen,
++  unsigned char        *salt,
++  int                  saltlen,
++  int                  iter,
++  PKCS8_PRIV_KEY_INFO  *p8inf
++  )
++{
++  return NULL;
++}
++
++PKCS8_PRIV_KEY_INFO *
++PKCS8_decrypt (
++  const X509_SIG  *p8,
++  const char      *pass,
++  int             passlen
++  )
++{
++  return NULL;
++}
++
++unsigned char *
++PKCS12_pbe_crypt_ex (
++  const X509_ALGOR     *algor,
++  const char           *pass,
++  int                  passlen,
++  const unsigned char  *in,
++  int                  inlen,
++  unsigned char        **data,
++  int                  *datalen,
++  int                  en_de,
++  OSSL_LIB_CTX         *libctx,
++  const char           *propq
++  )
++{
++  return NULL;
++}
++
++X509_SIG *
++PKCS8_encrypt_ex (
++  int                  pbe_nid,
++  const EVP_CIPHER     *cipher,
++  const char           *pass,
++  int                  passlen,
++  unsigned char        *salt,
++  int                  saltlen,
++  int                  iter,
++  PKCS8_PRIV_KEY_INFO  *p8inf,
++  OSSL_LIB_CTX         *libctx,
++  const char           *propq
++  )
++{
++  return NULL;
++}
++
++const ASN1_ITEM *
++PKCS12_it (
++  void
++  )
++{
++  return NULL;
++}
++
++const ASN1_ITEM *
++PKCS12_MAC_DATA_it (
++  void
++  )
++{
++  return NULL;
++}
++
++const ASN1_ITEM *
++PKCS12_SAFEBAG_it (
++  void
++  )
++{
++  return NULL;
++}
++
++const ASN1_ITEM *
++PKCS12_BAGS_it (
++  void
++  )
++{
++  return NULL;
++}
++
++const ASN1_ITEM *
++PKCS12_AUTHSAFES_it (
++  void
++  )
++{
++  return NULL;
++}
++
++const ASN1_ITEM *
++PKCS12_SAFEBAGS_it (
++  void
++  )
++{
++  return NULL;
++}
+diff --git a/CryptoPkg/Library/OpensslLib/OpensslStub/SslExtServNull.c b/CryptoPkg/Library/OpensslLib/OpensslStub/SslExtServNull.c
+new file mode 100644
+index 0000000000..e3b3aa26ec
+--- /dev/null
++++ b/CryptoPkg/Library/OpensslLib/OpensslStub/SslExtServNull.c
+@@ -0,0 +1,517 @@
++/** @file
++  Null implementation of SslExtServ functions called by TlsLib.
++
++  Copyright (c) 2023, Intel Corporation. All rights reserved.<BR>
++  SPDX-License-Identifier: BSD-2-Clause-Patent
++
++**/
++
++#include <openssl/ocsp.h>
++#include "../ssl_local.h"
++#include "statem_local.h"
++#include "internal/cryptlib.h"
++
++int
++tls_parse_ctos_renegotiate (
++  SSL           *s,
++  PACKET        *pkt,
++  unsigned int  context,
++  X509          *x,
++  size_t        chainidx
++  )
++{
++  return -1;
++}
++
++int
++tls_parse_ctos_server_name (
++  SSL           *s,
++  PACKET        *pkt,
++  unsigned int  context,
++  X509          *x,
++  size_t        chainidx
++  )
++{
++  return 0;
++}
++
++int
++tls_parse_ctos_maxfragmentlen (
++  SSL           *s,
++  PACKET        *pkt,
++  unsigned int  context,
++  X509          *x,
++  size_t        chainidx
++  )
++{
++  return 0;
++}
++
++#ifndef OPENSSL_NO_SRP
++int
++tls_parse_ctos_srp (
++  SSL           *s,
++  PACKET        *pkt,
++  unsigned int  context,
++  X509          *x,
++  size_t        chainidx
++  )
++{
++  return 0;
++}
++
++#endif
++
++int
++tls_parse_ctos_ec_pt_formats (
++  SSL           *s,
++  PACKET        *pkt,
++  unsigned int  context,
++  X509          *x,
++  size_t        chainidx
++  )
++{
++  return 0;
++}
++
++int
++tls_parse_ctos_session_ticket (
++  SSL           *s,
++  PACKET        *pkt,
++  unsigned int  context,
++  X509          *x,
++  size_t        chainidx
++  )
++{
++  return 0;
++}
++
++int
++tls_parse_ctos_sig_algs_cert (
++  SSL                       *s,
++  PACKET                    *pkt,
++  ossl_unused unsigned int  context,
++  ossl_unused X509          *x,
++  ossl_unused size_t        chainidx
++  )
++{
++  return 0;
++}
++
++int
++tls_parse_ctos_sig_algs (
++  SSL           *s,
++  PACKET        *pkt,
++  unsigned int  context,
++  X509          *x,
++  size_t        chainidx
++  )
++{
++  return 0;
++}
++
++#ifndef OPENSSL_NO_OCSP
++int
++tls_parse_ctos_status_request (
++  SSL           *s,
++  PACKET        *pkt,
++  unsigned int  context,
++  X509          *x,
++  size_t        chainidx
++  )
++{
++  return 0;
++}
++
++#endif
++
++#ifndef OPENSSL_NO_NEXTPROTONEG
++int
++tls_parse_ctos_npn (
++  SSL           *s,
++  PACKET        *pkt,
++  unsigned int  context,
++  X509          *x,
++  size_t        chainidx
++  )
++{
++  return 0;
++}
++
++#endif
++
++/*
++ * Save the ALPN extension in a ClientHello.|pkt| holds the contents of the ALPN
++ * extension, not including type and length. Returns: 1 on success, 0 on error.
++ */
++int
++tls_parse_ctos_alpn (
++  SSL           *s,
++  PACKET        *pkt,
++  unsigned int  context,
++  X509          *x,
++  size_t        chainidx
++  )
++{
++  return 0;
++}
++
++#ifndef OPENSSL_NO_SRTP
++int
++tls_parse_ctos_use_srtp (
++  SSL           *s,
++  PACKET        *pkt,
++  unsigned int  context,
++  X509          *x,
++  size_t        chainidx
++  )
++{
++  return 0;
++}
++
++#endif
++
++int
++tls_parse_ctos_etm (
++  SSL           *s,
++  PACKET        *pkt,
++  unsigned int  context,
++  X509          *x,
++  size_t        chainidx
++  )
++{
++  return 0;
++}
++
++/*
++ * Process a psk_kex_modes extension received in the ClientHello. |pkt| contains
++ * the raw PACKET data for the extension. Returns 1 on success or 0 on failure.
++ */
++int
++tls_parse_ctos_psk_kex_modes (
++  SSL           *s,
++  PACKET        *pkt,
++  unsigned int  context,
++  X509          *x,
++  size_t        chainidx
++  )
++{
++  return 0;
++}
++
++/*
++ * Process a key_share extension received in the ClientHello. |pkt| contains
++ * the raw PACKET data for the extension. Returns 1 on success or 0 on failure.
++ */
++int
++tls_parse_ctos_key_share (
++  SSL           *s,
++  PACKET        *pkt,
++  unsigned int  context,
++  X509          *x,
++  size_t        chainidx
++  )
++{
++  return 0;
++}
++
++int
++tls_parse_ctos_cookie (
++  SSL           *s,
++  PACKET        *pkt,
++  unsigned int  context,
++  X509          *x,
++  size_t        chainidx
++  )
++{
++  return 0;
++}
++
++int
++tls_parse_ctos_supported_groups (
++  SSL           *s,
++  PACKET        *pkt,
++  unsigned int  context,
++  X509          *x,
++  size_t        chainidx
++  )
++{
++  return 0;
++}
++
++int
++tls_parse_ctos_ems (
++  SSL           *s,
++  PACKET        *pkt,
++  unsigned int  context,
++  X509          *x,
++  size_t        chainidx
++  )
++{
++  return 0;
++}
++
++int
++tls_parse_ctos_early_data (
++  SSL           *s,
++  PACKET        *pkt,
++  unsigned int  context,
++  X509          *x,
++  size_t        chainidx
++  )
++{
++  return 0;
++}
++
++int
++tls_parse_ctos_psk (
++  SSL           *s,
++  PACKET        *pkt,
++  unsigned int  context,
++  X509          *x,
++  size_t        chainidx
++  )
++{
++  return 0;
++}
++
++int
++tls_parse_ctos_post_handshake_auth (
++  SSL                       *s,
++  PACKET                    *pkt,
++  ossl_unused unsigned int  context,
++  ossl_unused X509          *x,
++  ossl_unused size_t        chainidx
++  )
++{
++  return 0;
++}
++
++/*
++ * Add the server's renegotiation binding
++ */
++EXT_RETURN
++tls_construct_stoc_renegotiate (
++  SSL           *s,
++  WPACKET       *pkt,
++  unsigned int  context,
++  X509          *x,
++  size_t        chainidx
++  )
++{
++  return EXT_RETURN_FAIL;
++}
++
++EXT_RETURN
++tls_construct_stoc_server_name (
++  SSL           *s,
++  WPACKET       *pkt,
++  unsigned int  context,
++  X509          *x,
++  size_t        chainidx
++  )
++{
++  return EXT_RETURN_FAIL;
++}
++
++/* Add/include the server's max fragment len extension into ServerHello */
++EXT_RETURN
++tls_construct_stoc_maxfragmentlen (
++  SSL           *s,
++  WPACKET       *pkt,
++  unsigned int  context,
++  X509          *x,
++  size_t        chainidx
++  )
++{
++  return EXT_RETURN_FAIL;
++}
++
++EXT_RETURN
++tls_construct_stoc_ec_pt_formats (
++  SSL           *s,
++  WPACKET       *pkt,
++  unsigned int  context,
++  X509          *x,
++  size_t        chainidx
++  )
++{
++  return EXT_RETURN_FAIL;
++}
++
++EXT_RETURN
++tls_construct_stoc_supported_groups (
++  SSL           *s,
++  WPACKET       *pkt,
++  unsigned int  context,
++  X509          *x,
++  size_t        chainidx
++  )
++{
++  return EXT_RETURN_FAIL;
++}
++
++EXT_RETURN
++tls_construct_stoc_session_ticket (
++  SSL           *s,
++  WPACKET       *pkt,
++  unsigned int  context,
++  X509          *x,
++  size_t        chainidx
++  )
++{
++  return EXT_RETURN_FAIL;
++}
++
++#ifndef OPENSSL_NO_OCSP
++EXT_RETURN
++tls_construct_stoc_status_request (
++  SSL           *s,
++  WPACKET       *pkt,
++  unsigned int  context,
++  X509          *x,
++  size_t        chainidx
++  )
++{
++  return EXT_RETURN_FAIL;
++}
++
++#endif
++
++#ifndef OPENSSL_NO_NEXTPROTONEG
++EXT_RETURN
++tls_construct_stoc_next_proto_neg (
++  SSL           *s,
++  WPACKET       *pkt,
++  unsigned int  context,
++  X509          *x,
++  size_t        chainidx
++  )
++{
++  return EXT_RETURN_FAIL;
++}
++
++#endif
++
++EXT_RETURN
++tls_construct_stoc_alpn (
++  SSL           *s,
++  WPACKET       *pkt,
++  unsigned int  context,
++  X509          *x,
++  size_t        chainidx
++  )
++{
++  return EXT_RETURN_FAIL;
++}
++
++#ifndef OPENSSL_NO_SRTP
++EXT_RETURN
++tls_construct_stoc_use_srtp (
++  SSL           *s,
++  WPACKET       *pkt,
++  unsigned int  context,
++  X509          *x,
++  size_t        chainidx
++  )
++{
++  return EXT_RETURN_FAIL;
++}
++
++#endif
++
++EXT_RETURN
++tls_construct_stoc_etm (
++  SSL           *s,
++  WPACKET       *pkt,
++  unsigned int  context,
++  X509          *x,
++  size_t        chainidx
++  )
++{
++  return EXT_RETURN_FAIL;
++}
++
++EXT_RETURN
++tls_construct_stoc_ems (
++  SSL           *s,
++  WPACKET       *pkt,
++  unsigned int  context,
++  X509          *x,
++  size_t        chainidx
++  )
++{
++  return EXT_RETURN_FAIL;
++}
++
++EXT_RETURN
++tls_construct_stoc_supported_versions (
++  SSL           *s,
++  WPACKET       *pkt,
++  unsigned int  context,
++  X509          *x,
++  size_t        chainidx
++  )
++{
++  return EXT_RETURN_FAIL;
++}
++
++EXT_RETURN
++tls_construct_stoc_key_share (
++  SSL           *s,
++  WPACKET       *pkt,
++  unsigned int  context,
++  X509          *x,
++  size_t        chainidx
++  )
++{
++  return EXT_RETURN_FAIL;
++}
++
++EXT_RETURN
++tls_construct_stoc_cookie (
++  SSL           *s,
++  WPACKET       *pkt,
++  unsigned int  context,
++  X509          *x,
++  size_t        chainidx
++  )
++{
++  return EXT_RETURN_FAIL;
++}
++
++EXT_RETURN
++tls_construct_stoc_cryptopro_bug (
++  SSL           *s,
++  WPACKET       *pkt,
++  unsigned int  context,
++  X509          *x,
++  size_t        chainidx
++  )
++{
++  return EXT_RETURN_FAIL;
++}
++
++EXT_RETURN
++tls_construct_stoc_early_data (
++  SSL           *s,
++  WPACKET       *pkt,
++  unsigned int  context,
++  X509          *x,
++  size_t        chainidx
++  )
++{
++  return EXT_RETURN_FAIL;
++}
++
++EXT_RETURN
++tls_construct_stoc_psk (
++  SSL           *s,
++  WPACKET       *pkt,
++  unsigned int  context,
++  X509          *x,
++  size_t        chainidx
++  )
++{
++  return EXT_RETURN_FAIL;
++}
+diff --git a/CryptoPkg/Library/OpensslLib/OpensslStub/SslStatServNull.c b/CryptoPkg/Library/OpensslLib/OpensslStub/SslStatServNull.c
+new file mode 100644
+index 0000000000..878f9e1a0b
+--- /dev/null
++++ b/CryptoPkg/Library/OpensslLib/OpensslStub/SslStatServNull.c
+@@ -0,0 +1,306 @@
++/** @file
++  Null implementation of SslStatServ functions called by TlsLib.
++
++  Copyright (c) 2023, Intel Corporation. All rights reserved.<BR>
++  SPDX-License-Identifier: BSD-2-Clause-Patent
++
++**/
++
++#include "../ssl_local.h"
++#include "statem_local.h"
++#include "internal/constant_time.h"
++#include "internal/cryptlib.h"
++#include <openssl/core_names.h>
++#include <openssl/asn1t.h>
++
++int
++ossl_statem_server_read_transition (
++  SSL  *s,
++  int  mt
++  )
++{
++  return 0;
++}
++
++/*
++ * Should we send a CertificateRequest message?
++ *
++ * Valid return values are:
++ *   1: Yes
++ *   0: No
++ */
++int
++send_certificate_request (
++  SSL  *s
++  )
++{
++  return 0;
++}
++
++/*
++ * ossl_statem_server_write_transition() works out what handshake state to move
++ * to next when the server is writing messages to be sent to the client.
++ */
++WRITE_TRAN
++ossl_statem_server_write_transition (
++  SSL  *s
++  )
++{
++  return WRITE_TRAN_ERROR;
++}
++
++WORK_STATE
++ossl_statem_server_pre_work (
++  SSL         *s,
++  WORK_STATE  wst
++  )
++{
++  return WORK_ERROR;
++}
++
++/*
++ * Perform any work that needs to be done after sending a message from the
++ * server to the client.
++ */
++WORK_STATE
++ossl_statem_server_post_work (
++  SSL         *s,
++  WORK_STATE  wst
++  )
++{
++  return WORK_ERROR;
++}
++
++/*
++ * Get the message construction function and message type for sending from the
++ * server
++ *
++ * Valid return values are:
++ *   1: Success
++ *   0: Error
++ */
++int
++ossl_statem_server_construct_message (
++  SSL        *s,
++  WPACKET    *pkt,
++  confunc_f  *confunc,
++  int        *mt
++  )
++{
++  return 0;
++}
++
++/*
++ * Returns the maximum allowed length for the current message that we are
++ * reading. Excludes the message header.
++ */
++size_t
++ossl_statem_server_max_message_size (
++  SSL  *s
++  )
++{
++  return 0;
++}
++
++/*
++ * Process a message that the server has received from the client.
++ */
++MSG_PROCESS_RETURN
++ossl_statem_server_process_message (
++  SSL     *s,
++  PACKET  *pkt
++  )
++{
++  return MSG_PROCESS_ERROR;
++}
++
++/*
++ * Perform any further processing required following the receipt of a message
++ * from the client
++ */
++WORK_STATE
++ossl_statem_server_post_process_message (
++  SSL         *s,
++  WORK_STATE  wst
++  )
++{
++  return WORK_ERROR;
++}
++
++int
++dtls_raw_hello_verify_request (
++  WPACKET        *pkt,
++  unsigned char  *cookie,
++  size_t         cookie_len
++  )
++{
++  return 0;
++}
++
++int
++dtls_construct_hello_verify_request (
++  SSL      *s,
++  WPACKET  *pkt
++  )
++{
++  return 0;
++}
++
++MSG_PROCESS_RETURN
++tls_process_client_hello (
++  SSL     *s,
++  PACKET  *pkt
++  )
++{
++  return MSG_PROCESS_ERROR;
++}
++
++/*
++ * Call the alpn_select callback if needed. Upon success, returns 1.
++ * Upon failure, returns 0.
++ */
++int
++tls_handle_alpn (
++  SSL  *s
++  )
++{
++  return 0;
++}
++
++WORK_STATE
++tls_post_process_client_hello (
++  SSL         *s,
++  WORK_STATE  wst
++  )
++{
++  return WORK_ERROR;
++}
++
++int
++tls_construct_server_hello (
++  SSL      *s,
++  WPACKET  *pkt
++  )
++{
++  return 0;
++}
++
++int
++tls_construct_server_done (
++  SSL      *s,
++  WPACKET  *pkt
++  )
++{
++  return 0;
++}
++
++int
++tls_construct_server_key_exchange (
++  SSL      *s,
++  WPACKET  *pkt
++  )
++{
++  return 0;
++}
++
++int
++tls_construct_certificate_request (
++  SSL      *s,
++  WPACKET  *pkt
++  )
++{
++  return 0;
++}
++
++MSG_PROCESS_RETURN
++tls_process_client_key_exchange (
++  SSL     *s,
++  PACKET  *pkt
++  )
++{
++  return MSG_PROCESS_ERROR;
++}
++
++WORK_STATE
++tls_post_process_client_key_exchange (
++  SSL         *s,
++  WORK_STATE  wst
++  )
++{
++  return WORK_ERROR;
++}
++
++MSG_PROCESS_RETURN
++tls_process_client_certificate (
++  SSL     *s,
++  PACKET  *pkt
++  )
++{
++  return MSG_PROCESS_ERROR;
++}
++
++int
++tls_construct_server_certificate (
++  SSL      *s,
++  WPACKET  *pkt
++  )
++{
++  return 0;
++}
++
++int
++tls_construct_new_session_ticket (
++  SSL      *s,
++  WPACKET  *pkt
++  )
++{
++  return 0;
++}
++
++/*
++ * In TLSv1.3 this is called from the extensions code, otherwise it is used to
++ * create a separate message. Returns 1 on success or 0 on failure.
++ */
++int
++tls_construct_cert_status_body (
++  SSL      *s,
++  WPACKET  *pkt
++  )
++{
++  return 0;
++}
++
++int
++tls_construct_cert_status (
++  SSL      *s,
++  WPACKET  *pkt
++  )
++{
++  return 0;
++}
++
++#ifndef OPENSSL_NO_NEXTPROTONEG
++
++/*
++ * tls_process_next_proto reads a Next Protocol Negotiation handshake message.
++ * It sets the next_proto member in s if found
++ */
++MSG_PROCESS_RETURN
++tls_process_next_proto (
++  SSL     *s,
++  PACKET  *pkt
++  )
++{
++  return MSG_PROCESS_ERROR;
++}
++
++#endif
++
++MSG_PROCESS_RETURN
++tls_process_end_of_early_data (
++  SSL     *s,
++  PACKET  *pkt
++  )
++{
++  return MSG_PROCESS_ERROR;
++}
+-- 
+2.43.0
+

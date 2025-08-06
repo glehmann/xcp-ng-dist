@@ -1,0 +1,169 @@
+From 77db296928d98c778523b0b265e443844fbd8a28 Mon Sep 17 00:00:00 2001
+From: Gerd Hoffmann <kraxel@redhat.com>
+Date: Thu, 3 Aug 2023 12:37:21 +0800
+Subject: [PATCH 16/18] CryptoPkg/openssl: update Openssl*.inf files for
+ openssl 3.0
+
+The configure workflow as changed, see the commit adding the configure
+script for details.  Adapt the *.inf files to the changes.  The
+configuration define handling has changed a bit.  The new configure
+script will build a single per-arch file list, which simplifies the
+Accel configs.
+
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+Signed-off-by: Yi Li <yi1.li@intel.com>
+Cc: Jiewen Yao <jiewen.yao@intel.com>
+Cc: Xiaoyu Lu <xiaoyu1.lu@intel.com>
+Cc: Guomin Jiang <guomin.jiang@intel.com>
+Reviewed-by: Jiewen Yao <jiewen.yao@intel.com>
+Acked-by: Ard Biesheuvel <ardb@kernel.org>
+Tested-by: Ard Biesheuvel <ardb@kernel.org>
+Tested-by: Brian J. Johnson <brian.johnson@hpe.com>
+Tested-by: Kenneth Lautner <klautner@microsoft.com>
+(cherry picked from commit 7cede6d5f42fe26b891422287e6f532e0113ff2f)
+---
+ CryptoPkg/CryptoPkg.dec                       |  4 +++
+ CryptoPkg/Library/OpensslLib/OpensslLib.inf   | 28 +++++++++++++------
+ .../Library/OpensslLib/OpensslLibCrypto.inf   | 28 +++++++++++++------
+ 3 files changed, 42 insertions(+), 18 deletions(-)
+
+diff --git a/CryptoPkg/CryptoPkg.dec b/CryptoPkg/CryptoPkg.dec
+index d9b64e5763..e92af2201c 100644
+--- a/CryptoPkg/CryptoPkg.dec
++++ b/CryptoPkg/CryptoPkg.dec
+@@ -23,6 +23,10 @@
+   Private
+   Library/Include
+   Library/OpensslLib/openssl/include
++  Library/OpensslLib/openssl/providers/common/include
++  Library/OpensslLib/openssl/providers/implementations/include
++  Library/OpensslLib/OpensslGen/include
++  Library/OpensslLib/OpensslGen/providers/common/include
+ 
+ [LibraryClasses]
+   ##  @libraryclass  Provides basic library functions for cryptographic primitives.
+diff --git a/CryptoPkg/Library/OpensslLib/OpensslLib.inf b/CryptoPkg/Library/OpensslLib/OpensslLib.inf
+index 83439dfe0c..c7ef613e21 100644
+--- a/CryptoPkg/Library/OpensslLib/OpensslLib.inf
++++ b/CryptoPkg/Library/OpensslLib/OpensslLib.inf
+@@ -16,7 +16,9 @@
+   VERSION_STRING                 = 1.0
+   LIBRARY_CLASS                  = OpensslLib
+   DEFINE OPENSSL_PATH            = openssl
+-  DEFINE OPENSSL_FLAGS           = -DL_ENDIAN -DOPENSSL_SMALL_FOOTPRINT -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DOPENSSL_NO_ASM
++  DEFINE OPENSSL_GEN_PATH        = OpensslGen
++  DEFINE OPENSSL_FLAGS           = -DL_ENDIAN -DOPENSSL_SMALL_FOOTPRINT -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DEDK2_OPENSSL_NOEC=1 -DOPENSSL_NO_ASM
++  DEFINE OPENSSL_FLAGS_NOASM     =
+ 
+ #
+ #  VALID_ARCHITECTURES           = IA32 X64 ARM AARCH64
+@@ -72,11 +74,19 @@
+   #   C4706: assignment within conditional expression
+   #   C4819: The file contains a character that cannot be represented in the current code page
+   #
+-  MSFT:*_*_IA32_CC_FLAGS   = -U_WIN32 -U_WIN64 -U_MSC_VER $(OPENSSL_FLAGS) /wd4090 /wd4132 /wd4244 /wd4245 /wd4267 /wd4310 /wd4389 /wd4700 /wd4702 /wd4706 /wd4819
+-  MSFT:*_*_X64_CC_FLAGS    = -U_WIN32 -U_WIN64 -U_MSC_VER $(OPENSSL_FLAGS) /wd4090 /wd4132 /wd4244 /wd4245 /wd4267 /wd4306 /wd4310 /wd4700 /wd4389 /wd4702 /wd4706 /wd4819
++  MSFT:*_*_IA32_CC_FLAGS   = -U_WIN32 -U_WIN64 -U_MSC_VER $(OPENSSL_FLAGS) $(OPENSSL_FLAGS_NOASM) /wd4090 /wd4132 /wd4210 /wd4244 /wd4245 /wd4267 /wd4310 /wd4389 /wd4700 /wd4702 /wd4706 /wd4819
++  MSFT:*_*_X64_CC_FLAGS    = -U_WIN32 -U_WIN64 -U_MSC_VER $(OPENSSL_FLAGS) $(OPENSSL_FLAGS_NOASM) /wd4090 /wd4132 /wd4210 /wd4244 /wd4245 /wd4267 /wd4306 /wd4310 /wd4700 /wd4389 /wd4702 /wd4706 /wd4819
+ 
+-  INTEL:*_*_IA32_CC_FLAGS  = -U_WIN32 -U_WIN64 -U_MSC_VER -U__ICC $(OPENSSL_FLAGS) /w
+-  INTEL:*_*_X64_CC_FLAGS   = -U_WIN32 -U_WIN64 -U_MSC_VER -U__ICC $(OPENSSL_FLAGS) /w
++  #
++  # Disable following Visual Studio 2015 compiler warnings brought by openssl source,
++  # so we do not break the build with /WX option:
++  #   C4718: recursive call has no side effects, deleting
++  #
++  MSFT:*_VS2015x86_IA32_CC_FLAGS = /wd4718
++  MSFT:*_VS2015x86_X64_CC_FLAGS  = /wd4718
++
++  INTEL:*_*_IA32_CC_FLAGS  = -U_WIN32 -U_WIN64 -U_MSC_VER -U__ICC $(OPENSSL_FLAGS) $(OPENSSL_FLAGS_NOASM) /w
++  INTEL:*_*_X64_CC_FLAGS   = -U_WIN32 -U_WIN64 -U_MSC_VER -U__ICC $(OPENSSL_FLAGS) $(OPENSSL_FLAGS_NOASM) /w
+ 
+   #
+   # Suppress the following build warnings in openssl so we don't break the build with -Werror
+@@ -85,8 +95,8 @@
+   #                   types appropriate to the format string specified.
+   #   -Werror=unused-but-set-variable: Warn whenever a local variable is assigned to, but otherwise unused (aside from its declaration).
+   #
+-  GCC:*_*_IA32_CC_FLAGS    = -U_WIN32 -U_WIN64 $(OPENSSL_FLAGS) -Wno-error=maybe-uninitialized -Wno-error=unused-but-set-variable
+-  GCC:*_*_X64_CC_FLAGS     = -U_WIN32 -U_WIN64 $(OPENSSL_FLAGS) -Wno-error=maybe-uninitialized -Wno-error=format -Wno-format -Wno-error=unused-but-set-variable -DNO_MSABI_VA_FUNCS
++  GCC:*_*_IA32_CC_FLAGS    = -U_WIN32 -U_WIN64 $(OPENSSL_FLAGS) $(OPENSSL_FLAGS_NOASM) -Wno-error=maybe-uninitialized -Wno-error=unused-but-set-variable
++  GCC:*_*_X64_CC_FLAGS     = -U_WIN32 -U_WIN64 $(OPENSSL_FLAGS) $(OPENSSL_FLAGS_NOASM) -Wno-error=maybe-uninitialized -Wno-error=format -Wno-format -Wno-error=unused-but-set-variable -DNO_MSABI_VA_FUNCS
+   GCC:*_*_ARM_CC_FLAGS     = $(OPENSSL_FLAGS) -Wno-error=maybe-uninitialized -Wno-error=unused-but-set-variable
+   GCC:*_*_AARCH64_CC_FLAGS = $(OPENSSL_FLAGS) -Wno-error=maybe-uninitialized -Wno-format -Wno-error=unused-but-set-variable
+   GCC:*_*_RISCV64_CC_FLAGS = $(OPENSSL_FLAGS) -Wno-error=maybe-uninitialized -Wno-format -Wno-error=unused-but-set-variable
+@@ -113,8 +123,8 @@
+   #    1: ignore "#1-D: last line of file ends without a newline"
+   # 3017: <entity> may be used before being set (NOTE: This was fixed in OpenSSL 1.1 HEAD with
+   #       commit d9b8b89bec4480de3a10bdaf9425db371c19145b, and can be dropped then.)
+-  XCODE:*_*_IA32_CC_FLAGS   = -mmmx -msse -U_WIN32 -U_WIN64 $(OPENSSL_FLAGS) -w -std=c99 -Wno-error=uninitialized
+-  XCODE:*_*_X64_CC_FLAGS    = -mmmx -msse -U_WIN32 -U_WIN64 $(OPENSSL_FLAGS) -w -std=c99 -Wno-error=uninitialized
++  XCODE:*_*_IA32_CC_FLAGS   = -mmmx -msse -U_WIN32 -U_WIN64 $(OPENSSL_FLAGS) $(OPENSSL_FLAGS_NOASM) -w -std=c99 -Wno-error=uninitialized
++  XCODE:*_*_X64_CC_FLAGS    = -mmmx -msse -U_WIN32 -U_WIN64 $(OPENSSL_FLAGS) $(OPENSSL_FLAGS_NOASM) -w -std=c99 -Wno-error=uninitialized
+ 
+   #
+   # AARCH64 uses strict alignment and avoids SIMD registers for code that may execute
+diff --git a/CryptoPkg/Library/OpensslLib/OpensslLibCrypto.inf b/CryptoPkg/Library/OpensslLib/OpensslLibCrypto.inf
+index 216dd6bf83..6122534e83 100644
+--- a/CryptoPkg/Library/OpensslLib/OpensslLibCrypto.inf
++++ b/CryptoPkg/Library/OpensslLib/OpensslLibCrypto.inf
+@@ -16,7 +16,9 @@
+   VERSION_STRING                 = 1.0
+   LIBRARY_CLASS                  = OpensslLib
+   DEFINE OPENSSL_PATH            = openssl
+-  DEFINE OPENSSL_FLAGS           = -DL_ENDIAN -DOPENSSL_SMALL_FOOTPRINT -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DOPENSSL_NO_ASM
++  DEFINE OPENSSL_GEN_PATH        = OpensslGen
++  DEFINE OPENSSL_FLAGS           = -DL_ENDIAN -DOPENSSL_SMALL_FOOTPRINT -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DEDK2_OPENSSL_NOEC=1 -DOPENSSL_NO_ASM
++  DEFINE OPENSSL_FLAGS_NOASM     =
+ 
+ #
+ #  VALID_ARCHITECTURES           = IA32 X64 ARM AARCH64
+@@ -70,11 +72,19 @@
+   #   C4706: assignment within conditional expression
+   #   C4819: The file contains a character that cannot be represented in the current code page
+   #
+-  MSFT:*_*_IA32_CC_FLAGS   = -U_WIN32 -U_WIN64 -U_MSC_VER $(OPENSSL_FLAGS) /wd4090 /wd4132 /wd4244 /wd4245 /wd4267 /wd4310 /wd4389 /wd4700 /wd4702 /wd4706 /wd4819
+-  MSFT:*_*_X64_CC_FLAGS    = -U_WIN32 -U_WIN64 -U_MSC_VER $(OPENSSL_FLAGS) /wd4090 /wd4132 /wd4244 /wd4245 /wd4267 /wd4306 /wd4310 /wd4700 /wd4389 /wd4702 /wd4706 /wd4819
++  MSFT:*_*_IA32_CC_FLAGS   = -U_WIN32 -U_WIN64 -U_MSC_VER $(OPENSSL_FLAGS) $(OPENSSL_FLAGS_NOASM) /wd4090 /wd4132 /wd4210 /wd4244 /wd4245 /wd4267 /wd4310 /wd4389 /wd4700 /wd4702 /wd4706 /wd4819
++  MSFT:*_*_X64_CC_FLAGS    = -U_WIN32 -U_WIN64 -U_MSC_VER $(OPENSSL_FLAGS) $(OPENSSL_FLAGS_NOASM) /wd4090 /wd4132 /wd4210 /wd4244 /wd4245 /wd4267 /wd4306 /wd4310 /wd4700 /wd4389 /wd4702 /wd4706 /wd4819
+ 
+-  INTEL:*_*_IA32_CC_FLAGS  = -U_WIN32 -U_WIN64 -U_MSC_VER -U__ICC $(OPENSSL_FLAGS) /w
+-  INTEL:*_*_X64_CC_FLAGS   = -U_WIN32 -U_WIN64 -U_MSC_VER -U__ICC $(OPENSSL_FLAGS) /w
++  #
++  # Disable following Visual Studio 2015 compiler warnings brought by openssl source,
++  # so we do not break the build with /WX option:
++  #   C4718: recursive call has no side effects, deleting
++  #
++  MSFT:*_VS2015x86_IA32_CC_FLAGS = /wd4718
++  MSFT:*_VS2015x86_X64_CC_FLAGS  = /wd4718
++
++  INTEL:*_*_IA32_CC_FLAGS  = -U_WIN32 -U_WIN64 -U_MSC_VER -U__ICC $(OPENSSL_FLAGS) $(OPENSSL_FLAGS_NOASM) /w
++  INTEL:*_*_X64_CC_FLAGS   = -U_WIN32 -U_WIN64 -U_MSC_VER -U__ICC $(OPENSSL_FLAGS) $(OPENSSL_FLAGS_NOASM) /w
+ 
+   #
+   # Suppress the following build warnings in openssl so we don't break the build with -Werror
+@@ -83,8 +93,8 @@
+   #                   types appropriate to the format string specified.
+   #   -Werror=unused-but-set-variable: Warn whenever a local variable is assigned to, but otherwise unused (aside from its declaration).
+   #
+-  GCC:*_*_IA32_CC_FLAGS    = -U_WIN32 -U_WIN64 $(OPENSSL_FLAGS) -Wno-error=maybe-uninitialized -Wno-error=unused-but-set-variable
+-  GCC:*_*_X64_CC_FLAGS     = -U_WIN32 -U_WIN64 $(OPENSSL_FLAGS) -Wno-error=maybe-uninitialized -Wno-error=format -Wno-format -Wno-error=unused-but-set-variable -DNO_MSABI_VA_FUNCS
++  GCC:*_*_IA32_CC_FLAGS    = -U_WIN32 -U_WIN64 $(OPENSSL_FLAGS) $(OPENSSL_FLAGS_NOASM) -Wno-error=maybe-uninitialized -Wno-error=unused-but-set-variable
++  GCC:*_*_X64_CC_FLAGS     = -U_WIN32 -U_WIN64 $(OPENSSL_FLAGS) $(OPENSSL_FLAGS_NOASM) -Wno-error=maybe-uninitialized -Wno-error=format -Wno-format -Wno-error=unused-but-set-variable -DNO_MSABI_VA_FUNCS
+   GCC:*_*_ARM_CC_FLAGS     = $(OPENSSL_FLAGS) -Wno-error=maybe-uninitialized -Wno-error=unused-but-set-variable
+   GCC:*_*_AARCH64_CC_FLAGS = $(OPENSSL_FLAGS) -Wno-error=maybe-uninitialized -Wno-format -Wno-error=unused-but-set-variable
+   GCC:*_*_RISCV64_CC_FLAGS = $(OPENSSL_FLAGS) -Wno-error=maybe-uninitialized -Wno-format -Wno-error=unused-but-set-variable
+@@ -111,8 +121,8 @@
+   #    1: ignore "#1-D: last line of file ends without a newline"
+   # 3017: <entity> may be used before being set (NOTE: This was fixed in OpenSSL 1.1 HEAD with
+   #       commit d9b8b89bec4480de3a10bdaf9425db371c19145b, and can be dropped then.)
+-  XCODE:*_*_IA32_CC_FLAGS   = -mmmx -msse -U_WIN32 -U_WIN64 $(OPENSSL_FLAGS) -w -std=c99 -Wno-error=uninitialized
+-  XCODE:*_*_X64_CC_FLAGS    = -mmmx -msse -U_WIN32 -U_WIN64 $(OPENSSL_FLAGS) -w -std=c99 -Wno-error=uninitialized
++  XCODE:*_*_IA32_CC_FLAGS   = -mmmx -msse -U_WIN32 -U_WIN64 $(OPENSSL_FLAGS) $(OPENSSL_FLAGS_NOASM) -w -std=c99 -Wno-error=uninitialized
++  XCODE:*_*_X64_CC_FLAGS    = -mmmx -msse -U_WIN32 -U_WIN64 $(OPENSSL_FLAGS) $(OPENSSL_FLAGS_NOASM) -w -std=c99 -Wno-error=uninitialized
+ 
+   #
+   # AARCH64 uses strict alignment and avoids SIMD registers for code that may execute
+-- 
+2.43.0
+

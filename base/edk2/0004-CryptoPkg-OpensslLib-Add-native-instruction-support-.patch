@@ -1,0 +1,56 @@
+From 5c6dee28961f7bc34b9d30c9db281d94b7a17044 Mon Sep 17 00:00:00 2001
+From: Christopher Zurcher <zurcher@gmail.com>
+Date: Thu, 22 Sep 2022 04:25:39 +0800
+Subject: [PATCH 05/18] CryptoPkg/OpensslLib: Add native instruction support
+ for IA32
+
+REF: https://bugzilla.tianocore.org/show_bug.cgi?id=3654
+
+Adding native instruction support for accelerated OpenSSL features for
+IA32 architecture, following the pattern set by the previous commits for
+X64 native support.
+
+Cc: Yi Li <yi1.li@intel.com>
+Cc: Jiewen Yao <jiewen.yao@intel.com>
+Cc: Jian J Wang <jian.j.wang@intel.com>
+Cc: Xiaoyu Lu <xiaoyu1.lu@intel.com>
+Cc: Guomin Jiang <guomin.jiang@intel.com>
+Signed-off-by: Christopher Zurcher <christopher.zurcher@microsoft.com>
+Reviewed-by: Jiewen Yao <jiewen.yao@intel.com>
+(cherry picked from commit 03f708090b9da25909935e556c351a4d9445fd3f)
+---
+ CryptoPkg/Library/OpensslLib/UefiAsm.conf | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
+
+diff --git a/CryptoPkg/Library/OpensslLib/UefiAsm.conf b/CryptoPkg/Library/OpensslLib/UefiAsm.conf
+index 2c2978d696..c3940b5886 100644
+--- a/CryptoPkg/Library/OpensslLib/UefiAsm.conf
++++ b/CryptoPkg/Library/OpensslLib/UefiAsm.conf
+@@ -9,6 +9,24 @@
+ 
+ my %targets = (
+ #### UEFI
++    "UEFI-x86" => {
++        perlasm_scheme  => "win32n",
++        # inherit_from    => [ "UEFI",  asm("x86_asm") ],
++        inherit_from    => [ "UEFI" ],
++        cpuid_asm_src   => "x86cpuid.s",
++        aes_asm_src     => "aes_core.c aes_cbc.c vpaes-x86.s aesni-x86.s",
++        sha1_asm_src    => "sha1-586.s sha256-586.s sha512-586.s",
++        modes_asm_src   => "ghash-x86.s",
++    },
++    "UEFI-x86-GCC" => {
++        perlasm_scheme  => "elf",
++        # inherit_from    => [ "UEFI",  asm("x86_asm") ],
++        inherit_from    => [ "UEFI" ],
++        cpuid_asm_src   => "x86cpuid.s",
++        aes_asm_src     => "aes_core.c aes_cbc.c vpaes-x86.s aesni-x86.s",
++        sha1_asm_src    => "sha1-586.s sha256-586.s sha512-586.s",
++        modes_asm_src   => "ghash-x86.s",
++    },
+     "UEFI-x86_64" => {
+         perlasm_scheme  => "nasm",
+         # inherit_from    => [ "UEFI",  asm("x86_64_asm") ],
+-- 
+2.43.0
+
