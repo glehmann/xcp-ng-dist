@@ -1,0 +1,20 @@
+diff --git a/NetworkPkg/MnpDxe/MnpIo.c b/NetworkPkg/MnpDxe/MnpIo.c
+index 087c879..9ff8f32 100644
+--- a/NetworkPkg/MnpDxe/MnpIo.c
++++ b/NetworkPkg/MnpDxe/MnpIo.c
+@@ -913,14 +913,7 @@ MnpReceivePacket (
+   }
+ 
+   VlanId = 0;
+-  if (MnpDeviceData->NumberOfVlan != 0) {
+-    //
+-    // VLAN is configured, remove the VLAN tag if any
+-    //
+-    IsVlanPacket = MnpRemoveVlanTag (MnpDeviceData, Nbuf, &VlanId);
+-  } else {
+-    IsVlanPacket = FALSE;
+-  }
++  IsVlanPacket = MnpRemoveVlanTag (MnpDeviceData, Nbuf, &VlanId);
+ 
+   MnpServiceData = MnpFindServiceData (MnpDeviceData, VlanId);
+   if (MnpServiceData == NULL) {
