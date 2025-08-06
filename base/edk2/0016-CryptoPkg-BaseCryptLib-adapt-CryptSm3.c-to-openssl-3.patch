@@ -1,0 +1,80 @@
+From bfdc8a071a0faff9e7be27e249e7c55cf6df588a Mon Sep 17 00:00:00 2001
+From: Gerd Hoffmann <kraxel@redhat.com>
+Date: Thu, 3 Aug 2023 12:37:25 +0800
+Subject: [PATCH 17/18] CryptoPkg/BaseCryptLib: adapt CryptSm3.c to openssl 3.0
+ changes.
+
+Functions have been renamed.
+
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+Cc: Jiewen Yao <jiewen.yao@intel.com>
+Cc: Xiaoyu Lu <xiaoyu1.lu@intel.com>
+Cc: Guomin Jiang <guomin.jiang@intel.com>
+Reviewed-by: Jiewen Yao <jiewen.yao@intel.com>
+Acked-by: Ard Biesheuvel <ardb@kernel.org>
+Tested-by: Ard Biesheuvel <ardb@kernel.org>
+Tested-by: Brian J. Johnson <brian.johnson@hpe.com>
+Tested-by: Kenneth Lautner <klautner@microsoft.com>
+(cherry picked from commit 63c8d160ae32cbf51db9ea58061cc8976fae4980)
+---
+ CryptoPkg/Library/BaseCryptLib/Hash/CryptSm3.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
+
+diff --git a/CryptoPkg/Library/BaseCryptLib/Hash/CryptSm3.c b/CryptoPkg/Library/BaseCryptLib/Hash/CryptSm3.c
+index bbbc1e56f2..03b168b9e2 100644
+--- a/CryptoPkg/Library/BaseCryptLib/Hash/CryptSm3.c
++++ b/CryptoPkg/Library/BaseCryptLib/Hash/CryptSm3.c
+@@ -7,7 +7,7 @@ SPDX-License-Identifier: BSD-2-Clause-Patent
+ **/
+ 
+ #include "InternalCryptLib.h"
+-#include "crypto/sm3.h"
++#include "internal/sm3.h"
+ 
+ /**
+   Retrieves the size, in bytes, of the context buffer required for SM3 hash operations.
+@@ -55,7 +55,7 @@ Sm3Init (
+   //
+   // Openssl SM3 Context Initialization
+   //
+-  sm3_init ((SM3_CTX *)Sm3Context);
++  ossl_sm3_init ((SM3_CTX *)Sm3Context);
+   return TRUE;
+ }
+ 
+@@ -136,7 +136,7 @@ Sm3Update (
+   //
+   // Openssl SM3 Hash Update
+   //
+-  sm3_update ((SM3_CTX *)Sm3Context, Data, DataSize);
++  ossl_sm3_update ((SM3_CTX *)Sm3Context, Data, DataSize);
+ 
+   return TRUE;
+ }
+@@ -178,7 +178,7 @@ Sm3Final (
+   //
+   // Openssl SM3 Hash Finalization
+   //
+-  sm3_final (HashValue, (SM3_CTX *)Sm3Context);
++  ossl_sm3_final (HashValue, (SM3_CTX *)Sm3Context);
+ 
+   return TRUE;
+ }
+@@ -225,11 +225,11 @@ Sm3HashAll (
+   //
+   // SM3 Hash Computation.
+   //
+-  sm3_init (&Ctx);
++  ossl_sm3_init (&Ctx);
+ 
+-  sm3_update (&Ctx, Data, DataSize);
++  ossl_sm3_update (&Ctx, Data, DataSize);
+ 
+-  sm3_final (HashValue, &Ctx);
++  ossl_sm3_final (HashValue, &Ctx);
+ 
+   return TRUE;
+ }
+-- 
+2.43.0
+

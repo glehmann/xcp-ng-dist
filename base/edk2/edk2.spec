@@ -1,12 +1,13 @@
-%global package_speccommit 5763e7baae137381a46ef4f86c82f314c5eee9cf
+%global package_speccommit 7e54743162191ecfcacc322eec235e5136a9f913
 %global usver 20220801
-%global xsver 1.7.7
+%global xsver 1.7.10
 %global xsrel %{xsver}%{?xscount}%{?xshash}
 %global package_srccommit edk2-stable202208
 %global debug_package %{nil}
 
 # submodule CryptoPkg/Library/OpensslLib/openssl
-%define openssllib_cset d82e959e621a3d597f1e0d50ff8c2d8b96915fd7
+%define openssl_version 3.0.9
+%define openssllib_cset openssl-%{openssl_version}
 %define openssllib_path CryptoPkg/Library/OpensslLib/openssl
 
 # submodule BaseTools/Source/C/BrotliCompress/brotli
@@ -20,58 +21,77 @@
 Name: edk2
 Summary: EFI Development Kit II
 Version: 20220801
-Release: %{?xsrel}.2%{?dist}
+Release: %{?xsrel}.1%{?dist}
 
 License: BSD and MIT
 URL: https://github.com/tianocore/edk2
 Source0: edk2-20220801.tar.gz
 Source1: calc-pcrs.py
-Source2: openssl-d82e959e621a3d597f1e0d50ff8c2d8b96915fd7.tar.gz
+Source2: openssl-3.0.9.tar.gz
 Source3: brotli-basetools-f4153a09f87cbb9c826d8fc12c74642bb2d879ea.tar.gz
 Source4: brotli-lib-f4153a09f87cbb9c826d8fc12c74642bb2d879ea.tar.gz
-Patch0: 0001-tools_def-add-fno-omit-frame-pointer-to-GCC48_-IA32-.patch
-Patch1: 0001-BaseTools-Update-Tests-TestTools.py-to-allow-it-to-w.patch
-Patch2: 0001-MdePkg-Rng-Add-GUID-to-describe-Arm-Rndr-Rng-algorit.patch
-Patch3: 0001-NetworkPkg-Dhcp6Dxe-SECURITY-PATCH-CVE-2023-45230-Pa.patch
-Patch4: 0003-NetworkPkg-Dhcp6Dxe-SECURITY-PATCH-CVE-2023-45229-Pa.patch
-Patch5: 0005-NetworkPkg-Ip6Dxe-SECURITY-PATCH-CVE-2023-45231-Patc.patch
-Patch6: 0007-NetworkPkg-Ip6Dxe-SECURITY-PATCH-CVE-2023-45232-Patc.patch
-Patch7: 0009-NetworkPkg-UefiPxeBcDxe-SECURITY-PATCH-CVE-2023-4523.patch
-Patch8: 0011-NetworkPkg-UefiPxeBcDxe-SECURITY-PATCH-CVE-2023-4523.patch
-Patch9: 0001-NetworkPkg-Dhcp6Dxe-SECURITY-PATCH-CVE-2023-45229-Re.patch
-Patch10: 0002-NetworkPkg-Dhcp6Dxe-Removes-duplicate-check-and-repl.patch
-Patch11: 0003-NetworkPkg-Dhcp6Dxe-Packet-Length-is-not-updated-bef.patch
-Patch12: 0001-EmulatorPkg-Add-RngDxe-to-EmulatorPkg.patch
-Patch13: 0002-EmulatorPkg-Add-Hash2DxeCrypto-to-EmulatorPkg.patch
-Patch14: 0004-OvmfPkg-Add-Hash2DxeCrypto-to-OvmfPkg.patch
-Patch15: 0005-SecurityPkg-RngDxe-Remove-incorrect-limitation-on-Ge.patch
-Patch16: 0006-NetworkPkg-SECURITY-PATCH-CVE-2023-45237.patch
-Patch17: 0007-NetworkPkg-TcpDxe-SECURITY-PATCH-CVE-2023-45236.patch
-Patch18: 0008-NetworkPkg-TcpDxe-Fixed-system-stuck-on-PXE-boot-flo.patch
-Patch19: ovmfpkg-xenpvblkdxe__fix_memory_barrier_macro.patch
-Patch20: ovmfxen-add-tpm-support.patch
-Patch21: MdePkg-SecPeiDxeTimerLibCpu-Support-for-dynamic-PcdF.patch
-Patch22: OvmfPkg-OvmfXen-Use-RuntimeTimerLibCpu-for-DXE_DRIVER.patch
-Patch23: add-option-to-disable-bgrt.patch
-Patch24: use-rtc.patch
-Patch25: move-xenconnect-later.patch
-Patch26: xen-rng-dxe.patch
-Patch27: nvidia-vgpu-support.patch
-Patch28: gvt-g-support.patch
-Patch29: embed-nic-drivers.patch
-Patch30: add-xen-variable.patch
-Patch31: add-xen-platform-device-id.patch
-Patch32: disable-modules.patch
-Patch33: xenorder.patch
-Patch34: keep-caching-enabled.patch
-Patch35: remove-unused-crypto.patch
-Patch36: add-Tcg2PhysicalPresenceLibXen.patch
-Patch37: tcg2config-fix-operation-parameter-prompt.patch
-Patch38: set-tpm2-acpi-table-revision.patch
-Patch39: disable-config-option-in-TCG2-config-screen.patch
-Patch40: shadow-pei-for-consistent-measurements.patch
-Patch41: set-default-resolution-1024-768.patch
-Patch42: add-debugging-info.patch
+Patch0: 0001-Avoid-type-errors-in-EAI-related-name-check-logic.patch
+Patch1: 0001-tools_def-add-fno-omit-frame-pointer-to-GCC48_-IA32-.patch
+Patch2: 0001-BaseTools-Update-Tests-TestTools.py-to-allow-it-to-w.patch
+Patch3: 0001-MdePkg-Rng-Add-GUID-to-describe-Arm-Rndr-Rng-algorit.patch
+Patch4: 0001-NetworkPkg-Dhcp6Dxe-SECURITY-PATCH-CVE-2023-45230-Pa.patch
+Patch5: 0003-NetworkPkg-Dhcp6Dxe-SECURITY-PATCH-CVE-2023-45229-Pa.patch
+Patch6: 0005-NetworkPkg-Ip6Dxe-SECURITY-PATCH-CVE-2023-45231-Patc.patch
+Patch7: 0007-NetworkPkg-Ip6Dxe-SECURITY-PATCH-CVE-2023-45232-Patc.patch
+Patch8: 0009-NetworkPkg-UefiPxeBcDxe-SECURITY-PATCH-CVE-2023-4523.patch
+Patch9: 0011-NetworkPkg-UefiPxeBcDxe-SECURITY-PATCH-CVE-2023-4523.patch
+Patch10: 0001-NetworkPkg-Dhcp6Dxe-SECURITY-PATCH-CVE-2023-45229-Re.patch
+Patch11: 0002-NetworkPkg-Dhcp6Dxe-Removes-duplicate-check-and-repl.patch
+Patch12: 0003-NetworkPkg-Dhcp6Dxe-Packet-Length-is-not-updated-bef.patch
+Patch13: 0001-EmulatorPkg-Add-RngDxe-to-EmulatorPkg.patch
+Patch14: 0002-EmulatorPkg-Add-Hash2DxeCrypto-to-EmulatorPkg.patch
+Patch15: 0004-OvmfPkg-Add-Hash2DxeCrypto-to-OvmfPkg.patch
+Patch16: 0005-SecurityPkg-RngDxe-Remove-incorrect-limitation-on-Ge.patch
+Patch17: 0006-NetworkPkg-SECURITY-PATCH-CVE-2023-45237.patch
+Patch18: 0007-NetworkPkg-TcpDxe-SECURITY-PATCH-CVE-2023-45236.patch
+Patch19: 0008-NetworkPkg-TcpDxe-Fixed-system-stuck-on-PXE-boot-flo.patch
+Patch20: 0001-CryptoPkg-openssl-cleanup-all-openssl1.1.1-generated.patch
+Patch21: 0002-CryptoPkg-openssl-add-openssl3-configure-scripts.patch
+Patch22: 0003-CryptoPkg-remove-BN-and-EC-accel-for-size-optimizati.patch
+Patch23: 0004-CryptoPkg-OpensslLib-Add-native-instruction-support-.patch
+Patch24: 0005-CryptoPkg-openssl-UefiAsm.conf-update-for-openssl-3..patch
+Patch25: 0006-CryptoPkg-openssl-move-compiler_flags-to-buildinf.c.patch
+Patch26: 0007-CryptoPkg-openssl-store-dummy-update-for-openssl-3.0.patch
+Patch27: 0008-CryptoPkg-openssl-adapt-rand_pool.c-to-openssl-3.0-c.patch
+Patch28: 0009-CryptoPkg-Library-OpensslLib-Produce-consistent-set-.patch
+Patch29: 0010-CryptoPkg-openssl-adapt-EcSm2Null.c-for-openssl-3.0.patch
+Patch30: 0011-CryptoPkg-Move-all-UEFI-implement-of-openssl-to-Open.patch
+Patch31: 0012-CryptoPkg-adapt-3.0-change-in-SslNull.c.patch
+Patch32: 0013-CryptoPkg-use-UEFI-provider-as-default.patch
+Patch33: 0014-CryptoPkg-add-more-dummy-implement-of-openssl-for-si.patch
+Patch34: 0015-CryptoPkg-openssl-update-Openssl-.inf-files-for-open.patch
+Patch35: 0016-CryptoPkg-BaseCryptLib-adapt-CryptSm3.c-to-openssl-3.patch
+Patch36: 0017-CryptoPkg-BaseCryptLib-drop-BIO_-dummy-functions.patch
+Patch37: ovmfpkg-xenpvblkdxe__fix_memory_barrier_macro.patch
+Patch38: ovmfxen-add-tpm-support.patch
+Patch39: MdePkg-SecPeiDxeTimerLibCpu-Support-for-dynamic-PcdF.patch
+Patch40: OvmfPkg-OvmfXen-Use-RuntimeTimerLibCpu-for-DXE_DRIVER.patch
+Patch41: add-option-to-disable-bgrt.patch
+Patch42: use-rtc.patch
+Patch43: move-xenconnect-later.patch
+Patch44: xen-rng-dxe.patch
+Patch45: nvidia-vgpu-support.patch
+Patch46: gvt-g-support.patch
+Patch47: embed-nic-drivers.patch
+Patch48: add-xen-variable.patch
+Patch49: add-xen-platform-device-id.patch
+Patch50: disable-modules.patch
+Patch51: xenorder.patch
+Patch52: keep-caching-enabled.patch
+Patch53: remove-unused-crypto.patch
+Patch54: add-Tcg2PhysicalPresenceLibXen.patch
+Patch55: tcg2config-fix-operation-parameter-prompt.patch
+Patch56: set-tpm2-acpi-table-revision.patch
+Patch57: disable-config-option-in-TCG2-config-screen.patch
+Patch58: shadow-pei-for-consistent-measurements.patch
+Patch59: set-default-resolution-1024-768.patch
+Patch60: add-debugging-info.patch
+Patch61: remove-vlan-tag-from-a-packet.patch
 
 # XCP-ng patches
 Patch1001: UefiCpuPkg-CpuMpPei-Workaround-page-table-allocation.patch
@@ -87,6 +107,7 @@ BuildRequires: libuuid-devel
 BuildRequires: nasm >= 2.15
 BuildRequires: iasl
 BuildRequires: ipxe-efi
+BuildRequires: perl(IPC::Cmd), perl(JSON), perl(FindBin), perl(lib), perl(ExtUtils::MakeMaker)
 %{?_cov_buildrequires}
 
 
@@ -97,7 +118,7 @@ as firmware in a virtual machine.
 
 
 %prep
-%autosetup -p1
+%setup
 %{?_cov_prepare}
 
 # submodule CryptoPkg/Library/OpensslLib/openssl
@@ -107,12 +128,15 @@ tar xzf %{SOURCE3}
 # submodule MdeModulePkg/Library/BrotliCustomDecompressLib/brotli
 tar xzf %{SOURCE4}
 
+%autopatch -p1
 
 %build
 
 %if 0%{?xenserver} < 9
 source /opt/rh/devtoolset-11/enable
 %endif
+
+python3 CryptoPkg/Library/OpensslLib/configure.py
 
 cp %{_datadir}/ipxe/10ec8139.efi .
 cp %{_datadir}/ipxe/8086100e.efi .
@@ -194,6 +218,17 @@ cp OvmfPkg/License.txt License.ovmf
 
 
 %changelog
+* Wed Aug 06 2025 anthony.perard@vates.tech - 20220801-1.7.10.1
+- Sync with edk2-20220801-1.7.10
+- *** Upstream changelog ***
+- * Wed Jun 11 2025 Fei Su <fei.su@cloud.com> - 20220801-1.7.10
+- - CA-410587 [XSI-1806] Fix 802.1Q Header Handling in OVS on XS8
+- * Fri Mar 07 2025 Deli Zhang <deli.zhang@cloud.com> - 20220801-1.7.9
+- - CP-53516: Add perl modules require for XS9 build
+- * Thu Oct 31 2024 Deli Zhang <deli.zhang@cloud.com> - 20220801-1.7.8
+- - CP-50542: Upgrade OpenSSL to 3.0.9
+- - CP-52657: Fix CVE-2024-6119
+
 * Wed Feb 26 2025 anthony.perard@vates.tech - 20220801-1.7.7.2
 - Fix for ENOMEM error when allocating page tables.
 
