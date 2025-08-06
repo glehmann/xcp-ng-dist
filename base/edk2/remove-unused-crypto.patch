@@ -12,11 +12,16 @@ Signed-off-by: Edwin Török <edvin.torok@citrix.com>
 
 [anthony] rebased:
 MD4, ARC4, TDES removed upstreamed.
+---
+ CryptoPkg/Library/BaseCryptLib/BaseCryptLib.inf | 10 +++++-----
+ CryptoPkg/Library/BaseCryptLib/SmmCryptLib.inf  |  2 +-
+ 2 files changed, 6 insertions(+), 6 deletions(-)
+
 diff --git a/CryptoPkg/Library/BaseCryptLib/BaseCryptLib.inf b/CryptoPkg/Library/BaseCryptLib/BaseCryptLib.inf
 index 3d7b917103..78da5f0d6b 100644
 --- a/CryptoPkg/Library/BaseCryptLib/BaseCryptLib.inf
 +++ b/CryptoPkg/Library/BaseCryptLib/BaseCryptLib.inf
-@@ -37,16 +37,16 @@ [Sources]
+@@ -37,16 +37,16 @@
    Hash/CryptParallelHashNull.c
    Hmac/CryptHmacSha256.c
    Kdf/CryptHkdf.c
@@ -42,7 +47,7 @@ diff --git a/CryptoPkg/Library/BaseCryptLib/SmmCryptLib.inf b/CryptoPkg/Library/
 index 91a1715095..18327243da 100644
 --- a/CryptoPkg/Library/BaseCryptLib/SmmCryptLib.inf
 +++ b/CryptoPkg/Library/BaseCryptLib/SmmCryptLib.inf
-@@ -44,7 +44,7 @@ [Sources]
+@@ -44,7 +44,7 @@
    Hash/CryptParallelHash.c
    Hmac/CryptHmacSha256.c
    Kdf/CryptHkdfNull.c
@@ -51,29 +56,6 @@ index 91a1715095..18327243da 100644
    Pk/CryptRsaBasic.c
    Pk/CryptRsaExtNull.c
    Pk/CryptPkcs1Oaep.c
-diff --git a/CryptoPkg/Library/OpensslLib/OpensslLib.inf b/CryptoPkg/Library/OpensslLib/OpensslLib.inf
-index c899b811b1..7fb2d937a3 100644
---- a/CryptoPkg/Library/OpensslLib/OpensslLib.inf
-+++ b/CryptoPkg/Library/OpensslLib/OpensslLib.inf
-@@ -16,7 +16,7 @@ [Defines]
-   VERSION_STRING                 = 1.0
-   LIBRARY_CLASS                  = OpensslLib
-   DEFINE OPENSSL_PATH            = openssl
--  DEFINE OPENSSL_FLAGS           = -DL_ENDIAN -DOPENSSL_SMALL_FOOTPRINT -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DOPENSSL_NO_ASM
-+  DEFINE OPENSSL_FLAGS           = -DL_ENDIAN -DOPENSSL_SMALL_FOOTPRINT -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DOPENSSL_NO_ASM -DOPENSSL_NO_DSA -DOPENSSL_NO_EC
- 
- #
- #  VALID_ARCHITECTURES           = IA32 X64 ARM AARCH64
-diff --git a/CryptoPkg/Library/OpensslLib/OpensslLibCrypto.inf b/CryptoPkg/Library/OpensslLib/OpensslLibCrypto.inf
-index 0ec3724541..c9ba6f50f6 100644
---- a/CryptoPkg/Library/OpensslLib/OpensslLibCrypto.inf
-+++ b/CryptoPkg/Library/OpensslLib/OpensslLibCrypto.inf
-@@ -16,7 +16,7 @@ [Defines]
-   VERSION_STRING                 = 1.0
-   LIBRARY_CLASS                  = OpensslLib
-   DEFINE OPENSSL_PATH            = openssl
--  DEFINE OPENSSL_FLAGS           = -DL_ENDIAN -DOPENSSL_SMALL_FOOTPRINT -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DOPENSSL_NO_ASM
-+  DEFINE OPENSSL_FLAGS           = -DL_ENDIAN -DOPENSSL_SMALL_FOOTPRINT -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DOPENSSL_NO_ASM -DOPENSSL_NO_DSA -DOPENSSL_NO_EC
- 
- #
- #  VALID_ARCHITECTURES           = IA32 X64 ARM AARCH64
+-- 
+2.43.0
+

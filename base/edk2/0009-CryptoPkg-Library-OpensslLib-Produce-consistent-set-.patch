@@ -1,0 +1,871 @@
+From 4549dec05a4d54bdd12e8b9afacfa9c5a9fc0bed Mon Sep 17 00:00:00 2001
+From: Michael D Kinney <michael.d.kinney@intel.com>
+Date: Fri, 30 Sep 2022 14:05:21 -0700
+Subject: [PATCH 10/18] CryptoPkg/Library/OpensslLib: Produce consistent set of
+ APIs
+
+Update all OpensslLib instances so they produce all the APIs used
+by the BaseCryptLib instances. Not producing the same set of APIs
+for a library class does not follow the EDK II library class rules
+and breaks the assumptions that consumers of the OpensslLib may
+make about which services are present.
+
+* Add missing declaration of the private library class OpensslLib
+  to CryptoPkg.dec.
+* Add SslNull.c with NULL implementations of SSL functions
+* Add EcSm2Null.c with NULL implementations of EC/SM2 functions.
+* Update OpensslLibCrypto.inf to include both SslNull.c and
+  EcSm2Null.c so this library instance produces all the opensll
+  APIs used by the BaseCryptLib instances.
+* Update OpensslLib.inf and OpensslLibAccel.inf to include
+  EcSm2Null.c so these library instances produce all the opensll
+  APIs used by the BaseCryptLib instances.
+* Add missing declaration of the private library class IntrinsicLib
+  to CryptoPkg.dec
+
+Cc: Jiewen Yao <jiewen.yao@intel.com>
+Cc: Jian J Wang <jian.j.wang@intel.com>
+Cc: Xiaoyu Lu <xiaoyu1.lu@intel.com>
+Cc: Guomin Jiang <guomin.jiang@intel.com>
+Cc: Christopher Zurcher <christopher.zurcher@microsoft.com>
+Signed-off-by: Michael D Kinney <michael.d.kinney@intel.com>
+Reviewed-by: Jiewen Yao <jiewen.yao@intel.com>
+(cherry picked from commit e75951ca896ee2146f2133d2dc425e2d21861e6b)
+---
+ CryptoPkg/Library/OpensslLib/EcSm2Null.c      | 383 +++++++++++++++++
+ CryptoPkg/Library/OpensslLib/OpensslLib.inf   |   2 +
+ .../Library/OpensslLib/OpensslLibCrypto.inf   |   2 +
+ CryptoPkg/Library/OpensslLib/SslNull.c        | 405 ++++++++++++++++++
+ 4 files changed, 792 insertions(+)
+ create mode 100644 CryptoPkg/Library/OpensslLib/EcSm2Null.c
+ create mode 100644 CryptoPkg/Library/OpensslLib/SslNull.c
+
+diff --git a/CryptoPkg/Library/OpensslLib/EcSm2Null.c b/CryptoPkg/Library/OpensslLib/EcSm2Null.c
+new file mode 100644
+index 0000000000..6d5ab2d4cc
+--- /dev/null
++++ b/CryptoPkg/Library/OpensslLib/EcSm2Null.c
+@@ -0,0 +1,383 @@
++/** @file
++  Null implementation of EC and SM2 functions called by BaseCryptLib.
++
++  Copyright (c) 2022, Intel Corporation. All rights reserved.<BR>
++  SPDX-License-Identifier: BSD-2-Clause-Patent
++
++**/
++
++#include <Base.h>
++#include <Library/DebugLib.h>
++
++#undef OPENSSL_NO_EC
++
++#include <openssl/objects.h>
++#include <openssl/bn.h>
++#include <openssl/ec.h>
++#include <openssl/pem.h>
++
++void
++EC_GROUP_free (
++  EC_GROUP  *group
++  )
++{
++  ASSERT (FALSE);
++}
++
++int
++EC_GROUP_get_order (
++  const EC_GROUP  *group,
++  BIGNUM          *order,
++  BN_CTX          *ctx
++  )
++{
++  ASSERT (FALSE);
++  return 0;
++}
++
++int
++EC_GROUP_get_curve_name (
++  const EC_GROUP  *group
++  )
++{
++  ASSERT (FALSE);
++  return 0;
++}
++
++int
++EC_GROUP_get_curve (
++  const EC_GROUP  *group,
++  BIGNUM          *p,
++  BIGNUM          *a,
++  BIGNUM          *b,
++  BN_CTX          *ctx
++  )
++{
++  ASSERT (FALSE);
++  return 0;
++}
++
++int
++EC_GROUP_get_degree (
++  const EC_GROUP  *group
++  )
++{
++  ASSERT (FALSE);
++  return 0;
++}
++
++EC_GROUP *
++EC_GROUP_new_by_curve_name (
++  int  nid
++  )
++{
++  ASSERT (FALSE);
++  return NULL;
++}
++
++EC_POINT *
++EC_POINT_new (
++  const EC_GROUP  *group
++  )
++{
++  ASSERT (FALSE);
++  return NULL;
++}
++
++void
++EC_POINT_free (
++  EC_POINT  *point
++  )
++{
++  ASSERT (FALSE);
++}
++
++void
++EC_POINT_clear_free (
++  EC_POINT  *point
++  )
++{
++  ASSERT (FALSE);
++}
++
++int
++EC_POINT_set_affine_coordinates (
++  const EC_GROUP  *group,
++  EC_POINT        *p,
++  const BIGNUM    *x,
++  const BIGNUM    *y,
++  BN_CTX          *ctx
++  )
++{
++  ASSERT (FALSE);
++  return 0;
++}
++
++int
++EC_POINT_get_affine_coordinates (
++  const EC_GROUP  *group,
++  const EC_POINT  *p,
++  BIGNUM          *x,
++  BIGNUM          *y,
++  BN_CTX          *ctx
++  )
++{
++  ASSERT (FALSE);
++  return 0;
++}
++
++int
++EC_POINT_set_compressed_coordinates (
++  const EC_GROUP  *group,
++  EC_POINT        *p,
++  const BIGNUM    *x,
++  int             y_bit,
++  BN_CTX          *ctx
++  )
++{
++  ASSERT (FALSE);
++  return 0;
++}
++
++int
++EC_POINT_add (
++  const EC_GROUP  *group,
++  EC_POINT        *r,
++  const EC_POINT  *a,
++  const EC_POINT  *b,
++  BN_CTX          *ctx
++  )
++{
++  ASSERT (FALSE);
++  return 0;
++}
++
++int
++EC_POINT_invert (
++  const EC_GROUP  *group,
++  EC_POINT        *a,
++  BN_CTX          *ctx
++  )
++{
++  ASSERT (FALSE);
++  return 0;
++}
++
++int
++EC_POINT_is_at_infinity (
++  const EC_GROUP  *group,
++  const EC_POINT  *p
++  )
++{
++  ASSERT (FALSE);
++  return 0;
++}
++
++int
++EC_POINT_is_on_curve (
++  const EC_GROUP  *group,
++  const EC_POINT  *point,
++  BN_CTX          *ctx
++  )
++{
++  ASSERT (FALSE);
++  return -1;
++}
++
++int
++EC_POINT_cmp (
++  const EC_GROUP  *group,
++  const EC_POINT  *a,
++  const EC_POINT  *b,
++  BN_CTX          *ctx
++  )
++{
++  ASSERT (FALSE);
++  return -1;
++}
++
++int
++EC_POINT_mul (
++  const EC_GROUP  *group,
++  EC_POINT        *r,
++  const BIGNUM    *n,
++  const EC_POINT  *q,
++  const BIGNUM    *m,
++  BN_CTX          *ctx
++  )
++{
++  ASSERT (FALSE);
++  return -0;
++}
++
++EC_KEY *
++EC_KEY_new_by_curve_name (
++  int  nid
++  )
++{
++  ASSERT (FALSE);
++  return NULL;
++}
++
++void
++EC_KEY_free (
++  EC_KEY  *key
++  )
++{
++  ASSERT (FALSE);
++}
++
++EC_KEY *
++EC_KEY_dup (
++  const EC_KEY  *src
++  )
++{
++  ASSERT (FALSE);
++  return NULL;
++}
++
++const EC_GROUP *
++EC_KEY_get0_group (
++  const EC_KEY  *key
++  )
++{
++  ASSERT (FALSE);
++  return NULL;
++}
++
++const EC_POINT *
++EC_KEY_get0_public_key (
++  const EC_KEY  *key
++  )
++{
++  ASSERT (FALSE);
++  return NULL;
++}
++
++int
++EC_KEY_set_public_key (
++  EC_KEY          *key,
++  const EC_POINT  *pub
++  )
++{
++  ASSERT (FALSE);
++  return 0;
++}
++
++int
++EC_KEY_generate_key (
++  EC_KEY  *key
++  )
++{
++  ASSERT (FALSE);
++  return 0;
++}
++
++int
++EC_KEY_check_key (
++  const EC_KEY  *key
++  )
++{
++  ASSERT (FALSE);
++  return 0;
++}
++
++int
++ECDH_compute_key (
++  void            *out,
++  size_t          outlen,
++  const EC_POINT  *pub_key,
++  const EC_KEY    *ecdh,
++  void *(*KDF)(
++  const void *in,
++  size_t inlen,
++  void *out,
++  size_t *outlen
++  )
++  )
++{
++  ASSERT (FALSE);
++  return 0;
++}
++
++struct ec_key_st *
++EVP_PKEY_get0_EC_KEY (
++  EVP_PKEY  *pkey
++  )
++{
++  ASSERT (FALSE);
++  return NULL;
++}
++
++EC_KEY *
++PEM_read_bio_ECPrivateKey (
++  BIO              *bp,
++  EC_KEY           **key,
++  pem_password_cb  *cb,
++  void             *u
++  )
++{
++  ASSERT (FALSE);
++  return NULL;
++}
++
++ECDSA_SIG *
++ECDSA_SIG_new (
++  void
++  )
++{
++  ASSERT (FALSE);
++  return NULL;
++}
++
++void
++ECDSA_SIG_free (
++  ECDSA_SIG  *sig
++  )
++{
++  ASSERT (FALSE);
++}
++
++void
++ECDSA_SIG_get0 (
++  const ECDSA_SIG  *sig,
++  const BIGNUM     **pr,
++  const BIGNUM     **ps
++  )
++{
++  ASSERT (FALSE);
++}
++
++int
++ECDSA_SIG_set0 (
++  ECDSA_SIG  *sig,
++  BIGNUM     *r,
++  BIGNUM     *s
++  )
++{
++  return 0;
++  ASSERT (FALSE);
++}
++
++ECDSA_SIG *
++ECDSA_do_sign (
++  const unsigned char  *dgst,
++  int                  dgst_len,
++  EC_KEY               *eckey
++  )
++{
++  ASSERT (FALSE);
++  return NULL;
++}
++
++int
++ECDSA_do_verify (
++  const unsigned char  *dgst,
++  int                  dgst_len,
++  const ECDSA_SIG      *sig,
++  EC_KEY               *eckey
++  )
++{
++  ASSERT (FALSE);
++  return -1;
++}
+diff --git a/CryptoPkg/Library/OpensslLib/OpensslLib.inf b/CryptoPkg/Library/OpensslLib/OpensslLib.inf
+index 8934dee2ea..55bf3acb5b 100644
+--- a/CryptoPkg/Library/OpensslLib/OpensslLib.inf
++++ b/CryptoPkg/Library/OpensslLib/OpensslLib.inf
+@@ -31,6 +31,8 @@
+   buildinf.c
+   ossl_store.c
+   rand_pool.c
++#  SslNull.c
++  EcSm2Null.c
+ 
+ [Packages]
+   MdePkg/MdePkg.dec
+diff --git a/CryptoPkg/Library/OpensslLib/OpensslLibCrypto.inf b/CryptoPkg/Library/OpensslLib/OpensslLibCrypto.inf
+index cf3c0cae6f..0ab707c97b 100644
+--- a/CryptoPkg/Library/OpensslLib/OpensslLibCrypto.inf
++++ b/CryptoPkg/Library/OpensslLib/OpensslLibCrypto.inf
+@@ -31,6 +31,8 @@
+   buildinf.c
+   ossl_store.c
+   rand_pool.c
++  SslNull.c
++  EcSm2Null.c
+ 
+ [Packages]
+   MdePkg/MdePkg.dec
+diff --git a/CryptoPkg/Library/OpensslLib/SslNull.c b/CryptoPkg/Library/OpensslLib/SslNull.c
+new file mode 100644
+index 0000000000..49f1405bc0
+--- /dev/null
++++ b/CryptoPkg/Library/OpensslLib/SslNull.c
+@@ -0,0 +1,405 @@
++/** @file
++  Null implementation of SSL functions called by BaseCryptLib.
++
++  Copyright (c) 2022, Intel Corporation. All rights reserved.<BR>
++  SPDX-License-Identifier: BSD-2-Clause-Patent
++
++**/
++
++#include <Base.h>
++#include <Library/DebugLib.h>
++#include <openssl/ssl.h>
++#include <openssl/bio.h>
++#include <openssl/err.h>
++
++int
++OPENSSL_init_ssl (
++  uint64_t                     opts,
++  const OPENSSL_INIT_SETTINGS  *settings
++  )
++{
++  ASSERT (FALSE);
++  return 0;
++}
++
++__owur uint32_t
++SSL_CIPHER_get_id (
++  const SSL_CIPHER  *c
++  )
++{
++  ASSERT (FALSE);
++  return 0;
++}
++
++__owur int
++SSL_COMP_add_compression_method (
++  int          id,
++  COMP_METHOD  *cm
++  )
++{
++  ASSERT (FALSE);
++  return 0;
++}
++
++long
++SSL_CTX_ctrl (
++  SSL_CTX  *ctx,
++  int      cmd,
++  long     larg,
++  void     *parg
++  )
++{
++  ASSERT (FALSE);
++  return 0;
++}
++
++void
++SSL_CTX_free (
++  SSL_CTX  *x
++  )
++{
++  ASSERT (FALSE);
++  return;
++}
++
++__owur X509_STORE *
++SSL_CTX_get_cert_store (
++  const SSL_CTX  *x
++  )
++{
++  ASSERT (FALSE);
++  return NULL;
++}
++
++__owur SSL_CTX *
++SSL_CTX_new (
++  const SSL_METHOD  *meth
++  )
++{
++  ASSERT (FALSE);
++  return NULL;
++}
++
++unsigned long
++SSL_CTX_set_options (
++  SSL_CTX        *ctx,
++  unsigned long  op
++  )
++{
++  ASSERT (FALSE);
++  return 0;
++}
++
++const unsigned char *
++SSL_SESSION_get_id (
++  const SSL_SESSION  *s,
++  unsigned int       *len
++  )
++{
++  ASSERT (FALSE);
++  return 0;
++}
++
++__owur size_t
++SSL_SESSION_get_master_key (
++  const SSL_SESSION  *sess,
++  unsigned char      *out,
++  size_t             outlen
++  )
++{
++  ASSERT (FALSE);
++  return 0;
++}
++
++__owur int
++SSL_SESSION_set1_id (
++  SSL_SESSION          *s,
++  const unsigned char  *sid,
++  unsigned int         sid_len
++  )
++{
++  ASSERT (FALSE);
++  return 0;
++}
++
++long
++SSL_ctrl (
++  SSL   *ssl,
++  int   cmd,
++  long  larg,
++  void  *parg
++  )
++{
++  ASSERT (FALSE);
++  return 0;
++}
++
++__owur int
++SSL_do_handshake (
++  SSL  *s
++  )
++{
++  ASSERT (FALSE);
++  return 0;
++}
++
++void
++SSL_free (
++  SSL  *ssl
++  )
++{
++  ASSERT (FALSE);
++  return;
++}
++
++__owur X509 *
++SSL_get_certificate (
++  const SSL  *ssl
++  )
++{
++  ASSERT (FALSE);
++  return NULL;
++}
++
++__owur size_t
++SSL_get_client_random (
++  const SSL      *ssl,
++  unsigned char  *out,
++  size_t         outlen
++  )
++{
++  ASSERT (FALSE);
++  return 0;
++}
++
++__owur const SSL_CIPHER *
++SSL_get_current_cipher (
++  const SSL  *s
++  )
++{
++  ASSERT (FALSE);
++  return NULL;
++}
++
++__owur int
++SSL_get_error (
++  const SSL  *s,
++  int        ret_code
++  )
++{
++  ASSERT (FALSE);
++  return 0;
++}
++
++__owur size_t
++SSL_get_server_random (
++  const SSL      *ssl,
++  unsigned char  *out,
++  size_t         outlen
++  )
++{
++  ASSERT (FALSE);
++  return 0;
++}
++
++__owur SSL_SESSION *
++SSL_get_session (
++  const SSL  *ssl
++  )
++{
++  ASSERT (FALSE);
++  return NULL;
++}
++
++__owur SSL_CTX *
++SSL_get_SSL_CTX (
++  const SSL  *ssl
++  )
++{
++  ASSERT (FALSE);
++  return NULL;
++}
++
++__owur OSSL_HANDSHAKE_STATE
++SSL_get_state (
++  const SSL  *ssl
++  )
++{
++  ASSERT (FALSE);
++  return 0;
++}
++
++__owur int
++SSL_get_verify_mode (
++  const SSL  *s
++  )
++{
++  ASSERT (FALSE);
++  return 0;
++}
++
++__owur X509_VERIFY_PARAM *
++SSL_get0_param (
++  SSL  *ssl
++  )
++{
++  ASSERT (FALSE);
++  return NULL;
++}
++
++int
++SSL_is_init_finished (
++  const SSL  *s
++  )
++{
++  ASSERT (FALSE);
++  return 0;
++}
++
++__owur int
++SSL_is_server (
++  const SSL  *s
++  )
++{
++  ASSERT (FALSE);
++  return 0;
++}
++
++SSL *
++SSL_new (
++  SSL_CTX  *ctx
++  )
++{
++  ASSERT (FALSE);
++  return NULL;
++}
++
++__owur int
++SSL_read (
++  SSL   *ssl,
++  void  *buf,
++  int   num
++  )
++{
++  ASSERT (FALSE);
++  return 0;
++}
++
++void
++SSL_set_bio (
++  SSL  *s,
++  BIO  *rbio,
++  BIO  *wbio
++  )
++{
++  ASSERT (FALSE);
++  return;
++}
++
++__owur int
++SSL_set_cipher_list (
++  SSL         *s,
++  const char  *str
++  )
++{
++  ASSERT (FALSE);
++  return 0;
++}
++
++void
++SSL_set_connect_state (
++  SSL  *s
++  )
++{
++  ASSERT (FALSE);
++  return;
++}
++
++void
++SSL_set_hostflags (
++  SSL           *s,
++  unsigned int  flags
++  )
++{
++  ASSERT (FALSE);
++  return;
++}
++
++void
++SSL_set_info_callback (
++  SSL *ssl,
++  void ( *cb )(const SSL *ssl, int type, int val)
++  )
++{
++  ASSERT (FALSE);
++  return;
++}
++
++void
++SSL_set_security_level (
++  SSL  *s,
++  int  level
++  )
++{
++  ASSERT (FALSE);
++  return;
++}
++
++void
++SSL_set_verify (
++  SSL            *s,
++  int            mode,
++  SSL_verify_cb  callback
++  )
++{
++  ASSERT (FALSE);
++  return;
++}
++
++int
++SSL_shutdown (
++  SSL  *s
++  )
++{
++  ASSERT (FALSE);
++  return 0;
++}
++
++__owur int
++SSL_use_certificate (
++  SSL   *ssl,
++  X509  *x
++  )
++{
++  ASSERT (FALSE);
++  return 0;
++}
++
++__owur int
++SSL_version (
++  const SSL  *ssl
++  )
++{
++  ASSERT (FALSE);
++  return 0;
++}
++
++__owur int
++SSL_write (
++  SSL         *ssl,
++  const void  *buf,
++  int         num
++  )
++{
++  ASSERT (FALSE);
++  return 0;
++}
++
++__owur const SSL_METHOD *
++TLS_client_method (
++  void
++  )
++{
++  ASSERT (FALSE);
++  return NULL;
++}
+-- 
+2.43.0
+

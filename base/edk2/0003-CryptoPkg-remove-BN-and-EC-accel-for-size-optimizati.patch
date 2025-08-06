@@ -1,0 +1,78 @@
+From ef94d537afe2c34fdeed10553a9f4444e8dd315c Mon Sep 17 00:00:00 2001
+From: Yi Li <yi1.li@intel.com>
+Date: Thu, 3 Aug 2023 12:37:47 +0800
+Subject: [PATCH 03/18] CryptoPkg: remove BN and EC accel for size optimization
+
+BN and EC have not been fully tested, and will greatly increase
+the size of the Crypto driver(>150KB).
+
+Signed-off-by: Yi Li <yi1.li@intel.com>
+Cc: Jiewen Yao <jiewen.yao@intel.com>
+Cc: Xiaoyu Lu <xiaoyu1.lu@intel.com>
+Cc: Guomin Jiang <guomin.jiang@intel.com>
+Reviewed-by: Jiewen Yao <jiewen.yao@intel.com>
+Acked-by: Ard Biesheuvel <ardb@kernel.org>
+Tested-by: Ard Biesheuvel <ardb@kernel.org>
+Tested-by: Brian J. Johnson <brian.johnson@hpe.com>
+Tested-by: Kenneth Lautner <klautner@microsoft.com>
+(cherry picked from commit 991515a0583f65a64b3a6fa354409c64e670a762)
+---
+ CryptoPkg/Library/OpensslLib/configure.py | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
+
+diff --git a/CryptoPkg/Library/OpensslLib/configure.py b/CryptoPkg/Library/OpensslLib/configure.py
+index dd05c75c40..59c7508506 100755
+--- a/CryptoPkg/Library/OpensslLib/configure.py
++++ b/CryptoPkg/Library/OpensslLib/configure.py
+@@ -210,6 +210,23 @@ def get_source_list(cfg, obj, gen):
+             srclist += [ obj, ]
+     return srclist
+ 
++def asm_filter_fn(filename):
++    """
++    Filter asm source and define lists.  Drops files we don't want include.
++    """
++    exclude = [
++        '/bn/',
++        'OPENSSL_BN_ASM',
++        'OPENSSL_IA32_SSE2',
++        '/ec/',
++        'ECP_NISTZ256_ASM',
++        'X25519_ASM',
++    ]
++    for item in exclude:
++        if item in filename:
++            return False
++    return True
++
+ def get_sources(cfg, obj, asm):
+     """
+     Get the list of all sources files.  Will fetch both generated
+@@ -224,6 +241,7 @@ def get_sources(cfg, obj, asm):
+                       filter(lambda x: not is_asm(x), genlist)))
+     asm_list = list(map(lambda x: f'$(OPENSSL_GEN_PATH)/{asm}/{x}',
+                         filter(is_asm, genlist)))
++    asm_list = list(filter(asm_filter_fn, asm_list))
+     return srclist + c_list + asm_list
+ 
+ def sources_filter_fn(filename):
+@@ -242,6 +260,8 @@ def sources_filter_fn(filename):
+         'defltprov.c',
+         'baseprov.c',
+         'provider_predefined.c',
++        'ecp_nistz256.c',
++        'x86_64-gcc.c',
+     ]
+     for item in exclude:
+         if item in filename:
+@@ -349,6 +369,7 @@ def main():
+             update_MSFT_asm_format(archcc, sources[archcc])
+             sources[arch] = list(filter(lambda x: not is_asm(x), srclist))
+             defines[arch] = cfg['unified_info']['defines']['libcrypto']
++            defines[arch] = list(filter(asm_filter_fn, defines[arch]))
+ 
+         ia32accel = sources['IA32'] + sources['IA32-MSFT'] + sources['IA32-GCC']
+         x64accel = sources['X64'] + sources['X64-MSFT'] + sources['X64-GCC']
+-- 
+2.43.0
+
