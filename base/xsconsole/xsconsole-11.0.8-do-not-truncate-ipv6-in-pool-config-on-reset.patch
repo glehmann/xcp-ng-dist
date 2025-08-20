@@ -1,0 +1,31 @@
+From c0ad5369a51bd45428d4908d647caf7a32542bf3 Mon Sep 17 00:00:00 2001
+From: Andrii Sultanov <andriy.sultanov@vates.tech>
+Date: Wed, 9 Apr 2025 15:49:47 +0100
+Subject: [PATCH] NetworkReset: don't truncate the IPv6 address of the
+ coordinator host
+
+Otherwise, for a pool.conf like `slave:2a01:240:ab08:5:13::201`, the
+dialog would just display `2a01`
+
+Signed-off-by: Andrii Sultanov <andriy.sultanov@vates.tech>
+---
+ plugins-base/XSFeatureNetworkReset.py | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/plugins-base/XSFeatureNetworkReset.py b/plugins-base/XSFeatureNetworkReset.py
+index b20a08c..c69009b 100644
+--- a/plugins-base/XSFeatureNetworkReset.py
++++ b/plugins-base/XSFeatureNetworkReset.py
+@@ -63,7 +63,8 @@ class NetworkResetDialogue(Dialogue):
+ 		f = open(pool_conf, 'r')
+ 		try:
+ 			l = f.readline()
+-			ls = l.split(':')
++			# split "slave:ipaddress" such that IPv6 address is preserved
++			ls = l.split(':', maxsplit=1)
+ 			if ls[0] == 'slave':
+ 				self.master_ip = ls[1]
+ 		finally:
+-- 
+2.50.1
+
