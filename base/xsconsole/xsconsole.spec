@@ -1,14 +1,14 @@
-%global package_speccommit 070a6ba05696264e7d2c7e0476c5ab6daf170f3d
-%global package_srccommit v11.0.9.1
-%{!?xsrel: %global xsrel 1}
+%global package_speccommit b64a761159680381af22acab7f6943c4a57ad733
+%global package_srccommit v11.1.2
+%{!?xsrel: %global xsrel 0}
 
 Summary: XCP-ng Host Configuration Console
 Name: xsconsole
-Version: 11.0.9.1
-Release: %{?xsrel}.1%{?dist}
+Version: 11.1.2
+Release: %{?xsrel}.0.ydi.1%{?dist}
 License: GPL2
 Group: Administration/System
-Source0: xsconsole-11.0.9.1.tar.gz
+Source0: xsconsole-%{version}.tar.gz
 Provides: xsconsole0
 BuildRequires: python3-devel
 BuildRequires: systemd
@@ -71,6 +71,9 @@ Console tool for configuring a XCP-ng installation.
 %{_unitdir}/xsconsole.service
 
 %changelog
+* Mon Dec 08 2025 Yann Dirson <yann.dirson@vates.tech> - 11.1.2-0.0.ydi.1
+- New upstream release targeting v9
+
 * Tue Sep 02 2025 Guillaume Thouvenin <guillaume.thouvenin@vates.tech> - 11.0.9.1-1.1
 - Sync with 11.0.9.1-1
 - Drop xsconsole-11.0.8-sync-network-reset-trigger-file.patch
