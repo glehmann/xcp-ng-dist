@@ -1,5 +1,5 @@
-%global package_speccommit a2c7317e4df932b7d9ea2cdf0b73f87d9de1fec6
-%global usver 6.90.0
+%global package_speccommit 10fe381a6eac75dcca62f4324b2008ddc92738d5
+%global usver 6.91.0
 %global xsver 1
 %global xsrel %{xsver}%{?xscount}%{?xshash}
 ## This has to match the declaration in xs-opam-src, which
@@ -10,7 +10,7 @@
 # However, something needs to be fixed on XS 9 to not need it anymore.
 %global _debugsource_template %{nil}
 
-%global _version 6.90.0
+%global _version 6.91.0
 
 # When building an untagged version, add the number of commits and hash after
 # the variable _version. e.g. -34-gab48a58c for 6.77.0-34-gab48a58c
@@ -23,9 +23,9 @@ Summary: Build and install OCaml libraries from Opam repository
 # The license field is produced by running print-license.sh
 # Please update licenses.txt on every new version and then run the script to
 # keep these in sync.
-License: Apache-1.0 and BSD-2-Clause and BSD-3-Clause and curl and GPL-1.0-or-later and GPL-2.0-only and GPL-2.0-or-later and GPL-3.0-only and GPL-3.0-or-later and ISC and LGPL-2.0-only WITH OCaml-LGPL-linking-exception and LGPL-2.0-or-later WITH OCaml-LGPL-linking-exception and LGPL-2.1-only and LGPL-2.1-only WITH OCaml-LGPL-linking-exception and LGPL-2.1-or-later WITH OCaml-LGPL-linking-exception and LGPL-2.1-or-later WITH OpenSSL-linking-exception and LGPL-3.0-only and MIT and PSF-2.0 and Unlicense
+License: Apache-1.0 and Apache-2.0 and BSD-2-Clause and BSD-3-Clause and curl and GPL-1.0-or-later and GPL-2.0-only and GPL-2.0-or-later and GPL-3.0-only and GPL-3.0-or-later and ISC and LGPL-2.0-only WITH OCaml-LGPL-linking-exception and LGPL-2.0-or-later WITH OCaml-LGPL-linking-exception and LGPL-2.1-only and LGPL-2.1-only WITH OCaml-LGPL-linking-exception and LGPL-2.1-or-later WITH OCaml-LGPL-linking-exception and LGPL-2.1-or-later WITH OpenSSL-linking-exception and LGPL-3.0-only and MIT and PSF-2.0 and Unlicense
 URL:     https://github.com/xapi-project/xs-opam
-Source0: xs-opam-repo-6.90.0.tar.gz
+Source0: xs-opam-repo-6.91.0.tar.gz
 # To "pin" a package during development, see below the example
 # where ezxenstore is pinned to an internal master branch.
 # You need the Source1 line, and the below 'tar' and 'opam pin' lines, and comment-out the OPAMFETCH
@@ -122,6 +122,10 @@ echo '%%_opamroot %%{_libdir}/opamroot' >> "%{buildroot}%{_rpmconfigdir}/macros.
 %{_opamroot}
 
 %changelog
+* Fri Jul 18 2025 Rob Hoes <rob.hoes@cloud.com> - 6.91.0-1
+- Add qcow-stream and its dependencies
+- packages: update xen-api's metadata
+
 * Tue Jun 10 2025 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.90.0-1
 - packages: update dune packages to 3.18.2
 - packages: update ocaml-xenstore to 2.4.0
