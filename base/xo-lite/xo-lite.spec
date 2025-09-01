@@ -1,7 +1,7 @@
 Summary: Xen Orchestra Lite
 Name:    xo-lite
 Version: 0.14.0
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: AGPL3-only
 URL:     https://github.com/vatesfr/xen-orchestra
 
@@ -20,10 +20,8 @@ browser without having to deploy anything.
 %install
 install -d -m 755 %{buildroot}/opt/xensource/www
 cp -a * %{buildroot}/opt/xensource/www
-# We are removing unnecessary files.
+# Remove unnecessary files.
 rm %{buildroot}/opt/xensource/www/LICENSE %{buildroot}/opt/xensource/www/CHANGELOG.md
-# The build.json file is a temporary file that appeared in August 2025, with version 0.14.0. It should disappear eventually.
-rm %{buildroot}/opt/xensource/www/build.json
 
 %files
 %license LICENSE
@@ -32,9 +30,13 @@ rm %{buildroot}/opt/xensource/www/build.json
 /opt/xensource/www/favicon.svg
 /opt/xensource/www/manifest.webmanifest
 /opt/xensource/www/xolite.html
+/opt/xensource/www/build.json
 %doc CHANGELOG.md
 
 %changelog
+* Mon Sep 01 2025 Gael Duperrey <gduperrey@vates.tech> - 0.14.0-2
+- Finally, the build.json file is important, so we'll keep it.
+
 * Thu Aug 28 2025 Gael Duperrey <gduperrey@vates.tech> - 0.14.0-1
 - Update to version 0.14.0
 
