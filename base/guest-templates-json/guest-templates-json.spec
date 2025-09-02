@@ -1,19 +1,24 @@
-%global package_speccommit a01d5135a69c50861087fb1093cfa29b55a8822c
-%global package_srccommit v2.0.13
+%global package_speccommit 3fcfae926eef91f7aad6867b918e0970e4f4f855
+%global package_srccommit v2.0.14
 Name:    guest-templates-json
 Summary: Creates the default guest templates
-Version: 2.0.13
+Version: 2.0.14
 Release: 1%{?xsrel}.1%{?dist}
 License: BSD
-Source0: guest-templates-json-2.0.13.tar.gz
+Source0: guest-templates-json-2.0.14.tar.gz
 
 # XCP-ng patches
 Source1000: almalinux-8.json
 Source1001: almalinux-9.json
-Source1002: centos-stream-8.json
-Source1003: oel-9.json
-Source1004: generic-linux-bios.json 
-Source1005: generic-linux-uefi.json
+Source1002: almalinux-10.json
+Source1003: centos-stream-8.json
+Source1004: debian-13.json
+Source1005: oel-9.json
+Source1006: oel-10.json
+Source1007: rhel-10.json
+Source1008: rocky-10.json
+Source1009: generic-linux-bios.json
+Source1010: generic-linux-uefi.json
 
 BuildArch: noarch
 
@@ -75,7 +80,7 @@ Contains the default other guest templates.
 
 install -d %{buildroot}%{templatedir}
 install -m 644 json/*.json %{buildroot}%{templatedir}
-install -m 644 %{SOURCE1000} %{SOURCE1001} %{SOURCE1002} %{SOURCE1003} %{SOURCE1004} %{SOURCE1005} %{buildroot}%{templatedir}
+install -m 644 %{SOURCE1000} %{SOURCE1001} %{SOURCE1002} %{SOURCE1003} %{SOURCE1004} %{SOURCE1005} %{SOURCE1006} %{SOURCE1007} %{SOURCE1008} %{SOURCE1009} %{SOURCE1010} %{buildroot}%{templatedir}
 install -d %{buildroot}%{_sysconfdir}/xapi.d/vm-templates
 
 install -m 755 service/create-guest-templates-wrapper %{buildroot}%{_bindir}
@@ -163,6 +168,7 @@ fi
 
 %files data-linux
 %{templatedir}/almalinux-[89].json
+%{templatedir}/almalinux-10.json
 %{templatedir}/base-el-7.json
 %{templatedir}/base-hvmlinux.json
 %{templatedir}/base-kylin-7.json
@@ -171,16 +177,20 @@ fi
 %{templatedir}/base-linux-uefi.json
 %{templatedir}/centos-[79].json
 %{templatedir}/centos-stream-8.json
+%{templatedir}/centos-10.json
 %{templatedir}/debian*.json
 %{templatedir}/kylin-7.json
 %{templatedir}/oel-[789].json
+%{templatedir}/oel-10.json
 %{templatedir}/rhel-[789].json
+%{templatedir}/rhel-10.json
 %{templatedir}/sl-7.json
 %{templatedir}/sle-15-64bit.json
 %{templatedir}/sles-12-sp[4-5]-64bit.json
 %{templatedir}/ubuntu*.json
 %{templatedir}/gooroom-2.json
 %{templatedir}/rocky-[89].json
+%{templatedir}/rocky-10.json
 %{templatedir}/generic-linux-bios.json
 %{templatedir}/generic-linux-uefi.json
 
@@ -192,6 +202,14 @@ fi
 %{templatedir}/other-install-media.json
 
 %changelog
+* Tue Sep 02 2025 Gael Duperrey <gduperrey@vates.tech> - 2.0.14-1.1
+- Rebase on 2.0.14-1
+- Add templates for almalinux 10, rocky linux 10, debian 13, oracle linux 10, redhat 10
+- *** Upstream changelog ***
+  * Tue Jan 21 2025 Lunfan Zhang <Lunfan.Zhang@cloud.com> - 2.0.14-1
+  - CP-51980: Add CentOS Stream 10 template
+  - CP-51980: Remove 'preview' label from Ubuntu24.04
+
 * Tue Mar 04 2025 Samuel Verschelde <stormi-xcp@ylix.fr> - 2.0.13-1.1
 - Rebase on 2.0.13-1
 - *** Upstream changelog ***
