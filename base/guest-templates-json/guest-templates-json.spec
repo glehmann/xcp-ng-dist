@@ -1,11 +1,11 @@
-%global package_speccommit a01d5135a69c50861087fb1093cfa29b55a8822c
-%global package_srccommit v2.0.13
+%global package_speccommit 3fcfae926eef91f7aad6867b918e0970e4f4f855
+%global package_srccommit v2.0.14
 Name:    guest-templates-json
 Summary: Creates the default guest templates
-Version: 2.0.13
+Version: 2.0.14
 Release: 1%{?xsrel}%{?dist}
 License: BSD
-Source0: guest-templates-json-2.0.13.tar.gz
+Source0: guest-templates-json-2.0.14.tar.gz
 BuildArch: noarch
 
 Requires: xapi-core
@@ -159,6 +159,7 @@ fi
 %{templatedir}/base-sle-hvm.json
 %{templatedir}/base-linux-uefi.json
 %{templatedir}/centos-[79].json
+%{templatedir}/centos-10.json
 %{templatedir}/debian*.json
 %{templatedir}/kylin-7.json
 %{templatedir}/oel-[78].json
@@ -178,6 +179,10 @@ fi
 %{templatedir}/other-install-media.json
 
 %changelog
+* Tue Jan 21 2025 Lunfan Zhang <Lunfan.Zhang@cloud.com> - 2.0.14-1
+- CP-51980: Add CentOS Stream 10 template
+- CP-51980: Remove 'preview' label from Ubuntu24.04
+
 * Tue Nov 19 2024 Gerald Elder-Vass <gerald.elder-vass@cloud.com> - 2.0.13-1
 - CP-50305: Remove '(preview') from Windows Server 2025 template
 
