@@ -1,14 +1,14 @@
-%global package_speccommit 4180d42f5bdbceb1769b36a8c65a049950ba92b3
-%global package_srccommit v11.0.8
+%global package_speccommit 070a6ba05696264e7d2c7e0476c5ab6daf170f3d
+%global package_srccommit v11.0.9.1
 %{!?xsrel: %global xsrel 1}
 
 Summary: XCP-ng Host Configuration Console
 Name: xsconsole
-Version: 11.0.8
-Release: %{?xsrel}.2%{?dist}
+Version: 11.0.9.1
+Release: %{?xsrel}.1%{?dist}
 License: GPL2
 Group: Administration/System
-Source0: xsconsole-11.0.8.tar.gz
+Source0: xsconsole-11.0.9.1.tar.gz
 Provides: xsconsole0
 BuildRequires: python3-devel
 BuildRequires: systemd
@@ -35,9 +35,6 @@ Patch1001: xsconsole-10.1.13-define-xcp-ng-colors.XCP-ng.patch
 # PR pending merge
 Patch1002: xsconsole-11.0.2-support-ipv6.XCP-ng.patch
 Patch1003: xsconsole-11.0.6-Ipv6-pool-join.XCP-ng.patch
-# Sync network reset trigger file path with XAPI - To be removed on next rebase
-Patch1004: xsconsole-11.0.8-sync-network-reset-trigger-file.patch
-Patch1005: xsconsole-11.0.8-do-not-truncate-ipv6-in-pool-config-on-reset.patch
 
 %description
 Console tool for configuring a XCP-ng installation.
@@ -74,6 +71,16 @@ Console tool for configuring a XCP-ng installation.
 %{_unitdir}/xsconsole.service
 
 %changelog
+* Tue Sep 02 2025 Guillaume Thouvenin <guillaume.thouvenin@vates.tech> - 11.0.9.1-1.1
+- Sync with 11.0.9.1-1
+- Drop xsconsole-11.0.8-sync-network-reset-trigger-file.patch
+- Drop xsconsole-11.0.8-do-not-truncate-ipv6-in-pool-config-on-reset.patch
+- *** Upstream changelog ***
+  * Thu Jul 31 2025 Lunfan Zhang <Lunfan.Zhang@cloud.com> - 11.0.9.1-1
+  - CP-309227: Enable xsconsole to support control SSH and ssh-auto-mode
+  * Thu Aug 1 2024 Lin Liu <Lin.Liu01@cloud.com> - 11.0.9-1
+  - CA-395025: Local command shell login failed on XS9
+
 * Wed Aug 20 2025 David Morel <david.morel@vates.tech> - 11.0.8-1.2
 - Backport fix to sync network reset trigger file with current XAPI
 - Backport fix for IPv6 truncated in pool.conf on network reset
