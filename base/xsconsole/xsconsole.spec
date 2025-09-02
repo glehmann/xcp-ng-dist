@@ -1,14 +1,14 @@
-%global package_speccommit 4180d42f5bdbceb1769b36a8c65a049950ba92b3
-%global package_srccommit v11.0.8
+%global package_speccommit 070a6ba05696264e7d2c7e0476c5ab6daf170f3d
+%global package_srccommit v11.0.9.1
 %{!?xsrel: %global xsrel 1}
 
 Summary: XenServer Host Configuration Console
 Name: xsconsole
-Version: 11.0.8
+Version: 11.0.9.1
 Release: %{?xsrel}%{?dist}
 License: GPL2
 Group: Administration/System
-Source0: xsconsole-11.0.8.tar.gz
+Source0: xsconsole-11.0.9.1.tar.gz
 Provides: xsconsole0
 BuildRequires: python3-devel
 BuildRequires: systemd
@@ -75,6 +75,12 @@ InCloud Sphere.
 %{_libdir}/xsconsole/plugins-oem/XSFeatureLicenseNag.py*
 
 %changelog
+* Thu Jul 31 2025 Lunfan Zhang <Lunfan.Zhang@cloud.com> - 11.0.9.1-1
+- CP-309227: Enable xsconsole to support control SSH and ssh-auto-mode
+
+* Thu Aug 1 2024 Lin Liu <Lin.Liu01@cloud.com> - 11.0.9-1
+- CA-395025: Local command shell login failed on XS9
+
 * Tue Jul 23 2024 Gerald Elder-Vass <gerald.elder-vass@cloud.com> - 11.0.8-1
 - CA-390512: Improved xenapi error handling
 
