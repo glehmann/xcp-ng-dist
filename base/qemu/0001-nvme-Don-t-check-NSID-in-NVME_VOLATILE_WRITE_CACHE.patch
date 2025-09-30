@@ -1,0 +1,105 @@
+From 7f975db63cba14b825ee453cc881f4a6ad364141 Mon Sep 17 00:00:00 2001
+From: Tu Dinh <ngoc-tu.dinh@vates.tech>
+Date: Thu, 2 Oct 2025 19:30:42 +0200
+Subject: [PATCH] nvme: Don't check NSID in NVME_VOLATILE_WRITE_CACHE
+
+NVME_VOLATILE_WRITE_CACHE is a controller-level feature and therefore
+cannot be set per-namespace.
+
+However, current XCP-ng QEMU does it anyway, and returns
+NVME_INVALID_NSID if an "invalid" NSID (read: 0) is supplied.
+
+Unfortunately, Server 2025 storport and stornvme 10.0.26100.5074 cannot
+tolerate the error code of this feature being NVME_INVALID_NSID, and
+refuses to activate the namespaces.
+
+Note that each namespace has its own block backend with a different
+write cache state. While it's hard to keep track of individual backends'
+write cache states at initialization time, we can be conservative and
+announce that the write cache is always enabled at boot. Store an
+"ideal" state of the controller's write cache, and set all backend cache
+states to align with this value.
+
+Signed-off-by: Tu Dinh <ngoc-tu.dinh@vates.tech>
+---
+ hw/block/nvme.c | 34 +++++++++++++++++++---------------
+ 1 file changed, 19 insertions(+), 15 deletions(-)
+
+diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+index c69bc90..3a3e20d 100644
+--- a/hw/block/nvme.c
++++ b/hw/block/nvme.c
+@@ -1467,8 +1467,6 @@ static uint16_t nvme_get_feature(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
+     uint32_t dw11 = le32_to_cpu(cmd->cdw11);
+     uint32_t result;
+ 
+-    uint32_t nsid;
+-
+     trace_nvme_getfeat(dw10);
+ 
+     switch (dw10) {
+@@ -1485,13 +1483,7 @@ static uint16_t nvme_get_feature(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
+         result = cpu_to_le32(n->features.err_rec);
+         break;
+     case NVME_VOLATILE_WRITE_CACHE:
+-        nsid = le32_to_cpu(cmd->nsid);
+-        if (unlikely(nsid == 0 || nsid > n->num_namespaces)) {
+-            trace_nvme_err_invalid_ns(nsid, n->num_namespaces);
+-            return NVME_INVALID_NSID | NVME_DNR;
+-        }
+-
+-        result = blk_enable_write_cache(n->namespaces[nsid - 1]->conf.blk);
++        result = cpu_to_le32(n->features.volatile_wc);
+         trace_nvme_getfeat_vwcache(result ? "enabled" : "disabled");
+         break;
+     case NVME_NUMBER_OF_QUEUES:
+@@ -1548,7 +1540,9 @@ static uint16_t nvme_set_feature(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
+     uint32_t dw10 = le32_to_cpu(cmd->cdw10);
+     uint32_t dw11 = le32_to_cpu(cmd->cdw11);
+ 
+-    uint32_t nsid;
++    uint32_t i;
++    uint32_t volatile_wc;
++    NvmeNamespace *ns;
+ 
+     trace_nvme_setfeat(dw10, dw11);
+ 
+@@ -1561,13 +1555,22 @@ static uint16_t nvme_set_feature(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
+         }
+         break;
+     case NVME_VOLATILE_WRITE_CACHE:
+-        nsid = le32_to_cpu(cmd->nsid);
+-        if (unlikely(nsid == 0 || nsid > n->num_namespaces)) {
+-            trace_nvme_err_invalid_ns(nsid, n->num_namespaces);
+-            return NVME_INVALID_NSID | NVME_DNR;
++        volatile_wc = dw11 & 1;
++        n->features.volatile_wc = volatile_wc;
++
++        for (i = 0; i < n->num_namespaces; i++) {
++            ns = n->namespaces[i];
++            if (!ns) {
++                continue;
++            }
++
++            if (!volatile_wc && blk_enable_write_cache(ns->conf.blk)) {
++                blk_flush(ns->conf.blk);
++            }
++
++            blk_set_enable_write_cache(ns->conf.blk, volatile_wc);
+         }
+ 
+-        blk_set_enable_write_cache(n->namespaces[nsid - 1]->conf.blk, dw11 & 1);
+         break;
+     case NVME_NUMBER_OF_QUEUES:
+         if (n->qs_created > 2) {
+@@ -2355,6 +2358,7 @@ static void nvme_init_state(NvmeCtrl *n)
+     n->aer_reqs = g_new0(NvmeRequest *, NVME_AERL + 1);
+     n->temperature = NVME_TEMPERATURE;
+     n->features.temp_thresh = 0x14d;
++    n->features.volatile_wc = 1;
+     n->features.int_vector_config = g_malloc0_n(n->params.num_queues,
+         sizeof(*n->features.int_vector_config));
+ 
+-- 
+2.43.0
+

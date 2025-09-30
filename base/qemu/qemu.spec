@@ -15,7 +15,7 @@ Summary: qemu-dm device model
 Name: qemu
 Epoch: 2
 Version: 4.2.1
-Release: %{?xsrel}.1%{?dist}
+Release: %{?xsrel}.2%{?dist}
 License: GPL
 Requires: xcp-clipboardd
 Requires: xengt-userspace
@@ -144,6 +144,7 @@ Patch116: msix_pba_log.patch
 
 # XCP-ng patches
 Patch1000: qemu-4.2.1-CVE-2023-3354.backport.patch
+Patch1001: 0001-nvme-Don-t-check-NSID-in-NVME_VOLATILE_WRITE_CACHE.patch
 
 BuildRequires: python3-devel
 BuildRequires: libaio-devel glib2-devel
@@ -231,11 +232,14 @@ cp -r scripts/qmp %{buildroot}%{_datarootdir}/qemu
 %{?_cov_results_package}
 
 %changelog
+* Thu Oct 02 2025 Tu Dinh <ngoc-tu.dinh@vates.tech> - 4.2.1-5.2.12.2
+- Fix Server 2025 issue with NVMe volatile write cache feature
+
 * Thu Feb 13 2025 Yann Dirson <yann.dirson@vates.tech> - 4.2.1-5.2.12.1
 - Sync with xs8 4.2.1-5.2.12, no code change, only rebuild against libjemalloc.so.2:
   * Fri Aug 02 2024 Stephen Cheng <stephen.cheng@cloud.com> - 4.2.1-5.2.12
   - CP-46112: Rebuild after new version of jemalloc
-  
+
   * Fri Aug 02 2024 Stephen Cheng <stephen.cheng@cloud.com> - 4.2.1-5.2.11
   - CP-46112: Rebuild with new version of jemalloc
 
