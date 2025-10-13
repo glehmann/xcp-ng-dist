@@ -1,6 +1,6 @@
 Summary: XAPI additional plugins for XCP-ng
 Name: xcp-ng-xapi-plugins
-Version: 1.13.0
+Version: 1.15.0
 Release: 1%{?dist}
 URL: https://github.com/xcp-ng/xcp-ng-xapi-plugins
 Source0: https://github.com/xcp-ng/xcp-ng-xapi-plugins/archive/v%{version}/%{name}-%{version}.tar.gz
@@ -32,6 +32,11 @@ install SOURCES/etc/xapi.d/plugins/xcpngutils/*.py %{buildroot}/etc/xapi.d/plugi
 %dir /var/lib/xcp-ng-xapi-plugins
 
 %changelog
+* Fri Oct 10 2025 David Morel <david.morel@vates.tech> - 1.15.0-1
+- Heavy rework of sdncontroller plugin
+- Version 1.14.0 was skipped, as the lsblk plugin changes introduced
+  performance issues and were reverted in this release.
+
 * Mon Jun 16 2025 David Morel <david.morel@vates.tech> - 1.13.0-1
 - Add a new sdncontroller plugin
 
