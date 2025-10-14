@@ -18,7 +18,7 @@
 
 Name: xs-opam-repo
 Version: %{_version}
-Release: %{?xsrel}.1%{?dist}
+Release: %{?xsrel}.1.1%{?dist}
 Summary: Build and install OCaml libraries from Opam repository
 # The license field is produced by running print-license.sh
 # Please update licenses.txt on every new version and then run the script to
@@ -26,6 +26,7 @@ Summary: Build and install OCaml libraries from Opam repository
 License: Apache-1.0 and Apache-2.0 and BSD-2-Clause and BSD-3-Clause and curl and GPL-1.0-or-later and GPL-2.0-only and GPL-3.0-or-later and ISC and LGPL-2.0-only WITH OCaml-LGPL-linking-exception and LGPL-2.0-or-later WITH OCaml-LGPL-linking-exception and LGPL-2.1-only and LGPL-2.1-only WITH OCaml-LGPL-linking-exception and LGPL-2.1-or-later WITH OCaml-LGPL-linking-exception and LGPL-2.1-or-later WITH OpenSSL-linking-exception and LGPL-3.0-only and MIT and PSF-2.0
 URL:     https://github.com/xapi-project/xs-opam
 Source0: xs-opam-repo-6.99.0.tar.gz
+Source1: host-arch-arm64.1.opam
 # To "pin" a package during development, see below the example
 # where ezxenstore is pinned to an internal master branch.
 # You need the Source1 line, and the below 'tar' and 'opam pin' lines, and comment-out the OPAMFETCH
@@ -77,6 +78,11 @@ Toolstack components of the Citrix Hypervisor.
 %autosetup -p1 -n xs-opam-repo-%{_version_full}
 # XCP-ng: remove dlm, which is only required by proprietary xapi-clusterd
 rm -r packages/dlm/dlm.*
+%ifarch aarch64
+mkdir -p packages/host-arch-arm64/host-arch-arm64.1
+cp %{SOURCE1} packages/host-arch-arm64/host-arch-arm64.1/opam
+rm -r packages/host-arch-x86_64
+%endif
 
 %build
 
@@ -133,6 +139,10 @@ echo '%%_opamroot %%{_libdir}/opamroot' >> "%{buildroot}%{_rpmconfigdir}/macros.
 %{_opamroot}
 
 %changelog
+* Tue Oct 14 2025 Yann Dirson <yann.dirson@vates.tech> - 6.99.0-1.1.1 - WIP
+- Hack in the definition for host-arch-arm64, from
+  https://raw.githubusercontent.com/ocaml/opam-repository/e64203035b54812a6e33cfa9f390fd0f17c02e07/packages/host-arch-arm64/host-arch-arm64.1/opam
+
 * Wed Feb 18 2026 Pau Ruiz Safont <pau.safont@vates.tech> - 6.99.0-1.1
  - *** Upstream changelog ***
  * Tue Jan 13 2026 Rob Hoes <rob.hoes@cloud.com> - 6.99.0-1
