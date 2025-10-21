@@ -1,6 +1,6 @@
-%global package_speccommit d14b7716009e21986306201bc30bb9d9e90a1380
+%global package_speccommit ba556d5469c10de592e5b7b22434fd31036eec0f
 %global usver 4.2.1
-%global xsver 5.2.12
+%global xsver 5.2.14
 %global xsrel %{xsver}%{?xscount}%{?xshash}
 %global package_srccommit v4.2.1
 
@@ -15,7 +15,7 @@ Summary: qemu-dm device model
 Name: qemu
 Epoch: 2
 Version: 4.2.1
-Release: %{?xsrel}.2%{?dist}
+Release: %{?xsrel}.1%{?dist}
 License: GPL
 Requires: xcp-clipboardd
 Requires: xengt-userspace
@@ -113,38 +113,38 @@ Patch85: 0013-nvme-simplify-dma-cmb-mappings.patch
 Patch86: 0014-nvme-support-multiple-block-requests-per-request.patch
 Patch87: 0015-nvme-support-scatter-gather-lists.patch
 Patch88: 0016-nvme-support-multiple-namespaces.patch
-Patch89: nvme-ns-fix-null.patch
-Patch90: nvme-ns-allow-inactive.patch
-Patch91: nvme-close-backend.patch
-Patch92: 0001-Add-qemu-qcode-support-for-keys-F13-to-F24.patch
-Patch93: 0001-ps2-Don-t-send-key-release-event-for-Lang1-Lang2-key.patch
-Patch94: 0001-CP-20436-Introduce-a-config-option-for-machines-comp.patch
-Patch95: pci-add-subsystem-id-properties.patch
-Patch96: pci-add-revision_id-property.patch
-Patch97: force-lba-geometry.patch
-Patch98: 0001-CP-21767-Don-t-accidently-unplug-ourselves-if-PCI_CL.patch
-Patch99: 0001-CP-21434-Implement-VBE-LFB-physical-address-register.patch
-Patch100: 0001-CA-256542-Workaround-unassigned-accesses-caused-by-b.patch
-Patch101: match-xen-pvdevice-location.patch
-Patch102: 0001-CA-289906-Use-legacy-HID-descriptors-for-USB-Tablet-.patch
-Patch103: revert_hw-i386__remove_deprecated_machines_pc-0.10_and_pc-0.11.patch
-Patch104: 0001-CP-17697-Initial-port-of-NVIDIA-VGPU-support-from-QEMU-trad.patch
-Patch105: usb-batch-frames.patch
-Patch106: 0001-CP-23753-Talk-to-new-clipboard-daemon.patch
-Patch107: gvt-g.patch
-Patch108: allocate-guest-ram-reserved.patch
-Patch109: unplug-nvme-devices.patch
-Patch110: do_not_register_xen_backend_for_qdisk.patch
-Patch111: add-an-ide-read-cache.patch
-Patch112: disable-dirty-vram-tracking.patch
-Patch113: build-configuration.patch
-Patch114: 0001-CP-46162-Resolve-the-Null-pointer-error-in-configure.patch
-Patch115: 81ef3d06c970c6b7ae4971ad552b2287af376f43.patch
-Patch116: msix_pba_log.patch
+Patch89: nvme-ns-allow-inactive.patch
+Patch90: nvme-close-backend.patch
+Patch91: 0001-hw-block-nvme-open-code-for-volatile-write-cache.patch
+Patch92: 0001-hw-block-nvme-Fix-a-build-error-in-nvme_get_feature.patch
+Patch93: 0001-Add-qemu-qcode-support-for-keys-F13-to-F24.patch
+Patch94: 0001-ps2-Don-t-send-key-release-event-for-Lang1-Lang2-key.patch
+Patch95: 0001-CP-20436-Introduce-a-config-option-for-machines-comp.patch
+Patch96: pci-add-subsystem-id-properties.patch
+Patch97: pci-add-revision_id-property.patch
+Patch98: force-lba-geometry.patch
+Patch99: 0001-CP-21767-Don-t-accidently-unplug-ourselves-if-PCI_CL.patch
+Patch100: 0001-CP-21434-Implement-VBE-LFB-physical-address-register.patch
+Patch101: 0001-CA-256542-Workaround-unassigned-accesses-caused-by-b.patch
+Patch102: match-xen-pvdevice-location.patch
+Patch103: 0001-CA-289906-Use-legacy-HID-descriptors-for-USB-Tablet-.patch
+Patch104: revert_hw-i386__remove_deprecated_machines_pc-0.10_and_pc-0.11.patch
+Patch105: 0001-CP-17697-Initial-port-of-NVIDIA-VGPU-support-from-QEMU-trad.patch
+Patch106: usb-batch-frames.patch
+Patch107: 0001-CP-23753-Talk-to-new-clipboard-daemon.patch
+Patch108: gvt-g.patch
+Patch109: allocate-guest-ram-reserved.patch
+Patch110: unplug-nvme-devices.patch
+Patch111: do_not_register_xen_backend_for_qdisk.patch
+Patch112: add-an-ide-read-cache.patch
+Patch113: disable-dirty-vram-tracking.patch
+Patch114: build-configuration.patch
+Patch115: 0001-CP-46162-Resolve-the-Null-pointer-error-in-configure.patch
+Patch116: 81ef3d06c970c6b7ae4971ad552b2287af376f43.patch
+Patch117: msix_pba_log.patch
 
 # XCP-ng patches
 Patch1000: qemu-4.2.1-CVE-2023-3354.backport.patch
-Patch1001: 0001-nvme-Don-t-check-NSID-in-NVME_VOLATILE_WRITE_CACHE.patch
 
 BuildRequires: python3-devel
 BuildRequires: libaio-devel glib2-devel
@@ -232,6 +232,16 @@ cp -r scripts/qmp %{buildroot}%{_datarootdir}/qemu
 %{?_cov_results_package}
 
 %changelog
+* Tue Nov 17 2025 Tu Dinh <ngoc-tu.dinh@vates.tech> - 4.2.1-5.2.14.1
+- Sync with 4.2.1-5.2.14
+- Remove 0001-nvme-Don-t-check-NSID-in-NVME_VOLATILE_WRITE_CACHE.patch in favor of XenServer's fix
+- *** Upstream changelog ***
+  * Wed Oct 15 2025 Ross Lagerwall <ross.lagerwall@citrix.com> - 4.2.1-5.2.14
+  - CA-418876: Fix NVMe namespace indexing
+
+  * Thu Oct 02 2025 Ross Lagerwall <ross.lagerwall@citrix.com> - 4.2.1-5.2.13
+  - CA-417654: Fix NVME bug which causes WS2025 install failures
+
 * Thu Oct 02 2025 Tu Dinh <ngoc-tu.dinh@vates.tech> - 4.2.1-5.2.12.2
 - Fix Server 2025 issue with NVMe volatile write cache feature
 
