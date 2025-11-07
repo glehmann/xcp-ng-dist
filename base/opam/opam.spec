@@ -1,15 +1,15 @@
 %global package_speccommit f40573a915953b3b1a24591e90b15a1bb9a8ff80
-%global usver 2.1.4
-%global xsver 4
+%global usver 2.4.1
+%global xsver 1
 %global xsrel %{xsver}%{?xscount}%{?xshash}
 
 Name:           opam
-Version:        2.1.4
-Release:        %{?xsrel}%{?dist}
+Version:        2.4.1
+Release:        %{?xsrel}.1%{?dist}
 Summary:        Source-based OCaml package manager
 License:        LGPL-2.1-only WITH OCaml-LGPL-linking-exception
 URL:            https://github.com/ocaml/opam
-Source0: opam-full-2.1.4.tar.gz
+Source0: opam-full-2.4.1.tar.gz
 BuildRequires:  make
 BuildRequires:  curl
 BuildRequires:  git
@@ -48,8 +48,7 @@ a Git-friendly development workflow.
 source /opt/rh/devtoolset-11/enable
 %endif
 
-%configure
-make lib-ext
+%configure --with-vendored-deps
 make
 
 %install
@@ -70,6 +69,9 @@ rm -rf %{buildroot}%{_prefix}/doc
 %{_mandir}/man1/*.1*
 
 %changelog
+* Fri Nov 07 2025 Pau Ruiz Safont <pau.safont@vates.tech> - 2.4.1-1.1
+- Update to 2.4.1
+
 * Wed Aug 9 2023 Lin Liu <Lin.Liu01@cloud.com> - 2.1.4-4
 - Use GCC to build opam for next platform
 
