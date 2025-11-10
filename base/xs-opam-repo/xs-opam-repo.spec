@@ -92,7 +92,11 @@ export OPAMROOT=%{_opamroot}
 opam init --bare --no-setup -k local xs-opam . -y
 opam switch create ocaml-system
 
-PKG=$(opam exec -- opam list --installable --short)
+# take note of installed packages, along with their versions
+PKG_EXISTING=$(opam list --installed --short --separator=. --columns=name,version | tr -d ' ' | tr '\n' ',')
+
+# take note of packages that need to be installed. They have to be installable with already installed package versions, in particular with the current OCaml version.
+PKG=$(opam exec -- opam list --installable --short --coinstallable-with=$PKG_EXISTING)
 
 export OPAMFETCH=/bin/false
 opam exec -- opam install %{?_smp_mflags} -y $PKG
