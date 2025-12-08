@@ -1,6 +1,6 @@
 Name:           xcp-ng-config
 Version:        0
-Release:        0.ydi.1%{?dist}
+Release:        0.ydi.2%{?dist}
 
 Summary:        %{dist_name} configuration files
 Group:          System Environment/Base
@@ -14,9 +14,14 @@ URL:            https://xcp-ng.org
 # enable persistent systemd journal
 install -d -m755 %{buildroot}/var/log/journal
 
+# pin Almalinux version to avoid upgrade to 10.1+
+mkdir -p %{buildroot}/etc/dnf/vars
+echo "10.0" > %{buildroot}/etc/dnf/vars/releasever
+
 %files
+/etc/dnf/vars/releasever
 /var/log/journal
 
 %changelog
-* Fri Nov 28 2025 Yann Dirson <yann.dirson@vates.tech> - 0-0.ydi.1
+* Fri Nov 28 2025 Yann Dirson <yann.dirson@vates.tech> - 0-0.ydi.2
 - Initial release
