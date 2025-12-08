@@ -5,7 +5,7 @@
 Summary: XCP-ng Host Configuration Console
 Name: xsconsole
 Version: 11.1.2
-Release: %{?xsrel}.0.ydi.1%{?dist}
+Release: %{?xsrel}.0.ydi.3%{?dist}
 License: GPL2
 Group: Administration/System
 Source0: xsconsole-%{version}.tar.gz
@@ -75,7 +75,7 @@ Console tool for configuring a XCP-ng installation.
 %{_unitdir}/xsconsole.service
 
 %changelog
-* Mon Dec 08 2025 Yann Dirson <yann.dirson@vates.tech> - 11.1.2-0.0.ydi.1
+* Mon Dec 08 2025 Yann Dirson <yann.dirson@vates.tech> - 11.1.2-0.0.ydi.3
 - New upstream release targeting v9
 - Support for python 3.12
 
