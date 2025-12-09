@@ -1,7 +1,7 @@
 From 166c9c48eb64b290cd0d3024731d94d3d4ee3e59 Mon Sep 17 00:00:00 2001
 From: Yann Dirson <yann.dirson@vates.tech>
 Date: Mon, 8 Dec 2025 16:41:30 +0100
-Subject: [PATCH 1/4] Use list comprehensions rather than filter and map
+Subject: [PATCH 1/6] Use list comprehensions rather than filter and map
 
 Signed-off-by: Yann Dirson <yann.dirson@vates.tech>
 ---

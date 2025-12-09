@@ -1,7 +1,7 @@
 From 52acdcc7a34db75669cc8d02e936579da344bc8f Mon Sep 17 00:00:00 2001
 From: Yann Dirson <yann.dirson@vates.tech>
 Date: Mon, 8 Dec 2025 16:45:02 +0100
-Subject: [PATCH 4/4] Switch all plugins to python3 for consistency
+Subject: [PATCH 4/6] Switch all plugins to python3 for consistency
 
 Signed-off-by: Yann Dirson <yann.dirson@vates.tech>
 ---
