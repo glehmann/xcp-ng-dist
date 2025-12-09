@@ -2,13 +2,13 @@ Name:           xcp-ng-config
 Version:        0
 Release:        0.ydi.2%{?dist}
 
-Summary:        %{dist_name} configuration files
+Summary:        XCP-ng configuration files
 Group:          System Environment/Base
 License:        GPL-2.0-or-later
 URL:            https://xcp-ng.org
 
 %description
-%{dist_name} configuration files
+XCP-ng configuration files
 
 %install
 # enable persistent systemd journal
