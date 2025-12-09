@@ -1,11 +1,13 @@
 Name:           xcp-ng-config
 Version:        0
-Release:        0.ydi.2%{?dist}
+Release:        0.ydi.3%{?dist}
 
 Summary:        XCP-ng configuration files
 Group:          System Environment/Base
 License:        GPL-2.0-or-later
 URL:            https://xcp-ng.org
+
+Obsoletes:      xcp-ng-release < 8.99.0-0.8.ydi.17
 
 %description
 XCP-ng configuration files
@@ -18,10 +20,25 @@ install -d -m755 %{buildroot}/var/log/journal
 mkdir -p %{buildroot}/etc/dnf/vars
 echo "10.0" > %{buildroot}/etc/dnf/vars/releasever
 
+# Add xcp-ng repo.  The ID has to match XAPI updater.py plugin.
+install -d -m 755 %{buildroot}%{_sysconfdir}/yum.repos.d
+# install -m 644 xcp-ng.repo %{buildroot}%{_sysconfdir}/yum.repos.d
+cat > %{buildroot}%{_sysconfdir}/yum.repos.d/xcp-ng.repo <<'EOF'
+[xcp-ng-base]
+name=xcpng
+baseurl=http://repos/repos/ydi/v9alma10v2/
+priority=1
+failovermethod=priority
+skip_if_unavailable=False
+# nothing signed yet
+#gpgkey=https://xcp-ng.org/RPM-GPG-KEY-xcpng
+gpgcheck=0
+EOF
+
 %files
 /etc/dnf/vars/releasever
 /var/log/journal
 
 %changelog
-* Fri Nov 28 2025 Yann Dirson <yann.dirson@vates.tech> - 0-0.ydi.2
+* Tue Dec 16 2025 Yann Dirson <yann.dirson@vates.tech> - 0-0.ydi.3
 - Initial release
