@@ -38,6 +38,7 @@ EOF
 %files
 /etc/dnf/vars/releasever
 /var/log/journal
+%{_sysconfdir}/yum.repos.d/
 
 %changelog
 * Tue Dec 16 2025 Yann Dirson <yann.dirson@vates.tech> - 0-0.ydi.3
