@@ -36,7 +36,7 @@ gpgcheck=0
 EOF
 
 %files
-/etc/dnf/vars/releasever
+%{_sysconfdir}/dnf/vars/releasever
 /var/log/journal
 %{_sysconfdir}/yum.repos.d/
 
