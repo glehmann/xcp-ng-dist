@@ -1,6 +1,6 @@
 Name:           xcp-ng-config
 Version:        0
-Release:        0.ydi.3%{?dist}
+Release:        0.ydi.4%{?dist}
 
 Summary:        XCP-ng configuration files
 Group:          System Environment/Base
@@ -25,8 +25,8 @@ install -d -m 755 %{buildroot}%{_sysconfdir}/yum.repos.d
 # install -m 644 xcp-ng.repo %{buildroot}%{_sysconfdir}/yum.repos.d
 cat > %{buildroot}%{_sysconfdir}/yum.repos.d/xcp-ng.repo <<'EOF'
 [xcp-ng-base]
-name=xcpng
-baseurl=http://repos/repos/ydi/v9alma10v2/
+name=XCP-ng 9 proto
+baseurl=https://updates.xcp-ng.org/9/8.99/base/
 priority=1
 failovermethod=priority
 skip_if_unavailable=False
@@ -41,5 +41,5 @@ EOF
 %{_sysconfdir}/yum.repos.d/
 
 %changelog
-* Tue Dec 16 2025 Yann Dirson <yann.dirson@vates.tech> - 0-0.ydi.3
+* Tue Dec 16 2025 Yann Dirson <yann.dirson@vates.tech> - 0-0.ydi.4
 - Initial release
