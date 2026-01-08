@@ -1,0 +1,63 @@
+From 8235ccce3a6db8c11f11d09439d3a327ec629732 Mon Sep 17 00:00:00 2001
+From: Alexander Bulekov <alxndr@bu.edu>
+Date: Mon, 1 May 2023 10:19:56 -0400
+Subject: [PATCH 5/7] async: avoid use-after-free on re-entrancy guard
+Content-Type: text/plain; charset = "utf-8"
+Content-Transfert-Encoding: 8bit
+
+A BH callback can free the BH, causing a use-after-free in aio_bh_call.
+Fix that by keeping a local copy of the re-entrancy guard pointer.
+
+Buglink: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=58513
+Fixes: 9c86c97f12 ("async: Add an optional reentrancy guard to the BH API")
+Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+Message-Id: <20230501141956.3444868-1-alxndr@bu.edu>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+(cherry picked from commit 7915bd06f25e1803778081161bf6fa10c42dc7cd)
+Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
+
+
+XCP-ng backport
+Backported-by: Thierry Escande <thierry.escande@vates.tech>
+Origin: https://gitlab.com/qemu-project/qemu/-/commit/f88ebe0c7d05b242310110f91652d0fdb746d3c6
+Notes:
+- Minor patch offset changes
+---
+ util/async.c | 14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
+
+diff --git a/util/async.c b/util/async.c
+index fe81c9d..d70ae22 100644
+--- a/util/async.c
++++ b/util/async.c
+@@ -95,18 +95,20 @@ void aio_bh_call(QEMUBH *bh)
+ {
+     bool last_engaged_in_io = false;
+ 
+-    if (bh->reentrancy_guard) {
+-        last_engaged_in_io = bh->reentrancy_guard->engaged_in_io;
+-        if (bh->reentrancy_guard->engaged_in_io) {
++    /* Make a copy of the guard-pointer as cb may free the bh */
++    MemReentrancyGuard *reentrancy_guard = bh->reentrancy_guard;
++    if (reentrancy_guard) {
++        last_engaged_in_io = reentrancy_guard->engaged_in_io;
++        if (reentrancy_guard->engaged_in_io) {
+             trace_reentrant_aio(bh->ctx, bh->name);
+         }
+-        bh->reentrancy_guard->engaged_in_io = true;
++        reentrancy_guard->engaged_in_io = true;
+     }
+ 
+     bh->cb(bh->opaque);
+ 
+-    if (bh->reentrancy_guard) {
+-        bh->reentrancy_guard->engaged_in_io = last_engaged_in_io;
++    if (reentrancy_guard) {
++        reentrancy_guard->engaged_in_io = last_engaged_in_io;
+     }
+ }
+ 
+-- 
+2.51.0
+

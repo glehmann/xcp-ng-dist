@@ -15,7 +15,7 @@ Summary: qemu-dm device model
 Name: qemu
 Epoch: 2
 Version: 4.2.1
-Release: %{?xsrel}.1%{?dist}
+Release: %{?xsrel}.2%{?dist}
 License: GPL
 Requires: xcp-clipboardd
 Requires: xengt-userspace
@@ -146,6 +146,13 @@ Patch118: msix_pba_log.patch
 
 # XCP-ng patches
 Patch1000: qemu-4.2.1-CVE-2023-3354.backport.patch
+Patch1001: 0001-hw-nvme-reenable-cqe-batching.patch
+Patch1002: 0002-util-async-add-a-human-readable-name-to-BHs-for-debu.patch
+Patch1003: 0003-memory-prevent-dma-reentracy-issues.patch
+Patch1004: 0004-async-Add-an-optional-reentrancy-guard-to-the-BH-API.patch
+Patch1005: 0005-async-avoid-use-after-free-on-re-entrancy-guard.patch
+Patch1006: 0006-hw-replace-most-qemu_bh_new-calls-with-qemu_bh_new_g.patch
+Patch1007: 0007-apic-disable-reentrancy-detection-for-apic-msi.patch
 
 BuildRequires: python3-devel
 BuildRequires: libaio-devel glib2-devel
@@ -233,6 +240,9 @@ cp -r scripts/qmp %{buildroot}%{_datarootdir}/qemu
 %{?_cov_results_package}
 
 %changelog
+* Thu Jan 08 2026 Thierry Escande <thierry.escande@vates.tech> - 4.2.1-5.2.15.2
+- Backport fixes for CVE-2021-3929
+
 * Mon Dec 08 2025 Tu Dinh <ngoc-tu.dinh@vates.tech> - 4.2.1-5.2.15.1
 - Sync with 4.2.1-5.2.15
 - *** Upstream changelog ***
