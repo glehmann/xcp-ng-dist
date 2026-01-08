@@ -1,0 +1,189 @@
+From 52599d99e735341759f86b69a28f314aaeb61229 Mon Sep 17 00:00:00 2001
+From: Stefan Hajnoczi <stefanha@redhat.com>
+Date: Wed, 14 Apr 2021 21:02:46 +0100
+Subject: [PATCH 2/7] util/async: add a human-readable name to BHs for
+ debugging
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset = "utf-8"
+Content-Transfert-Encoding: 8bit
+
+It can be difficult to debug issues with BHs in production environments.
+Although BHs can usually be identified by looking up their ->cb()
+function pointer, this requires debug information for the program. It is
+also not possible to print human-readable diagnostics about BHs because
+they have no identifier.
+
+This patch adds a name to each BH. The name is not unique per instance
+but differentiates between cb() functions, which is usually enough. It's
+done by changing aio_bh_new() and friends to macros that stringify cb.
+
+The next patch will use the name field when reporting leaked BHs.
+
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20210414200247.917496-2-stefanha@redhat.com>
+
+
+XCP-ng backport
+Backported-by: Thierry Escande <thierry.escande@vates.tech>
+Origin: https://gitlab.com/qemu-project/qemu/-/commit/0f08586c7171757d77c27ee6c606e8a1c44ac6e3
+Notes:
+- Minor patch offset changes
+---
+ include/block/aio.h       | 31 ++++++++++++++++++++++++++++---
+ include/qemu/main-loop.h  |  4 +++-
+ tests/ptimer-test-stubs.c |  2 +-
+ util/async.c              |  9 +++++++--
+ util/main-loop.c          |  4 ++--
+ 5 files changed, 41 insertions(+), 9 deletions(-)
+
+diff --git a/include/block/aio.h b/include/block/aio.h
+index 6b0d52f..2d8dc2e 100644
+--- a/include/block/aio.h
++++ b/include/block/aio.h
+@@ -190,20 +190,45 @@ void aio_context_acquire(AioContext *ctx);
+ /* Relinquish ownership of the AioContext. */
+ void aio_context_release(AioContext *ctx);
+ 
++/**
++ * aio_bh_schedule_oneshot_full: Allocate a new bottom half structure that will
++ * run only once and as soon as possible.
++ *
++ * @name: A human-readable identifier for debugging purposes.
++ */
++void aio_bh_schedule_oneshot_full(AioContext *ctx, QEMUBHFunc *cb, void *opaque,
++                                  const char *name);
++
+ /**
+  * aio_bh_schedule_oneshot: Allocate a new bottom half structure that will run
+  * only once and as soon as possible.
++ *
++ * A convenience wrapper for aio_bh_schedule_oneshot_full() that uses cb as the
++ * name string.
+  */
+-void aio_bh_schedule_oneshot(AioContext *ctx, QEMUBHFunc *cb, void *opaque);
++#define aio_bh_schedule_oneshot(ctx, cb, opaque) \
++    aio_bh_schedule_oneshot_full((ctx), (cb), (opaque), (stringify(cb)))
+ 
+ /**
+- * aio_bh_new: Allocate a new bottom half structure.
++ * aio_bh_new_full: Allocate a new bottom half structure.
+  *
+  * Bottom halves are lightweight callbacks whose invocation is guaranteed
+  * to be wait-free, thread-safe and signal-safe.  The #QEMUBH structure
+  * is opaque and must be allocated prior to its use.
++ *
++ * @name: A human-readable identifier for debugging purposes.
++ */
++QEMUBH *aio_bh_new_full(AioContext *ctx, QEMUBHFunc *cb, void *opaque,
++                        const char *name);
++
++/**
++ * aio_bh_new: Allocate a new bottom half structure
++ *
++ * A convenience wrapper for aio_bh_new_full() that uses the cb as the name
++ * string.
+  */
+-QEMUBH *aio_bh_new(AioContext *ctx, QEMUBHFunc *cb, void *opaque);
++#define aio_bh_new(ctx, cb, opaque) \
++    aio_bh_new_full((ctx), (cb), (opaque), (stringify(cb)))
+ 
+ /**
+  * aio_notify: Force processing of pending events.
+diff --git a/include/qemu/main-loop.h b/include/qemu/main-loop.h
+index f6ba78e..b131a0e 100644
+--- a/include/qemu/main-loop.h
++++ b/include/qemu/main-loop.h
+@@ -299,7 +299,9 @@ void qemu_mutex_unlock_iothread(void);
+ 
+ void qemu_fd_register(int fd);
+ 
+-QEMUBH *qemu_bh_new(QEMUBHFunc *cb, void *opaque);
++#define qemu_bh_new(cb, opaque) \
++    qemu_bh_new_full((cb), (opaque), (stringify(cb)))
++QEMUBH *qemu_bh_new_full(QEMUBHFunc *cb, void *opaque, const char *name);
+ void qemu_bh_schedule_idle(QEMUBH *bh);
+ 
+ enum {
+diff --git a/tests/ptimer-test-stubs.c b/tests/ptimer-test-stubs.c
+index ed393d9..d82970c 100644
+--- a/tests/ptimer-test-stubs.c
++++ b/tests/ptimer-test-stubs.c
+@@ -107,7 +107,7 @@ int64_t qemu_clock_deadline_ns_all(QEMUClockType type, int attr_mask)
+     return deadline;
+ }
+ 
+-QEMUBH *qemu_bh_new(QEMUBHFunc *cb, void *opaque)
++QEMUBH *qemu_bh_new_full(QEMUBHFunc *cb, void *opaque, const char *name)
+ {
+     QEMUBH *bh = g_new(QEMUBH, 1);
+ 
+diff --git a/util/async.c b/util/async.c
+index b1fa531..a9262f5 100644
+--- a/util/async.c
++++ b/util/async.c
+@@ -38,6 +38,7 @@
+ 
+ struct QEMUBH {
+     AioContext *ctx;
++    const char *name;
+     QEMUBHFunc *cb;
+     void *opaque;
+     QEMUBH *next;
+@@ -46,7 +47,8 @@ struct QEMUBH {
+     bool deleted;
+ };
+ 
+-void aio_bh_schedule_oneshot(AioContext *ctx, QEMUBHFunc *cb, void *opaque)
++void aio_bh_schedule_oneshot_full(AioContext *ctx, QEMUBHFunc *cb,
++                                  void *opaque, const char *name)
+ {
+     QEMUBH *bh;
+     bh = g_new(QEMUBH, 1);
+@@ -54,6 +56,7 @@ void aio_bh_schedule_oneshot(AioContext *ctx, QEMUBHFunc *cb, void *opaque)
+         .ctx = ctx,
+         .cb = cb,
+         .opaque = opaque,
++        .name = name,
+     };
+     qemu_lockcnt_lock(&ctx->list_lock);
+     bh->next = ctx->first_bh;
+@@ -66,7 +69,8 @@ void aio_bh_schedule_oneshot(AioContext *ctx, QEMUBHFunc *cb, void *opaque)
+     aio_notify(ctx);
+ }
+ 
+-QEMUBH *aio_bh_new(AioContext *ctx, QEMUBHFunc *cb, void *opaque)
++QEMUBH *aio_bh_new_full(AioContext *ctx, QEMUBHFunc *cb, void *opaque,
++                        const char *name)
+ {
+     QEMUBH *bh;
+     bh = g_new(QEMUBH, 1);
+@@ -74,6 +78,7 @@ QEMUBH *aio_bh_new(AioContext *ctx, QEMUBHFunc *cb, void *opaque)
+         .ctx = ctx,
+         .cb = cb,
+         .opaque = opaque,
++        .name = name,
+     };
+     qemu_lockcnt_lock(&ctx->list_lock);
+     bh->next = ctx->first_bh;
+diff --git a/util/main-loop.c b/util/main-loop.c
+index eda63fe..04d0474 100644
+--- a/util/main-loop.c
++++ b/util/main-loop.c
+@@ -527,9 +527,9 @@ void main_loop_wait(int nonblocking)
+ 
+ /* Functions to operate on the main QEMU AioContext.  */
+ 
+-QEMUBH *qemu_bh_new(QEMUBHFunc *cb, void *opaque)
++QEMUBH *qemu_bh_new_full(QEMUBHFunc *cb, void *opaque, const char *name)
+ {
+-    return aio_bh_new(qemu_aio_context, cb, opaque);
++    return aio_bh_new_full(qemu_aio_context, cb, opaque, name);
+ }
+ 
+ /*
+-- 
+2.51.0
+
