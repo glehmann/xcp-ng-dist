@@ -21,7 +21,7 @@
 Name: edk2
 Summary: EFI Development Kit II
 Version: 20220801
-Release: %{?xsrel}.1%{?dist}
+Release: %{?xsrel}.2%{?dist}
 
 License: BSD and MIT
 URL: https://github.com/tianocore/edk2
@@ -159,7 +159,7 @@ cp %{_datadir}/ipxe/8086100e.efi .
     -D TPM2_ENABLE \
     -b DEBUG \
     --pcd gEfiMdePkgTokenSpaceGuid.PcdDebugPrintErrorLevel=0xFFFFFF4F \
-    --pcd gUefiCpuPkgTokenSpaceGuid.PcdCpuMaxLogicalProcessorNumber=96 \
+    --pcd gUefiCpuPkgTokenSpaceGuid.PcdCpuMaxLogicalProcessorNumber=128 \
     -p OvmfPkg/OvmfXen.dsc -n %{?_smp_flags}
 
 cp Build/OvmfXen/DEBUG_GCC*/FV/OVMF.fd OVMF-debug.fd
@@ -181,7 +181,7 @@ rm -rf Build/OvmfXen/DEBUG_GCC*
     -D TPM2_ENABLE \
     -b DEBUG \
     --pcd gEfiMdePkgTokenSpaceGuid.PcdDebugPrintErrorLevel=0x80000000 \
-    --pcd gUefiCpuPkgTokenSpaceGuid.PcdCpuMaxLogicalProcessorNumber=96 \
+    --pcd gUefiCpuPkgTokenSpaceGuid.PcdCpuMaxLogicalProcessorNumber=128 \
     -p OvmfPkg/OvmfXen.dsc -n %{?_smp_flags}
 
 cp Build/OvmfXen/DEBUG_GCC*/FV/OVMF.fd OVMF-release.fd
@@ -218,6 +218,9 @@ cp OvmfPkg/License.txt License.ovmf
 
 
 %changelog
+* Tue Jan 20 2026 Teddy Astie <teddy.astie@vates.tech> - 20220801-1.7.10.2
+- Bump vCPU limit to 128 from 96
+
 * Wed Aug 06 2025 anthony.perard@vates.tech - 20220801-1.7.10.1
 - Sync with edk2-20220801-1.7.10
 - *** Upstream changelog ***
