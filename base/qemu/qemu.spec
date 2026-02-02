@@ -1,12 +1,12 @@
-%global package_speccommit 7b0c9239c41cc92fffdcb233ec05c1c74d737941
+%global package_speccommit fd46ddb1d9e304c24c87622b68dc8dc1ec72a856
 %global usver 4.2.1
-%global xsver 5.2.15
+%global xsver 5.2.17
 %global xsrel %{xsver}%{?xscount}%{?xshash}
 %global package_srccommit v4.2.1
 
 # submodule ui/keycodemapdb
 %define keycodemapdb_cset 22b8996dba9041874845c7446ce89ec4ae2b713d
-%define keycodemapdb_path ui/keycodemapdb
+%define keycodemapdb_path ui%2fkeycodemapdb
 
 # Control whether we build with the address sanitizer.
 %define with_asan 0
@@ -92,57 +92,59 @@ Patch64: tpm_emulator-Avoid-double-initialization-during-migr.patch
 Patch65: tpm_crb-Avoid-backend-startup-just-before-shutdown-u.patch
 Patch66: token-bucket-event-throttling.patch
 Patch67: xen-hvm-Avoid-livelock-while-handling-buffered-ioreq.patch
-Patch68: 0001-pc-Do-not-expect-to-have-a-fw_cfg-device.patch
-Patch69: 0003-xen-apic-Implement-unrealize.patch
-Patch70: 0004-hotplug-Implement-legacy-CPU-hot-unplug.patch
-Patch71: igd-upt.patch
-Patch72: check-unmigratable-devices-when-saving.patch
-Patch73: query-migratable.patch
-Patch74: 0001-nvme-simplify-namespace-code.patch
-Patch75: 0002-nvme-move-device-parameters-to-separate-struct.patch
-Patch76: 0003-nvme-fix-lpa-field.patch
-Patch77: 0004-nvme-add-missing-fields-in-identify-controller.patch
-Patch78: 0005-nvme-populate-the-mandatory-subnqn-and-ver-fields.patch
-Patch79: 0006-nvme-support-completion-queue-in-cmb.patch
-Patch80: 0007-nvme-support-Abort-command.patch
-Patch81: 0008-nvme-refactor-device-realization.patch
-Patch82: 0009-nvme-support-Asynchronous-Event-Request-command.patch
-Patch83: 0010-nvme-support-Get-Log-Page-command.patch
-Patch84: 0011-nvme-add-missing-mandatory-Features.patch
-Patch85: 0012-nvme-bump-supported-NVMe-revision-to-1.3d.patch
-Patch86: 0013-nvme-simplify-dma-cmb-mappings.patch
-Patch87: 0014-nvme-support-multiple-block-requests-per-request.patch
-Patch88: 0015-nvme-support-scatter-gather-lists.patch
-Patch89: 0016-nvme-support-multiple-namespaces.patch
-Patch90: nvme-ns-allow-inactive.patch
-Patch91: nvme-close-backend.patch
-Patch92: 0001-hw-block-nvme-open-code-for-volatile-write-cache.patch
-Patch93: 0001-hw-block-nvme-Fix-a-build-error-in-nvme_get_feature.patch
-Patch94: 0001-Add-qemu-qcode-support-for-keys-F13-to-F24.patch
-Patch95: 0001-ps2-Don-t-send-key-release-event-for-Lang1-Lang2-key.patch
-Patch96: 0001-CP-20436-Introduce-a-config-option-for-machines-comp.patch
-Patch97: pci-add-subsystem-id-properties.patch
-Patch98: pci-add-revision_id-property.patch
-Patch99: force-lba-geometry.patch
-Patch100: 0001-CP-21767-Don-t-accidently-unplug-ourselves-if-PCI_CL.patch
-Patch101: 0001-CP-21434-Implement-VBE-LFB-physical-address-register.patch
-Patch102: 0001-CA-256542-Workaround-unassigned-accesses-caused-by-b.patch
-Patch103: match-xen-pvdevice-location.patch
-Patch104: 0001-CA-289906-Use-legacy-HID-descriptors-for-USB-Tablet-.patch
-Patch105: revert_hw-i386__remove_deprecated_machines_pc-0.10_and_pc-0.11.patch
-Patch106: 0001-CP-17697-Initial-port-of-NVIDIA-VGPU-support-from-QEMU-trad.patch
-Patch107: usb-batch-frames.patch
-Patch108: 0001-CP-23753-Talk-to-new-clipboard-daemon.patch
-Patch109: gvt-g.patch
-Patch110: allocate-guest-ram-reserved.patch
-Patch111: unplug-nvme-devices.patch
-Patch112: do_not_register_xen_backend_for_qdisk.patch
-Patch113: add-an-ide-read-cache.patch
-Patch114: disable-dirty-vram-tracking.patch
-Patch115: build-configuration.patch
-Patch116: 0001-CP-46162-Resolve-the-Null-pointer-error-in-configure.patch
-Patch117: 81ef3d06c970c6b7ae4971ad552b2287af376f43.patch
-Patch118: msix_pba_log.patch
+Patch68: handle-framebuffer-relocation.patch
+Patch69: qmp-Fix-race-causing-events-to-be-sent-during-negotiation.patch
+Patch70: 0001-pc-Do-not-expect-to-have-a-fw_cfg-device.patch
+Patch71: 0003-xen-apic-Implement-unrealize.patch
+Patch72: 0004-hotplug-Implement-legacy-CPU-hot-unplug.patch
+Patch73: igd-upt.patch
+Patch74: check-unmigratable-devices-when-saving.patch
+Patch75: query-migratable.patch
+Patch76: 0001-nvme-simplify-namespace-code.patch
+Patch77: 0002-nvme-move-device-parameters-to-separate-struct.patch
+Patch78: 0003-nvme-fix-lpa-field.patch
+Patch79: 0004-nvme-add-missing-fields-in-identify-controller.patch
+Patch80: 0005-nvme-populate-the-mandatory-subnqn-and-ver-fields.patch
+Patch81: 0006-nvme-support-completion-queue-in-cmb.patch
+Patch82: 0007-nvme-support-Abort-command.patch
+Patch83: 0008-nvme-refactor-device-realization.patch
+Patch84: 0009-nvme-support-Asynchronous-Event-Request-command.patch
+Patch85: 0010-nvme-support-Get-Log-Page-command.patch
+Patch86: 0011-nvme-add-missing-mandatory-Features.patch
+Patch87: 0012-nvme-bump-supported-NVMe-revision-to-1.3d.patch
+Patch88: 0013-nvme-simplify-dma-cmb-mappings.patch
+Patch89: 0014-nvme-support-multiple-block-requests-per-request.patch
+Patch90: 0015-nvme-support-scatter-gather-lists.patch
+Patch91: 0016-nvme-support-multiple-namespaces.patch
+Patch92: nvme-ns-allow-inactive.patch
+Patch93: nvme-close-backend.patch
+Patch94: 0001-hw-block-nvme-open-code-for-volatile-write-cache.patch
+Patch95: 0001-hw-block-nvme-Fix-a-build-error-in-nvme_get_feature.patch
+Patch96: 0001-Add-qemu-qcode-support-for-keys-F13-to-F24.patch
+Patch97: 0001-ps2-Don-t-send-key-release-event-for-Lang1-Lang2-key.patch
+Patch98: 0001-CP-20436-Introduce-a-config-option-for-machines-comp.patch
+Patch99: pci-add-subsystem-id-properties.patch
+Patch100: pci-add-revision_id-property.patch
+Patch101: force-lba-geometry.patch
+Patch102: 0001-CP-21767-Don-t-accidently-unplug-ourselves-if-PCI_CL.patch
+Patch103: 0001-CP-21434-Implement-VBE-LFB-physical-address-register.patch
+Patch104: 0001-CA-256542-Workaround-unassigned-accesses-caused-by-b.patch
+Patch105: match-xen-pvdevice-location.patch
+Patch106: 0001-CA-289906-Use-legacy-HID-descriptors-for-USB-Tablet-.patch
+Patch107: revert_hw-i386__remove_deprecated_machines_pc-0.10_and_pc-0.11.patch
+Patch108: 0001-CP-17697-Initial-port-of-NVIDIA-VGPU-support-from-QEMU-trad.patch
+Patch109: usb-batch-frames.patch
+Patch110: 0001-CP-23753-Talk-to-new-clipboard-daemon.patch
+Patch111: gvt-g.patch
+Patch112: allocate-guest-ram-reserved.patch
+Patch113: unplug-nvme-devices.patch
+Patch114: do_not_register_xen_backend_for_qdisk.patch
+Patch115: add-an-ide-read-cache.patch
+Patch116: disable-dirty-vram-tracking.patch
+Patch117: build-configuration.patch
+Patch118: 0001-CP-46162-Resolve-the-Null-pointer-error-in-configure.patch
+Patch119: 81ef3d06c970c6b7ae4971ad552b2287af376f43.patch
+Patch120: msix_pba_log.patch
 BuildRequires: python3-devel
 BuildRequires: libaio-devel glib2-devel
 BuildRequires: libjpeg-devel libpng-devel pixman-devel xenserver-libdrm-devel
@@ -226,6 +228,12 @@ cp -r scripts/qmp %{buildroot}%{_datarootdir}/qemu
 %{?_cov_results_package}
 
 %changelog
+* Thu Jan 08 2026 Ross Lagerwall <ross.lagerwall@citrix.com> - 4.2.1-5.2.17
+- CA-407410: qmp: Fix race causing events to be sent during negotiation
+
+* Mon Dec 01 2025 Ross Lagerwall <ross.lagerwall@citrix.com> - 4.2.1-5.2.16
+- CA-420202: xen-hvm: Handle framebuffer relocation
+
 * Thu Oct 23 2025 Roger Pau Monné <roger.pau@citrix.com> - 4.2.1-5.2.15
 - Allow passthrough of devices from a PCI segment different than 0.
 
