@@ -260,7 +260,7 @@ cp -r scripts/qmp %{buildroot}%{_datarootdir}/qemu
   * Thu Oct 23 2025 Roger Pau Monné <roger.pau@citrix.com> - 4.2.1-5.2.15
   - Allow passthrough of devices from a PCI segment different than 0.
 
-* Tue Nov 17 2025 Tu Dinh <ngoc-tu.dinh@vates.tech> - 4.2.1-5.2.14.1
+* Mon Nov 17 2025 Tu Dinh <ngoc-tu.dinh@vates.tech> - 4.2.1-5.2.14.1
 - Sync with 4.2.1-5.2.14
 - Remove 0001-nvme-Don-t-check-NSID-in-NVME_VOLATILE_WRITE_CACHE.patch in favor of XenServer's fix
 - *** Upstream changelog ***
