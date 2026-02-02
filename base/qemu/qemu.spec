@@ -15,9 +15,9 @@ Summary: qemu-dm device model
 Name: qemu
 Epoch: 2
 Version: 4.2.1
-Release: %{?xsrel}%{?dist}
+Release: %{?xsrel}.1%{?dist}
 License: GPL
-Requires: xs-clipboardd
+Requires: xcp-clipboardd
 Requires: xengt-userspace
 ## We broke an interface used by xenopsd-xc without version signalling
 ## so we have to carry a conflicts line to say we broke it.
@@ -145,6 +145,17 @@ Patch117: build-configuration.patch
 Patch118: 0001-CP-46162-Resolve-the-Null-pointer-error-in-configure.patch
 Patch119: 81ef3d06c970c6b7ae4971ad552b2287af376f43.patch
 Patch120: msix_pba_log.patch
+
+# XCP-ng patches
+Patch1000: qemu-4.2.1-CVE-2023-3354.backport.patch
+Patch1001: 0001-hw-nvme-reenable-cqe-batching.patch
+Patch1002: 0002-util-async-add-a-human-readable-name-to-BHs-for-debu.patch
+Patch1003: 0003-memory-prevent-dma-reentracy-issues.patch
+Patch1004: 0004-async-Add-an-optional-reentrancy-guard-to-the-BH-API.patch
+Patch1005: 0005-async-avoid-use-after-free-on-re-entrancy-guard.patch
+Patch1006: 0006-hw-replace-most-qemu_bh_new-calls-with-qemu_bh_new_g.patch
+Patch1007: 0007-apic-disable-reentrancy-detection-for-apic-msi.patch
+
 BuildRequires: python3-devel
 BuildRequires: libaio-devel glib2-devel
 BuildRequires: libjpeg-devel libpng-devel pixman-devel xenserver-libdrm-devel
@@ -156,6 +167,9 @@ BuildRequires: jemalloc-devel
 BuildRequires: libasan
 %endif
 %{?_cov_buildrequires}
+
+# XCP-ng: explicit build dep on gcc
+BuildRequires: gcc
 
 %description
 This package contains Qemu.
@@ -228,26 +242,47 @@ cp -r scripts/qmp %{buildroot}%{_datarootdir}/qemu
 %{?_cov_results_package}
 
 %changelog
-* Thu Jan 08 2026 Ross Lagerwall <ross.lagerwall@citrix.com> - 4.2.1-5.2.17
-- CA-407410: qmp: Fix race causing events to be sent during negotiation
 
-* Mon Dec 01 2025 Ross Lagerwall <ross.lagerwall@citrix.com> - 4.2.1-5.2.16
-- CA-420202: xen-hvm: Handle framebuffer relocation
+* Mon Feb 02 2026 Quentin Casasnovas <quentin.casasnovas@vates.tech> - 4.2.1-5.2.17.1
+- Sync with 4.2.1-5.2.17
+- *** Upstream changelog ***
+  * Thu Jan 08 2026 Ross Lagerwall <ross.lagerwall@citrix.com> - 4.2.1-5.2.17
+  - CA-407410: qmp: Fix race causing events to be sent during negotiation
+  * Mon Dec 01 2025 Ross Lagerwall <ross.lagerwall@citrix.com> - 4.2.1-5.2.16
+  - CA-420202: xen-hvm: Handle framebuffer relocation
 
-* Thu Oct 23 2025 Roger Pau Monné <roger.pau@citrix.com> - 4.2.1-5.2.15
-- Allow passthrough of devices from a PCI segment different than 0.
+* Thu Jan 08 2026 Thierry Escande <thierry.escande@vates.tech> - 4.2.1-5.2.15.2
+- Backport fixes for CVE-2021-3929
 
-* Wed Oct 15 2025 Ross Lagerwall <ross.lagerwall@citrix.com> - 4.2.1-5.2.14
-- CA-418876: Fix NVMe namespace indexing
+* Mon Dec 08 2025 Tu Dinh <ngoc-tu.dinh@vates.tech> - 4.2.1-5.2.15.1
+- Sync with 4.2.1-5.2.15
+- *** Upstream changelog ***
+  * Thu Oct 23 2025 Roger Pau Monné <roger.pau@citrix.com> - 4.2.1-5.2.15
+  - Allow passthrough of devices from a PCI segment different than 0.
 
-* Thu Oct 02 2025 Ross Lagerwall <ross.lagerwall@citrix.com> - 4.2.1-5.2.13
-- CA-417654: Fix NVME bug which causes WS2025 install failures
+* Tue Nov 17 2025 Tu Dinh <ngoc-tu.dinh@vates.tech> - 4.2.1-5.2.14.1
+- Sync with 4.2.1-5.2.14
+- Remove 0001-nvme-Don-t-check-NSID-in-NVME_VOLATILE_WRITE_CACHE.patch in favor of XenServer's fix
+- *** Upstream changelog ***
+  * Wed Oct 15 2025 Ross Lagerwall <ross.lagerwall@citrix.com> - 4.2.1-5.2.14
+  - CA-418876: Fix NVMe namespace indexing
 
-* Fri Aug 02 2024 Stephen Cheng <stephen.cheng@cloud.com> - 4.2.1-5.2.12
-- CP-46112: Rebuild after new version of jemalloc
+  * Thu Oct 02 2025 Ross Lagerwall <ross.lagerwall@citrix.com> - 4.2.1-5.2.13
+  - CA-417654: Fix NVME bug which causes WS2025 install failures
 
-* Fri Aug 02 2024 Stephen Cheng <stephen.cheng@cloud.com> - 4.2.1-5.2.11
-- CP-46112: Rebuild with new version of jemalloc
+* Thu Oct 02 2025 Tu Dinh <ngoc-tu.dinh@vates.tech> - 4.2.1-5.2.12.2
+- Fix Server 2025 issue with NVMe volatile write cache feature
+
+* Thu Feb 13 2025 Yann Dirson <yann.dirson@vates.tech> - 4.2.1-5.2.12.1
+- Sync with xs8 4.2.1-5.2.12, no code change, only rebuild against libjemalloc.so.2:
+  * Fri Aug 02 2024 Stephen Cheng <stephen.cheng@cloud.com> - 4.2.1-5.2.12
+  - CP-46112: Rebuild after new version of jemalloc
+
+  * Fri Aug 02 2024 Stephen Cheng <stephen.cheng@cloud.com> - 4.2.1-5.2.11
+  - CP-46112: Rebuild with new version of jemalloc
+
+* Tue Feb 11 2025 Lucas Ravagnier <lucas.ravagnier@vates.tech> - 4.2.1-5.2.10.1
+- Add qemu-4.2.1-CVE-2023-3354.backport.patch to fix CVE-2023-3354
 
 * Tue Jun 04 2024 Frediano Ziglio <frediano.ziglio@cloud.com> - 4.2.1-5.2.10
 - CP-46254: Make PCI passthrough work in lockdown mode
