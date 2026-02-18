@@ -1,5 +1,5 @@
-%global package_speccommit 53b22d1c450c367f1248b6cc4e518ebb82263f9b
-%global usver 6.97.0
+%global package_speccommit 3897985874efa761a47528d2831f4b210975b71e
+%global usver 6.99.0
 %global xsver 1
 %global xsrel %{xsver}%{?xscount}%{?xshash}
 ## This has to match the declaration in xs-opam-src, which
@@ -10,7 +10,7 @@
 # However, something needs to be fixed on XS 9 to not need it anymore.
 %global _debugsource_template %{nil}
 
-%global _version 6.97.0
+%global _version 6.99.0
 
 # When building an untagged version, add the number of commits and hash after
 # the variable _version. e.g. -34-gab48a58c for 6.77.0-34-gab48a58c
@@ -25,7 +25,7 @@ Summary: Build and install OCaml libraries from Opam repository
 # keep these in sync.
 License: Apache-1.0 and Apache-2.0 and BSD-2-Clause and BSD-3-Clause and curl and GPL-1.0-or-later and GPL-2.0-only and GPL-3.0-or-later and ISC and LGPL-2.0-only WITH OCaml-LGPL-linking-exception and LGPL-2.0-or-later WITH OCaml-LGPL-linking-exception and LGPL-2.1-only and LGPL-2.1-only WITH OCaml-LGPL-linking-exception and LGPL-2.1-or-later WITH OCaml-LGPL-linking-exception and LGPL-2.1-or-later WITH OpenSSL-linking-exception and LGPL-3.0-only and MIT and PSF-2.0
 URL:     https://github.com/xapi-project/xs-opam
-Source0: xs-opam-repo-6.97.0.tar.gz
+Source0: xs-opam-repo-6.99.0.tar.gz
 # To "pin" a package during development, see below the example
 # where ezxenstore is pinned to an internal master branch.
 # You need the Source1 line, and the below 'tar' and 'opam pin' lines, and comment-out the OPAMFETCH
@@ -126,6 +126,18 @@ echo '%%_opamroot %%{_libdir}/opamroot' >> "%{buildroot}%{_rpmconfigdir}/macros.
 %{_opamroot}
 
 %changelog
+* Tue Jan 13 2026 Rob Hoes <rob.hoes@cloud.com> - 6.99.0-1
+- packages: Use ocamlformat 0.28.1
+
+* Tue Jan 13 2026 Rob Hoes <rob.hoes@cloud.com> - 6.98.0-1
+- vhd-format: Sync with xapi
+- packages: prepare for an ocamlformat compatible with ocaml 5.4 (#750)
+- packages: update ocamlformat from 0.27.0 to 0.28.1
+- packages: patch notty 0.2.3 for ocaml 5.4
+- packages: update num to 1.6
+- packages: drop bisect_ppx from testing dependencies
+- packages: update xen-api's metadata
+
 * Thu Nov 27 2025 Rob Hoes <rob.hoes@cloud.com> - 6.97.0-1
 - qcow: update to 0.12.2
 - packages: define dlm's depext for centos-based distributions
