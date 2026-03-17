@@ -1,10 +1,10 @@
 Summary: XAPI additional plugins for XCP-ng
 Name: xcp-ng-xapi-plugins
-Version: 1.15.0
+Version: 1.16.0
 Release: 1%{?dist}
 URL: https://github.com/xcp-ng/xcp-ng-xapi-plugins
 Source0: https://github.com/xcp-ng/xcp-ng-xapi-plugins/archive/v%{version}/%{name}-%{version}.tar.gz
-License: AGPLv3
+License: AGPL-3.0-only
 
 BuildArch: noarch
 
@@ -32,6 +32,9 @@ install SOURCES/etc/xapi.d/plugins/xcpngutils/*.py %{buildroot}/etc/xapi.d/plugi
 %dir /var/lib/xcp-ng-xapi-plugins
 
 %changelog
+* Tue Mar 17 2026 Sebastien Rodot <sebastien.rodot@vates.tech> - 1.16.0-1
+- sdn-controller: add optional cookie argument support
+
 * Fri Oct 10 2025 David Morel <david.morel@vates.tech> - 1.15.0-1
 - Heavy rework of sdncontroller plugin
 - Version 1.14.0 was skipped, as the lsblk plugin changes introduced
