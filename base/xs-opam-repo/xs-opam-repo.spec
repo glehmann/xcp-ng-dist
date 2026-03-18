@@ -59,7 +59,7 @@ BuildRequires: opam > 2.1.4-1
 BuildRequires: openssl-devel
 BuildRequires: pam-devel
 BuildRequires: pciutils-devel
-BuildRequires: perl
+BuildRequires: perl-interpreter
 BuildRequires: python3
 BuildRequires: rsync
 BuildRequires: systemd-devel
@@ -140,10 +140,11 @@ echo '%%_opamroot %%{_libdir}/opamroot' >> "%{buildroot}%{_rpmconfigdir}/macros.
 %{_opamroot}
 
 %changelog
-* Tue Oct 14 2025 Yann Dirson <yann.dirson@vates.tech> - 6.99.0-1.1.1 - WIP
+* Fri Mar 20 2026 Yann Dirson <yann.dirson@vates.tech> - 6.99.0-1.1.1
 - Hack in the definition for host-arch-arm64, from
   https://raw.githubusercontent.com/ocaml/opam-repository/e64203035b54812a6e33cfa9f390fd0f17c02e07/packages/host-arch-arm64/host-arch-arm64.1/opam
 - Document why we comment out the depext line from XS
+- Adjust BuildRequires: perl to perl-interpreter
 
 * Wed Feb 18 2026 Pau Ruiz Safont <pau.safont@vates.tech> - 6.99.0-1.1
  - *** Upstream changelog ***
