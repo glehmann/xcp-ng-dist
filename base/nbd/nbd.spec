@@ -1,17 +1,18 @@
-%global package_speccommit 2bb484be55bd196f9997d5813cae841e1895bfaf
-%global usver 3.24
-%global xsver 1
+%global package_speccommit 8e2178ab70dbc565ef2fce43fc85730765c37116
+%global usver 3.25
+%global xsver 2
 %global xsrel %{xsver}%{?xscount}%{?xshash}
 
 Name:    nbd
-Version: 3.24
+Version: 3.25
 Release: %{?xsrel}%{?dist}
 Summary: Network Block Device user-space tools (TCP version)
-License: GPLv2
-URL:     http://nbd.sourceforge.net
-Source0: nbd-3.24.tar.xz
+License: GPL-2.0-only
+URL:     https://github.com/NetworkBlockDevice/nbd
+Source0: nbd-3.25.tar.xz
 Source1: nbd-server.service
 Source2: nbd-server.sysconfig
+Patch0: netlink-report-failure.patch
 
 BuildRequires: make
 BuildRequires:  gcc
@@ -31,10 +32,10 @@ remote block devices over a TCP/IP network.
 %autosetup -p1
 # wait longer for nbd-server to fully start,
 # five seconds may not be enough on Koji building infra
-sed -i 's/tv_sec = 5/tv_sec = 20/' tests/run/nbd-tester-client.c
+sed -i 's/tv_sec = 5/tv_sec = 30/' tests/run/nbd-tester-client.c
 
 %build
-%configure --enable-syslog --enable-lfs --enable-gznbd
+%configure --enable-syslog --enable-lfs
 %make_build
 
 %install
@@ -68,7 +69,6 @@ DELAY=10 make check
 %{_bindir}/nbd-server
 %{_bindir}/nbd-trdump
 %{_bindir}/nbd-trplay
-%{_bindir}/gznbd
 %{_mandir}/man*/nbd*
 %{_sbindir}/nbd-client
 %{_sbindir}/min-nbd-client
@@ -78,5 +78,11 @@ DELAY=10 make check
 %{_unitdir}/nbd@.service.d
 
 %changelog
+* Wed Jan 22 2025 Mark Syms <mark.syms@cloud.com> - 3.25-2
+- Update to 3.25 with obsoleted gznbd disabled
+
+* Fri Sep 27 2024 Lin Liu <Lin.Liu01@cloud.com> - 3.24-2
+- CA-392674: nbd-client should report real error on netlink failure
+
 * Fri Feb 03 2023 Tim Smith <tim.smith@citrix.com> - 3.24-1
 - First local build
