@@ -1,6 +1,6 @@
-%global package_speccommit 9ea3ba5f3d8ac989d4bde84eb6da2c0611002649
+%global package_speccommit 164e9d7b32eda69f6712e6837575b8524aed5bfb
 %global usver 5.1.0
-%global xsver 5
+%global xsver 6
 %global xsrel %{xsver}%{?xscount}%{?xshash}
 ## This has to match the declaration in xs-opam-repo, which
 ## relies on this directory and being WORLD WRITABLE
@@ -30,6 +30,10 @@ chmod 777 %{buildroot}%{_opamroot}
 %attr(777, root, wheel) %{_opamroot}
 
 %changelog
+* Tue Jan 21 2025 XenServer Rebuild <rebuild@xenserver.com> - 5.1.0-6
+- CP-50033: Move ctx_metadata to https://code.citrite.net/projects/CICD/repos/metadata-defaults/browse/bitbucket/XSS
+- CP-53241: XenServer 9 rebuild
+
 * Thu Sep 15 2022 Pau Ruiz Safont <pau.safont@citrix.com> - 5.1.0-4
 - Use a license that ensures source availability for building xapi
 
