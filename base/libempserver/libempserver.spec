@@ -1,11 +1,12 @@
-%global package_speccommit 74fc4a4964b27100377816a1efc99018576732bb
-%global package_srccommit v1.1.0
+%global package_speccommit f92cdaa966ebdc2caa6cffb73b8b644276962a3f
+%{!?xsrel: %global xsrel 2}
+%global package_srccommit v1.1.1
 Summary: A library of functions for running an emp server
 Name: libempserver
-Version: 1.1.0
-Release: 2%{?xsrel}%{?dist}
+Version: 1.1.1
+Release: %{?xsrel}%{?dist}
 License: BSD
-Source0: libempserver-1.1.0.tar.gz
+Source0: libempserver-1.1.1.tar.gz
 
 BuildRequires: json-c-devel
 %{?_cov_buildrequires}
@@ -59,6 +60,12 @@ libempserver
 %{_libdir}/%{name}.so
 
 %changelog
+* Wed Jan 22 2025 XenServer Rebuild <rebuild@xenserver.com> - 1.1.1-2
+- CP-53310: XenServer 9 rebuild
+
+* Thu Jun 27 2024 Lin Liu <Lin.Liu01@cloud.com> - 1.1.1-1
+- CP-46114: Enable debuginfo to build with XS9
+
 * Thu Feb 10 2022 Ross Lagerwall <ross.lagerwall@citrix.com> - 1.1.0-2
 - CP-38416: Enable static analysis
 
