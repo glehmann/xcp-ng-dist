@@ -1,12 +1,12 @@
-%global package_speccommit 4d1fb918fb35107b175ed2c4c174794962208334
-%global package_srccommit v10.2.1
+%global package_speccommit da356c77e70ef4ff96579e1e077b452ed85af5e9
+%global package_srccommit v10.2.2
 Summary: vncterm tty to vnc utility
 Name: vncterm
-Version: 10.2.1
-Release: 2%{?xsrel}%{?dist}
+Version: 10.2.2
+Release: 1%{?xsrel}%{?dist}
 License: GPL
 Group: System/Hypervisor
-Source0: vncterm-10.2.1.tar.gz
+Source0: vncterm-10.2.2.tar.gz
 BuildRequires: xen-libs-devel systemd
 %{?_cov_buildrequires}
 Requires: qemu
@@ -74,6 +74,9 @@ grep -xq 'pts/0' /etc/securetty || echo 'pts/0' >>/etc/securetty
 %{?_cov_results_package}
 
 %changelog
+* Fri Aug 30 Lin Liu <Lin.Liu01@cloud.com> - 10.2.2-1
+- CP-50733: Fix misleading-indentation
+
 * Fri Jan 26 2024 Andrew Cooper <andrew.cooper3@citrix.com> - 10.2.1-2
 - Rebuild against libxenstore.so.4
 
