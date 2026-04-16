@@ -8,6 +8,7 @@ License: GPL
 Group: System/Hypervisor
 Source0: vncterm-10.2.2.tar.gz
 BuildRequires: xen-libs-devel systemd
+BuildRequires: gcc
 %{?_cov_buildrequires}
 Requires: qemu
 Requires(pre): shadow-utils
