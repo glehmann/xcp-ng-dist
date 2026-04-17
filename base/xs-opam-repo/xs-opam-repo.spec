@@ -97,6 +97,7 @@ source /opt/rh/devtoolset-11/enable
 export OPAMROOT=%{_opamroot}
 opam init --bare --no-setup -k local xs-opam . -y
 opam switch create ocaml-system
+# XCP-ng: avoid hard-to-interpret errors while depext is still not stable
 #opam option depext=false
 
 # take note of installed packages, along with their versions
@@ -142,6 +143,7 @@ echo '%%_opamroot %%{_libdir}/opamroot' >> "%{buildroot}%{_rpmconfigdir}/macros.
 * Tue Oct 14 2025 Yann Dirson <yann.dirson@vates.tech> - 6.99.0-1.1.1 - WIP
 - Hack in the definition for host-arch-arm64, from
   https://raw.githubusercontent.com/ocaml/opam-repository/e64203035b54812a6e33cfa9f390fd0f17c02e07/packages/host-arch-arm64/host-arch-arm64.1/opam
+- Document why we comment out the depext line from XS
 
 * Wed Feb 18 2026 Pau Ruiz Safont <pau.safont@vates.tech> - 6.99.0-1.1
  - *** Upstream changelog ***
