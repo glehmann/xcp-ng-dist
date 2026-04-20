@@ -1,6 +1,6 @@
 Name:           xcp-featured
-Version:        1.1.8
-Release:        6%{?dist}
+Version:        1.2.0
+Release:        1%{?dist}
 Summary:        XCP-ng feature daemon
 Group:          System/Hypervisor
 License:        ISC
@@ -23,6 +23,7 @@ available on an xcp-ng host.
 
 %build
 DESTDIR=%{buildroot} %{__make}
+%{__make} test
 
 %install
 DESTDIR=%{buildroot} LIBEXECDIR=/opt/xensource/libexec %{__make} install
@@ -44,6 +45,11 @@ ln -s /opt/xensource/libexec/xcp-featured %{buildroot}/opt/xensource/libexec/v6d
 %{_unitdir}/v6d.service
 
 %changelog
+* Mon Apr 20 2026 Pau Ruiz Safont <pr.safont@vates.tech> - 1.2.0-1
+- bin: fix unused variables
+- feature: experimental features
+- v6d is now restarted by `xe-toolstack-restart`
+
 * Fri Feb 20 2026 Philippe Coval <philippe.coval@vates.tech> - 1.1.8-6
 - Rebuild with XAPI 26.1.3-1.2 (with openssl-3)
 
