@@ -53,7 +53,7 @@ ln -s /opt/xensource/libexec/xcp-featured %{buildroot}/opt/xensource/libexec/v6d
 * Fri Feb 20 2026 Philippe Coval <philippe.coval@vates.tech> - 1.1.8-6
 - Rebuild with XAPI 26.1.3-1.2 (with openssl-3)
 
-* Thu Feb 18 2026 Pau Ruiz Safont <pr.safont@vates.tech> - 1.1.8-5
+* Wed Feb 18 2026 Pau Ruiz Safont <pr.safont@vates.tech> - 1.1.8-5
 - Rebuild with XAPI 26.1.3-1.1
 
 * Mon Feb 02 2026 Pau Ruiz Safont <pr.safont@vates.tech> - 1.1.8-4
