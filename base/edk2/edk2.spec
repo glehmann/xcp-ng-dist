@@ -1,6 +1,6 @@
-%global package_speccommit 7e54743162191ecfcacc322eec235e5136a9f913
+%global package_speccommit 5becf7339597f06332f0524b530da54364d77d58
 %global usver 20220801
-%global xsver 1.7.10
+%global xsver 1.7.11
 %global xsrel %{xsver}%{?xscount}%{?xshash}
 %global package_srccommit edk2-stable202208
 %global debug_package %{nil}
@@ -8,15 +8,15 @@
 # submodule CryptoPkg/Library/OpensslLib/openssl
 %define openssl_version 3.0.9
 %define openssllib_cset openssl-%{openssl_version}
-%define openssllib_path CryptoPkg/Library/OpensslLib/openssl
+%define openssllib_path CryptoPkg%2FLibrary%2FOpensslLib%2Fopenssl
 
 # submodule BaseTools/Source/C/BrotliCompress/brotli
 %define brotli_basetools_cset f4153a09f87cbb9c826d8fc12c74642bb2d879ea
-%define brotli_basetools_path BaseTools/Source/C/BrotliCompress/brotli
+%define brotli_basetools_path BaseTools%2FSource%2FC%2FBrotliCompress%2Fbrotli
 
 # submodule MdeModulePkg/Library/BrotliCustomDecompressLib/brotli
 %define brotli_lib_cset f4153a09f87cbb9c826d8fc12c74642bb2d879ea
-%define brotli_lib_path MdeModulePkg/Library/BrotliCustomDecompressLib/brotli
+%define brotli_lib_path MdeModulePkg%2FLibrary%2FBrotliCustomDecompressLib%2Fbrotli
 
 Name: edk2
 Summary: EFI Development Kit II
@@ -50,48 +50,50 @@ Patch16: 0005-SecurityPkg-RngDxe-Remove-incorrect-limitation-on-Ge.patch
 Patch17: 0006-NetworkPkg-SECURITY-PATCH-CVE-2023-45237.patch
 Patch18: 0007-NetworkPkg-TcpDxe-SECURITY-PATCH-CVE-2023-45236.patch
 Patch19: 0008-NetworkPkg-TcpDxe-Fixed-system-stuck-on-PXE-boot-flo.patch
-Patch20: 0001-CryptoPkg-openssl-cleanup-all-openssl1.1.1-generated.patch
-Patch21: 0002-CryptoPkg-openssl-add-openssl3-configure-scripts.patch
-Patch22: 0003-CryptoPkg-remove-BN-and-EC-accel-for-size-optimizati.patch
-Patch23: 0004-CryptoPkg-OpensslLib-Add-native-instruction-support-.patch
-Patch24: 0005-CryptoPkg-openssl-UefiAsm.conf-update-for-openssl-3..patch
-Patch25: 0006-CryptoPkg-openssl-move-compiler_flags-to-buildinf.c.patch
-Patch26: 0007-CryptoPkg-openssl-store-dummy-update-for-openssl-3.0.patch
-Patch27: 0008-CryptoPkg-openssl-adapt-rand_pool.c-to-openssl-3.0-c.patch
-Patch28: 0009-CryptoPkg-Library-OpensslLib-Produce-consistent-set-.patch
-Patch29: 0010-CryptoPkg-openssl-adapt-EcSm2Null.c-for-openssl-3.0.patch
-Patch30: 0011-CryptoPkg-Move-all-UEFI-implement-of-openssl-to-Open.patch
-Patch31: 0012-CryptoPkg-adapt-3.0-change-in-SslNull.c.patch
-Patch32: 0013-CryptoPkg-use-UEFI-provider-as-default.patch
-Patch33: 0014-CryptoPkg-add-more-dummy-implement-of-openssl-for-si.patch
-Patch34: 0015-CryptoPkg-openssl-update-Openssl-.inf-files-for-open.patch
-Patch35: 0016-CryptoPkg-BaseCryptLib-adapt-CryptSm3.c-to-openssl-3.patch
-Patch36: 0017-CryptoPkg-BaseCryptLib-drop-BIO_-dummy-functions.patch
-Patch37: ovmfpkg-xenpvblkdxe__fix_memory_barrier_macro.patch
-Patch38: ovmfxen-add-tpm-support.patch
-Patch39: MdePkg-SecPeiDxeTimerLibCpu-Support-for-dynamic-PcdF.patch
-Patch40: OvmfPkg-OvmfXen-Use-RuntimeTimerLibCpu-for-DXE_DRIVER.patch
-Patch41: add-option-to-disable-bgrt.patch
-Patch42: use-rtc.patch
-Patch43: move-xenconnect-later.patch
-Patch44: xen-rng-dxe.patch
-Patch45: nvidia-vgpu-support.patch
-Patch46: gvt-g-support.patch
-Patch47: embed-nic-drivers.patch
-Patch48: add-xen-variable.patch
-Patch49: add-xen-platform-device-id.patch
-Patch50: disable-modules.patch
-Patch51: xenorder.patch
-Patch52: keep-caching-enabled.patch
-Patch53: remove-unused-crypto.patch
-Patch54: add-Tcg2PhysicalPresenceLibXen.patch
-Patch55: tcg2config-fix-operation-parameter-prompt.patch
-Patch56: set-tpm2-acpi-table-revision.patch
-Patch57: disable-config-option-in-TCG2-config-screen.patch
-Patch58: shadow-pei-for-consistent-measurements.patch
-Patch59: set-default-resolution-1024-768.patch
-Patch60: add-debugging-info.patch
-Patch61: remove-vlan-tag-from-a-packet.patch
+Patch20: OvmfPkg-XenPvBlkDxe-Update-disk-size-calculation.patch
+Patch21: OvmfPkg-XenPvBlkDxe-Advertise-the-correct-IO-alignme.patch
+Patch22: 0001-CryptoPkg-openssl-cleanup-all-openssl1.1.1-generated.patch
+Patch23: 0002-CryptoPkg-openssl-add-openssl3-configure-scripts.patch
+Patch24: 0003-CryptoPkg-remove-BN-and-EC-accel-for-size-optimizati.patch
+Patch25: 0004-CryptoPkg-OpensslLib-Add-native-instruction-support-.patch
+Patch26: 0005-CryptoPkg-openssl-UefiAsm.conf-update-for-openssl-3..patch
+Patch27: 0006-CryptoPkg-openssl-move-compiler_flags-to-buildinf.c.patch
+Patch28: 0007-CryptoPkg-openssl-store-dummy-update-for-openssl-3.0.patch
+Patch29: 0008-CryptoPkg-openssl-adapt-rand_pool.c-to-openssl-3.0-c.patch
+Patch30: 0009-CryptoPkg-Library-OpensslLib-Produce-consistent-set-.patch
+Patch31: 0010-CryptoPkg-openssl-adapt-EcSm2Null.c-for-openssl-3.0.patch
+Patch32: 0011-CryptoPkg-Move-all-UEFI-implement-of-openssl-to-Open.patch
+Patch33: 0012-CryptoPkg-adapt-3.0-change-in-SslNull.c.patch
+Patch34: 0013-CryptoPkg-use-UEFI-provider-as-default.patch
+Patch35: 0014-CryptoPkg-add-more-dummy-implement-of-openssl-for-si.patch
+Patch36: 0015-CryptoPkg-openssl-update-Openssl-.inf-files-for-open.patch
+Patch37: 0016-CryptoPkg-BaseCryptLib-adapt-CryptSm3.c-to-openssl-3.patch
+Patch38: 0017-CryptoPkg-BaseCryptLib-drop-BIO_-dummy-functions.patch
+Patch39: ovmfpkg-xenpvblkdxe__fix_memory_barrier_macro.patch
+Patch40: ovmfxen-add-tpm-support.patch
+Patch41: MdePkg-SecPeiDxeTimerLibCpu-Support-for-dynamic-PcdF.patch
+Patch42: OvmfPkg-OvmfXen-Use-RuntimeTimerLibCpu-for-DXE_DRIVER.patch
+Patch43: add-option-to-disable-bgrt.patch
+Patch44: use-rtc.patch
+Patch45: move-xenconnect-later.patch
+Patch46: xen-rng-dxe.patch
+Patch47: nvidia-vgpu-support.patch
+Patch48: gvt-g-support.patch
+Patch49: embed-nic-drivers.patch
+Patch50: add-xen-variable.patch
+Patch51: add-xen-platform-device-id.patch
+Patch52: disable-modules.patch
+Patch53: xenorder.patch
+Patch54: keep-caching-enabled.patch
+Patch55: remove-unused-crypto.patch
+Patch56: add-Tcg2PhysicalPresenceLibXen.patch
+Patch57: tcg2config-fix-operation-parameter-prompt.patch
+Patch58: set-tpm2-acpi-table-revision.patch
+Patch59: disable-config-option-in-TCG2-config-screen.patch
+Patch60: shadow-pei-for-consistent-measurements.patch
+Patch61: set-default-resolution-1024-768.patch
+Patch62: add-debugging-info.patch
+Patch63: remove-vlan-tag-from-a-packet.patch
 
 %if 0%{?xenserver} < 9
 BuildRequires: devtoolset-11-binutils
@@ -214,6 +216,9 @@ cp OvmfPkg/License.txt License.ovmf
 
 
 %changelog
+* Mon Mar 09 2026 Ross Lagerwall <ross.lagerwall@citrix.com> - 20220801-1.7.11
+- CA-424506: Fix boot from physical CD/DVD drive
+
 * Wed Jun 11 2025 Fei Su <fei.su@cloud.com> - 20220801-1.7.10
 - CA-410587 [XSI-1806] Fix 802.1Q Header Handling in OVS on XS8
 

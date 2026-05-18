@@ -141,6 +141,6 @@ index 7aa5ef044be0..50923ba4c138 100644
    DEBUG ((
 -    DEBUG_INFO,
 +    DEBUG_ERROR,
-     "XenPvBlk: New disk with %ld sectors of %d bytes\n",
+     "XenPvBlk: New disk with %ld 512B-sectors and logical sector size of %d bytes\n",
      Dev->MediaInfo.Sectors,
      Dev->MediaInfo.SectorSize
