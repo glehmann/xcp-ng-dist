@@ -1,0 +1,66 @@
+From 8c1e786e506474bae02f81b48a5644afb324d1bb Mon Sep 17 00:00:00 2001
+From: Anthony PERARD <anthony.perard@vates.tech>
+Date: Mon, 23 Sep 2024 15:59:24 +0200
+Subject: [PATCH] OvmfPkg/XenPvBlkDxe: Update disk size calculation
+
+The specification wasn't clear and even contradict itself regarding
+the calculation of the disk size. This have been clarified by Xen
+commit 221f2748e8da ("blkif: reconcile protocol specification with
+in-use implementations").
+
+https://xenbits.xenproject.org/gitweb/?p=xen.git;a=commit;h=221f2748e8dabe8361b8cdfcffbeab9102c4c899
+
+The value from the xenstore node "sectors" must be multiplied by 512
+to have the size of the disk.
+
+Calculation of LastBlock is now the same for both CD-ROM case and
+generic case.
+
+Signed-off-by: Anthony PERARD <anthony.perard@vates.tech>
+---
+ OvmfPkg/XenPvBlkDxe/BlockFront.c  |  2 +-
+ OvmfPkg/XenPvBlkDxe/XenPvBlkDxe.c | 14 +++++++++-----
+ 2 files changed, 10 insertions(+), 6 deletions(-)
+
+diff --git a/OvmfPkg/XenPvBlkDxe/BlockFront.c b/OvmfPkg/XenPvBlkDxe/BlockFront.c
+index 50923ba4c138..810ae45bcaca 100644
+--- a/OvmfPkg/XenPvBlkDxe/BlockFront.c
++++ b/OvmfPkg/XenPvBlkDxe/BlockFront.c
+@@ -356,7 +356,7 @@ Again:
+ 
+   DEBUG ((
+     DEBUG_INFO,
+-    "XenPvBlk: New disk with %ld sectors of %d bytes\n",
++    "XenPvBlk: New disk with %ld 512B-sectors and logical sector size of %d bytes\n",
+     Dev->MediaInfo.Sectors,
+     Dev->MediaInfo.SectorSize
+     ));
+diff --git a/OvmfPkg/XenPvBlkDxe/XenPvBlkDxe.c b/OvmfPkg/XenPvBlkDxe/XenPvBlkDxe.c
+index dfc40bffaada..218ada89c66b 100644
+--- a/OvmfPkg/XenPvBlkDxe/XenPvBlkDxe.c
++++ b/OvmfPkg/XenPvBlkDxe/XenPvBlkDxe.c
+@@ -295,15 +295,19 @@ XenPvBlkDxeDriverBindingStart (
+     //    MdeModulePkg/Universal/Disk/PartitionDxe/ElTorito.c
+     //
+     Media->BlockSize = 2048;
+-    Media->LastBlock = DivU64x32 (
+-                         Dev->MediaInfo.Sectors,
+-                         Media->BlockSize / Dev->MediaInfo.SectorSize
+-                         ) - 1;
+   } else {
+     Media->BlockSize = Dev->MediaInfo.SectorSize;
+-    Media->LastBlock = Dev->MediaInfo.Sectors - 1;
+   }
+ 
++  //
++  // Sectors is express as 512B unit, size of disk is "Sectors * 512",
++  // independently from SectorSize.
++  //
++  Media->LastBlock = DivU64x32 (
++                       Dev->MediaInfo.Sectors,
++                       Media->BlockSize / 512
++                       ) - 1;
++
+   ASSERT (Media->BlockSize % 512 == 0);
+   Dev->BlockIo.Media = Media;
+ 
