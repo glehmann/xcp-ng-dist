@@ -92,16 +92,6 @@ Patch65: 81ef3d06c970c6b7ae4971ad552b2287af376f43.patch
 Patch66: msix_pba_log.patch
 Patch67: pci_passthrough.patch
 
-# XCP-ng patches
-Patch1000: qemu-4.2.1-CVE-2023-3354.backport.patch
-Patch1001: 0001-hw-nvme-reenable-cqe-batching.patch
-Patch1002: 0002-util-async-add-a-human-readable-name-to-BHs-for-debu.patch
-Patch1003: 0003-memory-prevent-dma-reentracy-issues.patch
-Patch1004: 0004-async-Add-an-optional-reentrancy-guard-to-the-BH-API.patch
-Patch1005: 0005-async-avoid-use-after-free-on-re-entrancy-guard.patch
-Patch1006: 0006-hw-replace-most-qemu_bh_new-calls-with-qemu_bh_new_g.patch
-Patch1007: 0007-apic-disable-reentrancy-detection-for-apic-msi.patch
-
 BuildRequires: python3-devel
 BuildRequires: libaio-devel glib2-devel
 BuildRequires: libjpeg-turbo-devel libpng-devel pixman-devel
@@ -189,6 +179,7 @@ cp -r scripts/qmp %{buildroot}%{_datarootdir}/qemu
 %changelog
 * Wed May 27 2026 Anthony PERARD <anthony.perard@vates.tech> - 10.1.0-1.1
 - Sync with 10.1.0-1
+- Remove all XCP-ng patches, as they are backport and already included.
 - *** Upstream changelog ***
   * Wed May 06 2026 Gerald Elder-Vass <gerald.elder-vass@citrix.com> - 10.1.0-1
   - CP-310167: Upgrade QEMU to 10.1.0
