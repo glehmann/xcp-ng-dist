@@ -92,6 +92,9 @@ Patch65: 81ef3d06c970c6b7ae4971ad552b2287af376f43.patch
 Patch66: msix_pba_log.patch
 Patch67: pci_passthrough.patch
 
+# XCP-ng patches
+Patch1000: 0001-xen-Fix-err-may-be-used-uninitialized.patch
+
 BuildRequires: python3-devel
 BuildRequires: libaio-devel glib2-devel
 BuildRequires: libjpeg-turbo-devel libpng-devel pixman-devel
@@ -180,6 +183,7 @@ cp -r scripts/qmp %{buildroot}%{_datarootdir}/qemu
 * Wed May 27 2026 Anthony PERARD <anthony.perard@vates.tech> - 10.1.0-1.1
 - Sync with 10.1.0-1
 - Remove all XCP-ng patches, as they are backport and already included.
+- Add a build fix.
 - *** Upstream changelog ***
   * Wed May 06 2026 Gerald Elder-Vass <gerald.elder-vass@citrix.com> - 10.1.0-1
   - CP-310167: Upgrade QEMU to 10.1.0
