@@ -5,7 +5,7 @@
 
 Name:    nbd
 Version: 3.25
-Release: %{?xsrel}%{?dist}
+Release: %{?xsrel}.1%{?dist}
 Summary: Network Block Device user-space tools (TCP version)
 License: GPL-2.0-only
 URL:     https://github.com/NetworkBlockDevice/nbd
@@ -13,6 +13,10 @@ Source0: nbd-3.25.tar.xz
 Source1: nbd-server.service
 Source2: nbd-server.sysconfig
 Patch0: netlink-report-failure.patch
+
+# XCP-ng patches
+# Origin: https://github.com/NetworkBlockDevice/nbd/commit/5b6dda99bbfbfe287ebacb5d545496b57f6e6e8d
+Patch1000: 0001-Update-certificate-expiry-dates.patch
 
 BuildRequires: make
 BuildRequires:  gcc
@@ -78,6 +82,9 @@ DELAY=10 make check
 %{_unitdir}/nbd@.service.d
 
 %changelog
+* Wed Jul 15 2026 Philippe Coval <philippe.coval@vates.tech> - 3.25-2.1
+- Add patch for obsolete certificates
+
 * Wed Jan 22 2025 Mark Syms <mark.syms@cloud.com> - 3.25-2
 - Update to 3.25 with obsoleted gznbd disabled
 
