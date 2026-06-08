@@ -1,0 +1,160 @@
+From 175eae9a11d485b96d8de79ea85995841443fc84 Mon Sep 17 00:00:00 2001
+From: Stephen Cheng <stephen.cheng@citrix.com>
+Date: Fri, 3 Apr 2026 10:26:14 +0800
+Subject: [PATCH] XSI-2070: Strip 802.1Q priority tags (VID=0) in ethernet and
+ UNDI ISR paths
+
+OVS v2.17.7 on XenServer 8.4 preserves 802.1Q priority-tagged frames
+(VID=0, PCP!=0) on internal virtual switch ports. 802.1Q defines VID=0
+as the "null VID" carrying only priority information; a conformant
+bridge would classify these as untagged and not preserve the tag.
+However, OVS delivers them to VMs.
+
+The PXE 2.1 specification does not mention VLAN tags. 
+It is unspecified whether UNDI should present priority-tagged
+frames as-is or strip them. In practice, PXE NBPs such as the Citrix
+PVS Boot Device Manager assume standard Ethernet framing and fail when
+they encounter EtherType 0x8100 instead of the expected 0x0800.
+
+This change strips VID=0 priority tags in two code paths to make NBPs
+that do not handle priority tags work correctly:
+
+1. eth_pull() in ethernet.c: strips VID=0 from the iobuf used by
+   iPXE's native network stack.
+
+2. UNDI ISR in pxe_undi.c: strips VID=0 from basemem_packet, which
+   is returned directly to the PXE NBP caller.
+
+Frames with VID!=0 (real VLAN tags) are left untouched.
+
+Signed-off-by: Stephen Cheng <stephen.cheng@citrix.com>
+---
+ src/arch/i386/interface/pxe/pxe_undi.c | 30 +++++++++++++++++++++
+ src/net/ethernet.c                     | 36 +++++++++++++++++++++++++-
+ 2 files changed, 65 insertions(+), 1 deletion(-)
+
+diff --git a/src/arch/i386/interface/pxe/pxe_undi.c b/src/arch/i386/interface/pxe/pxe_undi.c
+index b102759f..ce6f4c8d 100644
+--- a/src/arch/i386/interface/pxe/pxe_undi.c
++++ b/src/arch/i386/interface/pxe/pxe_undi.c
+@@ -39,6 +39,7 @@ FILE_LICENCE ( GPL2_OR_LATER );
+ #include <ipxe/udp.h>
+ #include <ipxe/arp.h>
+ #include <ipxe/rarp.h>
++#include <ipxe/vlan.h>
+ #include "pxe.h"
+ 
+ int running_pvs_nbp = 0;
+@@ -882,6 +883,9 @@ static PXENV_EXIT_t pxenv_undi_isr ( struct s_PXENV_UNDI_ISR *undi_isr ) {
+ 	size_t ll_hlen;
+ 	struct net_protocol *net_protocol;
+ 	unsigned int prottype;
++	struct ethhdr *bpe;
++	struct vlan_header *bpv;
++	uint16_t tci;
+ 	int rc;
+ 
+ 	/* Use a different debug colour, since UNDI ISR messages are
+@@ -1006,6 +1010,32 @@ static PXENV_EXIT_t pxenv_undi_isr ( struct s_PXENV_UNDI_ISR *undi_isr ) {
+ 		}
+ 		memcpy ( basemem_packet, iobuf->data, len );
+ 
++		/* Strip 802.1Q priority tag (VID=0) from basemem_packet.
++		 *
++		 * The PXE 2.1 spec does not mention VLAN tags and leaves
++		 * it unspecified whether UNDI should present them as-is
++		 * or strip them. This arguably deviates from a strict
++		 * reading of the spec, but existing NBPs (e.g. PVS BDM)
++		 * assume standard Ethernet framing and fail when they
++		 * encounter priority-tagged frames. OVS on XenServer
++		 * internal networks preserves VID=0 tags, so strip them
++		 * here to make these NBPs work.
++		 */
++		bpe = (struct ethhdr *) basemem_packet;
++		if ( len >= ( ETH_HLEN + sizeof ( struct vlan_header ) ) &&
++				bpe->h_protocol == htons ( ETH_P_8021Q ) ) {
++			bpv = (struct vlan_header *)( basemem_packet + ETH_HLEN );
++			tci = ntohs ( bpv->tci );
++			if ( VLAN_TAG ( tci ) == 0 ) {
++				DBGC ( &pxenv_undi_isr, " STRIP_PRIORITY_TAG PCP=%d", VLAN_PRIORITY ( tci ) );
++				bpe->h_protocol = bpv->net_proto;
++				memmove ( basemem_packet + ETH_HLEN,
++						basemem_packet + ETH_HLEN + sizeof ( struct vlan_header ),
++						len - ETH_HLEN - sizeof ( struct vlan_header ) );
++				len -= sizeof ( struct vlan_header );
++			}
++		}
++
+ 		/* Strip link-layer header */
+ 		ll_protocol = pxe_netdev->ll_protocol;
+ 		if ( ( rc = ll_protocol->pull ( pxe_netdev, iobuf, &ll_dest,
+diff --git a/src/net/ethernet.c b/src/net/ethernet.c
+index 4fd2ab6e..80e2c7c3 100644
+--- a/src/net/ethernet.c
++++ b/src/net/ethernet.c
+@@ -31,6 +31,7 @@ FILE_LICENCE ( GPL2_OR_LATER );
+ #include <ipxe/netdevice.h>
+ #include <ipxe/iobuf.h>
+ #include <ipxe/ethernet.h>
++#include <ipxe/vlan.h>
+ 
+ /** @file
+  *
+@@ -79,6 +80,9 @@ int eth_pull ( struct net_device *netdev __unused, struct io_buffer *iobuf,
+ 	       const void **ll_dest, const void **ll_source,
+ 	       uint16_t *net_proto, unsigned int *flags ) {
+ 	struct ethhdr *ethhdr = iobuf->data;
++	struct vlan_header *vlanhdr;
++	uint16_t tci;
++	uint16_t protocol;
+ 
+ 	/* Sanity check */
+ 	if ( iob_len ( iobuf ) < sizeof ( *ethhdr ) ) {
+@@ -87,13 +91,43 @@ int eth_pull ( struct net_device *netdev __unused, struct io_buffer *iobuf,
+ 		return -EINVAL;
+ 	}
+ 
++	/* Save protocol before stripping header */
++	protocol = ethhdr->h_protocol;
++
+ 	/* Strip off Ethernet header */
+ 	iob_pull ( iobuf, sizeof ( *ethhdr ) );
+ 
++	if ( protocol == htons ( ETH_P_8021Q ) ) {
++		/* Sanity check */
++		if ( iob_len ( iobuf ) < sizeof ( *vlanhdr ) ) {
++			DBG ( "Packet too short (%zd bytes)\n",
++			      iob_len ( iobuf ) );
++			return -EINVAL;
++		}
++		
++		vlanhdr = iobuf->data;
++		tci = ntohs ( vlanhdr->tci );
++		
++		/* Strip priority-only tags (VID=0). 802.1Q defines
++		 * VID=0 as the "null VID" carrying only priority
++		 * information. OVS on XenServer internal networks preserve
++		 * these tags. Strip them so upper layers see standard framing.
++		 */
++		if ( VLAN_TAG ( tci ) == 0 ) {
++			DBG ( "VLAN priority tag stripped: PCP=%d, inner proto=0x%04x\n",
++			      VLAN_PRIORITY ( tci ), ntohs ( vlanhdr->net_proto ) );
++			
++			/* Use inner protocol and strip VLAN header */
++			protocol = vlanhdr->net_proto;
++			iob_pull ( iobuf, sizeof ( *vlanhdr ) );
++		}
++		/* For VID != 0, leave the tag for vlan.c to process */
++	}
++
+ 	/* Fill in required fields */
+ 	*ll_dest = ethhdr->h_dest;
+ 	*ll_source = ethhdr->h_source;
+-	*net_proto = ethhdr->h_protocol;
++	*net_proto = protocol;
+ 	*flags = ( ( is_multicast_ether_addr ( ethhdr->h_dest ) ?
+ 		     LL_MULTICAST : 0 ) |
+ 		   ( is_broadcast_ether_addr ( ethhdr->h_dest ) ?
+-- 
+2.48.1
+
