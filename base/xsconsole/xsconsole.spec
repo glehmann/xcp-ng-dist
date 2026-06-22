@@ -5,7 +5,7 @@
 Summary: XCP-ng Host Configuration Console
 Name: xsconsole
 Version: 11.0.9.1
-Release: %{?xsrel}.1%{?dist}
+Release: %{?xsrel}.2%{?dist}
 License: GPL2
 Group: Administration/System
 Source0: xsconsole-11.0.9.1.tar.gz
@@ -35,6 +35,8 @@ Patch1001: xsconsole-10.1.13-define-xcp-ng-colors.XCP-ng.patch
 # PR pending merge
 Patch1002: xsconsole-11.0.2-support-ipv6.XCP-ng.patch
 Patch1003: xsconsole-11.0.6-Ipv6-pool-join.XCP-ng.patch
+Patch1004: xsconsole-network-reset-without-management-interface-rename.patch
+Patch1005: xsconsole-reset-old-management-interface-when-switching-to-new.patch
 
 %description
 Console tool for configuring a XCP-ng installation.
@@ -71,6 +73,9 @@ Console tool for configuring a XCP-ng installation.
 %{_unitdir}/xsconsole.service
 
 %changelog
+* Mon Jun 22 2026 Stefanos Gerangelos <stefanos.gerangelos@vates.tech> - 11.0.9.1-2
+- Backport the user option to allow the network reset without renaming the management interface (upstream PR #85)
+- Backport the reset of old management interface configuration when switching to a new one (upstream PR #86)
 * Tue Sep 02 2025 Guillaume Thouvenin <guillaume.thouvenin@vates.tech> - 11.0.9.1-1.1
 - Sync with 11.0.9.1-1
 - Drop xsconsole-11.0.8-sync-network-reset-trigger-file.patch

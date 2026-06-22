@@ -1,0 +1,77 @@
+From 4dd53f6e64ee4a62220af2d6f392ceb695c2c766 Mon Sep 17 00:00:00 2001
+From: Stefanos Gerangelos <stefanos.gerangelos@vates.tech>
+Date: Mon, 22 Jun 2026 14:40:11 +0200
+Subject: [PATCH] XSFeatureInterface: Reset old management interface
+ configuration when switching to a new one
+
+Fix the following issue from upstream:
+https://github.com/xapi-project/xsconsole/issues/8
+
+Essentially, reset the old management interface configuration when
+switching to a new one, in order to avoid network conflicts
+
+Signed-off-by: Stefanos Gerangelos <stefanos.gerangelos@vates.tech>
+---
+ plugins-base/XSFeatureInterface.py | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
+
+diff --git a/plugins-base/XSFeatureInterface.py b/plugins-base/XSFeatureInterface.py
+index e5cf547..c812cc3 100644
+--- a/plugins-base/XSFeatureInterface.py
++++ b/plugins-base/XSFeatureInterface.py
+@@ -28,6 +28,7 @@ class InterfaceDialogue(Dialogue):
+         self.nic=None
+         self.converting = False
+         currentPIF = None
++        self.oldPIF = None
+         choiceArray = []
+         for i in range(len(data.host.PIFs([]))):
+             pif = data.host.PIFs([])[i]
+@@ -45,6 +46,7 @@ class InterfaceDialogue(Dialogue):
+ 
+             choiceDefs.append(ChoiceDef(choiceName, lambda: self.HandleNICChoice(self.nicMenu.ChoiceIndex())))
+ 
++        self.oldPIF = currentPIF
+         if len(choiceDefs) == 0:
+             XSLog('Configure Management Interface found no PIFs to present')
+             choiceDefs.append(ChoiceDef(Lang("<No interfaces present>"), None))
+@@ -84,6 +86,7 @@ class InterfaceDialogue(Dialogue):
+         self.netmask = '0.0.0.0'
+         self.gateway = '0.0.0.0'
+         self.hostname = data.host.hostname('')
++        self.oldIP = self.IP
+ 
+         if currentPIF is not None:
+             ipv6 = currentPIF['primary_address_type'].lower() == 'ipv6'
+@@ -93,6 +96,7 @@ class InterfaceDialogue(Dialogue):
+             if self.mode.lower().startswith('static'):
+                 if 'IP' in currentPIF:
+                     self.IP = currentPIF['IPv6'][0].split('/')[0] if ipv6 else currentPIF['IP']
++                    self.oldIP = self.IP
+                 if 'netmask' in currentPIF:
+                     self.netmask = currentPIF['IPv6'][0].split('/')[1] if ipv6 else currentPIF['netmask']
+                 if 'gateway' in currentPIF:
+@@ -110,6 +114,9 @@ class InterfaceDialogue(Dialogue):
+             self.nicMenu.AddChoice(name = Lang('Renew DHCP Lease On Current Interface'),
+                 onAction = lambda: self.HandleRenewChoice()
+                 )
++            if currentPIF is not None and 'IP' in currentPIF:
++                self.IP = currentPIF['IPv6'][0].split('/')[0] if ipv6 else currentPIF['IP']
++                self.oldIP = self.IP
+ 
+         self.ChangeState('INITIAL')
+ 
+@@ -458,7 +465,13 @@ class InterfaceDialogue(Dialogue):
+                 data.HostnameSet('localhost')
+             else:
+                 data.HostnameSet(self.hostname)
++
++            # Reset old PIF in order to prevent network conflicts
++            if self.mode.lower().startswith('static') and self.oldPIF != pif and self.IP == self.oldIP:
++                data.ReconfigureManagement(self.oldPIF, 'static', '0.0.0.0',  '0.0.0.0', '0.0.0.0', '')
++
+             data.ReconfigureManagement(pif, self.mode, self.IP,  self.netmask, self.gateway, dns)
++
+         data.Update()
+         self.hostname = data.host.hostname('') # Hostname may have changed.  Must be after data.Update()
+ 
