@@ -73,9 +73,10 @@ Console tool for configuring a XCP-ng installation.
 %{_unitdir}/xsconsole.service
 
 %changelog
-* Mon Jun 22 2026 Stefanos Gerangelos <stefanos.gerangelos@vates.tech> - 11.0.9.1-2
+* Mon Jun 22 2026 Stefanos Gerangelos <stefanos.gerangelos@vates.tech> - 11.0.9.1-1.2
 - Backport the user option to allow the network reset without renaming the management interface (upstream PR #85)
 - Backport the reset of old management interface configuration when switching to a new one (upstream PR #86)
+ 
 * Tue Sep 02 2025 Guillaume Thouvenin <guillaume.thouvenin@vates.tech> - 11.0.9.1-1.1
 - Sync with 11.0.9.1-1
 - Drop xsconsole-11.0.8-sync-network-reset-trigger-file.patch
