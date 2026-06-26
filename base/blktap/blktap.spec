@@ -1,23 +1,23 @@
-%global package_speccommit f01deb45b78c72e2caa75283c2d4693519331a86
-%global package_srccommit v3.55.5
+%global package_speccommit 22717df73a3c1a3fad92fc1fc268b37bc45b4eeb
+%global package_srccommit v4.0.8
 
 Summary: blktap user space utilities
 Name: blktap
-Version: 3.55.5
+Version: 4.0.8
 Release: 1%{?xsrel}%{?dist}
 License: BSD
 Group: System/Hypervisor
 URL: https://github.com/xapi-project/blktap
-Source0: blktap-3.55.5.tar.gz
+Source0: blktap-4.0.8.tar.gz
 
 BuildRoot: %{_tmppath}/%{name}-%{release}-buildroot
 Obsoletes: xen-blktap < 4
-BuildRequires: e2fsprogs-devel, libaio-devel, systemd, autogen, autoconf, automake, libtool, libuuid-devel
-BuildRequires: kernel-headers, xen-libs-devel, zlib-devel, libcmocka-devel, lcov, git
-BuildRequires: xs-openssl-devel >= 1.1.1
-BuildRequires: devtoolset-11-gcc
-BuildRequires: devtoolset-11-binutils
-BuildRequires: devtoolset-11-liblsan-devel
+BuildRequires: e2fsprogs-devel, libaio-devel, systemd, autoconf, automake, libtool, libuuid-devel
+BuildRequires: xen-libs-devel, zlib-devel, libcmocka-devel, git, lcov
+BuildRequires: openssl-devel >= 3.0.0
+BuildRequires: gcc
+BuildRequires: binutils
+BuildRequires: liblsan-static
 %{?_cov_buildrequires}
 Requires(post): systemd
 Requires(post): /sbin/ldconfig
@@ -25,9 +25,12 @@ Requires(preun): systemd
 Requires(postun): systemd
 Requires(postun): /sbin/ldconfig
 
-Conflicts: sm < 3.0.1
+Conflicts: sm < 4.0.0
 
 Provides: blktap(nbd) = 2.0
+
+# cmocka doesn't play nice with LTO
+%global _lto_cflags %{nil}
 
 %description
 Blktap creates kernel block devices which realize I/O requests to
@@ -56,20 +59,19 @@ Blktap and VHD development files.
 %{?_cov_prepare}
 
 %build
-source /opt/rh/devtoolset-11/enable
-
 %{?_cov_make_model:%{_cov_make_model misc/coverity/model.c}}
 echo -n %{version} > VERSION
 sh autogen.sh
 # The following can be used for leak tracing
-#%%configure LDFLAGS="$LDFLAGS -Wl,-rpath=/lib64/citrix -lrt -static-liblsan" CFLAGS="$CFLAGS  -Wno-stringop-truncation -fsanitize=leak -ggdb -fno-omit-frame-pointer"
-#%%configure LDFLAGS="$LDFLAGS -Wl,-rpath=/lib64/citrix" CFLAGS="$CFLAGS -Wno-stringop-truncation -Wno-error=analyzer-malloc-leak -Wno-error=analyzer-use-after-free -Wno-error=analyzer-double-free -Wno-error=analyzer-null-dereference -fanalyzer"
-%configure LDFLAGS="$LDFLAGS -Wl,-rpath=/lib64/citrix" CFLAGS="$CFLAGS -Wno-stringop-truncation"
+#%%configure LDFLAGS="$LDFLAGS -lrt -static-liblsan" CFLAGS="$CFLAGS  -Wno-stringop-truncation -fsanitize=leak -ggdb -fno-omit-frame-pointer"
+#%%configure CFLAGS="$CFLAGS -Wno-stringop-truncation -Wno-error=analyzer-malloc-leak -Wno-error=analyzer-use-after-free -Wno-error=analyzer-double-free -Wno-error=analyzer-null-dereference -fanalyzer"
+%configure CFLAGS="$CFLAGS -Wno-stringop-truncation"
 %{?_cov_wrap} make %{?coverage:GCOV=true}
 
 %check
 make clean
 make check GCOV=true || (find mockatests -name \*.log -print -exec cat {} \; && false)
+mkdir -p %{buildroot}/testresults
 ./collect-test-results.sh %{buildroot}/testresults
 
 %install
@@ -84,10 +86,6 @@ cd ../ && find -name "*.gcno" | grep -v '.libs/' | xargs -d "\n" tar -cvjSf %{bu
 rm -f %{buildroot}%{_libdir}/*.la
 ## Remove static libraries; they should not be used by other packages
 rm -f %{buildroot}%{_libdir}/*.a
-
-%triggerin -- mdadm
-echo 'KERNEL=="td[a-z]*", GOTO="md_end"' > /etc/udev/rules.d/65-md-incremental.rules
-cat /usr/lib/udev/rules.d/65-md-incremental.rules >> /etc/udev/rules.d/65-md-incremental.rules
 
 %files
 %defattr(-,root,root,-)
@@ -170,6 +168,42 @@ without requiring other libraries
 %{_libdir}/libblockcrypto.so.*
 
 %changelog
+* Wed Feb 4 2026 Lunfan Zhang <lunfan.zhang@cloud.com> - 4.0.8-1
+- revert "CP-311026: advertise flush cache as no-op to blktap"
+
+* Wed Jan 28 2026 Mark Syms <mark.syms@citrix.com> - 4.0.7-1
+- CP-311026: advertise flush cache as no-op to blktap
+- Prevent segfault of vhd-util scan on VHD with corrupt footer
+
+* Thu Nov 13 2025 Mark Syms <mark.syms@citrix.com> - 4.0.6-1
+- Use libc API for xattr
+- Use memory barriers defined by xen headers
+- CA-420659: don't fail on unknown options in NBD
+
+* Thu Aug 28 2025 Mark Syms <mark.syms@cloud.com> - 4.0.5-1
+- CA-416464: return BLKIF_RSP_EOPNOTSUPP for EOPNOTSUPP
+
+* Mon Aug 11 2025 Mark Syms <mark.syms@cloud.com> - 4.0.4-1
+- Fix coalesced size conversion in vhd-util-coalesce
+- CA-414626: initialize cpumon even if lowmem initialization failed
+- CA-400404: remove low memory mode
+
+* Tue Jun 24 2025 Mark Syms <mark.syms@cloud.com> - 4.0.3-1
+- CA-412802: drop redundant udev rule override
+- CP-308276: vhd_batmap_header_offset only returns 0 thus is void.
+- CP-308382: fix sign conversion in coalesce
+
+* Tue Apr 29 2025 Mark Syms <mark.syms@cloud.com> - 4.0.2-1
+- Fix several Coverity detected errors
+
+* Tue Apr 15 2025 Mark Syms <mark.syms@cloud.com> - 4.0.1-1
+- CP-54256: log errors when reporting EOPNOTSUP
+- CA-408175: distinguish logging for long NBD operations
+
+* Tue Jan 21 2025 Mark Syms <mark.syms@cloud.com> - 4.0.0-1
+- CP-35551: remove use of kernel blkatp2 driver
+- CA-404370: enable NBD client only after completing handshake
+
 * Mon Jan 06 2025 Mark Syms <mark.syms@cloud.com> - 3.55.5-1
 - Add an option to never resolve parent path when vhd-util query is called
 
