@@ -1,14 +1,14 @@
-%global package_speccommit 22717df73a3c1a3fad92fc1fc268b37bc45b4eeb
-%global package_srccommit v4.0.8
+%global package_speccommit f260bfd02cb5afeb262b66bf0fdf12f47b56ebd6
+%global package_srccommit v4.0.9
 
 Summary: blktap user space utilities
 Name: blktap
-Version: 4.0.8
+Version: 4.0.9
 Release: 1%{?xsrel}%{?dist}
 License: BSD
 Group: System/Hypervisor
 URL: https://github.com/xapi-project/blktap
-Source0: blktap-4.0.8.tar.gz
+Source0: blktap-4.0.9.tar.gz
 
 BuildRoot: %{_tmppath}/%{name}-%{release}-buildroot
 Obsoletes: xen-blktap < 4
@@ -168,6 +168,10 @@ without requiring other libraries
 %{_libdir}/libblockcrypto.so.*
 
 %changelog
+* Wed Apr 29 2026 Mark Syms <mark.syms@citrix.com> - 4.0.9-1
+- CA-395093: ensure physical-device-path is read if xenstore event missed
+- Various build cleanups
+
 * Wed Feb 4 2026 Lunfan Zhang <lunfan.zhang@cloud.com> - 4.0.8-1
 - revert "CP-311026: advertise flush cache as no-op to blktap"
 
