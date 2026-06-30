@@ -1,4 +1,4 @@
-From f5fe41b5ad0010240a065b6a499b267d4626d7a7 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Anoob Soman <anoob.soman@citrix.com>
 Date: Fri, 24 Feb 2017 12:11:00 +0000
 Subject: [PATCH] Check Vendor Class ID from PROXYDHCP_SETTINGS_NAME
@@ -17,17 +17,18 @@ fetch_string_setting(vendor_class_id_setting), will scan through all
 settings.
 
 Signed-off-by: Anoob Soman <anoob.soman@citrix.com>
----
- src/usr/autoboot.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+
+Ported to v2.0.0 from XS9 ipxe 20121005-1.0.8.
+
+Signed-off-by: Tu Dinh <ngoc-tu.dinh@vates.tech>
 
 diff --git a/src/usr/autoboot.c b/src/usr/autoboot.c
-index 060001e..613fd50 100644
+index 3d46e65e090a..e40459d4105a 100644
 --- a/src/usr/autoboot.c
 +++ b/src/usr/autoboot.c
-@@ -305,8 +305,10 @@ static int have_pxe_menu ( void ) {
+@@ -371,8 +371,10 @@ static int have_pxe_menu ( void ) {
  		= { .tag = DHCP_PXE_BOOT_MENU };
- 	char buf[256];
+ 	char buf[ 10 /* "PXEClient" + NUL */ ];
  	unsigned int pxe_discovery_control;
 +	struct settings *proxy_settings;
  
@@ -37,6 +38,3 @@ index 060001e..613fd50 100644
  			       buf, sizeof ( buf ) );
  	pxe_discovery_control =
  		fetch_uintz_setting ( NULL, &pxe_discovery_control_setting );
--- 
-1.8.3.1
-

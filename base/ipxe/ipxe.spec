@@ -1,12 +1,3 @@
-%global package_speccommit 9b634abd4f9d0fee463e45ace05e21f84c353540
-%global usver 20121005
-%global xsver 1.0.7
-%global xsrel %{xsver}%{?xscount}%{?xshash}
-%global package_srccommit a712dae709a
-
-# Resulting binary formats we want from iPXE
-%global formats rom
-
 # We only build the ROMs if on an x86 build host. The resulting
 # binary RPM will be noarch, so other archs will still be able
 # to use the binary ROMs.
@@ -20,63 +11,25 @@
 # package is currently clashing in koji, so don't bother.
 %global debug_package %{nil}
 
-# Upstream don't do "releases" :-( So we're going to use the date
-# as the version, and a GIT hash as the release. Generate new GIT
-# snapshots using the folowing commands:
-#
-# $ hash=`git log -1 --format='%h'`
-# $ date=`date '+%Y%m%d'`
-# $ git archive --output ipxe-${date}-git${hash}.tar.gz --prefix ipxe-${date}-git${hash}/ ${hash}
-#
-# And then change these two:
-%global date 20121005
-%global hash a712dae709a
+Source0: ipxe-v2.0.0.tar.gz
 
-%define src_name ipxe
+# Export using: --no-stat --no-numbered --no-signature --zero-commit --abbrev=12
 
-Summary: A network boot loader
-Name: ipxe
-Version: 20121005
-Release: %{?xsrel}%{?dist}
-License: GPLv2
-Source0: ipxe-20121005.tar.gz
-Patch0: ipxe-eb5a2ba5962579e514b377f5fdab7292be0fb2a7.patch
-Patch1: ipxe-9df238a8aa1c6074f98280d9dfa08c4ea7e1ff86.patch
-Patch2: ipxe-66ea4581256449fe9dcb26340851c09ffd9d6290.patch
-Patch3: 0001-dhcp-Check-for-matching-chaddr-in-received-DHCP-pack.patch
-Patch4: 0001-pxe-Maintain-a-queue-for-received-PXE-UDP-packets.patch
-Patch5: pxe-tftp-load-from-program-pxecall.patch
-Patch6: ipxe-do-not-implement-UNDI-GET_NEXT-if-PVS.patch
-Patch7: ipxe-udp-write-blocking.patch
-Patch8: ipxe-no-post-prompt.patch
-Patch9: 0001-Check-Vendor-Class-ID-from-PROXYDHCP_SETTINGS_NAME.patch
-Patch10: 0001-CA-247413-Make-pxebs-accept-broadcast-DHCP-packets.patch
-Patch11: 0001-dhcp-Remove-obsolete-dhcp_chaddr-function.patch
-Patch12: 0002-dhcp-Allow-pseudo-DHCP-servers-to-use-pseudo-identif.patch
-Patch13: 0003-dhcp-Ignore-ProxyDHCPACKs-without-PXE-options.patch
-Patch14: 0004-dhcp-Do-not-skip-ProxyDHCPREQUEST-if-next-server-is-.patch
-Patch15: ipxe-238050dfd46e3c4a87329da1d48b4d8dde5af8a1.patch
-Patch16: serial-console.patch
-Patch17: 0001-CP-46112-Inhibit-gcc-false-positive-warnings.patch
-Patch18: 0001-CP-46112-Fix-if-clause-indentation-issues.patch
-Patch19: 0001-CP-46112-Fix-gcc-warnings-for-unused-variable.patch
-Patch20: 0001-CP-46112-build-uninitialized-variable-issue.patch
-Patch21: 0001-CP-46112-Use-Fall-throgh-explicitly-in-case-statemen.patch
-Patch22: 0001-CP-46112-Fix-gcc-warning-of-return-type.patch
-Patch23: 0001-CP-46112-Not-build-unused-NICs.patch
-Patch24: 0001-iscsi-Add-missing-break-statements.patch
-Patch25: 0001-build-Add-missing-const-qualifiers.patch
-Patch26: 0001-legacy-Fix-building-with-GCC-6.patch
-Patch27: 0001-sis190-Fix-building-with-GCC-6.patch
-Patch28: 0001-skge-Fix-building-with-GCC-6.patch
-Patch29: 0001-build-Avoid-implicit-fallthrough-warnings-on-GCC-7.patch
-Patch30: 0001-mucurses-Fix-erroneous-__nonnull-attribute.patch
-Patch31: 0001-zbin-Fix-compiler-warning-with-GCC-9.patch
-Patch32: 0001-build-Be-explicit-about-fcommon-compiler-directive.patch
+# Ported from XenServer ipxe
+Patch0: 0001-Check-Vendor-Class-ID-from-PROXYDHCP_SETTINGS_NAME.patch
+Patch1: 0002-ipxe-no-post-prompt.patch
+Patch2: 0003-CA-247413-Make-pxebs-accept-broadcast-DHCP-packets.patch
+Patch3: 0004-CP-46112-Not-build-unused-NICs.patch
+# Rewritten from the XenServer ipxe equivalent
+Patch4: 0005-Enable-serial-console.patch
+
+# Ported from XenServer ipxe-efi
+Patch5: 0006-efi-snp-Limit-rx-queue-to-64-packets.patch
+
 BuildArch: noarch
 
 BuildRequires: gcc
-BuildRequires: perl
+BuildRequires: perl-interpreter, perl-libs, perl(lib), perl(FindBin)
 # BuildRequires: syslinux
 # BuildRequires: mtools
 # BuildRequires: mkisofs
@@ -84,30 +37,58 @@ BuildRequires: binutils-devel
 BuildRequires: xz-devel
 %{?_cov_buildrequires}
 
+Summary: A network boot loader
+Name: ipxe
+Version: 2.0.0
+Release: 1%{?dist}
+License: GPLv2
+
 %description
 iPXE is an open source network bootloader. It provides a direct
 replacement for proprietary PXE ROMs, with many extra features such as
 DNS, HTTP, iSCSI, etc.
 
+%package efi
+Summary: iPXE EFI drivers
+
+%description efi
+A build of iPXE in the form of EFI NIC drivers that can be used in an
+UEFI environment or embedded into OVMF.
+
 %prep
-%autosetup -p1 -n %{src_name}-%{version}
+%autosetup -p1
 %{?_cov_prepare}
 
 %build
 %{?_cov_wrap} make %{?_smp_mflags} -C src bin/rtl8139.rom
 %{?_cov_wrap} make %{?_smp_mflags} -C src bin/8086100e.rom
+%{?_cov_wrap} make %{?_smp_mflags} -C src bin-x86_64-efi/10ec8139.drv.efi CONFIG=qemu
+%{?_cov_wrap} make %{?_smp_mflags} -C src bin-x86_64-efi/8086100e.drv.efi CONFIG=qemu
 
 %install
 cat src/bin/rtl8139.rom src/bin/8086100e.rom > src/bin/ipxe.bin
-install -D -m 0644 src/bin/ipxe.bin %{buildroot}/%{_datadir}/%{name}/ipxe.bin
+install -D -m 0644 src/bin/ipxe.bin %{buildroot}/%{_datadir}/ipxe/ipxe.bin
+install -m 644 src/bin-x86_64-efi/10ec8139.drv.efi %{buildroot}/%{_datadir}/ipxe/10ec8139.efi
+install -m 644 src/bin-x86_64-efi/8086100e.drv.efi %{buildroot}/%{_datadir}/ipxe/8086100e.efi
 %{?_cov_install}
 
 %files
-%{_datadir}/%{name}/ipxe.bin
+%license COPYING
+%license COPYING.GPLv2
+%{_datadir}/ipxe/ipxe.bin
+
+%files efi
+%license COPYING
+%license COPYING.GPLv2
+%{_datadir}/ipxe/10ec8139.efi
+%{_datadir}/ipxe/8086100e.efi
 
 %{?_cov_results_package}
 
 %changelog
+* Wed Jul 15 2026 Tu Dinh <ngoc-tu.dinh@vates.tech> - 2.0.0-1
+- Build ipxe and ipxe-efi v2.0.0 for XCP-ng 9
+
 * Mon Jul 29 2024 Stephen Cheng <stephen.cheng@cloud.com> - 20121005-1.0.7
 - CP-46112: Build compatible with XS9
 
