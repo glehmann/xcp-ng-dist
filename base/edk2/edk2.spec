@@ -21,7 +21,7 @@
 Name: edk2
 Summary: EFI Development Kit II
 Version: 20220801
-Release: %{?xsrel}.1%{?dist}
+Release: %{?xsrel}.2%{?dist}
 
 License: BSD and MIT
 URL: https://github.com/tianocore/edk2
@@ -95,9 +95,16 @@ Patch61: set-default-resolution-1024-768.patch
 Patch62: add-debugging-info.patch
 Patch63: remove-vlan-tag-from-a-packet.patch
 
+# XCP-ng branding
+Source1001: Logo.bmp
+
 # XCP-ng patches
 Patch1001: UefiCpuPkg-CpuMpPei-Workaround-page-table-allocation.patch
 Patch1002: 0001-OvmfPkg-XenPlatformPei-Allocate-more-memory-when-PEI.patch
+# Boot logo placement: https://github.com/tianocore/edk2/pull/12813
+Patch1003: 0001-MdeModulePkg-Add-EdkiiPlatformLogoDisplayAttributeMi.patch
+# Patch to use the above
+Patch1004: 0002-Place-the-boot-logo-according-to-Microsoft-s-guideli.patch
 
 %if 0%{?xenserver} < 9
 BuildRequires: devtoolset-11-binutils
@@ -131,6 +138,9 @@ tar xzf %{SOURCE3}
 tar xzf %{SOURCE4}
 
 %autopatch -p1
+
+# XCP-ng: setup branding logo
+cp %{SOURCE1001} MdeModulePkg/Logo/Logo.bmp
 
 %build
 
@@ -220,6 +230,9 @@ cp OvmfPkg/License.txt License.ovmf
 
 
 %changelog
+* Fri Jul 17 2026 Tu Dinh <ngoc-tu.dinh@vates.tech> - 20220801-1.7.11.2
+- Add XCP-ng branding to the boot logo
+
 * Fri May 22 2026 Thierry Escande <thierry.escande@vates.tech> - 20220801-1.7.11.1
 - Sync with edk2-20220801-1.7.11
 - *** Upstream changelog ***
