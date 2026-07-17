@@ -4,7 +4,7 @@
 
 Name:           xcp-emu-manager
 Version:        1.2.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Tool used for managing xenguest
 License:        GPLv3
 URL:            https://github.com/xcp-ng/xcp-emu-manager
@@ -43,7 +43,7 @@ cd %{_vpath_builddir}
 %{_libdir}/xen/bin/emu-manager
 
 %changelog
-* Fri Jul 17 2026 Lucas Pottier <lucas.pottier@vates.tech> - 1.2.1-1
+* Fri Jul 17 2026 Lucas Pottier <lucas.pottier@vates.tech> - 1.2.1-2
 - New version 1.2.1
 - Add support for --mem_pnode xenopsd argument
 - Remove unnecessary or duplicate abort calls to xenopsd
