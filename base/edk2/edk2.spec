@@ -1,116 +1,72 @@
-%global package_speccommit 5becf7339597f06332f0524b530da54364d77d58
-%global usver 20220801
-%global xsver 1.7.11
-%global xsrel %{xsver}%{?xscount}%{?xshash}
-%global package_srccommit edk2-stable202208
 %global debug_package %{nil}
-
-# submodule CryptoPkg/Library/OpensslLib/openssl
-%define openssl_version 3.0.9
-%define openssllib_cset openssl-%{openssl_version}
-%define openssllib_path CryptoPkg%2FLibrary%2FOpensslLib%2Fopenssl
-
-# submodule BaseTools/Source/C/BrotliCompress/brotli
-%define brotli_basetools_cset f4153a09f87cbb9c826d8fc12c74642bb2d879ea
-%define brotli_basetools_path BaseTools%2FSource%2FC%2FBrotliCompress%2Fbrotli
-
-# submodule MdeModulePkg/Library/BrotliCustomDecompressLib/brotli
-%define brotli_lib_cset f4153a09f87cbb9c826d8fc12c74642bb2d879ea
-%define brotli_lib_path MdeModulePkg%2FLibrary%2FBrotliCustomDecompressLib%2Fbrotli
 
 Name: edk2
 Summary: EFI Development Kit II
-Version: 20220801
-Release: %{?xsrel}.2%{?dist}
+Version: 202602
+Release: 1%{?dist}
 
 License: BSD and MIT
 URL: https://github.com/tianocore/edk2
-Source0: edk2-20220801.tar.gz
+Source0: edk2-stable%{version}.tar.gz
 Source1: calc-pcrs.py
-Source2: openssl-3.0.9.tar.gz
-Source3: brotli-basetools-f4153a09f87cbb9c826d8fc12c74642bb2d879ea.tar.gz
-Source4: brotli-lib-f4153a09f87cbb9c826d8fc12c74642bb2d879ea.tar.gz
-Patch0: 0001-Avoid-type-errors-in-EAI-related-name-check-logic.patch
-Patch1: 0001-tools_def-add-fno-omit-frame-pointer-to-GCC48_-IA32-.patch
-Patch2: 0001-BaseTools-Update-Tests-TestTools.py-to-allow-it-to-w.patch
-Patch3: 0001-MdePkg-Rng-Add-GUID-to-describe-Arm-Rndr-Rng-algorit.patch
-Patch4: 0001-NetworkPkg-Dhcp6Dxe-SECURITY-PATCH-CVE-2023-45230-Pa.patch
-Patch5: 0003-NetworkPkg-Dhcp6Dxe-SECURITY-PATCH-CVE-2023-45229-Pa.patch
-Patch6: 0005-NetworkPkg-Ip6Dxe-SECURITY-PATCH-CVE-2023-45231-Patc.patch
-Patch7: 0007-NetworkPkg-Ip6Dxe-SECURITY-PATCH-CVE-2023-45232-Patc.patch
-Patch8: 0009-NetworkPkg-UefiPxeBcDxe-SECURITY-PATCH-CVE-2023-4523.patch
-Patch9: 0011-NetworkPkg-UefiPxeBcDxe-SECURITY-PATCH-CVE-2023-4523.patch
-Patch10: 0001-NetworkPkg-Dhcp6Dxe-SECURITY-PATCH-CVE-2023-45229-Re.patch
-Patch11: 0002-NetworkPkg-Dhcp6Dxe-Removes-duplicate-check-and-repl.patch
-Patch12: 0003-NetworkPkg-Dhcp6Dxe-Packet-Length-is-not-updated-bef.patch
-Patch13: 0001-EmulatorPkg-Add-RngDxe-to-EmulatorPkg.patch
-Patch14: 0002-EmulatorPkg-Add-Hash2DxeCrypto-to-EmulatorPkg.patch
-Patch15: 0004-OvmfPkg-Add-Hash2DxeCrypto-to-OvmfPkg.patch
-Patch16: 0005-SecurityPkg-RngDxe-Remove-incorrect-limitation-on-Ge.patch
-Patch17: 0006-NetworkPkg-SECURITY-PATCH-CVE-2023-45237.patch
-Patch18: 0007-NetworkPkg-TcpDxe-SECURITY-PATCH-CVE-2023-45236.patch
-Patch19: 0008-NetworkPkg-TcpDxe-Fixed-system-stuck-on-PXE-boot-flo.patch
-Patch20: OvmfPkg-XenPvBlkDxe-Update-disk-size-calculation.patch
-Patch21: OvmfPkg-XenPvBlkDxe-Advertise-the-correct-IO-alignme.patch
-Patch22: 0001-CryptoPkg-openssl-cleanup-all-openssl1.1.1-generated.patch
-Patch23: 0002-CryptoPkg-openssl-add-openssl3-configure-scripts.patch
-Patch24: 0003-CryptoPkg-remove-BN-and-EC-accel-for-size-optimizati.patch
-Patch25: 0004-CryptoPkg-OpensslLib-Add-native-instruction-support-.patch
-Patch26: 0005-CryptoPkg-openssl-UefiAsm.conf-update-for-openssl-3..patch
-Patch27: 0006-CryptoPkg-openssl-move-compiler_flags-to-buildinf.c.patch
-Patch28: 0007-CryptoPkg-openssl-store-dummy-update-for-openssl-3.0.patch
-Patch29: 0008-CryptoPkg-openssl-adapt-rand_pool.c-to-openssl-3.0-c.patch
-Patch30: 0009-CryptoPkg-Library-OpensslLib-Produce-consistent-set-.patch
-Patch31: 0010-CryptoPkg-openssl-adapt-EcSm2Null.c-for-openssl-3.0.patch
-Patch32: 0011-CryptoPkg-Move-all-UEFI-implement-of-openssl-to-Open.patch
-Patch33: 0012-CryptoPkg-adapt-3.0-change-in-SslNull.c.patch
-Patch34: 0013-CryptoPkg-use-UEFI-provider-as-default.patch
-Patch35: 0014-CryptoPkg-add-more-dummy-implement-of-openssl-for-si.patch
-Patch36: 0015-CryptoPkg-openssl-update-Openssl-.inf-files-for-open.patch
-Patch37: 0016-CryptoPkg-BaseCryptLib-adapt-CryptSm3.c-to-openssl-3.patch
-Patch38: 0017-CryptoPkg-BaseCryptLib-drop-BIO_-dummy-functions.patch
-Patch39: ovmfpkg-xenpvblkdxe__fix_memory_barrier_macro.patch
-Patch40: ovmfxen-add-tpm-support.patch
-Patch41: MdePkg-SecPeiDxeTimerLibCpu-Support-for-dynamic-PcdF.patch
-Patch42: OvmfPkg-OvmfXen-Use-RuntimeTimerLibCpu-for-DXE_DRIVER.patch
-Patch43: add-option-to-disable-bgrt.patch
-Patch44: use-rtc.patch
-Patch45: move-xenconnect-later.patch
-Patch46: xen-rng-dxe.patch
-Patch47: nvidia-vgpu-support.patch
-Patch48: gvt-g-support.patch
-Patch49: embed-nic-drivers.patch
-Patch50: add-xen-variable.patch
-Patch51: add-xen-platform-device-id.patch
-Patch52: disable-modules.patch
-Patch53: xenorder.patch
-Patch54: keep-caching-enabled.patch
-Patch55: remove-unused-crypto.patch
-Patch56: add-Tcg2PhysicalPresenceLibXen.patch
-Patch57: tcg2config-fix-operation-parameter-prompt.patch
-Patch58: set-tpm2-acpi-table-revision.patch
-Patch59: disable-config-option-in-TCG2-config-screen.patch
-Patch60: shadow-pei-for-consistent-measurements.patch
-Patch61: set-default-resolution-1024-768.patch
-Patch62: add-debugging-info.patch
-Patch63: remove-vlan-tag-from-a-packet.patch
+
+# https://github.com/google/brotli/archive/e230f474b87134e8c6c85b630084c612057f253e.tar.gz
+Source2: brotli-e230f474b87134e8c6c85b630084c612057f253e.tar.gz
+# https://github.com/ARMmbed/mbedtls/archive/e185d7fd85499c8ce5ca2a54f5cf8fe7dbe3f8df.tar.gz
+Source3: mbedtls-e185d7fd85499c8ce5ca2a54f5cf8fe7dbe3f8df.tar.gz
+# https://github.com/openssl/openssl/archive/aea7aaf2abb04789f5868cbabec406ea43aa84bf.tar.gz
+Source4: openssl-aea7aaf2abb04789f5868cbabec406ea43aa84bf.tar.gz
+# https://github.com/kkos/oniguruma/archive/4ef89209a239c1aea328cf13c05a2807e5c146d1.tar.gz
+Source5: oniguruma-4ef89209a239c1aea328cf13c05a2807e5c146d1.tar.gz
+# https://github.com/devicetree-org/pylibfdt/archive/cfff805481bdea27f900c32698171286542b8d3c.tar.gz
+Source6: pylibfdt-cfff805481bdea27f900c32698171286542b8d3c.tar.gz
+# https://github.com/MIPI-Alliance/public-mipi-sys-t/archive/370b5944c046bab043dd8b133727b2135af7747a.tar.gz
+Source7: public-mipi-sys-t-370b5944c046bab043dd8b133727b2135af7747a.tar.gz
+# https://github.com/akheron/jansson/archive/e9ebfa7e77a6bee77df44e096b100e7131044059.tar.gz
+Source8: jansson-e9ebfa7e77a6bee77df44e096b100e7131044059.tar.gz
+# https://github.com/DMTF/libspdm/archive/1be116c7b7713fa9003e1bd53b53a34758549eb9.tar.gz
+Source9: libspdm-1be116c7b7713fa9003e1bd53b53a34758549eb9.tar.gz
 
 # XCP-ng branding
 Source1001: Logo.bmp
 
-# XCP-ng patches
-Patch1001: UefiCpuPkg-CpuMpPei-Workaround-page-table-allocation.patch
-Patch1002: 0001-OvmfPkg-XenPlatformPei-Allocate-more-memory-when-PEI.patch
-# Boot logo placement: https://github.com/tianocore/edk2/pull/12813
-Patch1003: 0001-MdeModulePkg-Add-EdkiiPlatformLogoDisplayAttributeMi.patch
-# Patch to use the above
-Patch1004: 0002-Place-the-boot-logo-according-to-Microsoft-s-guideli.patch
+# Backports
+Patch1: 0001-OvmfPkg-XenPvBlkDxe-Advertise-the-correct-IO-alignme.patch
+Patch2: 0002-OvmfPkg-OvmfXen-Page-align-sections-of-DXE-and-UEFI-.patch
 
-%if 0%{?xenserver} < 9
-BuildRequires: devtoolset-11-binutils
-BuildRequires: devtoolset-11-gcc
-BuildRequires: devtoolset-11-gcc-c++
-%endif
+# Ported from XenServer 9
+Patch3: 0003-OvmfPkg-XenPvBlkDxe-Fix-memory-barrier-macro.patch
+Patch4: 0004-OvmfXen-Add-TPM2-support.patch
+Patch5: 0005-MdePkg-SecPeiDxeTimerLibCpu-Support-for-dynamic-PcdF.patch
+Patch6: 0006-OvmfPkg-OvmfXen-Use-RuntimeTimerLibCpu-for-DXE_DRIVE.patch
+Patch7: 0007-Add-an-option-to-disable-BGRT.patch
+Patch8: 0008-use-rtc.patch
+Patch9: 0009-embed-nic-drivers.patch
+Patch10: 0010-add-xen-variable.patch
+Patch11: 0011-xen-platform-Add-device_id-for-Windows-VMs.patch
+Patch12: 0012-Disable-unwanted-modules.patch
+Patch13: 0013-xenorder.patch
+Patch14: 0014-CA-297688-CA-293634-Keep-caching-enabled-during-SEC-.patch
+Patch15: 0015-CP-30787-Crypto-code-build-linking-changes.patch
+Patch16: 0016-add-Tcg2PhysicalPresenceLibXen.patch
+Patch17: 0017-Tcg2Config-Fix-prompt-for-PPI-operation-parameter.patch
+Patch18: 0018-Ovmf-Set-TPM2-ACPI-table-revision-for-Xen.patch
+Patch19: 0019-SecurityPkg-Tcg2Config-Hide-unsupported-configuratio.patch
+Patch20: 0020-OVMF-Shadow-PEI-for-consistent-measurements.patch
+Patch21: 0021-set-default-resolution-1024-768.patch
+Patch22: 0022-Add-extra-debug-statements.patch
+Patch23: 0023-remove-vlan-tag-from-a-packet.patch
+
+# XCP-ng patches
+Patch24: 0024-Suppress-HashAlg-unsupported-by-PCR-bank-error.patch
+
+# Boot logo placement: https://github.com/tianocore/edk2/pull/12813
+Patch25: 0025-MdeModulePkg-Add-EdkiiPlatformLogoDisplayAttributeMi.patch
+# Patch to use the above
+Patch26: 0026-Place-the-boot-logo-according-to-Microsoft-s-guideli.patch
+
+BuildRequires: gcc
+BuildRequires: g++
 BuildRequires: python3
 BuildRequires: libuuid-devel
 BuildRequires: nasm >= 2.15
@@ -127,15 +83,27 @@ as firmware in a virtual machine.
 
 
 %prep
-%setup
+%setup -q -n edk2-edk2-stable%{version}
 %{?_cov_prepare}
 
-# submodule CryptoPkg/Library/OpensslLib/openssl
-tar xzf %{SOURCE2}
-# submodule BaseTools/Source/C/BrotliCompress/brotli
-tar xzf %{SOURCE3}
-# submodule MdeModulePkg/Library/BrotliCustomDecompressLib/brotli
-tar xzf %{SOURCE4}
+mkdir -p BaseTools/Source/C/BrotliCompress/brotli
+tar -C BaseTools/Source/C/BrotliCompress/brotli --strip-components=1 -xf %{SOURCE2}
+mkdir -p CryptoPkg/Library/MbedTlsLib/mbedtls
+tar -C CryptoPkg/Library/MbedTlsLib/mbedtls --strip-components=1 -xf %{SOURCE3}
+mkdir -p CryptoPkg/Library/OpensslLib/openssl
+tar -C CryptoPkg/Library/OpensslLib/openssl --strip-components=1 -xf %{SOURCE4}
+mkdir -p MdeModulePkg/Library/BrotliCustomDecompressLib/brotli
+tar -C MdeModulePkg/Library/BrotliCustomDecompressLib/brotli --strip-components=1 -xf %{SOURCE2}
+mkdir -p MdeModulePkg/Universal/RegularExpressionDxe/oniguruma
+tar -C MdeModulePkg/Universal/RegularExpressionDxe/oniguruma --strip-components=1 -xf %{SOURCE5}
+mkdir -p MdePkg/Library/BaseFdtLib/libfdt
+tar -C MdePkg/Library/BaseFdtLib/libfdt --strip-components=1 -xf %{SOURCE6}
+mkdir -p MdePkg/Library/MipiSysTLib/mipisyst
+tar -C MdePkg/Library/MipiSysTLib/mipisyst --strip-components=1 -xf %{SOURCE7}
+mkdir -p RedfishPkg/Library/JsonLib/jansson
+tar -C RedfishPkg/Library/JsonLib/jansson --strip-components=1 -xf %{SOURCE8}
+mkdir -p SecurityPkg/DeviceSecurity/SpdmLib/libspdm
+tar -C SecurityPkg/DeviceSecurity/SpdmLib/libspdm --strip-components=1 -xf %{SOURCE9}
 
 %autopatch -p1
 
@@ -143,10 +111,6 @@ tar xzf %{SOURCE4}
 cp %{SOURCE1001} MdeModulePkg/Logo/Logo.bmp
 
 %build
-
-%if 0%{?xenserver} < 9
-source /opt/rh/devtoolset-11/enable
-%endif
 
 python3 CryptoPkg/Library/OpensslLib/configure.py
 
@@ -202,10 +166,6 @@ python3 %{SOURCE1} Build/OvmfXen/DEBUG_GCC*/FV/PEIFV.Fv Build/OvmfXen/DEBUG_GCC*
 
 %install
 
-%if 0%{?xenserver} < 9
-source /opt/rh/devtoolset-11/enable
-%endif
-
 install -m 755 -d %{buildroot}/%{_datadir}/%{name}
 install -m 644 OVMF-debug.fd %{buildroot}/%{_datadir}/%{name}/OVMF-debug.fd
 install -m 644 OVMF-release.fd %{buildroot}/%{_datadir}/%{name}/OVMF-release.fd
@@ -223,13 +183,22 @@ cp OvmfPkg/License.txt License.ovmf
 %files
 %license License.txt
 %license License.ovmf
-#%license LICENSE.openssl
+#license LICENSE.openssl
 %{_datadir}/%{name}
 
 %{?_cov_results_package}
 
 
 %changelog
+* Fri Jul 17 2026 Tu Dinh <ngoc-tu.dinh@vates.tech> - 202602-1
+- Updated to edk2-stable202602, for XCP-ng 9
+- All backports dropped except for 1 applicable one
+- Added 1 backport for "Page align sections of DXE and UEFI images"
+- XS patches for vGPU among others were dropped
+- XCP-ng patches "Workaround page table allocation crash" and "Allocate more
+  memory when PEI FV is shadowed" were dropped
+- Added patch to suppress "HashAlg unsupported by PCR bank" error
+
 * Fri Jul 17 2026 Tu Dinh <ngoc-tu.dinh@vates.tech> - 20220801-1.7.11.2
 - Add XCP-ng branding to the boot logo
 
