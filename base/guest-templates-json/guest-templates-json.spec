@@ -23,7 +23,7 @@ Requires(preun): systemd
 Requires(postun): systemd
 BuildRequires: python3-devel
 # python-demjson is only required for jsonlint
-BuildRequires: python-demjson python-setuptools
+BuildRequires: python-demjson, python-setuptools
 BuildRequires: systemd-devel
 Obsoletes: guest-templates-json-data-xenapp
 
@@ -34,7 +34,7 @@ install/upgrade.
 %package data-pv
 Summary: Contains the PV guest templates
 Requires(post): %{name} = %{version}-%{release}
-Requires: linux-guest-loader linux-guest-loader-data
+Requires: linux-guest-loader, linux-guest-loader-data
 
 %description data-pv
 Contains the PV guest templates.
@@ -199,6 +199,7 @@ fi
 - Rebase on 2.1.1-1
 - Replace our AlmaLinux templates with XenServer's
 - Replace our RHEL 10 template with XenServer's
+- Stop using whitespace as separator in *Requires fields
 - *** Upstream changelog ***
   * Tue Jul 07 2026 Lunfan Zhang <Lunfan.Zhang@cloud.com> - 2.1.1-1
   - CP-311170 Remove kylin Linux 7 Guest templates
