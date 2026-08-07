@@ -1,11 +1,11 @@
-%global package_speccommit 4dd91065f9fd1559ced43ea3a485f7541b81c948
-%global package_srccommit v2.1.0
+%global package_speccommit c8c991da5882168a03079348f0b0ad29a9e22c2f
+%global package_srccommit v2.1.1
 Name:    guest-templates-json
 Summary: Creates the default guest templates
-Version: 2.1.0
-Release: 2%{?xsrel}%{?dist}
+Version: 2.1.1
+Release: 1%{?xsrel}%{?dist}
 License: BSD
-Source0: guest-templates-json-2.1.0.tar.gz
+Source0: guest-templates-json-2.1.1.tar.gz
 BuildArch: noarch
 
 Requires: xapi-core
@@ -153,16 +153,16 @@ fi
 %{templatedir}/sles-12-sp[12]-64bit.json
 
 %files data-linux
+%{templatedir}/alma-[89].json
+%{templatedir}/alma-10.json
 %{templatedir}/base-el-7.json
 %{templatedir}/base-hvmlinux.json
-%{templatedir}/base-kylin-7.json
 %{templatedir}/base-sle-hvm-64bit.json
 %{templatedir}/base-sle-hvm.json
 %{templatedir}/base-linux-uefi.json
 %{templatedir}/centos-9.json
 %{templatedir}/centos-10.json
 %{templatedir}/debian*.json
-%{templatedir}/kylin-7.json
 %{templatedir}/oel-8.json
 %{templatedir}/rhel-[89].json
 %{templatedir}/rhel-10.json
@@ -180,6 +180,11 @@ fi
 %{templatedir}/other-install-media.json
 
 %changelog
+* Tue Jul 07 2026 Lunfan Zhang <Lunfan.Zhang@cloud.com> - 2.1.1-1
+- CP-311170 Remove kylin Linux 7 Guest templates
+- CP-312320 Support New Guest Templates AlmaLinux 8/9/10
+- CP-312320 Remove 'preview' label from RHEL 10
+
 * Thu Apr 30 2026 Frediano Ziglio <frediano.ziglio@citrix.com> - 2.1.0-2
 - CP-312646: Add missing dependency for PV guest templates
 
