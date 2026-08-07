@@ -1,11 +1,11 @@
-%global package_speccommit 3fcfae926eef91f7aad6867b918e0970e4f4f855
-%global package_srccommit v2.0.14
+%global package_speccommit 4dd91065f9fd1559ced43ea3a485f7541b81c948
+%global package_srccommit v2.1.0
 Name:    guest-templates-json
 Summary: Creates the default guest templates
-Version: 2.0.14
-Release: 1%{?xsrel}%{?dist}
+Version: 2.1.0
+Release: 2%{?xsrel}%{?dist}
 License: BSD
-Source0: guest-templates-json-2.0.14.tar.gz
+Source0: guest-templates-json-2.1.0.tar.gz
 BuildArch: noarch
 
 Requires: xapi-core
@@ -25,6 +25,7 @@ install/upgrade.
 %package data-pv
 Summary: Contains the PV guest templates
 Requires(post): %{name} = %{version}-%{release}
+Requires: linux-guest-loader linux-guest-loader-data
 
 %description data-pv
 Contains the PV guest templates.
@@ -158,13 +159,13 @@ fi
 %{templatedir}/base-sle-hvm-64bit.json
 %{templatedir}/base-sle-hvm.json
 %{templatedir}/base-linux-uefi.json
-%{templatedir}/centos-[79].json
+%{templatedir}/centos-9.json
 %{templatedir}/centos-10.json
 %{templatedir}/debian*.json
 %{templatedir}/kylin-7.json
-%{templatedir}/oel-[78].json
-%{templatedir}/rhel-[789].json
-%{templatedir}/sl-7.json
+%{templatedir}/oel-8.json
+%{templatedir}/rhel-[89].json
+%{templatedir}/rhel-10.json
 %{templatedir}/sle-15-64bit.json
 %{templatedir}/sles-12-sp[4-5]-64bit.json
 %{templatedir}/ubuntu*.json
@@ -179,6 +180,13 @@ fi
 %{templatedir}/other-install-media.json
 
 %changelog
+* Thu Apr 30 2026 Frediano Ziglio <frediano.ziglio@citrix.com> - 2.1.0-2
+- CP-312646: Add missing dependency for PV guest templates
+
+* Thu Nov 13 2025 Lunfan Zhang <Lunfan.Zhang@cloud.com> - 2.1.0-1
+- CP-310014 Support New Guest Template RHEL 10
+- CP-309456 Remove EOL templates from XS9
+
 * Tue Jan 21 2025 Lunfan Zhang <Lunfan.Zhang@cloud.com> - 2.0.14-1
 - CP-51980: Add CentOS Stream 10 template
 - CP-51980: Remove 'preview' label from Ubuntu24.04
