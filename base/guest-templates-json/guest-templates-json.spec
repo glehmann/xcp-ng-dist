@@ -1,25 +1,20 @@
-%global package_speccommit 3fcfae926eef91f7aad6867b918e0970e4f4f855
-%global package_srccommit v2.0.14
+%global package_speccommit c8c991da5882168a03079348f0b0ad29a9e22c2f
+%global package_srccommit v2.1.1
 Name:    guest-templates-json
 Summary: Creates the default guest templates
-Version: 2.0.14
+Version: 2.1.1
 Release: 1%{?xsrel}.1%{?dist}
 License: BSD
-Source0: guest-templates-json-2.0.14.tar.gz
+Source0: guest-templates-json-2.1.1.tar.gz
 
 # XCP-ng patches
-Source1000: almalinux-8.json
-Source1001: almalinux-9.json
-Source1002: almalinux-10.json
-Source1003: centos-stream-8.json
-Source1004: debian-13.json
-Source1005: oel-9.json
-Source1006: oel-10.json
-Source1007: rhel-10.json
-Source1008: rocky-10.json
-Source1009: generic-linux-bios.json
-Source1010: generic-linux-uefi.json
-
+Source1000: centos-stream-8.json
+Source1001: debian-13.json
+Source1002: oel-9.json
+Source1003: oel-10.json
+Source1004: rocky-10.json
+Source1005: generic-linux-bios.json
+Source1006: generic-linux-uefi.json
 BuildArch: noarch
 
 Requires: xapi-core
@@ -39,6 +34,7 @@ install/upgrade.
 %package data-pv
 Summary: Contains the PV guest templates
 Requires(post): %{name} = %{version}-%{release}
+Requires: linux-guest-loader linux-guest-loader-data
 
 %description data-pv
 Contains the PV guest templates.
@@ -80,7 +76,7 @@ Contains the default other guest templates.
 
 install -d %{buildroot}%{templatedir}
 install -m 644 json/*.json %{buildroot}%{templatedir}
-install -m 644 %{SOURCE1000} %{SOURCE1001} %{SOURCE1002} %{SOURCE1003} %{SOURCE1004} %{SOURCE1005} %{SOURCE1006} %{SOURCE1007} %{SOURCE1008} %{SOURCE1009} %{SOURCE1010} %{buildroot}%{templatedir}
+install -m 644 %{SOURCE1000} %{SOURCE1001} %{SOURCE1002} %{SOURCE1003} %{SOURCE1004} %{SOURCE1005} %{SOURCE1006} %{buildroot}%{templatedir}
 install -d %{buildroot}%{_sysconfdir}/xapi.d/vm-templates
 
 install -m 755 service/create-guest-templates-wrapper %{buildroot}%{_bindir}
@@ -167,24 +163,21 @@ fi
 %{templatedir}/sles-12-sp[12]-64bit.json
 
 %files data-linux
-%{templatedir}/almalinux-[89].json
-%{templatedir}/almalinux-10.json
+%{templatedir}/alma-[89].json
+%{templatedir}/alma-10.json
 %{templatedir}/base-el-7.json
 %{templatedir}/base-hvmlinux.json
-%{templatedir}/base-kylin-7.json
 %{templatedir}/base-sle-hvm-64bit.json
 %{templatedir}/base-sle-hvm.json
 %{templatedir}/base-linux-uefi.json
-%{templatedir}/centos-[79].json
 %{templatedir}/centos-stream-8.json
+%{templatedir}/centos-9.json
 %{templatedir}/centos-10.json
 %{templatedir}/debian*.json
-%{templatedir}/kylin-7.json
-%{templatedir}/oel-[789].json
+%{templatedir}/oel-[89].json
 %{templatedir}/oel-10.json
-%{templatedir}/rhel-[789].json
+%{templatedir}/rhel-[89].json
 %{templatedir}/rhel-10.json
-%{templatedir}/sl-7.json
 %{templatedir}/sle-15-64bit.json
 %{templatedir}/sles-12-sp[4-5]-64bit.json
 %{templatedir}/ubuntu*.json
@@ -202,6 +195,23 @@ fi
 %{templatedir}/other-install-media.json
 
 %changelog
+* Fri Aug 07 2026 Yann Dirson <yann.dirson@vates.tech> - 2.1.1-1.1
+- Rebase on 2.1.1-1
+- Replace our AlmaLinux templates with XenServer's
+- Replace our RHEL 10 template with XenServer's
+- *** Upstream changelog ***
+  * Tue Jul 07 2026 Lunfan Zhang <Lunfan.Zhang@cloud.com> - 2.1.1-1
+  - CP-311170 Remove kylin Linux 7 Guest templates
+  - CP-312320 Support New Guest Templates AlmaLinux 8/9/10
+  - CP-312320 Remove 'preview' label from RHEL 10
+
+  * Thu Apr 30 2026 Frediano Ziglio <frediano.ziglio@citrix.com> - 2.1.0-2
+  - CP-312646: Add missing dependency for PV guest templates
+
+  * Thu Nov 13 2025 Lunfan Zhang <Lunfan.Zhang@cloud.com> - 2.1.0-1
+  - CP-310014 Support New Guest Template RHEL 10
+  - CP-309456 Remove EOL templates from XS9
+
 * Tue Sep 02 2025 Gael Duperrey <gduperrey@vates.tech> - 2.0.14-1.1
 - Rebase on 2.0.14-1
 - Add templates for almalinux 10, rocky linux 10, debian 13, oracle linux 10, redhat 10
