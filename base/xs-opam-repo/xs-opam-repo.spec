@@ -18,7 +18,7 @@
 
 Name: xs-opam-repo
 Version: %{_version}
-Release: %{?xsrel}.1.1%{?dist}
+Release: %{?xsrel}.2%{?dist}
 Summary: Build and install OCaml libraries from Opam repository
 # The license field is produced by running print-license.sh
 # Please update licenses.txt on every new version and then run the script to
@@ -44,7 +44,11 @@ Requires:      gmp
 Requires:      libev-devel
 
 BuildRequires: autoconf
+%if 0%{?xcpng}
+BuildRequires: libcurl-devel
+%else
 BuildRequires: curl-devel
+%endif
 # XCP-ng: remove dlm, which is only required by proprietary xapi-clusterd
 #BuildRequires: dlm-devel
 BuildRequires: git
@@ -54,7 +58,11 @@ BuildRequires: hwdata
 BuildRequires: libffi-devel
 BuildRequires: libnl3-devel
 BuildRequires: ocaml
+%if 0%{?xcpng}
+BuildRequires: ocaml-ocamldoc
+%else
 BuildRequires: ocamldoc
+%endif
 BuildRequires: opam > 2.1.4-1
 BuildRequires: openssl-devel
 BuildRequires: pam-devel
@@ -64,7 +72,11 @@ BuildRequires: python3
 BuildRequires: rsync
 BuildRequires: systemd-devel
 BuildRequires: which
+%if 0%{?xcpng}
+BuildRequires: zlib-ng-devel
+%else
 BuildRequires: zlib-devel
+%endif
 BuildRequires: libev-devel
 
 # needed for OCaml 5
@@ -88,10 +100,6 @@ rm -r packages/host-arch-x86_64
 
 %install
 
-%if 0%{?xenserver} < 9
-source /opt/rh/devtoolset-11/enable
-%endif
-
 # install into the real opam root to avoid problems with
 # embedded paths.
 export OPAMROOT=%{_opamroot}
@@ -114,9 +122,6 @@ mkdir -p %{buildroot}%{_opamroot}
 echo 'export OPAMROOT=%{_opamroot}' > %{buildroot}/etc/profile.d/opam.sh
 echo 'eval `opam config env`' >> %{buildroot}/etc/profile.d/opam.sh
 echo 'export OCAMLPATH=%{_libdir}/ocaml' >> %{buildroot}/etc/profile.d/opam.sh
-%if 0%{?xenserver} < 9
-echo 'source /opt/rh/devtoolset-11/enable' >> %{buildroot}/etc/profile.d/opam.sh
-%endif
 
 rm -rf %{_opamroot}/ocaml-system/.opam-switch/sources
 rm -rf %{_opamroot}/download-cache/*
@@ -140,6 +145,10 @@ echo '%%_opamroot %%{_libdir}/opamroot' >> "%{buildroot}%{_rpmconfigdir}/macros.
 %{_opamroot}
 
 %changelog
+* Fri Aug 21 2026 Yann Dirson <yann.dirson@vates.tech> - 6.99.0-1.2
+- Use Alma10 package names in BuildRequires for xcpng
+- Drop unused devtoolset-11 for xenserver < 9
+
 * Fri Mar 20 2026 Yann Dirson <yann.dirson@vates.tech> - 6.99.0-1.1.1
 - Hack in the definition for host-arch-arm64, from
   https://raw.githubusercontent.com/ocaml/opam-repository/e64203035b54812a6e33cfa9f390fd0f17c02e07/packages/host-arch-arm64/host-arch-arm64.1/opam
