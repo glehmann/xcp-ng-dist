@@ -26,13 +26,16 @@ install -d -m 755 %{buildroot}%{_sysconfdir}/yum.repos.d
 cat > %{buildroot}%{_sysconfdir}/yum.repos.d/xcp-ng.repo <<'EOF'
 [xcp-ng-base]
 name=XCP-ng 9 proto
-baseurl=https://repo.vates.tech/xcp-ng/9/8.99/base/x86_64_v2/
+baseurl=https://kojihub.xcp-ng.org/kojifiles/repos/v9.0-incoming/latest/x86_64_v2/
 priority=1
 failovermethod=priority
 skip_if_unavailable=False
 # nothing signed yet
 #gpgkey=https://xcp-ng.org/RPM-GPG-KEY-xcpng
 gpgcheck=0
+# TODO: kojihub uses a self-signed certificate, so we disable the ssl verification for now.
+#       The ssl verification should be activated when switching to another repository 
+sslverify=0
 EOF
 
 %files
