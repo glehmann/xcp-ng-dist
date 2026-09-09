@@ -15,7 +15,7 @@ Summary: qemu-dm device model
 Name: qemu
 Epoch: 0
 Version: 10.1.0
-Release: %{?xsrel}.1%{?dist}
+Release: %{?xsrel}.2%{?dist}
 License: GPL
 Requires: xcp-clipboardd
 ## We broke an interface used by xenopsd-xc without version signalling
@@ -180,6 +180,9 @@ cp -r scripts/qmp %{buildroot}%{_datarootdir}/qemu
 %{?_cov_results_package}
 
 %changelog
+* Thu Sep 10 2026 Thierry Escande <thierry.escande@vates.tech> - 10.1.0-1.2
+- Rebuild against Xen v4.21
+
 * Wed May 27 2026 Anthony PERARD <anthony.perard@vates.tech> - 10.1.0-1.1
 - Sync with 10.1.0-1
 - Remove all XCP-ng patches, as they are backport and already included.
