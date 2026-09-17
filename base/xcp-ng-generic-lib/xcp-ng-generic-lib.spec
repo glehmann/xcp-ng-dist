@@ -22,14 +22,11 @@ A library of algorithms, I/O and networking functions... used by XCP-ng tools or
 %autosetup -p1
 
 %build
-mkdir build
-cd build
-%cmake3 ..
-make
+%cmake3
+%cmake3_build
 
 %install
-cd build
-%make_install
+%cmake3_install
 
 %files
 %license LICENSE
@@ -67,6 +64,7 @@ This package provides documentation and development headers for xcp-ng-generic-l
 
 %changelog
 * Thu Sep 17 2026 Julian Vetter <julian.vetter@vates.tech> - 1.2.1-1
+- Use the modern cmake3 macros (cmake3_build / cmake3_install
 - Update to 1.2.1
 
 * Fri Sep 16 2022 Samuel Verschelde <stormi-xcp@ylix.fr> - 1.1.1-4
