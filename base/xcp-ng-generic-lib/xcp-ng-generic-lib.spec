@@ -3,8 +3,8 @@
 %global __os_install_post /usr/lib/rpm/brp-compress
 
 Name:           xcp-ng-generic-lib
-Version:        1.1.1
-Release:        4%{?dist}
+Version:        1.2.1
+Release:        1%{?dist}
 Summary:        A library of algorithms, I/O and networking functions
 License:        GPLv3
 URL:            https://github.com/xcp-ng/xcp-ng-generic-lib
@@ -48,13 +48,17 @@ This package provides documentation and development headers for xcp-ng-generic-l
 %files devel
 %{_includedir}/xcp-ng/generic.h
 %{_includedir}/xcp-ng/generic/algorithm.h
+%{_includedir}/xcp-ng/generic/coroutine.h
+%{_includedir}/xcp-ng/generic/endian.h
 %{_includedir}/xcp-ng/generic/file.h
 %{_includedir}/xcp-ng/generic/global.h
 %{_includedir}/xcp-ng/generic/io.h
 %{_includedir}/xcp-ng/generic/math.h
 %{_includedir}/xcp-ng/generic/network.h
+%{_includedir}/xcp-ng/generic/path.h
 %{_includedir}/xcp-ng/generic/stacktrace.h
 %{_includedir}/xcp-ng/generic/string.h
+%{_libdir}/cmake/XcpNgGeneric/FindBfd.cmake
 %{_libdir}/cmake/XcpNgGeneric/XcpNgGenericConfig.cmake
 %{_libdir}/cmake/XcpNgGeneric/XcpNgGenericConfigVersion.cmake
 %{_libdir}/cmake/XcpNgGeneric/XcpNgGenericTargets-noconfig.cmake
@@ -62,6 +66,9 @@ This package provides documentation and development headers for xcp-ng-generic-l
 %{_libdir}/libxcp-ng-generic.so
 
 %changelog
+* Thu Sep 17 2026 Julian Vetter <julian.vetter@vates.tech> - 1.2.1-1
+- Update to 1.2.1
+
 * Fri Sep 16 2022 Samuel Verschelde <stormi-xcp@ylix.fr> - 1.1.1-4
 - Rebuild for XCP-ng 8.3
 
