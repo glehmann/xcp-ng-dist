@@ -1,7 +1,7 @@
 Name:           branding-xcp-ng
 Version:        8.99.0
 # When increasing the first number, also update the hash if needed
-Release:        1.219ab5b
+Release:        2.219ab5b%{?autorev}
 Summary:        XCP-ng branding
 License:        ISC
 URL:            https://github.com/xcp-ng/branding-xcp-ng
@@ -41,6 +41,9 @@ This package contains branding information for XCP-ng.
 %{_usrsrc}/branding/LICENSES
 
 %changelog
+* Fri Sep 18 2026 Yann Dirson <yann.dirson@vates.tech> - 8.99.0-2.219ab5b
+- Append autorev macro to Release
+
 * Thu Mar 12 2026 Yann Dirson <yann.dirson@vates.tech> - 8.99.0-1.219ab5b
 - Official 8.99.0 release to prepare for XCP-ng v9
 - Don't ship __pycache__ any more
