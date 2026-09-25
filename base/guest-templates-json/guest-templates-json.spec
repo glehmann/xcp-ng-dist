@@ -39,7 +39,8 @@ install/upgrade.
 %package data-pv
 Summary: Contains the PV guest templates
 Requires(post): %{name} = %{version}-%{release}
-Requires: linux-guest-loader, linux-guest-loader-data
+# XCP-ng: drop for now to speed up work on core functionality
+#Requires: linux-guest-loader, linux-guest-loader-data
 
 %description data-pv
 Contains the PV guest templates.
@@ -200,6 +201,9 @@ fi
 %{templatedir}/other-install-media.json
 
 %changelog
+* Fri Nov 06 2026 Yann Dirson <yann.dirson@vates.tech> - 2.1.1-1.2.ydi.1
+- drop for now the linux-guest-loader dependencies added upstream
+
 * Wed Oct 28 2026 Baptiste Le Duc <baptiste.le-duc@vates.tech> - 2.1.1-1.2
 - Drop jsonlint from make check, removing the python-demjson BuildRequires
 - Validate templates against a JSON Schema
