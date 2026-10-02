@@ -15,7 +15,7 @@ Summary: qemu-dm device model
 Name: qemu
 Epoch: 0
 Version: 10.1.0
-Release: %{?xsrel}.2%{?dist}
+Release: %{?xsrel}.3%{?dist}
 License: GPL
 Requires: xcp-clipboardd
 ## We broke an interface used by xenopsd-xc without version signalling
@@ -96,9 +96,9 @@ Patch67: pci_passthrough.patch
 Patch1000: 0001-xen-Fix-err-may-be-used-uninitialized.patch
 
 BuildRequires: python3-devel
-BuildRequires: libaio-devel glib2-devel
-BuildRequires: libjpeg-turbo-devel libpng-devel pixman-devel
-BuildRequires: xen-dom0-libs-devel xen-libs-devel libusbx-devel
+BuildRequires: libaio-devel, glib2-devel
+BuildRequires: libjpeg-turbo-devel, libpng-devel, pixman-devel
+BuildRequires: xen-dom0-libs-devel, xen-libs-devel, libusbx-devel
 BuildRequires: libseccomp-devel
 BuildRequires: ninja-build
 %if %{with_asan} == 0
@@ -180,6 +180,9 @@ cp -r scripts/qmp %{buildroot}%{_datarootdir}/qemu
 %{?_cov_results_package}
 
 %changelog
+* Fri Oct 02 2026 Yann Dirson <yann.dirson@vates.tech> - 10.1.0-1.3
+- Use comma not obsolete spaces as BuildRequires separator
+
 * Thu Sep 10 2026 Thierry Escande <thierry.escande@vates.tech> - 10.1.0-1.2
 - Rebuild against Xen v4.21
 
