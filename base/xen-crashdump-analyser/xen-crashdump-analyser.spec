@@ -1,13 +1,14 @@
-%global package_speccommit a66e3708d76488513549adb825127fd938a8fa67
-%global package_srccommit v2.6.1
+%global package_speccommit 0e269ea71d54a52baa31ce7b3af6dfb8417601d4
+%{!?xsrel: %global xsrel 1}
+%global package_srccommit v2.6.3
 
 Name: xen-crashdump-analyser
 Summary: Xen crashdump analyser
-Version: 2.6.1
-Release: 1%{?xsrel}%{?dist}
+Version: 2.6.3
+Release: %{?xsrel}%{?dist}
 License: GPL
 Group: Applications/System
-Source0: xen-crashdump-analyser-2.6.1.tar.gz
+Source0: xen-crashdump-analyser-2.6.3.tar.gz
 BuildRequires: gcc-c++
 %{?_cov_buildrequires}
 
@@ -42,7 +43,17 @@ instructions, examples and more.
 %{?_cov_results_package}
 
 %changelog
-* Mon Jan 15 2024 Roger Pau Monné <roger.pau@citrix.com> - 2.6.1
+* Thu Jan 22 2026 Chunjie Zhu <chunjie.zhu@citrix.com> - 2.6.3-1
+- CA-422872: fix one byte overflow
+- update source repo
+
+* Tue Sep 23 2025 Chunjie Zhu <chunjie.zhu@citrix.com> - 2.6.2-1
+- CA-415346: xen crashdump does not contain DMV data
+
+* Tue Jan 21 2025 XenServer Rebuild <rebuild@xenserver.com> - 2.6.1-3
+- CP-53310: XenServer 9 rebuild
+
+* Mon Jan 15 2024 Roger Pau Monné <roger.pau@citrix.com> - 2.6.1-1
 - Fix for fetching dom0 console with kernels >= 5.10
 - Fix to deal with Xen builds without PV32 support.
 
