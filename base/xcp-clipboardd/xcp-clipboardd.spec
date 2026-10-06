@@ -1,12 +1,12 @@
 Name:           xcp-clipboardd
 Version:        1.0.3
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        Daemon to share a virtualized Windows clipboard
 License:        GPLv3
 URL:            https://github.com/xcp-ng/xcp-clipboardd
 Source0:        https://github.com/xcp-ng/xcp-clipboardd/archive/v%{version}/%{name}-%{version}.tar.gz
 
-BuildRequires:  cmake3
+BuildRequires:  cmake
 BuildRequires:  make
 BuildRequires:  gcc
 BuildRequires:  xen-libs-devel
@@ -31,6 +31,9 @@ Share clipboard between guest Windows and host with VNC.
 /opt/xensource/libexec/xcp-clipboardd
 
 %changelog
+* Tue Oct 06 2026 Yann Dirson <yann.dirson@vates.tech> - 1.0.3-10
+- BuildRequire "cmake" not "cmake3"
+
 * Fri Sep 04 2026 Julian Vetter <julian.vetter@vates.tech> - 1.0.3-9
 - Use modern %%cmake3 macros (%%cmake3_build/%%cmake3_install)
   to fix build with out-of-tree build directory
