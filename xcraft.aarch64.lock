@@ -1,0 +1,586 @@
+# written by xcraft build, xcraft lock, xcraft publish and xcraft iso
+
+image = [
+    "R-srpm-macros",
+    "almalinux-gpg-keys",
+    "almalinux-release",
+    "almalinux-repos",
+    "alternatives",
+    "annobin-docs",
+    "annobin-plugin-gcc",
+    "ansible-srpm-macros",
+    "attr",
+    "audit-libs",
+    "authselect",
+    "authselect-libs",
+    "basesystem",
+    "bash",
+    "binutils",
+    "binutils-gold",
+    "bzip2",
+    "bzip2-libs",
+    "ca-certificates",
+    "ccache",
+    "coreutils-single",
+    "cpio",
+    "cpp",
+    "cracklib",
+    "cracklib-dicts",
+    "createrepo_c",
+    "createrepo_c-libs",
+    "crypto-policies",
+    "crypto-policies-scripts",
+    "curl",
+    "cyrus-sasl-lib",
+    "dbus",
+    "dbus-broker",
+    "dbus-common",
+    "dbus-libs",
+    "debugedit",
+    "diffutils",
+    "dmidecode",
+    "dnf",
+    "dnf-data",
+    "dnf-plugins-core",
+    "dwz",
+    "ed",
+    "efi-srpm-macros",
+    "elfutils",
+    "elfutils-debuginfod-client",
+    "elfutils-default-yama-scope",
+    "elfutils-libelf",
+    "elfutils-libs",
+    "epel-rpm-macros",
+    "expat",
+    "file",
+    "file-libs",
+    "filesystem",
+    "findutils",
+    "fmt",
+    "fonts-srpm-macros",
+    "forge-srpm-macros",
+    "fpc-srpm-macros",
+    "gawk",
+    "gcc",
+    "gcc-c++",
+    "gcc-plugin-annobin",
+    "gdb-gdbserver",
+    "gdb-minimal",
+    "gdbm",
+    "gdbm-libs",
+    "ghc-srpm-macros",
+    "git",
+    "git-core",
+    "git-core-doc",
+    "glib2",
+    "glibc",
+    "glibc-common",
+    "glibc-devel",
+    "glibc-gconv-extra",
+    "glibc-minimal-langpack",
+    "gmp",
+    "gnutls",
+    "go-srpm-macros",
+    "grep",
+    "groff-base",
+    "gzip",
+    "hiredis",
+    "ima-evm-utils",
+    "jansson",
+    "json-c",
+    "kernel-headers",
+    "kernel-srpm-macros",
+    "keyutils",
+    "keyutils-libs",
+    "krb5-libs",
+    "less",
+    "libacl",
+    "libarchive",
+    "libasan",
+    "libatomic",
+    "libattr",
+    "libblkid",
+    "libcap",
+    "libcap-ng",
+    "libcbor",
+    "libcom_err",
+    "libcomps",
+    "libcurl-minimal",
+    "libdnf",
+    "libeconf",
+    "libedit",
+    "libevent",
+    "libfdisk",
+    "libffi",
+    "libfido2",
+    "libgcc",
+    "libgomp",
+    "libidn2",
+    "libmodulemd",
+    "libmount",
+    "libmpc",
+    "libnghttp2",
+    "libpkgconf",
+    "libpwquality",
+    "librepo",
+    "libseccomp",
+    "libselinux",
+    "libsemanage",
+    "libsepol",
+    "libsmartcols",
+    "libsolv",
+    "libstdc++",
+    "libstdc++-devel",
+    "libtasn1",
+    "libubsan",
+    "libunistring",
+    "libusb1",
+    "libuser",
+    "libutempter",
+    "libuuid",
+    "libverto",
+    "libxcrypt",
+    "libxcrypt-devel",
+    "libxml2",
+    "libyaml",
+    "libzstd",
+    "lua-libs",
+    "lua-srpm-macros",
+    "lz4-libs",
+    "make",
+    "mpdecimal",
+    "mpfr",
+    "ncurses",
+    "ncurses-base",
+    "ncurses-libs",
+    "ocaml-srpm-macros",
+    "openblas-srpm-macros",
+    "openldap",
+    "openssh",
+    "openssh-clients",
+    "openssl-fips-provider",
+    "openssl-libs",
+    "p11-kit",
+    "p11-kit-trust",
+    "package-notes-srpm-macros",
+    "pam",
+    "pam-libs",
+    "patch",
+    "pcre2",
+    "pcre2-syntax",
+    "perl-AutoLoader",
+    "perl-B",
+    "perl-Carp",
+    "perl-Class-Struct",
+    "perl-Data-Dumper",
+    "perl-Digest",
+    "perl-Digest-MD5",
+    "perl-DynaLoader",
+    "perl-Encode",
+    "perl-Errno",
+    "perl-Error",
+    "perl-Exporter",
+    "perl-Fcntl",
+    "perl-File-Basename",
+    "perl-File-Path",
+    "perl-File-Temp",
+    "perl-File-stat",
+    "perl-FileHandle",
+    "perl-Getopt-Long",
+    "perl-Getopt-Std",
+    "perl-Git",
+    "perl-HTTP-Tiny",
+    "perl-IO",
+    "perl-IO-Socket-IP",
+    "perl-IO-Socket-SSL",
+    "perl-IPC-Open3",
+    "perl-MIME-Base64",
+    "perl-Mozilla-CA",
+    "perl-Net-SSLeay",
+    "perl-POSIX",
+    "perl-PathTools",
+    "perl-Pod-Escapes",
+    "perl-Pod-Perldoc",
+    "perl-Pod-Simple",
+    "perl-Pod-Usage",
+    "perl-Scalar-List-Utils",
+    "perl-SelectSaver",
+    "perl-Socket",
+    "perl-Storable",
+    "perl-Symbol",
+    "perl-Term-ANSIColor",
+    "perl-Term-Cap",
+    "perl-TermReadKey",
+    "perl-Text-ParseWords",
+    "perl-Text-Tabs+Wrap",
+    "perl-Time-Local",
+    "perl-URI",
+    "perl-Unicode-Normalize",
+    "perl-base",
+    "perl-constant",
+    "perl-if",
+    "perl-interpreter",
+    "perl-lib",
+    "perl-libnet",
+    "perl-libs",
+    "perl-locale",
+    "perl-mro",
+    "perl-overload",
+    "perl-overloading",
+    "perl-parent",
+    "perl-podlators",
+    "perl-srpm-macros",
+    "perl-vars",
+    "pkgconf",
+    "pkgconf-m4",
+    "pkgconf-pkg-config",
+    "popt",
+    "pyproject-srpm-macros",
+    "python-srpm-macros",
+    "python3",
+    "python3-dateutil",
+    "python3-dbus",
+    "python3-dnf",
+    "python3-dnf-plugin-versionlock",
+    "python3-dnf-plugins-core",
+    "python3-hawkey",
+    "python3-libcomps",
+    "python3-libdnf",
+    "python3-libs",
+    "python3-pip-wheel",
+    "python3-rpm",
+    "python3-six",
+    "python3-systemd",
+    "qt6-srpm-macros",
+    "readline",
+    "redhat-rpm-config",
+    "rootfiles",
+    "rpm",
+    "rpm-build",
+    "rpm-build-libs",
+    "rpm-libs",
+    "rpm-sequoia",
+    "rpm-sign-libs",
+    "rust-toolset-srpm-macros",
+    "sed",
+    "setup",
+    "shadow-utils",
+    "sqlite-libs",
+    "sudo",
+    "systemd",
+    "systemd-libs",
+    "systemd-pam",
+    "systemd-rpm-macros",
+    "tar",
+    "tpm2-tss",
+    "tzdata",
+    "unzip",
+    "usermode",
+    "util-linux",
+    "util-linux-core",
+    "vim-data",
+    "vim-minimal",
+    "virt-what",
+    "which",
+    "xxhash-libs",
+    "xz",
+    "xz-libs",
+    "yum",
+    "zip",
+    "zlib-ng-compat",
+    "zstd",
+]
+runtime = []
+iso = []
+
+[packages]
+"R-srpm-macros" = { evr = "1.3.7-2.el10_3", arch = "noarch", source = "R-rpm-macros", repo = "epel-fedora", sha256 = "04a3d2cb99c32c9d3e2c25ed9ba21d30da79af1deb61fd4b46babc9947731c44" }
+"almalinux-gpg-keys" = { evr = "10.2-21.el10", arch = "aarch64", source = "almalinux-release", repo = "baseos", sha256 = "a8ade1160e029a14bc131965f0843dbdd11e9c301d600134b2829310302c9496" }
+"almalinux-release" = { evr = "10.2-21.el10", arch = "aarch64", source = "almalinux-release", repo = "baseos", sha256 = "f18c2a68f4fa6a22cb0ef2431cb15b8d759443f407ee12c76a4a2c1fc2876ffd" }
+"almalinux-repos" = { evr = "10.2-21.el10", arch = "aarch64", source = "almalinux-release", repo = "baseos", sha256 = "60cf6b40454262bb4f6754a0db33031c15d6820757a9987710a03fd7d9fa3f20" }
+"alternatives" = { evr = "1.30-2.el10", arch = "aarch64", source = "chkconfig", repo = "baseos", sha256 = "168026a798b6cdece803762754000e56f7f96d825eb925765397f37d1b572b5f" }
+"annobin-docs" = { evr = "13.02-2.el10", arch = "noarch", source = "annobin", repo = "appstream", sha256 = "ee70939ca73e3d2b917591b6646ae2817efdd20a9b102963002717f95ff4e3a6" }
+"annobin-plugin-gcc" = { evr = "13.02-2.el10", arch = "aarch64", source = "annobin", repo = "appstream", sha256 = "495eebf57087011fc3e868836dcd95f85161e7dfa88f720b263c69b7d5a0fd03" }
+"ansible-srpm-macros" = { evr = "1-21.el10_3", arch = "noarch", source = "ansible-packaging", repo = "epel-fedora", sha256 = "4ac2f3ecb3368fcaef797c7c4482b757d1b5777d579b4697876398ee30943dc0" }
+"attr" = { evr = "2.6.0-1.el10_2", arch = "aarch64", source = "attr", repo = "baseos", sha256 = "4b89c2349801aa4b95e21999ac140c3eb1e94e602d441621e296e06f9f34fa9a" }
+"audit-libs" = { evr = "4.0.3-5.el10", arch = "aarch64", source = "audit", repo = "baseos", sha256 = "816f2e6bcd4c4508f7467b88600449a533441cbe03ec1a9833613b4446b6a367" }
+"authselect" = { evr = "1.5.2-1.el10", arch = "aarch64", source = "authselect", repo = "baseos", sha256 = "abf63f0ae2e986002b86ce1fae1fea40840a47ca48a2d6e84a3237f299cc5a6a" }
+"authselect-libs" = { evr = "1.5.2-1.el10", arch = "aarch64", source = "authselect", repo = "baseos", sha256 = "cf64e55df36643000fbeb65460cef4075c551c72c59b0b97c7da606fc335ac90" }
+"basesystem" = { evr = "11-22.el10", arch = "noarch", source = "basesystem", repo = "baseos", sha256 = "ce290f8c5998442e68cbc7e2351f43c2d5bb05a9d109058fc457487b9c267796" }
+"bash" = { evr = "5.2.26-6.el10", arch = "aarch64", source = "bash", repo = "baseos", sha256 = "1479a2fa43fedec3d7a9a0cc3f9a735d99c32811db9129497bb706e3a4dfab29" }
+"binutils" = { evr = "2.41-63.el10.alma.1", arch = "aarch64", source = "binutils", repo = "baseos", sha256 = "1c7aa4c8faad6e38c3269c6da60597fcc4b07700cab3cc2acab48f86e99a67e6" }
+"binutils-gold" = { evr = "2.41-63.el10.alma.1", arch = "aarch64", source = "binutils", repo = "baseos", sha256 = "56cfcdd867608f732383fff2775e61bbd0890b7c5cac96efea84ded0af266c0f" }
+"bzip2" = { evr = "1.0.8-25.el10", arch = "aarch64", source = "bzip2", repo = "baseos", sha256 = "92ae5c99fa1c0593eabae0f1462e439b5746a87deaf9349468cb434ad218caab" }
+"bzip2-libs" = { evr = "1.0.8-25.el10", arch = "aarch64", source = "bzip2", repo = "baseos", sha256 = "ccb52190fce4dd0321bd622551c83f5b94c97ce1dedbfa5f87a7effd554c8f6a" }
+"ca-certificates" = { evr = "2025.2.80_v9.0.305-102.el10_1", arch = "noarch", source = "ca-certificates", repo = "baseos", sha256 = "6b4b153b35901ac27e57d41b1ec98f7754c0642d361e782dde5f9ba6765fda2d" }
+"ccache" = { evr = "4.11.3-1.el10_1", arch = "aarch64", source = "ccache", repo = "epel-fedora", sha256 = "3421cbffefea64351e80d2ce64eb0042d98dcc23262a03504cf988305ff34a24" }
+"coreutils-single" = { evr = "9.5-8.el10_2.1", arch = "aarch64", source = "coreutils", repo = "baseos", sha256 = "25ef68bf5391571d85a13a2f565f1e743bbf9e401c5034bce9098ab10a6efad5" }
+"cpio" = { evr = "2.15-3.el10", arch = "aarch64", source = "cpio", repo = "baseos", sha256 = "2f3719dd9f69800d42b389a4c73b56a718936bf28a77f3a0f90665c613815a88" }
+"cpp" = { evr = "14.3.1-4.4.el10.alma.2", arch = "aarch64", source = "gcc", repo = "appstream", sha256 = "64455574d32d22b7c767f8ad28cfe87a0007a5000fe0d1adeb32754e3520caac" }
+"cracklib" = { evr = "2.9.11-8.el10", arch = "aarch64", source = "cracklib", repo = "baseos", sha256 = "d317ef807f9fc704dc44aefcaeea3697d31c2bcd6a990ed6dc23f367a6303149" }
+"cracklib-dicts" = { evr = "2.9.11-8.el10", arch = "aarch64", source = "cracklib", repo = "baseos", sha256 = "f45a566fb9bb97ceb29a57aa577e924bcfded81994a69daaf7d99b9a36ae0a09" }
+"createrepo_c" = { evr = "1.1.2-4.el10", arch = "aarch64", source = "createrepo_c", repo = "appstream", sha256 = "94e0a6b3864a68cc66cd6ec186e7f50049296307a3d730321ac45eaf52168ba1" }
+"createrepo_c-libs" = { evr = "1.1.2-4.el10", arch = "aarch64", source = "createrepo_c", repo = "appstream", sha256 = "26ba3bd1f54dcc732a1da7d34c23492349f65f9d7c0235f9a242418adb11d11b" }
+"crypto-policies" = { evr = "20260216-1.git0e54016.el10_2.2.alma.1", arch = "noarch", source = "crypto-policies", repo = "baseos", sha256 = "a261c568310cf92be13d55bf43a8de4ba6723c776251efd78f35e58935d5b3dc" }
+"crypto-policies-scripts" = { evr = "20260216-1.git0e54016.el10_2.2.alma.1", arch = "noarch", source = "crypto-policies", repo = "baseos", sha256 = "006c9b1c500e5d773a332a36457fc36812198a8614b1b714a69710c7556ef4f7" }
+"curl" = { evr = "8.12.1-4.el10_2.7", arch = "aarch64", source = "curl", repo = "baseos", sha256 = "efacc12bdb59eabada2ff2deb81f96a6eed97a2c511cd58fc2ee93f14ab6f449" }
+"cyrus-sasl-lib" = { evr = "2.1.28-30.el10_2", arch = "aarch64", source = "cyrus-sasl", repo = "baseos", sha256 = "ddeea6b6a2b441e21957d4f75e2851def0ed21f9d02b5852974a4bcf0a089aaf" }
+"dbus" = { evr = "1:1.14.10-5.el10", arch = "aarch64", source = "dbus", repo = "baseos", sha256 = "2ac429a480648324bbf82899b9930eb078cffc043ae9bf66c78120cb107f1cfc" }
+"dbus-broker" = { evr = "36-5.el10_2", arch = "aarch64", source = "dbus-broker", repo = "baseos", sha256 = "869133a12538b9ce4725486d6dd0cb6e15401e6630fb3081a3974c9c6aee5866" }
+"dbus-common" = { evr = "1:1.14.10-5.el10", arch = "noarch", source = "dbus", repo = "baseos", sha256 = "0c163d031c1b356eb5ac309517325f3da23b89b33352538dff3870c9f499eb9d" }
+"dbus-libs" = { evr = "1:1.14.10-5.el10", arch = "aarch64", source = "dbus", repo = "baseos", sha256 = "e0772dcceecbb6a32bed0f2be7842b57f0ee422a67dc4ad2fb3a78b33f072f36" }
+"debugedit" = { evr = "5.1-8.el10", arch = "aarch64", source = "debugedit", repo = "appstream", sha256 = "2681ef39ee0336807d24bfdf1eaa446538768b890a6d0a47b4e5709da6840a90" }
+"diffutils" = { evr = "3.10-8.el10", arch = "aarch64", source = "diffutils", repo = "baseos", sha256 = "4dc68148d51cb0e91d62fa55806844299f66b8772d1b7840beeea688e6ad42ee" }
+"dmidecode" = { evr = "1:3.6-5.el10", arch = "aarch64", source = "dmidecode", repo = "baseos", sha256 = "609012c6d8a388bf5445f13437d1992640588f4c73cd538d0cd77ecb07b405df" }
+"dnf" = { evr = "4.20.0-22.el10_2.alma.1", arch = "noarch", source = "dnf", repo = "baseos", sha256 = "84c937f87390c6275c39a8f0a6b7c4b3f754f5179b80c5e1f053f3eb462eefee" }
+"dnf-data" = { evr = "4.20.0-22.el10_2.alma.1", arch = "noarch", source = "dnf", repo = "baseos", sha256 = "6e515727a48b274cb187fd7617ff8516978a8466da8e423275ce3a4c572d103d" }
+"dnf-plugins-core" = { evr = "4.7.0-10.el10", arch = "noarch", source = "dnf-plugins-core", repo = "baseos", sha256 = "840f84e3bfa456cfa79cb298d519fedae441274941ce241e81e4d57650709d80" }
+"dwz" = { evr = "0.16-1.el10", arch = "aarch64", source = "dwz", repo = "appstream", sha256 = "0c14c6576e3d2766dd6ecb6099546fef3365b8f2ade2b3e1883bcdebe1469138" }
+"ed" = { evr = "1.20-5.el10", arch = "aarch64", source = "ed", repo = "baseos", sha256 = "6eaf7eab5cb0e9992b2f81def62b66b4d19d10030547fddae8ef227cd8747b0a" }
+"efi-srpm-macros" = { evr = "6-6.el10.alma.1", arch = "noarch", source = "efi-rpm-macros", repo = "appstream", sha256 = "dc33deadb41135d9d2b5dfe7a817991ab3bccdbd1566d3f8477a3dd9ac609430" }
+"elfutils" = { evr = "0.194-2.el10_2", arch = "aarch64", source = "elfutils", repo = "baseos", sha256 = "2918038981a436ea4e3ea7f2b562d961ff57d74daf325c63c6727032ec4452a1" }
+"elfutils-debuginfod-client" = { evr = "0.194-2.el10_2", arch = "aarch64", source = "elfutils", repo = "baseos", sha256 = "4e73f6e424b3ddb69d00237d4f91ac23a5ef40df62f7ad1e2ec6011b9a7a2b6d" }
+"elfutils-default-yama-scope" = { evr = "0.194-2.el10_2", arch = "noarch", source = "elfutils", repo = "baseos", sha256 = "d997232a0cd9c450cc41fcdc203ee4c1ee709806259d5ba1b86c86904b37f744" }
+"elfutils-libelf" = { evr = "0.194-2.el10_2", arch = "aarch64", source = "elfutils", repo = "baseos", sha256 = "ae4e3b143fa86f87a87db1302e3329ded5454cfda24a44b957e126dae8d0494b" }
+"elfutils-libs" = { evr = "0.194-2.el10_2", arch = "aarch64", source = "elfutils", repo = "baseos", sha256 = "f6219d4afc8891a7b8f7ae34cd68005f343b8aaa12c7408607bcbea9e6f7959f" }
+"epel-rpm-macros" = { evr = "10-7.el10_3", arch = "noarch", source = "epel-rpm-macros", repo = "epel-fedora", sha256 = "eb891a9edf3d378593aa19959f35351c5aad123aff587723607d437b459b6131" }
+"expat" = { evr = "2.7.3-1.el10_2.5", arch = "aarch64", source = "expat", repo = "baseos", sha256 = "c2419008163b0cf73a990a166d8e3d0e4a9e1821b748fdb34fc94d8cd31cfd6c" }
+"file" = { evr = "5.45-9.el10", arch = "aarch64", source = "file", repo = "baseos", sha256 = "4ff4341f2aa6d0e90bdda8f0ef646f45456908e7b56f535daa008c66c456d2fc" }
+"file-libs" = { evr = "5.45-9.el10", arch = "aarch64", source = "file", repo = "baseos", sha256 = "2e6e6dd1a758ae6609e7a25718414155ec33c43caa2081dbe030fc7b64e46cd2" }
+"filesystem" = { evr = "3.18-17.el10", arch = "aarch64", source = "filesystem", repo = "baseos", sha256 = "f0d10228adfa06010c243d65cdc789aab25a994a72b984ace32a68be761fba38" }
+"findutils" = { evr = "1:4.10.0-5.el10", arch = "aarch64", source = "findutils", repo = "baseos", sha256 = "b7cb3db7cd69ae0e15be7e11d50a4be923100e38fba411aaf37f5de2dbaf1540" }
+"fmt" = { evr = "11.0.2-1.el10_0", arch = "aarch64", source = "fmt", repo = "epel-fedora", sha256 = "949134527021226492381163c6a11b278df1cc62d0de201af2cc0b3eabb9867f" }
+"fonts-srpm-macros" = { evr = "1:2.0.5-18.el10", arch = "noarch", source = "fonts-rpm-macros", repo = "appstream", sha256 = "1c4eda423634a984d4976c2e9b4ef071aee2a3e60a16f148f1b83fcd64e05e96" }
+"forge-srpm-macros" = { evr = "0.4.0-6.el10", arch = "noarch", source = "forge-srpm-macros", repo = "appstream", sha256 = "c07ce83b6542f27f1f781c12dc1deee72e422c2ec8df742882e8cec9e4467471" }
+"fpc-srpm-macros" = { evr = "1.3-7.el10_1", arch = "noarch", source = "fpc-srpm-macros", repo = "epel-fedora", sha256 = "7dc3a4e325137d0f40f0b45e46c30b6e1d11c4fba3d7aff72ec8cc0bb27c0783" }
+"gawk" = { evr = "5.3.0-6.el10_2.1", arch = "aarch64", source = "gawk", repo = "baseos", sha256 = "6d1f321e6126573acd958d18faf3edda6c7bf10698104b85e93c4fb6c99560eb" }
+"gcc" = { evr = "14.3.1-4.4.el10.alma.2", arch = "aarch64", source = "gcc", repo = "appstream", sha256 = "e15b77573a6d8bbfda5230d5fda066ff2b4fbb7b999ea358cb1363450374d5ab" }
+"gcc-c++" = { evr = "14.3.1-4.4.el10.alma.2", arch = "aarch64", source = "gcc", repo = "appstream", sha256 = "a8e702add08c978b79ec6dc9ae53bdcbd61466db6ec4583a73764e1a4b540374" }
+"gcc-plugin-annobin" = { evr = "14.3.1-4.4.el10.alma.2", arch = "aarch64", source = "gcc", repo = "appstream", sha256 = "32b8e0100b6cbef233d8360304c8d4bd8a312c4e7ca35907cbf66fdb1e63e81e" }
+"gdb-gdbserver" = { evr = "16.3-3.1.el10_2", arch = "aarch64", source = "gdb", repo = "appstream", sha256 = "2ff1818e6c08740f4459d3d8bf9ff562e0a4866fe2951c4f90af9ef9b298c975" }
+"gdb-minimal" = { evr = "16.3-3.1.el10_2", arch = "aarch64", source = "gdb", repo = "appstream", sha256 = "5600dd85b3dd8f61914c16fa432eedb126da37f75b794429e337030676a1e502" }
+"gdbm" = { evr = "1:1.23-12.el10_0", arch = "aarch64", source = "gdbm", repo = "baseos", sha256 = "e8474b0244a9b453e86a1c65159310e9cc22091feef93701c789af3e3f6c39dc" }
+"gdbm-libs" = { evr = "1:1.23-12.el10_0", arch = "aarch64", source = "gdbm", repo = "baseos", sha256 = "ce675d7c4e47ed0fe8447e3793c10701a789a4bace5c96de65333e991616c146" }
+"ghc-srpm-macros" = { evr = "1.9.2-1.el10_0", arch = "noarch", source = "ghc-srpm-macros", repo = "epel-fedora", sha256 = "bd91bde587216c7bf9b03d24266696761c95dc6228b4a76e07c747acd7243176" }
+"git" = { evr = "2.52.0-1.el10", arch = "aarch64", source = "git", repo = "appstream", sha256 = "fd3dae4bcc51248e6c9a1d25aef1d9c0534566192b60d8b800a6d6b2b5e9e7d0" }
+"git-core" = { evr = "2.52.0-1.el10", arch = "aarch64", source = "git", repo = "appstream", sha256 = "c788c13b77795c37f88daf2ac7200361264093cda82ff3e517c2539a08bb2b87" }
+"git-core-doc" = { evr = "2.52.0-1.el10", arch = "noarch", source = "git", repo = "appstream", sha256 = "4315983d0367913abd3ad5d099aab641c0ab3c625c3c8f371045b0dce1fd5dbd" }
+"glib2" = { evr = "2.80.4-12.el10_2.22", arch = "aarch64", source = "glib2", repo = "baseos", sha256 = "3f3049bede38292514364fe77a14c6bd883467b56869b232d8a24b8c7f150263" }
+"glibc" = { evr = "2.39-142.el10_2.alma.1", arch = "aarch64", source = "glibc", repo = "baseos", sha256 = "0b904c6541a901c374d527f8dd05a81b20eedcb2dfb6f363a9e9f3f3c2a8a20c" }
+"glibc-common" = { evr = "2.39-142.el10_2.alma.1", arch = "aarch64", source = "glibc", repo = "baseos", sha256 = "d3393963d28ffa5e3523264ddd68daddb823bf87cd79496ea409fb628c9e9470" }
+"glibc-devel" = { evr = "2.39-142.el10_2.alma.1", arch = "aarch64", source = "glibc", repo = "appstream", sha256 = "4faee2a4c0e6b8f22f0f61e97db0f0d3c65535ea54fc6c76f55ff65b10aebc79" }
+"glibc-gconv-extra" = { evr = "2.39-142.el10_2.alma.1", arch = "aarch64", source = "glibc", repo = "baseos", sha256 = "d5c96af4dfff7b6c0f05fc1503585bb3048214c994246af606504d9a8858cada" }
+"glibc-minimal-langpack" = { evr = "2.39-142.el10_2.alma.1", arch = "aarch64", source = "glibc", repo = "baseos", sha256 = "3740075b8c6753189a97c1c5fe1cb3bd6448c43710e252c0589aa2395e84b269" }
+"gmp" = { evr = "1:6.2.1-12.el10", arch = "aarch64", source = "gmp", repo = "baseos", sha256 = "2637c58c1b716d2856c735ad85a61c1640e7e3a06d58e2bc102a480526823d56" }
+"gnutls" = { evr = "3.8.10-5.el10_2", arch = "aarch64", source = "gnutls", repo = "baseos", sha256 = "861e1c575c0dc480a756464933a38b07e9a4dc988049cc2f84e5959040d66a1d" }
+"go-srpm-macros" = { evr = "3.8.0-1.el10", arch = "noarch", source = "go-rpm-macros", repo = "appstream", sha256 = "9e5e87cd317a9329616ce89932e0d9c86668c820926ad28d3a55e3421290c4e2" }
+"grep" = { evr = "3.11-10.el10", arch = "aarch64", source = "grep", repo = "baseos", sha256 = "2d18c7cefb8fe1db50cae84f8efbab08b4935c33b296a9ffeab9ea7fcaef768e" }
+"groff-base" = { evr = "1.23.0-10.el10", arch = "aarch64", source = "groff", repo = "baseos", sha256 = "e521de553036e6bb35f6bc7edb8c6989de55812cc5c5241700e73a0d762fb94e" }
+"gzip" = { evr = "1.13-4.el10_2", arch = "aarch64", source = "gzip", repo = "baseos", sha256 = "5606020bf53d11907a658794c18a1a5d6299c64035ea18cce2b0f563ab82a9f3" }
+"hiredis" = { evr = "1.2.0-5.el10_0", arch = "aarch64", source = "hiredis", repo = "epel-fedora", sha256 = "8ed5d76daf9593411b6732894b37b711d48a8f848f418fabfedab797b3b0a256" }
+"ima-evm-utils" = { evr = "1.6.2-4.el10", arch = "aarch64", source = "ima-evm-utils", repo = "baseos", sha256 = "27ee14ea8ce70a80abe8f5b1c60306027bc78a9084a498cf24bccfef34f67f97" }
+"jansson" = { evr = "2.14-3.el10", arch = "aarch64", source = "jansson", repo = "baseos", sha256 = "395c65895de76a35a0063dfffb360e361b5f2c3dce35d8cd306d9a72e3690c8e" }
+"json-c" = { evr = "0.18-3.el10", arch = "aarch64", source = "json-c", repo = "baseos", sha256 = "ab88ed9bc7a2ef65d6bd97f3cbcf8929c90f3a8797403d5a2a9ffe23b8774570" }
+"kernel-headers" = { evr = "6.12.0-211.66.1.el10_2", arch = "aarch64", source = "kernel", repo = "appstream", sha256 = "a025e6092fa988ddcaf819c31b9dba941aa64eebe60684106b9a23e0e1b574b0" }
+"kernel-srpm-macros" = { evr = "1.0-27.el10", arch = "noarch", source = "kernel-srpm-macros", repo = "appstream", sha256 = "0421d244948314a77b2e51787dbabfc4fec4c8aefb9198f974dfd02cb6a969a9" }
+"keyutils" = { evr = "1.6.3-5.el10", arch = "aarch64", source = "keyutils", repo = "baseos", sha256 = "8d52f2ccfe49a385f408deb684a39ad1bb8982f8da36428a804f3e86721fd05a" }
+"keyutils-libs" = { evr = "1.6.3-5.el10", arch = "aarch64", source = "keyutils", repo = "baseos", sha256 = "27960866fcce55e3ff1547e73280cf1403591f18db524630990a01b3b50615c2" }
+"krb5-libs" = { evr = "1.21.3-10.el10_2", arch = "aarch64", source = "krb5", repo = "baseos", sha256 = "a6bd66ee0fbb1744667175e3312bd7e30b344ad35b9fe9be53f5382e399546fa" }
+"less" = { evr = "661-3.el10", arch = "aarch64", source = "less", repo = "baseos", sha256 = "b563af29d3ea1a1fa2666292d947e26a3815befd610df0d9394a3ec433d5ea2d" }
+"libacl" = { evr = "2.4.0-1.el10_2", arch = "aarch64", source = "acl", repo = "baseos", sha256 = "0fdc62b27f40226a86a52bb53ff4665214c634aa2b43da2244203f01026f9ab3" }
+"libarchive" = { evr = "3.7.7-11.el10_2", arch = "aarch64", source = "libarchive", repo = "baseos", sha256 = "a57d86bef7272eddb558e16b16ce48ae1f35c671f82275eab54fa46b0779683b" }
+"libasan" = { evr = "14.3.1-4.4.el10.alma.2", arch = "aarch64", source = "gcc", repo = "appstream", sha256 = "80a432282fc01425a7bef96cc664b55c1b27383b415a16e03fc42a216b9c8eaa" }
+"libatomic" = { evr = "14.3.1-4.4.el10.alma.2", arch = "aarch64", source = "gcc", repo = "baseos", sha256 = "76d6cce96395839ccdb12795f83a15f680432c204e6787c5fdbf48bccd081e1e" }
+"libattr" = { evr = "2.6.0-1.el10_2", arch = "aarch64", source = "attr", repo = "baseos", sha256 = "e101ef8e324ffef193f374a93c0255bffb4743ffb135a56465529cd2d048ce73" }
+"libblkid" = { evr = "2.40.2-18.el10", arch = "aarch64", source = "util-linux", repo = "baseos", sha256 = "834481ac65e722ed1628ccd72dbf9c0347f5093f859416b40a75203a9a5b5565" }
+"libcap" = { evr = "2.69-7.el10_2.1", arch = "aarch64", source = "libcap", repo = "baseos", sha256 = "0e7692819c86e6366dcf8fdca9c77c37d97ebe394643e4fbe30b39cf78098d85" }
+"libcap-ng" = { evr = "0.8.4-6.el10", arch = "aarch64", source = "libcap-ng", repo = "baseos", sha256 = "7104ac4d6754efcee41b6afbf1dc1c38c3654eab4aa2ce221b3f3a754d522f95" }
+"libcbor" = { evr = "0.11.0-3.el10", arch = "aarch64", source = "libcbor", repo = "baseos", sha256 = "6d15c441dfbf91987861df7f0440767053b7a0234ed9b018d8fd81c717dc33db" }
+"libcom_err" = { evr = "1.47.1-5.el10", arch = "aarch64", source = "e2fsprogs", repo = "baseos", sha256 = "d413398f035fae85184c3b6d321865f675c6daf3437671e15fdd47988d1ecd2b" }
+"libcomps" = { evr = "0.1.21-3.el10", arch = "aarch64", source = "libcomps", repo = "baseos", sha256 = "dbda46039f36293808a9f39d3dc5cf22ca40aad5e4d130dda52f4a3dae8f6e5d" }
+"libcurl-minimal" = { evr = "8.12.1-4.el10_2.7", arch = "aarch64", source = "curl", repo = "baseos", sha256 = "ad0989fa2a066ec63da6d89259ec4b5f945b91262ee53d8b7b164b58c72ade7b" }
+"libdnf" = { evr = "0.73.1-15.el10_2.alma.1", arch = "aarch64", source = "libdnf", repo = "baseos", sha256 = "2d60c321a2d94cc7eb542b6083cc7bfe0dbfae2c9f03568e1c6faa484cf5c290" }
+"libeconf" = { evr = "0.6.2-4.el10", arch = "aarch64", source = "libeconf", repo = "baseos", sha256 = "64a52f6d3897a3831cc437e506ee7533bd4baa1b6ba0409935c70e208d76f264" }
+"libedit" = { evr = "3.1-52.20230828cvs.el10", arch = "aarch64", source = "libedit", repo = "baseos", sha256 = "183cc585ad539ae4788e6ebc9d9269b78fd79a1e544467c672306447d2b8e29c" }
+"libevent" = { evr = "2.1.13-1.el10_2", arch = "aarch64", source = "libevent", repo = "baseos", sha256 = "22ef3aca098d62bce9e86ee8759a96c95f60a7a2ed61a81b9c156db3bb9d585b" }
+"libfdisk" = { evr = "2.40.2-18.el10", arch = "aarch64", source = "util-linux", repo = "baseos", sha256 = "c7f6517ec915741bf0f4cf080ace2fae899d79580398ff95e43125a462566eae" }
+"libffi" = { evr = "3.4.4-10.el10", arch = "aarch64", source = "libffi", repo = "baseos", sha256 = "4815f0f203481185dfebb34117a2a69ad4be5b4c5e1ec77a8643b91fa4fd8ee4" }
+"libfido2" = { evr = "1.14.0-7.el10", arch = "aarch64", source = "libfido2", repo = "baseos", sha256 = "c95bf60c4afadb817105154e8868ba7ad3cd705e59c6f4e6687834bf6dd9f38b" }
+"libgcc" = { evr = "14.3.1-4.4.el10.alma.2", arch = "aarch64", source = "gcc", repo = "baseos", sha256 = "4c2128d9827bc440821e71b3311f3083598881e4411248cff24fc0ee15702655" }
+"libgomp" = { evr = "14.3.1-4.4.el10.alma.2", arch = "aarch64", source = "gcc", repo = "baseos", sha256 = "f6522fb52a99984b4168afce72aa9016f3ca33482eb44ebc213f624c69aae53f" }
+"libidn2" = { evr = "2.3.7-3.el10", arch = "aarch64", source = "libidn2", repo = "baseos", sha256 = "c1b303786923dadf259477d2f09e716b9f747c8b7ab1277f32f5c4cd0d537990" }
+"libmodulemd" = { evr = "2.15.0-12.el10", arch = "aarch64", source = "libmodulemd", repo = "baseos", sha256 = "edc244d9b69ab0442686f09da06ad2646d4b01ce249a52bba4c98459bfbbb0db" }
+"libmount" = { evr = "2.40.2-18.el10", arch = "aarch64", source = "util-linux", repo = "baseos", sha256 = "8dda8db2f682e4d50e56a7c9454683e7c2a18c0e0958a58590a1dd47951beee8" }
+"libmpc" = { evr = "1.3.1-7.el10", arch = "aarch64", source = "libmpc", repo = "appstream", sha256 = "733a04fe8fbcd0d22d8d378a880009d73cdafbf529469abe14aff2ff6d8f1d17" }
+"libnghttp2" = { evr = "1.68.0-3.el10_2.2", arch = "aarch64", source = "nghttp2", repo = "baseos", sha256 = "f2af23ee3370a9d7a591db25528744ff946dfa3abab58fe897712b5c17a167c7" }
+"libpkgconf" = { evr = "2.1.0-3.el10", arch = "aarch64", source = "pkgconf", repo = "baseos", sha256 = "f303c4871ce01e3878334f654015fe2b4972fb76159becc6b43f27285f920b82" }
+"libpwquality" = { evr = "1.4.5-12.el10", arch = "aarch64", source = "libpwquality", repo = "baseos", sha256 = "6259e1a5a07cfa64a0dad5cd166ac98c0b21745ae9d80d4745d46cfd0b27f5c6" }
+"librepo" = { evr = "1.19.0-1.el10", arch = "aarch64", source = "librepo", repo = "baseos", sha256 = "e6f2ab54f52b887e13d73b92237b0458ade775c9ee4e2a50b3b4bcec70a9a552" }
+"libseccomp" = { evr = "2.5.6-1.el10", arch = "aarch64", source = "libseccomp", repo = "baseos", sha256 = "587345a8caf0e0a81e6f93adf5f556ac01b0178f2a3f3ca9ad0833e6439e9d80" }
+"libselinux" = { evr = "3.10-1.el10", arch = "aarch64", source = "libselinux", repo = "baseos", sha256 = "ba44687d4a01dc53900699d7229859c9ca61ec6d1c170e1f6f06d6b028ef0d4b" }
+"libsemanage" = { evr = "3.10-1.el10", arch = "aarch64", source = "libsemanage", repo = "baseos", sha256 = "c4a3093844c10526f41b549193f6ab7d84e6ed6a6e69834f1b87443dd1db8529" }
+"libsepol" = { evr = "3.10-1.el10", arch = "aarch64", source = "libsepol", repo = "baseos", sha256 = "de7717dd210fc2b4680fd5cce635128470347a5aca424742f0c3ce298534ab97" }
+"libsmartcols" = { evr = "2.40.2-18.el10", arch = "aarch64", source = "util-linux", repo = "baseos", sha256 = "747f2dd86cd78e7fa48aa16eff46b983ae20719efa6b4808b1ab50a82a1cc98c" }
+"libsolv" = { evr = "0.7.33-5.el10_2.alma.1", arch = "aarch64", source = "libsolv", repo = "baseos", sha256 = "d3b79b35f5b427c724ff7f0eebbbd2f1ed0f440c2bb70151756d1a7fda38ba28" }
+"libstdc++" = { evr = "14.3.1-4.4.el10.alma.2", arch = "aarch64", source = "gcc", repo = "baseos", sha256 = "beefc59eab8d0b804c1dc9ee48da5efeb44a6cfbbe5ff90e1ad295f17cdc28cf" }
+"libstdc++-devel" = { evr = "14.3.1-4.4.el10.alma.2", arch = "aarch64", source = "gcc", repo = "appstream", sha256 = "869edf472d39af83d533dda31492d4978734d836b1ffd8a3954f02a36d19c2b1" }
+"libtasn1" = { evr = "4.20.0-5.el10_2", arch = "aarch64", source = "libtasn1", repo = "baseos", sha256 = "582a90dceb8a51e07561df25cb81ec41ddb90d5b014db4cf468f1aba3b71711c" }
+"libubsan" = { evr = "14.3.1-4.4.el10.alma.2", arch = "aarch64", source = "gcc", repo = "appstream", sha256 = "91fcce1e343fbd3a391fa4379728945a3d475774070110abdf20b329945df073" }
+"libunistring" = { evr = "1.1-10.el10", arch = "aarch64", source = "libunistring", repo = "baseos", sha256 = "301f645effa68cb92be0e379ca7ff406cc7cdbde17715b7dae09022a2b13e40b" }
+"libusb1" = { evr = "1.0.30-1.el10_2", arch = "aarch64", source = "libusb1", repo = "baseos", sha256 = "af444342b798030c4f15d2f1d2f987dba39e1475ba8ebef52fb986682f7a5e19" }
+"libuser" = { evr = "0.64-11.el10", arch = "aarch64", source = "libuser", repo = "baseos", sha256 = "b80b5ecd28a767e6fae3af80f755fecf389ee3d434baaa14316f831db9fd1632" }
+"libutempter" = { evr = "1.2.1-15.el10", arch = "aarch64", source = "libutempter", repo = "baseos", sha256 = "bcfd791e7f2a1addb9ae02efe6cff9c3c6bc0b82a14393e9f3eb5eebe673c977" }
+"libuuid" = { evr = "2.40.2-18.el10", arch = "aarch64", source = "util-linux", repo = "baseos", sha256 = "fbdb384a243f19b772d1f2f44ac7c5ca362d0c75fd2049351478fa63152dd989" }
+"libverto" = { evr = "0.3.2-10.el10", arch = "aarch64", source = "libverto", repo = "baseos", sha256 = "51943715f9f22951a7b73941ec6b8d98b8705782f7283088890ca8a72265c94c" }
+"libxcrypt" = { evr = "4.4.36-10.el10", arch = "aarch64", source = "libxcrypt", repo = "baseos", sha256 = "a4c4b29b6f5bcbe498dfb101e058fb2ac3b78e032cf380db7169411c103c9c39" }
+"libxcrypt-devel" = { evr = "4.4.36-10.el10", arch = "aarch64", source = "libxcrypt", repo = "appstream", sha256 = "09f529b4131c31f3ed45df3266e12a33ef7d8f1f83eef7ef03e75759dfdf54c8" }
+"libxml2" = { evr = "2.12.5-10.el10_2.4", arch = "aarch64", source = "libxml2", repo = "baseos", sha256 = "e725f4b0b4b1571013dcd93b0c6b56130a05d434dc116764d76e19da61590cb2" }
+"libyaml" = { evr = "0.2.5-16.el10", arch = "aarch64", source = "libyaml", repo = "baseos", sha256 = "5b435f7a651f21853a06eb2f6f1f2be44305b3cf3bb5f7067ff15d49a0e918a9" }
+"libzstd" = { evr = "1.5.5-9.el10", arch = "aarch64", source = "zstd", repo = "baseos", sha256 = "fd9cfcac80f5aa625db43949b15accfd7b9e139e559ab1a7cfb1212191aaf8f1" }
+"lua-libs" = { evr = "5.4.6-7.el10", arch = "aarch64", source = "lua", repo = "baseos", sha256 = "ee9a1529698207ebf3ac39bd478afeedc40678691284b4209d7186bdf9afde62" }
+"lua-srpm-macros" = { evr = "1-15.el10", arch = "noarch", source = "lua-rpm-macros", repo = "appstream", sha256 = "fabbbdf4425d90ccd25458e3b16b0f698427be88eeefaf78b6a081daf60de2bb" }
+"lz4-libs" = { evr = "1.9.4-8.el10", arch = "aarch64", source = "lz4", repo = "baseos", sha256 = "f5a4df096215c09262d42d83cecc83d1980f803e0172c6495f82a6c90d292f12" }
+"make" = { evr = "1:4.4.1-9.el10", arch = "aarch64", source = "make", repo = "baseos", sha256 = "9bb0bfca468d3bf7235efa7c79fe6734f1c7f875c3aa0e31e02f9fd5d09dfccb" }
+"mpdecimal" = { evr = "2.5.1-12.el10", arch = "aarch64", source = "mpdecimal", repo = "baseos", sha256 = "b9e107d2b85558e37a77e832200c3235c0c2e902c121f60450141fdaadd77d15" }
+"mpfr" = { evr = "4.2.1-8.el10", arch = "aarch64", source = "mpfr", repo = "baseos", sha256 = "8962a1f5b072ad02de4003626268c0865494a5134bdbd7611abe2461cf133be3" }
+"ncurses" = { evr = "6.4-15.20240127.el10_1", arch = "aarch64", source = "ncurses", repo = "baseos", sha256 = "887130c42a0bb08a3102ad6837d75a7382ecd2e204b3a33e4575070f563d0cc1" }
+"ncurses-base" = { evr = "6.4-15.20240127.el10_1", arch = "noarch", source = "ncurses", repo = "baseos", sha256 = "efc7cace8436b8383bb62c7689de692ca32cfb54f07d50b4c8255faf9d34b82d" }
+"ncurses-libs" = { evr = "6.4-15.20240127.el10_1", arch = "aarch64", source = "ncurses", repo = "baseos", sha256 = "9739c005a86afd1a4d6090c9e5ea1b5f42a4c3c5c655f59e83f99a6756e94c30" }
+"ocaml-srpm-macros" = { evr = "10-4.el10", arch = "noarch", source = "ocaml-srpm-macros", repo = "appstream", sha256 = "f9ee48e40c5bc2dcdd87cb85a3d69088527801cf5c309f565753f834df097cb7" }
+"openblas-srpm-macros" = { evr = "2-19.el10", arch = "noarch", source = "openblas-srpm-macros", repo = "appstream", sha256 = "aaab4436f0b991293a491f72e8704906c2c2608032c3490c3dc05c68cff9b0ce" }
+"openldap" = { evr = "2.6.10-1.el10", arch = "aarch64", source = "openldap", repo = "baseos", sha256 = "c052643c2f0cc79e215085fa39ca157fdc92ab0e0663718278670315c7518da9" }
+"openssh" = { evr = "9.9p1-28.el10_2.alma.1", arch = "aarch64", source = "openssh", repo = "baseos", sha256 = "ad8294f3aef5cf176714c76f93d1a2f4acf1d4fe983198957996e1a843015e4e" }
+"openssh-clients" = { evr = "9.9p1-28.el10_2.alma.1", arch = "aarch64", source = "openssh", repo = "baseos", sha256 = "3ef1eaca68db9d9364e9761692a7bcf3f9f9dde597167c629932385b06d3dfc5" }
+"openssl-fips-provider" = { evr = "1:3.5.8-2.el10_2.alma.1", arch = "aarch64", source = "openssl", repo = "baseos", sha256 = "32e579d4b5d8c89b46eae00842a77f0d8cf82ca573047603d9b91b958f188d0d" }
+"openssl-libs" = { evr = "1:3.5.8-2.el10_2.alma.1", arch = "aarch64", source = "openssl", repo = "baseos", sha256 = "335d42802b441f0712d337a628b3a8ff0e58c6057afdb250f3bd2020e8310ad4" }
+"p11-kit" = { evr = "0.26.4-1.el10_2", arch = "aarch64", source = "p11-kit", repo = "baseos", sha256 = "c3c1289a58fac0c91996f6fb78b1ec0f35c8748f25fabb9e78d965db218e1cad" }
+"p11-kit-trust" = { evr = "0.26.4-1.el10_2", arch = "aarch64", source = "p11-kit", repo = "baseos", sha256 = "e9e3245e6600d93e7a3e82be70a0597ddb5dab23bfbf7db00b3e9543281a1fce" }
+"package-notes-srpm-macros" = { evr = "0.5-13.el10", arch = "noarch", source = "package-notes", repo = "appstream", sha256 = "a0f267a35fa2d5fb57a4310cffac67849794e005e40b4d2a24e83e71647ce0cf" }
+"pam" = { evr = "1.6.1-9.el10_2.1", arch = "aarch64", source = "pam", repo = "baseos", sha256 = "87b6b37b92e2876faf3c64870fcd55cd9db5d6407bfc1f29c720d4a692012b0f" }
+"pam-libs" = { evr = "1.6.1-9.el10_2.1", arch = "aarch64", source = "pam", repo = "baseos", sha256 = "9cf4b0b505363b4c480f5558ed12278a9428e4970d42a52c6267343b418a5676" }
+"patch" = { evr = "2.7.6-26.el10", arch = "aarch64", source = "patch", repo = "appstream", sha256 = "e2b9344530e980e72aaab80f3eab37923a32cc50128208aa11ef936a90dfd3d0" }
+"pcre2" = { evr = "10.44-1.5.el10_2", arch = "aarch64", source = "pcre2", repo = "baseos", sha256 = "8f05139394558b39546314c17e9c5ea8599065f0a0cc628d4de1742c3c786dce" }
+"pcre2-syntax" = { evr = "10.44-1.5.el10_2", arch = "noarch", source = "pcre2", repo = "baseos", sha256 = "7069da1b3476490225e93c2511e42b906d7e14b52ae1bd11187ec5cef7f93316" }
+"perl-AutoLoader" = { evr = "5.74-515.el10_2", arch = "noarch", source = "perl", repo = "appstream", sha256 = "1b540d06f1b3584f80113b6c546b8864cd617dffbb8513045b03d7132e826012" }
+"perl-B" = { evr = "1.89-515.el10_2", arch = "aarch64", source = "perl", repo = "appstream", sha256 = "8b9cf479d8b5888a95e8abc987ef252d09baae97312a79b046060a50bc701b9c" }
+"perl-Carp" = { evr = "1.54-511.el10", arch = "noarch", source = "perl-Carp", repo = "appstream", sha256 = "f8ba8f4202ecfc9efb5bd7040d44690e5ad7f3bfe284325a4b8b65bdb26d5e77" }
+"perl-Class-Struct" = { evr = "0.68-515.el10_2", arch = "noarch", source = "perl", repo = "appstream", sha256 = "f67705171349b9de0f487263220dbf6cb9e59eb628540da756ce686222c81324" }
+"perl-Data-Dumper" = { evr = "2.189-512.el10", arch = "aarch64", source = "perl-Data-Dumper", repo = "appstream", sha256 = "da023169c49f0a4cd85a3c27204c1e6abd6d081e43ccfb307ac75d8f62340756" }
+"perl-Digest" = { evr = "1.20-511.el10", arch = "noarch", source = "perl-Digest", repo = "appstream", sha256 = "9f3f1c35ecaac233cd58aa91c4ab0426738d01ed848b2d324c8c313bf39b114b" }
+"perl-Digest-MD5" = { evr = "2.59-6.el10", arch = "aarch64", source = "perl-Digest-MD5", repo = "appstream", sha256 = "79bcd22d72ab1371f5017c777ec4aa8b24d37bc8005177d03127b9f842c7ea7e" }
+"perl-DynaLoader" = { evr = "1.56-515.el10_2", arch = "aarch64", source = "perl", repo = "appstream", sha256 = "6c63a74ec8194c328ca2396b615da2adace95aa6f423c1d71d53f859db4b434c" }
+"perl-Encode" = { evr = "4:3.21-511.el10", arch = "aarch64", source = "perl-Encode", repo = "appstream", sha256 = "17787f520927add0d2c90dc14022ff1b2ad18199377e7ac2e7d13149cc9abeae" }
+"perl-Errno" = { evr = "1.38-515.el10_2", arch = "aarch64", source = "perl", repo = "appstream", sha256 = "ef0c42ff86bf23bf0ea740d7365bb2680727c5c8fc613368448567835c855593" }
+"perl-Error" = { evr = "1:0.17029-18.el10", arch = "noarch", source = "perl-Error", repo = "appstream", sha256 = "a9e4f3346a6e8f4ff9b023039a50321727d3d6c11136de389e154ef3ed817f39" }
+"perl-Exporter" = { evr = "5.78-511.el10", arch = "noarch", source = "perl-Exporter", repo = "appstream", sha256 = "3c23ebc3c23a498244aabebf0f6ca0257daf33423885f615b3602700823e6c7b" }
+"perl-Fcntl" = { evr = "1.18-515.el10_2", arch = "aarch64", source = "perl", repo = "appstream", sha256 = "f14f7b9997cea96e7ec7a16971e4655ba3596fdadf04f0cac914e0d28d2d3f6f" }
+"perl-File-Basename" = { evr = "2.86-515.el10_2", arch = "noarch", source = "perl", repo = "appstream", sha256 = "20a9f2b8c608e5b9882e2d7cc64546b067e53ccd2148bbfee2b72c0bfae4b16b" }
+"perl-File-Path" = { evr = "2.18-512.el10", arch = "noarch", source = "perl-File-Path", repo = "appstream", sha256 = "28f643273a72c297e9f68c3f8cb8018852c7bcd97ac7cd974198a673e7fbdc14" }
+"perl-File-Temp" = { evr = "1:0.231.100-512.el10", arch = "noarch", source = "perl-File-Temp", repo = "appstream", sha256 = "f75fdad502e0d6efe61c5831dcf11f1fea523e167ccba431eb05d0600365722f" }
+"perl-File-stat" = { evr = "1.14-515.el10_2", arch = "noarch", source = "perl", repo = "appstream", sha256 = "f31ab167489a383653e674718b8132503908c89658587c11e60a45911165c658" }
+"perl-FileHandle" = { evr = "2.05-515.el10_2", arch = "noarch", source = "perl", repo = "appstream", sha256 = "fb1ce05e33fb4e041f6807b80f5895d12700cc578bc662ee3681533d04d61e27" }
+"perl-Getopt-Long" = { evr = "1:2.58-3.el10", arch = "noarch", source = "perl-Getopt-Long", repo = "appstream", sha256 = "0818ae10c8f3644563f58b19e11a50113fbb030a63134a3751cec0c4bd87e28b" }
+"perl-Getopt-Std" = { evr = "1.14-515.el10_2", arch = "noarch", source = "perl", repo = "appstream", sha256 = "49e8e4357d64fff7c22f72bda9bbab91c9393e87d6b40473e2f3e03a651d79ad" }
+"perl-Git" = { evr = "2.52.0-1.el10", arch = "noarch", source = "git", repo = "appstream", sha256 = "66a8681b55967b0ee941c7877acfced04340c7266373fcec6ab646b66f97fe50" }
+"perl-HTTP-Tiny" = { evr = "0.088-512.el10", arch = "noarch", source = "perl-HTTP-Tiny", repo = "appstream", sha256 = "2a09877a0cb847971f262574e289db1ab6011a6dae3b95252ad0abcf797146d3" }
+"perl-IO" = { evr = "1.55-515.el10_2", arch = "aarch64", source = "perl", repo = "appstream", sha256 = "4e5ae4f09808e570cdcd0c04f520b80eecd42cf1d8ede04de964fbbb081ebd00" }
+"perl-IO-Socket-IP" = { evr = "0.42-512.el10", arch = "noarch", source = "perl-IO-Socket-IP", repo = "appstream", sha256 = "e17497fb60842857e947028e41da4b669ca261b7c187442e39d3ebd7473534f7" }
+"perl-IO-Socket-SSL" = { evr = "2.085-3.el10", arch = "noarch", source = "perl-IO-Socket-SSL", repo = "appstream", sha256 = "7f673ad99f77da322add6a1a696d8d359b935db3da78ff503b224907f7d5ec06" }
+"perl-IPC-Open3" = { evr = "1.22-515.el10_2", arch = "noarch", source = "perl", repo = "appstream", sha256 = "2fe04d10b167fa28ece32046dc240d5132475190736ac8dda602198c8b51e0ae" }
+"perl-MIME-Base64" = { evr = "3.16-511.el10", arch = "aarch64", source = "perl-MIME-Base64", repo = "appstream", sha256 = "57953c7b222f50d367df7365dc2148ecd5c014e7e16bbcce3a72c473b3804acd" }
+"perl-Mozilla-CA" = { evr = "20231213-5.el10", arch = "noarch", source = "perl-Mozilla-CA", repo = "appstream", sha256 = "4eaa9fd20bb34e0f137061322ff6b023abe7db9276da1dd9a6687eefe0d98e57" }
+"perl-Net-SSLeay" = { evr = "1.94-8.el10", arch = "aarch64", source = "perl-Net-SSLeay", repo = "appstream", sha256 = "0fc3c64c9ab190dfb7cb62235e69238b3440fc7bcb03208eb6dc1c9dbd6c53ab" }
+"perl-POSIX" = { evr = "2.20-515.el10_2", arch = "aarch64", source = "perl", repo = "appstream", sha256 = "b5a948abcd4b0a1ce906a96de90ee1db256d3248392968439cff9c753be46161" }
+"perl-PathTools" = { evr = "3.91-512.el10", arch = "aarch64", source = "perl-PathTools", repo = "appstream", sha256 = "4f96faa1b89613df3f31a70c23d6db5abd738767ebaa80cfa879b8b2b196f8c2" }
+"perl-Pod-Escapes" = { evr = "1:1.07-511.el10", arch = "noarch", source = "perl-Pod-Escapes", repo = "appstream", sha256 = "a52f78ce58e47008e138a7ab77516abf7376cc800f399d57b22e6e600d4e90be" }
+"perl-Pod-Perldoc" = { evr = "3.28.01-512.el10", arch = "noarch", source = "perl-Pod-Perldoc", repo = "appstream", sha256 = "260f92316899b869ad998cb9df861b26d2fb69da37ca4fdaceb77416b74cfb5e" }
+"perl-Pod-Simple" = { evr = "1:3.45-511.el10", arch = "noarch", source = "perl-Pod-Simple", repo = "appstream", sha256 = "1c80846cd751a8d0cd6779e19acc2e9f93c627caa548522928abb64d7fcd4b59" }
+"perl-Pod-Usage" = { evr = "4:2.03-511.el10", arch = "noarch", source = "perl-Pod-Usage", repo = "appstream", sha256 = "b3aee0f405b0ac80a0967256eb3111cef6aa5c42023099692daa3d5eba819261" }
+"perl-Scalar-List-Utils" = { evr = "5:1.63-511.el10", arch = "aarch64", source = "perl-Scalar-List-Utils", repo = "appstream", sha256 = "7b465a1852e465c70261319fca7f0b2587a3e1f830fd7d6ae65b5f413fa84743" }
+"perl-SelectSaver" = { evr = "1.02-515.el10_2", arch = "noarch", source = "perl", repo = "appstream", sha256 = "7b99d763a3936e28b58fa9304fed7b558d8c71ad7e808a5751f3969dac867a76" }
+"perl-Socket" = { evr = "4:2.038-511.el10", arch = "aarch64", source = "perl-Socket", repo = "appstream", sha256 = "763bcccaf2b4e95a1a75a4c1e0eed77620319994576b53a75246e60ab7f4645b" }
+"perl-Storable" = { evr = "1:3.32-511.el10", arch = "aarch64", source = "perl-Storable", repo = "appstream", sha256 = "d048b53c1d52a33af2142e1a57c78ba05d8c799324fbe29b33723663613b975b" }
+"perl-Symbol" = { evr = "1.09-515.el10_2", arch = "noarch", source = "perl", repo = "appstream", sha256 = "6812dec84019716837e33bae8700473e5b2e874091c1a288a8dbb1726153c5c2" }
+"perl-Term-ANSIColor" = { evr = "5.01-512.el10", arch = "noarch", source = "perl-Term-ANSIColor", repo = "appstream", sha256 = "c757e16b96fdca79291ff666856b382e77f79e771346bdca9d1506c3fae8453b" }
+"perl-Term-Cap" = { evr = "1.18-511.el10", arch = "noarch", source = "perl-Term-Cap", repo = "appstream", sha256 = "e6c0e01f8d0170d762de6f3d481c064186b35aafb2afefa8218708b637e4ecb6" }
+"perl-TermReadKey" = { evr = "2.38-24.el10", arch = "aarch64", source = "perl-TermReadKey", repo = "appstream", sha256 = "c83b244fc17525944d74d07627656e91790d938bf8030b7b47bd0b6b017760a2" }
+"perl-Text-ParseWords" = { evr = "3.31-511.el10", arch = "noarch", source = "perl-Text-ParseWords", repo = "appstream", sha256 = "371701469ff48ff7c2fd9fa1903bdf1d449513352f8e8e26fec7c7f9f8f2585c" }
+"perl-Text-Tabs+Wrap" = { evr = "2024.001-511.el10", arch = "noarch", source = "perl-Text-Tabs+Wrap", repo = "appstream", sha256 = "f65456625bbdb4d7e02f8795ff00f2026f716382178d6a768f76dec7e6e638ca" }
+"perl-Time-Local" = { evr = "2:1.350-511.el10", arch = "noarch", source = "perl-Time-Local", repo = "appstream", sha256 = "3a4cb41e150dc2f774c690fc8257b7f5064a3b5b1f4f40cb5438e1d125224347" }
+"perl-URI" = { evr = "5.27-3.el10_2.1", arch = "noarch", source = "perl-URI", repo = "baseos", sha256 = "611eb7e29299e3e8f52bb171d6d8f6443251979af86b7d673d597c26e07700b3" }
+"perl-Unicode-Normalize" = { evr = "1.32-511.el10", arch = "aarch64", source = "perl-Unicode-Normalize", repo = "appstream", sha256 = "2335a7a8e232b0564c39e74cef30f0341d07bc30c44357899324128c58a81e87" }
+"perl-base" = { evr = "2.27-515.el10_2", arch = "noarch", source = "perl", repo = "appstream", sha256 = "9be41847f8862fdbf8b1e5c6e81cd416a80f62bffde4ab2cddf02837e9ce25ff" }
+"perl-constant" = { evr = "1.33-512.el10", arch = "noarch", source = "perl-constant", repo = "appstream", sha256 = "00221c59085f4a9ec4ebc5d547bcf5e3d9ec2ab3a057a0b351b4f0d029ecff74" }
+"perl-if" = { evr = "0.61.000-515.el10_2", arch = "noarch", source = "perl", repo = "appstream", sha256 = "d81719bd35a08f147b531c2c7251abb2fdd658f32d157ad322f18d5db317b398" }
+"perl-interpreter" = { evr = "4:5.40.2-515.el10_2", arch = "aarch64", source = "perl", repo = "appstream", sha256 = "56b32580dd5f2bd6aabde67758890a09f48495a8693a83633255590db51ab119" }
+"perl-lib" = { evr = "0.65-515.el10_2", arch = "aarch64", source = "perl", repo = "appstream", sha256 = "e57d01df82a99384d1cad5492494e2634c3fdfa1754fe0988ff9521ede96a231" }
+"perl-libnet" = { evr = "3.15-512.el10", arch = "noarch", source = "perl-libnet", repo = "appstream", sha256 = "1c7a64f05cf253c039ec909729408925c259d751fa764b47af823a4b5fac0ca1" }
+"perl-libs" = { evr = "4:5.40.2-515.el10_2", arch = "aarch64", source = "perl", repo = "appstream", sha256 = "6fda6a46419145c51701248f49031b932ef24a75021bbfffea54170c4dae2949" }
+"perl-locale" = { evr = "1.12-515.el10_2", arch = "noarch", source = "perl", repo = "appstream", sha256 = "c17fc22826e6adf2289f1e63d4d28f43d7938df26a23fabca9f891cd7a93313e" }
+"perl-mro" = { evr = "1.29-515.el10_2", arch = "aarch64", source = "perl", repo = "appstream", sha256 = "299d2596cebdf6b60d6d86e5f30429439a2d3b3eaad6647cfad4c7a2cb65b00c" }
+"perl-overload" = { evr = "1.37-515.el10_2", arch = "noarch", source = "perl", repo = "appstream", sha256 = "d3c7074b151fa50dc7404bf110e451f8a9847525e8e29fd17009086ae4ebb2e4" }
+"perl-overloading" = { evr = "0.02-515.el10_2", arch = "noarch", source = "perl", repo = "appstream", sha256 = "7696783c9ba2e5642cd1a30e303621daf02bf97a44f97abb2711b7d17befd20b" }
+"perl-parent" = { evr = "1:0.241-512.el10", arch = "noarch", source = "perl-parent", repo = "appstream", sha256 = "48d35217133b3b82b86419803e6e0f4b62e5f7eedc987e3c52ade2c541c6b8a9" }
+"perl-podlators" = { evr = "1:5.01-511.el10", arch = "noarch", source = "perl-podlators", repo = "appstream", sha256 = "0a91f03c8a56457bb7d9a11eebc0a6cbe714d2ba3db9a5c7b38e8895d59934a0" }
+"perl-srpm-macros" = { evr = "1-57.el10", arch = "noarch", source = "perl-srpm-macros", repo = "appstream", sha256 = "c36cdcd1cb756cfddedd26684ee17c6b160abb0b3fffe845457b3191a322d881" }
+"perl-vars" = { evr = "1.05-515.el10_2", arch = "noarch", source = "perl", repo = "appstream", sha256 = "93da3932faa665745d14ccf5a9ddd860f562d08fbe184619cd4a7b8b274fe012" }
+"pkgconf" = { evr = "2.1.0-3.el10", arch = "aarch64", source = "pkgconf", repo = "baseos", sha256 = "78623636893f9cd51632e6856f8e6817250deab5b5add3e8c3a6848b1f8005bd" }
+"pkgconf-m4" = { evr = "2.1.0-3.el10", arch = "noarch", source = "pkgconf", repo = "baseos", sha256 = "74cba7eb2aaa7c8bbc11f8125c01eb59b9be00fe60aa7f6b234ff448a7761824" }
+"pkgconf-pkg-config" = { evr = "2.1.0-3.el10", arch = "aarch64", source = "pkgconf", repo = "baseos", sha256 = "9186439fe29d864ef26ce730504556081e500b94a64cffd58d754b41423e1463" }
+"popt" = { evr = "1.19-8.el10", arch = "aarch64", source = "popt", repo = "baseos", sha256 = "675764511e80bf3e9515b824072389d7a658ce2b7f513dde6f516122496cfd25" }
+"pyproject-srpm-macros" = { evr = "1.18.5-1.el10", arch = "noarch", source = "pyproject-rpm-macros", repo = "appstream", sha256 = "a49c7fa2508c5f52795148b1c90a50523a47d6a585318c78acb4ecc59b49ef67" }
+"python-srpm-macros" = { evr = "3.12-11.el10", arch = "noarch", source = "python-rpm-macros", repo = "appstream", sha256 = "9407f3815a6838cb1cb4691d623bad32658714b15ee3d98a482741ed3dc51953" }
+"python3" = { evr = "3.12.15-1.el10_2", arch = "aarch64", source = "python3.12", repo = "baseos", sha256 = "6e1c97d74e4fb00dacbc7ea7129ddc79c60bc5750cbd346d7d444ef2f6a377f9" }
+"python3-dateutil" = { evr = "1:2.9.0.post0-1.el10_0", arch = "noarch", source = "python-dateutil", repo = "baseos", sha256 = "413ef82c586930a630f04ecd4f19416b4e48a677db2ff3b3fe3ca35a0353b5e4" }
+"python3-dbus" = { evr = "1.3.2-8.el10", arch = "aarch64", source = "dbus-python", repo = "baseos", sha256 = "0335fdd866a82a04e2e9149b61eb54f1046a764af4c0e7d21a9f08452f7be881" }
+"python3-dnf" = { evr = "4.20.0-22.el10_2.alma.1", arch = "noarch", source = "dnf", repo = "baseos", sha256 = "f245833ae65c085b2bb313c0272033750c12acfe319a3f2c55d85b1c37588f4c" }
+"python3-dnf-plugin-versionlock" = { evr = "4.7.0-10.el10", arch = "noarch", source = "dnf-plugins-core", repo = "baseos", sha256 = "2f7d1cc362a087288f197a1ba211280f9056ee9407c852a8206e3863b10452f2" }
+"python3-dnf-plugins-core" = { evr = "4.7.0-10.el10", arch = "noarch", source = "dnf-plugins-core", repo = "baseos", sha256 = "3e9a81c73c438c444d1459eec704ff8a321d42cdade6a96d19138e9c83d901cb" }
+"python3-hawkey" = { evr = "0.73.1-15.el10_2.alma.1", arch = "aarch64", source = "libdnf", repo = "baseos", sha256 = "a4677356198a8f7d42e6ad9dac7212658f3f91d713859c3b4affceffb468c839" }
+"python3-libcomps" = { evr = "0.1.21-3.el10", arch = "aarch64", source = "libcomps", repo = "baseos", sha256 = "3b85b031c684e77b801e05139cdc23e6774acfcedda7f30c0f52b999bd447b80" }
+"python3-libdnf" = { evr = "0.73.1-15.el10_2.alma.1", arch = "aarch64", source = "libdnf", repo = "baseos", sha256 = "eb9e8bb68a6f3f02729c82ffffced0fe3c308ba8684ac65d62deed2700946670" }
+"python3-libs" = { evr = "3.12.15-1.el10_2", arch = "aarch64", source = "python3.12", repo = "baseos", sha256 = "1a4fe817f58cb37675d306f1123af906940d734ac286b0825fa945ec77e0bcfc" }
+"python3-pip-wheel" = { evr = "23.3.2-11.el10_2", arch = "noarch", source = "python-pip", repo = "baseos", sha256 = "38af4bb101b0f4c095687c2234ab5fc35f0656c5fda22767489e960bed454472" }
+"python3-rpm" = { evr = "4.19.1.1-23.el10.alma.1", arch = "aarch64", source = "rpm", repo = "baseos", sha256 = "e36848d10314400a7f9e1293e479aaefdd4fcae7884f52fdb5d9e8e455d2833d" }
+"python3-six" = { evr = "1.16.0-16.el10", arch = "noarch", source = "python-six", repo = "baseos", sha256 = "c3f50a6cf8baae82a41a9da61aab88616e44d0e4cae7a86521539199a885c106" }
+"python3-systemd" = { evr = "235-11.el10", arch = "aarch64", source = "python-systemd", repo = "baseos", sha256 = "1ad5e9be0049ed9c3598bcf76544bf56e37ca3e352c1565840bdc8bd21a4d6a5" }
+"qt6-srpm-macros" = { evr = "6.10.1-1.el10", arch = "noarch", source = "qt6", repo = "appstream", sha256 = "894de6c329420bfac338492dbd3c77c6100f22775702f395c4d212f082abd6dd" }
+"readline" = { evr = "8.2-11.el10", arch = "aarch64", source = "readline", repo = "baseos", sha256 = "3a0e19ecd07c1cf9269a7dabb57c6c6426172112d78e0f7228cead17690cb716" }
+"redhat-rpm-config" = { evr = "295-1.el10.alma.1", arch = "noarch", source = "redhat-rpm-config", repo = "appstream", sha256 = "e20c50076fdca77b99fca2f5892836022bd5a612e45b2b615494c123fe682873" }
+"rootfiles" = { evr = "8.1-54.el10", arch = "noarch", source = "rootfiles", repo = "baseos", sha256 = "d5ad82249e644cefb1e8c8ce64ff717a06df68e121183650ef13a104a220795d" }
+"rpm" = { evr = "4.19.1.1-23.el10.alma.1", arch = "aarch64", source = "rpm", repo = "baseos", sha256 = "4bf5bc6286dffecd825e9ba0a8dcce0d54439da03a3c7c5703e46d13eae5fdab" }
+"rpm-build" = { evr = "4.19.1.1-23.el10.alma.1", arch = "aarch64", source = "rpm", repo = "appstream", sha256 = "aaccb6a75045304e3d09bc3566c08462c39d30cf8ea3281dc2a8c62c1e64f809" }
+"rpm-build-libs" = { evr = "4.19.1.1-23.el10.alma.1", arch = "aarch64", source = "rpm", repo = "baseos", sha256 = "38f5575408e098669b773ca1670cc38997f02819e7e1ff388f62710d891b53a5" }
+"rpm-libs" = { evr = "4.19.1.1-23.el10.alma.1", arch = "aarch64", source = "rpm", repo = "baseos", sha256 = "1f61b2dce8db0fab8c3e0032606fefa62c8c5d546dc9eba10cea29a15debbfc8" }
+"rpm-sequoia" = { evr = "1.10.2.1-1.el10_2", arch = "aarch64", source = "rust-rpm-sequoia", repo = "baseos", sha256 = "aa7ad81a0f4a78036fca5475aeda7667ec441f5acaa8ceaf0509de41b36fe994" }
+"rpm-sign-libs" = { evr = "4.19.1.1-23.el10.alma.1", arch = "aarch64", source = "rpm", repo = "baseos", sha256 = "ffe43846199296c5a036f10a8d153dd5182b05a62880929e2cd5d6ac95752ce2" }
+"rust-toolset-srpm-macros" = { evr = "1.92.0-2.el10_2.alma.1", arch = "noarch", source = "rust", repo = "appstream", sha256 = "0ceeb326c7211eeb9140d0ea6d45b8d21a41469f24b87463f3b664fe7fd67c4d" }
+"sed" = { evr = "4.9-5.el10", arch = "aarch64", source = "sed", repo = "baseos", sha256 = "0868ca8ad17b5d571b6ac037fdd3bcf5025a2538703477e77068175ff880d7ab" }
+"setup" = { evr = "2.14.5-7.el10", arch = "noarch", source = "setup", repo = "baseos", sha256 = "4065c6f500ac20468530177b1a6012145c490c018a5d2812c951b0b7e919bc5b" }
+"shadow-utils" = { evr = "2:4.15.0-11.el10", arch = "aarch64", source = "shadow-utils", repo = "baseos", sha256 = "76d5cacf55c7728ef2357ad6f0b12f023c76ab00d16fc13ca2a3e7099b0e4c4d" }
+"sqlite-libs" = { evr = "3.46.1-6.el10_2", arch = "aarch64", source = "sqlite", repo = "baseos", sha256 = "e63ba95d09d17e86d16752ade472827928031ca609322412c4f9b7ba8d0d8920" }
+"sudo" = { evr = "1.9.17-10.p2.el10_2.7", arch = "aarch64", source = "sudo", repo = "baseos", sha256 = "e9ba1ff396107fb284887838e9917f110e206278cfb1a7e7b6cbe27fa8984eb3" }
+"systemd" = { evr = "257-23.el10_2.2.alma.1", arch = "aarch64", source = "systemd", repo = "baseos", sha256 = "6892f1d0c22fe69f715f074af8f6aa3c2948ce3de99b2ac70ab4bb4a3868c0d2" }
+"systemd-libs" = { evr = "257-23.el10_2.2.alma.1", arch = "aarch64", source = "systemd", repo = "baseos", sha256 = "ed54d45013b60571bd38b9a60e66307886a1e284c9098d86a716d36ed6760927" }
+"systemd-pam" = { evr = "257-23.el10_2.2.alma.1", arch = "aarch64", source = "systemd", repo = "baseos", sha256 = "5a88a6c9d7067bb70330a4b3a3adff313b36a164c835bae3c7db5de1c20a83d4" }
+"systemd-rpm-macros" = { evr = "257-23.el10_2.2.alma.1", arch = "noarch", source = "systemd", repo = "baseos", sha256 = "25a6ab6794dbe66dcaef12fe741c73df6fb52e85ec705973071b879d9a20cdcd" }
+"tar" = { evr = "2:1.35-13.el10_2", arch = "aarch64", source = "tar", repo = "baseos", sha256 = "6019ab0050f811aad3189850eac2b57b976f910751e8403f6fe255dd2c7a132f" }
+"tpm2-tss" = { evr = "4.1.3-6.el10", arch = "aarch64", source = "tpm2-tss", repo = "baseos", sha256 = "1d3ae3420630ec2f15318854d8fe88412d372e0388b64280340ad8ebd0c825af" }
+"tzdata" = { evr = "2026e-1.el10_2.alma.1", arch = "noarch", source = "tzdata", repo = "baseos", sha256 = "cd8f4ea4dc6eb7938fd4a8e86a998c133731749cd7706f12ebd4c479f7ab659e" }
+"unzip" = { evr = "6.0-69.el10", arch = "aarch64", source = "unzip", repo = "baseos", sha256 = "e08abb02f10992783b4e1f5bd8b3ead1974dc3d7cde7803eea8c88b2dfc32218" }
+"usermode" = { evr = "1.114-14.el10", arch = "aarch64", source = "usermode", repo = "baseos", sha256 = "bde9a22b03eae6e810ccfc4e5d013f792b12305b9fddf014b7ddccff01024f27" }
+"util-linux" = { evr = "2.40.2-18.el10", arch = "aarch64", source = "util-linux", repo = "baseos", sha256 = "20ae6621b5d3baa0ec4e88719922f16a7adedacd31ce3ff6dbca65c51e1fde7d" }
+"util-linux-core" = { evr = "2.40.2-18.el10", arch = "aarch64", source = "util-linux", repo = "baseos", sha256 = "53755e78ad4a0a981ddea2ff4303801e94ff23b61bb2426085595c1fbcf6875c" }
+"vim-data" = { evr = "2:9.1.083-9.el10_2.22", arch = "noarch", source = "vim", repo = "baseos", sha256 = "20cc01ac4de62fb5162d82ed7f44e55460ce124b5fe9e70a8956f72cfc755924" }
+"vim-minimal" = { evr = "2:9.1.083-9.el10_2.22", arch = "aarch64", source = "vim", repo = "baseos", sha256 = "ed6859a20124376fc32fcf125da07b615f08e8e463e25b9ec5d9049d974fe6c9" }
+"virt-what" = { evr = "1.27-3.el10", arch = "aarch64", source = "virt-what", repo = "baseos", sha256 = "83153297d7beeef95ca6ccdf32e020bb11b289d6beb71321a587333ddac5a436" }
+"which" = { evr = "2.21-44.el10_0", arch = "aarch64", source = "which", repo = "baseos", sha256 = "f54bce405945abbce9a7c8b2ab947b92186acd70d871d8f401ab6c25ebc46a40" }
+"xxhash-libs" = { evr = "0.8.4-1.el10_3", arch = "aarch64", source = "xxhash", repo = "epel-fedora", sha256 = "8e083c4df8adf1b9e2acedc9010e487e6161af1effec348ab0e2ec0a20c47154" }
+"xz" = { evr = "1:5.6.2-4.el10_2.1", arch = "aarch64", source = "xz", repo = "baseos", sha256 = "50e2d5e40610767308a0f2ed6ae446d81e72264ba7866dd637c3b8d22f070272" }
+"xz-libs" = { evr = "1:5.6.2-4.el10_2.1", arch = "aarch64", source = "xz", repo = "baseos", sha256 = "bd12ebafe1715a3ad2a46e9c04bad743a5488d22fb5877504a376dedfd61f3f3" }
+"yum" = { evr = "4.20.0-22.el10_2.alma.1", arch = "noarch", source = "dnf", repo = "baseos", sha256 = "ee532b19c95943983ab7515b85d154e9f17de37c89e162a90f6a1a6ba8c1b2ef" }
+"zip" = { evr = "3.0-45.el10", arch = "aarch64", source = "zip", repo = "baseos", sha256 = "112dec06ef61fb7c052028e28082a5ef184953a0407326f322980ba2d38604d9" }
+"zlib-ng-compat" = { evr = "2.2.3-3.el10_1", arch = "aarch64", source = "zlib-ng", repo = "baseos", sha256 = "a62949e0682aa706f3d523c0361d31965779e13d63d40432ed70edbc3406e771" }
+"zstd" = { evr = "1.5.5-9.el10", arch = "aarch64", source = "zstd", repo = "baseos", sha256 = "41c75b0b9faa6c8613d4035f15e5b4eaefcc822ce5e6c86acad38b2d75288356" }
+
+[buildroots]

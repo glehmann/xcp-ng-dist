@@ -1,0 +1,12 @@
+[project]
+name = "xcp-ng-dist"
+version = "0"
+description = "The XCP-ng distribution, built by xcraft"
+requires-python = ">=3.13"
+dependencies = ["xcraft"]
+
+[tool.uv]
+package = false
+
+[tool.uv.sources]
+xcraft = { git = "https://github.com/glehmann/xcraft", rev = "df75c8dffd329b24adb53191f171030aa97768b7" }
