@@ -8,7 +8,7 @@ Summary: Common XCP-ng Python classes
 Name: xcp-python-libs
 Version: 3.0.10
 Release: %{?xsrel}.1.0.ydi.1%{?dist}
-Source0: xcp-python-libs-3.0.10.tar.gz
+Source0: https://github.com/xcp-ng-rpms/xcp-python-libs/raw/fc50b2ec831fdc67a256397fc82c57526efe268c/SOURCES/xcp-python-libs-3.0.10.tar.gz
 Patch0: 0001-Remove-setuptools_scm.patch
 Patch1: 0001-Enhance-Bootloader-with-optional-set-prefix.patch
 %define __python python3

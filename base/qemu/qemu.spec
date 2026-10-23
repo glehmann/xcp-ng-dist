@@ -21,8 +21,8 @@ Requires: xcp-clipboardd
 ## We broke an interface used by xenopsd-xc without version signalling
 ## so we have to carry a conflicts line to say we broke it.
 Conflicts: xenopsd-xc < 0.123.0
-Source0: qemu-10.1.0.tar.gz
-Source2: keycodemapdb-f5772a62ec52591ff6870b7e8ef32482371f22c6.tar.gz
+Source0: https://github.com/xcp-ng-rpms/qemu/raw/61aa25c481166f04193094d866ccb89948e6f37f/SOURCES/qemu-10.1.0.tar.gz
+Source2: https://github.com/xcp-ng-rpms/qemu/raw/61aa25c481166f04193094d866ccb89948e6f37f/SOURCES/keycodemapdb-f5772a62ec52591ff6870b7e8ef32482371f22c6.tar.gz
 Patch0: 0001-hw-xen-pass-PCI-domain-to-xc_physdev_map_pirq_msi.patch
 Patch1: hw-ide__check_null_block_before__cancel_dma_sync.patch
 Patch2: xen-platform-add-device-id-property.patch

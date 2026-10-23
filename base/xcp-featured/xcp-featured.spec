@@ -5,7 +5,7 @@ Summary:        XCP-ng feature daemon
 Group:          System/Hypervisor
 License:        ISC
 URL:            https://github.com/xcp-ng/xcp-featured
-Source0:        https://github.com/xcp-ng/xcp-featured/archive/v%{version}/xcp-featured-%{version}.tar.gz
+Source0:        https://github.com/xcp-ng-rpms/xcp-featured/raw/2b6c8af786f10c06a8711227b7265f34c5317586/SOURCES/xcp-featured-1.1.8.tar.gz
 Source1:        v6d.service
 BuildRequires:  systemd-devel
 BuildRequires:  xs-opam-repo

@@ -7,7 +7,7 @@ URL:     https://github.com/vatesfr/xen-orchestra
 
 BuildArch: noarch
 
-Source0: https://github.com/vatesfr/xen-orchestra/releases/download/%{name}-v%{version}/%{name}-%{version}.tar.gz
+Source0: https://github.com/xcp-ng-rpms/xo-lite/raw/854d9290f7244126f9336382db104c18bb107f4d/SOURCES/xo-lite-0.26.0.tar.gz
 
 %description
 This package contains Xen Orchestra Lite, a lightweight version of the Xen

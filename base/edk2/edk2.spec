@@ -7,25 +7,25 @@ Release: 1%{?dist}
 
 License: BSD and MIT
 URL: https://github.com/tianocore/edk2
-Source0: edk2-stable%{version}.tar.gz
+Source0: https://github.com/xcp-ng-rpms/edk2/raw/55fb9cda7f27d634a958977f4f2eed8e7adca4cc/SOURCES/edk2-stable202602.tar.gz
 Source1: calc-pcrs.py
 
 # https://github.com/google/brotli/archive/e230f474b87134e8c6c85b630084c612057f253e.tar.gz
-Source2: brotli-e230f474b87134e8c6c85b630084c612057f253e.tar.gz
+Source2: https://github.com/xcp-ng-rpms/edk2/raw/55fb9cda7f27d634a958977f4f2eed8e7adca4cc/SOURCES/brotli-e230f474b87134e8c6c85b630084c612057f253e.tar.gz
 # https://github.com/ARMmbed/mbedtls/archive/e185d7fd85499c8ce5ca2a54f5cf8fe7dbe3f8df.tar.gz
-Source3: mbedtls-e185d7fd85499c8ce5ca2a54f5cf8fe7dbe3f8df.tar.gz
+Source3: https://github.com/xcp-ng-rpms/edk2/raw/55fb9cda7f27d634a958977f4f2eed8e7adca4cc/SOURCES/mbedtls-e185d7fd85499c8ce5ca2a54f5cf8fe7dbe3f8df.tar.gz
 # https://github.com/openssl/openssl/archive/aea7aaf2abb04789f5868cbabec406ea43aa84bf.tar.gz
-Source4: openssl-aea7aaf2abb04789f5868cbabec406ea43aa84bf.tar.gz
+Source4: https://github.com/xcp-ng-rpms/edk2/raw/55fb9cda7f27d634a958977f4f2eed8e7adca4cc/SOURCES/openssl-aea7aaf2abb04789f5868cbabec406ea43aa84bf.tar.gz
 # https://github.com/kkos/oniguruma/archive/4ef89209a239c1aea328cf13c05a2807e5c146d1.tar.gz
-Source5: oniguruma-4ef89209a239c1aea328cf13c05a2807e5c146d1.tar.gz
+Source5: https://github.com/xcp-ng-rpms/edk2/raw/55fb9cda7f27d634a958977f4f2eed8e7adca4cc/SOURCES/oniguruma-4ef89209a239c1aea328cf13c05a2807e5c146d1.tar.gz
 # https://github.com/devicetree-org/pylibfdt/archive/cfff805481bdea27f900c32698171286542b8d3c.tar.gz
-Source6: pylibfdt-cfff805481bdea27f900c32698171286542b8d3c.tar.gz
+Source6: https://github.com/xcp-ng-rpms/edk2/raw/55fb9cda7f27d634a958977f4f2eed8e7adca4cc/SOURCES/pylibfdt-cfff805481bdea27f900c32698171286542b8d3c.tar.gz
 # https://github.com/MIPI-Alliance/public-mipi-sys-t/archive/370b5944c046bab043dd8b133727b2135af7747a.tar.gz
-Source7: public-mipi-sys-t-370b5944c046bab043dd8b133727b2135af7747a.tar.gz
+Source7: https://github.com/xcp-ng-rpms/edk2/raw/55fb9cda7f27d634a958977f4f2eed8e7adca4cc/SOURCES/public-mipi-sys-t-370b5944c046bab043dd8b133727b2135af7747a.tar.gz
 # https://github.com/akheron/jansson/archive/e9ebfa7e77a6bee77df44e096b100e7131044059.tar.gz
-Source8: jansson-e9ebfa7e77a6bee77df44e096b100e7131044059.tar.gz
+Source8: https://github.com/xcp-ng-rpms/edk2/raw/55fb9cda7f27d634a958977f4f2eed8e7adca4cc/SOURCES/jansson-e9ebfa7e77a6bee77df44e096b100e7131044059.tar.gz
 # https://github.com/DMTF/libspdm/archive/1be116c7b7713fa9003e1bd53b53a34758549eb9.tar.gz
-Source9: libspdm-1be116c7b7713fa9003e1bd53b53a34758549eb9.tar.gz
+Source9: https://github.com/xcp-ng-rpms/edk2/raw/55fb9cda7f27d634a958977f4f2eed8e7adca4cc/SOURCES/libspdm-1be116c7b7713fa9003e1bd53b53a34758549eb9.tar.gz
 
 # XCP-ng branding
 Source1001: Logo.bmp

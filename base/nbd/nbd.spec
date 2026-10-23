@@ -9,7 +9,7 @@ Release: %{?xsrel}.1%{?dist}
 Summary: Network Block Device user-space tools (TCP version)
 License: GPL-2.0-only
 URL:     https://github.com/NetworkBlockDevice/nbd
-Source0: nbd-3.25.tar.xz
+Source0: https://github.com/xcp-ng-rpms/nbd/raw/8daf62a4be3298d37425be88982dd9fe5746a0cf/SOURCES/nbd-3.25.tar.xz
 Source1: nbd-server.service
 Source2: nbd-server.sysconfig
 Patch0: netlink-report-failure.patch

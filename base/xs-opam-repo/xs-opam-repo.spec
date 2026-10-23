@@ -25,7 +25,7 @@ Summary: Build and install OCaml libraries from Opam repository
 # keep these in sync.
 License: Apache-1.0 and Apache-2.0 and BSD-2-Clause and BSD-3-Clause and curl and GPL-1.0-or-later and GPL-2.0-only and GPL-3.0-or-later and ISC and LGPL-2.0-only WITH OCaml-LGPL-linking-exception and LGPL-2.0-or-later WITH OCaml-LGPL-linking-exception and LGPL-2.1-only and LGPL-2.1-only WITH OCaml-LGPL-linking-exception and LGPL-2.1-or-later WITH OCaml-LGPL-linking-exception and LGPL-2.1-or-later WITH OpenSSL-linking-exception and LGPL-3.0-only and MIT and PSF-2.0
 URL:     https://github.com/xapi-project/xs-opam
-Source0: xs-opam-repo-6.99.0.tar.gz
+Source0: https://github.com/xcp-ng-rpms/xs-opam-repo/raw/3042cb63652fe1e6654771c4c12473416bdade0c/SOURCES/xs-opam-repo-6.99.0.tar.gz
 Source1: host-arch-arm64.1.opam
 # To "pin" a package during development, see below the example
 # where ezxenstore is pinned to an internal master branch.

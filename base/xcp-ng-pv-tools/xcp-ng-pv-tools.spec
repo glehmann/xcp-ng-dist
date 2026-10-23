@@ -40,7 +40,7 @@ URL: https://github.com/xcp-ng/xe-guest-utilities
 # git archive $XGUVERSION-XS_with_install_sh --prefix=xe-guest-utilities/ --format tar.gz -o xe-guest-utilities-$XGUVERSION-with_install_sh.tar.gz
 # When upstream will finally add install.sh to their repo, then this will become simpler
 # Note: we don't include the version in --prefix to workaround https://github.com/xenserver/xe-guest-utilities/issues/128
-Source0: xe-guest-utilities-%{xgu_version}-with_install_sh.tar.gz
+Source0: https://github.com/xcp-ng-rpms/xcp-ng-pv-tools/raw/cc5780f950b8eb7f127ee0ff0853c3a57da625da/SOURCES/xe-guest-utilities-7.30.0-with_install_sh.tar.gz
 Source1: README.txt
 Source2: sr_rescan
 Source3: unmount_xstools.sh
@@ -55,7 +55,7 @@ Source15: debian-postrm
 Source16: debian-prerm
 Source17: debian-rules
 
-Source100: %{winpv_version_x64}.zip
+Source100: https://github.com/xcp-ng-rpms/xcp-ng-pv-tools/raw/cc5780f950b8eb7f127ee0ff0853c3a57da625da/SOURCES/xcpng-winpv-9.2.385.0-Release-x64.zip
 Source101: XenTools-fix-9.2.351.msp
 
 Patch0: LICENSE.patch

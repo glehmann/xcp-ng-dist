@@ -9,7 +9,7 @@ Version: 4.1.12
 Release: 1%{?xsrel}.1%{?dist}
 License: LGPL
 URL:  https://github.com/xapi-project/sm
-Source0: sm-4.1.12.tar.gz
+Source0: https://github.com/xcp-ng-rpms/sm/raw/8a4fab59827c849f6a2d7051a5804e52f782e73c/SOURCES/sm-4.1.12.tar.gz
 
 %define __python python3
 

@@ -10,7 +10,7 @@ Version: 11.0.26
 Release: 0.ydi.25%{?dist}
 License: GPLv2
 Group: Applications/System
-Source0: host-installer-%{version}.tar.gz
+Source0: https://github.com/xcp-ng-rpms/host-installer/raw/2fdb84dd36645c7c9cb6f70717fc0ac38bfab552/SOURCES/host-installer-11.0.26.tar.gz
 
 # backport feature/host-netdev-order
 Patch00: 0001-CP-54081-Remove-interface-rename-sideway-service.patch

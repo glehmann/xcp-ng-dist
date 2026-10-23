@@ -36,7 +36,7 @@ Release: 1%{?xsrel}.3%{?dist}
 Group:   System/Hypervisor
 License: LGPL-2.1-or-later WITH OCaml-LGPL-linking-exception
 URL:  http://www.xen.org
-Source0: xen-api-26.4.0.tar.gz
+Source0: https://github.com/xcp-ng-rpms/xapi/raw/38d02c2ea319cee6d4bf9340ae96fbce7255ccac/SOURCES/xen-api-26.4.0.tar.gz
 Source1: xenopsd-xc.service
 Source2: xenopsd-simulator.service
 Source3: xenopsd-sysconfig

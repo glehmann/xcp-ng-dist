@@ -9,7 +9,7 @@ Release: 1%{dist}
 License: GPLv2
 Summary: Header files for the Linux kernel for use by glibc
 URL: https://www.kernel.org/
-Source0: linux-%{version}.tar.xz
+Source0: https://github.com/xcp-ng-rpms/kernel/raw/eca2e2ab244b6d610fbb0889ae68e5c9c66007f3/SOURCES/linux-6.12.0.tar.xz
 BuildRequires: gcc
 BuildRequires: make
 BuildRequires: rsync

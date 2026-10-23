@@ -8,7 +8,7 @@ Release: 1%{?xsrel}.1%{?dist}
 License: BSD
 Group: System/Hypervisor
 URL: https://github.com/xapi-project/blktap
-Source0: blktap-4.0.8.tar.gz
+Source0: https://github.com/xcp-ng-rpms/blktap/raw/4522b3af606546217aa758fbe1ca78ddd45ca75b/SOURCES/blktap-4.0.8.tar.gz
 
 BuildRoot: %{_tmppath}/%{name}-%{release}-buildroot
 Obsoletes: xen-blktap < 4

@@ -10,7 +10,7 @@ URL:            https://github.com/xcp-ng/branding-xcp-ng
 # archives are exported this way from the source repository:
 # export VER=8.3.0; git archive --format tgz master . --prefix branding-xcp-ng-$VER/ -o /path/to/SOURCES/branding-xcp-ng-$VER.tar.gz
 # Document the git hash of the commit corresponding to the tarball in the Release tag. Example: 2.d5ffe4d.
-Source0:        https://github.com/xcp-ng/branding-xcp-ng/archive/v%{version}/branding-xcp-ng-%{version}.tar.gz
+Source0:        https://github.com/xcp-ng-rpms/branding-xcp-ng/raw/87eb016b9fd31ab1f9c943f3e31826315195697d/SOURCES/branding-xcp-ng-8.99.0.tar.gz
 BuildArch:      noarch
 Requires:       python3
 

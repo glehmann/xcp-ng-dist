@@ -9,7 +9,7 @@ Release:        %{?xsrel}.1%{?dist}
 Summary:        Source-based OCaml package manager
 License:        LGPL-2.1-only WITH OCaml-LGPL-linking-exception
 URL:            https://github.com/ocaml/opam
-Source0: opam-full-2.5.2.tar.gz
+Source0: https://github.com/xcp-ng-rpms/opam/raw/728bdc9e1f0911eed20cc4f5f6fb80702fd1103b/SOURCES/opam-full-2.5.2.tar.gz
 BuildRequires:  make
 BuildRequires:  curl
 BuildRequires:  git

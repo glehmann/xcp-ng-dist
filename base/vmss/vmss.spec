@@ -7,7 +7,7 @@ Version: 1.2.1
 Release: %{?xsrel}%{?dist}
 Summary: REQ-277 schedule snapshots feature
 License: GNU / GPLv2
-Source0: vmss-1.2.1.tar.gz
+Source0: https://github.com/xcp-ng-rpms/vmss/raw/118977ebc482664394152fcb9cda80173836cf8f/SOURCES/vmss-1.2.1.tar.gz
 BuildArch: noarch
 BuildRequires: python3-devel
 

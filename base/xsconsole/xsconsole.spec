@@ -8,7 +8,7 @@ Version: 11.1.2
 Release: %{?xsrel}.0.ydi.3%{?dist}
 License: GPL2
 Group: Administration/System
-Source0: xsconsole-%{version}.tar.gz
+Source0: https://github.com/xcp-ng-rpms/xsconsole/raw/da9df1cdca10f21f41cfa06f6437b99fce913b79/SOURCES/xsconsole-11.1.2.tar.gz
 Provides: xsconsole0
 BuildRequires: python3-devel
 BuildRequires: systemd

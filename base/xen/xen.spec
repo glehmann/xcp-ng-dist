@@ -35,7 +35,7 @@ Version: 4.21.2
 Release: %{?xsrel}.4%{?dist}
 License: GPLv2 and LGPLv2 and MIT and Public Domain
 URL:     https://www.xenproject.org
-Source0: xen-4.21.2.tar.gz
+Source0: https://github.com/xcp-ng-rpms/xen/raw/d2c2e6732e21bb796e851846011373090179980a/SOURCES/xen-4.21.2.tar.gz
 Source1: sysconfig_kernel-xen
 Source2: xl.conf
 Source3: logrotate-xen-tools

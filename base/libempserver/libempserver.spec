@@ -6,7 +6,7 @@ Name: libempserver
 Version: 1.1.1
 Release: %{?xsrel}%{?dist}
 License: BSD
-Source0: libempserver-1.1.1.tar.gz
+Source0: https://github.com/xcp-ng-rpms/libempserver/raw/1b6c61901885ec3f54bda576eb1dfb5a031b9ed4/SOURCES/libempserver-1.1.1.tar.gz
 
 BuildRequires: gcc
 BuildRequires: json-c-devel

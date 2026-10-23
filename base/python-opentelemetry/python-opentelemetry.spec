@@ -45,11 +45,11 @@ Summary:        OpenTelemetry Python API and SDK
 
 License:        ASL 2.0
 URL:            https://github.com/open-telemetry/opentelemetry-python
-Source0:        %{url}/archive/v%{version}/opentelemetry-python-%{version}.tar.gz
+Source0:        https://github.com/xcp-ng-rpms/python-opentelemetry/raw/71d48712f79ad157ab1bd9ce9c17643b0a1723d5/SOURCES/opentelemetry-python-1.12.0.tar.gz
 # Note that we do not currently use this source, but it contains the original
 # .proto files for python3-opentelemetry-proto, so we must include it.
 %global proto_url https://github.com/open-telemetry/opentelemetry-proto
-Source1:        %{proto_url}/archive/v%{proto_version}/opentelemetry-proto-%{proto_version}.tar.gz
+Source1:        https://github.com/xcp-ng-rpms/python-opentelemetry/raw/71d48712f79ad157ab1bd9ce9c17643b0a1723d5/SOURCES/opentelemetry-proto-0.17.0.tar.gz
 
 BuildRequires:  python3-devel
 # opentelemetry-exporter-opencensus install_requires: setuptools >= 16.0

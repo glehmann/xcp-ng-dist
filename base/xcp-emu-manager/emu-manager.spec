@@ -8,7 +8,7 @@ Release:        3%{?dist}
 Summary:        Tool used for managing xenguest
 License:        GPLv3
 URL:            https://github.com/xcp-ng/xcp-emu-manager
-Source0:        https://github.com/xcp-ng/xcp-emu-manager/archive/v%{version}/%{name}-%{version}.tar.gz
+Source0:        https://github.com/xcp-ng-rpms/xcp-emu-manager/raw/c1d1cf4b15c75abc08157564132c712f010719bc/SOURCES/xcp-emu-manager-1.2.1.tar.gz
 
 BuildRequires:  cmake3
 BuildRequires:  make

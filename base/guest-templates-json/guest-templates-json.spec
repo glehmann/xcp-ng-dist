@@ -5,7 +5,7 @@ Summary: Creates the default guest templates
 Version: 2.1.1
 Release: 1%{?xsrel}.1%{?dist}
 License: BSD
-Source0: guest-templates-json-2.1.1.tar.gz
+Source0: https://github.com/xcp-ng-rpms/guest-templates-json/raw/37f9cdab2330b77b7a51fa07ae062f030137e3cb/SOURCES/guest-templates-json-2.1.1.tar.gz
 
 # XCP-ng patches
 Source1000: centos-stream-8.json

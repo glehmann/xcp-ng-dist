@@ -10,7 +10,7 @@ Summary:        Objective CAML package manager and build helper
 License:        MIT
 
 URL:            http://projects.camlcity.org/projects/findlib.html
-Source0: findlib-1.9.8.tar.gz
+Source0: https://github.com/xcp-ng-rpms/ocaml-findlib/raw/127bafba6b4fb1ab4c456ef4154ffbdc1bde0c46/SOURCES/findlib-1.9.8.tar.gz
 Patch0: ocaml-findlib-toolbox.patch
 
 BuildRequires:  gcc

@@ -4,7 +4,7 @@ Release:        10%{?dist}
 Summary:        Daemon to share a virtualized Windows clipboard
 License:        GPLv3
 URL:            https://github.com/xcp-ng/xcp-clipboardd
-Source0:        https://github.com/xcp-ng/xcp-clipboardd/archive/v%{version}/%{name}-%{version}.tar.gz
+Source0:        https://github.com/xcp-ng-rpms/xcp-clipboardd/raw/e2112b7fb14af724ade67080d069393fd92407cc/SOURCES/xcp-clipboardd-1.0.3.tar.gz
 
 BuildRequires:  cmake
 BuildRequires:  make

@@ -5,7 +5,7 @@ Summary:	Extremely simple MTA to get mail off the system to a Mailhub
 Group:		Applications/Internet
 License:	GPLv2+
 URL:		http://packages.debian.org/stable/mail/ssmtp
-Source0:	ftp://ftp.debian.org/debian/pool/main/s/%{name}/%{name}_%{version}.orig.tar.bz2
+Source0:	https://github.com/xcp-ng-rpms/ssmtp/raw/89bbcb18ae94ed26185456a6ed93e75282f896b9/SOURCES/ssmtp_2.64.orig.tar.bz2
 Source1:	mailq.8
 Source2:	newaliases.8
 # http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=340803

@@ -11,7 +11,7 @@ Version: 20180514gite7f67d5
 Release: %{?xsrel}%{?dist}
 
 License: GPLv2
-Source0: ipxe-efi-20180514gite7f67d5.tar.gz
+Source0: https://github.com/xcp-ng-rpms/ipxe-efi/raw/8240530eda8471c08ce9b3adb28db659ef082916/SOURCES/ipxe-efi-20180514gite7f67d5.tar.gz
 Patch0: 0001-efi-Exclude-link-layer-header-length-from-MaxPacketS.patch
 Patch1: increase-heap-size.patch
 Patch2: realtek-increase-rx-desc.patch

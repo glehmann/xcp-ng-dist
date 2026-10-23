@@ -6,7 +6,7 @@ Version: 10.2.2
 Release: 1%{?xsrel}%{?dist}
 License: GPL
 Group: System/Hypervisor
-Source0: vncterm-10.2.2.tar.gz
+Source0: https://github.com/xcp-ng-rpms/vncterm/raw/2c9abca4b0640b1f9a15d356be6bdd866a08063f/SOURCES/vncterm-10.2.2.tar.gz
 BuildRequires: xen-libs-devel systemd
 BuildRequires: gcc
 %{?_cov_buildrequires}

@@ -5,7 +5,7 @@ Release: 33%{?dist}
 # Automatically converted from old format: GPL+ and GPLv2+ and LGPLv2+ - review is highly recommended.
 License: GPL-1.0-or-later AND GPL-2.0-or-later AND LicenseRef-Callaway-LGPLv2+
 URL: http://v3.sk/~lkundrak/dev86/
-Source: file:///home/glehmann/src/xcp-ng-rpms/dev86/Dev86src-0.16.21.tar.gz
+Source: https://github.com/xcp-ng-rpms/dev86/raw/28a144834093fb285ded4af7e0a08093ebfb65d5/Dev86src-0.16.21.tar.gz
 Patch0: dev86-noelks.patch
 Patch1: dev86-64bit.patch
 Patch2: dev86-nostrip.patch

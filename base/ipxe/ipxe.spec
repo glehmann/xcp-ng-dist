@@ -11,7 +11,7 @@
 # package is currently clashing in koji, so don't bother.
 %global debug_package %{nil}
 
-Source0: ipxe-v2.0.0.tar.gz
+Source0: https://github.com/xcp-ng-rpms/ipxe/raw/6454788112c862a76d62eb089d3617890ee0d424/SOURCES/ipxe-v2.0.0.tar.gz
 
 # Export using: --no-stat --no-numbered --no-signature --zero-commit --abbrev=12
 

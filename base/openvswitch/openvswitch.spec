@@ -17,7 +17,7 @@ URL: http://www.openvswitch.org/
 Version: 2.17.7
 License: ASL 2.0 and GPLv2
 Release: %{?xsrel}.1.0.ydi.1%{?dist}
-Source0: openvswitch-2.17.7.tar.gz
+Source0: https://github.com/xcp-ng-rpms/openvswitch/raw/1a8aed93a0c9b95c2fe7300ce69a27e308443803/SOURCES/openvswitch-2.17.7.tar.gz
 Patch0: CA-72973-hack-to-strip-temp-dirs-from-paths.patch
 Patch1: CP-15129-Convert-to-use-systemd-services.patch
 Patch2: CA-78639-dont-call-interface-reconfigure-anymore.patch

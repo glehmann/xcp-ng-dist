@@ -16,7 +16,7 @@ Provides:     xenserver-biosdevname
 # arches don't expect the PCI bus to be sorted breadth-first, or of
 # so, there haven't been any comments about that on LKML.
 ExclusiveArch: %{ix86} x86_64 ia64
-Source0: biosdevname-0.3.10.tar.gz
+Source0: https://github.com/xcp-ng-rpms/biosdevname/raw/fb09e71b3cfefc52577b5a8a5fded247a1c1f610/SOURCES/biosdevname-0.3.10.tar.gz
 Patch0: biosdevname-disable-udev.patch
 Patch1: biosdevname-CA13344.patch
 Patch2: biosdevname-revert-default-policy.patch

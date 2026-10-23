@@ -41,7 +41,7 @@ License:        LGPL-2.1-only WITH OCaml-LGPL-linking-exception
 
 URL:            https://www.ocaml.org
 
-Source0: ocaml-4.14.2.tar.gz
+Source0: https://github.com/xcp-ng-rpms/ocaml/raw/cd3e485b1800960ed14015c2f93817d2c7723cea/SOURCES/ocaml-4.14.2.tar.gz
 Patch0: 0022-Don-t-add-rpaths-to-libraries.patch
 Patch1: 0023-configure-Allow-user-defined-C-compiler-flags.patch
 Patch2: 0024-configure-Only-use-OC_-for-building-executables.patch

@@ -59,7 +59,7 @@ BuildRequires:  python3-rpm-macros
 URL:            https://github.com/xcp-ng/xcp-ng-release
 # Before the tag of the final release, archives are exported this way from the source repository:
 # export VER=8.99.0; git archive --format tgz master . --prefix xcp-ng-release-$VER/ -o /path/to/SOURCES/xcp-ng-release-$VER.tar.gz
-Source0:        https://github.com/xcp-ng/xcp-ng-release/archive/v%{version}/xcp-ng-release-8.3.0.tar.gz
+Source0:        https://github.com/xcp-ng-rpms/xcp-ng-release/raw/6ad9f87d71ee6d4558ac451f442a6c02fd944be0/SOURCES/xcp-ng-release-8.3.0.tar.gz
 
 Source700:      macros.x86_64_v2
 

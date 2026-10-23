@@ -13,7 +13,7 @@ License: BSD
 # are not supposed to distribute them in both RPM and SRPM. (This is why they
 # are removed from archive and not just deleted from the buildroot as it used
 # to be done)
-Source0: varstored-1.2.0.tar.gz
+Source0: https://github.com/xcp-ng-rpms/varstored/raw/8bb5549c7125ea0497e47c52cca0a3cf03c6922a/SOURCES/varstored-1.2.0.tar.gz
 
 # XCP-ng sources and patches
 Source10: secureboot-certs

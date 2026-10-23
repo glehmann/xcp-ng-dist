@@ -24,10 +24,10 @@ URL:		http://www.gnu.org/software/grub/
 Obsoletes:	grub < 1:0.98
 Source0:	https://ftp.gnu.org/gnu/grub/grub-%{tarversion}.tar.xz
 Source1:	grub.macros
-Source2:	gnulib-%{gnulibversion}.tar.gz
+Source2:	https://sources.almalinux.org/6887dede2d4a403422ea045329ee9bd7ca4c1561bcaf39e805e1d1ce8f4c050a65ce286e7d8362fb8e815b5fab0b405730a3f93194e343e2aedcf9b4411a285e#/gnulib-9f48fb992a3d7e96610c4ce8be969cff2d61a01b.tar.gz
 Source3:	99-grub-mkconfig.install
-Source4:	http://unifoundry.com/pub/unifont/unifont-13.0.06/font-builds/unifont-13.0.06.pcf.gz
-Source5:	theme.tar.bz2
+Source4:	https://sources.almalinux.org/25f1ea4e316cd77b65cf4f60aa10ed054db6df2195be7344216673dee6628ab055ebcdeea186996d931fd1e9e4f519f4a2e4b4544b8a9ad2fe410aadc4eecd2d#/unifont-13.0.06.pcf.gz
+Source5:	https://sources.almalinux.org/0f6f914d5f801509403094b28b8cfe5169cb56ae9bdd808ae21a6780a8236b434161a068351508dd78729c25ee2fed066c124c1eef9e15102750b409b4576a5c#/theme.tar.bz2
 Source6:	gitignore
 Source7:	bootstrap
 Source8:	bootstrap.conf

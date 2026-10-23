@@ -8,7 +8,7 @@ Release:        1%{?dist}
 Summary:        A library of algorithms, I/O and networking functions
 License:        GPLv3
 URL:            https://github.com/xcp-ng/xcp-ng-generic-lib
-Source0:        https://github.com/xcp-ng/xcp-ng-generic-lib/archive/v%{version}/%{name}-%{version}.tar.gz
+Source0:        https://github.com/xcp-ng-rpms/xcp-ng-generic-lib/raw/51e4aed5524099ecc6331dd5deb0f5091db2fe08/SOURCES/xcp-ng-generic-lib-1.2.1.tar.gz
 
 BuildRequires:  cmake3
 BuildRequires:  make

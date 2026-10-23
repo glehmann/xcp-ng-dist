@@ -86,7 +86,7 @@ Provides: kernel-xcpng
 Requires(post): coreutils kmod
 Requires(posttrans): coreutils dracut kmod
 
-Source0: linux-%{usver}.tar.xz
+Source0: https://github.com/xcp-ng-rpms/kernel/raw/eca2e2ab244b6d610fbb0889ae68e5c9c66007f3/SOURCES/linux-6.12.0.tar.xz
 Source1: kernel-x86_64.config
 Source2: macros.kernel
 %if %{do_kabichk}
