@@ -5,7 +5,7 @@ on: [push, pull_request]
 permissions: {}
 
 jobs:
-  locks:
+  lock:
     # the pull requests of forks only: the pushes of the repository cover the others
     if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository
     runs-on: ubuntu-latest
@@ -20,5 +20,7 @@ jobs:
           version: "0.10.x"
           activate-environment: true
       - run: uv sync --frozen
-      # the same versions on all the architectures
-      - run: xcraft lock --check
+      # the build environment, which parses the specs
+      - run: command -v podman || { sudo apt-get update -q && sudo apt-get install -qy podman; }
+      # the lock has what the builds of all the architectures need: their build roots, resolved here, natively
+      - run: for arch in x86_64_v2 aarch64; do xcraft build --dry-run --locked --arch "$arch"; done

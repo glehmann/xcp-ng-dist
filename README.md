@@ -7,7 +7,7 @@ build with, and the files of its installation ISO, built by [xcraft](https://git
 base/<pkg>/             a package of the base repository: its spec, patches and small sources
 iso/                    the files of the installation ISO
 xcraft.toml             the settings: build environment, platforms, remote storage, publishing
-xcraft.<arch>.lock      the versions of the upstream packages, for each architecture
+xcraft.lock             the versions of the upstream packages, for all the architectures, and what builds found
 pyproject.toml          the version of xcraft, pinned
 ```
 
