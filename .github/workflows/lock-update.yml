@@ -1,0 +1,140 @@
+name: Lock update
+
+# the updates of the upstream packages, proposed as a pull request with their impacts: the versions of each
+# architecture are looked for on a machine of it, without emulation
+on:
+  schedule:
+    - cron: "17 5 * * *"
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: lock-update
+
+env:
+  FORCE_COLOR: "1"
+  BRANCH: lock-update
+
+jobs:
+  versions:
+    strategy:
+      matrix:
+        include:
+          - { arch: x86_64_v2, runner: ubuntu-24.04 }
+          - { arch: aarch64, runner: ubuntu-24.04-arm }
+    runs-on: ${{ matrix.runner }}
+    env:
+      ARCH: ${{ matrix.arch }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7  # v10.2.0
+        with:
+          version: "0.10.x"
+          activate-environment: true
+      - run: uv sync --frozen
+      # in the build environment, which podman runs
+      - run: command -v podman || { sudo apt-get update -q && sudo apt-get install -qy podman; }
+      - run: xcraft lock --arch "$ARCH" --available "versions-$ARCH.json"
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9  # v7.0.2
+        with:
+          name: versions-${{ matrix.arch }}
+          path: versions-${{ matrix.arch }}.json
+
+  update:
+    needs: versions
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    outputs:
+      changed: ${{ steps.changed.outputs.changed }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7  # v10.2.0
+        with:
+          version: "0.10.x"
+          activate-environment: true
+      - run: uv sync --frozen
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333  # v8.0.2
+        with:
+          pattern: versions-*
+          merge-multiple: true
+          path: versions
+      # all the architectures at once, from their files: no build environment
+      - run: |
+          available=()
+          for file in versions/*.json; do available+=(--available "$file"); done
+          xcraft lock --update "${available[@]}"
+      - id: changed
+        run: git diff --quiet || echo "changed=true" >> "$GITHUB_OUTPUT"
+      - if: steps.changed.outputs.changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -qa -s -m "Update the locks of the upstream packages"
+          git push --force "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" "HEAD:refs/heads/$BRANCH"
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+  impacts:
+    needs: update
+    if: needs.update.outputs.changed
+    strategy:
+      matrix:
+        include:
+          - { arch: x86_64_v2, runner: ubuntu-24.04 }
+          - { arch: aarch64, runner: ubuntu-24.04-arm }
+    runs-on: ${{ matrix.runner }}
+    env:
+      ARCH: ${{ matrix.arch }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          ref: lock-update
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7  # v10.2.0
+        with:
+          version: "0.10.x"
+          activate-environment: true
+      - run: uv sync --frozen
+      # the build keys parse the specs in the build environment of the architecture
+      - run: command -v podman || { sudo apt-get update -q && sudo apt-get install -qy podman; }
+      - run: xcraft impacts --arch "$ARCH" --markdown > "impacts-$ARCH.md"
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9  # v7.0.2
+        with:
+          name: impacts-${{ matrix.arch }}
+          path: impacts-${{ matrix.arch }}.md
+
+  pull-request:
+    needs: impacts
+    runs-on: ubuntu-24.04
+    permissions:
+      pull-requests: write
+    steps:
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333  # v8.0.2
+        with:
+          pattern: impacts-*
+          merge-multiple: true
+          path: impacts
+      - run: |
+          {
+            echo 'The updates of the upstream packages, by `xcraft lock --update`.'
+            echo
+            echo 'Their impacts, by `xcraft impacts`: `xcraft bump` the packages to rebuild, `xcraft ack` the others.'
+            for file in impacts/impacts-*.md; do
+              arch=${file#impacts/impacts-}
+              printf '\n### %s\n\n%s\n' "${arch%.md}" "$(cat "$file")"
+            done
+          } > body.md
+          if gh pr view "$BRANCH" --json state --jq .state | grep -q OPEN; then
+            gh pr edit "$BRANCH" --body-file body.md
+          else
+            gh pr create --head "$BRANCH" --title "Update the locks of the upstream packages" --body-file body.md
+          fi
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}

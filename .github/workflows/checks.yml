@@ -1,0 +1,24 @@
+name: Checks
+
+on: [push, pull_request]
+
+permissions: {}
+
+jobs:
+  locks:
+    # the pull requests of forks only: the pushes of the repository cover the others
+    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository
+    runs-on: ubuntu-latest
+    env:
+      FORCE_COLOR: "1"
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7  # v10.2.0
+        with:
+          version: "0.10.x"
+          activate-environment: true
+      - run: uv sync --frozen
+      # the same versions on all the architectures
+      - run: xcraft lock --check
