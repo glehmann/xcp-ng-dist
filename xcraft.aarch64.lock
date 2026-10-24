@@ -312,7 +312,7 @@ iso = []
 "binutils-gold" = { evr = "2.41-63.el10.alma.1", arch = "aarch64", source = "binutils", repo = "baseos", sha256 = "56cfcdd867608f732383fff2775e61bbd0890b7c5cac96efea84ded0af266c0f" }
 "bzip2" = { evr = "1.0.8-25.el10", arch = "aarch64", source = "bzip2", repo = "baseos", sha256 = "92ae5c99fa1c0593eabae0f1462e439b5746a87deaf9349468cb434ad218caab" }
 "bzip2-libs" = { evr = "1.0.8-25.el10", arch = "aarch64", source = "bzip2", repo = "baseos", sha256 = "ccb52190fce4dd0321bd622551c83f5b94c97ce1dedbfa5f87a7effd554c8f6a" }
-"ca-certificates" = { evr = "2025.2.80_v9.0.305-102.el10_1", arch = "noarch", source = "ca-certificates", repo = "baseos", sha256 = "6b4b153b35901ac27e57d41b1ec98f7754c0642d361e782dde5f9ba6765fda2d" }
+"ca-certificates" = { evr = "2026.2.92_v9.0.319-100.3.el10_2", arch = "noarch", source = "ca-certificates", repo = "baseos", sha256 = "5826da756d4b5843290093de22c6e85167399af60fb3a0b31be0fd99358d929a" }
 "ccache" = { evr = "4.11.3-1.el10_1", arch = "aarch64", source = "ccache", repo = "epel-fedora", sha256 = "3421cbffefea64351e80d2ce64eb0042d98dcc23262a03504cf988305ff34a24" }
 "coreutils-single" = { evr = "9.5-8.el10_2.1", arch = "aarch64", source = "coreutils", repo = "baseos", sha256 = "25ef68bf5391571d85a13a2f565f1e743bbf9e401c5034bce9098ab10a6efad5" }
 "cpio" = { evr = "2.15-3.el10", arch = "aarch64", source = "cpio", repo = "baseos", sha256 = "2f3719dd9f69800d42b389a4c73b56a718936bf28a77f3a0f90665c613815a88" }
@@ -344,7 +344,7 @@ iso = []
 "elfutils-libelf" = { evr = "0.194-2.el10_2", arch = "aarch64", source = "elfutils", repo = "baseos", sha256 = "ae4e3b143fa86f87a87db1302e3329ded5454cfda24a44b957e126dae8d0494b" }
 "elfutils-libs" = { evr = "0.194-2.el10_2", arch = "aarch64", source = "elfutils", repo = "baseos", sha256 = "f6219d4afc8891a7b8f7ae34cd68005f343b8aaa12c7408607bcbea9e6f7959f" }
 "epel-rpm-macros" = { evr = "10-7.el10_3", arch = "noarch", source = "epel-rpm-macros", repo = "epel-fedora", sha256 = "eb891a9edf3d378593aa19959f35351c5aad123aff587723607d437b459b6131" }
-"expat" = { evr = "2.7.3-1.el10_2.5", arch = "aarch64", source = "expat", repo = "baseos", sha256 = "c2419008163b0cf73a990a166d8e3d0e4a9e1821b748fdb34fc94d8cd31cfd6c" }
+"expat" = { evr = "2.7.3-1.el10_2.7", arch = "aarch64", source = "expat", repo = "baseos", sha256 = "167b14ee3ad73d48ac4e4fff2d1f42077cb0823092ad5e0343cc7bc86515a954" }
 "file" = { evr = "5.45-9.el10", arch = "aarch64", source = "file", repo = "baseos", sha256 = "4ff4341f2aa6d0e90bdda8f0ef646f45456908e7b56f535daa008c66c456d2fc" }
 "file-libs" = { evr = "5.45-9.el10", arch = "aarch64", source = "file", repo = "baseos", sha256 = "2e6e6dd1a758ae6609e7a25718414155ec33c43caa2081dbe030fc7b64e46cd2" }
 "filesystem" = { evr = "3.18-17.el10", arch = "aarch64", source = "filesystem", repo = "baseos", sha256 = "f0d10228adfa06010c243d65cdc789aab25a994a72b984ace32a68be761fba38" }
@@ -366,11 +366,11 @@ iso = []
 "git-core" = { evr = "2.52.0-1.el10", arch = "aarch64", source = "git", repo = "appstream", sha256 = "c788c13b77795c37f88daf2ac7200361264093cda82ff3e517c2539a08bb2b87" }
 "git-core-doc" = { evr = "2.52.0-1.el10", arch = "noarch", source = "git", repo = "appstream", sha256 = "4315983d0367913abd3ad5d099aab641c0ab3c625c3c8f371045b0dce1fd5dbd" }
 "glib2" = { evr = "2.80.4-12.el10_2.22", arch = "aarch64", source = "glib2", repo = "baseos", sha256 = "3f3049bede38292514364fe77a14c6bd883467b56869b232d8a24b8c7f150263" }
-"glibc" = { evr = "2.39-142.el10_2.alma.1", arch = "aarch64", source = "glibc", repo = "baseos", sha256 = "0b904c6541a901c374d527f8dd05a81b20eedcb2dfb6f363a9e9f3f3c2a8a20c" }
-"glibc-common" = { evr = "2.39-142.el10_2.alma.1", arch = "aarch64", source = "glibc", repo = "baseos", sha256 = "d3393963d28ffa5e3523264ddd68daddb823bf87cd79496ea409fb628c9e9470" }
-"glibc-devel" = { evr = "2.39-142.el10_2.alma.1", arch = "aarch64", source = "glibc", repo = "appstream", sha256 = "4faee2a4c0e6b8f22f0f61e97db0f0d3c65535ea54fc6c76f55ff65b10aebc79" }
-"glibc-gconv-extra" = { evr = "2.39-142.el10_2.alma.1", arch = "aarch64", source = "glibc", repo = "baseos", sha256 = "d5c96af4dfff7b6c0f05fc1503585bb3048214c994246af606504d9a8858cada" }
-"glibc-minimal-langpack" = { evr = "2.39-142.el10_2.alma.1", arch = "aarch64", source = "glibc", repo = "baseos", sha256 = "3740075b8c6753189a97c1c5fe1cb3bd6448c43710e252c0589aa2395e84b269" }
+"glibc" = { evr = "2.39-145.el10_2.alma.1", arch = "aarch64", source = "glibc", repo = "baseos", sha256 = "75f1e5ff4c653f02b8ecc1e38c8e381a182b1758679fd7c545ed83a0572a9526" }
+"glibc-common" = { evr = "2.39-145.el10_2.alma.1", arch = "aarch64", source = "glibc", repo = "baseos", sha256 = "6de7590b586054aea834cf4691a2b11521f41436acce4337df4b15e547c850b5" }
+"glibc-devel" = { evr = "2.39-145.el10_2.alma.1", arch = "aarch64", source = "glibc", repo = "appstream", sha256 = "a44843774ce8d04b57fa36865180c4f7f229feeba28ec826214f3c0de1f2d4a9" }
+"glibc-gconv-extra" = { evr = "2.39-145.el10_2.alma.1", arch = "aarch64", source = "glibc", repo = "baseos", sha256 = "120cfaf450758b3e91496c0e300f9741442cfbaf8a12d25b0bc26b7db11c7c90" }
+"glibc-minimal-langpack" = { evr = "2.39-145.el10_2.alma.1", arch = "aarch64", source = "glibc", repo = "baseos", sha256 = "e71a3ea7b0f138d4a8132fdf48681fa2f608a9cfd4851ffe18b49096dbb99695" }
 "gmp" = { evr = "1:6.2.1-12.el10", arch = "aarch64", source = "gmp", repo = "baseos", sha256 = "2637c58c1b716d2856c735ad85a61c1640e7e3a06d58e2bc102a480526823d56" }
 "gnutls" = { evr = "3.8.10-5.el10_2", arch = "aarch64", source = "gnutls", repo = "baseos", sha256 = "861e1c575c0dc480a756464933a38b07e9a4dc988049cc2f84e5959040d66a1d" }
 "go-srpm-macros" = { evr = "3.8.0-1.el10", arch = "noarch", source = "go-rpm-macros", repo = "appstream", sha256 = "9e5e87cd317a9329616ce89932e0d9c86668c820926ad28d3a55e3421290c4e2" }
@@ -381,7 +381,7 @@ iso = []
 "ima-evm-utils" = { evr = "1.6.2-4.el10", arch = "aarch64", source = "ima-evm-utils", repo = "baseos", sha256 = "27ee14ea8ce70a80abe8f5b1c60306027bc78a9084a498cf24bccfef34f67f97" }
 "jansson" = { evr = "2.14-3.el10", arch = "aarch64", source = "jansson", repo = "baseos", sha256 = "395c65895de76a35a0063dfffb360e361b5f2c3dce35d8cd306d9a72e3690c8e" }
 "json-c" = { evr = "0.18-3.el10", arch = "aarch64", source = "json-c", repo = "baseos", sha256 = "ab88ed9bc7a2ef65d6bd97f3cbcf8929c90f3a8797403d5a2a9ffe23b8774570" }
-"kernel-headers" = { evr = "6.12.0-211.66.1.el10_2", arch = "aarch64", source = "kernel", repo = "appstream", sha256 = "a025e6092fa988ddcaf819c31b9dba941aa64eebe60684106b9a23e0e1b574b0" }
+"kernel-headers" = { evr = "6.12.0-211.68.1.el10_2", arch = "aarch64", source = "kernel", repo = "appstream", sha256 = "7f714e6b07155c4df3ccf6a9aa238357fb5f3e486fa4d95a82119273683aad38" }
 "kernel-srpm-macros" = { evr = "1.0-27.el10", arch = "noarch", source = "kernel-srpm-macros", repo = "appstream", sha256 = "0421d244948314a77b2e51787dbabfc4fec4c8aefb9198f974dfd02cb6a969a9" }
 "keyutils" = { evr = "1.6.3-5.el10", arch = "aarch64", source = "keyutils", repo = "baseos", sha256 = "8d52f2ccfe49a385f408deb684a39ad1bb8982f8da36428a804f3e86721fd05a" }
 "keyutils-libs" = { evr = "1.6.3-5.el10", arch = "aarch64", source = "keyutils", repo = "baseos", sha256 = "27960866fcce55e3ff1547e73280cf1403591f18db524630990a01b3b50615c2" }
@@ -449,8 +449,8 @@ iso = []
 "ocaml-srpm-macros" = { evr = "10-4.el10", arch = "noarch", source = "ocaml-srpm-macros", repo = "appstream", sha256 = "f9ee48e40c5bc2dcdd87cb85a3d69088527801cf5c309f565753f834df097cb7" }
 "openblas-srpm-macros" = { evr = "2-19.el10", arch = "noarch", source = "openblas-srpm-macros", repo = "appstream", sha256 = "aaab4436f0b991293a491f72e8704906c2c2608032c3490c3dc05c68cff9b0ce" }
 "openldap" = { evr = "2.6.10-1.el10", arch = "aarch64", source = "openldap", repo = "baseos", sha256 = "c052643c2f0cc79e215085fa39ca157fdc92ab0e0663718278670315c7518da9" }
-"openssh" = { evr = "9.9p1-28.el10_2.alma.1", arch = "aarch64", source = "openssh", repo = "baseos", sha256 = "ad8294f3aef5cf176714c76f93d1a2f4acf1d4fe983198957996e1a843015e4e" }
-"openssh-clients" = { evr = "9.9p1-28.el10_2.alma.1", arch = "aarch64", source = "openssh", repo = "baseos", sha256 = "3ef1eaca68db9d9364e9761692a7bcf3f9f9dde597167c629932385b06d3dfc5" }
+"openssh" = { evr = "9.9p1-29.el10_2.alma.1", arch = "aarch64", source = "openssh", repo = "baseos", sha256 = "8fe56be306b952233460e13a0d9fe6bc64e789a59b8f7fafd4daa669367b350c" }
+"openssh-clients" = { evr = "9.9p1-29.el10_2.alma.1", arch = "aarch64", source = "openssh", repo = "baseos", sha256 = "7d36d113c7a01b53060788423e7aaf6df213d24ccf3a929fbfeaeb2d3c4a56af" }
 "openssl-fips-provider" = { evr = "1:3.5.8-2.el10_2.alma.1", arch = "aarch64", source = "openssl", repo = "baseos", sha256 = "32e579d4b5d8c89b46eae00842a77f0d8cf82ca573047603d9b91b958f188d0d" }
 "openssl-libs" = { evr = "1:3.5.8-2.el10_2.alma.1", arch = "aarch64", source = "openssl", repo = "baseos", sha256 = "335d42802b441f0712d337a628b3a8ff0e58c6057afdb250f3bd2020e8310ad4" }
 "p11-kit" = { evr = "0.26.4-1.el10_2", arch = "aarch64", source = "p11-kit", repo = "baseos", sha256 = "c3c1289a58fac0c91996f6fb78b1ec0f35c8748f25fabb9e78d965db218e1cad" }

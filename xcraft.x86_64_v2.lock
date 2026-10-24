@@ -882,13 +882,13 @@ iso = [
 "bridge-utils" = { evr = "1.7.1-11.el10_0.alma_altarch", arch = "x86_64_v2", source = "bridge-utils", repo = "epel", sha256 = "95e79ac43d48ff01c5608ebf80282c2fd17871f04208ad463b1c3d7afb99ce40" }
 "brotli" = { evr = "1.1.0-8.el10_2", arch = "x86_64_v2", source = "brotli", repo = "appstream", sha256 = "bf22b615fe3ea530ee8f28fcde28680dd3816d908a208e2b8215995cc7787e91" }
 "brotli-devel" = { evr = "1.1.0-8.el10_2", arch = "x86_64_v2", source = "brotli", repo = "appstream", sha256 = "fdf230806e1bd9e4d0dec446d851057df1e83cb466ec6d0fc99ef2e793ad6642" }
-"bubblewrap" = { evr = "0.10.0-3.el10", arch = "x86_64_v2", source = "bubblewrap", repo = "baseos", sha256 = "51aec01bc88a9fe8162c0cda4979492cf53a8f392a8eee99828164a269011104" }
+"bubblewrap" = { evr = "0.10.0-5.el10_2", arch = "x86_64_v2", source = "bubblewrap", repo = "baseos", sha256 = "d4f2faf31e5ba32d74b12a33b11e4e702836258f9779c16500194a8413acb906" }
 "busybox" = { evr = "1:1.37.0-4.el10_2.alma_altarch", arch = "x86_64_v2", source = "busybox", repo = "epel", sha256 = "b68256183ed8797da39aacc1b16444e1aef6db459974afd15e7cb4a9ae4cd704" }
 "bzip2" = { evr = "1.0.8-25.el10", arch = "x86_64_v2", source = "bzip2", repo = "baseos", sha256 = "85da6062c8bff69fe8eaae120ba2fa6831eaf4f5ba214158b4ab510db18adf3f" }
 "bzip2-devel" = { evr = "1.0.8-25.el10", arch = "x86_64_v2", source = "bzip2", repo = "appstream", sha256 = "e77661d2c70cdd1c11158ec995aa2ae390ffd728fab4ec3e1141f72a2ca11fde" }
 "bzip2-libs" = { evr = "1.0.8-25.el10", arch = "x86_64_v2", source = "bzip2", repo = "baseos", sha256 = "aa03374c786a4929fee2f59dd53d08078acd3309f69d92887f4c7b83fe731f6c" }
 "c-ares" = { evr = "1.34.6-2.el10_2", arch = "x86_64_v2", source = "c-ares", repo = "baseos", sha256 = "0474f7475623cee2adb7d8fa1dfb84c9bbea57977cacedd959ad1c5cf066b3c6" }
-"ca-certificates" = { evr = "2025.2.80_v9.0.305-102.el10_1", arch = "noarch", source = "ca-certificates", repo = "baseos", sha256 = "6b4b153b35901ac27e57d41b1ec98f7754c0642d361e782dde5f9ba6765fda2d" }
+"ca-certificates" = { evr = "2026.2.92_v9.0.319-100.3.el10_2", arch = "noarch", source = "ca-certificates", repo = "baseos", sha256 = "5826da756d4b5843290093de22c6e85167399af60fb3a0b31be0fd99358d929a" }
 "cairo" = { evr = "1.18.2-2.el10_2.1", arch = "x86_64_v2", source = "cairo", repo = "appstream", sha256 = "f3d78f61f4ab5c187c0ea956cde868ffe776b9d9b5db10a45a26f1780a30bf06" }
 "cairo-devel" = { evr = "1.18.2-2.el10_2.1", arch = "x86_64_v2", source = "cairo", repo = "appstream", sha256 = "4bb8588e5594af0ba74e022b4117b99be4f1262e74d4ebfe0014df8a5f019319" }
 "cairo-gobject" = { evr = "1.18.2-2.el10_2.1", arch = "x86_64_v2", source = "cairo", repo = "appstream", sha256 = "5333431d1585bcd624c140e6379cff421e0f81cadb7f3f08f880d6514af22b04" }
@@ -971,10 +971,10 @@ iso = [
 "elfutils-libelf" = { evr = "0.194-2.el10_2", arch = "x86_64_v2", source = "elfutils", repo = "baseos", sha256 = "2f8b359460f94f740dd8c61cd6bd11988c2a69a48e059978f3184299bb186880" }
 "elfutils-libelf-devel" = { evr = "0.194-2.el10_2", arch = "x86_64_v2", source = "elfutils", repo = "appstream", sha256 = "3268e792b8c179305c6520025e6160a765d003af72205ae8eb7507924579bc3e" }
 "elfutils-libs" = { evr = "0.194-2.el10_2", arch = "x86_64_v2", source = "elfutils", repo = "baseos", sha256 = "6d21c45f31c894e9db514e8f88f8da219250368e73e073fe414e1f028e1270f5" }
-"emacs-filesystem" = { evr = "1:29.4-13.el10_2", arch = "noarch", source = "emacs", repo = "baseos", sha256 = "a095d2062cdbe41da409d71e5554a5f43cf9b613a9c1a8b8944080fc1e79407a" }
+"emacs-filesystem" = { evr = "1:29.4-14.el10_2.3", arch = "noarch", source = "emacs", repo = "baseos", sha256 = "55a3b511ed57caf0740892a98433f3a12d10af658fce82fdcfd4eff1f9736195" }
 "epel-rpm-macros" = { evr = "10-7.el10_3.alma_altarch", arch = "noarch", source = "epel-rpm-macros", repo = "epel", sha256 = "ce21df540e654927acf30f61b7f10f7a83bb1bb9457a7f816008b5d35949e413" }
 "ethtool" = { evr = "2:6.15-2.el10", arch = "x86_64_v2", source = "ethtool", repo = "baseos", sha256 = "2e3e3ea6ad2d83e454226e0ffdf05357a3e44541d3314723da6f1ba0f9f4cbaa" }
-"expat" = { evr = "2.7.3-1.el10_2.5", arch = "x86_64_v2", source = "expat", repo = "baseos", sha256 = "dfbc954c9f30c5daab73fd6b44a6db8b8bfe693f261d0e1607b17bac351b9741" }
+"expat" = { evr = "2.7.3-1.el10_2.7", arch = "x86_64_v2", source = "expat", repo = "baseos", sha256 = "96defaccebda87061e7f2d963be4642b901f5befb01bc101f0c3b6c71a3a10ba" }
 "fakeroot" = { evr = "1.37-1.el10_0.alma_altarch", arch = "x86_64_v2", source = "fakeroot", repo = "epel", sha256 = "5b084dc53aafe54e8e38755b3c643aafa2542e0e710cebd13eddf24cce2ffef6" }
 "fakeroot-libs" = { evr = "1.37-1.el10_0.alma_altarch", arch = "x86_64_v2", source = "fakeroot", repo = "epel", sha256 = "efb7e9a8c6cfa50220e38bb0e9ca3d88ec45638ded225923a9b13891ebfa5930" }
 "figlet" = { evr = "2.2.5-38.el10_2.alma_altarch", arch = "x86_64_v2", source = "figlet", repo = "epel", sha256 = "8d4e358496688f0f3620e96795405d363ad0f4803d972731e83f4b04557611ca" }
@@ -1024,12 +1024,12 @@ iso = [
 "git-core-doc" = { evr = "2.52.0-1.el10", arch = "noarch", source = "git", repo = "appstream", sha256 = "4315983d0367913abd3ad5d099aab641c0ab3c625c3c8f371045b0dce1fd5dbd" }
 "glib2" = { evr = "2.80.4-12.el10_2.22", arch = "x86_64_v2", source = "glib2", repo = "baseos", sha256 = "007e9c00087981454f1478beb3ed7757da7d69287b4e0456398c200ec25e7224" }
 "glib2-devel" = { evr = "2.80.4-12.el10_2.22", arch = "x86_64_v2", source = "glib2", repo = "appstream", sha256 = "af37bff0c8110486e38069c1320714f0e985c4ea89c57d35a25d2bbb8b738d55" }
-"glibc" = { evr = "2.39-142.el10_2.alma.1", arch = "x86_64_v2", source = "glibc", repo = "baseos", sha256 = "68c117646df6a68e45a8ab8d6c686edc13c4d18cd7ffa0d6dd419a303af52543" }
-"glibc-common" = { evr = "2.39-142.el10_2.alma.1", arch = "x86_64_v2", source = "glibc", repo = "baseos", sha256 = "20cc551dd37c69fe836b2884e20596f291b469e1040e9b33532ad4e2ffea69f7" }
-"glibc-devel" = { evr = "2.39-142.el10_2.alma.1", arch = "x86_64_v2", source = "glibc", repo = "appstream", sha256 = "25206bdef19a8a4a0a43b64b4a32db7a0945f206c5c54906b901cdb7688fda9f" }
-"glibc-gconv-extra" = { evr = "2.39-142.el10_2.alma.1", arch = "x86_64_v2", source = "glibc", repo = "baseos", sha256 = "e93c59ac858fd20c4b89cc1260ae7e1d1346bfab0611249ee4634934e8569ff5" }
-"glibc-langpack-en" = { evr = "2.39-142.el10_2.alma.1", arch = "x86_64_v2", source = "glibc", repo = "baseos", sha256 = "c39e26450a74d98a65d5e82ca80c56624d77f27ee09b5c2c1e01aeeaa71b44f8" }
-"glibc-minimal-langpack" = { evr = "2.39-142.el10_2.alma.1", arch = "x86_64_v2", source = "glibc", repo = "baseos", sha256 = "dd764158fe84b47df379d713ff25fdf73fcee6b750f3a33a91fc0fd760411653" }
+"glibc" = { evr = "2.39-145.el10_2.alma.1", arch = "x86_64_v2", source = "glibc", repo = "baseos", sha256 = "48fea3dfde6e70f92cfcaa4c369d5f0c36bd63ba8dc99a153568d097e69ca885" }
+"glibc-common" = { evr = "2.39-145.el10_2.alma.1", arch = "x86_64_v2", source = "glibc", repo = "baseos", sha256 = "794132ffbd16149ad77ccd31340611ceaf99737f33a72d7d420d7a8cd3d6b66a" }
+"glibc-devel" = { evr = "2.39-145.el10_2.alma.1", arch = "x86_64_v2", source = "glibc", repo = "appstream", sha256 = "349745ba766d28cccdd59a16884d0e2304f7efa80ab2712e651c5464998eb9d5" }
+"glibc-gconv-extra" = { evr = "2.39-145.el10_2.alma.1", arch = "x86_64_v2", source = "glibc", repo = "baseos", sha256 = "1d3e7f121d9afd91faff2cbd3e99a6b7fde853f4749e3bcf47119c0aa30e0d94" }
+"glibc-langpack-en" = { evr = "2.39-145.el10_2.alma.1", arch = "x86_64_v2", source = "glibc", repo = "baseos", sha256 = "ec1e35ecbf31441ddd4b837cf590fd9787002b9b76b18e865f4e6fa40020c80b" }
+"glibc-minimal-langpack" = { evr = "2.39-145.el10_2.alma.1", arch = "x86_64_v2", source = "glibc", repo = "baseos", sha256 = "5ac0314b070a5a38963407c5aa5441ae4c25b4ee4e4fd2c69b5c6cbf5d912603" }
 "gmp" = { evr = "1:6.2.1-12.el10", arch = "x86_64_v2", source = "gmp", repo = "baseos", sha256 = "81105d98e319cb61f1d350a6e3f46dd085d0ef3bffd0cd455d28b02383da854f" }
 "gmp-c++" = { evr = "1:6.2.1-12.el10", arch = "x86_64_v2", source = "gmp", repo = "appstream", sha256 = "a3c97fda4b8450dc9d779398959e9d7e857502c07c60ef107e263edaa905c035" }
 "gmp-devel" = { evr = "1:6.2.1-12.el10", arch = "x86_64_v2", source = "gmp", repo = "appstream", sha256 = "f86a87bd8f4ba994bc2ab26428cb8367aa5259dd36d98ef804d6669719e46cdb" }
@@ -1042,10 +1042,10 @@ iso = [
 "go-filesystem" = { evr = "3.8.0-1.el10", arch = "x86_64_v2", source = "go-rpm-macros", repo = "appstream", sha256 = "24ebdbde4115f2b53c6136e83686797ecb4939ff7e6dda5a4fb243122a126a56" }
 "go-srpm-macros" = { evr = "3.8.0-1.el10", arch = "noarch", source = "go-rpm-macros", repo = "appstream", sha256 = "9e5e87cd317a9329616ce89932e0d9c86668c820926ad28d3a55e3421290c4e2" }
 "gobject-introspection" = { evr = "1.79.1-6.el10", arch = "x86_64_v2", source = "gobject-introspection", repo = "baseos", sha256 = "f6a8164fbf3966e3762293b1f69b95c4ca7691ca2bdc31f48ef9bdb706530e75" }
-"golang" = { evr = "1.26.7-2.el10_2.alma.1", arch = "x86_64_v2", source = "golang", repo = "appstream", sha256 = "4753564fbf75c773aa42214a7f8f983ca2af1835c575adfddef8155d214e6dd2" }
-"golang-bin" = { evr = "1.26.7-2.el10_2.alma.1", arch = "x86_64_v2", source = "golang", repo = "appstream", sha256 = "088ad2ec66874cb0bdebec645ba8b2cace1b00e26822cad5f4248b0a8cb9930a" }
-"golang-race" = { evr = "1.26.7-2.el10_2.alma.1", arch = "x86_64_v2", source = "golang", repo = "appstream", sha256 = "205869c367745fcc2eaf8eec9f90c24d609091beaab8c571e330f1f57eb543ff" }
-"golang-src" = { evr = "1.26.7-2.el10_2.alma.1", arch = "noarch", source = "golang", repo = "appstream", sha256 = "f8ff38bd0f0facf6cafab19b087b0b33a9463732fe64c6d30c57d7961163b1a4" }
+"golang" = { evr = "1.26.10-1.el10_2.alma.1", arch = "x86_64_v2", source = "golang", repo = "appstream", sha256 = "4e637daaca0723122053a695eee759d1b7ff858a90781cef28194ab1ed12ee87" }
+"golang-bin" = { evr = "1.26.10-1.el10_2.alma.1", arch = "x86_64_v2", source = "golang", repo = "appstream", sha256 = "b2fda975bc0a066ff6c27ed5c8bc45902146cfb0bdc47450d0cacc8c3f43f7a1" }
+"golang-race" = { evr = "1.26.10-1.el10_2.alma.1", arch = "x86_64_v2", source = "golang", repo = "appstream", sha256 = "0bda66e79e27fc96f73a2ebd4650d589b62cf232b1be72cf0859210788b10d61" }
+"golang-src" = { evr = "1.26.10-1.el10_2.alma.1", arch = "noarch", source = "golang", repo = "appstream", sha256 = "43d81a2ae0e8050075f42624aeeb87c9923f73d9eff287c06c6f5161f582dddc" }
 "golang-x-sys-devel" = { evr = "0.26.0-1.el10_0.alma_altarch", arch = "noarch", source = "golang-x-sys", repo = "epel", sha256 = "27c29794956b83a83728291bbcc51e4a6579bad784f4861a83856d62b47d250f" }
 "google-droid-sans-fonts" = { evr = "20200215-22.el10", arch = "noarch", source = "google-droid-fonts", repo = "appstream", sha256 = "fef5bcffb2f9324c00c6f5d616951698d441b9662d771edf78d7b2c7747e2e09" }
 "google-noto-fonts-common" = { evr = "20240401-5.el10", arch = "noarch", source = "google-noto-fonts", repo = "baseos", sha256 = "63089ee0c30df50b4a98fce875a0671da10e292a1395d5eb38e277947aabdea6" }
@@ -1102,7 +1102,7 @@ iso = [
 "kbd" = { evr = "2.6.4-8.el10_2", arch = "x86_64_v2", source = "kbd", repo = "baseos", sha256 = "461bbc4c77f685550177b46b615f190c605d18f75d387f5f09ff316730f1e771" }
 "kbd-legacy" = { evr = "2.6.4-8.el10_2", arch = "noarch", source = "kbd", repo = "baseos", sha256 = "5cee51a736ce671b613c202d20d8e0f6a95225637cbe4d50a835bcc5ad73f7d8" }
 "kbd-misc" = { evr = "2.6.4-8.el10_2", arch = "noarch", source = "kbd", repo = "baseos", sha256 = "dfda76f88d7916ddce2e03f78a2e971cb8b9657c8f23bc23a2a4003929e17ad0" }
-"kernel-headers" = { evr = "6.12.0-211.66.1.el10_2", arch = "x86_64_v2", source = "kernel", repo = "appstream", sha256 = "cf0340b7d2410bba57559dce3143f130d7e7ee917c53ab79be57cafb54e870d9" }
+"kernel-headers" = { evr = "6.12.0-211.68.1.el10_2", arch = "x86_64_v2", source = "kernel", repo = "appstream", sha256 = "4374d7a34d0fd7bbde5d64ade97e2d95000c177b72e9535fcce7e5a7b8404716" }
 "kernel-srpm-macros" = { evr = "1.0-27.el10", arch = "noarch", source = "kernel-srpm-macros", repo = "appstream", sha256 = "0421d244948314a77b2e51787dbabfc4fec4c8aefb9198f974dfd02cb6a969a9" }
 "keyutils" = { evr = "1.6.3-5.el10", arch = "x86_64_v2", source = "keyutils", repo = "baseos", sha256 = "438d1f71ea507db0319d2a22968cc0d243b29e9ec418d9b2452c0e352818fe1c" }
 "keyutils-libs" = { evr = "1.6.3-5.el10", arch = "x86_64_v2", source = "keyutils", repo = "baseos", sha256 = "ee3a85de8a0736af01c12c07fbe1ee43648d179a1faac9675c2269485a468c6a" }
@@ -1231,7 +1231,7 @@ iso = [
 "libreswan" = { evr = "5.3.2-1.el10_2", arch = "x86_64_v2", source = "libreswan", repo = "appstream", sha256 = "1926f320d81ffefd287a82e8a9cf7ba0a49edaf3ae5dca587b9a11d6792c6513" }
 "libreswan-minimal" = { evr = "5.3.2-1.el10_2", arch = "x86_64_v2", source = "libreswan", repo = "appstream", sha256 = "0c321d4d6cbd639f860ff82758b76fa4212b7d0686114f23f13eba7a4db94ce8" }
 "libretls" = { evr = "3.8.1-4.el10_0.alma_altarch", arch = "x86_64_v2", source = "libretls", repo = "epel", sha256 = "2c4bc18d2bce24f2fe5f36f1ff0c9def3e50984122983f30e4f0f28bd8e9c823" }
-"librsvg2" = { evr = "2.57.1-9.el10", arch = "x86_64_v2", source = "librsvg2", repo = "appstream", sha256 = "83902060805903da8e6bc7eceadb8a62b0542e05bf7ccf6702fde409bd59280e" }
+"librsvg2" = { evr = "2.57.1-9.el10_2.10", arch = "x86_64_v2", source = "librsvg2", repo = "appstream", sha256 = "5528a09c9ce62826c83263d5e77cb123abb6676206d0034428cbed2d1a2b2bff" }
 "libseccomp" = { evr = "2.5.6-1.el10", arch = "x86_64_v2", source = "libseccomp", repo = "baseos", sha256 = "a44f580ddcdb5dd5c54d12fb34069b2fc93bc03e8e05573b27d314e55560ac98" }
 "libseccomp-devel" = { evr = "2.5.6-1.el10", arch = "x86_64_v2", source = "libseccomp", repo = "appstream", sha256 = "80c90ec0edebf026925d594a741584f169b770c30ba55142f3388c0fde8f9550" }
 "libselinux" = { evr = "3.10-1.el10", arch = "x86_64_v2", source = "libselinux", repo = "baseos", sha256 = "890c93d5c6a72f39ce3c514eb9a3e9c2de4d3f873c47cf646f294b547a29a501" }
@@ -1349,9 +1349,9 @@ iso = [
 "openjpeg2" = { evr = "2.5.2-5.el10", arch = "x86_64_v2", source = "openjpeg2", repo = "appstream", sha256 = "ea4cf8d7c71126f672588ffa54d9009fbda46e7b21f66a53044595acd5fdb281" }
 "openldap" = { evr = "2.6.10-1.el10", arch = "x86_64_v2", source = "openldap", repo = "baseos", sha256 = "4edfe1a1b929a71e2a79affd1fd5db0b403e4d18b111ce757f1b46f0497d5e6c" }
 "openldap-devel" = { evr = "2.6.10-1.el10", arch = "x86_64_v2", source = "openldap", repo = "appstream", sha256 = "02102119ecb4c52303cbbee26c42cb31617d6c370950ab625ca0fffd9389333a" }
-"openssh" = { evr = "9.9p1-28.el10_2.alma.1", arch = "x86_64_v2", source = "openssh", repo = "baseos", sha256 = "bae956cd98b399616e94d0dfff2417d67c65545d570ed92e8f70f0d125b03628" }
-"openssh-clients" = { evr = "9.9p1-28.el10_2.alma.1", arch = "x86_64_v2", source = "openssh", repo = "baseos", sha256 = "6125657c973cd3931f8b0b71f854f70234a645dfee31006008ada1e3e96dbb68" }
-"openssh-server" = { evr = "9.9p1-28.el10_2.alma.1", arch = "x86_64_v2", source = "openssh", repo = "baseos", sha256 = "978c70f3b12a7de0258605c9ad765097096b3574f5200fcfb6b08c39aa1c7d91" }
+"openssh" = { evr = "9.9p1-29.el10_2.alma.1", arch = "x86_64_v2", source = "openssh", repo = "baseos", sha256 = "523eb4f3036fc5f3ec6173d4914d758f840f873e834e3b1f639685258e38df51" }
+"openssh-clients" = { evr = "9.9p1-29.el10_2.alma.1", arch = "x86_64_v2", source = "openssh", repo = "baseos", sha256 = "23bb5dfcc19fb098283ab876ca8b18d21558af5626c6beb2d63c14430e8ca8f1" }
+"openssh-server" = { evr = "9.9p1-29.el10_2.alma.1", arch = "x86_64_v2", source = "openssh", repo = "baseos", sha256 = "13d93003043edc7500f49215e208f2ff381f97c3497ceafdf59b4d384c256500" }
 "openssl" = { evr = "1:3.5.8-2.el10_2.alma.1", arch = "x86_64_v2", source = "openssl", repo = "baseos", sha256 = "f8a1b64b0009da10de0fa197308e0b64e2b7f13eb7d191e3714421ec20de4357" }
 "openssl-devel" = { evr = "1:3.5.8-2.el10_2.alma.1", arch = "x86_64_v2", source = "openssl", repo = "appstream", sha256 = "526c4351ac49b0800243d3c9a81d230be74428fca108ac9dfebd5fd11ed5a1e4" }
 "openssl-fips-provider" = { evr = "1:3.5.8-2.el10_2.alma.1", arch = "x86_64_v2", source = "openssl", repo = "baseos", sha256 = "fb52bc4feb58e53725a2c1be73aecaa33d026a17273fb9bf4d6b3b7d5ad621d8" }
@@ -1615,7 +1615,7 @@ iso = [
 "python3-platformdirs" = { evr = "4.2.2-2.el10_0.alma_altarch", arch = "noarch", source = "python-platformdirs", repo = "epel", sha256 = "5709a7b99ffed2ee82a653a15dbf5b73ea4ad0a59728fcd06bd18577f107b345" }
 "python3-ply" = { evr = "3.11-25.el10", arch = "noarch", source = "python-ply", repo = "baseos", sha256 = "61025082f63457b66205a4894e078296c117ab4d0878dcc3b8ab0bdc54cda23a" }
 "python3-protobuf" = { evr = "3.19.6-15.el10_1", arch = "x86_64_v2", source = "protobuf", repo = "appstream", sha256 = "35733245df065a974ab212e48d199f2ba2105df649d179f98b9e719e1815ca42" }
-"python3-pyOpenSSL" = { evr = "25.0.0-1.el10_1.alma_altarch", arch = "noarch", source = "pyOpenSSL", repo = "epel", sha256 = "a651fe7fd0f2b45a3785eee7331bd94ca221b45b01ec6af26020eebe03a06f6b" }
+"python3-pyOpenSSL" = { evr = "26.3.0-1.el10_3.alma_altarch", arch = "noarch", source = "pyOpenSSL", repo = "epel", sha256 = "bbbceaa1b9c7776d0d876eb5059fb38300aefd4c0f364f477aeac03189e20d65" }
 "python3-pycparser" = { evr = "2.20-16.el10", arch = "noarch", source = "python-pycparser", repo = "baseos", sha256 = "f8f1d7d507602407a6b2fe002d833b3cd5fd8baf64f6ff3d12bfb7db4edb4fad" }
 "python3-pylint" = { evr = "3.3.3-1.el10_0.alma_altarch", arch = "noarch", source = "pylint", repo = "epel", sha256 = "4945e1cd54a42aa53eb894d960c44343db3f8bb4d1d24058e0763d25f15d764e" }
 "python3-pyparsing" = { evr = "3.1.1-7.el10", arch = "noarch", source = "pyparsing", repo = "baseos", sha256 = "bddd7ddda39e05a7ce9430b7407eaf7f832f9145aaa1380acfafb31b927fc904" }
@@ -1631,7 +1631,7 @@ iso = [
 "python3-systemd" = { evr = "235-11.el10", arch = "x86_64_v2", source = "python-systemd", repo = "baseos", sha256 = "5a15af009b2a4a8cf6c41893d670ae3ee55f654a09722841e31b76efeccbfbe1" }
 "python3-tomlkit" = { evr = "0.13.2-1.el10_0.alma_altarch", arch = "noarch", source = "python-tomlkit", repo = "epel", sha256 = "f7ed0bb703e69851530d052f6c490f756d9d6f62ce0a63feebec889b7816eeaf" }
 "python3-typing-extensions" = { evr = "4.9.0-6.el10", arch = "noarch", source = "python-typing-extensions", repo = "baseos", sha256 = "b323e7e183cda698488c44cd91f8fafffc78a910bc313d2d0de1a6ea5e21e040" }
-"python3-urllib3" = { evr = "1.26.19-4.el10_2", arch = "noarch", source = "python-urllib3", repo = "baseos", sha256 = "061d0569e4a91346a411d49abf8049ee7807bb60b072e83f681e85f401a3fdb5" }
+"python3-urllib3" = { evr = "1.26.19-4.el10_2.2", arch = "noarch", source = "python-urllib3", repo = "baseos", sha256 = "278ab5fe5ec5e71aa2735c82755dbca77b5af4695a10e37292d5d23a259d68a9" }
 "python3-wheel" = { evr = "1:0.41.2-5.el10_1.1", arch = "noarch", source = "python-wheel", repo = "crb", sha256 = "526834e9f1485bd54d081d53739d5af8b9041cb043cbac4c4a48f5dc15693afd" }
 "python3-wrapt" = { evr = "1.17.1-1.el10_0.alma_altarch", arch = "x86_64_v2", source = "python-wrapt", repo = "epel", sha256 = "98962abf13a61dcdcce17f153e338689e3115354470e7eb95778e3e2f93a042d" }
 "qt6-srpm-macros" = { evr = "6.10.1-1.el10", arch = "noarch", source = "qt6", repo = "appstream", sha256 = "894de6c329420bfac338492dbd3c77c6100f22775702f395c4d212f082abd6dd" }
@@ -1651,7 +1651,7 @@ iso = [
 "rpm-plugin-selinux" = { evr = "4.19.1.1-23.el10.alma.1", arch = "x86_64_v2", source = "rpm", repo = "baseos", sha256 = "e4323e8de14a655181c33340f11fdc2b19ed56b22c38780c84b9b59228171d5a" }
 "rpm-sequoia" = { evr = "1.10.2.1-1.el10_2", arch = "x86_64_v2", source = "rust-rpm-sequoia", repo = "baseos", sha256 = "b01bc5a960ce949d22db72067cf581b94aad1f88b57dcd0e522fe03ab6fc0bb1" }
 "rpm-sign-libs" = { evr = "4.19.1.1-23.el10.alma.1", arch = "x86_64_v2", source = "rpm", repo = "baseos", sha256 = "88e6de7d53b83a854d2b999c0bfb7c52ed2ca707d1947f49d0b223219c8d8edc" }
-"rsvg-pixbuf-loader" = { evr = "2.57.1-9.el10", arch = "x86_64_v2", source = "librsvg2", repo = "appstream", sha256 = "4dc2cc3db207e6ffa6644fa2afcbc1742244765966a8570919fd8860092c397a" }
+"rsvg-pixbuf-loader" = { evr = "2.57.1-9.el10_2.10", arch = "x86_64_v2", source = "librsvg2", repo = "appstream", sha256 = "d94a35ec0d1d81c48b3c9f10ecd532504932ce66017ba3023793a20a42adf9f9" }
 "rsync" = { evr = "3.5.0-3.el10_2", arch = "x86_64_v2", source = "rsync", repo = "baseos", sha256 = "0ef43712db75150af848c2d4b7c0bf5afed44360f9c1e5232140fc0d819ddedf" }
 "rust-toolset-srpm-macros" = { evr = "1.92.0-2.el10_2.alma.1", arch = "noarch", source = "rust", repo = "appstream", sha256 = "0ceeb326c7211eeb9140d0ea6d45b8d21a41469f24b87463f3b664fe7fd67c4d" }
 "samba-client-libs" = { evr = "4.23.5-111.el10_2", arch = "x86_64_v2", source = "samba", repo = "baseos", sha256 = "251afd0b2f19458f86ad5b1668f62cbffd66d2ceaee9bd0eccb57af437279923" }
@@ -1669,8 +1669,8 @@ iso = [
 "selinux-policy" = { evr = "42.1.18-4.el10_2.4", arch = "noarch", source = "selinux-policy", repo = "baseos", sha256 = "704421fb936b81fe323cd448c2ea60d86af48ebae4a0f8fab2e6c26da88f2466" }
 "selinux-policy-targeted" = { evr = "42.1.18-4.el10_2.4", arch = "noarch", source = "selinux-policy", repo = "baseos", sha256 = "55c9c5f2d7ed432a99e688ea7331b74dabb8411b476826c7594014ecc9d7f4f4" }
 "setup" = { evr = "2.14.5-7.el10", arch = "noarch", source = "setup", repo = "baseos", sha256 = "4065c6f500ac20468530177b1a6012145c490c018a5d2812c951b0b7e919bc5b" }
-"sg3_utils" = { evr = "1.48-7.el10_2.1", arch = "x86_64_v2", source = "sg3_utils", repo = "baseos", sha256 = "35f2b0722476cdae4470214fd5c0ca6c241b127615dfe852ce34465e17d3eaf4" }
-"sg3_utils-libs" = { evr = "1.48-7.el10_2.1", arch = "x86_64_v2", source = "sg3_utils", repo = "baseos", sha256 = "c18b4cc451f33750835c048475bd4998eb13e34243f73203a71311677d46f26a" }
+"sg3_utils" = { evr = "1.48-7.el10_2.2", arch = "x86_64_v2", source = "sg3_utils", repo = "baseos", sha256 = "1091334f91e84004b2f0d3cb6dce019fd8d2c93aaecd5173a18ff05af43c3597" }
+"sg3_utils-libs" = { evr = "1.48-7.el10_2.2", arch = "x86_64_v2", source = "sg3_utils", repo = "baseos", sha256 = "bec7e2bb0aeb559f2b30300313dbf978a87fa1c1d3b730a5a10862e6ec7f12bf" }
 "sgml-common" = { evr = "0.6.3-65.el10", arch = "noarch", source = "sgml-common", repo = "appstream", sha256 = "d7d004aec9666eadb1df40ced663a833fdc41725047ee8e736d946eb0631738e" }
 "shadow-utils" = { evr = "2:4.15.0-11.el10", arch = "x86_64_v2", source = "shadow-utils", repo = "baseos", sha256 = "48f4704783e8757da0be9a6356ee89000913a79ba9aea2e4457bc7f648c7b655" }
 "shared-mime-info" = { evr = "2.3-8.el10", arch = "x86_64_v2", source = "shared-mime-info", repo = "baseos", sha256 = "8295f8ec223ac62f2dcc6065a5d6485bc0a2f3ce848611977659ebc9e314f43a" }
@@ -2772,3 +2772,556 @@ iso = [
     "python3-rpm-generators",
     "python3-rpm-macros",
 ]
+
+[pending."biosdevname"]
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"glibc-common" = "2.39-142.el10_2.alma.1"
+"glibc-devel" = "2.39-142.el10_2.alma.1"
+"glibc-gconv-extra" = "2.39-142.el10_2.alma.1"
+"glibc-minimal-langpack" = "2.39-142.el10_2.alma.1"
+"kernel-headers" = "6.12.0-211.66.1.el10_2"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+"openssh-clients" = "9.9p1-28.el10_2.alma.1"
+
+[pending."blktap"]
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"emacs-filesystem" = "1:29.4-13.el10_2"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"glibc-common" = "2.39-142.el10_2.alma.1"
+"glibc-devel" = "2.39-142.el10_2.alma.1"
+"glibc-gconv-extra" = "2.39-142.el10_2.alma.1"
+"glibc-minimal-langpack" = "2.39-142.el10_2.alma.1"
+"kernel-headers" = "6.12.0-211.66.1.el10_2"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+"openssh-clients" = "9.9p1-28.el10_2.alma.1"
+
+[pending."branding-xcp-ng"]
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"glibc-common" = "2.39-142.el10_2.alma.1"
+"glibc-devel" = "2.39-142.el10_2.alma.1"
+"glibc-gconv-extra" = "2.39-142.el10_2.alma.1"
+"glibc-minimal-langpack" = "2.39-142.el10_2.alma.1"
+"kernel-headers" = "6.12.0-211.66.1.el10_2"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+"openssh-clients" = "9.9p1-28.el10_2.alma.1"
+
+[pending."dev86"]
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"glibc-common" = "2.39-142.el10_2.alma.1"
+"glibc-devel" = "2.39-142.el10_2.alma.1"
+"glibc-gconv-extra" = "2.39-142.el10_2.alma.1"
+"glibc-minimal-langpack" = "2.39-142.el10_2.alma.1"
+"kernel-headers" = "6.12.0-211.66.1.el10_2"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+"openssh-clients" = "9.9p1-28.el10_2.alma.1"
+
+[pending."dhcp"]
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"emacs-filesystem" = "1:29.4-13.el10_2"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"glibc-common" = "2.39-142.el10_2.alma.1"
+"glibc-devel" = "2.39-142.el10_2.alma.1"
+"glibc-gconv-extra" = "2.39-142.el10_2.alma.1"
+"glibc-minimal-langpack" = "2.39-142.el10_2.alma.1"
+"kernel-headers" = "6.12.0-211.66.1.el10_2"
+"librsvg2" = "2.57.1-9.el10"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+"openssh-clients" = "9.9p1-28.el10_2.alma.1"
+"rsvg-pixbuf-loader" = "2.57.1-9.el10"
+
+[pending."dmv-utils"]
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"glibc-common" = "2.39-142.el10_2.alma.1"
+"glibc-devel" = "2.39-142.el10_2.alma.1"
+"glibc-gconv-extra" = "2.39-142.el10_2.alma.1"
+"glibc-minimal-langpack" = "2.39-142.el10_2.alma.1"
+"kernel-headers" = "6.12.0-211.66.1.el10_2"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+"openssh-clients" = "9.9p1-28.el10_2.alma.1"
+
+[pending."edk2"]
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"glibc-common" = "2.39-142.el10_2.alma.1"
+"glibc-devel" = "2.39-142.el10_2.alma.1"
+"glibc-gconv-extra" = "2.39-142.el10_2.alma.1"
+"glibc-minimal-langpack" = "2.39-142.el10_2.alma.1"
+"kernel-headers" = "6.12.0-211.66.1.el10_2"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+"openssh-clients" = "9.9p1-28.el10_2.alma.1"
+
+[pending."grub"]
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"emacs-filesystem" = "1:29.4-13.el10_2"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"glibc-common" = "2.39-142.el10_2.alma.1"
+"glibc-devel" = "2.39-142.el10_2.alma.1"
+"glibc-gconv-extra" = "2.39-142.el10_2.alma.1"
+"glibc-minimal-langpack" = "2.39-142.el10_2.alma.1"
+"kernel-headers" = "6.12.0-211.66.1.el10_2"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+"openssh-clients" = "9.9p1-28.el10_2.alma.1"
+
+[pending."guest-templates-json"]
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"glibc-common" = "2.39-142.el10_2.alma.1"
+"glibc-devel" = "2.39-142.el10_2.alma.1"
+"glibc-gconv-extra" = "2.39-142.el10_2.alma.1"
+"glibc-minimal-langpack" = "2.39-142.el10_2.alma.1"
+"kernel-headers" = "6.12.0-211.66.1.el10_2"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+"openssh-clients" = "9.9p1-28.el10_2.alma.1"
+
+[pending."host-installer"]
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"glibc-common" = "2.39-142.el10_2.alma.1"
+"glibc-devel" = "2.39-142.el10_2.alma.1"
+"glibc-gconv-extra" = "2.39-142.el10_2.alma.1"
+"glibc-minimal-langpack" = "2.39-142.el10_2.alma.1"
+"kernel-headers" = "6.12.0-211.66.1.el10_2"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+"openssh-clients" = "9.9p1-28.el10_2.alma.1"
+
+[pending."ipxe"]
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"glibc-common" = "2.39-142.el10_2.alma.1"
+"glibc-devel" = "2.39-142.el10_2.alma.1"
+"glibc-gconv-extra" = "2.39-142.el10_2.alma.1"
+"glibc-minimal-langpack" = "2.39-142.el10_2.alma.1"
+"kernel-headers" = "6.12.0-211.66.1.el10_2"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+"openssh-clients" = "9.9p1-28.el10_2.alma.1"
+
+[pending."ipxe-efi"]
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"glibc-common" = "2.39-142.el10_2.alma.1"
+"glibc-devel" = "2.39-142.el10_2.alma.1"
+"glibc-gconv-extra" = "2.39-142.el10_2.alma.1"
+"glibc-minimal-langpack" = "2.39-142.el10_2.alma.1"
+"kernel-headers" = "6.12.0-211.66.1.el10_2"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+"openssh-clients" = "9.9p1-28.el10_2.alma.1"
+
+[pending."kernel"]
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"glibc-common" = "2.39-142.el10_2.alma.1"
+"glibc-devel" = "2.39-142.el10_2.alma.1"
+"glibc-gconv-extra" = "2.39-142.el10_2.alma.1"
+"glibc-minimal-langpack" = "2.39-142.el10_2.alma.1"
+"kernel-headers" = "6.12.0-211.66.1.el10_2"
+"librsvg2" = "2.57.1-9.el10"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+"openssh-clients" = "9.9p1-28.el10_2.alma.1"
+"rsvg-pixbuf-loader" = "2.57.1-9.el10"
+
+[pending."kernel-headers"]
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"glibc-common" = "2.39-142.el10_2.alma.1"
+"glibc-devel" = "2.39-142.el10_2.alma.1"
+"glibc-gconv-extra" = "2.39-142.el10_2.alma.1"
+"glibc-minimal-langpack" = "2.39-142.el10_2.alma.1"
+"kernel-headers" = "6.12.0-211.66.1.el10_2"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+"openssh-clients" = "9.9p1-28.el10_2.alma.1"
+
+[pending."libempserver"]
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"glibc-common" = "2.39-142.el10_2.alma.1"
+"glibc-devel" = "2.39-142.el10_2.alma.1"
+"glibc-gconv-extra" = "2.39-142.el10_2.alma.1"
+"glibc-minimal-langpack" = "2.39-142.el10_2.alma.1"
+"kernel-headers" = "6.12.0-211.66.1.el10_2"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+"openssh-clients" = "9.9p1-28.el10_2.alma.1"
+
+[pending."nbd"]
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"glibc-common" = "2.39-142.el10_2.alma.1"
+"glibc-devel" = "2.39-142.el10_2.alma.1"
+"glibc-gconv-extra" = "2.39-142.el10_2.alma.1"
+"glibc-minimal-langpack" = "2.39-142.el10_2.alma.1"
+"kernel-headers" = "6.12.0-211.66.1.el10_2"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+"openssh-clients" = "9.9p1-28.el10_2.alma.1"
+
+[pending."ocaml"]
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"emacs-filesystem" = "1:29.4-13.el10_2"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"glibc-common" = "2.39-142.el10_2.alma.1"
+"glibc-devel" = "2.39-142.el10_2.alma.1"
+"glibc-gconv-extra" = "2.39-142.el10_2.alma.1"
+"glibc-minimal-langpack" = "2.39-142.el10_2.alma.1"
+"kernel-headers" = "6.12.0-211.66.1.el10_2"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+"openssh-clients" = "9.9p1-28.el10_2.alma.1"
+
+[pending."ocaml-findlib"]
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"glibc-common" = "2.39-142.el10_2.alma.1"
+"glibc-devel" = "2.39-142.el10_2.alma.1"
+"glibc-gconv-extra" = "2.39-142.el10_2.alma.1"
+"glibc-minimal-langpack" = "2.39-142.el10_2.alma.1"
+"kernel-headers" = "6.12.0-211.66.1.el10_2"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+"openssh-clients" = "9.9p1-28.el10_2.alma.1"
+
+[pending."opam"]
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"glibc-common" = "2.39-142.el10_2.alma.1"
+"glibc-devel" = "2.39-142.el10_2.alma.1"
+"glibc-gconv-extra" = "2.39-142.el10_2.alma.1"
+"glibc-minimal-langpack" = "2.39-142.el10_2.alma.1"
+"kernel-headers" = "6.12.0-211.66.1.el10_2"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+"openssh-clients" = "9.9p1-28.el10_2.alma.1"
+
+[pending."openvswitch"]
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"emacs-filesystem" = "1:29.4-13.el10_2"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"glibc-common" = "2.39-142.el10_2.alma.1"
+"glibc-devel" = "2.39-142.el10_2.alma.1"
+"glibc-gconv-extra" = "2.39-142.el10_2.alma.1"
+"glibc-minimal-langpack" = "2.39-142.el10_2.alma.1"
+"kernel-headers" = "6.12.0-211.66.1.el10_2"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+"openssh-clients" = "9.9p1-28.el10_2.alma.1"
+
+[pending."python-bitarray"]
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"glibc-common" = "2.39-142.el10_2.alma.1"
+"glibc-devel" = "2.39-142.el10_2.alma.1"
+"glibc-gconv-extra" = "2.39-142.el10_2.alma.1"
+"glibc-minimal-langpack" = "2.39-142.el10_2.alma.1"
+"kernel-headers" = "6.12.0-211.66.1.el10_2"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+"openssh-clients" = "9.9p1-28.el10_2.alma.1"
+
+[pending."python-opentelemetry"]
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"glibc-common" = "2.39-142.el10_2.alma.1"
+"glibc-devel" = "2.39-142.el10_2.alma.1"
+"glibc-gconv-extra" = "2.39-142.el10_2.alma.1"
+"glibc-minimal-langpack" = "2.39-142.el10_2.alma.1"
+"kernel-headers" = "6.12.0-211.66.1.el10_2"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+"openssh-clients" = "9.9p1-28.el10_2.alma.1"
+
+[pending."qemu"]
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"emacs-filesystem" = "1:29.4-13.el10_2"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"glibc-common" = "2.39-142.el10_2.alma.1"
+"glibc-devel" = "2.39-142.el10_2.alma.1"
+"glibc-gconv-extra" = "2.39-142.el10_2.alma.1"
+"glibc-minimal-langpack" = "2.39-142.el10_2.alma.1"
+"kernel-headers" = "6.12.0-211.66.1.el10_2"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+"openssh-clients" = "9.9p1-28.el10_2.alma.1"
+
+[pending."sm"]
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"glibc-common" = "2.39-142.el10_2.alma.1"
+"glibc-devel" = "2.39-142.el10_2.alma.1"
+"glibc-gconv-extra" = "2.39-142.el10_2.alma.1"
+"glibc-minimal-langpack" = "2.39-142.el10_2.alma.1"
+"kernel-headers" = "6.12.0-211.66.1.el10_2"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+"openssh-clients" = "9.9p1-28.el10_2.alma.1"
+
+[pending."ssmtp"]
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"glibc-common" = "2.39-142.el10_2.alma.1"
+"glibc-devel" = "2.39-142.el10_2.alma.1"
+"glibc-gconv-extra" = "2.39-142.el10_2.alma.1"
+"glibc-minimal-langpack" = "2.39-142.el10_2.alma.1"
+"kernel-headers" = "6.12.0-211.66.1.el10_2"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+"openssh-clients" = "9.9p1-28.el10_2.alma.1"
+
+[pending."varstored"]
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"glibc-common" = "2.39-142.el10_2.alma.1"
+"glibc-devel" = "2.39-142.el10_2.alma.1"
+"glibc-gconv-extra" = "2.39-142.el10_2.alma.1"
+"glibc-minimal-langpack" = "2.39-142.el10_2.alma.1"
+"kernel-headers" = "6.12.0-211.66.1.el10_2"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+"openssh-clients" = "9.9p1-28.el10_2.alma.1"
+
+[pending."vmss"]
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"glibc-common" = "2.39-142.el10_2.alma.1"
+"glibc-devel" = "2.39-142.el10_2.alma.1"
+"glibc-gconv-extra" = "2.39-142.el10_2.alma.1"
+"glibc-minimal-langpack" = "2.39-142.el10_2.alma.1"
+"kernel-headers" = "6.12.0-211.66.1.el10_2"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+"openssh-clients" = "9.9p1-28.el10_2.alma.1"
+
+[pending."vncterm"]
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"glibc-common" = "2.39-142.el10_2.alma.1"
+"glibc-devel" = "2.39-142.el10_2.alma.1"
+"glibc-gconv-extra" = "2.39-142.el10_2.alma.1"
+"glibc-minimal-langpack" = "2.39-142.el10_2.alma.1"
+"kernel-headers" = "6.12.0-211.66.1.el10_2"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+"openssh-clients" = "9.9p1-28.el10_2.alma.1"
+
+[pending."xapi"]
+"bubblewrap" = "0.10.0-3.el10"
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"glibc-common" = "2.39-142.el10_2.alma.1"
+"glibc-devel" = "2.39-142.el10_2.alma.1"
+"glibc-gconv-extra" = "2.39-142.el10_2.alma.1"
+"glibc-minimal-langpack" = "2.39-142.el10_2.alma.1"
+"kernel-headers" = "6.12.0-211.66.1.el10_2"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+"openssh-clients" = "9.9p1-28.el10_2.alma.1"
+"sg3_utils" = "1.48-7.el10_2.1"
+"sg3_utils-libs" = "1.48-7.el10_2.1"
+
+[pending."xcp-clipboardd"]
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"emacs-filesystem" = "1:29.4-13.el10_2"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"glibc-common" = "2.39-142.el10_2.alma.1"
+"glibc-devel" = "2.39-142.el10_2.alma.1"
+"glibc-gconv-extra" = "2.39-142.el10_2.alma.1"
+"glibc-minimal-langpack" = "2.39-142.el10_2.alma.1"
+"kernel-headers" = "6.12.0-211.66.1.el10_2"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+"openssh-clients" = "9.9p1-28.el10_2.alma.1"
+
+[pending."xcp-emu-manager"]
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"emacs-filesystem" = "1:29.4-13.el10_2"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"glibc-common" = "2.39-142.el10_2.alma.1"
+"glibc-devel" = "2.39-142.el10_2.alma.1"
+"glibc-gconv-extra" = "2.39-142.el10_2.alma.1"
+"glibc-minimal-langpack" = "2.39-142.el10_2.alma.1"
+"kernel-headers" = "6.12.0-211.66.1.el10_2"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+"openssh-clients" = "9.9p1-28.el10_2.alma.1"
+
+[pending."xcp-featured"]
+"bubblewrap" = "0.10.0-3.el10"
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"glibc-common" = "2.39-142.el10_2.alma.1"
+"glibc-devel" = "2.39-142.el10_2.alma.1"
+"glibc-gconv-extra" = "2.39-142.el10_2.alma.1"
+"glibc-minimal-langpack" = "2.39-142.el10_2.alma.1"
+"kernel-headers" = "6.12.0-211.66.1.el10_2"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+"openssh-clients" = "9.9p1-28.el10_2.alma.1"
+
+[pending."xcp-ng-config"]
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"glibc-common" = "2.39-142.el10_2.alma.1"
+"glibc-devel" = "2.39-142.el10_2.alma.1"
+"glibc-gconv-extra" = "2.39-142.el10_2.alma.1"
+"glibc-minimal-langpack" = "2.39-142.el10_2.alma.1"
+"kernel-headers" = "6.12.0-211.66.1.el10_2"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+"openssh-clients" = "9.9p1-28.el10_2.alma.1"
+
+[pending."xcp-ng-deps"]
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"glibc-common" = "2.39-142.el10_2.alma.1"
+"glibc-devel" = "2.39-142.el10_2.alma.1"
+"glibc-gconv-extra" = "2.39-142.el10_2.alma.1"
+"glibc-minimal-langpack" = "2.39-142.el10_2.alma.1"
+"kernel-headers" = "6.12.0-211.66.1.el10_2"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+"openssh-clients" = "9.9p1-28.el10_2.alma.1"
+
+[pending."xcp-ng-generic-lib"]
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"emacs-filesystem" = "1:29.4-13.el10_2"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"glibc-common" = "2.39-142.el10_2.alma.1"
+"glibc-devel" = "2.39-142.el10_2.alma.1"
+"glibc-gconv-extra" = "2.39-142.el10_2.alma.1"
+"glibc-minimal-langpack" = "2.39-142.el10_2.alma.1"
+"kernel-headers" = "6.12.0-211.66.1.el10_2"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+"openssh-clients" = "9.9p1-28.el10_2.alma.1"
+
+[pending."xcp-ng-pv-tools"]
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"emacs-filesystem" = "1:29.4-13.el10_2"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"glibc-common" = "2.39-142.el10_2.alma.1"
+"glibc-devel" = "2.39-142.el10_2.alma.1"
+"glibc-gconv-extra" = "2.39-142.el10_2.alma.1"
+"glibc-minimal-langpack" = "2.39-142.el10_2.alma.1"
+"golang" = "1.26.7-2.el10_2.alma.1"
+"golang-bin" = "1.26.7-2.el10_2.alma.1"
+"golang-race" = "1.26.7-2.el10_2.alma.1"
+"golang-src" = "1.26.7-2.el10_2.alma.1"
+"kernel-headers" = "6.12.0-211.66.1.el10_2"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+"openssh-clients" = "9.9p1-28.el10_2.alma.1"
+
+[pending."xcp-ng-release"]
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"glibc-common" = "2.39-142.el10_2.alma.1"
+"glibc-devel" = "2.39-142.el10_2.alma.1"
+"glibc-gconv-extra" = "2.39-142.el10_2.alma.1"
+"glibc-minimal-langpack" = "2.39-142.el10_2.alma.1"
+"kernel-headers" = "6.12.0-211.66.1.el10_2"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+"openssh-clients" = "9.9p1-28.el10_2.alma.1"
+
+[pending."xcp-ng-xapi-plugins"]
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"glibc-common" = "2.39-142.el10_2.alma.1"
+"glibc-devel" = "2.39-142.el10_2.alma.1"
+"glibc-gconv-extra" = "2.39-142.el10_2.alma.1"
+"glibc-minimal-langpack" = "2.39-142.el10_2.alma.1"
+"kernel-headers" = "6.12.0-211.66.1.el10_2"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+"openssh-clients" = "9.9p1-28.el10_2.alma.1"
+
+[pending."xcp-python-libs"]
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"glibc-common" = "2.39-142.el10_2.alma.1"
+"glibc-devel" = "2.39-142.el10_2.alma.1"
+"glibc-gconv-extra" = "2.39-142.el10_2.alma.1"
+"glibc-minimal-langpack" = "2.39-142.el10_2.alma.1"
+"kernel-headers" = "6.12.0-211.66.1.el10_2"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+"openssh-clients" = "9.9p1-28.el10_2.alma.1"
+
+[pending."xen"]
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"emacs-filesystem" = "1:29.4-13.el10_2"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"glibc-common" = "2.39-142.el10_2.alma.1"
+"glibc-devel" = "2.39-142.el10_2.alma.1"
+"glibc-gconv-extra" = "2.39-142.el10_2.alma.1"
+"glibc-minimal-langpack" = "2.39-142.el10_2.alma.1"
+"kernel-headers" = "6.12.0-211.66.1.el10_2"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+"openssh-clients" = "9.9p1-28.el10_2.alma.1"
+
+[pending."xo-lite"]
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"glibc-common" = "2.39-142.el10_2.alma.1"
+"glibc-devel" = "2.39-142.el10_2.alma.1"
+"glibc-gconv-extra" = "2.39-142.el10_2.alma.1"
+"glibc-minimal-langpack" = "2.39-142.el10_2.alma.1"
+"kernel-headers" = "6.12.0-211.66.1.el10_2"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+"openssh-clients" = "9.9p1-28.el10_2.alma.1"
+
+[pending."xs-opam-repo"]
+"bubblewrap" = "0.10.0-3.el10"
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"emacs-filesystem" = "1:29.4-13.el10_2"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"glibc-common" = "2.39-142.el10_2.alma.1"
+"glibc-devel" = "2.39-142.el10_2.alma.1"
+"glibc-gconv-extra" = "2.39-142.el10_2.alma.1"
+"glibc-minimal-langpack" = "2.39-142.el10_2.alma.1"
+"kernel-headers" = "6.12.0-211.66.1.el10_2"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+"openssh-clients" = "9.9p1-28.el10_2.alma.1"
+
+[pending."xs-opam-src"]
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"glibc-common" = "2.39-142.el10_2.alma.1"
+"glibc-devel" = "2.39-142.el10_2.alma.1"
+"glibc-gconv-extra" = "2.39-142.el10_2.alma.1"
+"glibc-minimal-langpack" = "2.39-142.el10_2.alma.1"
+"kernel-headers" = "6.12.0-211.66.1.el10_2"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+"openssh-clients" = "9.9p1-28.el10_2.alma.1"
+
+[pending."xsconsole"]
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"glibc-common" = "2.39-142.el10_2.alma.1"
+"glibc-devel" = "2.39-142.el10_2.alma.1"
+"glibc-gconv-extra" = "2.39-142.el10_2.alma.1"
+"glibc-minimal-langpack" = "2.39-142.el10_2.alma.1"
+"kernel-headers" = "6.12.0-211.66.1.el10_2"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+"openssh-clients" = "9.9p1-28.el10_2.alma.1"
