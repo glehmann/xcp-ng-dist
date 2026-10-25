@@ -1,0 +1,53 @@
+name: Build
+
+# the builds of all the packages, natively on each architecture, pushed to the remote storage with their sources and
+# compiler caches, for the other builders and the developers to fetch rather than build them again; the pull requests
+# of forks too, see checks.yml, but without pushing
+on: [push, pull_request]
+
+permissions: {}
+
+jobs:
+  build:
+    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - arch: x86_64_v2
+            runner: ubuntu-latest
+          - arch: aarch64
+            runner: ubuntu-24.04-arm
+    name: build (${{ matrix.arch }})
+    runs-on: ${{ matrix.runner }}
+    # one push of a branch at a time on each architecture: the latest one has the latest builds
+    concurrency:
+      group: build-${{ github.ref }}-${{ matrix.arch }}
+    env:
+      FORCE_COLOR: "1"
+      XCRAFT_ARCH: ${{ matrix.arch }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7  # v10.2.0
+        with:
+          version: "0.10.x"
+          activate-environment: true
+      - run: uv sync --frozen
+      # the build environment: the arm64 runners may not have podman
+      - run: command -v podman || { sudo apt-get update -q && sudo apt-get install -qy podman; }
+      # what the remote storage has is fetched rather than built
+      - run: xcraft build --locked
+      # what was built, even when the build failed: xcraft push fails then too, after pushing the others
+      - if: ${{ !cancelled() && github.event_name == 'push' }}
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: xcraft push
+      # the compiler caches the builds filled, even of those which failed
+      - if: ${{ !cancelled() && github.event_name == 'push' }}
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: xcraft push ccache
