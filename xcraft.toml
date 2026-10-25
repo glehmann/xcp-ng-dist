@@ -63,10 +63,11 @@ branches = ["master", "XS-9.0"]
 srpm_branch = "XS-9.0"
 removed = ["Citrix_Logo_Black.png", "COPYING.CitrixCommercial"]
 
-# the local storage of local-s3.sh, in xcraft, for development
+# the test storage, Garage on a Hetzner server, behind Caddy, over HTTPS: the S3 writes, signed, and the public reads
+# share its port; the S3 credentials are those of its key xcraft-ci
 [remote]
-url = "http://xcraft.web.garage.localhost:3902"
-s3_endpoint = "http://localhost:3900"
+url = "https://91.98.220.14"
+s3_endpoint = "https://91.98.220.14"
 bucket = "xcraft"
 region = "garage"
 
