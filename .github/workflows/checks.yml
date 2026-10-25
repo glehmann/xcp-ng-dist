@@ -20,7 +20,11 @@ jobs:
           version: "0.10.x"
           activate-environment: true
       - run: uv sync --frozen
-      # the build environment, which parses the specs
-      - run: command -v podman || { sudo apt-get update -q && sudo apt-get install -qy podman; }
+      # podman parses the specs; gpg verifies the remote builds in the plan
+      - run: |
+          if ! command -v podman || ! command -v gpg; then
+            sudo apt-get update -q
+            sudo apt-get install -qy podman gnupg
+          fi
       # the lock has what the builds of all the architectures need: their build roots, resolved here, natively
       - run: for arch in x86_64_v2 aarch64; do xcraft build --dry-run --locked --arch "$arch"; done

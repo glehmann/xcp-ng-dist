@@ -63,12 +63,19 @@ branches = ["master", "XS-9.0"]
 srpm_branch = "XS-9.0"
 removed = ["Citrix_Logo_Black.png", "COPYING.CitrixCommercial"]
 
-# the test storage, Garage on a Hetzner server, behind Caddy, over HTTPS: the S3 writes, signed, and the public reads
+# the test storage, Garage on a Hetzner server, over HTTPS: the S3 writes, signed, and the public reads
 # share its port; the S3 credentials are those of its key xcraft-ci
-[remote]
+[remote.main]
 url = "https://91.98.220.14"
 s3_endpoint = "https://91.98.220.14"
 bucket = "xcraft"
+region = "garage"
+build_keys = ["F7685175612B78858C4211D861ECBE94C30BC7B5"]
+
+[remote.dev]
+url = "https://91.98.220.14:8443"
+s3_endpoint = "https://91.98.220.14:8443"
+bucket = "xcraft-dev"
 region = "garage"
 
 [publish]
