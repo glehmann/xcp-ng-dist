@@ -37,8 +37,8 @@ jobs:
       - run: uv sync --frozen
       # the build environment: the arm64 runners may not have podman
       - run: command -v podman || { sudo apt-get update -q && sudo apt-get install -qy podman; }
-      # what the remote storage has is fetched rather than built
-      - run: xcraft build --locked
+      # what the remote storage has is not built again, nor fetched, but for the builds of the others
+      - run: xcraft build --locked --fetch=needed
       # what was built, even when the build failed: xcraft push fails then too, after pushing the others
       - if: ${{ !cancelled() && github.event_name == 'push' }}
         env:
