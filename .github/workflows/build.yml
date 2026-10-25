@@ -35,6 +35,17 @@ jobs:
           version: "0.10.x"
           activate-environment: true
       - run: uv sync --frozen
+      # the metadata xcraft computed in the previous runs, named after what they are computed from: the parsed specs,
+      # the resolutions, the packages of the base image; without changes, neither dnf nor the build environment image
+      # is needed to know what to build
+      - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9  # v6.1.0
+        with:
+          path: |
+            .xcraft/cache/specs
+            .xcraft/cache/resolved
+            .xcraft/cache/base
+          key: xcraft-metadata-${{ matrix.arch }}-${{ github.run_id }}
+          restore-keys: xcraft-metadata-${{ matrix.arch }}-
       # the build environment: the arm64 runners may not have podman
       - run: command -v podman || { sudo apt-get update -q && sudo apt-get install -qy podman; }
       # what the remote storage has is not built again, nor fetched, but for the builds of the others
