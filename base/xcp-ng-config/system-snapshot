@@ -1,0 +1,99 @@
+#!/bin/bash
+set -euo pipefail
+umask 077
+
+die() { echo "$*" >&2; exit 1; }
+restore_efi() {
+    find /boot/efi -mindepth 1 -delete
+    tar -C /boot/efi -xf "$1"
+}
+
+command=${0##*/}
+root=/
+if [[ ${1:-} == --root ]]; then
+    [[ $command == system-snapshot && $# == 3 ]] || die 'Usage: system-snapshot [--root MOUNTPOINT] NAME'
+    root=$(realpath -e "$2")
+    shift 2
+fi
+[[ $# == 1 && $1 =~ ^[a-zA-Z0-9][a-zA-Z0-9._-]{0,127}$ ]] || die "Usage: $command NAME"
+[[ $EUID == 0 ]] || die 'Run as root.'
+efi=${root%/}/boot/efi
+[[ $(findmnt -n -M "$root" -o FSTYPE) == btrfs ]] || die 'Root is not a Btrfs mount.'
+mountpoint -q "$efi" || die 'EFI partition is not mounted.'
+[[ $(findmnt -n -M "$efi" -o FSTYPE) == vfat ]] || die 'EFI partition is not FAT.'
+exec 9>/run/lock/xcp-ng-system-snapshot.lock
+flock -n 9 || die 'Another snapshot or restore is running.'
+
+top=$(mktemp -d /run/xcp-ng-system-snapshot.XXXXXX)
+stage=
+previous=
+renamed=0
+committed=0
+efi_backup=
+efi_changed=0
+cleanup() {
+    rc=$?
+    trap - EXIT
+    if [[ $efi_changed == 1 && $committed == 0 ]]; then
+        restore_efi "$efi_backup"
+    fi
+    if [[ $renamed == 1 && $committed == 0 ]]; then
+        if [[ -d $top/@root ]]; then
+            mv "$top/@root" "$top/$stage"
+        fi
+        mv "$top/$previous" "$top/@root"
+        btrfs subvolume set-default "$top/@root"
+    fi
+    if [[ -n $stage && -d $top/$stage ]]; then
+        btrfs subvolume delete "$top/$stage"
+    fi
+    if mountpoint -q "$top"; then
+        umount "$top"
+    fi
+    rmdir "$top"
+    if [[ -n $efi_backup ]]; then
+        rm -f "$efi_backup"
+    fi
+    exit "$rc"
+}
+trap cleanup EXIT
+trap 'exit 130' INT
+trap 'exit 143' TERM HUP
+mount -o subvolid=5 "UUID=$(findmnt -n -M "$root" -o UUID)" "$top"
+[[ -d $top/@root && -d $top/@snapshots ]] || die 'Snapshot-ready root layout not found.'
+[[ $(btrfs inspect-internal rootid "$root") == $(btrfs inspect-internal rootid "$top/@root") ]] ||
+    die 'A rollback is pending; reboot first.'
+
+snapshot=$top/@snapshots/$1
+case $command in
+    system-snapshot)
+        [[ ! -e $snapshot ]] || die "Snapshot already exists: $1"
+        tar -C "$efi" -cf "$top/@root/.system-snapshot-efi.tar" .
+        sync
+        btrfs subvolume snapshot -r "$top/@root" "$snapshot"
+        echo "Created snapshot: $1"
+        ;;
+    system-restore)
+        [[ -d $snapshot && ! -L $snapshot ]] || die "Snapshot not found: $1"
+        [[ $(btrfs property get -ts "$snapshot" ro) == ro=true ]] || die 'Snapshot must be read-only.'
+        [[ -f $snapshot/.system-snapshot-efi.tar ]] || die 'Snapshot has no EFI backup.'
+        tar -tf "$snapshot/.system-snapshot-efi.tar" > /dev/null
+        stage=@restore-$$
+        previous=@previous-$(date -u +%Y%m%dT%H%M%S)-$$
+        btrfs subvolume snapshot "$snapshot" "$top/$stage"
+        efi_backup=$(mktemp /run/xcp-ng-efi.XXXXXX)
+        tar -C /boot/efi -cf "$efi_backup" .
+        sync
+        mv "$top/@root" "$top/$previous"
+        renamed=1
+        mv "$top/$stage" "$top/@root"
+        btrfs subvolume set-default "$top/@root"
+        efi_changed=1
+        restore_efi "$top/@root/.system-snapshot-efi.tar"
+        sync
+        echo "Restoring $1; previous root retained as $previous. Rebooting now."
+        systemctl reboot
+        committed=1
+        ;;
+    *) die "Unknown command: $command" ;;
+esac

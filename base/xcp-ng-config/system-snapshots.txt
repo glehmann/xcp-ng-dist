@@ -1,0 +1,116 @@
+System snapshots for test hosts
+==============================
+
+Installation snapshot
+---------------------
+
+An answerfile can request a baseline without an external script:
+
+    <installation mode="fresh">
+      ...
+      <system-snapshot name="installed" />
+    </installation>
+
+The installer takes this read-only root snapshot after configuration and
+filesystem-populated scripts, before unmounting the target filesystems.
+EFI files are included. A snapshot failure fails installation. The option
+requires a Btrfs root; omit it to install without creating a snapshot.
+This baseline is before first boot, so restoring it reruns pending first-boot
+initialization. The same option works with PXE and local installation media.
+
+Live commands
+-------------
+
+Btrfs installations include two root-only commands outside PATH:
+
+    /usr/libexec/xcp-ng/system-snapshot baseline
+    /usr/libexec/xcp-ng/system-restore baseline
+
+Snapshot names may contain letters, numbers, dots, underscores, and hyphens,
+must start with a letter or number, and may be at most 128 characters long.
+List saved snapshots with `ls /.snapshots`.
+
+The snapshot helper also accepts `--root MOUNTPOINT` to snapshot an installed
+system mounted by the installer or recovery environment. This option is not
+accepted by system-restore, which restores only the running system.
+
+system-snapshot saves the mounted EFI partition's files inside root, syncs,
+and creates a read-only root snapshot. It does not stop services: quiesce
+applications that need it and avoid package updates while taking a baseline.
+
+system-restore makes a writable clone of the snapshot, replaces @root,
+updates the default subvolume, restores the EFI files, and immediately
+requests a normal systemd reboot. Running processes keep using the old
+mounted root until reboot. /var/log is not rolled back. EFI must be mounted
+at /boot/efi. Firmware NVRAM and guest storage are not included.
+
+The previous root is retained as @previous-TIMESTAMP-PID at the filesystem's
+top level. Snapshots remain available for repeated restores. These copies
+consume space as the system changes; remove unneeded ones from a top-level
+mount using `btrfs subvolume delete`. The helpers serialize their operations
+and reject another operation while a rollback is pending.
+
+The commands work over SSH. A successful restore disconnects the session
+during reboot. If requesting reboot fails, the helper restores the original
+root selection and EFI files instead.
+
+Layout and offline recovery
+---------------------------
+
+Btrfs installations use sibling @root and @snapshots subvolumes. @root is
+mounted at / and @snapshots at /.snapshots. /boot is part of @root, while
+/var/log is a separate filesystem and survives rollback. The swap partition
+contains no persistent system state. Do not create additional subvolumes
+inside @root if their contents must be restored with the system.
+
+The EFI system partition is FAT, so Btrfs cannot snapshot it. Save its
+contents inside @root before taking a snapshot and restore those contents
+with the root snapshot. Firmware NVRAM and external disks, including guest
+storage repositories, are not included in a system snapshot.
+
+Take and restore snapshots offline from the installer diagnostic shell.
+Shut the installed host down cleanly first. This keeps package state and
+application databases consistent and permits restoring EFI files safely.
+
+Identify the root and EFI partitions using blkid and the installed fstab.
+The device names below are examples for a normal single-disk installation.
+Check them before proceeding. Do not mount the logs partition for rollback.
+
+    set -e
+    mkdir -p /mnt/system /mnt/efi
+    mount -o subvolid=5 /dev/sda1 /mnt/system
+    mount /dev/sda3 /mnt/efi
+
+Create a baseline snapshot with a name that does not already exist:
+
+    tar -C /mnt/efi -cf /mnt/system/@root/.efi-backup.tar .
+    sync
+    btrfs subvolume snapshot -r /mnt/system/@root /mnt/system/@snapshots/baseline
+    umount /mnt/efi /mnt/system
+
+Boot the installed host and perform the test. To roll back, shut it down,
+boot the installer, and mount the same partitions as above. Keep the tested
+root as @previous until the restored system has booted successfully. The
+names @restore and @previous must not already exist.
+
+    btrfs subvolume snapshot /mnt/system/@snapshots/baseline /mnt/system/@restore
+    mv /mnt/system/@root /mnt/system/@previous
+    mv /mnt/system/@restore /mnt/system/@root
+    btrfs subvolume set-default /mnt/system/@root
+    mountpoint -q /mnt/efi
+    find /mnt/efi -mindepth 1 -delete
+    tar -C /mnt/efi -xf /mnt/system/@root/.efi-backup.tar
+    sync
+    umount /mnt/efi /mnt/system
+
+Boot from the installed disk. Root, /boot, and EFI files now match the
+baseline; /var/log still contains the test's logs. The read-only baseline
+remains available for another rollback. After verification, delete the
+previous root from the top-level mount with:
+
+    mount -o subvolid=5 /dev/sda1 /mnt/system
+    btrfs subvolume delete /mnt/system/@previous
+    umount /mnt/system
+
+These are filesystem snapshots, not a VM memory checkpoint. Shut down any
+guest VMs before testing and keep their storage outside the rollback scope.
