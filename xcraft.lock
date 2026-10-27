@@ -38,6 +38,7 @@ version = 1
 "bpftool" = "7.7.0-2.el10"
 "bridge-utils" = "1.7.1-11.el10_0"
 "brotli" = "1.1.0-8.el10_2"
+"btrfs-progs" = "6.12-3.el10_0"
 "bubblewrap" = "0.10.0-3.el10"
 "busybox" = "1.37.0-4.el10_2"
 "bzip2" = "1.0.8-25.el10"
@@ -1435,6 +1436,7 @@ version = 1
 "bridge-utils" = "1.7.1-11.el10_0.alma_altarch x86_64_v2 95e79ac43d48ff01c5608ebf80282c2fd17871f04208ad463b1c3d7afb99ce40 bridge-utils"
 "brotli" = "1.1.0-8.el10_2 x86_64_v2 bf22b615fe3ea530ee8f28fcde28680dd3816d908a208e2b8215995cc7787e91 brotli"
 "brotli-devel" = "1.1.0-8.el10_2 x86_64_v2 fdf230806e1bd9e4d0dec446d851057df1e83cb466ec6d0fc99ef2e793ad6642 brotli"
+"btrfs-progs" = "6.12-3.el10_0.alma_altarch x86_64_v2 984c0d19b7139efd00807cdb20af4e8d6eeec68b0a24df3a0e1c9f0fa2d214a3 btrfs-progs"
 "bubblewrap" = "0.10.0-3.el10 x86_64_v2 51aec01bc88a9fe8162c0cda4979492cf53a8f392a8eee99828164a269011104 bubblewrap"
 "busybox" = "1:1.37.0-4.el10_2.alma_altarch x86_64_v2 b68256183ed8797da39aacc1b16444e1aef6db459974afd15e7cb4a9ae4cd704 busybox"
 "bzip2" = "1.0.8-25.el10 x86_64_v2 85da6062c8bff69fe8eaae120ba2fa6831eaf4f5ba214158b4ab510db18adf3f bzip2"
@@ -7865,6 +7867,7 @@ version = 1
     "boost-thread",
     "bpftool",
     "bridge-utils",
+    "btrfs-progs",
     "bubblewrap",
     "busybox",
     "bzip2",
