@@ -84,7 +84,7 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        run: xcraft publish --locked --to main --stage incoming --arch "$XCRAFT_ARCH" --key "$SIGNING_KEY_FINGERPRINT"
+        run: xcraft --debug publish --locked --to main --stage incoming --arch "$XCRAFT_ARCH" --key "$SIGNING_KEY_FINGERPRINT"
       - name: Clean up signing
         if: always()
         run: |

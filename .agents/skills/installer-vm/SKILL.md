@@ -1,22 +1,24 @@
 ---
 name: installer-vm
-description: Boot and control the XCP-ng installer in a disposable QEMU VM, navigate its serial UI, inspect diagnostic consoles, retrieve installation logs, and boot the installed host. Use when testing host-installer or installation ISO changes, resuming an installer VM session, or diagnosing installation failures such as package-install errors.
+description: Test the XCP-ng installer in a disposable QEMU VM using answerfiles by default, drive its serial UI for interaction and display tests, retrieve diagnostic logs, and verify installed-host boot. Use when testing host-installer or installation ISO changes, resuming an installer VM session, or diagnosing installation failures.
 ---
 
 # Installer VM
 
-Read [the runbook](references/runbook.md) before controlling a VM. It records tested setup, command examples,
-known limitations, and a dated session handoff. Check whether the referenced temporary helper and artifacts still
-exist before using them.
+Read [the runbook](references/runbook.md) before controlling a VM for setup, answerfile execution, UI controls,
+log retrieval, and installed-host checks.
+
+Use answerfiles by default for functional installation tests. Reserve `pyte`-driven UI input for testing actual
+user interaction, dialog behavior, or message display. Console rendering and screenshots can diagnose either mode.
 
 ## Workflow
 
 1. Inspect the existing VM and its artifacts before starting another instance. Reuse its control endpoints when
-   resuming a session; the prototype launcher replaces socket paths.
+   resuming a session.
 2. For a new VM, use a disposable qcow2 disk and UEFI firmware with a writable, per-VM variables file. Attach serial
    capture before boot. Record the launch configuration and artifact paths so another session can attach.
-3. Render serial output with `pyte`. Wait for expected screen contents and output stability with a timeout before
-   sending input. Use QMP screenshots when serial output does not explain the current state.
+3. Run the test with an answerfile unless UI behavior is the subject. For UI tests, render serial output with `pyte`
+   and wait for stable expected screen contents with a timeout before sending input.
 4. Use `xcraft vm` for status, rendered console, serial input, keyboard events, screenshots, and diagnostics. Send
    installer UI input through serial. Use QMP physical keyboard events for virtual-terminal switching and
    commands in the diagnostic shell. Serial input may not reach that shell.
@@ -28,5 +30,4 @@ exist before using them.
    Verify the installed host actually boots before reporting installation success.
 
 Report the observed installer state, collected artifact paths, any concrete failure cause, and the next unresolved
-step. Keep new session-specific details in the dated handoff section of the reference rather than treating temporary
-paths or unverified workarounds as permanent setup requirements.
+step. Keep session-specific details with local test artifacts; keep the runbook focused on reusable instructions.
