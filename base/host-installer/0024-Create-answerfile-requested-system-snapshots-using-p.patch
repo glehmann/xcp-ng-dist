@@ -1,0 +1,348 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Ga=C3=ABtan=20Lehmann?= <gaetan.lehmann@vates.tech>
+Date: Wed, 28 Oct 2026 09:40:41 +0100
+Subject: [PATCH] Create answerfile-requested system snapshots using packaged
+ helpers
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Signed-off-by: Gaëtan Lehmann <gaetan.lehmann@vates.tech>
+---
+ Makefile                 |  2 -
+ answerfile.py            | 15 +++++++
+ backend.py               | 16 +++----
+ doc/answerfile.txt       | 12 ++++-
+ doc/system-snapshots.txt | 95 ----------------------------------------
+ system-snapshot          | 92 --------------------------------------
+ 6 files changed, 33 insertions(+), 199 deletions(-)
+ delete mode 100644 doc/system-snapshots.txt
+ delete mode 100644 system-snapshot
+
+diff --git a/Makefile b/Makefile
+index 616d5eb7..ee7e0f82 100644
+--- a/Makefile
++++ b/Makefile
+@@ -36,14 +36,12 @@ install:
+ 	        repository.py \
+ 	        restore.py \
+ 	        scripts.py \
+-	        system-snapshot \
+ 	        snackutil.py \
+ 	        uicontroller.py \
+ 	        upgrade.py \
+ 	        util.py \
+ 	        xelogging.py \
+ 	    $(DESTDIR)$(INSTALLER_DIR)/
+-	$(INSTALL) -m644 doc/system-snapshots.txt $(DESTDIR)$(INSTALLER_DIR)/
+ 	$(INSTALL) -m644 \
+ 	        tui/__init__.py \
+ 	        tui/init.py \
+diff --git a/answerfile.py b/answerfile.py
+index a670c0a3..f0f62a58 100644
+--- a/answerfile.py
++++ b/answerfile.py
+@@ -10,6 +10,7 @@ import netutil
+ import product
+ import scripts
+ import util
++import re
+ import xml.dom.minidom
+ 
+ from xcp import logger
+@@ -92,11 +93,25 @@ class Answerfile:
+                 raise AnswerfileException("Unknown mode, %s" % install_type)
+ 
+             results.update(self.parseCommon())
++            results.update(self.parseSystemSnapshot(results['fs-type']))
+         elif self.operation == 'restore':
+             results = self.parseRestore()
+ 
+         return results
+ 
++    def parseSystemSnapshot(self, fs_type: str) -> dict[str, str]:
++        nodes = getElementsByTagName(self.top_node, ['system-snapshot'])
++        if len(nodes) > 1:
++            raise AnswerfileException("Expected at most one system-snapshot element")
++        if not nodes:
++            return {}
++        name = getStrAttribute(nodes[0], ['name'], mandatory=True)
++        if not re.fullmatch(r'[a-zA-Z0-9][a-zA-Z0-9._-]{0,127}', name):
++            raise AnswerfileException("Invalid system snapshot name")
++        if fs_type != 'btrfs':
++            raise AnswerfileException("System snapshots require a Btrfs root filesystem")
++        return {'system-snapshot': name}
++
+     def parseScripts(self):
+ 
+         def buildURL(stype, path):
+diff --git a/backend.py b/backend.py
+index 8a6adce5..c7481fbe 100644
+--- a/backend.py
++++ b/backend.py
+@@ -181,7 +181,6 @@ def getFinalisationSequence(ans):
+         Task(configureNetworking, A(ans, 'mounts', 'net-admin-interface', 'net-admin-configuration', 'manual-hostname', 'manual-nameservers', 'network-hardware', 'preserve-settings', 'network-backend'), []),
+         Task(prepareSwapfile, A(ans, 'mounts', 'primary-disk', 'swap-partnum', 'disk-label-suffix', 'fs-type'), []),
+         Task(writeFstab, A(ans, 'mounts', 'primary-disk', 'logs-partnum', 'swap-partnum', 'disk-label-suffix', 'fs-type'), []),
+-        Task(installSnapshotCommands, A(ans, 'mounts', 'fs-type'), []),
+         Task(enableAgent, A(ans, 'mounts', 'network-backend', 'services'), []),
+         Task(configureCC, A(ans, 'mounts'), []),
+         Task(configureXcpng, A(ans, 'mounts'), []),
+@@ -222,6 +221,9 @@ def getFinalisationSequence(ans):
+     # run the users's scripts
+     seq.append( Task(scripts.run_scripts, lambda a: ['filesystem-populated',  a['mounts']['root']], []) )
+ 
++    if ans.get('system-snapshot'):
++        seq.append(Task(createSystemSnapshot, A(ans, 'mounts', 'system-snapshot'), []))
++
+     seq.append(Task(umountVolumes, A(ans, 'mounts', 'cleanup'), ['cleanup']))
+     seq.append(Task(writeLog, A(ans, 'primary-disk', 'primary-partnum', 'logs-partnum'), []))
+ 
+@@ -1300,14 +1302,10 @@ def writeFstab(mounts, primary_disk, logs_partnum, swap_partnum, disk_label_suff
+         logs_checks = '0  0' if fs_type == 'btrfs' else '0  2'
+         fstab.write("LABEL=%s    /var/log         %s     defaults   %s\n" % (logsfs_label%disk_label_suffix, fs_type, logs_checks))
+ 
+-def installSnapshotCommands(mounts: dict[str, str], fs_type: str) -> None:
+-    if fs_type == 'btrfs':
+-        directory = os.path.join(mounts['root'], 'usr/libexec/xcp-ng')
+-        util.assertDir(directory)
+-        for name in ('system-snapshot', 'system-restore'):
+-            shutil.copyfile('system-snapshot', os.path.join(directory, name))
+-            os.chmod(os.path.join(directory, name), 0o700)
+-        shutil.copyfile('system-snapshots.txt', os.path.join(directory, 'README'))
++def createSystemSnapshot(mounts: dict[str, str], name: str) -> None:
++    if util.runCmd2([os.path.join(mounts['root'], 'usr/libexec/xcp-ng/system-snapshot'),
++                     '--root', mounts['root'], name]) != 0:
++        raise RuntimeError("Failed to create system snapshot %s" % name)
+ 
+ def enableAgent(mounts, network_backend, services):
+     if network_backend == constants.NETWORK_BACKEND_VSWITCH:
+diff --git a/doc/answerfile.txt b/doc/answerfile.txt
+index 46e73f66..de1a04f6 100644
+--- a/doc/answerfile.txt
++++ b/doc/answerfile.txt
+@@ -44,6 +44,16 @@ Elements common to all answerfiles, both 'installation' and 'restore'
+     main repository.
+ 
+ 
++  <system-snapshot name="name" />?
++
++    Create a read-only root snapshot after final configuration and all
++    filesystem-populated scripts, before the first boot. EFI files are
++    included; /var/log remains separate and survives rollback. Requires
++    Btrfs. Snapshot failure fails installation. Omit to disable.
++
++    Names must start with a letter or number, contain only letters,
++    numbers, dots, underscores and hyphens, and be at most 128 characters.
++
+   <script stage="stage" type="type">url</script>*
+ 
+     where stage is one of:
+@@ -299,7 +309,7 @@ Format of 'source' and 'driver-source'
+ (Re)Install Attributes
+ ----------------------
+ 
+-  <installation fs-type="btrfs|ext3|ext4"?>
++  <primary-disk fs-type="btrfs|ext3|ext4"?>device</primary-disk>
+ 
+     Filesystem for the host root and logs partitions. Default: btrfs.
+     This does not select the storage repository filesystem.
+diff --git a/doc/system-snapshots.txt b/doc/system-snapshots.txt
+deleted file mode 100644
+index d74cce66..00000000
+--- a/doc/system-snapshots.txt
++++ /dev/null
+@@ -1,95 +0,0 @@
+-System snapshots for test hosts
+-==============================
+-
+-Live commands
+--------------
+-
+-Btrfs installations include two root-only commands outside PATH:
+-
+-    /usr/libexec/xcp-ng/system-snapshot baseline
+-    /usr/libexec/xcp-ng/system-restore baseline
+-
+-Snapshot names may contain letters, numbers, dots, underscores, and hyphens,
+-must start with a letter or number, and may be at most 128 characters long.
+-List saved snapshots with `ls /.snapshots`.
+-
+-system-snapshot saves the mounted EFI partition's files inside root, syncs,
+-and creates a read-only root snapshot. It does not stop services: quiesce
+-applications that need it and avoid package updates while taking a baseline.
+-
+-system-restore makes a writable clone of the snapshot, replaces @root,
+-updates the default subvolume, restores the EFI files, and immediately
+-requests a normal systemd reboot. Running processes keep using the old
+-mounted root until reboot. /var/log is not rolled back. EFI must be mounted
+-at /boot/efi. Firmware NVRAM and guest storage are not included.
+-
+-The previous root is retained as @previous-TIMESTAMP-PID at the filesystem's
+-top level. Snapshots remain available for repeated restores. These copies
+-consume space as the system changes; remove unneeded ones from a top-level
+-mount using `btrfs subvolume delete`. The helpers serialize their operations
+-and reject another operation while a rollback is pending.
+-
+-The commands work over SSH. A successful restore disconnects the session
+-during reboot. If requesting reboot fails, the helper restores the original
+-root selection and EFI files instead.
+-
+-Layout and offline recovery
+----------------------------
+-
+-Btrfs installations use sibling @root and @snapshots subvolumes. @root is
+-mounted at / and @snapshots at /.snapshots. /boot is part of @root, while
+-/var/log is a separate filesystem and survives rollback. The swap partition
+-contains no persistent system state. Do not create additional subvolumes
+-inside @root if their contents must be restored with the system.
+-
+-The EFI system partition is FAT, so Btrfs cannot snapshot it. Save its
+-contents inside @root before taking a snapshot and restore those contents
+-with the root snapshot. Firmware NVRAM and external disks, including guest
+-storage repositories, are not included in a system snapshot.
+-
+-Take and restore snapshots offline from the installer diagnostic shell.
+-Shut the installed host down cleanly first. This keeps package state and
+-application databases consistent and permits restoring EFI files safely.
+-
+-Identify the root and EFI partitions using blkid and the installed fstab.
+-The device names below are examples for a normal single-disk installation.
+-Check them before proceeding. Do not mount the logs partition for rollback.
+-
+-    set -e
+-    mkdir -p /mnt/system /mnt/efi
+-    mount -o subvolid=5 /dev/sda1 /mnt/system
+-    mount /dev/sda3 /mnt/efi
+-
+-Create a baseline snapshot with a name that does not already exist:
+-
+-    tar -C /mnt/efi -cf /mnt/system/@root/.efi-backup.tar .
+-    sync
+-    btrfs subvolume snapshot -r /mnt/system/@root /mnt/system/@snapshots/baseline
+-    umount /mnt/efi /mnt/system
+-
+-Boot the installed host and perform the test. To roll back, shut it down,
+-boot the installer, and mount the same partitions as above. Keep the tested
+-root as @previous until the restored system has booted successfully. The
+-names @restore and @previous must not already exist.
+-
+-    btrfs subvolume snapshot /mnt/system/@snapshots/baseline /mnt/system/@restore
+-    mv /mnt/system/@root /mnt/system/@previous
+-    mv /mnt/system/@restore /mnt/system/@root
+-    btrfs subvolume set-default /mnt/system/@root
+-    mountpoint -q /mnt/efi
+-    find /mnt/efi -mindepth 1 -delete
+-    tar -C /mnt/efi -xf /mnt/system/@root/.efi-backup.tar
+-    sync
+-    umount /mnt/efi /mnt/system
+-
+-Boot from the installed disk. Root, /boot, and EFI files now match the
+-baseline; /var/log still contains the test's logs. The read-only baseline
+-remains available for another rollback. After verification, delete the
+-previous root from the top-level mount with:
+-
+-    mount -o subvolid=5 /dev/sda1 /mnt/system
+-    btrfs subvolume delete /mnt/system/@previous
+-    umount /mnt/system
+-
+-These are filesystem snapshots, not a VM memory checkpoint. Shut down any
+-guest VMs before testing and keep their storage outside the rollback scope.
+diff --git a/system-snapshot b/system-snapshot
+deleted file mode 100644
+index 763d3447..00000000
+--- a/system-snapshot
++++ /dev/null
+@@ -1,92 +0,0 @@
+-#!/bin/bash
+-set -euo pipefail
+-umask 077
+-
+-die() { echo "$*" >&2; exit 1; }
+-restore_efi() {
+-    find /boot/efi -mindepth 1 -delete
+-    tar -C /boot/efi -xf "$1"
+-}
+-
+-command=${0##*/}
+-[[ $# == 1 && $1 =~ ^[a-zA-Z0-9][a-zA-Z0-9._-]{0,127}$ ]] || die "Usage: $command NAME"
+-[[ $EUID == 0 ]] || die 'Run as root.'
+-[[ $(findmnt -n -o FSTYPE /) == btrfs ]] || die 'Root is not Btrfs.'
+-mountpoint -q /boot/efi || die 'EFI partition is not mounted.'
+-[[ $(findmnt -n -o FSTYPE /boot/efi) == vfat ]] || die 'EFI partition is not FAT.'
+-exec 9>/run/lock/xcp-ng-system-snapshot.lock
+-flock -n 9 || die 'Another snapshot or restore is running.'
+-
+-top=$(mktemp -d /run/xcp-ng-system-snapshot.XXXXXX)
+-stage=
+-previous=
+-renamed=0
+-committed=0
+-efi_backup=
+-efi_changed=0
+-cleanup() {
+-    rc=$?
+-    trap - EXIT
+-    if [[ $efi_changed == 1 && $committed == 0 ]]; then
+-        restore_efi "$efi_backup"
+-    fi
+-    if [[ $renamed == 1 && $committed == 0 ]]; then
+-        if [[ -d $top/@root ]]; then
+-            mv "$top/@root" "$top/$stage"
+-        fi
+-        mv "$top/$previous" "$top/@root"
+-        btrfs subvolume set-default "$top/@root"
+-    fi
+-    if [[ -n $stage && -d $top/$stage ]]; then
+-        btrfs subvolume delete "$top/$stage"
+-    fi
+-    if mountpoint -q "$top"; then
+-        umount "$top"
+-    fi
+-    rmdir "$top"
+-    if [[ -n $efi_backup ]]; then
+-        rm -f "$efi_backup"
+-    fi
+-    exit "$rc"
+-}
+-trap cleanup EXIT
+-trap 'exit 130' INT
+-trap 'exit 143' TERM HUP
+-mount -o subvolid=5 "UUID=$(findmnt -n -o UUID /)" "$top"
+-[[ -d $top/@root && -d $top/@snapshots ]] || die 'Snapshot-ready root layout not found.'
+-[[ $(btrfs inspect-internal rootid /) == $(btrfs inspect-internal rootid "$top/@root") ]] ||
+-    die 'A rollback is pending; reboot first.'
+-
+-snapshot=$top/@snapshots/$1
+-case $command in
+-    system-snapshot)
+-        [[ ! -e $snapshot ]] || die "Snapshot already exists: $1"
+-        tar -C /boot/efi -cf "$top/@root/.system-snapshot-efi.tar" .
+-        sync
+-        btrfs subvolume snapshot -r "$top/@root" "$snapshot"
+-        echo "Created snapshot: $1"
+-        ;;
+-    system-restore)
+-        [[ -d $snapshot && ! -L $snapshot ]] || die "Snapshot not found: $1"
+-        [[ $(btrfs property get -ts "$snapshot" ro) == ro=true ]] || die 'Snapshot must be read-only.'
+-        [[ -f $snapshot/.system-snapshot-efi.tar ]] || die 'Snapshot has no EFI backup.'
+-        tar -tf "$snapshot/.system-snapshot-efi.tar" > /dev/null
+-        stage=@restore-$$
+-        previous=@previous-$(date -u +%Y%m%dT%H%M%S)-$$
+-        btrfs subvolume snapshot "$snapshot" "$top/$stage"
+-        efi_backup=$(mktemp /run/xcp-ng-efi.XXXXXX)
+-        tar -C /boot/efi -cf "$efi_backup" .
+-        sync
+-        mv "$top/@root" "$top/$previous"
+-        renamed=1
+-        mv "$top/$stage" "$top/@root"
+-        btrfs subvolume set-default "$top/@root"
+-        efi_changed=1
+-        restore_efi "$top/@root/.system-snapshot-efi.tar"
+-        sync
+-        echo "Restoring $1; previous root retained as $previous. Rebooting now."
+-        systemctl reboot
+-        committed=1
+-        ;;
+-    *) die "Unknown command: $command" ;;
+-esac

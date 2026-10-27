@@ -1,0 +1,195 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Ga=C3=ABtan=20Lehmann?= <gaetan.lehmann@vates.tech>
+Date: Tue, 27 Oct 2026 21:43:29 +0100
+Subject: [PATCH] Use Btrfs for host filesystems
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Signed-off-by: Gaëtan Lehmann <gaetan.lehmann@vates.tech>
+---
+ backend.py         | 34 ++++++++++++++++++++++------------
+ constants.py       |  4 ++--
+ diskutil.py        | 15 ++++++++++-----
+ doc/answerfile.txt |  5 +++++
+ restore.py         |  4 ++--
+ 5 files changed, 41 insertions(+), 21 deletions(-)
+
+diff --git a/backend.py b/backend.py
+index 2bc7525c..348c7bf4 100644
+--- a/backend.py
++++ b/backend.py
+@@ -179,7 +179,7 @@ def getFinalisationSequence(ans):
+         Task(writeMachineID, A(ans, 'mounts'), []),
+         Task(writeKeyboardConfiguration, A(ans, 'mounts', 'keymap'), []),
+         Task(configureNetworking, A(ans, 'mounts', 'net-admin-interface', 'net-admin-configuration', 'manual-hostname', 'manual-nameservers', 'network-hardware', 'preserve-settings', 'network-backend'), []),
+-        Task(prepareSwapfile, A(ans, 'mounts', 'primary-disk', 'swap-partnum', 'disk-label-suffix'), []),
++        Task(prepareSwapfile, A(ans, 'mounts', 'primary-disk', 'swap-partnum', 'disk-label-suffix', 'fs-type'), []),
+         Task(writeFstab, A(ans, 'mounts', 'primary-disk', 'logs-partnum', 'swap-partnum', 'disk-label-suffix', 'fs-type'), []),
+         Task(enableAgent, A(ans, 'mounts', 'network-backend', 'services'), []),
+         Task(configureCC, A(ans, 'mounts'), []),
+@@ -792,7 +792,7 @@ def createDom0DiskFilesystems(install_type, disk, boot_partnum, primary_partnum,
+         partition = partitionDevice(disk, logs_partnum)
+         label = None
+         try:
+-            label = diskutil.readExtPartitionLabel(partition)
++            label = diskutil.readPartitionLabel(partition)
+         except Exception as e:
+             # Ignore the exception as it just means the partition needs to be
+             # formatted.
+@@ -803,9 +803,12 @@ def createDom0DiskFilesystems(install_type, disk, boot_partnum, primary_partnum,
+             # mounted. To prevent this, fsck the filesystem before relabelling.
+             # If any unfixable errors occur or relabelling fails, just recreate
+             # the filesystem instead, rather than fail the installation.
+-            if util.runCmd2(['e2fsck', '-y', partition]) in (0, 1):
+-                if util.runCmd2(['e2label', partition, constants.logsfs_label % disk_label_suffix]) == 0:
+-                    run_mkfs = False
++            if fs_type == 'btrfs':
++                healthy = util.runCmd2(['btrfs', 'check', '--readonly', partition]) == 0
++            else:
++                healthy = util.runCmd2(['e2fsck', '-y', partition]) in (0, 1)
++            if healthy and diskutil.setPartitionLabel(partition, constants.logsfs_label % disk_label_suffix) == 0:
++                run_mkfs = False
+ 
+         if run_mkfs:
+             try:
+@@ -1231,7 +1234,7 @@ def writeKeyboardConfiguration(mounts, keymap):
+     vconsole.write("KEYMAP=%s\n" % keymap)
+     vconsole.close()
+ 
+-def prepareSwapfile(mounts, primary_disk, swap_partnum, disk_label_suffix):
++def prepareSwapfile(mounts, primary_disk, swap_partnum, disk_label_suffix, fs_type):
+ 
+     tool = PartitionTool(primary_disk)
+ 
+@@ -1257,10 +1260,15 @@ def prepareSwapfile(mounts, primary_disk, swap_partnum, disk_label_suffix):
+                 break
+     else:
+         util.assertDir("%s/var/swap" % mounts['root'])
+-        util.runCmd2(['dd', 'if=/dev/zero',
+-                      'of=%s' % os.path.join(mounts['root'], constants.swap_file.lstrip('/')),
+-                      'bs=1024', 'count=%d' % (constants.swap_file_size * 1024)])
+-        util.runCmd2(['chroot', mounts['root'], 'mkswap', constants.swap_file])
++        if fs_type == 'btrfs':
++            if util.runCmd2(['chroot', mounts['root'], 'btrfs', 'filesystem', 'mkswapfile',
++                            '--size', '%dM' % constants.swap_file_size, constants.swap_file]) != 0:
++                raise RuntimeError("Failed to create Btrfs swap file")
++        else:
++            util.runCmd2(['dd', 'if=/dev/zero',
++                          'of=%s' % os.path.join(mounts['root'], constants.swap_file.lstrip('/')),
++                          'bs=1024', 'count=%d' % (constants.swap_file_size * 1024)])
++            util.runCmd2(['chroot', mounts['root'], 'mkswap', constants.swap_file])
+ 
+ def writeFstab(mounts, primary_disk, logs_partnum, swap_partnum, disk_label_suffix, fs_type):
+ 
+@@ -1269,7 +1277,8 @@ def writeFstab(mounts, primary_disk, logs_partnum, swap_partnum, disk_label_suff
+     logs_partition = tool.getPartition(logs_partnum)
+ 
+     fstab = open(os.path.join(mounts['root'], 'etc/fstab'), "w")
+-    fstab.write("LABEL=%s    /         %s     defaults   1  1\n" % (rootfs_label%disk_label_suffix, fs_type))
++    root_checks = '0  0' if fs_type == 'btrfs' else '1  1'
++    fstab.write("LABEL=%s    /         %s     defaults   %s\n" % (rootfs_label%disk_label_suffix, fs_type, root_checks))
+     fstab.write("LABEL=%s    /boot/efi         %s     defaults   0  2\n" % (bootfs_label%disk_label_suffix.upper(), bootfs_type))
+ 
+     if swap_partition:
+@@ -1278,7 +1287,8 @@ def writeFstab(mounts, primary_disk, logs_partnum, swap_partnum, disk_label_suff
+         if os.path.exists(os.path.join(mounts['root'], constants.swap_file.lstrip('/'))):
+             fstab.write("%s          swap      swap   defaults   0  0\n" % (constants.swap_file))
+     if logs_partition:
+-        fstab.write("LABEL=%s    /var/log         %s     defaults   0  2\n" % (logsfs_label%disk_label_suffix, fs_type))
++        logs_checks = '0  0' if fs_type == 'btrfs' else '0  2'
++        fstab.write("LABEL=%s    /var/log         %s     defaults   %s\n" % (logsfs_label%disk_label_suffix, fs_type, logs_checks))
+ 
+ def enableAgent(mounts, network_backend, services):
+     if network_backend == constants.NETWORK_BACKEND_VSWITCH:
+diff --git a/constants.py b/constants.py
+index c032791c..c82a3470 100644
+--- a/constants.py
++++ b/constants.py
+@@ -84,8 +84,8 @@ logs_free_space = 20
+ 
+ # filesystems and partitions types:
+ bootfs_type = 'vfat'
+-allowed_rootfs_types = ('ext3', 'ext4')
+-default_rootfs_type = 'ext4'
++allowed_rootfs_types = ('ext3', 'ext4', 'btrfs')
++default_rootfs_type = 'btrfs'
+ 
+ # filesystems and partitions labels:
+ bootfs_label = "BOOT-%s"
+diff --git a/diskutil.py b/diskutil.py
+index 6f4a96d4..fa9c2978 100644
+--- a/diskutil.py
++++ b/diskutil.py
+@@ -385,15 +385,20 @@ def getExtendedDiskInfo(disk, inMb=0):
+             inMb and (getDiskDeviceSize(disk)//2048) or getDiskDeviceSize(disk))
+ 
+ 
+-def readExtPartitionLabel(partition):
+-    """Read the ext partition label."""
+-    rc, out = util.runCmd2(['/sbin/e2label', partition], with_stdout=True)
++def readPartitionLabel(partition: str) -> str:
++    """Read a filesystem label without relying on the blkid cache."""
++    rc, out = util.runCmd2(['blkid', '-p', '-s', 'LABEL', '-o', 'value', partition], with_stdout=True)
+     if rc == 0:
+         label = out.strip()
+     else:
+-        raise Exception("%s is not ext partition" % partition)
++        raise Exception("Failed to read filesystem label on %s" % partition)
+     return label
+ 
++def setPartitionLabel(partition: str, label: str) -> int:
++    """Set an ext or Btrfs filesystem label."""
++    cmd = ['btrfs', 'filesystem', 'label'] if fs_type_from_device(partition) == 'btrfs' else ['e2label']
++    return util.runCmd2(cmd + [partition, label])
++
+ def getMdDeviceName(disk):
+     rv, out = util.runCmd2(['mdadm', '--detail', '--export', disk],
+                            with_stdout=True)
+@@ -533,7 +538,7 @@ def probeDisk(device):
+ 
+         if part['id'] == tool.ID_LINUX:
+             try:
+-                label = readExtPartitionLabel(part_device)
++                label = readPartitionLabel(part_device)
+             except:
+                 pass
+ 
+diff --git a/doc/answerfile.txt b/doc/answerfile.txt
+index 2485ddb4..46e73f66 100644
+--- a/doc/answerfile.txt
++++ b/doc/answerfile.txt
+@@ -299,6 +299,11 @@ Format of 'source' and 'driver-source'
+ (Re)Install Attributes
+ ----------------------
+ 
++  <installation fs-type="btrfs|ext3|ext4"?>
++
++    Filesystem for the host root and logs partitions. Default: btrfs.
++    This does not select the storage repository filesystem.
++
+   <installation sr-type="srtype"?>
+   <installation srtype="srtype"?>[D]
+ 
+diff --git a/restore.py b/restore.py
+index d7e90e67..4a6ee928 100644
+--- a/restore.py
++++ b/restore.py
+@@ -157,7 +157,7 @@ def restoreFromBackup(backup, progress=lambda x: ()):
+     if not bootlabel:
+         raise RuntimeError("Failed to find label required for boot filesystem.")
+ 
+-    if util.runCmd2(['e2label', restore_partition, label]) != 0:
++    if diskutil.setPartitionLabel(restore_partition, label) != 0:
+         raise RuntimeError("Failed to label root partition")
+ 
+     if bootlabel:
+@@ -169,7 +169,7 @@ def restoreFromBackup(backup, progress=lambda x: ()):
+         rdm_label = label.split("-")[1]
+         logs_part = partitionDevice(disk, logs_partnum)
+         swap_part = partitionDevice(disk, swap_partnum)
+-        if util.runCmd2(['e2label', logs_part, constants.logsfs_label%rdm_label]) != 0:
++        if diskutil.setPartitionLabel(logs_part, constants.logsfs_label%rdm_label) != 0:
+             raise RuntimeError("Failed to label logs partition")
+         if util.runCmd2(['swaplabel', '-L', constants.swap_label%rdm_label, swap_part]) != 0:
+             raise RuntimeError("Failed to label swap partition")

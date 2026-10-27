@@ -1,0 +1,259 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Ga=C3=ABtan=20Lehmann?= <gaetan.lehmann@vates.tech>
+Date: Wed, 28 Oct 2026 07:23:07 +0100
+Subject: [PATCH] Use snapshot-ready Btrfs root subvolumes
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Signed-off-by: Gaëtan Lehmann <gaetan.lehmann@vates.tech>
+---
+ backend.py               | 49 ++++++++++++++++++--------------
+ diskutil.py              | 13 +++++++++
+ doc/system-snapshots.txt | 60 ++++++++++++++++++++++++++++++++++++++++
+ restore.py               |  4 +++
+ 4 files changed, 106 insertions(+), 20 deletions(-)
+ create mode 100644 doc/system-snapshots.txt
+
+diff --git a/backend.py b/backend.py
+index 348c7bf4..2f08678f 100644
+--- a/backend.py
++++ b/backend.py
+@@ -778,6 +778,8 @@ def createDom0DiskFilesystems(install_type, disk, boot_partnum, primary_partnum,
+     try:
+         util.mkfs(fs_type, partition,
+                   ["-L", rootfs_label%disk_label_suffix])
++        if fs_type == 'btrfs':
++            diskutil.createRootSubvolumes(partition)
+     except Exception as e:
+         raise RuntimeError("Failed to create root filesystem: %s" % e)
+ 
+@@ -988,7 +990,7 @@ def prepFallback(mounts, primary_disk, primary_partnum):
+         raise RuntimeError("Failed to generate fallback initrd")
+ 
+ 
+-def buildBootLoaderMenu(mounts, xen_version, xen_kernel_version, boot_config, serial, boot_serial, host_config, primary_disk, disk_label_suffix, fcoe_interfaces):
++def buildBootLoaderMenu(mounts, xen_version, xen_kernel_version, boot_config, serial, boot_serial, host_config, primary_disk, disk_label_suffix, fcoe_interfaces, fs_type):
+     short_version = kernelShortVersion(xen_kernel_version)
+     common_xen_params = "dom0_mem=%dM,max:%dM" % ((host_config['dom0-mem'],) * 2)
+     common_xen_unsafe_params = "watchdog dom0_max_vcpus=1-%d" % host_config['dom0-vcpus']
+@@ -1006,6 +1008,10 @@ def buildBootLoaderMenu(mounts, xen_version, xen_kernel_version, boot_config, se
+         common_xen_params += " %s" % host_config["sched-gran"]
+ 
+     common_kernel_params = "root=LABEL=%s ro nolvm hpet=disable" % constants.rootfs_label%disk_label_suffix
++    boot_path = '/boot'
++    if fs_type == 'btrfs':
++        common_kernel_params += " rootflags=subvol=@root"
++        boot_path = '/@root/boot'
+     kernel_console_params = "console=hvc0"
+ 
+     if "xen-pciback.hide" in host_config:
+@@ -1021,11 +1027,11 @@ def buildBootLoaderMenu(mounts, xen_version, xen_kernel_version, boot_config, se
+         for interface in fcoe_interfaces:
+             common_kernel_params += " fcoe=%s:%s" % (netutil.getHWAddr(interface), 'nodcb' if fcoeutil.hw_lldp_capable(interface) else 'dcb')
+ 
+-    e = bootloader.MenuEntry(hypervisor="/boot/xen.gz",
++    e = bootloader.MenuEntry(hypervisor=f"{boot_path}/xen.gz",
+                              hypervisor_args=' '.join([common_xen_params, common_xen_unsafe_params, xen_mem_params, "console=vga vga=mode-0x0311"]),
+-                             kernel=f"/boot/vmlinuz-{xen_kernel_version}",
++                             kernel=f"{boot_path}/vmlinuz-{xen_kernel_version}",
+                              kernel_args=' '.join([common_kernel_params, kernel_console_params, "console=tty0 quiet vga=785 splash plymouth.ignore-serial-consoles"]),
+-                             initrd=f"/boot/initrd-{xen_kernel_version}.img",
++                             initrd=f"{boot_path}/initrd-{xen_kernel_version}.img",
+                              title=MY_PRODUCT_BRAND,
+                              root=constants.rootfs_label%disk_label_suffix)
+     boot_config.append("xe", e)
+@@ -1033,45 +1039,45 @@ def buildBootLoaderMenu(mounts, xen_version, xen_kernel_version, boot_config, se
+     if serial:
+         xen_serial_params = "%s console=%s,vga" % (serial.xenFmt(), serial.port)
+ 
+-        e = bootloader.MenuEntry(hypervisor="/boot/xen.gz",
++        e = bootloader.MenuEntry(hypervisor=f"{boot_path}/xen.gz",
+                                  hypervisor_args=' '.join([xen_serial_params, common_xen_params, common_xen_unsafe_params, xen_mem_params]),
+-                                 kernel=f"/boot/vmlinuz-{xen_kernel_version}",
++                                 kernel=f"{boot_path}/vmlinuz-{xen_kernel_version}",
+                                  kernel_args=' '.join([common_kernel_params, "console=tty0", kernel_console_params]),
+-                                 initrd=f"/boot/initrd-{xen_kernel_version}.img",
++                                 initrd=f"{boot_path}/initrd-{xen_kernel_version}.img",
+                                  title=MY_PRODUCT_BRAND+" (Serial)",
+                                  root=constants.rootfs_label%disk_label_suffix)
+         boot_config.append("xe-serial", e)
+         if boot_serial:
+             boot_config.default = "xe-serial"
+-        e = bootloader.MenuEntry(hypervisor="/boot/xen.gz",
++        e = bootloader.MenuEntry(hypervisor=f"{boot_path}/xen.gz",
+                                  hypervisor_args=' '.join([safe_xen_params, common_xen_params, xen_serial_params]),
+-                                 kernel=f"/boot/vmlinuz-{xen_kernel_version}",
++                                 kernel=f"{boot_path}/vmlinuz-{xen_kernel_version}",
+                                  kernel_args=' '.join(["earlyprintk=xen", common_kernel_params, "console=tty0", kernel_console_params]),
+-                                 initrd=f"/boot/initrd-{xen_kernel_version}.img",
++                                 initrd=f"{boot_path}/initrd-{xen_kernel_version}.img",
+                                  title=MY_PRODUCT_BRAND+" in Safe Mode",
+                                  root=constants.rootfs_label%disk_label_suffix)
+         boot_config.append("safe", e)
+ 
+-    e = bootloader.MenuEntry(hypervisor="", hypervisor_args="", kernel="/boot/memtest86+x64.efi",
++    e = bootloader.MenuEntry(hypervisor="", hypervisor_args="", kernel=f"{boot_path}/memtest86+x64.efi",
+                             kernel_args="",
+                             initrd="", title="Memtest86+ (UEFI)",
+                             root=constants.rootfs_label%disk_label_suffix)
+     boot_config.append("memtest", e)
+ 
+-    e = bootloader.MenuEntry(hypervisor="/boot/xen-fallback.gz",
++    e = bootloader.MenuEntry(hypervisor=f"{boot_path}/xen-fallback.gz",
+                              hypervisor_args=' '.join([common_xen_params, common_xen_unsafe_params, xen_mem_params]),
+-                             kernel="/boot/vmlinuz-fallback",
++                             kernel=f"{boot_path}/vmlinuz-fallback",
+                              kernel_args=' '.join([common_kernel_params, kernel_console_params, "console=tty0"]),
+-                             initrd="/boot/initrd-fallback.img",
++                             initrd=f"{boot_path}/initrd-fallback.img",
+                              title="%s (Xen %s / Linux %s)" % (MY_PRODUCT_BRAND, xen_version, xen_kernel_version),
+                              root=constants.rootfs_label%disk_label_suffix)
+     boot_config.append("fallback", e)
+     if serial:
+-        e = bootloader.MenuEntry(hypervisor="/boot/xen-fallback.gz",
++        e = bootloader.MenuEntry(hypervisor=f"{boot_path}/xen-fallback.gz",
+                                  hypervisor_args=' '.join([xen_serial_params, common_xen_params, common_xen_unsafe_params, xen_mem_params]),
+-                                 kernel="/boot/vmlinuz-fallback",
++                                 kernel=f"{boot_path}/vmlinuz-fallback",
+                                  kernel_args=' '.join([common_kernel_params, "console=tty0", kernel_console_params]),
+-                                 initrd="/boot/initrd-fallback.img",
++                                 initrd=f"{boot_path}/initrd-fallback.img",
+                                  title="%s (Serial, Xen %s / Linux %s)" % (MY_PRODUCT_BRAND, xen_version, xen_kernel_version),
+                                  root=constants.rootfs_label%disk_label_suffix)
+         boot_config.append("fallback-serial", e)
+@@ -1091,7 +1097,7 @@ def installBootLoader(mounts, disk, boot_partnum, primary_partnum, branding,
+                                             serial=s, location=location,
+                                             prefix={
+                                                 'uuid': diskutil.fs_uuid_from_device(root_partition),
+-                                                'path': '/usr/lib/grub',
++                                                'path': '/@root/usr/lib/grub' if diskutil.fs_type_from_device(root_partition) == 'btrfs' else '/usr/lib/grub',
+                                             }
+                                             )
+         xen_version = getXenVersion(mounts['root'])
+@@ -1102,7 +1108,7 @@ def installBootLoader(mounts, disk, boot_partnum, primary_partnum, branding,
+             raise RuntimeError("Unable to determine kernel version.")
+         buildBootLoaderMenu(mounts, xen_version, xen_kernel_version, boot_config,
+                             serial, boot_serial, host_config, disk,
+-                            disk_label_suffix, fcoe_interface)
++                            disk_label_suffix, fcoe_interface, diskutil.fs_type_from_device(root_partition))
+         util.assertDir(os.path.dirname(fn))
+         boot_config.commit()
+ 
+@@ -1278,7 +1284,10 @@ def writeFstab(mounts, primary_disk, logs_partnum, swap_partnum, disk_label_suff
+ 
+     fstab = open(os.path.join(mounts['root'], 'etc/fstab'), "w")
+     root_checks = '0  0' if fs_type == 'btrfs' else '1  1'
+-    fstab.write("LABEL=%s    /         %s     defaults   %s\n" % (rootfs_label%disk_label_suffix, fs_type, root_checks))
++    root_options = 'defaults,subvol=@root' if fs_type == 'btrfs' else 'defaults'
++    fstab.write("LABEL=%s    /         %s     %s   %s\n" % (rootfs_label%disk_label_suffix, fs_type, root_options, root_checks))
++    if fs_type == 'btrfs':
++        fstab.write("LABEL=%s    /.snapshots    btrfs    defaults,subvol=@snapshots    0  0\n" % (rootfs_label%disk_label_suffix))
+     fstab.write("LABEL=%s    /boot/efi         %s     defaults   0  2\n" % (bootfs_label%disk_label_suffix.upper(), bootfs_type))
+ 
+     if swap_partition:
+diff --git a/diskutil.py b/diskutil.py
+index fa9c2978..1bf5e839 100644
+--- a/diskutil.py
++++ b/diskutil.py
+@@ -399,6 +399,19 @@ def setPartitionLabel(partition: str, label: str) -> int:
+     cmd = ['btrfs', 'filesystem', 'label'] if fs_type_from_device(partition) == 'btrfs' else ['e2label']
+     return util.runCmd2(cmd + [partition, label])
+ 
++def createRootSubvolumes(partition: str) -> None:
++    """Keep the system and its snapshots in sibling Btrfs subvolumes."""
++    mount = util.TempMount(partition, 'root-subvolumes-', options=['subvolid=5'])
++    try:
++        for name in ('@root', '@snapshots'):
++            if util.runCmd2(['btrfs', 'subvolume', 'create', os.path.join(mount.mount_point, name)]) != 0:
++                raise RuntimeError("Failed to create Btrfs subvolume %s" % name)
++        os.mkdir(os.path.join(mount.mount_point, '@root', '.snapshots'))
++        if util.runCmd2(['btrfs', 'subvolume', 'set-default', os.path.join(mount.mount_point, '@root')]) != 0:
++            raise RuntimeError("Failed to select the Btrfs root subvolume")
++    finally:
++        mount.unmount()
++
+ def getMdDeviceName(disk):
+     rv, out = util.runCmd2(['mdadm', '--detail', '--export', disk],
+                            with_stdout=True)
+diff --git a/doc/system-snapshots.txt b/doc/system-snapshots.txt
+new file mode 100644
+index 00000000..621364ec
+--- /dev/null
++++ b/doc/system-snapshots.txt
+@@ -0,0 +1,60 @@
++System snapshots for test hosts
++==============================
++
++Btrfs installations use sibling @root and @snapshots subvolumes. @root is
++mounted at / and @snapshots at /.snapshots. /boot is part of @root, while
++/var/log is a separate filesystem and survives rollback. The swap partition
++contains no persistent system state. Do not create additional subvolumes
++inside @root if their contents must be restored with the system.
++
++The EFI system partition is FAT, so Btrfs cannot snapshot it. Save its
++contents inside @root before taking a snapshot and restore those contents
++with the root snapshot. Firmware NVRAM and external disks, including guest
++storage repositories, are not included in a system snapshot.
++
++Take and restore snapshots offline from the installer diagnostic shell.
++Shut the installed host down cleanly first. This keeps package state and
++application databases consistent and permits restoring EFI files safely.
++
++Identify the root and EFI partitions using blkid and the installed fstab.
++The device names below are examples for a normal single-disk installation.
++Check them before proceeding. Do not mount the logs partition for rollback.
++
++    set -e
++    mkdir -p /mnt/system /mnt/efi
++    mount -o subvolid=5 /dev/sda1 /mnt/system
++    mount /dev/sda3 /mnt/efi
++
++Create a baseline snapshot with a name that does not already exist:
++
++    tar -C /mnt/efi -cf /mnt/system/@root/.efi-backup.tar .
++    sync
++    btrfs subvolume snapshot -r /mnt/system/@root /mnt/system/@snapshots/baseline
++    umount /mnt/efi /mnt/system
++
++Boot the installed host and perform the test. To roll back, shut it down,
++boot the installer, and mount the same partitions as above. Keep the tested
++root as @previous until the restored system has booted successfully. The
++names @restore and @previous must not already exist.
++
++    btrfs subvolume snapshot /mnt/system/@snapshots/baseline /mnt/system/@restore
++    mv /mnt/system/@root /mnt/system/@previous
++    mv /mnt/system/@restore /mnt/system/@root
++    btrfs subvolume set-default /mnt/system/@root
++    mountpoint -q /mnt/efi
++    find /mnt/efi -mindepth 1 -delete
++    tar -C /mnt/efi -xf /mnt/system/@root/.efi-backup.tar
++    sync
++    umount /mnt/efi /mnt/system
++
++Boot from the installed disk. Root, /boot, and EFI files now match the
++baseline; /var/log still contains the test's logs. The read-only baseline
++remains available for another rollback. After verification, delete the
++previous root from the top-level mount with:
++
++    mount -o subvolid=5 /dev/sda1 /mnt/system
++    btrfs subvolume delete /mnt/system/@previous
++    umount /mnt/system
++
++These are filesystem snapshots, not a VM memory checkpoint. Shut down any
++guest VMs before testing and keep their storage outside the rollback scope.
+diff --git a/restore.py b/restore.py
+index 4a6ee928..aaff3ccc 100644
+--- a/restore.py
++++ b/restore.py
+@@ -71,6 +71,10 @@ def restoreFromBackup(backup, progress=lambda x: ()):
+         restore_fs_type = diskutil.fs_type_from_device(backup_partition)
+         try:
+             util.mkfs(restore_fs_type, restore_partition)
++            if restore_fs_type == 'btrfs':
++                with open(os.path.join(backup_fs.mount_point, 'etc', 'fstab')) as fstab:
++                    if 'subvol=@root' in fstab.read():
++                        diskutil.createRootSubvolumes(restore_partition)
+         except Exception as e:
+             logger.critical("Failed to create root filesystem", exc_info=1)
+             raise RuntimeError("Failed to create root filesystem: %s" % e)
