@@ -1,7 +1,7 @@
-From 346ac636f53e1f7d41dcecd3e9a2b10c137f886e Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Changlei Li <changlei.li@cloud.com>
 Date: Fri, 20 Jun 2025 15:49:30 +0800
-Subject: [PATCH 10/10] CP-307931 Remove unused net-admin-interface key
+Subject: [PATCH] CP-307931 Remove unused net-admin-interface key
 
 As host-installer needn't write management-interface to inventory
 any more, the net-admin-bridge can be removed.
@@ -12,7 +12,7 @@ Signed-off-by: Changlei Li <changlei.li@cloud.com>
  1 file changed, 4 insertions(+), 13 deletions(-)
 
 diff --git a/backend.py b/backend.py
-index 6b383eb..a940b1e 100644
+index 6b383ebb..a940b1eb 100644
 --- a/backend.py
 +++ b/backend.py
 @@ -178,14 +178,14 @@ def getFinalisationSequence(ans):
@@ -66,6 +66,3 @@ index 6b383eb..a940b1e 100644
      inv = open(os.path.join(mounts['root'], constants.INVENTORY_FILE), "w")
      if 'product-brand' in branding:
         inv.write("PRODUCT_BRAND='%s'\n" % branding['product-brand'])
--- 
-2.39.5
-

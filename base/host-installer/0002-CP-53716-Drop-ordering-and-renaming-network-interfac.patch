@@ -1,7 +1,7 @@
-From 51b026c2653bf67f21e174917144558023d411b6 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Lin Liu <Lin.Liu01@cloud.com>
 Date: Wed, 26 Mar 2025 09:15:23 +0000
-Subject: [PATCH 02/10] CP-53716: Drop ordering and renaming network interface
+Subject: [PATCH] CP-53716: Drop ordering and renaming network interface
 
 Host-installer used to order and rename network interface,
 This is complicated and involve different components to cooperate
@@ -18,13 +18,13 @@ assignment to networkd through
 Signed-off-by: Lin Liu <Lin.Liu01@cloud.com>
 ---
  backend.py         |  20 +----
- doc/parameters.txt |  18 ++--
+ doc/parameters.txt |  20 +++--
  init               |  13 +--
- netutil.py         | 211 +++++++++++++++++----------------------------
+ netutil.py         | 209 +++++++++++++++++----------------------------
  4 files changed, 99 insertions(+), 163 deletions(-)
 
 diff --git a/backend.py b/backend.py
-index f4c6856..9d60716 100644
+index f4c6856a..9d60716e 100644
 --- a/backend.py
 +++ b/backend.py
 @@ -1450,6 +1450,8 @@ def configureNetworking(mounts, admin_iface, admin_bridge, admin_config, hn_conf
@@ -69,7 +69,7 @@ index f4c6856..9d60716 100644
  def writeXencommons(controlID, mounts):
      with open(os.path.join(mounts['root'], constants.XENCOMMONS_FILE), "r") as f:
 diff --git a/doc/parameters.txt b/doc/parameters.txt
-index 568c52d..32200b5 100644
+index 568c52dc..32200b5a 100644
 --- a/doc/parameters.txt
 +++ b/doc/parameters.txt
 @@ -153,14 +153,18 @@ Installer
@@ -77,14 +77,15 @@ index 568c52d..32200b5 100644
  
  
 -  --map_netdev=eth:d|s:mac|pci[[index]]|ppn
-+  --map_netdev=[eth]X[:d|s]:mac|pci[[index]]|label
- 
+-
 -    Map interface with the given MAC address, PCI address or PPN to the given
 -    interface name.
 -    Some NICs expose multiple interfaces for a single PCI address.  In these
 -    cases the PPN is often not reliable.  An index to a PCI address can be
 -    specified if required (NICs are sorted in MAC order).  An index of 0 is
 -    implied when one is not provided.
++  --map_netdev=[eth]X[:d|s]:mac|pci[[index]]|label
++
 +    Map interface with the given MAC address, PCI address or label to the given interface name.
 +    Some NICs expose multiple interfaces for a single PCI address
 +    An index to a PCI address can be specified if required (NICs are sorted in MAC order).
@@ -99,7 +100,7 @@ index 568c52d..32200b5 100644
  
    --network_config=dhcp[:vlan=vlan]|static:ip=ip;netmask=netmask[;gateway=gw][;dns=dns1[,dns2]][;domain=domain][;vlan=vlan]
 diff --git a/init b/init
-index 54c03f0..5d2e941 100755
+index 54c03f0f..5d2e9417 100755
 --- a/init
 +++ b/init
 @@ -64,9 +64,8 @@ def configureNetworking(ui, device, config):
@@ -130,7 +131,7 @@ index 54c03f0..5d2e941 100755
      # Attaches iSCSI disks listed in iSCSI Boot Firmware Tables.  This may
      # reserve NICs and so should be called before netutil.scanConfiguration
 diff --git a/netutil.py b/netutil.py
-index d4df413..10fb18e 100644
+index d4df413b..10fb18e5 100644
 --- a/netutil.py
 +++ b/netutil.py
 @@ -51,15 +51,13 @@ def getNetifList(include_vlan=False):
@@ -153,7 +154,7 @@ index d4df413..10fb18e 100644
      return relevant
  
  def writeNetInterfaceFiles(configuration):
-@@ -256,22 +254,54 @@ class NetDevices:
+@@ -256,145 +254,96 @@ class NetDevices:
  import xcp.logger as LOG
  from xcp.pci import VALID_SBDFI
  from xcp.net.mac import VALID_COLON_MAC
@@ -163,18 +164,25 @@ index d4df413..10fb18e 100644
 -from xcp.net.ifrename.static import StaticRules
 -from xcp.net.ifrename.dynamic import DynamicRules
 -from xcp.net.ifrename.util import niceformat
- 
+-
 -static_rules = StaticRules()
 -dynamic_rules = DynamicRules()
--
+ 
 -RX_ETH = VALID_ETH_NAME
  RX_MAC = VALID_COLON_MAC
  RX_PCI = VALID_SBDFI
 -RX_PPN = re.compile(r"^(?:em\d+|pci\d+p\d+)$")
  
 -def parse_arg(arg):
+-    """
+-    Takes list from the code which parses the installer commandline.
+-    Returns a tupe:
+-            (Target eth name, Static/Dynamic, Method of id, Val of id)
+-    or None if the parse was not successful
+-    """
 +interface_rules = []
-+
+ 
+-    split = arg.split(":", 2)
 +class Rule:
 +    #pylint: disable=too-few-public-methods
 +    """ Class for a interface rule"""
@@ -182,19 +190,33 @@ index d4df413..10fb18e 100644
 +        self.slot = int(slot)
 +        self.method = method
 +        self.interface = interface
-+
+ 
+-    if len(split) != 3:
+-        LOG.warning("Invalid device mapping '%s' - Ignoring" % (arg,))
+-        return
 +    def __str__(self):
 +        return f'{self.slot}:{self.method}="{self.interface}"'
-+
+ 
+-    eth, sd, val = split
 +    def __eq__(self, other):
 +        # One postion can have only one interface
 +        return (self.slot == other.slot and self.method == other.method
 +               and self.interface == other.interface)
-+
+ 
+-    if RX_ETH.match(eth) is None:
+-        LOG.warning("'%s' is not a valid device name - Ignoring" % (eth,))
+-        return
 +    def __lt__(self, other):
 +        return self.slot < other.slot
-+
-+
+ 
+-    if sd not in ['s', 'd']:
+-        LOG.warning("'%s' is not valid to distinguish between static/dynamic rules" % (sd,))
+-        return
+ 
+-    if sd == 's':
+-        formulae = static_rules.formulae
+-    else:
+-        formulae = dynamic_rules.formulae
 +def parse_interface_slot(rule):
 +    """
 +    Parse target slot and interface from rule
@@ -217,34 +239,13 @@ index d4df413..10fb18e 100644
 +    return target, remaining
 +
 +def parse_rule(rule):
-     """
-     Takes list from the code which parses the installer commandline.
-     Returns a tupe:
-@@ -279,122 +309,41 @@ def parse_arg(arg):
-     or None if the parse was not successful
-     """
++    """
++    Takes list from the code which parses the installer commandline.
++    Returns a tupe:
++            (Target eth name, Static/Dynamic, Method of id, Val of id)
++    or None if the parse was not successful
++    """
  
--    split = arg.split(":", 2)
--
--    if len(split) != 3:
--        LOG.warning("Invalid device mapping '%s' - Ignoring" % (arg,))
--        return
--
--    eth, sd, val = split
--
--    if RX_ETH.match(eth) is None:
--        LOG.warning("'%s' is not a valid device name - Ignoring" % (eth,))
--        return
--
--    if sd not in ['s', 'd']:
--        LOG.warning("'%s' is not valid to distinguish between static/dynamic rules" % (sd,))
--        return
--
--    if sd == 's':
--        formulae = static_rules.formulae
--    else:
--        formulae = dynamic_rules.formulae
--
 -    if len(val) < 2:
 -        LOG.warning("'%s' is not a valid mapping target - Ignoring" % (val,))
 -        return
@@ -269,7 +270,6 @@ index d4df413..10fb18e 100644
 -    # # rename everything sideways to safe faffing with temp renanes
 -    # for x in ( x for x in os.listdir("/sys/class/net/") if x[:3] == "eth" ):
 -    #     util.runCmd2(['ip', 'link', 'set', x, 'name', 'side-'+x])
--
 +        return Rule(slot, "label", val[1:-1])
 +    if RX_MAC.match(val) is not None:
 +        return Rule(slot, "mac", val.lower())
@@ -277,7 +277,7 @@ index d4df413..10fb18e 100644
 +        return Rule(slot, "pci", val.lower())
 +    LOG.warning(f"'{val}' is not a valid interface format label|mac|pci, Ignoring")
 +    return None
-+
+ 
 +def generate_interface_rules(remap_list):
 +    """
 +    Generate interface rules basing on remap_list
@@ -375,6 +375,3 @@ index d4df413..10fb18e 100644
  
  def disable_ipv6_module(root):
      # Disable IPv6 loading by default.
--- 
-2.39.5
-

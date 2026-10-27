@@ -13,37 +13,39 @@ Group: Applications/System
 Source0: https://github.com/xcp-ng-rpms/host-installer/raw/2fdb84dd36645c7c9cb6f70717fc0ac38bfab552/SOURCES/host-installer-11.0.26.tar.gz
 
 # backport feature/host-netdev-order
-Patch00: 0001-CP-54081-Remove-interface-rename-sideway-service.patch
-Patch01: 0002-CP-53716-Drop-ordering-and-renaming-network-interfac.patch
-Patch02: 0003-CP-53716-Drop-ordering-and-renaming-network-interfac.patch
-Patch03: 0004-CP-53716-Minor-refine-for-comments.patch
-Patch04: 0005-CP-53840-Do-not-write-mgmt-interface-info-in-xensour.patch
-Patch05: 0006-CA-410647-Displaying-select-network-interface-should.patch
-Patch06: 0007-CP-54444-Remove-interface-rename-logic-for-legacy-up.patch
-Patch07: 0008-CP-54444-Use-MAC-addresses-to-find-out-the-mgmt-inte.patch
-Patch08: 0009-CP-54444-In-upgrade-convert-interface-rename-data-fo.patch
-Patch09: 0010-CP-307931-Remove-unused-net-admin-interface-key.patch
+# xcraft patchset: git@github.com:xcp-ng/host-installer.git HEAD v11.0.26..f07297b00f7b
+Patch1000: 0001-CP-54081-Remove-interface-rename-sideway-service.patch
+Patch1001: 0002-CP-53716-Drop-ordering-and-renaming-network-interfac.patch
+Patch1002: 0003-CP-53716-Drop-ordering-and-renaming-network-interfac.patch
+Patch1003: 0004-CP-53716-Minor-refine-for-comments.patch
+Patch1004: 0005-CP-53840-Do-not-write-mgmt-interface-info-in-xensour.patch
+Patch1005: 0006-CA-410647-Displaying-select-network-interface-should.patch
+Patch1006: 0007-CP-54444-Remove-interface-rename-logic-for-legacy-up.patch
+Patch1007: 0008-CP-54444-Use-MAC-addresses-to-find-out-the-mgmt-inte.patch
+Patch1008: 0009-CP-54444-In-upgrade-convert-interface-rename-data-fo.patch
+Patch1009: 0010-CP-307931-Remove-unused-net-admin-interface-key.patch
+Patch1010: 0011-Force-switch-tty-to-UTF-8-not-ISO-8859-1.patch
+Patch1011: 0012-Parametrize-kernel-package-name.patch
+Patch1012: 0013-Raise-rpm-verbosity-to-understand-scriptlet-errors.patch
+Patch1013: 0014-Use-EFI-almalinux.patch
+Patch1014: 0015-Boot-on-Alma10.patch
+Patch1015: 0016-Set-GRUB-prefix-to-locate-its-modules-on-Alma10.patch
+Patch1016: 0017-Add-an-XCP-ng-9-specific-finalization-task.patch
+Patch1017: 0018-Second-dnf-install-run-for-crypto-policies.patch
+Patch1018: 0019-Make-sure-Alma-EPEL-repositories-are-disabled-by-def.patch
+Patch1019: 0020-Use-xcp-ng-deps-instead-of-groups.xml.patch
+# end of xcraft patchset
 
 # pr#278
-Patch20: 0001-Force-switch-tty-to-UTF-8-not-ISO-8859-1.patch
 
 # support kernel-core package name
-Patch30: 0001-Parametrize-kernel-package-name.patch
 #Patch31: 0002-Set-kernel-package-name-for-alma-based-pacakging.patch
 
 # help for debug
-Patch40: 0001-Raise-rpm-verbosity-to-understand-scriptlet-errors.patch
 
 # adjustment to Alma10
-Patch50: 0001-Use-EFI-almalinux.patch
-Patch51: 0002-Boot-on-Alma10.patch
-Patch52: 0003-Set-GRUB-prefix-to-locate-its-modules-on-Alma10.patch
-Patch53: 0001-Add-an-XCP-ng-9-specific-finalization-task.patch
-Patch54: 0002-Second-dnf-install-run-for-crypto-policies.patch
-Patch55: 0003-Make-sure-Alma-EPEL-repositories-are-disabled-by-def.patch
 
 # Mandatory patches from XCP-ng 8.3
-Patch1000: 0001-Use-xcp-ng-deps-instead-of-groups.xml.patch
 
 # This is where we get 'multipath.conf' from
 BuildRequires: device-mapper-multipath
@@ -736,4 +738,3 @@ rm -rf /boot/*
 
 * Thu Mar 09 2017 Simon Rowe <simon.rowe@citrix.com> - 10.0.1-1
 - CA-246294: Don't hard-code the list of devices for local media
-

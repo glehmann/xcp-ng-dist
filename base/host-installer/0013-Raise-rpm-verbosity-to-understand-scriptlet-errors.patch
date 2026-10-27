@@ -1,14 +1,18 @@
-From 8171ca3c7d99ee017bd97ae4526f05a347c0bca0 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Yann Dirson <yann.dirson@vates.tech>
 Date: Wed, 23 Jul 2025 09:58:53 +0200
 Subject: [PATCH] Raise rpm verbosity to understand scriptlet errors
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+Signed-off-by: Gaëtan Lehmann <gaetan.lehmann@vates.tech>
 ---
  repository.py | 1 +
  1 file changed, 1 insertion(+)
 
 diff --git a/repository.py b/repository.py
-index f954afe..66d05cb 100644
+index f954afec..66d05cbc 100644
 --- a/repository.py
 +++ b/repository.py
 @@ -799,6 +799,7 @@ def findRepositoriesOnMedia(drivers=False):
@@ -19,6 +23,3 @@ index f954afe..66d05cb 100644
                         'install', '-y'] + targets
          logger.log("Running : %s" % ' '.join(dnf_cmd))
          p = subprocess.Popen(dnf_cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, universal_newlines=True)
--- 
-2.39.5
-

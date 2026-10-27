@@ -1,7 +1,7 @@
-From 048bbe5dfe500f0d8264e42136d0c0847cbf3f64 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Lin Liu <Lin.Liu01@cloud.com>
 Date: Tue, 1 Apr 2025 09:56:02 +0000
-Subject: [PATCH 03/10] CP-53716: Drop ordering and renaming network interface
+Subject: [PATCH] CP-53716: Drop ordering and renaming network interface
 
 Add unittest
 
@@ -15,7 +15,7 @@ Signed-off-by: Lin Liu <Lin.Liu01@cloud.com>
 
 diff --git a/test/import_helper.py b/test/import_helper.py
 new file mode 100644
-index 0000000..8616597
+index 00000000..8616597f
 --- /dev/null
 +++ b/test/import_helper.py
 @@ -0,0 +1,46 @@
@@ -67,7 +67,7 @@ index 0000000..8616597
 +    return mock_module
 diff --git a/test/test_netutil.py b/test/test_netutil.py
 new file mode 100644
-index 0000000..f3074e0
+index 00000000..f3074e09
 --- /dev/null
 +++ b/test/test_netutil.py
 @@ -0,0 +1,110 @@
@@ -181,6 +181,3 @@ index 0000000..f3074e0
 +                               Rule(2, "label", "ens5"),
 +                               Rule(3, "label", "ens6")]
 +                            )
--- 
-2.39.5
-

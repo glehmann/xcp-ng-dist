@@ -1,7 +1,7 @@
-From afa38ff2b80bcbee8d407eae7aa0e957c90c86cd Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Yann Dirson <yann.dirson@vates.tech>
 Date: Thu, 24 Jul 2025 16:01:33 +0200
-Subject: [PATCH 2/3] Boot on Alma10
+Subject: [PATCH] Boot on Alma10
 
 * xen.efi cannot yet be booted using multiboot2, stay with xen.gz
 * use full name for vmlinuz and initrd, not the XS custom symlink
@@ -12,10 +12,10 @@ Subject: [PATCH 2/3] Boot on Alma10
  1 file changed, 17 insertions(+), 14 deletions(-)
 
 diff --git a/backend.py b/backend.py
-index 39b116b..e942542 100644
+index abb2fe67..e07a8981 100644
 --- a/backend.py
 +++ b/backend.py
-@@ -966,10 +966,10 @@ def mkinitrd(mounts, primary_disk, primary_partnum):
+@@ -957,10 +957,10 @@ def mkinitrd(mounts, primary_disk, primary_partnum):
  def prepFallback(mounts, primary_disk, primary_partnum):
      kernel_version =  getKernelVersion(mounts['root'])
  
@@ -29,7 +29,7 @@ index 39b116b..e942542 100644
      shutil.copyfile(src, dst)
  
      # Copy /boot/vmlinuz-yyyy to /boot/vmlinuz-fallback
-@@ -1026,31 +1026,34 @@ def buildBootLoaderMenu(mounts, xen_version, xen_kernel_version, boot_config, se
+@@ -1017,31 +1017,34 @@ def buildBootLoaderMenu(mounts, xen_version, xen_kernel_version, boot_config, se
          for interface in fcoe_interfaces:
              common_kernel_params += " fcoe=%s:%s" % (netutil.getHWAddr(interface), 'nodcb' if fcoeutil.hw_lldp_capable(interface) else 'dcb')
  
@@ -73,7 +73,7 @@ index 39b116b..e942542 100644
                                   root=constants.rootfs_label%disk_label_suffix)
          boot_config.append("safe", e)
  
-@@ -1060,7 +1063,7 @@ def buildBootLoaderMenu(mounts, xen_version, xen_kernel_version, boot_config, se
+@@ -1051,7 +1054,7 @@ def buildBootLoaderMenu(mounts, xen_version, xen_kernel_version, boot_config, se
                              root=constants.rootfs_label%disk_label_suffix)
      boot_config.append("memtest", e)
  
@@ -82,7 +82,7 @@ index 39b116b..e942542 100644
                               hypervisor_args=' '.join([common_xen_params, common_xen_unsafe_params, xen_mem_params]),
                               kernel="/boot/vmlinuz-fallback",
                               kernel_args=' '.join([common_kernel_params, kernel_console_params, "console=tty0"]),
-@@ -1069,7 +1072,7 @@ def buildBootLoaderMenu(mounts, xen_version, xen_kernel_version, boot_config, se
+@@ -1060,7 +1063,7 @@ def buildBootLoaderMenu(mounts, xen_version, xen_kernel_version, boot_config, se
                               root=constants.rootfs_label%disk_label_suffix)
      boot_config.append("fallback", e)
      if serial:
@@ -91,6 +91,3 @@ index 39b116b..e942542 100644
                                   hypervisor_args=' '.join([xen_serial_params, common_xen_params, common_xen_unsafe_params, xen_mem_params]),
                                   kernel="/boot/vmlinuz-fallback",
                                   kernel_args=' '.join([common_kernel_params, "console=tty0", kernel_console_params]),
--- 
-2.39.5
-
