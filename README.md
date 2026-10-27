@@ -17,6 +17,11 @@ uv run xcraft --help
 uv run xcraft build     # all the packages, or the ones given
 ```
 
+## Installer development
+
+Use the [installer-vm agent skill](.agents/skills/installer-vm/SKILL.md) for VM setup, console control, log retrieval,
+and the current development-session handoff.
+
 ## Signing uploads
 
 The build workflow signs builds and compiler caches with the test key whose public fingerprint is in

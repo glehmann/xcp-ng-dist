@@ -12,6 +12,7 @@ packages = [
 # the packages of the same archive, which xcraft bump --version updates together
 same_version = [["kernel", "kernel-headers"]]
 ccache_size = { kernel = "20G" }
+logo = "https://xcp-ng.org/assets/img/mainlogo.png"
 
 [macros]
 dist = "%{?autorev}.xcpng8.99"
