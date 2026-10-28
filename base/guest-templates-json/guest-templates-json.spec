@@ -3,7 +3,7 @@
 Name:    guest-templates-json
 Summary: Creates the default guest templates
 Version: 2.1.1
-Release: 1%{?xsrel}.1%{?dist}
+Release: 1%{?xsrel}.2%{?dist}
 License: BSD
 Source0: guest-templates-json-2.1.1.tar.gz
 
@@ -15,6 +15,11 @@ Source1003: oel-10.json
 Source1004: rocky-10.json
 Source1005: generic-linux-bios.json
 Source1006: generic-linux-uefi.json
+
+# Origin: https://github.com/xenserver/guest-templates-json/pull/43
+Patch1000: drop-jsonlint-from-make-check.patch
+Patch1001: validate-templates-against-json-schema.patch
+
 BuildArch: noarch
 
 Requires: xapi-core
@@ -22,8 +27,8 @@ Requires(post): systemd
 Requires(preun): systemd
 Requires(postun): systemd
 BuildRequires: python3-devel
-# python-demjson is only required for jsonlint
-BuildRequires: python-demjson, python-setuptools
+BuildRequires: python-setuptools
+BuildRequires: python-jsonschema >= 4.0
 BuildRequires: systemd-devel
 Obsoletes: guest-templates-json-data-xenapp
 
@@ -195,6 +200,10 @@ fi
 %{templatedir}/other-install-media.json
 
 %changelog
+* Wed Oct 28 2026 Baptiste Le Duc <baptiste.le-duc@vates.tech> - 2.1.1-1.2
+- Drop jsonlint from make check, removing the python-demjson BuildRequires
+- Validate templates against a JSON Schema
+
 * Fri Aug 07 2026 Yann Dirson <yann.dirson@vates.tech> - 2.1.1-1.1
 - Rebase on 2.1.1-1
 - Replace our AlmaLinux templates with XenServer's

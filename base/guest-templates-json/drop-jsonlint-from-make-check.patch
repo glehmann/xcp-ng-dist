@@ -1,0 +1,79 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Laudin Molina Troconis <laudin.molina@vates.tech>
+Date: Thu, 8 Oct 2026 16:21:25 +0200
+Subject: [PATCH] Drop jsonlint from make check
+
+jsonlint comes from demjson, which has been unmaintained since 2015.
+
+Replace it with test_strict_json in check.py, which rejects:
+- duplicate keys, which can cause unpredictable behavior (RFC 8259, section
+  4)
+- NaN/Infinity, which are not valid JSON (section 6) but which Python's
+  json module accepts silently
+
+Together with the syntax check json.load() already does, this covers what
+jsonlint checked, so remove the lint-json target and the dependency on
+demjson.
+
+Origin: https://github.com/xenserver/guest-templates-json/pull/43
+Signed-off-by: Laudin Molina Troconis <laudin.molina@vates.tech>
+[BLD: update commit message]
+Signed-off-by: Baptiste Le Duc <baptiste.le-duc@vates.tech>
+
+diff --git a/Makefile b/Makefile
+index 804493ec8af8..d17e925a956e 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1,10 +1,3 @@
+-JSON_FILES := $(shell find json -name '*.json')
+-LINT_OPTIONS ?= --forbid duplicate-keys
+-
+ .PHONY: check
+-check: lint-json
++check:
+ 	python3 ./check.py
+-
+-.PHONY: lint-json
+-lint-json: $(JSON_FILES)
+-	jsonlint $(LINT_OPTIONS) $^
+diff --git a/check.py b/check.py
+index 7462a2da492d..7a1eb0298a28 100755
+--- a/check.py
++++ b/check.py
+@@ -2,6 +2,7 @@
+ import glob
+ import json
+ import unittest
++from collections import Counter
+ from guesttemplates import loader
+ 
+ class MockLoader(loader.Loader):
+@@ -42,5 +43,25 @@ class TestLoader(unittest.TestCase):
+         self.assertEqual(sorted(loader._by_reflabel.keys()), sorted(all_reflabels))
+ 
+ 
++class TestJsonFiles(unittest.TestCase):
++    def test_strict_json(self):
++        """Tests that the templates are strict JSON: no duplicated keys, no NaN/Infinity."""
++
++        def reject_duplicates(pairs):
++            keys = [k for k, _ in pairs]
++            for k, n in Counter(keys).items():
++                if n > 1:
++                    with self.subTest(duplicate=k):
++                        self.fail(f"duplicate key: {k}")
++            return dict(pairs)
++
++        def reject_constant(name):
++            self.fail(f"non-standard JSON constant: {name}")
++
++        for path in sorted(glob.glob("json/*.json")):
++            with self.subTest(path=path), open(path) as f:
++                json.load(f, object_pairs_hook=reject_duplicates,
++                          parse_constant=reject_constant)
++
+ if __name__ == '__main__':
+     unittest.main()
+-- 
+2.56.0
+

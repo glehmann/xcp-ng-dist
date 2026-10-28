@@ -1,0 +1,217 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Laudin Molina Troconis <laudin.molina@vates.tech>
+Date: Thu, 8 Oct 2026 10:30:57 +0200
+Subject: [PATCH] Validate templates against a JSON Schema
+
+The loader (Loader._load_template() in guesttemplates/loader.py) copies
+unknown keys as-is, and the XAPI import silently drops them, so an
+incorrect key is lost without any error at any stage.
+
+Add schema/template.schema.json that lists the allowed top-level keys
+with their types and rejects any other key, and test_schema in
+check.py that validates every file in json/ against it.
+
+The schema was generated with genson 1.3.0:
+
+    $ genson -i 2 json/*.json > schema/template.schema.json
+
+then edited to:
+- declare JSON Schema draft 2020-12
+- reject top-level keys that are not listed in the schema
+- accept any key in platform and other_config, with string or null
+  values
+
+This adds a dependency on python3-jsonschema >= 4.0.
+
+Origin: https://github.com/xenserver/guest-templates-json/pull/43
+Signed-off-by: Laudin Molina Troconis <laudin.molina@vates.tech>
+Signed-off-by: Baptiste Le Duc <baptiste.le-duc@vates.tech>
+
+diff --git a/Makefile b/Makefile
+index d17e925a956e..37d8ae1794ca 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1,3 +1,3 @@
+ .PHONY: check
+ check:
+-	python3 ./check.py
++	python3 ./check.py -v
+diff --git a/check.py b/check.py
+index 7a1eb0298a28..34ebd37681db 100755
+--- a/check.py
++++ b/check.py
+@@ -3,6 +3,12 @@ import glob
+ import json
+ import unittest
+ from collections import Counter
++
++try:
++    from jsonschema.validators import validator_for
++except ImportError:
++    validator_for = None
++
+ from guesttemplates import loader
+ 
+ class MockLoader(loader.Loader):
+@@ -63,5 +69,26 @@ class TestJsonFiles(unittest.TestCase):
+                 json.load(f, object_pairs_hook=reject_duplicates,
+                           parse_constant=reject_constant)
+ 
++    def test_schema(self):
++        """Tests that every template matches schema/template.schema.json."""
++        if validator_for is None:
++            self.skipTest("jsonschema not installed")
++
++        with open("schema/template.schema.json") as f:
++            schema = json.load(f)
++
++        validator_cls = validator_for(schema, default=None)
++        if validator_cls is None:
++            self.skipTest(f"jsonschema does not support {schema['$schema']}")
++        validator_cls.check_schema(schema)
++        validator = validator_cls(schema)
++
++        for path in sorted(glob.glob("json/*.json")):
++            with self.subTest(path=path), open(path) as f:
++                for error in validator.iter_errors(json.load(f)):
++                    with self.subTest():
++                        self.fail(f"{error.json_path}: {error.message}")
++
++
+ if __name__ == '__main__':
+     unittest.main()
+diff --git a/schema/template.schema.json b/schema/template.schema.json
+new file mode 100644
+index 000000000000..b25dc6b508bc
+--- /dev/null
++++ b/schema/template.schema.json
+@@ -0,0 +1,126 @@
++{
++  "$schema": "https://json-schema.org/draft/2020-12/schema",
++  "type": "object",
++  "properties": {
++    "uuid": {
++      "type": "string"
++    },
++    "reference_label": {
++      "type": "string"
++    },
++    "name_label": {
++      "type": "string"
++    },
++    "derived_from": {
++      "type": "string"
++    },
++    "min_memory": {
++      "type": "string"
++    },
++    "disks": {
++      "type": "array",
++      "items": {
++        "type": "object",
++        "properties": {
++          "size": {
++            "type": "string"
++          },
++          "bootable": {
++            "type": "boolean"
++          }
++        },
++        "required": [
++          "size"
++        ]
++      }
++    },
++    "max_memory": {
++      "type": "string"
++    },
++    "other_config": {
++      "type": "object",
++      "additionalProperties": {
++        "type": ["string", "null"]
++      }
++    },
++    "name_description": {
++      "type": "string"
++    },
++    "PV_args": {
++      "type": "string"
++    },
++    "vcpus_max": {
++      "type": "integer"
++    },
++    "number_of_vbds": {
++      "type": "integer"
++    },
++    "number_of_vifs": {
++      "type": "integer"
++    },
++    "allow_gpu_passthrough": {
++      "type": "boolean"
++    },
++    "allow_vgpu": {
++      "type": "boolean"
++    },
++    "allow_network_sriov": {
++      "type": "boolean"
++    },
++    "platform": {
++      "type": "object",
++      "additionalProperties": {
++        "type": ["string", "null"]
++      }
++    },
++    "HVM_boot_policy": {
++      "type": "string"
++    },
++    "HVM_boot_params": {
++      "type": "object",
++      "properties": {
++        "firmware": {
++          "type": "string"
++        },
++        "order": {
++          "type": "string"
++        }
++      },
++      "required": [
++        "firmware",
++        "order"
++      ]
++    },
++    "supports_bios": {
++      "type": "string"
++    },
++    "supports_uefi": {
++      "type": "string"
++    },
++    "supports_secure_boot": {
++      "type": "string"
++    },
++    "domain_type": {
++      "type": "string"
++    },
++    "PV_bootloader": {
++      "type": "string"
++    },
++    "VCPUs_at_startup": {
++      "type": "integer"
++    },
++    "VCPUs_max": {
++      "type": "integer"
++    },
++    "has_vendor_device": {
++      "type": "boolean"
++    },
++    "generation_id": {
++      "type": "string"
++    },
++    "vcpus_min": {
++      "type": "integer"
++    }
++  },
++  "additionalProperties": false
++}
+-- 
+2.56.0
+
