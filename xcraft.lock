@@ -26,13 +26,13 @@
 "bison" = "3.8.2-9.el10"
 "boost" = "1.83.0-7.el10"
 "bridge-utils" = "1.7.1-11.el10_0"
-"brotli" = "1.1.0-8.el10_2"
+"brotli" = "1.1.0-8.el10_2.1"
 "btrfs-progs" = "6.12-3.el10_0"
-"bubblewrap" = "0.10.0-3.el10"
+"bubblewrap" = "0.10.0-5.el10_2"
 "busybox" = "1.37.0-4.el10_2"
 "bzip2" = "1.0.8-25.el10"
 "c-ares" = "1.34.6-2.el10_2"
-"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"ca-certificates" = "2026.2.92_v9.0.319-100.3.el10_2"
 "cairo" = "1.18.2-2.el10_2.1"
 "ccache" = "4.11.3-1.el10_1"
 "cdrkit" = "1.1.11-58.el10_1"
@@ -79,10 +79,10 @@
 "efibootmgr" = "18-8.el10"
 "efivar" = "39-3.el10"
 "elfutils" = "0.194-2.el10_2"
-"emacs" = "29.4-13.el10_2"
+"emacs" = "29.4-14.el10_2.4"
 "epel-rpm-macros" = "10-7.el10_3"
 "ethtool" = "6.15-2.el10"
-"expat" = "2.7.3-1.el10_2.5"
+"expat" = "2.7.3-1.el10_2.7"
 "fakeroot" = "1.37-1.el10_0"
 "figlet" = "2.2.5-38.el10_2"
 "file" = "5.45-9.el10"
@@ -112,13 +112,13 @@
 "ghostscript" = "10.02.1-16.el10_2.3"
 "git" = "2.52.0-1.el10"
 "glib2" = "2.80.4-12.el10_2.22"
-"glibc" = "2.39-142.el10_2.alma.1"
+"glibc" = "2.39-145.el10_2.alma.1"
 "gmp" = "6.2.1-12.el10"
 "gnupg2" = "2.4.5-4.el10_1"
 "gnutls" = "3.8.10-5.el10_2"
 "go-rpm-macros" = "3.8.0-1.el10"
 "gobject-introspection" = "1.79.1-6.el10"
-"golang" = "1.26.7-2.el10_2.alma.1"
+"golang" = "1.26.10-1.el10_2.alma.1"
 "golang-x-sys" = "0.26.0-1.el10_0"
 "google-droid-fonts" = "20200215-22.el10"
 "google-noto-fonts" = "20240401-5.el10"
@@ -157,7 +157,7 @@
 "json-c" = "0.18-3.el10"
 "json-glib" = "1.8.0-5.el10"
 "kbd" = "2.6.4-8.el10_2"
-"kernel" = "6.12.0-211.66.1.el10_2"
+"kernel" = "6.12.0-211.69.1.el10_2"
 "kernel-srpm-macros" = "1.0-27.el10"
 "keyutils" = "1.6.3-5.el10"
 "kmod" = "31-13.el10"
@@ -168,12 +168,12 @@
 "lcov" = "2.0-5.el10_1"
 "ldns" = "1.8.3-18.el10_2.1"
 "less" = "661-3.el10"
-"libX11" = "1.8.10-1.el10"
+"libX11" = "1.8.10-1.el10_2.1"
 "libXau" = "1.0.11-8.el10"
 "libXext" = "1.3.6-3.el10"
 "libXft" = "2.3.8-8.el10"
 "libXpm" = "3.5.17-5.el10"
-"libXrender" = "0.9.11-8.el10"
+"libXrender" = "0.9.11-8.el10_2.1"
 "libaio" = "0.3.111-22.el10"
 "libarchive" = "3.7.7-11.el10_2"
 "libassuan" = "2.5.6-6.el10"
@@ -222,9 +222,9 @@
 "libpsl" = "0.21.5-6.el10"
 "libpwquality" = "1.4.5-12.el10"
 "librepo" = "1.19.0-1.el10"
-"libreswan" = "5.3.2-1.el10_2"
+"libreswan" = "5.3.3-1.el10_2"
 "libretls" = "3.8.1-4.el10_0"
-"librsvg2" = "2.57.1-9.el10"
+"librsvg2" = "2.57.1-9.el10_2.10"
 "libseccomp" = "2.5.6-1.el10"
 "libselinux" = "3.10-1.el10"
 "libsemanage" = "3.10-1.el10"
@@ -296,7 +296,7 @@
 "openblas-srpm-macros" = "2-19.el10"
 "openjpeg2" = "2.5.2-5.el10"
 "openldap" = "2.6.10-1.el10"
-"openssh" = "9.9p1-28.el10_2.alma.1"
+"openssh" = "9.9p1-29.el10_2.alma.1"
 "openssl" = "3.5.8-2.el10_2.alma.1"
 "os-prober" = "1.81-9.el10"
 "p11-kit" = "0.26.4-1.el10_2"
@@ -455,7 +455,7 @@
 "protobuf-c" = "1.5.0-6.el10"
 "psmisc" = "23.6-8.el10"
 "publicsuffix-list" = "20240107-5.el10"
-"pyOpenSSL" = "25.0.0-1.el10_1"
+"pyOpenSSL" = "26.3.0-1.el10_3"
 "pygobject3" = "3.46.0-7.el10"
 "pylint" = "3.3.3-1.el10_0"
 "pyparsing" = "3.1.1-7.el10"
@@ -488,13 +488,13 @@
 "python-systemd" = "235-11.el10"
 "python-tomlkit" = "0.13.2-1.el10_0"
 "python-typing-extensions" = "4.9.0-6.el10"
-"python-urllib3" = "1.26.19-4.el10_2"
+"python-urllib3" = "1.26.19-4.el10_2.2"
 "python-wheel" = "0.41.2-5.el10_1.1"
 "python-wrapt" = "1.17.1-1.el10_0"
 "python3.12" = "3.12.15-1.el10_2"
 "qt6" = "6.10.1-1.el10"
 "quota" = "4.09-10.el10"
-"rdma-core" = "61.0-1.el10"
+"rdma-core" = "61.0-2.el10_2"
 "readline" = "8.2-11.el10"
 "redhat-fonts" = "4.1.0-1.el10"
 "redhat-rpm-config" = "295-1.el10.alma.1"
@@ -511,7 +511,7 @@
 "sed" = "4.9-5.el10"
 "selinux-policy" = "42.1.18-4.el10_2.4"
 "setup" = "2.14.5-7.el10"
-"sg3_utils" = "1.48-7.el10_2.1"
+"sg3_utils" = "1.48-7.el10_2.2"
 "sgml-common" = "0.6.3-65.el10"
 "shadow-utils" = "4.15.0-11.el10"
 "shared-mime-info" = "2.3-8.el10"
@@ -526,7 +526,7 @@
 "stunnel" = "5.72-8.el10"
 "subversion" = "1.14.5-3.el10"
 "sudo" = "1.9.17-10.p2.el10_2.7"
-"swtpm" = "0.9.0-5.el10"
+"swtpm" = "0.9.0-6.el10_2"
 "syslinux" = "6.04-0.34.el10.alma.2"
 "sysprof" = "47.2-1.el10"
 "sysstat" = "12.7.6-4.el10"
@@ -1421,3 +1421,299 @@
     "systemd-udev",
     "xorriso",
 ]
+
+[pending."biosdevname"]
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+
+[pending."blktap"]
+"brotli" = "1.1.0-8.el10_2"
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"emacs" = "29.4-13.el10_2"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"libX11" = "1.8.10-1.el10"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+
+[pending."branding-xcp-ng"]
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+
+[pending."dev86"]
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+
+[pending."dhcp"]
+"brotli" = "1.1.0-8.el10_2"
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"emacs" = "29.4-13.el10_2"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"libX11" = "1.8.10-1.el10"
+"libXrender" = "0.9.11-8.el10"
+"librsvg2" = "2.57.1-9.el10"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+
+[pending."dmv-utils"]
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+
+[pending."edk2"]
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+
+[pending."grub"]
+"brotli" = "1.1.0-8.el10_2"
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"emacs" = "29.4-13.el10_2"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"libX11" = "1.8.10-1.el10"
+"libXrender" = "0.9.11-8.el10"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+
+[pending."guest-templates-json"]
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+
+[pending."host-installer"]
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+
+[pending."ipxe"]
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+
+[pending."ipxe-efi"]
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+
+[pending."kernel"]
+"brotli" = "1.1.0-8.el10_2"
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"libX11" = "1.8.10-1.el10"
+"libXrender" = "0.9.11-8.el10"
+"librsvg2" = "2.57.1-9.el10"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+
+[pending."kernel-headers"]
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"kernel" = "6.12.0-211.66.1.el10_2"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+
+[pending."libempserver"]
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+
+[pending."nbd"]
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+
+[pending."ocaml"]
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"emacs" = "29.4-13.el10_2"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+
+[pending."ocaml-findlib"]
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+
+[pending."opam"]
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+
+[pending."openvswitch"]
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"emacs" = "29.4-13.el10_2"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+
+[pending."python-bitarray"]
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+
+[pending."python-opentelemetry"]
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+
+[pending."qemu"]
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"emacs" = "29.4-13.el10_2"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+
+[pending."sm"]
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+
+[pending."ssmtp"]
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+
+[pending."varstored"]
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+
+[pending."vmss"]
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+
+[pending."vncterm"]
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+
+[pending."xapi"]
+"bubblewrap" = "0.10.0-3.el10"
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+"sg3_utils" = "1.48-7.el10_2.1"
+
+[pending."xcp-clipboardd"]
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"emacs" = "29.4-13.el10_2"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+
+[pending."xcp-emu-manager"]
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"emacs" = "29.4-13.el10_2"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+
+[pending."xcp-featured"]
+"bubblewrap" = "0.10.0-3.el10"
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+
+[pending."xcp-ng-config"]
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+
+[pending."xcp-ng-deps"]
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+
+[pending."xcp-ng-generic-lib"]
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"emacs" = "29.4-13.el10_2"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+
+[pending."xcp-ng-pv-tools"]
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"emacs" = "29.4-13.el10_2"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"golang" = "1.26.7-2.el10_2.alma.1"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+
+[pending."xcp-ng-release"]
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+
+[pending."xcp-ng-xapi-plugins"]
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+
+[pending."xcp-python-libs"]
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+
+[pending."xen"]
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"emacs" = "29.4-13.el10_2"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+
+[pending."xo-lite"]
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+
+[pending."xs-opam-repo"]
+"brotli" = "1.1.0-8.el10_2"
+"bubblewrap" = "0.10.0-3.el10"
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"emacs" = "29.4-13.el10_2"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+
+[pending."xs-opam-src"]
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"openssh" = "9.9p1-28.el10_2.alma.1"
+
+[pending."xsconsole"]
+"ca-certificates" = "2025.2.80_v9.0.305-102.el10_1"
+"expat" = "2.7.3-1.el10_2.5"
+"glibc" = "2.39-142.el10_2.alma.1"
+"openssh" = "9.9p1-28.el10_2.alma.1"
