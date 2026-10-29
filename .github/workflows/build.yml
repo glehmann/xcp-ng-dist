@@ -35,7 +35,7 @@ jobs:
         with:
           version: "0.10.x"
           activate-environment: true
-      - run: uv sync --frozen
+      - run: uv sync --locked
       # the metadata xcraft computed in the previous runs, named after what they are computed from: the parsed specs,
       # the resolutions, the packages of the base image; without changes, neither dnf nor the build environment image
       # is needed to know what to build

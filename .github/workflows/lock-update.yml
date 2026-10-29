@@ -30,7 +30,7 @@ jobs:
         with:
           version: "0.10.x"
           activate-environment: true
-      - run: uv sync --frozen
+      - run: uv sync --locked
       # in the build environment, which podman runs
       - run: command -v podman || { sudo apt-get update -q && sudo apt-get install -qy podman; }
       - run: xcraft lock --update
