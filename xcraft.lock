@@ -879,11 +879,8 @@
     "basesystem",
     "bash",
     "bash-completion",
-    "bc",
     "binutils",
-    "binutils-devel",
     "binutils-gold",
-    "bison",
     "boost-atomic",
     "boost-filesystem",
     "boost-system",
@@ -958,7 +955,6 @@
     "findutils",
     "firewalld",
     "firewalld-filesystem",
-    "flex",
     "fonts-srpm-macros",
     "forge-srpm-macros",
     "freetype",
@@ -1396,7 +1392,6 @@
     "xz-libs",
     "zip",
     "zlib-ng-compat",
-    "zlib-ng-compat-devel",
     "zstd",
 ]
 

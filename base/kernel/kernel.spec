@@ -25,16 +25,18 @@
 # since some of them are for Python 3 only. Just ignore the errors.
 %global _python_bytecompile_errors_terminate_build 0
 
-%define lp_devel_dir %{_usrsrc}/kernel-%{version}-%{release}
-
-# Prevent RPM adding Provides/Requires to lp-devel package
-%global __provides_exclude_from ^%{lp_devel_dir}/.*$
-%global __requires_exclude_from ^%{lp_devel_dir}/.*$
+# XCP-ng BEGIN: remove support for livepatching support
+# %%define lp_devel_dir %%{_usrsrc}/kernel-%%{version}-%%{release}
+#
+# # Prevent RPM adding Provides/Requires to lp-devel package
+# %%global __provides_exclude_from ^%%{lp_devel_dir}/.*$
+# %%global __requires_exclude_from ^%%{lp_devel_dir}/.*$
+# XCP-ng END
 
 Name: kernel
 License: GPLv2
 Version: %{usver}
-Release: 3%{dist}
+Release: 4%{dist}
 ExclusiveOS: Linux
 Summary: The Linux kernel
 BuildRequires: kmod
@@ -148,15 +150,17 @@ Provides: kernel-devel-uname-r = %{uname}
 This package provides kernel headers and makefiles sufficient to build modules
 against the %{uname} kernel.
 
-%package lp-devel_%{version}_%{release}
-License: GPLv2
-Summary: Development package for building livepatches
-Group: Development/System
-%{core_builddeps Requires}
-
-%description lp-devel_%{version}_%{release}
-Contains the prepared source files, config, and vmlinux for building live
-patches against base version %{version}-%{release}.
+# XCP-ng BEGIN: remove support for livepatching support
+# %%package lp-devel_%%{version}_%%{release}
+# License: GPLv2
+# Summary: Development package for building livepatches
+# Group: Development/System
+# %%{core_builddeps Requires}
+#
+# %%description lp-devel_%%{version}_%%{release}
+# Contains the prepared source files, config, and vmlinux for building live
+# patches against base version %%{version}-%%{release}.
+# XCP-ng END
 
 %package -n perf
 Summary: Performance monitoring for the Linux kernel
@@ -356,8 +360,10 @@ touch -r %{buildroot}%{srcpath}/Makefile %{buildroot}%{srcpath}/include/generate
 
 find %{buildroot} -name '.*.cmd' -type f -delete
 
-# Install files for building live patches
-install -m 644 vmlinux %{buildroot}%{lp_devel_dir}
+# XCP-ng BEGIN: remove support for livepatching support
+# # Install files for building live patches
+# install -m 644 vmlinux %%{buildroot}%%{lp_devel_dir}
+# XCP-ng END
 
 # eBPF support: Install the BTF file to /usr/src/kernels for kernel-devel
 # /usr/src/kernels is also used by `perf` to look for vmlinux files with
@@ -449,12 +455,17 @@ fi
 %license COPYING
 %{python3_sitearch}/*
 
-%files lp-devel_%{version}_%{release}
-%{lp_devel_dir}
+# XCP-ng BEGIN: remove support for livepatching support
+# %%files lp-devel_%%{version}_%%{release}
+# %%{lp_devel_dir}
+# XCP-ng END
 
 %{?_cov_results_package}
 
 %changelog
+* Thu Oct 29 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 6.12.0-4
+- Drop lp-devel package, as in 8.3: XCP-ng does not provide any live-patching
+
 * Wed Oct 21 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 6.12.0-3
 - Move the headers to the kernel-headers package, but perf_dlfilter.h, to perf
 
