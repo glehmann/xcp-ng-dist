@@ -17,7 +17,7 @@
 Name:		grub2
 Epoch:		1
 Version:	2.12
-Release:	20%{?dist}.alma.2
+Release:	20%{?dist}
 Summary:	Bootloader with support for Linux, Multiboot and more
 License:	GPL-3.0-or-later
 URL:		http://www.gnu.org/software/grub/
@@ -580,6 +580,9 @@ mv ${EFI_HOME}/grub.cfg.stb ${EFI_HOME}/grub.cfg
 %endif
 
 %changelog
+* Thu Oct 29 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 1:2.12-20
+- Drop the AlmaLinux release suffix: this is our package now
+
 * Tue Jun 10 2025 Andrew Lukoshko <alukoshko@almalinux.org> - 1:2.12-20.alma.2
 - Build btrfs module
 
