@@ -5,7 +5,7 @@ Subject: [PATCH] add-xen-variable
 
 
 diff --git a/MdeModulePkg/Core/Dxe/Image/Image.c b/MdeModulePkg/Core/Dxe/Image/Image.c
-index e39bb6a5afd9..ec9112478107 100644
+index bbf9921fbcf7..62bcac22c395 100644
 --- a/MdeModulePkg/Core/Dxe/Image/Image.c
 +++ b/MdeModulePkg/Core/Dxe/Image/Image.c
 @@ -8,6 +8,7 @@ SPDX-License-Identifier: BSD-2-Clause-Patent
@@ -214,7 +214,7 @@ index 000000000000..5db04e95fdc0
 +#endif
 +
 diff --git a/OvmfPkg/OvmfXen.dsc b/OvmfPkg/OvmfXen.dsc
-index 2bc577f145e7..89d69f733ced 100644
+index 345ed981126e..49535d1bf3ce 100644
 --- a/OvmfPkg/OvmfXen.dsc
 +++ b/OvmfPkg/OvmfXen.dsc
 @@ -33,6 +33,7 @@
@@ -225,7 +225,7 @@ index 2bc577f145e7..89d69f733ced 100644
  
  !include OvmfPkg/Include/Dsc/OvmfTpmDefines.dsc.inc
  
-@@ -202,7 +203,9 @@
+@@ -203,7 +204,9 @@
    RngLib|MdeModulePkg/Library/BaseRngLibTimerLib/BaseRngLibTimerLib.inf
  
    AuthVariableLib|MdeModulePkg/Library/AuthVariableLibNull/AuthVariableLibNull.inf
@@ -235,7 +235,7 @@ index 2bc577f145e7..89d69f733ced 100644
    VariablePolicyLib|MdeModulePkg/Library/VariablePolicyLib/VariablePolicyLib.inf
    VariablePolicyHelperLib|MdeModulePkg/Library/VariablePolicyHelperLib/VariablePolicyHelperLib.inf
    VariableFlashInfoLib|MdeModulePkg/Library/BaseVariableFlashInfoLib/BaseVariableFlashInfoLib.inf
-@@ -727,6 +730,9 @@
+@@ -728,6 +731,9 @@
    #
    # Variable driver stack (non-SMM)
    #
@@ -245,7 +245,7 @@ index 2bc577f145e7..89d69f733ced 100644
    OvmfPkg/QemuFlashFvbServicesRuntimeDxe/FvbServicesRuntimeDxe.inf
    OvmfPkg/EmuVariableFvbRuntimeDxe/Fvb.inf {
      <LibraryClasses>
-@@ -737,6 +743,7 @@
+@@ -738,6 +744,7 @@
      <LibraryClasses>
        NULL|MdeModulePkg/Library/VarCheckUefiLib/VarCheckUefiLib.inf
    }

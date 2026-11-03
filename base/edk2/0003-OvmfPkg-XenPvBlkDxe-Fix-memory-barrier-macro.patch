@@ -122,11 +122,11 @@ index 000000000000..fcb08f7601cd
 +  _mm_mfence ();
 +}
 diff --git a/OvmfPkg/XenPvBlkDxe/XenPvBlkDxe.h b/OvmfPkg/XenPvBlkDxe/XenPvBlkDxe.h
-index 350b7bd309c0..67ee1899e9a8 100644
+index 0ee0dbf953c3..c6c5b29731e9 100644
 --- a/OvmfPkg/XenPvBlkDxe/XenPvBlkDxe.h
 +++ b/OvmfPkg/XenPvBlkDxe/XenPvBlkDxe.h
-@@ -11,8 +11,9 @@
- #define __EFI_XEN_PV_BLK_DXE_H__
+@@ -10,8 +10,9 @@
+ #pragma once
  
  #include <Uefi.h>
 +#include "FullMemoryFence.h"

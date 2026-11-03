@@ -14,10 +14,10 @@ Bug-Vates: XCPNG-3554
 Signed-off-by: Tu Dinh <ngoc-tu.dinh@vates.tech>
 
 diff --git a/MdeModulePkg/Include/Protocol/PlatformLogo.h b/MdeModulePkg/Include/Protocol/PlatformLogo.h
-index 08e1dc35a419..263c058338e1 100644
+index ea3dcefe9b05..d168f025b549 100644
 --- a/MdeModulePkg/Include/Protocol/PlatformLogo.h
 +++ b/MdeModulePkg/Include/Protocol/PlatformLogo.h
-@@ -29,7 +29,12 @@ typedef enum {
+@@ -28,7 +28,12 @@ typedef enum {
    EdkiiPlatformLogoDisplayAttributeCenterBottom,
    EdkiiPlatformLogoDisplayAttributeLeftBottom,
    EdkiiPlatformLogoDisplayAttributeCenterLeft,

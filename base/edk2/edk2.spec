@@ -2,7 +2,7 @@
 
 Name: edk2
 Summary: EFI Development Kit II
-Version: 202602
+Version: 202608
 Release: 1%{?dist}
 
 License: BSD and MIT
@@ -10,12 +10,13 @@ URL: https://github.com/tianocore/edk2
 Source0: edk2-stable%{version}.tar.gz
 Source1: calc-pcrs.py
 
-# https://github.com/google/brotli/archive/e230f474b87134e8c6c85b630084c612057f253e.tar.gz
-Source2: brotli-e230f474b87134e8c6c85b630084c612057f253e.tar.gz
-# https://github.com/ARMmbed/mbedtls/archive/e185d7fd85499c8ce5ca2a54f5cf8fe7dbe3f8df.tar.gz
-Source3: mbedtls-e185d7fd85499c8ce5ca2a54f5cf8fe7dbe3f8df.tar.gz
-# https://github.com/openssl/openssl/archive/aea7aaf2abb04789f5868cbabec406ea43aa84bf.tar.gz
-Source4: openssl-aea7aaf2abb04789f5868cbabec406ea43aa84bf.tar.gz
+# Brotli v1.2.1 replaces the original tree's e230f474b871.
+# https://github.com/google/brotli/archive/db24a98aed38a16de78cc05ca15cdd8dc2a0d92d.tar.gz
+Source2: brotli-db24a98aed38a16de78cc05ca15cdd8dc2a0d92d.tar.gz
+# https://github.com/ARMmbed/mbedtls/archive/0bebf8b8c7f07abe3571ded48a11aa907a1ffb20.tar.gz
+Source3: mbedtls-0bebf8b8c7f07abe3571ded48a11aa907a1ffb20.tar.gz
+# https://github.com/openssl/openssl/archive/8cf17aaeb4599f8af87fefd810b5b5fee90fe69e.tar.gz
+Source4: openssl-8cf17aaeb4599f8af87fefd810b5b5fee90fe69e.tar.gz
 # https://github.com/kkos/oniguruma/archive/4ef89209a239c1aea328cf13c05a2807e5c146d1.tar.gz
 Source5: oniguruma-4ef89209a239c1aea328cf13c05a2807e5c146d1.tar.gz
 # https://github.com/devicetree-org/pylibfdt/archive/cfff805481bdea27f900c32698171286542b8d3c.tar.gz
@@ -24,15 +25,16 @@ Source6: pylibfdt-cfff805481bdea27f900c32698171286542b8d3c.tar.gz
 Source7: public-mipi-sys-t-370b5944c046bab043dd8b133727b2135af7747a.tar.gz
 # https://github.com/akheron/jansson/archive/e9ebfa7e77a6bee77df44e096b100e7131044059.tar.gz
 Source8: jansson-e9ebfa7e77a6bee77df44e096b100e7131044059.tar.gz
-# https://github.com/DMTF/libspdm/archive/1be116c7b7713fa9003e1bd53b53a34758549eb9.tar.gz
-Source9: libspdm-1be116c7b7713fa9003e1bd53b53a34758549eb9.tar.gz
+# https://github.com/DMTF/libspdm/archive/f55cf6d48ec69b4ac60a63903e9c6a2cb0fd155d.tar.gz
+Source9: libspdm-f55cf6d48ec69b4ac60a63903e9c6a2cb0fd155d.tar.gz
 
 # XCP-ng branding
 Source1001: Logo.bmp
 
 # Backports
-Patch1: 0001-OvmfPkg-XenPvBlkDxe-Advertise-the-correct-IO-alignme.patch
-Patch2: 0002-OvmfPkg-OvmfXen-Page-align-sections-of-DXE-and-UEFI-.patch
+# CVE-2026-97631
+Patch1: 0001-NetworkPkg-UefiPxeBcDxe-Fix-ICMP-buffer-overflow-in-.patch
+Patch2: 0002-NetworkPkg-UefiPxeBcDxe-Clear-ICMP-error-buffer-befo.patch
 
 # Ported from XenServer 9
 Patch3: 0003-OvmfPkg-XenPvBlkDxe-Fix-memory-barrier-macro.patch
@@ -72,7 +74,7 @@ BuildRequires: libuuid-devel
 BuildRequires: nasm >= 2.15
 BuildRequires: iasl
 BuildRequires: ipxe-efi
-BuildRequires: perl(IPC::Cmd), perl(JSON), perl(FindBin), perl(lib), perl(ExtUtils::MakeMaker)
+BuildRequires: perl(IPC::Cmd), perl(JSON), perl(FindBin), perl(lib), perl(ExtUtils::MakeMaker), perl(Time::Piece)
 %{?_cov_buildrequires}
 
 
@@ -190,6 +192,15 @@ cp OvmfPkg/License.txt License.ovmf
 
 
 %changelog
+* Tue Nov 03 2026 Tu Dinh <ngoc-tu.dinh@vates.tech> - 202608-1
+- Updated to edk2-stable202608, for XCP-ng 9
+- Dropped "OvmfPkg/XenPvBlkDxe: Advertise the correct IO alignment", now
+  upstream
+- Dropped "OvmfPkg/OvmfXen: Page align sections of DXE and UEFI images", now
+  upstream
+- Added backports for CVE-2026-97631
+- Updated to brotli v1.2.1
+
 * Fri Jul 17 2026 Tu Dinh <ngoc-tu.dinh@vates.tech> - 202602-1
 - Updated to edk2-stable202602, for XCP-ng 9
 - All backports dropped except for 1 applicable one

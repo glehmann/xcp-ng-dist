@@ -51,7 +51,7 @@ index 000000000000..e7a074482f1a
 +
 +#endif
 diff --git a/OvmfPkg/Library/PlatformBootManagerLib/BdsPlatform.c b/OvmfPkg/Library/PlatformBootManagerLib/BdsPlatform.c
-index b696f1b3389b..2c2c739015fc 100644
+index 3edb92fabcb7..481a67e631c9 100644
 --- a/OvmfPkg/Library/PlatformBootManagerLib/BdsPlatform.c
 +++ b/OvmfPkg/Library/PlatformBootManagerLib/BdsPlatform.c
 @@ -1708,7 +1708,8 @@ PlatformBootManagerAfterConsole (
@@ -65,10 +65,10 @@ index b696f1b3389b..2c2c739015fc 100644
    PlatformBmPrintScRegisterHandler ();
  }
 diff --git a/OvmfPkg/Library/PlatformBootManagerLib/BdsPlatform.h b/OvmfPkg/Library/PlatformBootManagerLib/BdsPlatform.h
-index e238dda9e1ec..9872177f21a2 100644
+index 1302f5cc9093..57ccd471a2d7 100644
 --- a/OvmfPkg/Library/PlatformBootManagerLib/BdsPlatform.h
 +++ b/OvmfPkg/Library/PlatformBootManagerLib/BdsPlatform.h
-@@ -44,6 +44,7 @@ Abstract:
+@@ -43,6 +43,7 @@ Abstract:
  #include <Library/QemuFwCfgLib.h>
  #include <Library/QemuFwCfgS3Lib.h>
  #include <Library/QemuBootOrderLib.h>
@@ -432,7 +432,7 @@ index 000000000000..43bd5380143d
 +  gXenBusProtocolGuid
 +  gEfiSimpleNetworkProtocolGuid
 diff --git a/OvmfPkg/OvmfPkg.dec b/OvmfPkg/OvmfPkg.dec
-index 9cf13d3fb216..12ddca1b7ed0 100644
+index ce5d5dda4f58..1a154296a24c 100644
 --- a/OvmfPkg/OvmfPkg.dec
 +++ b/OvmfPkg/OvmfPkg.dec
 @@ -105,6 +105,10 @@
@@ -447,22 +447,22 @@ index 9cf13d3fb216..12ddca1b7ed0 100644
    #
    SerializeVariablesLib|Include/Library/SerializeVariablesLib.h
 diff --git a/OvmfPkg/OvmfPkgX64.dsc b/OvmfPkg/OvmfPkgX64.dsc
-index 94c639be1380..a8b624fd319c 100644
+index a12ea98bb784..ce70c4a793c9 100644
 --- a/OvmfPkg/OvmfPkgX64.dsc
 +++ b/OvmfPkg/OvmfPkgX64.dsc
-@@ -446,6 +446,7 @@
+@@ -450,6 +450,7 @@
    PlatformBmPrintScLib|OvmfPkg/Library/PlatformBmPrintScLib/PlatformBmPrintScLib.inf
    QemuBootOrderLib|OvmfPkg/Library/QemuBootOrderLib/QemuBootOrderLib.inf
    PlatformBootManagerCommonLib|OvmfPkg/Library/PlatformBootManagerCommonLib/PlatformBootManagerCommonLib.inf
 +  XenBootOrderLib|OvmfPkg/Library/XenBootOrderLib/XenBootOrderLib.inf
    CpuExceptionHandlerLib|UefiCpuPkg/Library/CpuExceptionHandlerLib/DxeCpuExceptionHandlerLib.inf
- !if $(SMM_REQUIRE) == TRUE
-   LockBoxLib|MdeModulePkg/Library/SmmLockBoxLib/SmmLockBoxDxeLib.inf
+ !if $(STANDALONE_MM_ENABLE) == TRUE
+   LockBoxLib|MdeModulePkg/Library/LockBoxNullLib/LockBoxNullLib.inf
 diff --git a/OvmfPkg/OvmfXen.dsc b/OvmfPkg/OvmfXen.dsc
-index ad39f7bab6b3..f7a189ee4f96 100644
+index 3019e03b2ac1..f80d12bd4984 100644
 --- a/OvmfPkg/OvmfXen.dsc
 +++ b/OvmfPkg/OvmfXen.dsc
-@@ -346,6 +346,7 @@
+@@ -347,6 +347,7 @@
    PlatformBmPrintScLib|OvmfPkg/Library/PlatformBmPrintScLib/PlatformBmPrintScLib.inf
    QemuBootOrderLib|OvmfPkg/Library/QemuBootOrderLib/QemuBootOrderLib.inf
    PlatformBootManagerCommonLib|OvmfPkg/Library/PlatformBootManagerCommonLib/PlatformBootManagerCommonLib.inf

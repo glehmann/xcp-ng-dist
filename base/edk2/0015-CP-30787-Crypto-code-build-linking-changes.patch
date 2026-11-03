@@ -16,22 +16,25 @@ Signed-off-by: Edwin Török <edvin.torok@citrix.com>
 [anthony] rebased:
 MD4, ARC4, TDES removed upstreamed.
 
-Resolve conflicts using Cipher/CryptAeadAesGcmNull.c
+Resolve conflicts using Cipher/CryptAeadAesGcmNull.c. Add
+CryptCamelliaNull.c.
 
 Signed-off-by: Tu Dinh <ngoc-tu.dinh@vates.tech>
 
 diff --git a/CryptoPkg/Library/BaseCryptLib/BaseCryptLib.inf b/CryptoPkg/Library/BaseCryptLib/BaseCryptLib.inf
-index f0156d3ac850..d8a672165147 100644
+index bf8f1f86aff1..10fe34e2d53a 100644
 --- a/CryptoPkg/Library/BaseCryptLib/BaseCryptLib.inf
 +++ b/CryptoPkg/Library/BaseCryptLib/BaseCryptLib.inf
-@@ -42,17 +42,17 @@
+@@ -43,18 +43,18 @@
    Hash/CryptDispatchApDxe.c
    Hmac/CryptHmac.c
    Kdf/CryptHkdf.c
 -  Cipher/CryptAes.c
 -  Cipher/CryptAeadAesGcm.c
+-  Cipher/CryptCamellia.c
 +  Cipher/CryptAesNull.c
 +  Cipher/CryptAeadAesGcmNull.c
++  Cipher/CryptCamelliaNull.c
    Pk/CryptRsaBasic.c
 -  Pk/CryptRsaExt.c
 +  Pk/CryptRsaExtNull.c
@@ -49,15 +52,18 @@ index f0156d3ac850..d8a672165147 100644
    Pk/CryptAuthenticode.c
    Pk/CryptTs.c
 diff --git a/CryptoPkg/Library/BaseCryptLib/SmmCryptLib.inf b/CryptoPkg/Library/BaseCryptLib/SmmCryptLib.inf
-index 85ce7b89b944..77bed8c1ccae 100644
+index d7d34cb20bd0..f77b78c94af4 100644
 --- a/CryptoPkg/Library/BaseCryptLib/SmmCryptLib.inf
 +++ b/CryptoPkg/Library/BaseCryptLib/SmmCryptLib.inf
-@@ -45,7 +45,7 @@
+@@ -46,9 +46,9 @@
    Hash/CryptDispatchApMm.c
    Hmac/CryptHmac.c
    Kdf/CryptHkdf.c
 -  Cipher/CryptAes.c
 +  Cipher/CryptAesNull.c
    Cipher/CryptAeadAesGcmNull.c
+-  Cipher/CryptCamellia.c
++  Cipher/CryptCamelliaNull.c
    Pk/CryptRsaBasic.c
    Pk/CryptRsaExt.c
+   Pk/CryptPkcs1Oaep.c

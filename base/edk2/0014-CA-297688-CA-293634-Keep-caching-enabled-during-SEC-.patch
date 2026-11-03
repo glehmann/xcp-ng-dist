@@ -28,7 +28,7 @@ For OvmfXen, we use XenResetVector, which have CR0 already set with caching
 enabled. No need to change UefiCpuPkg/ResetVector anymore.
 
 diff --git a/OvmfPkg/Sec/SecMain.c b/OvmfPkg/Sec/SecMain.c
-index d13a9485094b..9e55a697d4a6 100644
+index 60a00ce53162..9512b0409040 100644
 --- a/OvmfPkg/Sec/SecMain.c
 +++ b/OvmfPkg/Sec/SecMain.c
 @@ -24,6 +24,7 @@
@@ -39,7 +39,7 @@ index d13a9485094b..9e55a697d4a6 100644
  #include <Library/CpuExceptionHandlerLib.h>
  #include <Ppi/TemporaryRamSupport.h>
  #include <Ppi/MpInitLibDep.h>
-@@ -1015,9 +1016,21 @@ SecStartupPhase2 (
+@@ -1014,9 +1015,21 @@ SecStartupPhase2 (
    EFI_FIRMWARE_VOLUME_HEADER  *BootFv;
    EFI_PEI_CORE_ENTRY_POINT    PeiCoreEntryPoint;
    EFI_PEI_PPI_DESCRIPTOR      *EfiPeiPpiDescriptor;
@@ -61,7 +61,7 @@ index d13a9485094b..9e55a697d4a6 100644
    //
    // Find PEI Core entry point. It will report SEC and Pei Core debug information if remote debug
    // is enabled.
-@@ -1037,6 +1050,8 @@ SecStartupPhase2 (
+@@ -1036,6 +1049,8 @@ SecStartupPhase2 (
      EfiPeiPpiDescriptor = (EFI_PEI_PPI_DESCRIPTOR *)&mPrivateDispatchTableMp;
    }
  
@@ -71,7 +71,7 @@ index d13a9485094b..9e55a697d4a6 100644
    // Transfer the control to the PEI core
    //
 diff --git a/OvmfPkg/Sec/SecMain.inf b/OvmfPkg/Sec/SecMain.inf
-index 4a91fb2bbb2f..bf721e7bae87 100644
+index a05da3d75fd1..9bf156b8be4b 100644
 --- a/OvmfPkg/Sec/SecMain.inf
 +++ b/OvmfPkg/Sec/SecMain.inf
 @@ -52,6 +52,7 @@

@@ -12,7 +12,7 @@ Files moved to OvmfPkg/Include/{Dsc,Fdf}
 Signed-off-by: Tu Dinh <ngoc-tu.dinh@vates.tech>
 
 diff --git a/OvmfPkg/OvmfXen.dsc b/OvmfPkg/OvmfXen.dsc
-index ab2c3e7e6c2b..9a1cd6bbd4f1 100644
+index ad1c0594eae3..42e85cea7083 100644
 --- a/OvmfPkg/OvmfXen.dsc
 +++ b/OvmfPkg/OvmfXen.dsc
 @@ -32,6 +32,8 @@
@@ -24,7 +24,7 @@ index ab2c3e7e6c2b..9a1cd6bbd4f1 100644
    #
    # Shell can be useful for debugging but should not be enabled for production
    #
-@@ -220,8 +222,6 @@
+@@ -221,8 +223,6 @@
    XenPlatformLib|OvmfPkg/Library/XenPlatformLib/XenPlatformLib.inf
    XenIoMmioLib|OvmfPkg/Library/XenIoMmioLib/XenIoMmioLib.inf
  
@@ -33,7 +33,7 @@ index ab2c3e7e6c2b..9a1cd6bbd4f1 100644
    RealTimeClockLib|OvmfPkg/Library/XenRealTimeClockLib/XenRealTimeClockLib.inf
    TimeBaseLib|EmbeddedPkg/Library/TimeBaseLib/TimeBaseLib.inf
  !ifdef $(DEBUG_ON_HYPERVISOR_CONSOLE)
-@@ -230,6 +230,8 @@
+@@ -231,6 +231,8 @@
    DebugLib|OvmfPkg/Library/PlatformDebugLibIoPort/PlatformDebugLibIoPort.inf
  !endif
  
@@ -42,7 +42,7 @@ index ab2c3e7e6c2b..9a1cd6bbd4f1 100644
  [LibraryClasses.common]
    AmdSvsmLib|UefiCpuPkg/Library/AmdSvsmLibNull/AmdSvsmLibNull.inf
    BaseCryptLib|CryptoPkg/Library/BaseCryptLib/BaseCryptLib.inf
-@@ -508,6 +510,11 @@
+@@ -509,6 +511,11 @@
  
  !include OvmfPkg/Include/Dsc/OvmfDisplayPcds.dsc.inc
  
@@ -54,7 +54,7 @@ index ab2c3e7e6c2b..9a1cd6bbd4f1 100644
  ################################################################################
  #
  # Components Section - list of all EDK II Modules needed by this Platform.
-@@ -546,6 +553,8 @@
+@@ -547,6 +554,8 @@
    UefiCpuPkg/Universal/Acpi/S3Resume2Pei/S3Resume2Pei.inf
    UefiCpuPkg/CpuMpPei/CpuMpPei.inf
  
@@ -63,7 +63,7 @@ index ab2c3e7e6c2b..9a1cd6bbd4f1 100644
    #
    # DXE Phase modules
    #
-@@ -564,7 +573,13 @@
+@@ -565,7 +574,13 @@
  
    MdeModulePkg/Core/RuntimeDxe/RuntimeDxe.inf
  
@@ -78,7 +78,7 @@ index ab2c3e7e6c2b..9a1cd6bbd4f1 100644
  
    MdeModulePkg/Universal/EbcDxe/EbcDxe.inf
    OvmfPkg/LocalApicTimerDxe/LocalApicTimerDxe.inf
-@@ -718,3 +733,8 @@
+@@ -719,3 +734,8 @@
      <LibraryClasses>
        NULL|MdeModulePkg/Library/VarCheckUefiLib/VarCheckUefiLib.inf
    }

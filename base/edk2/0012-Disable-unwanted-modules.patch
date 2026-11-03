@@ -17,7 +17,7 @@ Modules that are disabled:
 * S3 save support - this is not supported on XenServer
 
 diff --git a/OvmfPkg/OvmfXen.dsc b/OvmfPkg/OvmfXen.dsc
-index 89d69f733ced..ad39f7bab6b3 100644
+index 49535d1bf3ce..3019e03b2ac1 100644
 --- a/OvmfPkg/OvmfXen.dsc
 +++ b/OvmfPkg/OvmfXen.dsc
 @@ -34,6 +34,7 @@
@@ -28,7 +28,7 @@ index 89d69f733ced..ad39f7bab6b3 100644
  
  !include OvmfPkg/Include/Dsc/OvmfTpmDefines.dsc.inc
  
-@@ -175,7 +176,9 @@
+@@ -176,7 +177,9 @@
    NvVarsFileLib|OvmfPkg/Library/NvVarsFileLib/NvVarsFileLib.inf
    FileHandleLib|MdePkg/Library/UefiFileHandleLib/UefiFileHandleLib.inf
    SecurityManagementLib|MdeModulePkg/Library/DxeSecurityManagementLib/DxeSecurityManagementLib.inf
@@ -38,7 +38,7 @@ index 89d69f733ced..ad39f7bab6b3 100644
    SerializeVariablesLib|OvmfPkg/Library/SerializeVariablesLib/SerializeVariablesLib.inf
    QemuFwCfgLib|OvmfPkg/Library/QemuFwCfgLib/QemuFwCfgDxeLib.inf
    QemuFwCfgSimpleParserLib|OvmfPkg/Library/QemuFwCfgSimpleParserLib/QemuFwCfgSimpleParserLib.inf
-@@ -326,7 +329,9 @@
+@@ -327,7 +330,9 @@
    DxeCoreEntryPoint|MdePkg/Library/DxeCoreEntryPoint/DxeCoreEntryPoint.inf
    MemoryAllocationLib|MdePkg/Library/UefiMemoryAllocationLib/UefiMemoryAllocationLib.inf
    ReportStatusCodeLib|MdeModulePkg/Library/DxeReportStatusCodeLib/DxeReportStatusCodeLib.inf
@@ -48,7 +48,7 @@ index 89d69f733ced..ad39f7bab6b3 100644
    PciLib|OvmfPkg/Library/DxePciLibI440FxQ35/DxePciLibI440FxQ35.inf
  
  [LibraryClasses.common.DXE_DRIVER]
-@@ -614,10 +619,12 @@
+@@ -615,10 +620,12 @@
        NULL|MdeModulePkg/Library/BootMaintenanceManagerUiLib/BootMaintenanceManagerUiLib.inf
    }
    MdeModulePkg/Application/BootManagerMenuApp/BootManagerMenuApp.inf
@@ -61,7 +61,7 @@ index 89d69f733ced..ad39f7bab6b3 100644
    OvmfPkg/XenIoPvhDxe/XenIoPvhDxe.inf
    OvmfPkg/XenIoPciDxe/XenIoPciDxe.inf
    OvmfPkg/XenBusDxe/XenBusDxe.inf
-@@ -647,18 +654,22 @@
+@@ -648,18 +655,22 @@
    MdeModulePkg/Universal/Disk/UnicodeCollation/EnglishDxe/EnglishDxe.inf
    FatPkg/EnhancedFatDxe/Fat.inf
    MdeModulePkg/Universal/Disk/UdfDxe/UdfDxe.inf
@@ -84,7 +84,7 @@ index 89d69f733ced..ad39f7bab6b3 100644
  
    SecurityPkg/RandomNumberGenerator/RngDxe/RngDxe.inf
  
-@@ -683,7 +694,9 @@
+@@ -684,7 +695,9 @@
    #
    MdeModulePkg/Universal/Acpi/AcpiTableDxe/AcpiTableDxe.inf
    OvmfPkg/XenAcpiPlatformDxe/XenAcpiPlatformDxe.inf
@@ -94,7 +94,7 @@ index 89d69f733ced..ad39f7bab6b3 100644
    MdeModulePkg/Universal/Acpi/BootScriptExecutorDxe/BootScriptExecutorDxe.inf
  !if $(BGRT_ENABLE) == TRUE
    MdeModulePkg/Universal/Acpi/BootGraphicsResourceTableDxe/BootGraphicsResourceTableDxe.inf
-@@ -711,20 +724,24 @@
+@@ -712,20 +725,24 @@
    #
    # Usb Support
    #

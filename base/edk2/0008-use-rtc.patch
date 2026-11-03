@@ -5,10 +5,10 @@ Subject: [PATCH] use-rtc
 
 
 diff --git a/OvmfPkg/OvmfXen.dsc b/OvmfPkg/OvmfXen.dsc
-index b0f897760204..aa2952ea45d6 100644
+index e3e41624846f..b3317a3e0d76 100644
 --- a/OvmfPkg/OvmfXen.dsc
 +++ b/OvmfPkg/OvmfXen.dsc
-@@ -223,7 +223,6 @@
+@@ -224,7 +224,6 @@
    XenPlatformLib|OvmfPkg/Library/XenPlatformLib/XenPlatformLib.inf
    XenIoMmioLib|OvmfPkg/Library/XenIoMmioLib/XenIoMmioLib.inf
  
@@ -16,7 +16,7 @@ index b0f897760204..aa2952ea45d6 100644
    TimeBaseLib|EmbeddedPkg/Library/TimeBaseLib/TimeBaseLib.inf
  !ifdef $(DEBUG_ON_HYPERVISOR_CONSOLE)
    DebugLib|OvmfPkg/Library/PlatformDebugLibIoPort/PlatformRomDebugLibIoPortNocheck.inf
-@@ -600,7 +599,7 @@
+@@ -601,7 +600,7 @@
    }
    MdeModulePkg/Universal/ResetSystemRuntimeDxe/ResetSystemRuntimeDxe.inf
    MdeModulePkg/Universal/Metronome/Metronome.inf
