@@ -1,14 +1,14 @@
-%global package_speccommit 4180d42f5bdbceb1769b36a8c65a049950ba92b3
-%global package_srccommit v11.0.8
+%global package_speccommit a8bca11d6d3292935ec3ce8c3465e66b3d202962
 %{!?xsrel: %global xsrel 1}
+%global package_srccommit v11.1.4
 
 Summary: XenServer Host Configuration Console
 Name: xsconsole
-Version: 11.0.8
+Version: 11.1.4
 Release: %{?xsrel}%{?dist}
 License: GPL2
 Group: Administration/System
-Source0: xsconsole-11.0.8.tar.gz
+Source0: xsconsole-11.1.4.tar.gz
 Provides: xsconsole0
 BuildRequires: python3-devel
 BuildRequires: systemd
@@ -75,6 +75,41 @@ InCloud Sphere.
 %{_libdir}/xsconsole/plugins-oem/XSFeatureLicenseNag.py*
 
 %changelog
+* Fri Dec 19 2025 Changlei Li <changlei.li@cloud.com> - 11.1.4-1
+- CP-308543 Use xenapi to manage timezone and NTP
+
+* Thu Dec 11 2025 Changlei Li <changlei.li@cloud.com> - 11.1.3-1
+- CA-420524: Do not allow input a non-exist device in network reset
+- CA-421635: Show the real NTP servers in dhcp NTP mode
+
+* Tue Nov 04 2025 Changlei Li <changlel.li@cloud.com> - 11.1.2-1
+- CP-54442: Update for network devices not being renamed
+- CA-415864: MANAGEMENT_INTERFACE is not cleared in network reset
+
+* Fri Sep 26 2025 Lin Liu <Lin.Liu01@cloud.com> - 11.1.1-1
+- CA-417641: Update ntp-dhcp server file for updated chrony
+
+* Thu Jul 31 2025 Lunfan Zhang <Lunfan.Zhang@cloud.com> - 11.1.0-1
+- CP-309227: Enable xsconsole to support control SSH and ssh-auto-mode
+
+* Wed Jul 16 2025 Chunjie Zhu <chunjie.zhu@cloud.com> - 11.0.11-1
+- CA-413432: convert variant select operation async mode
+- CA-413431: filter OpaqueRef:NULL case
+
+* Mon Jun 30 2025 Chunjie Zhu <chunjie.zhu@cloud.com> - 11.0.10-1
+- CP-52200: add DMV function
+- NetworkReset: Sync up the network-reset file path with xapi
+- NetworkReset: don't truncate the IPv6 address of the coordinator host
+- CP-48511: Show timezone alongside time in top line
+- Remove unused file
+- CP-50411: Show all SSH host key fingerprints in xsconsole
+
+* Wed May 28 2025 Chunjie Zhu <chunjie.zhu@cloud.com> - 11.0.9-2
+- CA-411707: deploy dmv-utils in dom0 by default
+
+* Thu Aug 1 2024 Lin Liu <Lin.Liu01@cloud.com> - 11.0.9-1
+- CA-395025: Local command shell login failed on XS9
+
 * Tue Jul 23 2024 Gerald Elder-Vass <gerald.elder-vass@cloud.com> - 11.0.8-1
 - CA-390512: Improved xenapi error handling
 
