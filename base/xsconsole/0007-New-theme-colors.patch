@@ -1,8 +1,17 @@
+From 770db179c94d44bcefd5e817e2e0bdcc6004ccf9 Mon Sep 17 00:00:00 2001
+From: Yann Dirson <yann.dirson@vates.fr>
+Date: Mon, 14 Nov 2022 12:24:18 +0100
+Subject: [PATCH 07/12] New theme colors
+
+---
+ XSConsoleCurses.py | 18 ++++++++++++------
+ 1 file changed, 12 insertions(+), 6 deletions(-)
+
 diff --git a/XSConsoleCurses.py b/XSConsoleCurses.py
-index 7881cd6..69f4c06 100644
+index b64bfc1..74885e4 100644
 --- a/XSConsoleCurses.py
 +++ b/XSConsoleCurses.py
-@@ -54,12 +54,18 @@ class CursesPalette:
+@@ -60,12 +60,18 @@ class CursesPalette:
              bgNormal = curses.COLOR_BLUE
              bgDark = curses.COLOR_BLACK
  
@@ -27,3 +36,6 @@ index 7881cd6..69f4c06 100644
  
          else:
              # Set sensible defaults for non-colour-changing terminals
+-- 
+2.47.3
+

@@ -1,14 +1,14 @@
-%global package_speccommit 070a6ba05696264e7d2c7e0476c5ab6daf170f3d
-%global package_srccommit v11.0.9.1
+%global package_speccommit a8bca11d6d3292935ec3ce8c3465e66b3d202962
 %{!?xsrel: %global xsrel 1}
+%global package_srccommit v11.1.4
 
 Summary: XCP-ng Host Configuration Console
 Name: xsconsole
-Version: 11.0.9.1
-Release: %{?xsrel}.3%{?dist}
+Version: 11.1.4
+Release: %{?xsrel}.1%{?dist}
 License: GPL2
 Group: Administration/System
-Source0: xsconsole-11.0.9.1.tar.gz
+Source0: xsconsole-11.1.4.tar.gz
 Provides: xsconsole0
 BuildRequires: python3-devel
 BuildRequires: systemd
@@ -29,17 +29,23 @@ Requires(post): systemd
 Requires(preun): systemd
 Requires(postun): systemd
 
+# upstream master commits
+Patch1000: 0001-CA-417645-Refine-Remote-Shell-status-in-xsconsole.patch
+Patch1001: 0002-pyproject-use-a-more-correct-requires-python.patch
+Patch1002: 0003-pyproject-drop-superseded-license-classifiers.patch
+Patch1003: 0004-Convert-all-OpaqueRef-fields-in-host-pool-SR-and-VM-.patch
+# https://github.com/xapi-project/xsconsole/pull/73
+Patch1004: 0005-XSConsoleImported-switch-from-imp-to-importlib-for-p.patch
 # XCP-ng patches
-Patch1000: xsconsole-10.1.9-rebrand-xsconsole-service.XCP-ng.patch
-Patch1001: xsconsole-10.1.13-define-xcp-ng-colors.XCP-ng.patch
+Patch1005: 0006-Replace-XenServer-with-XCP-ng-in-xsconsole.service.patch
+Patch1006: 0007-New-theme-colors.patch
 # PR pending merge
-Patch1002: xsconsole-11.0.2-support-ipv6.XCP-ng.patch
-Patch1003: xsconsole-11.0.6-Ipv6-pool-join.XCP-ng.patch
-Patch1004: xsconsole-network-reset-without-management-interface-rename.patch
-Patch1005: xsconsole-reset-old-management-interface-when-switching-to-new.patch
-
+Patch1007: 0008-Handle-IPv6.patch
+Patch1008: 0009-Support-Pool-join-in-IPv6.patch
+Patch1009: 0010-XSFeatureNetworkReset-allow-the-user-to-perform-an-e.patch
+Patch1010: 0011-XSFeatureInterface-Reset-old-management-interface-co.patch
 # https://github.com/xapi-project/xsconsole/pull/90
-Patch1006: xsconsole-retry-the-xapi-connection-instead-of-latching-it.patch
+Patch1011: 0012-Retry-the-xapi-connection-instead-of-latching-it-bro.patch
 
 %description
 Console tool for configuring a XCP-ng installation.
@@ -76,13 +82,53 @@ Console tool for configuring a XCP-ng installation.
 %{_unitdir}/xsconsole.service
 
 %changelog
+* Thu Nov 05 2026 Yann Dirson <yann.dirson@vates.tech> - 11.1.4-1.1
+- Sync with XS9's 11.1.4-1
+- Refreshed all patches from git-format-patch, new filenames
+- Include post-11.1.4 commits from master and python 3.12 support from #73
+- *** Upstream changelog *** (XS9 forked off 11.0.8-1)
+  * Fri Dec 19 2025 Changlei Li <changlei.li@cloud.com> - 11.1.4-1
+  - CP-308543 Use xenapi to manage timezone and NTP
+
+  * Thu Dec 11 2025 Changlei Li <changlei.li@cloud.com> - 11.1.3-1
+  - CA-420524: Do not allow input a non-exist device in network reset
+  - CA-421635: Show the real NTP servers in dhcp NTP mode
+
+  * Tue Nov 04 2025 Changlei Li <changlel.li@cloud.com> - 11.1.2-1
+  - CP-54442: Update for network devices not being renamed
+  - CA-415864: MANAGEMENT_INTERFACE is not cleared in network reset
+
+  * Fri Sep 26 2025 Lin Liu <Lin.Liu01@cloud.com> - 11.1.1-1
+  - CA-417641: Update ntp-dhcp server file for updated chrony
+
+  * Thu Jul 31 2025 Lunfan Zhang <Lunfan.Zhang@cloud.com> - 11.1.0-1
+  - CP-309227: Enable xsconsole to support control SSH and ssh-auto-mode
+
+  * Wed Jul 16 2025 Chunjie Zhu <chunjie.zhu@cloud.com> - 11.0.11-1
+  - CA-413432: convert variant select operation async mode
+  - CA-413431: filter OpaqueRef:NULL case
+
+  * Mon Jun 30 2025 Chunjie Zhu <chunjie.zhu@cloud.com> - 11.0.10-1
+  - CP-52200: add DMV function
+  - NetworkReset: Sync up the network-reset file path with xapi
+  - NetworkReset: don't truncate the IPv6 address of the coordinator host
+  - CP-48511: Show timezone alongside time in top line
+  - Remove unused file
+  - CP-50411: Show all SSH host key fingerprints in xsconsole
+
+  * Wed May 28 2025 Chunjie Zhu <chunjie.zhu@cloud.com> - 11.0.9-2
+  - CA-411707: deploy dmv-utils in dom0 by default
+
+  * Thu Aug 1 2024 Lin Liu <Lin.Liu01@cloud.com> - 11.0.9-1
+  - CA-395025: Local command shell login failed on XS9
+
 * Wed Aug 05 2026 Andrii Sultanov <andriy.sultanov@vates.tech> - 11.0.9.1-1.3
 - Retry the xapi connection instead of latching it broken forever
 
 * Mon Jun 22 2026 Stefanos Gerangelos <stefanos.gerangelos@vates.tech> - 11.0.9.1-1.2
 - Backport the user option to allow the network reset without renaming the management interface (upstream PR #85)
 - Backport the reset of old management interface configuration when switching to a new one (upstream PR #86)
- 
+
 * Tue Sep 02 2025 Guillaume Thouvenin <guillaume.thouvenin@vates.tech> - 11.0.9.1-1.1
 - Sync with 11.0.9.1-1
 - Drop xsconsole-11.0.8-sync-network-reset-trigger-file.patch

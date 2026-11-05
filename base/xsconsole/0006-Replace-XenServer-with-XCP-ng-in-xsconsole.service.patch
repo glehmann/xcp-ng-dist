@@ -1,0 +1,23 @@
+From bbb2e51b199e0d4e872d4fa171fda61295f781d1 Mon Sep 17 00:00:00 2001
+From: Samuel Verschelde <stormi@laposte.net>
+Date: Mon, 3 Jun 2019 11:21:19 +0200
+Subject: [PATCH 06/12] Replace XenServer with XCP-ng in xsconsole.service
+
+---
+ xsconsole.service | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/xsconsole.service b/xsconsole.service
+index 3e95342..587f67f 100644
+--- a/xsconsole.service
++++ b/xsconsole.service
+@@ -1,5 +1,5 @@
+ [Unit]
+-Description=XenServer Console
++Description=XCP-ng Console
+ After=xapi.service plymouth-quit-wait.service move-kernel-messages.service
+ Wants=xapi.service
+ 
+-- 
+2.47.3
+

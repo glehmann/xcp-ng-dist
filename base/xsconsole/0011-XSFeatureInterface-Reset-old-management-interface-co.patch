@@ -1,7 +1,7 @@
-From 4dd53f6e64ee4a62220af2d6f392ceb695c2c766 Mon Sep 17 00:00:00 2001
+From e03feb6e0c93efda026bbaa33b4120b360484353 Mon Sep 17 00:00:00 2001
 From: Stefanos Gerangelos <stefanos.gerangelos@vates.tech>
 Date: Mon, 22 Jun 2026 14:40:11 +0200
-Subject: [PATCH] XSFeatureInterface: Reset old management interface
+Subject: [PATCH 11/12] XSFeatureInterface: Reset old management interface
  configuration when switching to a new one
 
 Fix the following issue from upstream:
@@ -16,7 +16,7 @@ Signed-off-by: Stefanos Gerangelos <stefanos.gerangelos@vates.tech>
  1 file changed, 13 insertions(+)
 
 diff --git a/plugins-base/XSFeatureInterface.py b/plugins-base/XSFeatureInterface.py
-index e5cf547..c812cc3 100644
+index 666a94c..447090c 100644
 --- a/plugins-base/XSFeatureInterface.py
 +++ b/plugins-base/XSFeatureInterface.py
 @@ -28,6 +28,7 @@ class InterfaceDialogue(Dialogue):
@@ -34,7 +34,7 @@ index e5cf547..c812cc3 100644
 +        self.oldPIF = currentPIF
          if len(choiceDefs) == 0:
              XSLog('Configure Management Interface found no PIFs to present')
-             choiceDefs.append(ChoiceDef(Lang("<No interfaces present>"), None))
+             choiceDefs.append(ChoiceDef(Lang("<Couldn't retrieve data about existing interfaces>"), None))
 @@ -84,6 +86,7 @@ class InterfaceDialogue(Dialogue):
          self.netmask = '0.0.0.0'
          self.gateway = '0.0.0.0'
@@ -75,3 +75,6 @@ index e5cf547..c812cc3 100644
          data.Update()
          self.hostname = data.host.hostname('') # Hostname may have changed.  Must be after data.Update()
  
+-- 
+2.47.3
+
