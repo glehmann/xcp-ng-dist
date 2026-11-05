@@ -1,13 +1,13 @@
-%global package_speccommit 32ce4ebd91eebb3369a4cfaa5b911f6f777f374d
-%{!?xsrel: %global xsrel 2}
-%global package_srccommit v1.2.1
+%global package_speccommit b7f65f24c3712fade8268e2b8fed4541bc8bc35e
+%{!?xsrel: %global xsrel 1}
+%global package_srccommit v1.2.2
 
 Name: vmss
-Version: 1.2.1
+Version: 1.2.2
 Release: %{?xsrel}%{?dist}
 Summary: REQ-277 schedule snapshots feature
 License: GNU / GPLv2
-Source0: vmss-1.2.1.tar.gz
+Source0: vmss-1.2.2.tar.gz
 BuildArch: noarch
 BuildRequires: python3-devel
 
@@ -42,6 +42,9 @@ rm -rf $RPM_BUILD_ROOT
 %config /etc/logrotate.d/VMSSlog
 
 %changelog
+* Mon Apr 13 2026 Frediano Ziglio <frediano.ziglio@citrix.com> - 1.2.2-1
+- CA-425472: Signal correct daemon during log rotation
+
 * Tue Jan 21 2025 XenServer Rebuild <rebuild@xenserver.com> - 1.2.1-2
 - CP-53310: XenServer 9 rebuild
 
