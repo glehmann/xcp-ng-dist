@@ -157,25 +157,25 @@ Console tool for configuring a XCP-ng installation.
 * Mon Aug 12 2024 Samuel Verschelde <stormi-xcp@ylix.fr> - 11.0.6-1.1
 - Sync with 11.0.6-1
 - *** Upstream changelog ***
-- * Fri Jun 07 2024 Stephen Cheng <stephen.cheng@cloud.com> - 11.0.6-1
-- - CA-388527: Fix 'timed out' when creating an ISCSI SR
-- * Thu May 16 2024 Lin Liu <Lin.Liu01@cloud.com> - 11.0.3-1
-- - CA-357771: Remove obsolete strings: StorageLink(CVSM/cslg) leftovers
+  * Fri Jun 07 2024 Stephen Cheng <stephen.cheng@cloud.com> - 11.0.6-1
+  - CA-388527: Fix 'timed out' when creating an ISCSI SR
+  * Thu May 16 2024 Lin Liu <Lin.Liu01@cloud.com> - 11.0.3-1
+  - CA-357771: Remove obsolete strings: StorageLink(CVSM/cslg) leftovers
 
 * Wed Jun 19 2024 Benjamin Reis <benjamin.reis@vates.tech> - 11.0.2-1.1
 - Update to 11.0.2-1
 - Redo xsconsole-11.0.2-support-ipv6.XCP-ng.patch (now contains xsconsole-10.1.14-ipv6-autoconf.XCP-ng.patch)
 - Drop xsconsole-10.1.14-display-vlan.XCP-ng.patch
 - *** Upstream changelog ***
-- * Tue Mar 19 2024 Gerald Elder-Vass <gerald.elder-vass@cloud.com> - 11.0.2-1
-- - CA-369899: Add NTP config control for DHCP|Default|Manual|None options
-- - CA-389475: Update the timezone when it changes
-- * Thu Feb 29 2024 Mark Syms <mark.syms@citrix.com> - 11.0.1-1
-- - CA-389275: return insrtype if no translation
-- * Thu Feb 29 2024 Fei Su<fei.su@cloud.com> - 11.0.0-2
-- - CP-48192 Requires glibc-langpack-en to fix the locale.Error on xs9
-- * Mon Feb 05 2024 Stephen Cheng <stephen.cheng@cloud.com> - 11.0.0-1
-- - CP-44690: Upgrade to python 3
+  * Tue Mar 19 2024 Gerald Elder-Vass <gerald.elder-vass@cloud.com> - 11.0.2-1
+  - CA-369899: Add NTP config control for DHCP|Default|Manual|None options
+  - CA-389475: Update the timezone when it changes
+  * Thu Feb 29 2024 Mark Syms <mark.syms@citrix.com> - 11.0.1-1
+  - CA-389275: return insrtype if no translation
+  * Thu Feb 29 2024 Fei Su<fei.su@cloud.com> - 11.0.0-2
+  - CP-48192 Requires glibc-langpack-en to fix the locale.Error on xs9
+  * Mon Feb 05 2024 Stephen Cheng <stephen.cheng@cloud.com> - 11.0.0-1
+  - CP-44690: Upgrade to python 3
 
 * Fri Feb 16 2024 Benjamin Reis <benjamin.reis@vates.tech> - 10.1.14-2.2
 - Add xsconsole-10.1.14-ipv6-autoconf.XCP-ng.patch
@@ -183,8 +183,8 @@ Console tool for configuring a XCP-ng installation.
 * Mon Sep 18 2023 Samuel Verschelde <stormi-xcp@ylix.fr> - 10.1.14-2.1
 - Update to 10.1.14-2
 - *** Upstream changelog ***
-- * Fri Jul 14 2023 Alex Brett <alex.brett@cloud.com> - 10.1.14-2
-- - CP-43942: Remove Portable SR feature
+  * Fri Jul 14 2023 Alex Brett <alex.brett@cloud.com> - 10.1.14-2
+  - CP-43942: Remove Portable SR feature
 
 * Mon Jul 17 2023 Benjamin Reis <benjamin.reis@vates.fr> - 10.1.14-1.3
 - Add xsconsole-10.1.14-display-vlan.XCP-ng.patch
@@ -195,8 +195,8 @@ Console tool for configuring a XCP-ng installation.
 * Wed Dec 07 2022 Samuel Verschelde <stormi-xcp@ylix.fr> - 10.1.14-1.1
 - Update from XS 8.3 pre-release updates
 - *** Upstream changelog ***
-- * Tue Oct 04 2022 Ross Lagerwall <ross.lagerwall@citrix.com> - 10.1.14-1
-- - CP-40640: Show the textual rather than numeric product version
+  * Tue Oct 04 2022 Ross Lagerwall <ross.lagerwall@citrix.com> - 10.1.14-1
+  - CP-40640: Show the textual rather than numeric product version
 
 * Mon Nov 14 2022 Yann Dirson <yann.dirson@vates.fr> - 10.1.13-1.2
 - Update colors to match new branding
