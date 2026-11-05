@@ -1,6 +1,6 @@
-%global package_speccommit ec99887d98ef5e88281ce0eecdca058c94897d18
+%global package_speccommit 32ce4ebd91eebb3369a4cfaa5b911f6f777f374d
+%{!?xsrel: %global xsrel 2}
 %global package_srccommit v1.2.1
-%{!?xsrel: %global xsrel 1}
 
 Name: vmss
 Version: 1.2.1
@@ -42,6 +42,9 @@ rm -rf $RPM_BUILD_ROOT
 %config /etc/logrotate.d/VMSSlog
 
 %changelog
+* Tue Jan 21 2025 XenServer Rebuild <rebuild@xenserver.com> - 1.2.1-2
+- CP-53310: XenServer 9 rebuild
+
 * Wed Mar 20 2024 Deli Zhang <deli.zhang@cloud.com> - 1.2.1-1
 - CP-47868: Replace deprecated imp module use
 
