@@ -1,0 +1,31 @@
+Start before xapi and xcp-networkd, without the bridges of the previous boot
+
+xcp-networkd configures the interfaces of the bridges it creates, and only creates the missing ones: like XenServer's
+ovs-start, delete the bridges at the first start of each boot, and start before the toolstack.
+
+--- a/rhel/usr_lib_systemd_system_openvswitch.service
++++ b/rhel/usr_lib_systemd_system_openvswitch.service
+@@ -1,6 +1,6 @@
+ [Unit]
+ Description=Open vSwitch
+-Before=network.target network.service
++Before=network.target network.service xapi.service xcp-networkd.service
+ After=network-pre.target ovsdb-server.service ovs-vswitchd.service
+ PartOf=network.target
+ Requires=ovsdb-server.service
+--- a/rhel/usr_lib_systemd_system_ovsdb-server.service
++++ b/rhel/usr_lib_systemd_system_ovsdb-server.service
+@@ -22,9 +22,12 @@
+              /etc/openvswitch /run/openvswitch /var/log/openvswitch
+ ExecStartPre=/bin/sh -c '/usr/bin/echo "OVS_USER_ID=${OVS_USER_ID}" > /run/openvswitch.useropts'
+ ExecStartPre=/bin/sh -c 'if [ "$${OVS_USER_ID/:*/}" != "root" ]; then /usr/bin/echo "OVS_USER_OPT=--ovs-user=${OVS_USER_ID}" >> /run/openvswitch.useropts; fi'
++# xcp-networkd only brings up the bridges it creates: delete them at the first start of each boot, not at the restarts
++# of upgrades
++ExecStartPre=/bin/sh -c 'if [ ! -e /run/openvswitch.booted ]; then touch /run/openvswitch.booted; /usr/bin/echo "OVS_DELETE_BRIDGES=--delete-bridges" >> /run/openvswitch.useropts; fi'
+ ExecStart=/usr/share/openvswitch/scripts/ovs-ctl \
+           --no-ovs-vswitchd --no-monitor --system-id=random \
+-          ${OVS_USER_OPT} \
++          ${OVS_USER_OPT} $OVS_DELETE_BRIDGES \
+           start $OPTIONS
+ ExecStop=/usr/share/openvswitch/scripts/ovs-ctl --no-ovs-vswitchd stop
+ ExecReload=/usr/share/openvswitch/scripts/ovs-ctl --no-ovs-vswitchd \

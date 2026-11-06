@@ -59,7 +59,7 @@ Summary: Open vSwitch
 Group: System Environment/Daemons daemon/database/utilities
 URL: http://www.openvswitch.org/
 Version: 3.7.1
-Release: 3%{?dist}
+Release: 3.1%{?dist}
 
 # Nearly all of openvswitch is ASL 2.0.  The bugtool is LGPLv2+, and the
 # lib/sflow*.[ch] files are SISSL
@@ -98,6 +98,7 @@ Source102: https://pypi.io/packages/source/S/Sphinx/Sphinx-%{sphinxver}.tar.gz
 Source103: https://pypi.io/packages/source/p/pyelftools/pyelftools-%{pyelftoolsver}.tar.gz
 
 Patch0:    openvswitch-%{patchver}.patch
+Patch1000: openvswitch-3.7-start-before-xapi-without-bridges.XCP-ng.patch
 
 # The DPDK is designed to optimize througput of network traffic using, among
 # other techniques, carefully crafted assembly instructions.  As such it
@@ -106,6 +107,9 @@ ExclusiveArch: x86_64 aarch64 ppc64le s390x
 
 # Do not enable this otherwise YUM will break on any upgrade.
 # Provides: openvswitch
+# XCP-ng's repositories have no other openvswitch: provide the name xapi requires, and replace XenServer's
+Provides: openvswitch = %{version}-%{release}
+Obsoletes: openvswitch < 3.7
 Conflicts: openvswitch < 3.7
 Conflicts: openvswitch-dpdk < 3.7
 Conflicts: openvswitch2.10
@@ -183,7 +187,9 @@ Provides: bundled(dpdk) = %{dpdkver}
 Requires: openssl iproute module-init-tools
 #Upstream kernel commit 4f647e0a3c37b8d5086214128614a136064110c3
 #Requires: kernel >= 3.15.0-0
+%if ! 0%{?xcpng}
 Requires: openvswitch-selinux-extra-policy
+%endif
 
 %{?sysusers_requires_compat}
 %if ! %rpm_supports_sysysers_m
@@ -283,6 +289,7 @@ mv dpdk-*/ %{dpdkdir}/
 %if 0%{?PATCH0:1}%{!?PATCH0:0}
 %patch -P0 -p1
 %endif
+%patch -P1000 -p1
 
 %build
 %if 0%{?rhel} && 0%{?rhel} < 9
@@ -817,6 +824,11 @@ exit 0
 %endif
 
 %changelog
+* Wed Nov 04 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 3.7.1-3.1
+- Provide and obsolete openvswitch, which xapi requires
+- Do not require openvswitch-selinux-extra-policy, which XCP-ng does not have
+- Delete the bridges at the first start of each boot, and start before xapi and xcp-networkd
+
 * Tue Apr 14 2026 Open vSwitch CI <ovs-ci@redhat.com> - 3.7.1-3
 - Merging upstream branch-3.7 [RH git: 792308e643]
     Commit list:
