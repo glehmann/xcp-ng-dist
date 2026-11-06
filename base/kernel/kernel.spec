@@ -222,7 +222,8 @@ export AFTER_LINK='sh -xc "/usr/lib/rpm/debugedit -b %{buildroot} -d /usr/src/de
 cp -f %{SOURCE1} .config
 # make sure configuration is up to date
 %{?_cov_wrap} make olddefconfig
-bash -c 'diff -u <(grep -v "^#" .config) <(grep -v "^#" %{SOURCE1})'
+# without the versions of the toolchain, which change with its updates
+bash -c 'filter() { grep -v -E "^#|^CONFIG_(CC_VERSION_TEXT|GCC_VERSION|CLANG_VERSION|AS_VERSION|LD_VERSION|LLD_VERSION|RUSTC_VERSION|BINDGEN_VERSION|PAHOLE_VERSION)=" "$1"; }; diff -u <(filter .config) <(filter %{SOURCE1})'
 
 %{?_cov_wrap} make %{?_smp_mflags} bzImage
 %{?_cov_wrap} make %{?_smp_mflags} modules
