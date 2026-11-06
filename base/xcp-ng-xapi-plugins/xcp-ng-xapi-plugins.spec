@@ -1,7 +1,7 @@
 Summary: XAPI additional plugins for XCP-ng
 Name: xcp-ng-xapi-plugins
-Version: 1.15.0
-Release: 1.0.ydi.2%{?dist}
+Version: 1.16.0
+Release: 1%{?dist}
 URL: https://github.com/xcp-ng/xcp-ng-xapi-plugins
 Source0: https://github.com/xcp-ng/xcp-ng-xapi-plugins/archive/v%{version}/%{name}-%{version}.tar.gz
 License: AGPLv3
@@ -41,6 +41,9 @@ install SOURCES/etc/xapi.d/plugins/xcpngutils/*.py %{buildroot}/etc/xapi.d/plugi
 %dir /var/lib/xcp-ng-xapi-plugins
 
 %changelog
+* Fri Oct 23 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 1.16.0-1
+- Update to 1.16.0
+
 * Mon Dec 08 2025 Yann Dirson <yann.dirson@vates.tech> - 1.15.0-1.0.ydi.2
 - Include patches for python3 support
 - Include patches for DNF support
