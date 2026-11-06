@@ -7,7 +7,7 @@
 Summary: XenServer Installer
 Name: host-installer
 Version: 11.0.26
-Release: 0.ydi.25%{?dist}
+Release: 0.ydi.26%{?dist}
 License: GPLv2
 Group: Applications/System
 Source0: host-installer-%{version}.tar.gz
@@ -70,6 +70,9 @@ Requires: psmisc
 
 # IPv6
 Requires: ndisc6
+
+# XCP-ng: networkctl and systemd-networkd-wait-online, which configure the network, from EPEL on EL10
+Requires: systemd-networkd
 
 Requires: pyOpenSSL
 
@@ -249,6 +252,9 @@ rm -rf /boot/*
 #rm -f /tmp/firmware-used.$$
 
 %changelog
+* Sat Oct 31 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 11.0.26-0.ydi.26
+- Require systemd-networkd, which configures the network of the installer
+
 * Tue Jul 15 2025 Yann Dirson <yann.dirson@vates.tech> - 11.0.26-0.ydi.25
 - Update to v11.0.26
   - HACK restore patch fuzz tolerance to make it easier to use patch from
