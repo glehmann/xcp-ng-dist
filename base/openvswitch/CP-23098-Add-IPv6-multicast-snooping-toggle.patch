@@ -1,0 +1,162 @@
+From f01fa73d89ff0ad2745da0eb7dea86bb70fea908 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Ga=C3=ABtan=20Lehmann?= <gaetan.lehmann@vates.tech>
+Date: Thu, 5 Nov 2026 10:47:48 +0100
+Subject: [PATCH] CP-23098: Add IPv6 multicast snooping toggle
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+The other_config:enable-ipv6-mcast-snooping of the bridges, which xcp-networkd
+sets, false by default: IPv6 multicast is then flooded, rather than snooped.
+
+From XenServer's openvswitch 2.17.7 package, applied on 3.7.1 as is.
+
+Signed-off-by: Gaëtan Lehmann <gaetan.lehmann@vates.tech>
+---
+ lib/mcast-snooping.c         | 20 ++++++++++++++++++++
+ lib/mcast-snooping.h         |  7 +++++++
+ ofproto/ofproto-dpif-xlate.c |  2 +-
+ ofproto/ofproto-dpif.c       |  3 +++
+ ofproto/ofproto.h            |  1 +
+ vswitchd/bridge.c            |  2 ++
+ vswitchd/vswitch.xml         |  6 ++++++
+ 7 files changed, 40 insertions(+), 1 deletion(-)
+
+diff --git a/lib/mcast-snooping.c b/lib/mcast-snooping.c
+index c236343..a326bd9 100644
+--- a/lib/mcast-snooping.c
++++ b/lib/mcast-snooping.c
+@@ -51,6 +51,12 @@ mcast_snooping_enabled(const struct mcast_snooping *ms)
+     return !!ms;
+ }
+ 
++bool
++mcast_snooping_ipv6_enabled(const struct mcast_snooping *ms)
++{
++   return ms->ipv6_mcast_snooping;
++}
++
+ bool
+ mcast_snooping_flood_unreg(const struct mcast_snooping *ms)
+ {
+@@ -280,6 +286,20 @@ mcast_snooping_set_flood_unreg(struct mcast_snooping *ms, bool enable)
+     return prev != enable;
+ }
+ 
++
++/* Enable/disable IPv6 multicast snooping.
++ *
++ * Returns true if previous state differs from current state,
++ * false otherwise. */
++bool
++mcast_snooping_set_ipv6_mcast_snooping_toggle(struct mcast_snooping *ms, bool enable)
++    OVS_REQ_WRLOCK(ms->rwlock)
++{
++    bool prev = ms->ipv6_mcast_snooping;
++    ms->ipv6_mcast_snooping = enable;
++    return prev != enable;
++}
++
+ static struct mcast_group_bundle *
+ mcast_group_bundle_lookup(struct mcast_snooping *ms OVS_UNUSED,
+                           struct mcast_group *grp, void *port)
+diff --git a/lib/mcast-snooping.h b/lib/mcast-snooping.h
+index de42cf8..4257a29 100644
+--- a/lib/mcast-snooping.h
++++ b/lib/mcast-snooping.h
+@@ -150,12 +150,16 @@ struct mcast_snooping {
+      * ports, otherwise send them to ports connected to multicast routers. */
+     bool flood_unreg;
+ 
++    /* If true, enable IPv6 multicast snooping */
++    bool ipv6_mcast_snooping;
++
+     struct ovs_refcount ref_cnt;
+     struct ovs_rwlock rwlock;
+ };
+ 
+ /* Basics. */
+ bool mcast_snooping_enabled(const struct mcast_snooping *ms);
++bool mcast_snooping_ipv6_enabled(const struct mcast_snooping *ms);
+ bool mcast_snooping_flood_unreg(const struct mcast_snooping *ms);
+ int mcast_mrouter_age(const struct mcast_snooping *ms,
+                       const struct mcast_mrouter_bundle *m);
+@@ -177,6 +181,9 @@ void mcast_snooping_set_max_entries(struct mcast_snooping *ms,
+ bool
+ mcast_snooping_set_flood_unreg(struct mcast_snooping *ms, bool enable)
+     OVS_REQ_WRLOCK(ms->rwlock);
++bool
++mcast_snooping_set_ipv6_mcast_snooping_toggle(struct mcast_snooping *ms, bool enable)
++    OVS_REQ_WRLOCK(ms->rwlock);
+ void mcast_snooping_set_port_flood(struct mcast_snooping *ms, void *port,
+                                    bool flood)
+     OVS_REQ_WRLOCK(ms->rwlock);
+diff --git a/ofproto/ofproto-dpif-xlate.c b/ofproto/ofproto-dpif-xlate.c
+index de82e29..6ad1b85 100644
+--- a/ofproto/ofproto-dpif-xlate.c
++++ b/ofproto/ofproto-dpif-xlate.c
+@@ -3295,7 +3295,7 @@ xlate_normal(struct xlate_ctx *ctx)
+                 xlate_normal_flood(ctx, in_xbundle, &xvlan);
+             }
+             return;
+-        } else if (is_mld(flow, wc)) {
++        } else if (is_mld(flow, wc) && mcast_snooping_ipv6_enabled(ctx->xbridge->ms)) {
+             ctx->xout->slow |= SLOW_ACTION;
+             if (ctx->xin->allow_side_effects && ctx->xin->packet) {
+                 update_mcast_snooping_table(ctx, flow, vlan,
+diff --git a/ofproto/ofproto-dpif.c b/ofproto/ofproto-dpif.c
+index a02afe8..76b5d12 100644
+--- a/ofproto/ofproto-dpif.c
++++ b/ofproto/ofproto-dpif.c
+@@ -3936,6 +3936,9 @@ set_mcast_snooping(struct ofproto *ofproto_,
+         if (mcast_snooping_set_flood_unreg(ofproto->ms, s->flood_unreg)) {
+             ofproto->backer->need_revalidate = REV_RECONFIGURE;
+         }
++        if (mcast_snooping_set_ipv6_mcast_snooping_toggle(ofproto->ms, s->ipv6_mcast_snooping)) {
++            ofproto->backer->need_revalidate = REV_RECONFIGURE;
++        }
+         ovs_rwlock_unlock(&ofproto->ms->rwlock);
+     } else {
+         mcast_snooping_unref(ofproto->ms);
+diff --git a/ofproto/ofproto.h b/ofproto/ofproto.h
+index 3f85509..de03c34 100644
+--- a/ofproto/ofproto.h
++++ b/ofproto/ofproto.h
+@@ -203,6 +203,7 @@ struct ofproto_mcast_snooping_settings {
+     unsigned int idle_time;     /* Entry is removed after the idle time
+                                  * in seconds. */
+     unsigned int max_entries;   /* Size of the multicast snooping table. */
++    bool ipv6_mcast_snooping;   /* If true, enable IPv6 multicast snooping */
+ };
+ 
+ struct ofproto_mcast_snooping_port_settings {
+diff --git a/vswitchd/bridge.c b/vswitchd/bridge.c
+index 7a68e19..1e17e38 100644
+--- a/vswitchd/bridge.c
++++ b/vswitchd/bridge.c
+@@ -2346,6 +2346,8 @@ bridge_configure_mcast_snooping(struct bridge *br)
+ 
+         br_s.flood_unreg = !smap_get_bool(
+             oc, "mcast-snooping-disable-flood-unregistered", false);
++        br_s.ipv6_mcast_snooping = smap_get_bool(
++            oc, "enable-ipv6-mcast-snooping", true);
+ 
+         /* Configure multicast snooping on the bridge */
+         if (ofproto_set_mcast_snooping(br->ofproto, &br_s)) {
+diff --git a/vswitchd/vswitch.xml b/vswitchd/vswitch.xml
+index b7a5afc..ac3fe34 100644
+--- a/vswitchd/vswitch.xml
++++ b/vswitchd/vswitch.xml
+@@ -2558,6 +2558,12 @@
+           unconditionally forwarded to the specific port.
+         </p>
+       </column>
++      <column name="other_config" key="enable-ipv6-mcast-snooping"
++              type='{"type": "boolean"}'>
++        <p>
++          If set to <code>true</code>, enable IPv6 multicast snooping.
++        </p>
++      </column>
+       <column name="other_config" key="mcast-snooping-flood-reports"
+               type='{"type": "boolean"}'>
+         <p>

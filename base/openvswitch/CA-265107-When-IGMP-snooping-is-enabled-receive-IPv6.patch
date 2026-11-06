@@ -1,0 +1,42 @@
+From 8ec8bfecbb59993763341b45820749561505aa63 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Ga=C3=ABtan=20Lehmann?= <gaetan.lehmann@vates.tech>
+Date: Thu, 5 Nov 2026 10:47:48 +0100
+Subject: [PATCH] CA-265107: When IGMP snooping is enabled, receive IPv6
+ multicast traffic
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Flood IPv6 multicast when IPv6 multicast snooping is disabled.
+
+From XenServer's openvswitch 2.17.7 package, applied on 3.7.1 as is.
+
+Signed-off-by: Gaëtan Lehmann <gaetan.lehmann@vates.tech>
+---
+ ofproto/ofproto-dpif-xlate.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/ofproto/ofproto-dpif-xlate.c b/ofproto/ofproto-dpif-xlate.c
+index 6ad1b85..9a8fc8e 100644
+--- a/ofproto/ofproto-dpif-xlate.c
++++ b/ofproto/ofproto-dpif-xlate.c
+@@ -3252,7 +3252,9 @@ xlate_normal(struct xlate_ctx *ctx)
+     if (mcast_snooping_enabled(ctx->xbridge->ms)
+         && !eth_addr_is_broadcast(flow->dl_dst)
+         && eth_addr_is_multicast(flow->dl_dst)
+-        && is_ip_any(flow)) {
++        && is_ip_any(flow)
++        && ((flow->dl_type != htons(ETH_TYPE_IPV6))
++            || mcast_snooping_ipv6_enabled(ctx->xbridge->ms))) {
+         struct mcast_snooping *ms = ctx->xbridge->ms;
+         struct mcast_group *grp = NULL;
+ 
+@@ -3295,7 +3297,7 @@ xlate_normal(struct xlate_ctx *ctx)
+                 xlate_normal_flood(ctx, in_xbundle, &xvlan);
+             }
+             return;
+-        } else if (is_mld(flow, wc) && mcast_snooping_ipv6_enabled(ctx->xbridge->ms)) {
++        } else if (is_mld(flow, wc)) {
+             ctx->xout->slow |= SLOW_ACTION;
+             if (ctx->xin->allow_side_effects && ctx->xin->packet) {
+                 update_mcast_snooping_table(ctx, flow, vlan,

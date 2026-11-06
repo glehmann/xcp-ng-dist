@@ -59,7 +59,7 @@ Summary: Open vSwitch
 Group: System Environment/Daemons daemon/database/utilities
 URL: http://www.openvswitch.org/
 Version: 3.7.1
-Release: 3.1%{?dist}
+Release: 3.2%{?dist}
 
 # Nearly all of openvswitch is ASL 2.0.  The bugtool is LGPLv2+, and the
 # lib/sflow*.[ch] files are SISSL
@@ -99,6 +99,10 @@ Source103: https://pypi.io/packages/source/p/pyelftools/pyelftools-%{pyelftoolsv
 
 Patch0:    openvswitch-%{patchver}.patch
 Patch1000: openvswitch-3.7-start-before-xapi-without-bridges.XCP-ng.patch
+# IGMP snooping, from XenServer's openvswitch 2.17.7
+Patch1001: CP-23098-Add-IPv6-multicast-snooping-toggle.patch
+Patch1002: CA-265107-When-IGMP-snooping-is-enabled-receive-IPv6.patch
+Patch1003: CP-23607-Inject-multicast-query-messages-on-bond-por.patch
 
 # The DPDK is designed to optimize througput of network traffic using, among
 # other techniques, carefully crafted assembly instructions.  As such it
@@ -290,6 +294,9 @@ mv dpdk-*/ %{dpdkdir}/
 %patch -P0 -p1
 %endif
 %patch -P1000 -p1
+%patch -P1001 -p1
+%patch -P1002 -p1
+%patch -P1003 -p1
 
 %build
 %if 0%{?rhel} && 0%{?rhel} < 9
@@ -824,6 +831,10 @@ exit 0
 %endif
 
 %changelog
+* Thu Nov 05 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 3.7.1-3.2
+- Apply the IGMP snooping patches of XenServer's openvswitch 2.17.7: the IPv6 multicast
+  snooping toggle, which xcp-networkd sets, and the IGMP queries on SLB bond ports
+
 * Wed Nov 04 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 3.7.1-3.1
 - Provide and obsolete openvswitch, which xapi requires
 - Do not require openvswitch-selinux-extra-policy, which XCP-ng does not have
