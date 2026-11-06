@@ -26,6 +26,8 @@ Patch12:	%{name}-validate-TLS-server-cert.patch
 
 #fixes for Fedora PATHs
 Patch21:	%{name}-defaultvalues.patch
+# GCC 14 makes -Wint-conversion an error
+Patch22:	%{name}-gcc14.patch
 
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 #hack around wrong requires for mutt and mdadm
