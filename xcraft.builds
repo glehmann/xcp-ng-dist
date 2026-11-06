@@ -1,0 +1,298 @@
+# written by xcraft: the builds of our packages, and what they found that the specs do not say
+
+# biosdevname
+biosdevname.build = 1
+biosdevname.key = "f5ce52a725e2f20675186bb982c18fddd7231175a804238229a22822b3edf2a2"
+biosdevname.requires."biosdevname" = ["glibc", "pciutils-libs"]
+
+# blktap
+blktap.build = 1
+blktap.key = "1dd3722054fc9ea93efddbf00b50fbc74ff7e0851e63a5d3dac88a54d2673ff3"
+blktap.requires."blktap" = ["bash", "glibc", "libaio", "libuuid", "openssl-libs", "xen-libs", "zlib-ng-compat"]
+blktap.requires."blktap-devel" = ["blktap"]
+blktap.requires."vhd-util-standalone" = ["glibc", "libuuid", "openssl-libs"]
+
+# branding-xcp-ng
+branding-xcp-ng.build = 1
+branding-xcp-ng.key = "43b8b21abae1a92c68b9421db772296b604cfcbe5b28eace21beb65b268f84e9"
+branding-xcp-ng.requires."branding-xcp-ng" = ["python3"]
+
+# dev86
+dev86.build = 1
+dev86.key = "a39092388c651d433a6c0fff96665a703b98db5a68b17f799f95019b1dce64ae"
+dev86.requires."dev86" = ["bash", "glibc"]
+
+# dhcp
+dhcp.build = 1
+dhcp.key = "080cc8edc906a64ead00954eaca017c3537bbd76aacf5f8f5d75c75b20c3f57e"
+dhcp.requires."dhcp-client" = ["bash", "dhcp-common", "glibc", "libcap-ng"]
+dhcp.requires."dhcp-relay" = ["dhcp-common", "glibc", "libcap-ng", "systemd-libs"]
+
+# dmv-utils
+dmv-utils.build = 1
+dmv-utils.key = "618f9e494c32cb0705d19f95fbeb9757d081cc6408ebeb10e2ca58e1984dab18"
+dmv-utils.requires."dmv-utils" = ["python3"]
+
+# edk2
+edk2.build = 1
+edk2.key = "d3e4f0ddb769aa6aeb3fd9d42fe90a29ed3e5651ea4a38e050d4fecbbd5d1986"
+
+# grub
+grub.build = 1
+grub.key = "f3055db1b9d2fa76557b49702e51f000ddad6090c748785a97dfcd649cd097bd"
+grub.requires."grub2-common" = ["bash"]
+grub.requires."grub2-efi-ia32" = ["grub2-common", "grub2-tools", "grub2-tools-minimal"]
+grub.requires."grub2-efi-ia32-cdboot" = ["grub2-common"]
+grub.requires."grub2-efi-ia32-modules" = ["bash", "grub2-common"]
+grub.requires."grub2-efi-x64" = ["grub2-common", "grub2-tools", "grub2-tools-minimal"]
+grub.requires."grub2-efi-x64-cdboot" = ["grub2-common"]
+grub.requires."grub2-efi-x64-modules" = ["grub2-common"]
+grub.requires."grub2-emu" = ["device-mapper-libs", "glibc", "grub2-tools-minimal", "libgcc"]
+grub.requires."grub2-emu-modules" = ["grub2-tools-minimal"]
+grub.requires."grub2-pc" = ["grub2-common", "grub2-pc-modules", "grub2-tools", "grub2-tools-minimal"]
+grub.requires."grub2-pc-modules" = ["grub2-common"]
+grub.requires."grub2-tools" = ["bash", "device-mapper-libs", "glibc", "grub2-common", "xz-libs"]
+grub.requires."grub2-tools-efi" = ["device-mapper-libs", "glibc", "grub2-common"]
+grub.requires."grub2-tools-extra" = ["bash", "device-mapper-libs", "freetype", "glibc", "grub2-common", "grub2-tools-minimal", "xz-libs"]
+grub.requires."grub2-tools-minimal" = ["bash", "device-mapper-libs", "fuse-libs", "glibc", "grub2-common", "xz-libs"]
+
+# guest-templates-json
+guest-templates-json.build = 1
+guest-templates-json.key = "59e17a0ebc29173c9c14dc9b8391c282926e72dda77a09ee6d36c461036fcc5c"
+guest-templates-json.requires."guest-templates-json" = ["bash", "python3"]
+guest-templates-json.requires."guest-templates-json-data-linux" = ["guest-templates-json"]
+guest-templates-json.requires."guest-templates-json-data-other" = ["guest-templates-json"]
+guest-templates-json.requires."guest-templates-json-data-pv" = ["guest-templates-json"]
+guest-templates-json.requires."guest-templates-json-data-windows" = ["guest-templates-json"]
+
+# host-installer
+host-installer.build = 1
+host-installer.key = "4caa54398d39de68d34ef216cdfa1ecc18a419e6eec30b30f9cd2671d5b48d5e"
+host-installer.requires."host-installer" = ["bash", "python3"]
+host-installer.requires."host-installer-startup" = ["bash"]
+
+# ipxe
+ipxe.build = 1
+ipxe.key = "4d456d58be92384c645d4c1a6cfd82a6efd25f0f284733cf42585d9c783a417e"
+
+# kernel
+kernel.build = 1
+kernel.key = "a4788b39b066b63d48f7b4bfea74b1a7069beca5ecac7076e1cca090e3d0c1d6"
+kernel.requires."perf" = ["bash", "elfutils-libelf", "elfutils-libs", "glibc", "libtraceevent", "libunwind", "libzstd", "perl-interpreter", "python3-libs", "xz-libs", "zlib-ng-compat"]
+kernel.requires."python3-perf" = ["elfutils-libelf", "elfutils-libs", "glibc", "libtraceevent", "libunwind", "libzstd", "python3", "python3-libs", "xz-libs", "zlib-ng-compat"]
+
+# kernel-headers
+kernel-headers.build = 1
+kernel-headers.key = "471d01305b4d138e71eacc05b645b73ca8c3d387cd36d5d5bfcca9d2efbfbe93"
+
+# libempserver
+libempserver.build = 1
+libempserver.key = "1189b2c56fce9636955fe76a05769dceb36579a18d22d12f41301b50339696da"
+libempserver.requires."libempserver" = ["glibc"]
+libempserver.requires."libempserver-devel" = ["libempserver"]
+
+# nbd
+nbd.build = 1
+nbd.key = "44742b7c2280545f7837613532e6b2d29c278c5e06e86cf19838c6376207b874"
+nbd.requires."nbd" = ["glib2", "glibc", "gnutls", "libnl3"]
+
+# ocaml
+ocaml.build = 1
+ocaml.key = "f9d0bfc6d19af31a134b72eb1ff5fdf4851edf87b1da802889a31bc0e97a8123"
+ocaml.requires."ocaml" = ["glibc", "ocaml-runtime"]
+ocaml.requires."ocaml-compiler-libs" = ["ocaml", "ocaml-runtime"]
+ocaml.requires."ocaml-docs" = ["ocaml"]
+ocaml.requires."ocaml-ocamldoc" = ["glibc", "ocaml", "ocaml-compiler-libs", "ocaml-runtime"]
+ocaml.requires."ocaml-runtime" = ["glibc", "ocaml", "ocaml-compiler-libs"]
+ocaml.requires."ocaml-source" = ["ocaml"]
+
+# ocaml-findlib
+ocaml-findlib.build = 1
+ocaml-findlib.key = "e5fc89db7827654118dab69f65205dd7130659501b811e7afefef3f7cbd3351e"
+ocaml-findlib.requires."ocaml-findlib" = ["glibc", "ocaml", "ocaml-runtime"]
+ocaml-findlib.requires."ocaml-findlib-devel" = ["ocaml", "ocaml-compiler-libs", "ocaml-findlib", "ocaml-runtime"]
+
+# opam
+opam.build = 1
+opam.key = "dc2dee192312e0804665da695a44527b7505f66d9d161227514cbc1e35402a8b"
+opam.requires."opam" = ["glibc", "libgcc", "libstdc++"]
+
+# openvswitch
+openvswitch.build = 1
+openvswitch.key = "cc2317d498e9f49bf672ee476d1841cac655528bc0b1b308cc9058492bbb4891"
+openvswitch.requires."openvswitch3.7" = ["bash", "glibc", "libarchive", "libcap-ng", "libibverbs", "numactl-libs", "openssl-libs", "python3", "unbound-libs"]
+openvswitch.requires."openvswitch3.7-devel" = ["openvswitch3.7", "pkgconf-pkg-config"]
+openvswitch.requires."openvswitch3.7-ipsec" = ["python3", "python3-openvswitch3.7"]
+openvswitch.requires."openvswitch3.7-test" = ["python3", "python3-openvswitch3.7"]
+openvswitch.requires."python3-openvswitch3.7" = ["glibc", "openvswitch3.7", "python3"]
+
+# python-bitarray
+python-bitarray.build = 1
+python-bitarray.key = "22360f109a17af67effd191d7b9ab3abd4a8b153188ca4271339393f3a25cdce"
+python-bitarray.requires."python3-bitarray" = ["glibc", "python3"]
+
+# python-opentelemetry
+python-opentelemetry.build = 1
+python-opentelemetry.key = "88d4133d84c4177e6b32348c497908c31f796e1e4164f68f41b4c03be90e0bcf"
+python-opentelemetry.requires."python3-opentelemetry-api" = ["python3", "python3-deprecated", "python3-setuptools"]
+python-opentelemetry.requires."python3-opentelemetry-exporter-zipkin" = ["python3", "python3-opentelemetry-exporter-zipkin-json", "python3-opentelemetry-exporter-zipkin-proto-http"]
+python-opentelemetry.requires."python3-opentelemetry-exporter-zipkin-json" = ["python3", "python3-opentelemetry-api", "python3-opentelemetry-sdk", "python3-requests"]
+python-opentelemetry.requires."python3-opentelemetry-exporter-zipkin-proto-http" = ["python3", "python3-opentelemetry-api", "python3-opentelemetry-exporter-zipkin-json", "python3-opentelemetry-sdk", "python3-protobuf", "python3-requests"]
+python-opentelemetry.requires."python3-opentelemetry-sdk" = ["python3", "python3-opentelemetry-api", "python3-opentelemetry-semantic-conventions", "python3-setuptools", "python3-typing-extensions"]
+python-opentelemetry.requires."python3-opentelemetry-semantic-conventions" = ["python3"]
+
+# qemu
+qemu.build = 1
+qemu.key = "bfd597b1903cc256a924a5b0cef38e168feed2831d1cfa1c9ac1f7d1422eaaad"
+qemu.requires."qemu" = ["glib2", "glibc", "libaio", "libgcc", "libjpeg-turbo", "libpng", "libseccomp", "libselinux", "libusb1", "pixman", "python3", "xen-dom0-libs", "xen-libs", "zlib-ng-compat"]
+
+# sm
+sm.build = 1
+sm.key = "468b6ca2111bcb34de45f06eb40cef97a28cd63d2bb4fc8d931379f70db76279"
+sm.requires."python3-sm-compat" = ["sm"]
+sm.requires."python3-sm-libs" = ["python3"]
+sm.requires."python3-sm-test-plugins" = ["python3"]
+sm.requires."sm" = ["bash", "python3", "python3-sm-compat", "python3-sm-libs", "sm-compat", "sm-debugtools", "sm-fairlock"]
+sm.requires."sm-debugtools" = ["glibc"]
+sm.requires."sm-fairlock" = ["glibc", "python3"]
+
+# ssmtp
+ssmtp.build = 1
+ssmtp.key = "d239312fa65cf7bcd7ae07f47a68aa9efe772161e658da67e120ad365e7abe48"
+ssmtp.requires."ssmtp" = ["glibc", "openssl-libs"]
+ssmtp.provides."ssmtp" = ["/usr/sbin/ssmtp"]
+
+# varstored
+varstored.build = 1
+varstored.key = "73e5ad465e91471423f8f263bc1b3f09e9756a01497852b9c0ccff547d6c8c27"
+varstored.requires."varstored" = ["glibc", "libseccomp", "libxml2", "openssl-libs", "python3", "xen-dom0-libs", "xen-libs"]
+varstored.requires."varstored-tools" = ["glibc", "libseccomp", "libxml2", "openssl-libs"]
+
+# vmss
+vmss.build = 1
+vmss.key = "bf227b425940e997439117fe22a1ef71ce5a9028ad7d4a1044c069ac735b32f6"
+vmss.requires."vmss" = ["python3"]
+
+# vncterm
+vncterm.build = 1
+vncterm.key = "438b948e3a6e34827761e31b5230a3ef2ec14b40383ee389ea334cf0b5d6caed"
+vncterm.requires."vncterm" = ["bash", "glibc", "xen-libs"]
+
+# xapi
+xapi.build = 1
+xapi.key = "8c9567008fc8a5059eae61d6304486306d034551c5b43e39cbc3f361ac9db773"
+xapi.requires."forkexecd" = ["glibc"]
+xapi.requires."forkexecd-devel" = ["forkexecd", "ocaml", "ocaml-runtime", "xapi-idl-devel", "xapi-libs-devel", "xs-opam-repo"]
+xapi.requires."message-switch" = ["glibc", "libev", "openssl-libs"]
+xapi.requires."message-switch-devel" = ["message-switch", "ocaml", "ocaml-runtime", "xapi-libs-devel", "xs-opam-repo"]
+xapi.requires."python3-xapi-storage" = ["python3"]
+xapi.requires."qcow-stream-tool" = ["glibc", "libev"]
+xapi.requires."rrdd-plugins" = ["glibc", "libev", "libffi", "xen-dom0-libs"]
+xapi.requires."sm-cli" = ["glibc", "gmp", "libev", "libffi", "libxcrypt", "pam-libs", "pciutils-libs", "xxhash-libs"]
+xapi.requires."squeezed" = ["glibc", "xen-dom0-libs"]
+xapi.requires."varstored-guard" = ["glibc", "libev", "openssl-libs"]
+xapi.requires."vhd-tool" = ["glibc", "libev", "openssl-libs", "python3"]
+xapi.requires."wsproxy" = ["glibc", "libev"]
+xapi.requires."xapi-client-devel" = ["ocaml", "ocaml-runtime", "xapi-idl-devel", "xapi-libs-devel", "xs-opam-repo"]
+xapi.requires."xapi-core" = ["bash", "glibc", "gmp", "libev", "libffi", "libxcrypt", "pam-libs", "pciutils-libs", "python3", "xxhash-libs"]
+xapi.requires."xapi-datamodel-devel" = ["ocaml", "ocaml-runtime", "xapi-client-devel", "xapi-idl-devel", "xapi-libs-devel", "xs-opam-repo"]
+xapi.requires."xapi-doc" = ["bash"]
+xapi.requires."xapi-idl-devel" = ["forkexecd-devel", "glibc", "message-switch-devel", "ocaml", "ocaml-runtime", "xapi-client-devel", "xapi-libs-devel", "xs-opam-repo"]
+xapi.requires."xapi-libs-devel" = ["forkexecd-devel", "ocaml", "ocaml-runtime", "xapi-client-devel", "xapi-idl-devel", "xs-opam-repo"]
+xapi.requires."xapi-nbd" = ["glibc", "libev", "openssl-libs"]
+xapi.requires."xapi-rrd2csv" = ["glibc"]
+xapi.requires."xapi-storage-ocaml-plugin-devel" = ["ocaml", "ocaml-runtime", "xapi-storage-ocaml-plugin-runtime", "xs-opam-repo"]
+xapi.requires."xapi-storage-ocaml-plugin-runtime" = ["ocaml", "ocaml-runtime", "python3-xapi-storage", "xs-opam-repo"]
+xapi.requires."xapi-storage-script" = ["glibc", "libev", "openssl-libs"]
+xapi.requires."xapi-tests" = ["bash", "glibc", "gmp", "libev", "libxcrypt", "pam-libs", "xen-dom0-libs", "xen-libs"]
+xapi.requires."xapi-xe" = ["glibc"]
+xapi.requires."xcp-networkd" = ["glibc", "libffi"]
+xapi.requires."xcp-rrdd" = ["glibc", "python3", "xen-dom0-libs"]
+xapi.requires."xcp-rrdd-devel" = ["forkexecd-devel", "glibc", "message-switch-devel", "ocaml", "ocaml-runtime", "xapi-client-devel", "xapi-idl-devel", "xapi-libs-devel", "xcp-rrdd", "xs-opam-repo"]
+xapi.requires."xenopsd" = ["bash", "glibc", "libev", "python3"]
+xapi.requires."xenopsd-cli" = ["glibc", "xenopsd"]
+xapi.requires."xenopsd-simulator" = ["glibc", "xenopsd"]
+xapi.requires."xenopsd-xc" = ["glibc", "qemu", "xen-dom0-libs", "xenopsd"]
+
+# xcp-clipboardd
+xcp-clipboardd.build = 1
+xcp-clipboardd.key = "37e01c57fe9f53a2312faa96e6c62af5bf4d206e9adabe3ef972e396182ebb78"
+xcp-clipboardd.requires."xcp-clipboardd" = ["glibc", "xen-libs"]
+
+# xcp-emu-manager
+xcp-emu-manager.build = 1
+xcp-emu-manager.key = "3ec29bcf66331e5c9995c9672563fe82a81249c645a79336a29767a932ebc47f"
+xcp-emu-manager.requires."xcp-emu-manager" = ["glibc", "json-c", "libempserver", "xcp-ng-generic-lib"]
+
+# xcp-featured
+xcp-featured.build = 1
+xcp-featured.key = "aa1b293b6dde5ec68a7f2c03234a89bf543fd84771823dbece7c2439d5a0f15c"
+xcp-featured.requires."xcp-featured" = ["glibc"]
+
+# xcp-ng-config
+xcp-ng-config.build = 1
+xcp-ng-config.key = "e25035fcc83b28132056f0a6f479edea6887792c66831851f6d5dd109721393c"
+
+# xcp-ng-deps
+xcp-ng-deps.build = 1
+xcp-ng-deps.key = "92c1c904c7f5f02ce2a7e2c3eaf01e0d72941449ff9eb75aca673804dc4c6229"
+
+# xcp-ng-generic-lib
+xcp-ng-generic-lib.build = 1
+xcp-ng-generic-lib.key = "410d58f73f0bf890d9d15c0f83d611a5159434c8e67ada13739a90f2806872f4"
+xcp-ng-generic-lib.requires."xcp-ng-generic-lib" = ["glibc", "zlib-ng-compat"]
+xcp-ng-generic-lib.requires."xcp-ng-generic-lib-devel" = ["cmake-filesystem", "xcp-ng-generic-lib"]
+
+# xcp-ng-pv-tools
+xcp-ng-pv-tools.build = 1
+xcp-ng-pv-tools.key = "16e2df3f1d77e97b377b518f441e99fa70d6fc695e52628ea27425700613ccca"
+xcp-ng-pv-tools.requires."xcp-ng-pv-tools" = ["bash"]
+
+# xcp-ng-release
+xcp-ng-release.build = 1
+xcp-ng-release.key = "a6004dace46602e75cc0fe2162a1bb5271ec11f30236dfc22c8c7f929039da87"
+xcp-ng-release.requires."xcp-ng-release" = ["python3"]
+xcp-ng-release.requires."xcp-ng-release-config" = ["bash", "python3"]
+
+# xcp-ng-xapi-plugins
+xcp-ng-xapi-plugins.build = 1
+xcp-ng-xapi-plugins.key = "1b8e876a7acd2c8bacdcdb0991e830ad55a7ef00324c52f1f29225eebd9aac4a"
+xcp-ng-xapi-plugins.requires."xcp-ng-xapi-plugins" = ["python3"]
+
+# xcp-python-libs
+xcp-python-libs.build = 1
+xcp-python-libs.key = "f8feba352b28516e937362bc9c537be3184d9534323289c92629d24d40ce69c4"
+xcp-python-libs.buildrequires = ["(python3dist(tomli) if python3-devel < 3.11)", "python3dist(packaging)", "python3dist(pip) >= 19", "python3dist(setuptools) >= 42", "python3dist(six)", "python3dist(wheel)"]
+xcp-python-libs.requires."python3-xcp-libs" = ["python3", "python3-six"]
+
+# xen
+xen.build = 1
+xen.key = "2ff94fc7dd61c1fe65ad689a444c5a8e2d96d46c1241bbe13302a59ad4942d43"
+xen.requires."xen-dom0-libs" = ["bzip2-libs", "e2fsprogs-libs", "glibc", "json-c", "libuuid", "libzstd", "lz4-libs", "lzo", "xen-libs", "xz-libs", "zlib-ng-compat"]
+xen.requires."xen-dom0-libs-devel" = ["pkgconf-pkg-config", "xen-dom0-libs", "xen-libs-devel"]
+xen.requires."xen-dom0-tests" = ["glibc", "xen-dom0-libs", "xen-libs"]
+xen.requires."xen-dom0-tools" = ["bash", "glibc", "json-c", "libempserver", "libgcc", "ncurses-libs", "python3", "xen-dom0-libs", "xen-libs"]
+xen.requires."xen-libs" = ["glibc", "libgcc"]
+xen.requires."xen-libs-devel" = ["pkgconf-pkg-config", "xen-libs"]
+xen.requires."xen-ocaml-devel" = ["ocaml", "ocaml-runtime", "xen-ocaml-libs"]
+xen.requires."xen-ocaml-libs" = ["glibc", "ocaml", "ocaml-runtime", "xen-dom0-libs", "xen-libs"]
+xen.requires."xen-oxenstored" = ["glibc", "libgcc", "xen-dom0-libs", "xen-libs"]
+xen.requires."xen-tools" = ["glibc", "xen-dom0-libs", "xen-libs"]
+
+# xo-lite
+xo-lite.build = 1
+xo-lite.key = "d038145af2b62095179bf15092c66c1895146380bbcda21fe2061789bbd008b1"
+
+# xs-opam-repo
+xs-opam-repo.build = 1
+xs-opam-repo.key = "813c5e29409b5f7f2382ed6ad031bd8bb1c0f59461fd1e4b386d377095528486"
+xs-opam-repo.requires."xs-opam-repo" = ["bash", "glibc", "gmp", "libcurl-minimal", "libev", "libffi", "ocaml", "ocaml-compiler-libs", "ocaml-runtime", "openssl-libs", "pciutils-libs"]
+
+# xs-opam-src
+xs-opam-src.build = 1
+xs-opam-src.key = "aa7ffc2bf8ae7fcdefd8b6b5f103b8db061fd5c39c7dde32713c5a57d3b818c8"
+
+# xsconsole
+xsconsole.build = 1
+xsconsole.key = "e5eeaa73ddac2359f378bdc43bd4393af83f3fd329e48bf126f46667a4e5da40"
+xsconsole.requires."xsconsole" = ["bash"]
