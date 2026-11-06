@@ -40,7 +40,7 @@
 
 Name:           python-opentelemetry
 Version:        %{stable_version}
-Release:        1
+Release:        1%{?dist}
 Summary:        OpenTelemetry Python API and SDK
 
 License:        ASL 2.0
@@ -278,8 +278,6 @@ once they've determined their preferred serialization method.
 Summary:        OpenTelemetry Python API
 Version:        %{stable_version}
 
-Requires:       python-aiocontextvars
-Requires:       python3-contextvars
 Requires:       python3-deprecated
 Requires:       python3-requests
 Requires:       python3-typing-extensions
@@ -521,6 +519,7 @@ done
 %{python3_sitelib}/opentelemetry/py.typed
 %dir %{python3_sitelib}/opentelemetry/exporter
 %dir %{python3_sitelib}/opentelemetry/exporter/zipkin
+%{python3_sitelib}/opentelemetry/exporter/zipkin/py.typed
 
 %dir %{python3_sitelib}/opentelemetry/exporter/zipkin/__pycache__
 %pycached %{python3_sitelib}/opentelemetry/exporter/zipkin/version.py
