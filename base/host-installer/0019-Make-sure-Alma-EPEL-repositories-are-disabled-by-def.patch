@@ -1,17 +1,21 @@
-From fe4f04abcc510f9699348fb88d84289d2e6a4566 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Yann Dirson <yann.dirson@vates.tech>
 Date: Mon, 26 Jan 2026 18:17:31 +0100
-Subject: [PATCH 3/3] Make sure Alma/EPEL repositories are disabled by default
+Subject: [PATCH] Make sure Alma/EPEL repositories are disabled by default
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+Signed-off-by: Gaëtan Lehmann <gaetan.lehmann@vates.tech>
 ---
  backend.py | 6 ++++++
  1 file changed, 6 insertions(+)
 
 diff --git a/backend.py b/backend.py
-index f088574..52d3925 100644
+index ce3964fd..2bc7525c 100644
 --- a/backend.py
 +++ b/backend.py
-@@ -1324,6 +1324,12 @@ def configureXcpng(mounts):
+@@ -1323,6 +1323,12 @@ def configureXcpng(mounts):
      assert util.runCmd2(['chroot', mounts['root'],
                           'systemctl', 'disable', 'iptables.service']) == 0
  
@@ -24,6 +28,3 @@ index f088574..52d3925 100644
      # EL10 disabled ssh root login
      with open(os.path.join(mounts['root'], 'etc/ssh/sshd_config'), "at") as ssh_cfg:
          print("PermitRootLogin yes", file=ssh_cfg)
--- 
-2.47.3
-

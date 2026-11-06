@@ -1,7 +1,7 @@
-From bf9b002053b7f8def1474027cbd7b9efda4f237b Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Lin Liu <Lin.Liu01@cloud.com>
 Date: Wed, 26 Mar 2025 06:13:58 +0000
-Subject: [PATCH 01/10] CP-54081: Remove interface-rename-sideway service
+Subject: [PATCH] CP-54081: Remove interface-rename-sideway service
 
 With netdev ordering work delegated to networkd, host installer
 no longer need to rename netdev, thus, no longer requires
@@ -17,7 +17,7 @@ Signed-off-by: Lin Liu <Lin.Liu01@cloud.com>
  delete mode 100644 startup/interface-rename-sideway.service
 
 diff --git a/Makefile b/Makefile
-index d507958..303aca9 100644
+index d507958b..303aca90 100644
 --- a/Makefile
 +++ b/Makefile
 @@ -63,7 +63,6 @@ install:
@@ -38,7 +38,7 @@ index d507958..303aca9 100644
   # the blacklist and blacklist_exception sections.
 diff --git a/startup/interface-rename-sideway b/startup/interface-rename-sideway
 deleted file mode 100644
-index 490f576..0000000
+index 490f576d..00000000
 --- a/startup/interface-rename-sideway
 +++ /dev/null
 @@ -1,22 +0,0 @@
@@ -66,7 +66,7 @@ index 490f576..0000000
 -done
 diff --git a/startup/interface-rename-sideway.service b/startup/interface-rename-sideway.service
 deleted file mode 100644
-index 05c88a0..0000000
+index 05c88a07..00000000
 --- a/startup/interface-rename-sideway.service
 +++ /dev/null
 @@ -1,10 +0,0 @@
@@ -80,6 +80,3 @@ index 05c88a0..0000000
 -ExecStart=/opt/xensource/installer/interface-rename-sideway
 -RemainAfterExit=yes
 -Type=oneshot
--- 
-2.39.5
-
