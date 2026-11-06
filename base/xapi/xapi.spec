@@ -32,7 +32,7 @@
 Summary: xapi - xen toolstack for XCP
 Name:    xapi
 Version: 26.4.0
-Release: 1%{?xsrel}.3%{?dist}
+Release: 1%{?xsrel}.4%{?dist}
 Group:   System/Hypervisor
 License: LGPL-2.1-or-later WITH OCaml-LGPL-linking-exception
 URL:  http://www.xen.org
@@ -339,6 +339,8 @@ Requires:       forkexecd
 Requires:       xcp-networkd
 Requires:       xen-libs
 Requires:       emu-manager
+# tune2fs, which it fails to start without
+Requires:       e2fsprogs
 # NVME support requires newer qemu
 # Describe minimum qemu version required.
 # If a new major/incompatible version of qemu is released then it will need to:
@@ -1572,6 +1574,9 @@ Coverage files from unit tests
 %{?_cov_results_package}
 
 %changelog
+* Mon Nov 02 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 26.4.0-1.4
+- xenopsd-xc requires e2fsprogs, whose tune2fs it needs to start
+
 * Fri 02 Oct 2026 Yann Dirson <yann.dirson@vates.tech> - 26.4.0-1.3
 - Unset GIT_CEILING_DIRECTORIES while proceeding with the $sha or $sha-dirty
   replacement
