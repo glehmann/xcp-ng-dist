@@ -7,13 +7,13 @@
 Summary: XenServer Installer
 Name: host-installer
 Version: 11.0.26
-Release: 0.ydi.27%{?dist}
+Release: 0.ydi.28%{?dist}
 License: GPLv2
 Group: Applications/System
 Source0: host-installer-%{version}.tar.gz
 
 # backport feature/host-netdev-order
-# xcraft patchset: git@github.com:xcp-ng/host-installer.git HEAD v11.0.26..f07297b00f7b
+# xcraft patchset: git@github.com:xcp-ng/host-installer.git HEAD v11.0.26..0bf9a0c5be06
 Patch1000: 0001-CP-54081-Remove-interface-rename-sideway-service.patch
 Patch1001: 0002-CP-53716-Drop-ordering-and-renaming-network-interfac.patch
 Patch1002: 0003-CP-53716-Drop-ordering-and-renaming-network-interfac.patch
@@ -35,6 +35,9 @@ Patch1017: 0018-Second-dnf-install-run-for-crypto-policies.patch
 Patch1018: 0019-Make-sure-Alma-EPEL-repositories-are-disabled-by-def.patch
 Patch1019: 0020-Use-xcp-ng-deps-instead-of-groups.xml.patch
 Patch1020: 0021-Write-the-default-driver-variants-as-pairs-of-names-.patch
+Patch1021: 0022-Do-not-enable-openvswitch-xapi-sync-which-XCP-ng-9-s.patch
+Patch1022: 0023-Add-ssh-auto-mode-to-the-answerfile.patch
+Patch1023: 0024-Add-an-unattended-installation-for-test-VMs.patch
 # end of xcraft patchset
 
 # pr#278
@@ -188,6 +191,7 @@ echo %{large_block_capable_sr_type} > %{buildroot}/%{feature_flag_dir}/large-blo
 %{installer_dir}/tui/fcoe.py
 
 # Data
+%{installer_dir}/answerfile-vm.xml
 %{installer_dir}/common_criteria_firewall_rules
 %{installer_dir}/keymaps
 %{installer_dir}/timezones
@@ -254,6 +258,11 @@ rm -rf /boot/*
 #rm -f /tmp/firmware-used.$$
 
 %changelog
+* Wed Nov 04 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 11.0.26-0.ydi.28
+- Do not enable openvswitch-xapi-sync, which XCP-ng 9's openvswitch does not have
+- Add <ssh-auto-mode> to the answerfile
+- Add answerfile-vm.xml, an unattended installation for test VMs
+
 * Mon Nov 02 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 11.0.26-0.ydi.27
 - Write the default driver variants as pairs of names, which installations from an answer file without <selected-multiversion-drivers> failed on
 

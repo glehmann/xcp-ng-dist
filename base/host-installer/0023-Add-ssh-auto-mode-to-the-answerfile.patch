@@ -1,0 +1,105 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Ga=C3=ABtan=20Lehmann?= <gaetan.lehmann@vates.tech>
+Date: Wed, 4 Nov 2026 20:32:30 +0100
+Subject: [PATCH] Add <ssh-auto-mode> to the answerfile
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+xapi stops SSH on the hosts in SSH auto mode, its default on XenServer 9.
+The element writes /etc/xapi.conf.d/ssh-auto-mode.conf, xapi's default for
+the host it creates at the first boot, like XenServer 8's xapi package.
+
+Signed-off-by: Gaëtan Lehmann <gaetan.lehmann@vates.tech>
+---
+ answerfile.py      | 11 +++++++++++
+ backend.py         |  9 +++++++++
+ doc/answerfile.txt |  9 +++++++++
+ install.py         |  1 +
+ 4 files changed, 30 insertions(+)
+
+diff --git a/answerfile.py b/answerfile.py
+index a670c0a3..b9047c15 100644
+--- a/answerfile.py
++++ b/answerfile.py
+@@ -139,6 +139,7 @@ class Answerfile:
+         self.parseTimeConfig(results)
+         results.update(self.parseKeymap())
+         results.update(self.parseServices())
++        results.update(self.parseSSHAutoMode())
+ 
+         return results
+ 
+@@ -523,3 +524,13 @@ class Answerfile:
+              # replace the default value
+              results['services'] = services
+         return results
++
++    def parseSSHAutoMode(self):
++        results = {}
++        nodes = getElementsByTagName(self.top_node, ['ssh-auto-mode'])
++        if len(nodes) > 0:
++            value = getText(nodes[0]).strip().lower()
++            if value not in ('true', 'false'):
++                raise AnswerfileException("Invalid ssh-auto-mode: %s" % value)
++            results['ssh-auto-mode'] = value
++        return results
+diff --git a/backend.py b/backend.py
+index 13103f2b..5d1e40fb 100644
+--- a/backend.py
++++ b/backend.py
+@@ -182,6 +182,7 @@ def getFinalisationSequence(ans):
+         Task(prepareSwapfile, A(ans, 'mounts', 'primary-disk', 'swap-partnum', 'disk-label-suffix'), []),
+         Task(writeFstab, A(ans, 'mounts', 'primary-disk', 'logs-partnum', 'swap-partnum', 'disk-label-suffix', 'fs-type'), []),
+         Task(enableAgent, A(ans, 'mounts', 'network-backend', 'services'), []),
++        Task(writeSSHAutoMode, A(ans, 'mounts', 'ssh-auto-mode'), []),
+         Task(configureCC, A(ans, 'mounts'), []),
+         Task(configureXcpng, A(ans, 'mounts'), []),
+         Task(writeInventory, A(ans, 'installation-uuid', 'control-domain-uuid', 'mounts', 'primary-disk',
+@@ -1295,6 +1296,14 @@ def enableAgent(mounts, network_backend, services):
+         if action:
+             util.runCmd2(['chroot', mounts['root'], 'systemctl', action, service + '.service'])
+ 
++def writeSSHAutoMode(mounts, ssh_auto_mode):
++    # xapi's default for the host it creates at the first boot, and when the host leaves a pool
++    if ssh_auto_mode is not None:
++        conf_dir = os.path.join(mounts['root'], 'etc/xapi.conf.d')
++        util.assertDir(conf_dir)
++        with open(os.path.join(conf_dir, 'ssh-auto-mode.conf'), 'w') as f:
++            f.write("ssh-auto-mode=%s\n" % ssh_auto_mode)
++
+ def configureCC(mounts):
+     '''Tailor the installation for Common Criteria mode.'''
+ 
+diff --git a/doc/answerfile.txt b/doc/answerfile.txt
+index 2485ddb4..e32145a0 100644
+--- a/doc/answerfile.txt
++++ b/doc/answerfile.txt
+@@ -296,6 +296,15 @@ Format of 'source' and 'driver-source'
+     Default: us
+ 
+ 
++  <ssh-auto-mode>bool</ssh-auto-mode>?
++
++    Specifies the SSH auto mode of the host, like xe host-param-set
++    ssh-auto-mode=bool, as xapi's default: the one xapi sets when it creates
++    the host, at the first boot, and when the host leaves a pool.
++
++    Default: xapi's default, true
++
++
+ (Re)Install Attributes
+ ----------------------
+ 
+diff --git a/install.py b/install.py
+index 1650d432..38dcedad 100755
+--- a/install.py
++++ b/install.py
+@@ -101,6 +101,7 @@ def go(ui, args, answerfile_address, answerfile_script):
+         'network-backend': constants.NETWORK_BACKEND_DEFAULT,
+         'root-password': ('pwdhash', '!!'),
+         'services': { s: None for s in constants.SERVICES }, # default state for services, example {'sshd': None}
++        'ssh-auto-mode': None, # xapi's default
+         'preserve-first-partition': constants.PRESERVE_IF_UTILITY,
+         'fs-type': constants.default_rootfs_type,
+         }

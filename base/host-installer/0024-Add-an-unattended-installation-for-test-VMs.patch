@@ -1,0 +1,50 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Ga=C3=ABtan=20Lehmann?= <gaetan.lehmann@vates.tech>
+Date: Wed, 4 Nov 2026 20:33:34 +0100
+Subject: [PATCH] Add an unattended installation for test VMs
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+answerfile-vm.xml, packaged in the installer, installs with
+rt_answerfile=file:///opt/xensource/installer/answerfile-vm.xml on the
+kernel command line: on sda, with an ext SR on the same disk, DHCP on the
+first NIC of QEMU, and SSH kept running.
+
+Signed-off-by: Gaëtan Lehmann <gaetan.lehmann@vates.tech>
+---
+ Makefile          |  1 +
+ answerfile-vm.xml | 12 ++++++++++++
+ 2 files changed, 13 insertions(+)
+ create mode 100644 answerfile-vm.xml
+
+diff --git a/Makefile b/Makefile
+index ee7e0f82..f10261df 100644
+--- a/Makefile
++++ b/Makefile
+@@ -16,6 +16,7 @@ install:
+ 	$(INSTALL) -m644 \
+ 	        keymaps \
+ 	        timezones \
++	        answerfile-vm.xml \
+ 	        answerfile.py \
+ 	        backend.py \
+ 	        common_criteria_firewall_rules \
+diff --git a/answerfile-vm.xml b/answerfile-vm.xml
+new file mode 100644
+index 00000000..e781243c
+--- /dev/null
++++ b/answerfile-vm.xml
+@@ -0,0 +1,12 @@
++<?xml version="1.0"?>
++<!-- An unattended installation for test VMs, with rt_answerfile=file:///opt/xensource/installer/answerfile-vm.xml on
++     the kernel command line: XCP-ng on sda, with an ext SR on the same disk, DHCP on the first NIC of QEMU, by its
++     default MAC address, root password xcp-ng, SSH kept running -->
++<installation srtype="ext">
++  <primary-disk>sda</primary-disk>
++  <keymap>us</keymap>
++  <root-password>xcp-ng</root-password>
++  <source type="local"/>
++  <admin-interface hwaddr="52:54:00:12:34:56" proto="dhcp"/>
++  <ssh-auto-mode>false</ssh-auto-mode>
++</installation>
