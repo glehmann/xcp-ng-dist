@@ -1,0 +1,29 @@
+From 605721ce830295e1615b3ffc08d075e0f0be21ee Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Ga=C3=ABtan=20Lehmann?= <gaetan.lehmann@vates.tech>
+Date: Mon, 2 Nov 2026 13:51:09 +0100
+Subject: [PATCH] Do not enable arptables.service, which has no configuration
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+EL10's iptables-nft-services ships it, and the presets enable the units they
+do not name, failing on each boot for the missing /etc/sysconfig/arptables.
+
+Signed-off-by: Gaëtan Lehmann <gaetan.lehmann@vates.tech>
+---
+ src/common/usr/lib/systemd/system-preset/89-default.preset | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/src/common/usr/lib/systemd/system-preset/89-default.preset b/src/common/usr/lib/systemd/system-preset/89-default.preset
+index e1dfaf6..3e9e9d8 100644
+--- a/src/common/usr/lib/systemd/system-preset/89-default.preset
++++ b/src/common/usr/lib/systemd/system-preset/89-default.preset
+@@ -123,6 +123,8 @@ disable iscsid.*
+ disable iscsiuio.*
+ disable ebtables.service
+ enable iptables.service
++# EL10's iptables-nft-services ships it, without configuration
++disable arptables.service
+ enable make-dummy-sr.service
+ enable dom0term.service
+ enable xsconsole.service

@@ -24,7 +24,7 @@
 
 Name:           xcp-ng-release
 Version:        8.99.0
-Release:        4%{?autorev}
+Release:        5%{?autorev}
 Summary:        XCP-ng release file
 Group:          System Environment/Base
 License:        GPLv2
@@ -74,6 +74,7 @@ Patch1003: 0003-Sync-systemd-presets-with-xenserver-release-v8.4.0-1.patch
 Patch1004: 0004-fix-prompt-s-c-e-p-xcp-ng-prompt.sh-Fix-prompt-on-te.patch
 Patch1005: 0005-s-c-e-profile.d-history.sh-Add-timestamps-to-history.patch
 Patch1006: 0006-fix-prompt-s-c-e-p-xcp-ng-prompt.sh-Align-to-RPM-pat.patch
+Patch1007: 0007-Do-not-enable-arptables.service-which-has-no-configu.patch
 
 %description
 XCP-ng release files
@@ -577,6 +578,9 @@ systemctl preset-all --preset-mode=enable-only || :
 
 # Keep this changelog through future updates
 %changelog
+* Mon Nov 02 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 8.99.0-5
+- Do not enable arptables.service, which has no configuration
+
 * Mon Nov 02 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 8.99.0-4
 - Ship the keys of the EL10 and EPEL 10 packages, rather than those of CentOS 7 and EPEL 7
 
