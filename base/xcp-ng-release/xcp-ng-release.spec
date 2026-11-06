@@ -24,12 +24,14 @@
 
 Name:           xcp-ng-release
 Version:        8.99.0
-Release:        3%{?autorev}
+Release:        4%{?autorev}
 Summary:        XCP-ng release file
 Group:          System Environment/Base
 License:        GPLv2
 # XCP-ng: fixed from post to posttrans
 Requires(posttrans): coreutils, grep
+# the keys of the upstream packages, with those of EPEL below
+Requires:       almalinux-gpg-keys
 # XCP-ng: do not require system-config for now:
 # it pulls a useless empty xenserver-config everywhere
 #Requires:       system-config
@@ -62,6 +64,8 @@ URL:            https://github.com/xcp-ng/xcp-ng-release
 Source0:        https://github.com/xcp-ng/xcp-ng-release/archive/v%{version}/xcp-ng-release-8.3.0.tar.gz
 
 Source700:      macros.x86_64_v2
+Source701:      https://repo.almalinux.org/almalinux/RPM-GPG-KEY-AlmaLinux-10-EPEL-AltArch
+Source702:      https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-10
 
 # XCP-ng Patches generated during maintenance period with `git format-patch --no-numbered --no-signature v8.3.0`
 Patch1001: 0001-fix-curl-resolve-TLS-issue-caused-by-restrictive-con.patch
@@ -137,6 +141,10 @@ ln -s centos-release %{buildroot}%{_sysconfdir}/redhat-release
 cp %{buildroot}%{_sysconfdir}/issue.net %{buildroot}%{_sysconfdir}/issue
 echo >> %{buildroot}%{_sysconfdir}/issue
 touch -r %{buildroot}%{_sysconfdir}/issue.net %{buildroot}%{_sysconfdir}/issue
+
+# the keys of the upstream packages: those of EL10, rather than of CentOS 7
+rm %{buildroot}%{_sysconfdir}/pki/rpm-gpg/RPM-GPG-KEY-{CentOS-7,CentOS-Debug-7,EPEL-7}
+install -m 644 %{SOURCE701} %{SOURCE702} %{buildroot}%{_sysconfdir}/pki/rpm-gpg/
 
 # set up the dist tag macros
 install -d -m 755 %{buildroot}%{_sysconfdir}/rpm
@@ -569,6 +577,9 @@ systemctl preset-all --preset-mode=enable-only || :
 
 # Keep this changelog through future updates
 %changelog
+* Mon Nov 02 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 8.99.0-4
+- Ship the keys of the EL10 and EPEL 10 packages, rather than those of CentOS 7 and EPEL 7
+
 * Fri Sep 18 2026 Yann Dirson <yann.dirson@vates.tech> - 8.99.0-3
 - Append autorev macro to Release
 
