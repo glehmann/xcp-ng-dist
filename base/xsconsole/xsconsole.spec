@@ -10,6 +10,7 @@ License: GPL2
 Group: Administration/System
 Source0: xsconsole-%{version}.tar.gz
 Provides: xsconsole0
+BuildRequires: make
 BuildRequires: python3-devel
 BuildRequires: systemd
 Requires: ipmitool
