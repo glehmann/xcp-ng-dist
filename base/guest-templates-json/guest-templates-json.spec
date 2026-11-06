@@ -26,6 +26,7 @@ Requires: xapi-core
 Requires(post): systemd
 Requires(preun): systemd
 Requires(postun): systemd
+BuildRequires: make
 BuildRequires: python3-devel
 BuildRequires: python-setuptools
 BuildRequires: python-jsonschema >= 4.0
