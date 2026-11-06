@@ -50,6 +50,7 @@ Patch1020: 0021-Write-the-default-driver-variants-as-pairs-of-names-.patch
 
 # This is where we get 'multipath.conf' from
 BuildRequires: device-mapper-multipath
+BuildRequires: make
 #BuildRequires: python-mock
 BuildRequires: python3-xcp-libs
 
