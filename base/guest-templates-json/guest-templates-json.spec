@@ -39,7 +39,6 @@ install/upgrade.
 %package data-pv
 Summary: Contains the PV guest templates
 Requires(post): %{name} = %{version}-%{release}
-Requires: linux-guest-loader, linux-guest-loader-data
 
 %description data-pv
 Contains the PV guest templates.
