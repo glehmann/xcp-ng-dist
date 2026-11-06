@@ -184,7 +184,8 @@ function build_and_copy_deb {
     cp ../../build/obj/{xe-daemon,xenstore} .
     cp ../../LICENSE .
     cp ../../mk/{xe-linux-distribution,xe-linux-distribution.init,xen-vcpu-hotplug.rules} .
-    fakeroot dpkg-buildpackage -us -uc -a $ARCH
+    # binary only: only the .deb is used, and recent dpkg refuses a revision in a native source package
+    fakeroot dpkg-buildpackage -b -us -uc -a $ARCH
     popd
 
     # Copy Deb
