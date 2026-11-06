@@ -24,7 +24,7 @@
 
 Name:           xcp-ng-release
 Version:        8.99.0
-Release:        6%{?autorev}
+Release:        7%{?autorev}
 Summary:        XCP-ng release file
 Group:          System Environment/Base
 License:        GPLv2
@@ -76,6 +76,7 @@ Patch1005: 0005-s-c-e-profile.d-history.sh-Add-timestamps-to-history.patch
 Patch1006: 0006-fix-prompt-s-c-e-p-xcp-ng-prompt.sh-Align-to-RPM-pat.patch
 Patch1007: 0007-Do-not-enable-arptables.service-which-has-no-configu.patch
 Patch1008: 0008-Disable-sshd.socket-in-the-presets.patch
+Patch1009: 0009-Disable-xapi-ssh-monitor-in-the-presets.patch
 
 %description
 XCP-ng release files
@@ -579,6 +580,9 @@ systemctl preset-all --preset-mode=enable-only || :
 
 # Keep this changelog through future updates
 %changelog
+* Wed Nov 04 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 8.99.0-7
+- Disable xapi-ssh-monitor in the presets: enabled, it disables SSH at the first boot of the hosts not in SSH auto mode
+
 * Wed Nov 04 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 8.99.0-6
 - Disable sshd.socket in the presets: it conflicts with sshd.service, and
   sshd doesn't start at boot when both are enabled

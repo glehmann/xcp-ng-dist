@@ -1,0 +1,28 @@
+From 690e3bef0d8c81cffddf6861d1225fd213ad29e8 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Ga=C3=ABtan=20Lehmann?= <gaetan.lehmann@vates.tech>
+Date: Wed, 4 Nov 2026 20:50:14 +0100
+Subject: [PATCH] Disable xapi-ssh-monitor in the presets
+
+xapi enables it for the hosts in SSH auto mode, like XenServer, whose
+presets disable it with the others. No preset disables it, so
+`systemctl preset-all` in the presets %posttrans enables it, and at the
+first boot it disables SSH before xapi applies the SSH auto mode of the
+host: the hosts not in auto mode lose SSH too.
+---
+ src/common/usr/lib/systemd/system-preset/89-default.preset | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/src/common/usr/lib/systemd/system-preset/89-default.preset b/src/common/usr/lib/systemd/system-preset/89-default.preset
+index e44d894..d2819e7 100644
+--- a/src/common/usr/lib/systemd/system-preset/89-default.preset
++++ b/src/common/usr/lib/systemd/system-preset/89-default.preset
+@@ -10,6 +10,9 @@ disable systemd-readahead-collect.service
+ enable sshd.service
+ # sshd.socket conflicts with sshd.service: when both are enabled, neither starts at boot
+ disable sshd.socket
++# xapi enables it for the hosts in SSH auto mode: enabled by default, it disables SSH at the first boot of the
++# others
++disable xapi-ssh-monitor.service
+ enable atd.*
+ enable crond.*
+ enable chronyd.service
