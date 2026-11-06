@@ -1,0 +1,100 @@
+name: Build
+
+# the builds of all the packages, natively on each architecture, pushed to the remote storage with their sources and
+# compiler caches from master only, for the other builders and the developers to fetch rather than build them again;
+# the other branches and the pull requests of forks too, see checks.yml, but without the signing key nor pushing
+on: [push, pull_request]
+
+permissions: {}
+
+jobs:
+  build:
+    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - arch: x86_64_v2
+            runner: ubuntu-latest
+          - arch: aarch64
+            runner: ubuntu-24.04-arm
+    name: build (${{ matrix.arch }})
+    runs-on: ${{ matrix.runner }}
+    # one push of a branch at a time on each architecture: the latest one has the latest builds
+    concurrency:
+      group: build-${{ github.ref }}-${{ matrix.arch }}
+    env:
+      FORCE_COLOR: "1"
+      XCRAFT_ARCH: ${{ matrix.arch }}
+      SIGNING_KEY_FINGERPRINT: ${{ vars.SIGNING_KEY_FINGERPRINT }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          persist-credentials: false
+          # the previous commit, which the build IDs of the main branch are checked against
+          fetch-depth: 2
+      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7  # v10.2.0
+        with:
+          version: "0.10.x"
+          activate-environment: true
+      - run: uv sync --locked
+      # the metadata xcraft computed in the previous runs, named after what they are computed from: the parsed specs,
+      # the resolutions, the packages of the base image; without changes, neither dnf nor the build environment image
+      # is needed to know what to build
+      - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9  # v6.1.0
+        with:
+          path: |
+            .xcraft/cache/specs
+            .xcraft/cache/resolved
+            .xcraft/cache/base
+          key: xcraft-metadata-${{ matrix.arch }}-${{ github.run_id }}
+          restore-keys: xcraft-metadata-${{ matrix.arch }}-
+      # podman runs the builds; gpg verifies the remote builds and compiler caches
+      - run: |
+          if ! command -v podman || ! command -v gpg; then
+            sudo apt-get update -q
+            sudo apt-get install -qy podman gnupg
+          fi
+      # what the remote storage has is not built again, nor fetched, but for the builds of the others
+      # arm64 is still in development; tolerate build and upload failures at step level so its check passes too
+      - run: xcraft build --locked --fetch=needed
+        continue-on-error: ${{ matrix.arch == 'aarch64' }}
+      - name: Set up signing
+        id: signing
+        if: ${{ !cancelled() && github.event_name == 'push' && github.ref == 'refs/heads/master' }}
+        env:
+          SIGNING_PRIVATE_KEY: ${{ secrets.SIGNING_PRIVATE_KEY }}
+        run: |
+          export GNUPGHOME="$RUNNER_TEMP/xcraft-gnupg"
+          printf 'GNUPGHOME=%s\n' "$GNUPGHOME" >> "$GITHUB_ENV"
+          install -d -m 700 "$GNUPGHOME"
+          printf '%s' "$SIGNING_PRIVATE_KEY" | gpg --batch --import
+          gpg --batch --list-secret-keys "$SIGNING_KEY_FINGERPRINT"
+      # what was built, even when the build failed: xcraft push fails then too, after pushing the others
+      - if: ${{ !cancelled() && github.event_name == 'push' && github.ref == 'refs/heads/master' && steps.signing.outcome == 'success' }}
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: xcraft push --to main --key "$SIGNING_KEY_FINGERPRINT"
+        continue-on-error: ${{ matrix.arch == 'aarch64' }}
+      # the compiler caches the builds filled, even of those which failed
+      - if: ${{ !cancelled() && github.event_name == 'push' && github.ref == 'refs/heads/master' && steps.signing.outcome == 'success' }}
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: xcraft push ccache --to main --key "$SIGNING_KEY_FINGERPRINT"
+      # publish x86 independently while the arm64 build is broken
+      - name: Publish incoming
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master' && matrix.arch == 'x86_64_v2'
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: xcraft --debug publish --locked --to main --stage incoming --arch "$XCRAFT_ARCH" --key "$SIGNING_KEY_FINGERPRINT"
+      - name: Clean up signing
+        if: always()
+        run: |
+          export GNUPGHOME="$RUNNER_TEMP/xcraft-gnupg"
+          if [ -d "$GNUPGHOME" ]; then
+            gpgconf --kill gpg-agent || true
+            rm -rf "$GNUPGHOME"
+          fi

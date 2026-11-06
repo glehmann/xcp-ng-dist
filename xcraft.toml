@@ -1,0 +1,116 @@
+base_image = "ghcr.io/almalinux/10-base:10.2@sha256:ed618ca107e9fd47ee2a64d1d33119ef356cfaf65a338daaa3fad19b80ae5da4"
+platforms = ["linux/amd64/v2", "linux/arm64"]
+# AlmaLinux rebuilds EPEL for x86_64_v2: the locks of the architectures have the same versions but for it
+release_suffixes = [".alma_altarch"]
+packages = [
+    # like mock's build roots: what specs may assume without BuildRequires
+    # (coreutils-single, in the base image, provides coreutils)
+    "bash", "bzip2", "cpio", "diffutils", "findutils", "gawk", "grep", "gzip", "info", "patch", "sed",
+    "shadow-utils", "tar", "unzip", "util-linux", "which", "xz", "rpm-build", "redhat-rpm-config",
+]
+# the packages of the same archive, which xcraft bump --version updates together
+same_version = [["kernel", "kernel-headers"]]
+ccache_size = { kernel = "20G" }
+logo = "https://xcp-ng.org/assets/img/mainlogo.png"
+
+[macros]
+dist = "%{?autorev}.xcpng8.99"
+xcpng = "9"
+xenserver = "9"
+
+# the current AlmaLinux 10 and its EPEL: the lock decides of the versions used
+[repos.baseos]
+baseurl = "https://repo.almalinux.org/almalinux/10/BaseOS/{arch}/os/"
+gpgkey = "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-AlmaLinux-10"
+source_baseurl = "https://vault.almalinux.org/10/BaseOS/Source/"
+
+[repos.appstream]
+baseurl = "https://repo.almalinux.org/almalinux/10/AppStream/{arch}/os/"
+gpgkey = "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-AlmaLinux-10"
+source_baseurl = "https://vault.almalinux.org/10/AppStream/Source/"
+
+[repos.crb]
+baseurl = "https://repo.almalinux.org/almalinux/10/CRB/{arch}/os/"
+gpgkey = "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-AlmaLinux-10"
+source_baseurl = "https://vault.almalinux.org/10/CRB/Source/"
+
+[repos.extras]
+baseurl = "https://repo.almalinux.org/almalinux/10/extras/{arch}/os/"
+gpgkey = "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-AlmaLinux-10"
+source_baseurl = "https://vault.almalinux.org/10/extras/Source/"
+
+[repos.devel]
+baseurl = "https://repo.almalinux.org/almalinux/10/devel/{arch}/os/"
+gpgkey = "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-AlmaLinux-10"
+source_baseurl = "https://vault.almalinux.org/10/devel/Source/"
+
+# AlmaLinux rebuilds EPEL for x86_64_v2 only
+[repos.epel]
+baseurl = "https://epel.repo.almalinux.org/10/{arch}/"
+gpgkey = "https://repo.almalinux.org/almalinux/RPM-GPG-KEY-AlmaLinux-10-EPEL-AltArch"
+source_baseurl = "https://epel.vault.almalinux.org/10/Source/"
+arches = ["x86_64_v2"]
+
+[repos.epel-fedora]
+baseurl = "https://dl.fedoraproject.org/pub/epel/10/Everything/{arch}/"
+gpgkey = "https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-10"
+source_baseurl = "https://dl.fedoraproject.org/pub/epel/10/Everything/source/tree/"
+arches = ["x86_64", "aarch64"]
+
+# what xcraft import imports: the branches of xcp-ng-rpms, and XenServer's source RPMs, on XS-9.0
+[import]
+branches = ["master", "XS-9.0"]
+srpm_branch = "XS-9.0"
+removed = ["Citrix_Logo_Black.png", "COPYING.CitrixCommercial"]
+
+# the test storage, Garage on a Hetzner server, over HTTPS: the S3 writes, signed, and the public reads
+# share its port; the S3 credentials are those of its key xcraft-ci
+[remote.main]
+url = "https://91.98.220.14"
+s3_endpoint = "https://91.98.220.14"
+bucket = "xcraft"
+region = "garage"
+build_keys = ["F7685175612B78858C4211D861ECBE94C30BC7B5"]
+
+[remote.dev]
+url = "https://91.98.220.14:8443"
+s3_endpoint = "https://91.98.220.14:8443"
+bucket = "xcraft-dev"
+region = "garage"
+
+[publish]
+release = "9.0"
+# upstream packages published for convenience, not installed by default
+extra = [
+    # the XFS SR
+    "xfsprogs",
+    # editors and general tools
+    "nano", "mc", "tmux", "vim-enhanced", "tree", "bc", "git", "bind-utils", "mtr", "telnet",
+    # performance analysis, of the storage in particular
+    "fio", "iperf3", "ioping", "stress-ng", "blktrace", "iowatcher", "trace-cmd", "libbpf-tools",
+    "bpftool", "iotop-c", "atop", "pcp-system-tools", "lsscsi", "hdparm", "ledmon", "lshw", "numactl", "hwloc",
+    "wireshark-cli", "gdb", "ltrace",
+]
+
+[iso]
+# like branding-xcp-ng, whose PRODUCT_VERSION iso/hook checks
+name = "xcp-ng"
+version = "8.99.0"
+volid = "XCP-NG_899"
+installer = [
+    # the mandatory packages of AlmaLinux's @core, but kexec-tools, xfsprogs and yum
+    "audit", "basesystem", "bash", "coreutils", "cronie", "cronie-noanacron", "curl", "dnf", "e2fsprogs",
+    "filesystem", "firewalld", "glibc", "grubby", "hostname", "iproute", "iproute-tc", "iputils",
+    "irqbalance", "kbd", "less", "logrotate", "man-db", "ncurses", "openssh-clients", "openssh-server",
+    "p11-kit", "parted", "policycoreutils", "procps-ng", "rootfiles", "rpm", "rpm-plugin-audit",
+    "selinux-policy-targeted", "setup", "shadow-utils", "sssd-common", "sssd-kcm", "sudo", "systemd",
+    "util-linux", "vim-minimal",
+    # the installer, xl for its preinit, and the hardware support
+    "host-installer-startup", "chrony", "dhcp-client", "xen-dom0-tools", "kernel", "linux-firmware",
+    # for debugging
+    "netcat", "pciutils", "usbutils",
+]
+packages = ["xcp-ng-deps"]
+# the answer file of host-installer for test VMs: on sda, with an ext SR, DHCP, root password xcp-ng, SSH kept
+# running
+unattended = "rt_answerfile=file:///opt/xensource/installer/answerfile-vm.xml"

@@ -1,0 +1,113 @@
+#!/usr/bin/python3
+"""What the ISO of XCP-ng has of its own, like create-install-image makes it: run by xcraft as root in the build
+environment, ``hook <stage> <dir> <config>``, see xcraft/buildenv/iso.py of xcraft.
+
+``installimg``, on the root of install.img: the installer, its units and its branding. ``tree``, on the tree of the
+ISO: Xen, the boot loaders' configurations of host-installer, the branding, and the description of its repository.
+"""
+
+import json
+import shutil
+import subprocess
+import sys
+import tempfile
+import time
+from pathlib import Path
+
+SYSLINUX = Path("/usr/share/syslinux")
+
+
+def extract(package: str, *patterns: str) -> Path:
+    """Return a directory with the files of `package` matching `patterns`."""
+    dest = Path(tempfile.mkdtemp())
+    rpm2cpio = subprocess.Popen(["rpm2cpio", config["rpms"][package]], stdout=subprocess.PIPE)
+    subprocess.run(["cpio", "-idm", "--quiet", *patterns], stdin=rpm2cpio.stdout, cwd=dest, check=True)
+    if rpm2cpio.wait():
+        sys.exit(f"cannot extract {package}")
+    return dest
+
+
+def one(directory: Path, pattern: str) -> Path:
+    """Return the only file of `directory` matching `pattern`."""
+    found = sorted(directory.glob(pattern))
+    if len(found) != 1:
+        sys.exit(f"not one {pattern} in {directory}: {[f.name for f in found]}")
+    return found[0]
+
+
+def installimg(root: Path) -> None:
+    """Add the installer to install.img, with a root without password, for the shell of tty2."""
+    shadow = root / "etc/shadow"
+    shadow.write_text("".join("root::::::::\n" if line.startswith("root:") else line
+                              for line in shadow.read_text().splitlines(keepends=True)))  # fmt: skip
+    for path in ("usr/share/cracklib", "usr/lib/udev/hwdb.d"):
+        shutil.rmtree(root / path, ignore_errors=True)
+    installer = root / "opt/xensource/installer"
+    (installer / "EULA").symlink_to("../../../EULA")
+    branding = one(root / "usr/lib", "python3*/site-packages/xcp/branding.py")
+    (installer / "version.py").symlink_to(f"../../../{branding.relative_to(root)}")
+    subprocess.run(["systemctl", f"--root={root}", "enable", "installer", "installer-getty@tty2"], check=True)
+    for unit in ("getty@tty1", "fcoe", "lldpad", "xen-init-dom0", "xenconsoled", "xenstored", "chronyd", "chrony-wait"):
+        subprocess.run(["systemctl", f"--root={root}", "--quiet", "disable", unit], check=False)  # when installed
+
+
+def boot_params(tree: Path, param: str) -> None:
+    """Add `param` to the kernel command line of all the entries of the boot loaders."""
+    for cfg in [tree / "boot/isolinux/isolinux.cfg", *(tree / "EFI/BOOT").glob("*.cfg")]:
+        cfg.write_text(cfg.read_text().replace("/vmlinuz", f"/vmlinuz {param}"))
+
+
+def repository(tree: Path, branding: dict[str, str]) -> None:
+    """Describe the tree of the ISO and its repository, with the keys of its packages when signed."""
+    treeinfo = tree / ".treeinfo"
+    text = treeinfo.read_text().replace("@@TIMESTAMP@@", f"{time.time():.2f}")
+    for name in ("PLATFORM_NAME", "PLATFORM_VERSION", "PRODUCT_BRAND", "PRODUCT_VERSION"):
+        text = text.replace(f"@@{name}@@", branding[name])
+    if not config["signed"]:
+        # the installer looks for the keys even without checking the signatures
+        text = text.replace("\nkey", "\n#key")
+    else:
+        # The installer reads only the first key file, so bundle the upstream keys with ours. It imports them in the
+        # installed system, which checks its updates with them.
+        keys = "".join(Path(k).read_text().strip() + "\n" for k in config["keys"])
+        (tree / "RPM-GPG-KEY-xcpng").write_text(keys)
+    treeinfo.write_text(text)
+
+
+def iso_tree(tree: Path) -> None:
+    """Add Xen, the boot loaders' configurations and the branding to the tree of the ISO."""
+    boot = tree / "boot"
+    # the debug builds of the hypervisor, like XenServer, for a more useful xl dmesg when something goes wrong
+    shutil.copy2(one(extract("xen-hypervisor-elf", "./boot/*") / "boot", "xen-*-d.gz"), boot / "xen.gz")
+    shutil.copy2(SYSLINUX / "mboot.c32", boot / "isolinux")
+    # for PXE boot, where XCP-ng 8 had them
+    (boot / "pxelinux").mkdir(exist_ok=True)
+    for name in ("pxelinux.0", "ldlinux.c32", "libcom32.c32", "libutil.c32", "mboot.c32", "menu.c32"):
+        shutil.copy2(SYSLINUX / name, boot / "pxelinux")
+    branding_dir = extract("branding-xcp-ng", "./usr/src/branding/*") / "usr/src/branding"
+    for name in ("EULA", "LICENSES"):
+        shutil.copy2(branding_dir / name, tree)
+    branding = dict(
+        line.split("=", 1) for line in (branding_dir / "branding").read_text().splitlines() if line[:1].isupper()
+    )
+    if branding["PRODUCT_VERSION"] != config["version"]:
+        sys.exit(f"[iso] version is {config['version']}, branding-xcp-ng's {branding['PRODUCT_VERSION']}")
+    grub = extract("host-installer-bootloader", "./EFI/almalinux/*") / "EFI/almalinux"
+    # with grub-usb.cfg for efiboot.img, which some firmwares take for the root, finding the ISO's files by install.img
+    for name, dest in (("grub.cfg", "grub.cfg"), ("grub-usb.cfg", "efiboot.cfg")):
+        # our xen.efi has no multiboot2 header, unlike XenServer's: grub boots the ELF one
+        (tree / "EFI/BOOT" / dest).write_text((grub / name).read_text().replace("/boot/xen.efi", "/boot/xen.gz"))
+    if config["netinstall"]:
+        (tree / ".treeinfo").unlink()
+        boot_params(tree, "netinstall")
+    else:
+        repository(tree, branding)
+        if not config["signed"]:
+            boot_params(tree, "no-repo-gpgcheck")
+
+
+stage, directory, config = sys.argv[1], Path(sys.argv[2]), json.loads(Path(sys.argv[3]).read_text())
+if stage == "installimg":
+    installimg(directory)
+else:
+    iso_tree(directory)
