@@ -1,0 +1,36 @@
+From cd8c64d13971b3b1071bb3f77018490ebb752515 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Ga=C3=ABtan=20Lehmann?= <gaetan.lehmann@vates.tech>
+Date: Mon, 2 Nov 2026 13:33:01 +0100
+Subject: [PATCH] Write the default driver variants as pairs of names, like the
+ selected ones
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+The defaults are DriverVariant objects, which writeDMVSelections failed
+to unpack in the installations from an answer file without
+<selected-multiversion-drivers>, like with PXE, on hosts with
+multi-version drivers.
+
+Signed-off-by: Gaëtan Lehmann <gaetan.lehmann@vates.tech>
+---
+ backend.py | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/backend.py b/backend.py
+index 2bc7525..d4cb442 100644
+--- a/backend.py
++++ b/backend.py
+@@ -1553,7 +1553,8 @@ def writeDMVSelections(mounts, selected_multiversion_drivers):
+         drivers = dmv_data_provider.getDriversData()
+         dmvutil.logDriverVariants(drivers)
+ 
+-        selected_multiversion_drivers = dmv_data_provider.chooseDefaultDriverVariants()
++        selected_multiversion_drivers = [(v.drvname, v.oemtype)
++                                         for v in dmv_data_provider.chooseDefaultDriverVariants()]
+         logger.log("pass default driver variants to driver-tool.")
+ 
+     for driver_name, variant_name in selected_multiversion_drivers:
+-- 
+2.54.0
+

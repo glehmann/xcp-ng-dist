@@ -7,7 +7,7 @@
 Summary: XenServer Installer
 Name: host-installer
 Version: 11.0.26
-Release: 0.ydi.26%{?dist}
+Release: 0.ydi.27%{?dist}
 License: GPLv2
 Group: Applications/System
 Source0: host-installer-%{version}.tar.gz
@@ -34,6 +34,7 @@ Patch1016: 0017-Add-an-XCP-ng-9-specific-finalization-task.patch
 Patch1017: 0018-Second-dnf-install-run-for-crypto-policies.patch
 Patch1018: 0019-Make-sure-Alma-EPEL-repositories-are-disabled-by-def.patch
 Patch1019: 0020-Use-xcp-ng-deps-instead-of-groups.xml.patch
+Patch1020: 0021-Write-the-default-driver-variants-as-pairs-of-names-.patch
 # end of xcraft patchset
 
 # pr#278
@@ -252,6 +253,9 @@ rm -rf /boot/*
 #rm -f /tmp/firmware-used.$$
 
 %changelog
+* Mon Nov 02 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 11.0.26-0.ydi.27
+- Write the default driver variants as pairs of names, which installations from an answer file without <selected-multiversion-drivers> failed on
+
 * Sat Oct 31 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 11.0.26-0.ydi.26
 - Require systemd-networkd, which configures the network of the installer
 
