@@ -46,6 +46,7 @@ Source1001: sb_grub.cer
 #%define sb_cer		%{Source1001}
 #%endif
 
+# XCP-ng: the EFI images are left unsigned for now: pesign needs the signing key (see grub.macros)
 %define sb_cer sb_grub
 %define sb_key /etc/pki/pesign-xcpng sb_grub
 #%define pe_signing_token NSS Certificate DB

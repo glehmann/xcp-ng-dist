@@ -437,8 +437,8 @@ mksquashfs memdisk memdisk.squashfs -comp lzo			\
 	-m memdisk.squashfs					\\\
 	-p /EFI/BOOT						\\\
 	${GRUB_MODULES}						\
-pesign -s -i %%{2}.orig -o %%{2} -c %%{6} -n %%{7} \
-pesign -s -i %%{3}.orig -o %%{3} -c %%{6} -n %%{7} \
+cp %%{2}.orig %%{2} \
+cp %%{3}.orig %%{3} \
 %{nil}
 %endif
 
