@@ -1,6 +1,6 @@
 Name:           xcp-ng-deps
 Version:        8.99
-Release:        1
+Release:        1%{?dist}
 Summary:        A meta package pulling all needed dependencies for XCP-ng
 # License covers this spec file
 License:        GPLv2
