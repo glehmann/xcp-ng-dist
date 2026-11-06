@@ -12,7 +12,8 @@
 %{!?sdt:%global sdt 0}
 
 %if 0%{?rhel} >= 10
-%bcond_with dhclient
+# XCP-ng: xcp-networkd needs dhcp-client
+%bcond_without dhclient
 %bcond_with dhcpd
 %else
 %bcond_without dhclient
@@ -35,7 +36,7 @@ and should not be used on production systems.
 Summary:  Dynamic host configuration protocol software
 Name:     dhcp
 Version:  4.4.3
-Release:  %autorelease
+Release:  %autorelease -e 1
 
 # We want to get rid of DHCP in favour of Kea package, because ISC has announced
 # the end of maintenance for ISC DHCP as of the end of 2022. No package depends
@@ -388,11 +389,12 @@ EOF
 
 %if %{with dhcpd}
 # Copy sample conf files into position (called by doc macro)
-cp -p doc/examples/dhclient-dhcpv6.conf client/dhclient6.conf.example
 cp -p doc/examples/dhcpd-dhcpv6.conf server/dhcpd6.conf.example
 %endif
 
 %if %{with dhclient}
+# XCP-ng: copied with the server one, which we don't build
+cp -p doc/examples/dhclient-dhcpv6.conf client/dhclient6.conf.example
 cat << EOF > client/dhclient-enter-hooks
 #!/bin/bash
 
