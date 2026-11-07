@@ -1,0 +1,111 @@
+name: Pull request
+
+# the pull requests of the branches of the repository: their packages built, the packages they change, and those built
+# against them, as development builds numbered by the run, and their repositories and ISOs published in a stage of the
+# dev bucket of their own, pr<number>, signed by the PR key, for the testers; removed once closed. Those of forks have
+# no secrets: build.yml builds them, publishing nothing.
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+
+permissions: {}
+
+env:
+  FORCE_COLOR: "1"
+  STAGE: pr${{ github.event.number }}
+
+jobs:
+  publish:
+    if: github.event.action != 'closed' && github.event.pull_request.head.repo.full_name == github.repository
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - arch: x86_64_v2
+            runner: ubuntu-latest
+          - arch: aarch64
+            runner: ubuntu-24.04-arm
+    name: publish (${{ matrix.arch }})
+    runs-on: ${{ matrix.runner }}
+    # the latest push of the pull request only
+    concurrency:
+      group: pull-request-${{ github.event.number }}-${{ matrix.arch }}
+      cancel-in-progress: true
+    env:
+      XCRAFT_ARCH: ${{ matrix.arch }}
+      # the development builds of the pull request, upgrading those of its previous runs
+      XCRAFT_DEV: pr${{ github.event.number }}
+      XCRAFT_DEV_COUNTER: ${{ github.run_number }}
+      # the key signing its development builds and its stage, trusted by nobody but its testers
+      XCRAFT_KEY: ${{ vars.PR_SIGNING_KEY_FINGERPRINT }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          persist-credentials: false
+          # the merge with master and master, which the build IDs of the main branch are checked against
+          fetch-depth: 2
+      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7  # v10.2.0
+        with:
+          version: "0.10.x"
+          activate-environment: true
+      - run: uv sync --locked
+      - uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9  # v6.1.0
+        with:
+          path: |
+            .xcraft/cache/specs
+            .xcraft/cache/resolved
+            .xcraft/cache/base
+          key: xcraft-metadata-${{ matrix.arch }}-${{ github.run_id }}
+          restore-keys: xcraft-metadata-${{ matrix.arch }}-
+      - run: |
+          if ! command -v podman || ! command -v gpg; then
+            sudo apt-get update -q
+            sudo apt-get install -qy podman gnupg
+          fi
+      - name: Set up signing
+        env:
+          PR_SIGNING_PRIVATE_KEY: ${{ secrets.PR_SIGNING_PRIVATE_KEY }}
+        run: |
+          export GNUPGHOME="$RUNNER_TEMP/xcraft-gnupg"
+          printf 'GNUPGHOME=%s\n' "$GNUPGHOME" >> "$GITHUB_ENV"
+          install -d -m 700 "$GNUPGHOME"
+          printf '%s' "$PR_SIGNING_PRIVATE_KEY" | gpg --batch --import
+          gpg --batch --list-secret-keys "$XCRAFT_KEY"
+      # master's builds are fetched from the main bucket, the compiler caches too, never pushed
+      - run: xcraft build --locked --fetch=needed
+        continue-on-error: ${{ matrix.arch == 'aarch64' }}
+      # x86_64 alone, like incoming while aarch64 is not built: a publication replaces all the architectures of the stage
+      - name: Publish the stage
+        if: matrix.arch == 'x86_64_v2'
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.DEV_AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.DEV_AWS_SECRET_ACCESS_KEY }}
+        run: xcraft --debug publish --locked --to dev --stage "$STAGE" --dev "$XCRAFT_DEV" --arch "$XCRAFT_ARCH"
+      - name: Clean up signing
+        if: always()
+        run: |
+          export GNUPGHOME="$RUNNER_TEMP/xcraft-gnupg"
+          if [ -d "$GNUPGHOME" ]; then
+            gpgconf --kill gpg-agent || true
+            rm -rf "$GNUPGHOME"
+          fi
+
+  unpublish:
+    if: github.event.action == 'closed' && github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    # after the publication of its last push, if any
+    concurrency:
+      group: pull-request-${{ github.event.number }}-x86_64_v2
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7  # v10.2.0
+        with:
+          version: "0.10.x"
+          activate-environment: true
+      - run: uv sync --locked
+      - env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.DEV_AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.DEV_AWS_SECRET_ACCESS_KEY }}
+        run: xcraft unpublish --to dev --stage "$STAGE"

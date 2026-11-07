@@ -27,6 +27,8 @@ jobs:
       FORCE_COLOR: "1"
       XCRAFT_ARCH: ${{ matrix.arch }}
       SIGNING_KEY_FINGERPRINT: ${{ vars.SIGNING_KEY_FINGERPRINT }}
+      # the key signing the builds, CI's on master only
+      XCRAFT_KEY: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' && vars.SIGNING_KEY_FINGERPRINT || '' }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
@@ -55,13 +57,9 @@ jobs:
             sudo apt-get update -q
             sudo apt-get install -qy podman gnupg
           fi
-      # what the remote storage has is not built again, nor fetched, but for the builds of the others
-      # arm64 is still in development; tolerate build and upload failures at step level so its check passes too
-      - run: xcraft build --locked --fetch=needed
-        continue-on-error: ${{ matrix.arch == 'aarch64' }}
       - name: Set up signing
         id: signing
-        if: ${{ !cancelled() && github.event_name == 'push' && github.ref == 'refs/heads/master' }}
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
         env:
           SIGNING_PRIVATE_KEY: ${{ secrets.SIGNING_PRIVATE_KEY }}
         run: |
@@ -70,6 +68,11 @@ jobs:
           install -d -m 700 "$GNUPGHOME"
           printf '%s' "$SIGNING_PRIVATE_KEY" | gpg --batch --import
           gpg --batch --list-secret-keys "$SIGNING_KEY_FINGERPRINT"
+      # signed once made: by the CI key on master, by a key of the runner made for them elsewhere, trusted by nobody
+      # what the remote storage has is not built again, nor fetched, but for the builds of the others
+      # arm64 is still in development; tolerate build and upload failures at step level so its check passes too
+      - run: xcraft build --locked --fetch=needed
+        continue-on-error: ${{ matrix.arch == 'aarch64' }}
       # what was built, even when the build failed: xcraft push fails then too, after pushing the others
       - if: ${{ !cancelled() && github.event_name == 'push' && github.ref == 'refs/heads/master' && steps.signing.outcome == 'success' }}
         env:
