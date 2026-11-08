@@ -44,6 +44,9 @@ jobs:
           persist-credentials: false
           # the merge with master and master, which the build IDs of the main branch are checked against
           fetch-depth: 2
+      # the master the merge commit was made from, its first parent, as the main branch xcraft looks for, which the
+      # checkout of a pull request does not have: without it, all the builds would be final ones
+      - run: git update-ref refs/remotes/origin/master HEAD^1
       - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7  # v10.2.0
         with:
           version: "0.10.x"
