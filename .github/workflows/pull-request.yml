@@ -27,6 +27,9 @@ jobs:
             runner: ubuntu-24.04-arm
     name: build (${{ matrix.arch }})
     runs-on: ${{ matrix.runner }}
+    # the comment telling where the stage is
+    permissions:
+      pull-requests: write
     # the latest push of the pull request only
     concurrency:
       group: pull-request-${{ github.event.number }}-${{ matrix.arch }}
@@ -86,7 +89,27 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.DEV_AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.DEV_AWS_SECRET_ACCESS_KEY }}
-        run: xcraft --debug publish --locked --to dev --stage "$STAGE" --dev "$XCRAFT_DEV" --arch "$XCRAFT_ARCH"
+        run: |
+          xcraft --debug publish --locked --to dev --stage "$STAGE" --dev "$XCRAFT_DEV" --arch "$XCRAFT_ARCH" \
+            --summary "$RUNNER_TEMP/stage.md"
+      # where the stage is, how to use it, and the development builds, in the summary of the run, and in a comment of
+      # the pull request, the same one updated by each run
+      - name: Tell where the stage is
+        if: env.PUBLISH == 'true' && matrix.arch == 'x86_64_v2'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          NUMBER: ${{ github.event.number }}
+        run: |
+          marker="<!-- xcraft stage -->"
+          body="$(printf '%s\n### Stage %s, of run %s\n\n' "$marker" "$STAGE" "$GITHUB_RUN_NUMBER"; cat "$RUNNER_TEMP/stage.md")"
+          printf '%s\n' "$body" >> "$GITHUB_STEP_SUMMARY"
+          comments="repos/$GITHUB_REPOSITORY/issues/$NUMBER/comments"
+          id=$(gh api --paginate "$comments" --jq ".[] | select(.body | startswith(\"$marker\")) | .id" | head -n 1)
+          if [ -n "$id" ]; then
+            gh api -X PATCH "repos/$GITHUB_REPOSITORY/issues/comments/$id" -f body="$body" > /dev/null
+          else
+            gh api -X POST "$comments" -f body="$body" > /dev/null
+          fi
       - name: Clean up signing
         if: always()
         run: |
