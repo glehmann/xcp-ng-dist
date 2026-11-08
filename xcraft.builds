@@ -63,6 +63,9 @@ grub.requires."grub2-tools" = ["bash", "device-mapper-libs", "glibc", "grub2-com
 grub.requires."grub2-tools-efi" = ["device-mapper-libs", "glibc", "grub2-common"]
 grub.requires."grub2-tools-extra" = ["bash", "device-mapper-libs", "freetype", "glibc", "grub2-common", "grub2-tools-minimal", "xz-libs"]
 grub.requires."grub2-tools-minimal" = ["bash", "device-mapper-libs", "fuse-libs", "glibc", "grub2-common", "xz-libs"]
+grub.aarch64.requires."grub2-efi-aa64" = ["grub2-common", "grub2-tools", "grub2-tools-minimal"]
+grub.aarch64.requires."grub2-efi-aa64-cdboot" = ["grub2-common"]
+grub.aarch64.requires."grub2-efi-aa64-modules" = ["grub2-common"]
 
 # guest-templates-json
 guest-templates-json.build = 1
@@ -144,6 +147,7 @@ openvswitch.requires."openvswitch3.7-devel" = ["openvswitch3.7", "pkgconf-pkg-co
 openvswitch.requires."openvswitch3.7-ipsec" = ["python3", "python3-openvswitch3.7"]
 openvswitch.requires."openvswitch3.7-test" = ["python3", "python3-openvswitch3.7"]
 openvswitch.requires."python3-openvswitch3.7" = ["glibc", "openvswitch3.7", "python3"]
+openvswitch.aarch64.requires."openvswitch3.7" = ["bash", "glibc", "libatomic", "libcap-ng", "openssl-libs", "python3", "unbound-libs"]
 
 # python-bitarray
 python-bitarray.build = 1
