@@ -92,16 +92,16 @@ jobs:
         run: |
           xcraft --debug publish --locked --to dev --stage "$STAGE" --dev "$XCRAFT_DEV" --arch "$XCRAFT_ARCH" \
             --summary "$RUNNER_TEMP/stage.md"
-      # where the stage is, how to use it, and the development builds, in the summary of the run, and in a comment of
-      # the pull request, the same one updated by each run
+      # where the snapshot of the stage is, how to use it, and the development builds, in the summary of the run, and in
+      # a comment of the pull request by architecture, the same one updated by each run
       - name: Tell where the stage is
         if: env.PUBLISH == 'true' && matrix.arch == 'x86_64_v2'
         env:
           GH_TOKEN: ${{ github.token }}
           NUMBER: ${{ github.event.number }}
         run: |
-          marker="<!-- xcraft stage -->"
-          body="$(printf '%s\n### Stage %s, of run %s\n\n' "$marker" "$STAGE" "$GITHUB_RUN_NUMBER"; cat "$RUNNER_TEMP/stage.md")"
+          marker="<!-- xcraft stage $XCRAFT_ARCH -->"
+          body="$(printf '%s\n### %s build %s succeeded\n\n' "$marker" "$XCRAFT_ARCH" "$GITHUB_RUN_NUMBER"; cat "$RUNNER_TEMP/stage.md")"
           printf '%s\n' "$body" >> "$GITHUB_STEP_SUMMARY"
           comments="repos/$GITHUB_REPOSITORY/issues/$NUMBER/comments"
           id=$(gh api --paginate "$comments" --jq ".[] | select(.body | startswith(\"$marker\")) | .id" | head -n 1)
