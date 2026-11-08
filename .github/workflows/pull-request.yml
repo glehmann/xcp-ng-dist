@@ -27,8 +27,10 @@ jobs:
             runner: ubuntu-24.04-arm
     name: build (${{ matrix.arch }})
     runs-on: ${{ matrix.runner }}
-    # the comment telling where the stage is
     permissions:
+      # the runs of the pull request, which number its builds
+      actions: read
+      # the comment telling where the stage is
       pull-requests: write
     # the latest push of the pull request only
     concurrency:
@@ -37,13 +39,29 @@ jobs:
     env:
       XCRAFT_ARCH: ${{ matrix.arch }}
       PUBLISH: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
-      # the development builds of the pull request, upgrading those of its previous runs
+      # the development builds of the pull request, upgrading those of its previous runs: numbered by them, see below
       XCRAFT_DEV: pr${{ github.event.number }}
-      XCRAFT_DEV_COUNTER: ${{ github.run_number }}
       # the key signing its development builds and its stage, trusted by nobody but its testers; for a fork, a key of
       # the runner made for them
       XCRAFT_KEY: ${{ github.event.pull_request.head.repo.full_name == github.repository && vars.PR_SIGNING_KEY_FINGERPRINT || '' }}
     steps:
+      # its build number: how many runs of this workflow it had, up to this one, those cancelled by a later push
+      # included, which only grows, as $XCRAFT_DEV_COUNTER, for the development builds to upgrade those of the previous
+      # runs, rather than the number of the run, of all the pull requests
+      - name: Number the build
+        env:
+          GH_TOKEN: ${{ github.token }}
+          HEAD_REF: ${{ github.event.pull_request.head.ref }}
+          HEAD_REPO: ${{ github.event.pull_request.head.repo.full_name }}
+          # those of an earlier pull request of the same branch are older
+          CREATED: ${{ github.event.pull_request.created_at }}
+        run: |
+          runs="repos/$GITHUB_REPOSITORY/actions/workflows/pull-request.yml/runs?event=pull_request&per_page=100"
+          select=".workflow_runs | map(select(.run_number <= $GITHUB_RUN_NUMBER and .created_at >= \"$CREATED\"
+            and .head_repository.full_name == \"$HEAD_REPO\")) | length"
+          n=$(gh api --paginate --method GET "$runs" -f branch="$HEAD_REF" --jq "$select" | awk '{ n += $1 } END { print n }')
+          [ "$n" -gt 0 ]
+          printf 'XCRAFT_DEV_COUNTER=%s\n' "$n" >> "$GITHUB_ENV"
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
           persist-credentials: false
@@ -108,7 +126,7 @@ jobs:
         run: |
           marker="<!-- xcraft stage $XCRAFT_ARCH -->"
           body="$(
-            printf '%s\n### %s build %s succeeded\n\n' "$marker" "$XCRAFT_ARCH" "$GITHUB_RUN_NUMBER"
+            printf '%s\n### %s build %s succeeded\n\n' "$marker" "$XCRAFT_ARCH" "$XCRAFT_DEV_COUNTER"
             cat "$RUNNER_TEMP/stage.md"
             if [ -s "$RUNNER_TEMP/contents.md" ]; then
               printf '\n#### The packages, compared with master\n\n'
