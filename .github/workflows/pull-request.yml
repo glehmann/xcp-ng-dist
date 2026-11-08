@@ -90,7 +90,7 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.DEV_AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.DEV_AWS_SECRET_ACCESS_KEY }}
         run: |
-          xcraft --debug publish --locked --to dev --stage "$STAGE" --dev "$XCRAFT_DEV" --arch "$XCRAFT_ARCH" \
+          xcraft publish --locked --to dev --stage "$STAGE" --dev "$XCRAFT_DEV" --arch "$XCRAFT_ARCH" \
             --summary "$RUNNER_TEMP/stage.md"
       # where the snapshot of the stage is, how to use it, and the development builds, in the summary of the run, and in
       # a comment of the pull request by architecture, the same one updated by each run
