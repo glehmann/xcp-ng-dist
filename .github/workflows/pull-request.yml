@@ -92,8 +92,14 @@ jobs:
         run: |
           xcraft publish --locked --to dev --stage "$STAGE" --dev "$XCRAFT_DEV" --arch "$XCRAFT_ARCH" \
             --summary "$RUNNER_TEMP/stage.md"
-      # where the snapshot of the stage is, how to use it, and the development builds, in the summary of the run, and in
-      # a comment of the pull request by architecture, the same one updated by each run
+      # what the pull request changes in the packages of the snapshot, compared with master, without building: for the
+      # comment, which goes without it if it fails
+      - name: Compare the packages with master
+        if: env.PUBLISH == 'true' && matrix.arch == 'x86_64_v2'
+        continue-on-error: true
+        run: xcraft contents --diff HEAD^1 --markdown > "$RUNNER_TEMP/contents.md"
+      # where the snapshot of the stage is, how to use it, its development builds, and what changes in its packages, in
+      # the summary of the run, and in a comment of the pull request by architecture, the same one updated by each run
       - name: Tell where the stage is
         if: env.PUBLISH == 'true' && matrix.arch == 'x86_64_v2'
         env:
@@ -101,7 +107,14 @@ jobs:
           NUMBER: ${{ github.event.number }}
         run: |
           marker="<!-- xcraft stage $XCRAFT_ARCH -->"
-          body="$(printf '%s\n### %s build %s succeeded\n\n' "$marker" "$XCRAFT_ARCH" "$GITHUB_RUN_NUMBER"; cat "$RUNNER_TEMP/stage.md")"
+          body="$(
+            printf '%s\n### %s build %s succeeded\n\n' "$marker" "$XCRAFT_ARCH" "$GITHUB_RUN_NUMBER"
+            cat "$RUNNER_TEMP/stage.md"
+            if [ -s "$RUNNER_TEMP/contents.md" ]; then
+              printf '\n#### The packages, compared with master\n\n'
+              cat "$RUNNER_TEMP/contents.md"
+            fi
+          )"
           printf '%s\n' "$body" >> "$GITHUB_STEP_SUMMARY"
           comments="repos/$GITHUB_REPOSITORY/issues/$NUMBER/comments"
           id=$(gh api --paginate "$comments" --jq ".[] | select(.body | startswith(\"$marker\")) | .id" | head -n 1)
