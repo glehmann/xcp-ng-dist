@@ -19,6 +19,9 @@ jobs:
             runner: ubuntu-24.04-arm
     name: build (${{ matrix.arch }})
     runs-on: ${{ matrix.runner }}
+    # the CI key and the credentials of the main bucket, in the main environment, which only master deploys to: a branch
+    # changing this workflow cannot get them; none for the other branches, which GitHub would refuse it
+    environment: ${{ github.ref == 'refs/heads/master' && 'main' || '' }}
     # one push of a branch at a time on each architecture: the latest one has the latest builds
     concurrency:
       group: build-${{ github.ref }}-${{ matrix.arch }}
