@@ -1,12 +1,13 @@
 name: Pull request
 
-# the pull requests of the branches of the repository: their packages built, the packages they change, and those built
-# against them, as development builds numbered by the run, and their repositories and ISOs published in a stage of the
-# dev bucket of their own, pr<number>, signed by the PR key, for the testers; removed once closed. Those of forks have
-# no secrets: build.yml builds them, publishing nothing.
+# the pull requests: their packages built, the packages they change, and those built against them, as development
+# builds numbered by the run; those of the branches of the repository published in a stage of the dev bucket of their
+# own, pr<number>, signed by the PR key, for the testers, and removed once closed, see pull-request-closed.yml; those of
+# forks have no secrets, and publish nothing. The jobs always run, to show no skipped checks: the steps a pull request
+# does not need are skipped instead.
 on:
   pull_request:
-    types: [opened, synchronize, reopened, closed]
+    types: [opened, synchronize, reopened]
 
 permissions: {}
 
@@ -15,8 +16,7 @@ env:
   STAGE: pr${{ github.event.number }}
 
 jobs:
-  publish:
-    if: github.event.action != 'closed' && github.event.pull_request.head.repo.full_name == github.repository
+  build:
     strategy:
       fail-fast: false
       matrix:
@@ -25,7 +25,7 @@ jobs:
             runner: ubuntu-latest
           - arch: aarch64
             runner: ubuntu-24.04-arm
-    name: publish (${{ matrix.arch }})
+    name: build (${{ matrix.arch }})
     runs-on: ${{ matrix.runner }}
     # the latest push of the pull request only
     concurrency:
@@ -33,11 +33,13 @@ jobs:
       cancel-in-progress: true
     env:
       XCRAFT_ARCH: ${{ matrix.arch }}
+      PUBLISH: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
       # the development builds of the pull request, upgrading those of its previous runs
       XCRAFT_DEV: pr${{ github.event.number }}
       XCRAFT_DEV_COUNTER: ${{ github.run_number }}
-      # the key signing its development builds and its stage, trusted by nobody but its testers
-      XCRAFT_KEY: ${{ vars.PR_SIGNING_KEY_FINGERPRINT }}
+      # the key signing its development builds and its stage, trusted by nobody but its testers; for a fork, a key of
+      # the runner made for them
+      XCRAFT_KEY: ${{ github.event.pull_request.head.repo.full_name == github.repository && vars.PR_SIGNING_KEY_FINGERPRINT || '' }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
@@ -66,6 +68,7 @@ jobs:
             sudo apt-get install -qy podman gnupg
           fi
       - name: Set up signing
+        if: env.PUBLISH == 'true'
         env:
           PR_SIGNING_PRIVATE_KEY: ${{ secrets.PR_SIGNING_PRIVATE_KEY }}
         run: |
@@ -79,7 +82,7 @@ jobs:
         continue-on-error: ${{ matrix.arch == 'aarch64' }}
       # x86_64 alone, like incoming while aarch64 is not built: a publication replaces all the architectures of the stage
       - name: Publish the stage
-        if: matrix.arch == 'x86_64_v2'
+        if: env.PUBLISH == 'true' && matrix.arch == 'x86_64_v2'
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.DEV_AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.DEV_AWS_SECRET_ACCESS_KEY }}
@@ -92,23 +95,3 @@ jobs:
             gpgconf --kill gpg-agent || true
             rm -rf "$GNUPGHOME"
           fi
-
-  unpublish:
-    if: github.event.action == 'closed' && github.event.pull_request.head.repo.full_name == github.repository
-    runs-on: ubuntu-latest
-    # after the publication of its last push, if any
-    concurrency:
-      group: pull-request-${{ github.event.number }}-x86_64_v2
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
-        with:
-          persist-credentials: false
-      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7  # v10.2.0
-        with:
-          version: "0.10.x"
-          activate-environment: true
-      - run: uv sync --locked
-      - env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.DEV_AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.DEV_AWS_SECRET_ACCESS_KEY }}
-        run: xcraft unpublish --to dev --stage "$STAGE"

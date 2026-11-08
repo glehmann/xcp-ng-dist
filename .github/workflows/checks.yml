@@ -1,13 +1,12 @@
 name: Checks
 
-on: [push, pull_request]
+# on the pushes of the repository; those of the forks' pull requests are checked by their builds, see pull-request.yml
+on: push
 
 permissions: {}
 
 jobs:
   lock:
-    # the pull requests of forks only: the pushes of the repository cover the others
-    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository
     runs-on: ubuntu-latest
     env:
       FORCE_COLOR: "1"

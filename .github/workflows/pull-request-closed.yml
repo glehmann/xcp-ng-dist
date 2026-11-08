@@ -1,0 +1,32 @@
+name: Pull request closed
+
+# the stage of a closed pull request of a branch of the repository removed from the dev bucket, see pull-request.yml;
+# a workflow of its own, which the open pull requests do not show as a skipped check
+on:
+  pull_request:
+    types: [closed]
+
+permissions: {}
+
+jobs:
+  unpublish:
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    # after the publication of its last push, if any
+    concurrency:
+      group: pull-request-${{ github.event.number }}-x86_64_v2
+    env:
+      FORCE_COLOR: "1"
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7  # v10.2.0
+        with:
+          version: "0.10.x"
+          activate-environment: true
+      - run: uv sync --locked
+      - env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.DEV_AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.DEV_AWS_SECRET_ACCESS_KEY }}
+        run: xcraft unpublish --to dev --stage "pr${{ github.event.number }}"
