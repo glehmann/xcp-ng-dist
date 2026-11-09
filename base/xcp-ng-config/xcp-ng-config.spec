@@ -44,7 +44,20 @@ skip_if_unavailable=False
 gpgcheck=0
 EOF
 
+# Permit ssh root login
+install -d -m 700 %{buildroot}%{_sysconfdir}/ssh/sshd_config.d
+# "30" sorts before Alma 10.0's "40" and leaves room for overriding
+cat > %{buildroot}%{_sysconfdir}/ssh/sshd_config.d/30-xcpng.conf <<'EOF'
+# This file will be overwritten on upgrade, do not modify
+PermitRootLogin yes
+EOF
+cat > %{buildroot}%{_sysconfdir}/ssh/sshd_config.d/00-custom.conf <<'EOF'
+# This file is reserved for user customisation, preserved on upgrade
+EOF
+
 %files
+%config(noreplace) %{_sysconfdir}/ssh/sshd_config.d/00-custom.conf
+%config %{_sysconfdir}/ssh/sshd_config.d/30-xcpng.conf
 %config(noreplace) %{_sysconfdir}/systemd/journald.conf.d/90-custom.conf
 %{_sysconfdir}/yum.repos.d/
 %{_prefix}/lib/systemd/
@@ -55,3 +68,4 @@ EOF
 - Initial release
 - Enable persistent systemd journal with suitably large size, enable user overrides
 - Ship xcp-ng.repo, previously in xcp-ng-release
+- Permit ssh root login
