@@ -56,6 +56,11 @@ cat > %{buildroot}%{_sysconfdir}/ssh/sshd_config.d/00-custom.conf <<'EOF'
 # This file is reserved for user customisation, preserved on upgrade
 EOF
 
+# Mask services installed by iptables-services
+install -d -m 755 %{buildroot}%{_sysconfdir}/systemd/system
+ln -s /dev/null %{buildroot}%{_sysconfdir}/systemd/system/iptables.service
+ln -s /dev/null %{buildroot}%{_sysconfdir}/systemd/system/ip6tables.service
+
 %files
 %{_sysconfdir}/ssh/
 %{_sysconfdir}/systemd/
@@ -69,3 +74,4 @@ EOF
 - Enable persistent systemd journal with suitably large size, enable user overrides
 - Ship xcp-ng.repo, previously in xcp-ng-release
 - Permit ssh root login
+- Disable iptables.service
