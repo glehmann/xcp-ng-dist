@@ -11,7 +11,7 @@
 
 # This defines the base package name's version.
 
-%define pkgname openvswitch3.7
+%define pkgname openvswitch
 
 
 %if 0%{?commit:1}
@@ -59,7 +59,7 @@ Summary: Open vSwitch
 Group: System Environment/Daemons daemon/database/utilities
 URL: http://www.openvswitch.org/
 Version: 3.7.1
-Release: 3.2%{?dist}
+Release: 3.3%{?dist}
 
 # Nearly all of openvswitch is ASL 2.0.  The bugtool is LGPLv2+, and the
 # lib/sflow*.[ch] files are SISSL
@@ -108,29 +108,6 @@ Patch1003: CP-23607-Inject-multicast-query-messages-on-bond-por.patch
 # other techniques, carefully crafted assembly instructions.  As such it
 # needs extensive work to port it to other architectures.
 ExclusiveArch: x86_64 aarch64 ppc64le s390x
-
-# Do not enable this otherwise YUM will break on any upgrade.
-# Provides: openvswitch
-# XCP-ng's repositories have no other openvswitch: provide the name xapi requires, and replace XenServer's
-Provides: openvswitch = %{version}-%{release}
-Obsoletes: openvswitch < 3.7
-Conflicts: openvswitch < 3.7
-Conflicts: openvswitch-dpdk < 3.7
-Conflicts: openvswitch2.10
-Conflicts: openvswitch2.11
-Conflicts: openvswitch2.12
-Conflicts: openvswitch2.13
-Conflicts: openvswitch2.14
-Conflicts: openvswitch2.15
-Conflicts: openvswitch2.16
-Conflicts: openvswitch2.17
-Conflicts: openvswitch3.0
-Conflicts: openvswitch3.1
-Conflicts: openvswitch3.2
-Conflicts: openvswitch3.3
-Conflicts: openvswitch3.4
-Conflicts: openvswitch3.5
-Conflicts: openvswitch3.6
 
 # FIXME Sphinx is used to generate some manpages, unfortunately, on RHEL, it's
 # in the -optional repository and so we can't require it directly since RHV
@@ -831,6 +808,10 @@ exit 0
 %endif
 
 %changelog
+* Mon Nov 09 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 3.7.1-3.3
+- Name the packages openvswitch rather than openvswitch3.7, to update those named openvswitch
+  without the obsoletes of another name
+
 * Thu Nov 05 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 3.7.1-3.2
 - Apply the IGMP snooping patches of XenServer's openvswitch 2.17.7: the IPv6 multicast
   snooping toggle, which xcp-networkd sets, and the IGMP queries on SLB bond ports
