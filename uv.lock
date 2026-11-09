@@ -367,12 +367,12 @@ dependencies = [
 ]
 
 [package.metadata]
-requires-dist = [{ name = "xcraft", git = "https://github.com/glehmann/xcraft?rev=e392aba429c87c4ac602ad79bef4f659162289ec" }]
+requires-dist = [{ name = "xcraft", git = "https://github.com/glehmann/xcraft?rev=72eb0485fb6e0b973349c349d3296513b7df1ef9" }]
 
 [[package]]
 name = "xcraft"
 version = "0.1.0"
-source = { git = "https://github.com/glehmann/xcraft?rev=e392aba429c87c4ac602ad79bef4f659162289ec#e392aba429c87c4ac602ad79bef4f659162289ec" }
+source = { git = "https://github.com/glehmann/xcraft?rev=72eb0485fb6e0b973349c349d3296513b7df1ef9#72eb0485fb6e0b973349c349d3296513b7df1ef9" }
 dependencies = [
     { name = "boto3" },
     { name = "pydantic" },
