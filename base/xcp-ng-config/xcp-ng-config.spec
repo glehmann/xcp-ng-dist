@@ -64,6 +64,8 @@ ln -s /dev/null %{buildroot}%{_sysconfdir}/systemd/system/ip6tables.service
 %files
 %config(noreplace) %{_sysconfdir}/ssh/sshd_config.d/00-custom.conf
 %config %{_sysconfdir}/ssh/sshd_config.d/30-xcpng.conf
+%{_sysconfdir}/systemd/system/iptables.service
+%{_sysconfdir}/systemd/system/ip6tables.service
 %config(noreplace) %{_sysconfdir}/systemd/journald.conf.d/90-custom.conf
 %{_sysconfdir}/yum.repos.d/
 %{_prefix}/lib/systemd/
