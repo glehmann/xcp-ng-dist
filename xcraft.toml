@@ -111,6 +111,8 @@ installer = [
     "util-linux", "vim-minimal",
     # the installer, xl for its preinit, and the hardware support
     "host-installer-startup", "chrony", "dhcp-client", "xen-dom0-tools", "kernel", "linux-firmware",
+    # the DNS of systemd-networkd, which host-installer requires
+    "systemd-resolved",
     # the firmware linux-firmware recommends
     "amd-gpu-firmware", "amd-ucode-firmware", "atheros-firmware", "brcmfmac-firmware", "cirrus-audio-firmware", "intel-audio-firmware",
     "intel-gpu-firmware", "mt7xxx-firmware", "nvidia-gpu-firmware", "nxpwireless-firmware", "realtek-firmware", "tiwilink-firmware",

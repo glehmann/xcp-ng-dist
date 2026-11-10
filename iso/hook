@@ -46,7 +46,14 @@ def installimg(root: Path) -> None:
     (installer / "EULA").symlink_to("../../../EULA")
     branding = one(root / "usr/lib", "python3*/site-packages/xcp/branding.py")
     (installer / "version.py").symlink_to(f"../../../{branding.relative_to(root)}")
-    subprocess.run(["systemctl", f"--root={root}", "enable", "installer", "installer-getty@tty2"], check=True)
+    # systemd-networkd gives the DNS servers from DHCP to systemd-resolved: without /etc/resolv.conf, glibc asks
+    # 127.0.0.1, where nothing listens
+    resolv = root / "etc/resolv.conf"
+    resolv.unlink(missing_ok=True)
+    resolv.symlink_to("../run/systemd/resolve/stub-resolv.conf")
+    subprocess.run(
+        ["systemctl", f"--root={root}", "enable", "installer", "installer-getty@tty2", "systemd-resolved"], check=True
+    )
     for unit in ("getty@tty1", "fcoe", "lldpad", "xen-init-dom0", "xenconsoled", "xenstored", "chronyd", "chrony-wait"):
         subprocess.run(["systemctl", f"--root={root}", "--quiet", "disable", unit], check=False)  # when installed
 

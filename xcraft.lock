@@ -2343,6 +2343,7 @@ version = 1
 "systemd-libs" = "257-23.el10_2.2.alma.1 x86_64_v2 b98edb9ade1b741a888dad6d074a0e1f5aaac3e0c851753586df75719cf048f5 systemd"
 "systemd-networkd" = "257.9-2.el10_2.alma_altarch x86_64_v2 1101831c3764b2f433435a5eee3925a33676bf884d97ec844e9a41151d99e15f systemd-extras"
 "systemd-pam" = "257-23.el10_2.2.alma.1 x86_64_v2 1b88da3391fe7bebd09bce511e3e5fd2c0fbc7a85a82b873e7620d69cf9d3802 systemd"
+"systemd-resolved" = "257-23.el10_2.2.alma.1 x86_64_v2 d7b32d96845c198b98420f99fc21297b1df1a7e7ec3bf95056eb9cf015d5f9b3 systemd"
 "systemd-rpm-macros" = "257-23.el10_2.2.alma.1 noarch 25a6ab6794dbe66dcaef12fe741c73df6fb52e85ec705973071b879d9a20cdcd systemd"
 "systemd-udev" = "257-23.el10_2.2.alma.1 x86_64_v2 e26e258c6622a68eeb5cae5b602d15093aef637a21c5f8e8cadc1e106eefa553 systemd"
 "systemtap-runtime" = "5.4-3.el10 x86_64_v2 e62b1d15388df7fb890fa78898f56a28418e6e53b4028a84e68af60412b63c44 systemtap"
@@ -8440,6 +8441,7 @@ version = 1
     "systemd-libs",
     "systemd-networkd",
     "systemd-pam",
+    "systemd-resolved",
     "systemd-udev",
     "systemtap-runtime",
     "tar",
