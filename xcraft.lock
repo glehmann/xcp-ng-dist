@@ -1398,6 +1398,8 @@ version = 1
 "almalinux-release" = "10.2-21.el10 x86_64_v2 9a0ed34eb92cb5cfed087f3c103bb17fb92da5f5a625db49cd55ab62f0c223ae almalinux-release"
 "almalinux-repos" = "10.2-21.el10 x86_64_v2 1fbe99315e92287d13375e216fc2ede144592f66f11642a2a6338f9c12744359 almalinux-release"
 "alternatives" = "1.30-2.el10 x86_64_v2 598c955ec1ce6285ea0ac448d0145313f6fad770334945faf82abfd580af2ce6 chkconfig"
+"amd-gpu-firmware" = "20260827-23.3.el10_2 noarch 848addbd9a46438dd3fd9240ca10ad502cc0388bfca3f794ee5679f8917e7da8 linux-firmware"
+"amd-ucode-firmware" = "20260827-23.3.el10_2 noarch 5f3dae2aa7cef450ff5f42fbd02afd30d3532500305e3f52370bb5c1e43c51e4 linux-firmware"
 "annobin-docs" = "13.02-2.el10 noarch ee70939ca73e3d2b917591b6646ae2817efdd20a9b102963002717f95ff4e3a6 annobin"
 "annobin-plugin-gcc" = "13.02-2.el10 x86_64_v2 e00131e63266104d214c37f68b25d07cc85e23b5371e147a1ef150a16bd0a24c annobin"
 "apr" = "1.7.5-3.el10 x86_64_v2 42f7352c84985709bcd2873c1085b9ee73cbfeb607021901f5a990e8c257b12b apr"
@@ -1405,6 +1407,7 @@ version = 1
 "apr-util-lmdb" = "1.6.3-23.el10_2.1 x86_64_v2 40466a173f587b19da8d09e42ef81b8f4c2747d708231b8552e02c62d11993d2 apr-util"
 "apr-util-openssl" = "1.6.3-23.el10_2.1 x86_64_v2 d5939d757357192820462244ceee72c5615c770562b4984f6bb84c324ca2bf19 apr-util"
 "asciidoc" = "10.2.0-12.el10 noarch bb34a342421805e3df245b074ee2787ca5d2f0134e2fecbefafad3285a14a74c asciidoc"
+"atheros-firmware" = "20260827-23.3.el10_2 noarch 45538b266e701616715782256ab3deb47462462232d0ed468bc2622056c5d472 linux-firmware"
 "atop" = "2.11.1-1.el10_1.alma_altarch x86_64_v2 91a4b9b635279e2fedf4e0c94dfc1a8a2e561d09d5e2972e349ee6e83ea909a9 atop"
 "attr" = "2.6.0-1.el10_2 x86_64_v2 e1543ffd12b2fc48707d0dd824d49822a85e997516f2477e66e27a815675852b attr"
 "audit" = "4.0.3-5.el10 x86_64_v2 1163f2f180c379c644924aa3019bba7af2f3898cbf55474623246fe08d66f216 audit"
@@ -1432,6 +1435,7 @@ version = 1
 "boost-system" = "1.83.0-7.el10 x86_64_v2 5b708714f354d274fd2bda0bc624efe632d1e69b2af36ae768f67e3080f81749 boost"
 "boost-thread" = "1.83.0-7.el10 x86_64_v2 a9482a2351b25e09e4c6a3de5511d6d8c2061d343202bed3bbeb26b7b4aa040c boost"
 "bpftool" = "7.7.0-2.el10 x86_64_v2 d44fcb646afeb5182925d3a73e627d3aa35b6333e1f1da00ece79cd6a0a6bbf2 bpftool"
+"brcmfmac-firmware" = "20260827-23.3.el10_2 noarch e1d74d9571489b379538b39ef783633dde8b2f3ea43c298f0742d721963ffa39 linux-firmware"
 "bridge-utils" = "1.7.1-11.el10_0.alma_altarch x86_64_v2 95e79ac43d48ff01c5608ebf80282c2fd17871f04208ad463b1c3d7afb99ce40 bridge-utils"
 "brotli" = "1.1.0-8.el10_2 x86_64_v2 bf22b615fe3ea530ee8f28fcde28680dd3816d908a208e2b8215995cc7787e91 brotli"
 "brotli-devel" = "1.1.0-8.el10_2 x86_64_v2 fdf230806e1bd9e4d0dec446d851057df1e83cb466ec6d0fc99ef2e793ad6642 brotli"
@@ -1449,6 +1453,7 @@ version = 1
 "chkconfig" = "1.30-2.el10 x86_64_v2 452c0b0baea9fa1e804a70bcb3c02bdcc3b176efd5d811cb4d535e4cd007a674 chkconfig"
 "chrony" = "4.8-2.el10 x86_64_v2 cb1dcc8596440c214d8b1ed9040f212d09a681c3c9fe06304dfc81e3602cdae9 chrony"
 "cifs-utils" = "7.7-1.el10_2 x86_64_v2 ae05d9e9389437383e9954b8a3d47172a3ad21dd1c14988ded74615a3c8b4897 cifs-utils"
+"cirrus-audio-firmware" = "20260827-23.3.el10_2 noarch 856cce0a6cf47203296ac4cbf14b2667487ac6f7ee2e9a2cf4ea46b89c72a7ce linux-firmware"
 "cmake" = "3.31.8-1.el10 x86_64_v2 f51580f9c781f99380d45f34d5abec7958678edae53617f186f42aee6d325f9f cmake"
 "cmake-data" = "3.31.8-1.el10 noarch 157396ea7f30dfd5b297a9370ae429e8031e3c45fc6ea98f8e7bc2fdcdef6b56 cmake"
 "cmake-filesystem" = "3.31.8-1.el10 x86_64_v2 26a3541d2dd2f3b5be59bce0e4e7b68def680cb830e3fca999585cb50d305100 cmake"
@@ -1638,6 +1643,8 @@ version = 1
 "initscripts" = "10.26-2.el10 x86_64_v2 bee6ba4dc36ccc650090ac38b51aaf0ed2fb0402d382b03a2b9eb1ada8a2a992 initscripts"
 "initscripts-rename-device" = "10.26-2.el10 x86_64_v2 c2f11bdbf98600c2c632f5207901beae3716176431bc1b97f39eed648a541c59 initscripts"
 "initscripts-service" = "10.26-2.el10 noarch dcafa01802d9e327e49f56bf3c45aaa7209f9cb9b347ffcdbc5846d91b99d951 initscripts"
+"intel-audio-firmware" = "20260827-23.3.el10_2 noarch f7b50666dd1af35ce2da92ac786e60567e1884334428678e17c14aa2a167d8c7 linux-firmware"
+"intel-gpu-firmware" = "20260827-23.3.el10_2 noarch 615fd72950cd7cb6c30cf0eca0596d211528806465766a0ddd94d3b6be09a2fd linux-firmware"
 "ioping" = "1.3-9.el10_2.alma_altarch x86_64_v2 01507cb35c43f0ed28538c476af2c196bb4eba5af840c351212cac6d512cab30 ioping"
 "iotop-c" = "1.26-4.el10 x86_64_v2 d6a412ffd288cdb14fb5fad44c148f014e2ea49172593b462098a257a0b72452 iotop-c"
 "iowatcher" = "1.3.0-13.el10 x86_64_v2 61367ec6a782131573371c0dee08dca9d68b64c874c04d1804cdbeea03e86cb8 blktrace"
@@ -1922,6 +1929,7 @@ version = 1
 "mokutil" = "2:0.7.2-4.el10.alma.1 x86_64_v2 42e1b4154034f835f683db1407485de6ca62915813f47f3accfbdbab2e50ccd2 mokutil"
 "mpdecimal" = "2.5.1-12.el10 x86_64_v2 1e21e561aadc58c12e8382792f6273b8c86ebf43ccfca0216ef5866b6cf29398 mpdecimal"
 "mpfr" = "4.2.1-8.el10 x86_64_v2 8c5ca2b563b2208c401c07dd39ad4b49ac5e3db4ea5c475ce114aad4bc6302bf mpfr"
+"mt7xxx-firmware" = "20260827-23.3.el10_2 noarch b3be73cc75165638e18e0925f67bc46c74fe43e5cb2d787410563181d9dd169c linux-firmware"
 "mtools" = "4.0.43-7.el10 x86_64_v2 2675ebb8333b9c1746d09af7b69c614912094cfcf08d6fa22fb2f339f06d6935 mtools"
 "mtr" = "2:0.95-11.el10 x86_64_v2 b91779273e5d4f3701b16e87b04639697914b2cf75a589bc232ff3ffd816a6f8 mtr"
 "nano" = "8.1-3.el10 x86_64_v2 9d88f7c8c63102e1608303ebda4f824fff0a01cb877bb937840082c1e7763d93 nano"
@@ -1949,7 +1957,9 @@ version = 1
 "numactl" = "2.0.19-3.el10 x86_64_v2 403ffa010c28ada29a17476f4e5fd5c1524ad52b188d075aba07700399a62a65 numactl"
 "numactl-devel" = "2.0.19-3.el10 x86_64_v2 1b2f1994bd804d28a97c7f2d3ded833d6f55d1793f36ff69dd73b6f8a336fe7a numactl"
 "numactl-libs" = "2.0.19-3.el10 x86_64_v2 63d47a068bbbba6afaa291816b52a01e0b05c376d20da4c712db365514182235 numactl"
+"nvidia-gpu-firmware" = "20260827-23.3.el10_2 noarch 5557d13043540d90288c6c94ea60e29395a91856b3b7af9a0b180f47ed065951 linux-firmware"
 "nvme-cli" = "2.16-2.el10 x86_64_v2 9f101ed10faacb37ba8425d7e55c1807ea1f45a688f1bdaf9b15587c47e8022a nvme-cli"
+"nxpwireless-firmware" = "20260827-23.3.el10_2 noarch b0525999e636028207cabfd180ad861d0486b1d6eafac4e3797db2cb4cb4199f linux-firmware"
 "ocaml-srpm-macros" = "10-4.el10 noarch f9ee48e40c5bc2dcdd87cb85a3d69088527801cf5c309f565753f834df097cb7 ocaml-srpm-macros"
 "ocl-icd" = "2.3.2-8.el10 x86_64_v2 03892a33768d07db2f8e564650a0cc84aaa10ef1ffeb895fd5939cf579c86865 ocl-icd"
 "open-sans-fonts" = "1.10-24.el10 noarch 4211226285b5fe071f9d5d1609be60ff3cef2074ca232afdabfb367d2ee9c51d open-sans-fonts"
@@ -2265,6 +2275,7 @@ version = 1
 "quota-nls" = "1:4.09-10.el10 noarch 70902646be08b685dbe7c636092c2af98660e0891f60d8298744336c3234826c quota"
 "rdma-core-devel" = "61.0-1.el10 x86_64_v2 a4cb5d0941a0fce746e7e9b94a4a2ff0ec05abb9ceb08630651396fc14b928ee rdma-core"
 "readline" = "8.2-11.el10 x86_64_v2 2f1613b41d576a6177696c3909a193a833fddb70d374ff21d6cf95d3c4ef9c5e readline"
+"realtek-firmware" = "20260827-23.3.el10_2 noarch 81f626717f319fddb199e30467d10330b12420c474d513078c98247c122fb345 linux-firmware"
 "redhat-rpm-config" = "295-1.el10.alma.1 noarch e20c50076fdca77b99fca2f5892836022bd5a612e45b2b615494c123fe682873 redhat-rpm-config"
 "redhat-text-vf-fonts" = "4.1.0-1.el10 noarch b30117cd215b8de56ce8fb9090fca9857c7dc6f4fb48494adf2dec5f92fcdb7a redhat-fonts"
 "rootfiles" = "8.1-54.el10 noarch d5ad82249e644cefb1e8c8ce64ff717a06df68e121183650ef13a104a220795d rootfiles"
@@ -2344,6 +2355,7 @@ version = 1
 "telnet" = "1:0.17-94.el10 x86_64_v2 eb19ad3df359a98f58c082701d68d7e0dff6944265aeddabf81ea76adeaf75fe telnet"
 "texinfo" = "7.1-6.el10 x86_64_v2 b4ab93ac969dda24d027898bb9e264802d0465ced9ddd46ca45cdafeb7328fa0 texinfo"
 "theora-tools" = "1:1.1.1-39.el10 x86_64_v2 6afd3906b1032ec232630fd63965c07d97fb12b6d512a2468b7452fea1fe15ca libtheora"
+"tiwilink-firmware" = "20260827-23.3.el10_2 noarch 69f90d7f8db259b9a1fd283743251229bf39b89e5a4189058b1a8b458905a6a7 linux-firmware"
 "tmux" = "3.3a-13.20230918gitb202a2f.el10 x86_64_v2 8de6cc986b38436f4a852165e7c391cb5ada15936342e67fa134e80a1d79cf47 tmux"
 "tpm2-tss" = "4.1.3-6.el10 x86_64_v2 d9091f6c68b93b5549b9621848f04b6e913e819b50d65d67d1aa576226befd2e tpm2-tss"
 "trace-cmd" = "3.3.1-3.el10 x86_64_v2 9c41d613215c32204dc2240b6ea2755b79693f8c10afb285e85f830cfeba0bb1 trace-cmd"
@@ -7839,8 +7851,11 @@ version = 1
     "SDL3",
     "almalinux-gpg-keys",
     "alternatives",
+    "amd-gpu-firmware",
+    "amd-ucode-firmware",
     "annobin-docs",
     "annobin-plugin-gcc",
+    "atheros-firmware",
     "atop",
     "attr",
     "audit",
@@ -7864,6 +7879,7 @@ version = 1
     "boost-system",
     "boost-thread",
     "bpftool",
+    "brcmfmac-firmware",
     "bridge-utils",
     "bubblewrap",
     "busybox",
@@ -7876,6 +7892,7 @@ version = 1
     "chkconfig",
     "chrony",
     "cifs-utils",
+    "cirrus-audio-firmware",
     "cmake-filesystem",
     "coreutils",
     "coreutils-common",
@@ -7998,6 +8015,8 @@ version = 1
     "initscripts",
     "initscripts-rename-device",
     "initscripts-service",
+    "intel-audio-firmware",
+    "intel-gpu-firmware",
     "ioping",
     "iotop-c",
     "iowatcher",
@@ -8190,6 +8209,7 @@ version = 1
     "mokutil",
     "mpdecimal",
     "mpfr",
+    "mt7xxx-firmware",
     "mtools",
     "mtr",
     "nano",
@@ -8212,7 +8232,9 @@ version = 1
     "nss-util",
     "numactl",
     "numactl-libs",
+    "nvidia-gpu-firmware",
     "nvme-cli",
+    "nxpwireless-firmware",
     "ocaml-srpm-macros",
     "ocl-icd",
     "openblas-srpm-macros",
@@ -8360,6 +8382,7 @@ version = 1
     "quota",
     "quota-nls",
     "readline",
+    "realtek-firmware",
     "redhat-rpm-config",
     "redhat-text-vf-fonts",
     "rootfiles",
@@ -8425,6 +8448,7 @@ version = 1
     "tdb-tools",
     "telnet",
     "theora-tools",
+    "tiwilink-firmware",
     "tmux",
     "tpm2-tss",
     "trace-cmd",

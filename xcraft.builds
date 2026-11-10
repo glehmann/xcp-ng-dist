@@ -270,8 +270,8 @@ xcp-ng-config.evr = "0-0.ydi.6"
 
 # xcp-ng-deps
 xcp-ng-deps.build = 1
-xcp-ng-deps.key = "92c1c904c7f5f02ce2a7e2c3eaf01e0d72941449ff9eb75aca673804dc4c6229"
-xcp-ng-deps.evr = "8.99-1"
+xcp-ng-deps.key = "e0a0d2ba5152e39396cdb5fcc117078d400af44c0fa6c6cc834a77d8d6e9cc9f"
+xcp-ng-deps.evr = "8.99-2"
 
 # xcp-ng-generic-lib
 xcp-ng-generic-lib.build = 1

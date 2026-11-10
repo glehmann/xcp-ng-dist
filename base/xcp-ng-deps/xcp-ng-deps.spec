@@ -1,6 +1,6 @@
 Name:           xcp-ng-deps
 Version:        8.99
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A meta package pulling all needed dependencies for XCP-ng
 # License covers this spec file
 License:        GPLv2
@@ -75,6 +75,19 @@ Requires: efibootmgr
 # hardware support
 # Requires: aic94xx-firmware
 Requires: linux-firmware
+# the firmware linux-firmware recommends, which xcraft doesn't install
+Requires: amd-gpu-firmware
+Requires: amd-ucode-firmware
+Requires: atheros-firmware
+Requires: brcmfmac-firmware
+Requires: cirrus-audio-firmware
+Requires: intel-audio-firmware
+Requires: intel-gpu-firmware
+Requires: mt7xxx-firmware
+Requires: nvidia-gpu-firmware
+Requires: nxpwireless-firmware
+Requires: realtek-firmware
+Requires: tiwilink-firmware
 # Requires: vendor-drivers
 
 # XAPI stack (many should instead be Req'd by other packages)
@@ -180,6 +193,9 @@ fi
 %files
 
 %changelog
+* Tue Nov 10 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 8.99-2
+- Require the firmware linux-firmware recommends
+
 * Web Sep 30 2026 Yann Dirson <yann.dirson@vates.tech> - 8.99-1 WIP
 - Base for 9.0 based on Alma 10
 - Drop Obsoletes clauses
