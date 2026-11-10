@@ -569,12 +569,12 @@ dependencies = [
 ]
 
 [package.metadata]
-requires-dist = [{ name = "xcraft", git = "https://github.com/glehmann/xcraft?rev=5c23ab2affeb22ed0a8203433d7707b75e0eb550" }]
+requires-dist = [{ name = "xcraft", git = "https://github.com/glehmann/xcraft?rev=37b911e2cbddea9ab166d5ffc7ac377c595bda37" }]
 
 [[package]]
 name = "xcraft"
 version = "0.1.0"
-source = { git = "https://github.com/glehmann/xcraft?rev=5c23ab2affeb22ed0a8203433d7707b75e0eb550#5c23ab2affeb22ed0a8203433d7707b75e0eb550" }
+source = { git = "https://github.com/glehmann/xcraft?rev=37b911e2cbddea9ab166d5ffc7ac377c595bda37#37b911e2cbddea9ab166d5ffc7ac377c595bda37" }
 dependencies = [
     { name = "boto3" },
     { name = "keyring" },
