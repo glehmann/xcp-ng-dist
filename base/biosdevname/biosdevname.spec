@@ -5,17 +5,17 @@
 
 Name:         biosdevname
 Version:      0.7.3
-Release: %{?xsrel}%{?dist}
+Release: %{?xsrel}.1%{?dist}
 Summary:      Helper for naming devices per BIOS names
 
 Group:        System Environment/Base
 License:      GPLv2
 URL:          http://linux.dell.com/files/%{name}
 Provides:     xenserver-biosdevname
-# SMBIOS only exists on these arches.  It's also likely that other
+# SMBIOS only exists on these arches, and on aarch64 servers with UEFI.  It's also likely that other
 # arches don't expect the PCI bus to be sorted breadth-first, or of
 # so, there haven't been any comments about that on LKML.
-ExclusiveArch: %{ix86} x86_64 ia64
+ExclusiveArch: %{ix86} x86_64 ia64 aarch64
 # Get from https://github.com/dell/biosdevname
 Source0: biosdevname-0.7.3-3.tar.gz
 Patch0: biosdevname-disable-udev.patch
@@ -63,6 +63,10 @@ make install install-data DESTDIR=%{buildroot}
 
 
 %changelog
+* Tue Nov 10 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 0.7.3-6.1
+- Build for aarch64 too. xcp-python-libs and host-installer also need it on
+  this architecture 
+
 * Wed Jan 22 2025 XenServer Rebuild <rebuild@xenserver.com> - 0.7.3-6
 - CP-53310: XenServer 9 rebuild
 
