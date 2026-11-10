@@ -10,6 +10,8 @@ packages = [
 ]
 # the packages of the same archive, which xcraft bump --version updates together
 same_version = [["kernel", "kernel-headers"]]
+# the branches of the fixes of the releases, numbered +b<n>.<m> after the release's +b<n>, see xcraft maint start
+maintenance_branches = ["maint/*", "embargo/*"]
 ccache_size = { kernel = "20G" }
 logo = "https://xcp-ng.org/assets/img/mainlogo.png"
 
