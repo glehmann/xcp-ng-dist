@@ -2,8 +2,8 @@
 
 # biosdevname
 biosdevname.build = 1
-biosdevname.key = "f5ce52a725e2f20675186bb982c18fddd7231175a804238229a22822b3edf2a2"
-biosdevname.evr = "0.3.10-5"
+biosdevname.key = "0461de148928f8e178f9919c681a4ba7c21260024c658f0cff6976f46e5046b9"
+biosdevname.evr = "0.7.3-6.1"
 biosdevname.requires."biosdevname" = ["glibc", "pciutils-libs"]
 
 # blktap
@@ -78,8 +78,8 @@ guest-templates-json.requires."guest-templates-json-data-pv" = ["guest-templates
 guest-templates-json.requires."guest-templates-json-data-windows" = ["guest-templates-json"]
 
 # host-installer
-host-installer.build = 1
-host-installer.key = "4caa54398d39de68d34ef216cdfa1ecc18a419e6eec30b30f9cd2671d5b48d5e"
+host-installer.build = 2
+host-installer.key = "39714a7b819a0c77d0e854429ed4b8e4dde074c29391ee1797095ea4497278f5"
 host-installer.evr = "11.0.26-0.ydi.28"
 host-installer.requires."host-installer" = ["bash", "python3"]
 host-installer.requires."host-installer-startup" = ["bash"]
