@@ -1,7 +1,8 @@
-diff -ur biosdevname-0.3.11-orig/biosdevname.1 biosdevname-0.3.11/biosdevname.1
---- biosdevname-0.3.11-orig/biosdevname.1	2012-03-22 16:05:53.000000000 +0000
-+++ biosdevname-0.3.11/biosdevname.1	2012-03-22 18:41:49.000000000 +0000
-@@ -45,11 +45,11 @@
+diff --git a/biosdevname.1 b/biosdevname.1
+index 22a53bd..562da5b 100644
+--- a/biosdevname.1
++++ b/biosdevname.1
+@@ -45,11 +45,11 @@ Require minimum SMBIOS version x.y
  .SH POLICIES
  .br
  The
@@ -15,14 +16,14 @@ diff -ur biosdevname-0.3.11-orig/biosdevname.1 biosdevname-0.3.11/biosdevname.1
  The
  .B physical
  policy uses the following scheme:
-Only in biosdevname-0.3.11: biosdevname.1.orig
-diff -ur biosdevname-0.3.11-orig/src/bios_dev_name.c biosdevname-0.3.11/src/bios_dev_name.c
---- biosdevname-0.3.11-orig/src/bios_dev_name.c	2012-03-22 16:05:53.000000000 +0000
-+++ biosdevname-0.3.11/src/bios_dev_name.c	2012-03-22 18:42:46.000000000 +0000
-@@ -28,16 +28,13 @@
- 	fprintf(stderr, "   --prefix [string]                  string use for embedded NICs (default='em')\n");
- 	fprintf(stderr, "   --smbios [x.y]		       Require SMBIOS x.y or greater\n");
- 	fprintf(stderr, "   --nopirq			       Don't use $PIR table for slot numbers\n");
+diff --git a/src/bios_dev_name.c b/src/bios_dev_name.c
+index d0a917a..2768b03 100644
+--- a/src/bios_dev_name.c
++++ b/src/bios_dev_name.c
+@@ -30,16 +30,13 @@ static void usage(void)
+ 	fprintf(stderr, "   -s        or --smbios [x.y]	       Require SMBIOS x.y or greater\n");
+ 	fprintf(stderr, "   -x        or --nopirq	       Don't use $PIR table for slot numbers\n");
+ 	fprintf(stderr, "   -v        or --version             Show biosdevname version\n");
 -	fprintf(stderr, " Example:  biosdevname -i eth0\n");
 -	fprintf(stderr, "  returns: em1\n");
 -	fprintf(stderr, "  when eth0 is an embedded NIC with label '1' on the chassis.\n");
@@ -37,7 +38,7 @@ diff -ur biosdevname-0.3.11-orig/src/bios_dev_name.c biosdevname-0.3.11/src/bios
  
  	if (!strncmp("physical", arg, sizeof("physical")))
  		rc = physical;
-@@ -52,6 +49,9 @@
+@@ -54,6 +51,9 @@ parse_opts(int argc, char **argv)
  	int c;
  	int option_index = 0;
  

@@ -1,6 +1,8 @@
---- biosdevname-0.3.6-orig/src/bios_device.c	2011-02-01 06:19:14.041171941 -0500
-+++ biosdevname-0.3.6/src/bios_device.c	2011-02-01 06:27:11.981002450 -0500
-@@ -114,9 +114,6 @@
+diff --git a/src/bios_device.c b/src/bios_device.c
+index e9d5177..9e4cc7b 100644
+--- a/src/bios_device.c
++++ b/src/bios_device.c
+@@ -115,9 +115,6 @@ static int sort_pci(const struct bios_device *bdev_a, const struct bios_device *
  	const struct pci_device *a = bdev_a->pcidev;
  	const struct pci_device *b = bdev_b->pcidev;
  
@@ -10,7 +12,7 @@
  	if      (a->pci_dev->domain < b->pci_dev->domain) return -1;
  	else if (a->pci_dev->domain > b->pci_dev->domain) return  1;
  
-@@ -129,6 +126,9 @@
+@@ -130,6 +127,9 @@ static int sort_pci(const struct bios_device *bdev_a, const struct bios_device *
  	if      (a->pci_dev->func < b->pci_dev->func) return -1;
  	else if (a->pci_dev->func > b->pci_dev->func) return  1;
  
@@ -20,7 +22,7 @@
  	return 0;
  }
  
-@@ -149,8 +149,8 @@
+@@ -151,8 +151,8 @@ static int sort_smbios(const struct bios_device *x, const struct bios_device *y)
  		}
  	}
  	else {
@@ -30,4 +32,4 @@
 +		else if (b->physical_slot == 0) return 1;
  	}
  
- 	return sort_pci(x, y);
+ 	/* Check if PCI devices are same, sort by ifindex */
