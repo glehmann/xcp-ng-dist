@@ -191,9 +191,9 @@ ssmtp.provides."ssmtp" = ["/usr/sbin/ssmtp"]
 
 # varstored
 varstored.build = 1
-varstored.key = "73e5ad465e91471423f8f263bc1b3f09e9756a01497852b9c0ccff547d6c8c27"
-varstored.evr = "1.2.0-2.3.1.ydi.2"
-varstored.requires."varstored" = ["glibc", "libseccomp", "libxml2", "openssl-libs", "python3", "xen-dom0-libs", "xen-libs"]
+varstored.key = "ba2f69f7eb9270c6aadda19e4704031de3be77b7e22251c26aacd4b0e6ac4840"
+varstored.evr = "1.3.4-2.1"
+varstored.requires."varstored" = ["glibc", "libseccomp", "libxml2", "openssl-libs", "xen-dom0-libs", "xen-libs"]
 varstored.requires."varstored-tools" = ["glibc", "libseccomp", "libxml2", "openssl-libs"]
 
 # vmss
@@ -210,8 +210,8 @@ vncterm.requires."vncterm" = ["bash", "glibc", "xen-libs"]
 
 # xapi
 xapi.build = 1
-xapi.key = "8c9567008fc8a5059eae61d6304486306d034551c5b43e39cbc3f361ac9db773"
-xapi.evr = "26.4.0-1.4"
+xapi.key = "112e3b6c481d64d8281080874ea7173e48c7feaff19164e701e4e0e307a9abdd"
+xapi.evr = "26.19.0-2.2"
 xapi.requires."forkexecd" = ["glibc"]
 xapi.requires."forkexecd-devel" = ["forkexecd", "ocaml", "ocaml-runtime", "xapi-idl-devel", "xapi-libs-devel", "xs-opam-repo"]
 xapi.requires."message-switch" = ["glibc", "libev", "openssl-libs"]
@@ -243,13 +243,19 @@ xapi.requires."xcp-rrdd-devel" = ["forkexecd-devel", "glibc", "message-switch-de
 xapi.requires."xenopsd" = ["bash", "glibc", "libev", "python3"]
 xapi.requires."xenopsd-cli" = ["glibc", "xenopsd"]
 xapi.requires."xenopsd-simulator" = ["glibc", "xenopsd"]
-xapi.requires."xenopsd-xc" = ["glibc", "qemu", "xen-dom0-libs", "xenopsd"]
+xapi.requires."xenopsd-xc" = ["glibc", "openssl-libs", "xen-dom0-libs", "xenopsd"]
 
 # xcp-clipboardd
 xcp-clipboardd.build = 1
 xcp-clipboardd.key = "37e01c57fe9f53a2312faa96e6c62af5bf4d206e9adabe3ef972e396182ebb78"
 xcp-clipboardd.evr = "1.0.3-10"
 xcp-clipboardd.requires."xcp-clipboardd" = ["glibc", "xen-libs"]
+
+# xcp-efivar-utils
+xcp-efivar-utils.build = 1
+xcp-efivar-utils.key = "96860591b2865d295bf4e33e90d60036330368f48245941f7751d95820ae57a4"
+xcp-efivar-utils.evr = "1.0.0-2"
+xcp-efivar-utils.requires."xcp-efivar-utils" = ["python3"]
 
 # xcp-emu-manager
 xcp-emu-manager.build = 1
@@ -258,8 +264,8 @@ xcp-emu-manager.evr = "1.2.1-3"
 xcp-emu-manager.requires."xcp-emu-manager" = ["glibc", "json-c", "libempserver", "xcp-ng-generic-lib"]
 
 # xcp-featured
-xcp-featured.build = 1
-xcp-featured.key = "aa1b293b6dde5ec68a7f2c03234a89bf543fd84771823dbece7c2439d5a0f15c"
+xcp-featured.build = 2
+xcp-featured.key = "b542974bbd5b6f2f66b73e9b38e9f513ff55847ba006e02ca12b44a27f2a2be2"
 xcp-featured.evr = "1.1.8-6"
 xcp-featured.requires."xcp-featured" = ["glibc"]
 

@@ -1,36 +1,36 @@
-%global package_speccommit a436001f700e5f647bd32b7055b18d3d78774ce5
-%global package_srccommit v1.2.0
+%global package_speccommit 7d197d30becfe64213edecbda9fd57eec69c9c0e
+%{!?xsrel: %global xsrel 2}
+%global package_srccommit v1.3.4
 Name: varstored
 Summary: EFI Variable Storage Daemon
-Version: 1.2.0
-Release: 2.3.1.ydi.2%{?xsrel}%{?dist}
+Version: 1.3.4
+Release: %{?xsrel}.1%{?dist}
 
 License: BSD
+Source0: varstored-1.3.4.tar.gz
 
-# !!!! YOUR ATTENTION PLEASE !!!!
-# Do not forget to run the script SOURCES/remove-certs-from-tarball.sh on new
-# source archive. This will remove the pem files from the source archive as we
-# are not supposed to distribute them in both RPM and SRPM. (This is why they
-# are removed from archive and not just deleted from the buildroot as it used
-# to be done)
-Source0: varstored-1.2.0.tar.gz
+# XCP-ng: we have a different generation logic for auth files
+# varstored expects a self-signed PK.auth
+Source100: PK.auth
+# follows Templates/LegacyFirmwareDefaults.toml
+Source101: MicCorKEKCA2011_2011-06-24.der
+Source102: microsoft corporation kek 2k ca 2023.der
+Source103: MicWinProPCA2011_2011-10-19.der
+Source104: windows uefi ca 2023.der
+Source105: MicCorUEFCA2011_2011-06-27.der
+Source106: microsoft uefi ca 2023.der
+Source107: microsoft option rom uefi ca 2023.der
 
-# XCP-ng sources and patches
-Source10: secureboot-certs
-# Patch submitted upstream as https://github.com/xapi-project/varstored/pull/17
-Patch1000: varstored-1.0.0-tolerate-missing-dbx-on-disk.XCP-ng.patch
-# Patch submitted upstream as https://github.com/xapi-project/varstored/pull/21
-Patch1001: varstored-1.2.0-fix-return-code-for-varstore-sb-state-user.XCP-ng.patch
-# Patch submitted upstream as https://github.com/xapi-project/varstored/pull/23
-Patch1002: 0001-Auth-Add-support-to-make-KEK-and-DB-files-optional.patch
-Patch1003: 0002-Makefile-Add-EXTRA_CFLAGS-to-CFLAGS.patch
-# Patch submitted upstream as https://github.com/xapi-project/varstored/pull/28
-Patch1004: 0001-Use-memory-barriers-defined-by-xen-headers.patch
+Source111: KEK_xcpng.json
+Source112: db_xcpng.json
+Source113: dbx_info_msft_latest.json
 
 BuildRequires: xen-libs-devel xen-dom0-libs-devel openssl openssl-devel libxml2-devel
 BuildRequires: glib2-devel
 BuildRequires: libseccomp-devel
 BuildRequires: gcc
+# XCP-ng-specific scripts
+BuildRequires: xcp-efivar-utils
 %{?_cov_buildrequires}
 
 # varstored now provides KEK.auth and db.auth that were
@@ -38,15 +38,19 @@ BuildRequires: gcc
 Conflicts: secureboot-certificates < 1.0.0-1
 
 # Conflict with old XAPIs since the certificate directory moved.
-Conflicts: xapi-core < 23.6.0-1
+%if 0%{?xenserver} < 9
+Conflicts: xapi-core < 26.1.13-1
+%else
+Conflicts: xapi-core < 26.14.0-1
+%endif
 
 Requires: varstored-guard
 
+# XCP-ng-specific scripts
+Requires: xcp-efivar-utils
+
 # XCP-ng: transition from uefistored, starting with XCP-ng 8.3
 Obsoletes: uefistored <= 1.3.0
-
-# XCP-ng: secureboot-certs is a python script
-Requires: python3
 
 %description
 A daemon for implementing variable services for UEFI guests.
@@ -67,33 +71,91 @@ when the guest is not running.
 %autosetup -p1
 %{?_cov_prepare}
 
-# Check for pem files in the source archive
-if find certs -name "*.pem" | grep -q pem; then
-  echo "pem files are present in the source archive"
-  echo "Please remove them using the script SOURCES/remove-certs-from-tarball.sh"
-  echo "and push the updated source archive"
-  false
-fi
-
 %build
+
+# XCP-ng: stage our certs in a temp directory for building with gen-sbvar
+tmpdir=$(mktemp -d -p "%{_builddir}")
+
+
+mkdir -p "$tmpdir/KEK/"
+cp \
+     "%{SOURCE101}" \
+     "%{SOURCE102}" \
+     -t "$tmpdir/KEK/"
+
+mkdir -p "$tmpdir/db/"
+cp \
+     "%{SOURCE103}" \
+     "%{SOURCE104}" \
+     "%{SOURCE105}" \
+     "%{SOURCE106}" \
+     "%{SOURCE107}" \
+     -t "$tmpdir/db/"
+
+mkdir -p "$tmpdir/dbx/"
+cp \
+     "%{SOURCE103}" \
+     -t "$tmpdir/dbx/"
+
 %{?_cov_wrap} EXTRA_CFLAGS=-DAUTH_ONLY_PK_REQUIRED \
-              make %{?_smp_mflags} varstored tools create-auth PK.auth
+              make %{?_smp_mflags} varstored tools create-auth
 
 %{?_cov_make_model:%{_cov_make_model misc/coverity/model.c}}
+
+# XCP-ng: PK.auth was generated and signed using vendor GUID
+# 9be025e2-415b-435d-ad61-6b3e094fc28d and timestamp 2025-07-29T14:22:00+0000.
+
+# XCP-ng: run gen-sbvar for KEK/db/dbx
+# MICROSOFT_VENDOR_GUID (77fa9abd-0359-4d32-bd60-28f4e78f784b) must be used for
+# SB information issued by Microsoft, so that updates could be deduplicated by
+# filter_signature_list.
+
+gen-sbvar \
+     --var-name KEK \
+     --var-guid "8be4df61-93ca-11d2-aa0d-00e098032b8c" \
+     --architecture %{_arch} \
+     --input "%{SOURCE111}" \
+     --cert-search-path "$tmpdir/KEK/" \
+     --vendor-guid "77fa9abd-0359-4d32-bd60-28f4e78f784b" \
+     --timestamp "2025-07-29T14:22:00+0000" \
+     --sets certificates \
+     --output KEK.auth
+
+gen-sbvar \
+     --var-name db \
+     --var-guid "d719b2cb-3d3a-4596-a3bc-dad00e67656f" \
+     --architecture %{_arch} \
+     --input "%{SOURCE112}" \
+     --cert-search-path "$tmpdir/db/" \
+     --vendor-guid "77fa9abd-0359-4d32-bd60-28f4e78f784b" \
+     --timestamp "2025-07-29T14:22:00+0000" \
+     --sets certificates \
+     --output db.auth
+
+gen-sbvar \
+     --var-name dbx \
+     --var-guid "d719b2cb-3d3a-4596-a3bc-dad00e67656f" \
+     --architecture %{_arch} \
+     --input "%{SOURCE113}" \
+     --cert-search-path "$tmpdir/dbx/" \
+     --vendor-guid "77fa9abd-0359-4d32-bd60-28f4e78f784b" \
+     --timestamp "2025-07-29T14:22:00+0000" \
+     --sets images \
+     --output dbx.auth
 
 
 %install
 install -m 755 -d %{buildroot}/%{_sbindir}
 install -m 755 %{name} %{buildroot}/%{_sbindir}/%{name}
 install -m 755 -d %{buildroot}/%{_bindir}
-install -m 755 tools/varstore-{ls,get,rm,set,sb-state} %{buildroot}/%{_bindir}
+install -m 755 tools/varstore-{ls,get,rm,set,sb-state,nvram-certcheck,authfile-certcheck} %{buildroot}/%{_bindir}
 install -m 755 -d %{buildroot}/%{_datadir}/%{name}
-install -m 644 PK.auth %{buildroot}/%{_datadir}/%{name}
+install -m 644 KEK.auth db.auth dbx.auth %{buildroot}/%{_datadir}/%{name}
 mkdir -p %{buildroot}/opt/xensource/libexec/
 install -m 755 create-auth %{buildroot}/opt/xensource/libexec/create-auth
 
-# XCP-ng: add secureboot-certs script
-install -m 755 %{SOURCE10} %{buildroot}/%{_sbindir}/secureboot-certs
+# XCP-ng: add our own self-signed PK.auth
+install -m 644 %{SOURCE100} %{buildroot}/%{_datadir}/%{name}
 
 %{?_cov_install}
 
@@ -119,10 +181,78 @@ make check
 
 
 %changelog
-* Tue Nov 26 2024 Yann Dirson <yann.dirson@vates.tech> - 1.2.0-2.3.1.ydi.2
-- switch secureboot-certs to python3
-- add missing dependency on python interpreter
-- add memory barrier definitions for aarch64
+* Wed Jul 15 2026 Tu Dinh <ngoc-tu.dinh@vates.tech> - 1.3.4-2.1
+- Migrate XCP-ng helper scripts to xcp-efivar-utils
+- Update dbx info to microsoft/secureboot_objects@v1.6.5
+- Sync with 1.3.4-2
+- *** Upstream changelog ***
+  * Mon May 25 2026 Chunjie Zhu <chunjie.zhu@citrix.com> - 1.3.4-2
+  - CP-312779: different xapi dependency on xs8 and xs9
+
+  * Wed May 20 2026 Alex Brett <alex.brett@citrix.com> - 1.3.4-1
+  - CA-427740: Add missing barrier
+
+  * Wed May 20 2026 Chunjie Zhu <chunjie.zhu@citrix.com> - 1.3.3-2
+  - miss nvram-certcheck and authfile-certcheck tools
+
+  * Mon May 18 2026 Chunjie Zhu <chunjie.zhu@citrix.com> - 1.3.3-1
+  - CP-311721: uefi secureboot certificate upgrade
+  - CA-426556: support set_variable v1 and v2 interface
+
+  * Wed Apr 08 2026 Alex Brett <alex.brett@citrix.com> - 1.3.2-2
+  - CP-311096: Use pre-signed auth data
+
+* Tue May 19 2026 Tu Dinh <ngoc-tu.dinh@vates.tech> - 1.3.2-2.1
+- Sync with 1.3.2-2
+- No change in auth data
+- *** Upstream changelog ***
+  * Wed Apr 08 2026 Alex Brett <alex.brett@citrix.com> - 1.3.2-2
+  - CP-311096: Use pre-signed auth data
+
+  * Fri Mar 20 2026 Stephen Cheng <stephen.cheng@citrix.com> - 1.3.2-1
+  - CP-311837: Add -g option for GUID in create-auth
+  - CP-311836: Support detached signatures in create-auth utility
+  - Remove xsa478.patch since the fix is now in upstream
+
+* Thu Jan 29 2026 Andriy Sultanov <andriy.sultanov@vates.tech> - 1.3.1-2.1
+- Sync with 1.3.1-2
+- *** Upstream changelog ***
+  * Mon Jan 12 2026 Andrew Cooper <andrew.cooper3@citrix.com> - 1.3.1-2
+  - Fix for XSA-478 / CVE-2025-58151
+
+  * Thu Nov 13 2025 Ross Lagerwall <ross.lagerwall@citrix.com> - 1.3.1-1
+  - CA-419599: Check DATA_LIMIT when appending
+
+  * Mon Oct 06 2025 Ross Lagerwall <ross.lagerwall@citrix.com> - 1.3.0-1
+  - CP-309775: Add new Microsoft certificates
+  - Fix varstore-sb-state exit code
+  - Don't fail setup_keys if the optional dbx is missing
+
+* Fri Jan 23 2026 Philippe Coval <philippe.coval@vates.tech> - 1.2.0-3.6
+- Rebuild with openssl-3
+
+* Thu Jan 15 2026 Teddy Astie <teddy.astie@vates.tech> - 1.2.0-3.5
+- Fix for XSA-478
+
+* Tue Oct 28 2025 Tu Dinh <ngoc-tu.dinh@vates.tech> - 1.2.0-3.4
+- Fix owner GUID of EFI_SIGNATURE_DATA structures
+- Restore dbx generation
+- Update dbx info to microsoft/secureboot_objects@e64d1a5c89e5 (v1.6.1)
+- Add fix-efivars.py script
+
+* Mon Sep 22 2025 Thierry Escande <thierry.escande@vates.tech> - 1.2.0-3.1
+- Sync with 1.2.0-3
+- *** Upstream changelog ***
+  * Wed Jan 22 2025 XenServer Rebuild <rebuild@xenserver.com> - 1.2.0-3
+  - Add yangtze release branch
+  - CP-53310: XenServer 9 rebuild
+
+* Wed Jul 30 2025 Tu Dinh <ngoc-tu.dinh@vates.tech> - 1.2.0-2.4
+- Add gen-sbvar.py
+- Add self-signed PK.auth blob
+- Generate {KEK,db,dbx}.auth using gen-sbvar.py
+- Update secureboot-certs to take builtin KEK/db/dbx
+- Update Secure Boot certs from microsoft/secureboot_objects@3f69ef4
 
 * Fri Apr 19 2024 Thierry Escande <thierry.escande@vates.tech> - 1.2.0-2.3
 - Remove generation and installation of KEK and db files

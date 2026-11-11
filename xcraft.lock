@@ -4530,6 +4530,14 @@ version = 1
     "vim-filesystem",
     "xxhash-libs",
 ]
+"xcp-efivar-utils" = [
+    "python-rpm-macros",
+    "python3-devel",
+    "python3-packaging",
+    "python3-pip",
+    "python3-rpm-generators",
+    "python3-rpm-macros",
+]
 "xcp-emu-manager" = [
     "annobin-docs",
     "annobin-plugin-gcc",
