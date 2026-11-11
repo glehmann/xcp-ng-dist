@@ -1,6 +1,6 @@
 # written by xcraft: the versions of the upstream packages, for all the architectures
 
-version = 2
+version = 3
 
 [sources]
 "ImageMagick" = "7.1.2.34-1.el10_3"
@@ -70,6 +70,7 @@ version = 2
 "desktop-file-utils" = "0.26-15.el10_1"
 "device-mapper-multipath" = "0.9.9-18.el10"
 "device-mapper-persistent-data" = "1.3.0-1.el10"
+"devscripts" = "2.25.5-1.el10_1"
 "diffutils" = "3.10-8.el10"
 "ding-libs" = "0.6.2-58.el10"
 "dmidecode" = "3.6-5.el10"
@@ -91,9 +92,11 @@ version = 2
 "efivar" = "39-3.el10"
 "elfutils" = "0.194-2.el10_2"
 "emacs" = "29.4-13.el10_2"
+"enchant2" = "2.6.9-1.el10"
 "ethtool" = "6.15-2.el10"
 "expat" = "2.7.3-1.el10_2.5"
 "fakeroot" = "1.37-1.el10_0"
+"fedora-license-data" = "1.76-1.el10_3"
 "fftw" = "3.3.10-15.el10.alma.1"
 "figlet" = "2.2.5-38.el10_2"
 "file" = "5.45-9.el10"
@@ -149,6 +152,8 @@ version = 2
 "hiredis" = "1.2.0-5.el10_0"
 "hostname" = "3.23-14.el10"
 "htop" = "3.3.0-5.el10_0"
+"hunspell" = "1.7.2-9.el10"
+"hunspell-en" = "0.20201207-11.el10"
 "hwdata" = "0.379-10.8.el10"
 "hwloc" = "2.11.1-4.el10"
 "icu" = "74.2-5.el10_0"
@@ -200,6 +205,7 @@ version = 2
 "libXrender" = "0.9.11-8.el10"
 "libXt" = "1.3.0-5.el10"
 "libaio" = "0.3.111-22.el10"
+"libappstream-glib" = "0.8.3-3.el10"
 "libarchive" = "3.7.7-11.el10_2"
 "libassuan" = "2.5.6-6.el10"
 "libbpf" = "1.7.0-1.el10"
@@ -515,6 +521,7 @@ version = 2
 "python-deprecated" = "1.2.15-1.el10_0"
 "python-dill" = "0.3.9-1.el10_0"
 "python-docutils" = "0.20.1-5.el10"
+"python-enchant" = "3.2.2-14.el10"
 "python-fasteners" = "0.19-9.el10_0"
 "python-idna" = "3.7-6.el10_2"
 "python-imagesize" = "1.4.1-9.el10"
@@ -541,12 +548,15 @@ version = 2
 "python-sphinx" = "7.2.6-10.el10"
 "python-sphinx-theme-alabaster" = "0.7.16-5.el10"
 "python-systemd" = "235-11.el10"
+"python-tomli-w" = "1.0.0-12.el10"
 "python-tomlkit" = "0.13.2-1.el10_0"
 "python-typing-extensions" = "4.9.0-6.el10"
 "python-urllib3" = "1.26.19-4.el10_2"
 "python-wheel" = "0.41.2-5.el10_1.1"
 "python-wrapt" = "1.17.1-1.el10_0"
+"python-zstandard" = "0.23.0-2.el10"
 "python3.12" = "3.12.15-1.el10_2"
+"pyxdg" = "0.27-13.el10"
 "qt6" = "6.10.1-1.el10"
 "quota" = "4.09-10.el10"
 "rdma-core" = "61.0-1.el10"
@@ -556,6 +566,7 @@ version = 2
 "rootfiles" = "8.1-54.el10"
 "rpcbind" = "1.2.7-3.el10_2.1"
 "rpm" = "4.19.1.1-23.el10.alma.1"
+"rpmlint" = "2.8.0-2.el10_2"
 "rsync" = "3.5.0-3.el10_2"
 "rust" = "1.92.0-2.el10_2.alma.1"
 "rust-rpm-sequoia" = "1.10.2.1-1.el10_2"
@@ -705,6 +716,7 @@ version = 2
 "device-mapper-multipath" = "0.9.9-18.el10 aarch64 ae2020ca6a42db76dbf837b0ec9803daddade47c4efe1ec9dc3a50928f80e64c device-mapper-multipath"
 "device-mapper-multipath-libs" = "0.9.9-18.el10 aarch64 339975cc8069bf937d77a60dfa79eb2a366acfee9237f88231402edbc6fce9f7 device-mapper-multipath"
 "device-mapper-persistent-data" = "1.3.0-1.el10 aarch64 d8d46e6378d1d99edc825873b9cba15599ca557fd7a6aaf3f9dee65c2e9809c0 device-mapper-persistent-data"
+"devscripts-checkbashisms" = "2.25.5-1.el10_1 noarch 6a5352f753071f89261b9fc3bbce22d0d5bc96678eaa550db638b0377049ace8 devscripts"
 "diffutils" = "3.10-8.el10 aarch64 4dc68148d51cb0e91d62fa55806844299f66b8772d1b7840beeea688e6ad42ee diffutils"
 "dmidecode" = "1:3.6-5.el10 aarch64 609012c6d8a388bf5445f13437d1992640588f4c73cd538d0cd77ecb07b405df dmidecode"
 "dnf" = "4.20.0-22.el10_2.alma.1 noarch 84c937f87390c6275c39a8f0a6b7c4b3f754f5179b80c5e1f053f3eb462eefee dnf"
@@ -732,6 +744,7 @@ version = 2
 "elfutils-libelf-devel" = "0.194-2.el10_2 aarch64 e9feaae005b9e193991f162f09a95d2855a718dfbf783d3986099ea4c09d56bc elfutils"
 "elfutils-libs" = "0.194-2.el10_2 aarch64 f6219d4afc8891a7b8f7ae34cd68005f343b8aaa12c7408607bcbea9e6f7959f elfutils"
 "emacs-filesystem" = "1:29.4-13.el10_2 noarch a095d2062cdbe41da409d71e5554a5f43cf9b613a9c1a8b8944080fc1e79407a emacs"
+"enchant2" = "2.6.9-1.el10 aarch64 2379ebb8c8670ee606125313a361a3d8945fb83894fb3eb786410262677f98fe enchant2"
 "expat" = "2.7.3-1.el10_2.5 aarch64 c2419008163b0cf73a990a166d8e3d0e4a9e1821b748fdb34fc94d8cd31cfd6c expat"
 "fakeroot" = "1.37-1.el10_0 aarch64 29110e615547e9ac705bd8f22b624d481c0317b0a72513acb474de87c8b8f2ba fakeroot"
 "fakeroot-libs" = "1.37-1.el10_0 aarch64 2f92d7a517f0278da551e61033c43dd36a56bf6809c2f1d5b3f1731d0fc4c3d4 fakeroot"
@@ -816,6 +829,9 @@ version = 2
 "highway" = "1.3.0-1.el10_2 aarch64 8781ac03661ffe2427033695e4d6bb3ba417602ed6c873a2e29ad98c95ce0a1d highway"
 "hiredis" = "1.2.0-5.el10_0 aarch64 8ed5d76daf9593411b6732894b37b711d48a8f848f418fabfedab797b3b0a256 hiredis"
 "hostname" = "3.23-14.el10 aarch64 20f8d679d9efeaf2864429b71eb64e2e9012563d0edfc105854523bcbf771286 hostname"
+"hunspell" = "1.7.2-9.el10 aarch64 fdecd4e2b445f3346f47942ed2b137b3e45b4f1829f7e62cb7f7942757dda00b hunspell"
+"hunspell-en-US" = "0.20201207-11.el10 noarch 70180e88547e3baef51fcb9d9708c4a10a84a2f602721f8a28b19cb409ef6a77 hunspell-en"
+"hunspell-filesystem" = "1.7.2-9.el10 aarch64 2c43059c5160590409f4e9ac2c5b49846dfce8035ed0c2debeb133e7c43057de hunspell"
 "hwdata" = "0.379-10.8.el10 noarch 2ca362ecf3c57377c8a1b10b161a901b8f3504f5dfe03b2417578b7897825c8c hwdata"
 "ima-evm-utils" = "1.6.2-4.el10 aarch64 27ee14ea8ce70a80abe8f5b1c60306027bc78a9084a498cf24bccfef34f67f97 ima-evm-utils"
 "imath" = "3.1.10-4.el10 aarch64 bd7de34f78d5fba1b216b2c4d936811dc4646f6e5fc105cec5abdc24db8f6adf imath"
@@ -828,6 +844,7 @@ version = 2
 "jemalloc-devel" = "5.3.0-10.el10_1 aarch64 3044e2ef65c64cade2a0f95cd39b44d6dcbc0dffbe7a29ef28d7b813facd73ee jemalloc"
 "json-c" = "0.18-3.el10 aarch64 ab88ed9bc7a2ef65d6bd97f3cbcf8929c90f3a8797403d5a2a9ffe23b8774570 json-c"
 "json-c-devel" = "0.18-3.el10 aarch64 2a631ddad2efc9b1704231f023ce2d2b267ccb71930a467b6405b35c25231fa6 json-c"
+"json-glib" = "1.8.0-5.el10 aarch64 937ba36283b77af460b1a63d8c4731ab5c6f7be18c633ee3fbed82dc64c5234f json-glib"
 "jxl-pixbuf-loader" = "1:0.10.4-1.el10_1 aarch64 0e5f3a3e17a772a7d0732e856132078f3f15ccd6c2f0feb4bfa85a22429d5c0c jpegxl"
 "kernel-headers" = "6.12.0-211.66.1.el10_2 aarch64 a025e6092fa988ddcaf819c31b9dba941aa64eebe60684106b9a23e0e1b574b0 kernel"
 "kernel-srpm-macros" = "1.0-27.el10 noarch 0421d244948314a77b2e51787dbabfc4fec4c8aefb9198f974dfd02cb6a969a9 kernel-srpm-macros"
@@ -862,6 +879,7 @@ version = 2
 "libacl" = "2.4.0-1.el10_2 aarch64 0fdc62b27f40226a86a52bb53ff4665214c634aa2b43da2244203f01026f9ab3 acl"
 "libaio" = "0.3.111-22.el10 aarch64 2eef74326ce5569904ad9ddb78e92b41cae54bab5c96531c6d035c9e87aea4a8 libaio"
 "libaio-devel" = "0.3.111-22.el10 aarch64 ee8b187b51b2a693e45bfbfc13b7cce52f6db48fc5983a45093b68f3ae45f3a7 libaio"
+"libappstream-glib" = "0.8.3-3.el10 aarch64 b9aa9454fdae04eeb0ba9d49282762c36a023c3ce27329c49ccb46994e5cd0a9 libappstream-glib"
 "libarchive" = "3.7.7-11.el10_2 aarch64 a57d86bef7272eddb558e16b16ce48ae1f35c671f82275eab54fa46b0779683b libarchive"
 "libasan" = "14.3.1-4.4.el10.alma.2 aarch64 80a432282fc01425a7bef96cc664b55c1b27383b415a16e03fc42a216b9c8eaa gcc"
 "libassuan" = "2.5.6-6.el10 aarch64 9bd7e3ee9cc2d9f7f287f1f852a1404b50843acb31f6957e92545b6497bd0bad libassuan"
@@ -1261,6 +1279,8 @@ version = 2
 "python3-dnf" = "4.20.0-22.el10_2.alma.1 noarch f245833ae65c085b2bb313c0272033750c12acfe319a3f2c55d85b1c37588f4c dnf"
 "python3-dnf-plugins-core" = "4.7.0-10.el10 noarch 3e9a81c73c438c444d1459eec704ff8a321d42cdade6a96d19138e9c83d901cb dnf-plugins-core"
 "python3-docutils" = "0.20.1-5.el10 noarch 77af976d27cae030efdc54079934e96ad97a5ee0c0dbf5588afa266e3ef4e5af python-docutils"
+"python3-enchant" = "3.2.2-14.el10 noarch 0b2d1dbb8eec45a800627ad11fdf54ef643ae2d0597d6f13cc8e6b7acc73b57c python-enchant"
+"python3-file-magic" = "5.45-9.el10 noarch 87c7877f67bfc2adf9131a0c9e0546380b6ab0ddd138623fd8a09a98d3f3be8d file"
 "python3-hawkey" = "0.73.1-15.el10_2.alma.1 aarch64 a4677356198a8f7d42e6ad9dac7212658f3f91d713859c3b4affceffb468c839 libdnf"
 "python3-idna" = "3.7-6.el10_2 noarch f19d8229b047cbda17f4e61fba52cf30be1bff6378bc22f58adcbb497584f8a9 python-idna"
 "python3-imagesize" = "1.4.1-9.el10 noarch a2c359c6dd2f97fd17d9fd6187f6382b151348811bbc5986768b5b7c1f424bb1 python-imagesize"
@@ -1280,6 +1300,7 @@ version = 2
 "python3-pygments" = "2.18.0-1.el10 noarch 0aa5135cbcd64ca51b1db4c3a093720490c54e5ce0f02ef249356855f1b9133a python-pygments"
 "python3-pylint" = "3.3.3-1.el10_0 noarch a371351ad81f70e7a75fe919af6987857cf11f7c741a98859c2cfaa6d1da780a pylint"
 "python3-pyparsing" = "3.1.1-7.el10 noarch bddd7ddda39e05a7ce9430b7407eaf7f832f9145aaa1380acfafb31b927fc904 pyparsing"
+"python3-pyxdg" = "0.27-13.el10 noarch edbb6fdef77f8bff9d8166f431d1c88d453d12a6274a13d6fe2fe9435dfdf2a7 pyxdg"
 "python3-referencing" = "0.31.1-6.el10 noarch cc0682bf02b5d92a2caa806af0bc7c16ce22ea1c1ba6402cc92abfb383bebd47 python-referencing"
 "python3-requests" = "2.32.4-1.el10_0 noarch 253070a37db5b8ff613e84511cdf80fb0d04910edb7bcfcec2c4b24125c1fa1a python-requests"
 "python3-rpds-py" = "0.17.1-6.el10 aarch64 b515d285e544b41e2bb72f7fd1d2fa229180b046182158357dbd80a536dc8b3b python-rpds-py"
@@ -1291,10 +1312,12 @@ version = 2
 "python3-sphinx" = "1:7.2.6-10.el10 noarch 6726ffaef1c6a87ba03228b546f1215c34de2405b86e1e1ffc24efbbea041d7c python-sphinx"
 "python3-sphinx-theme-alabaster" = "0.7.16-5.el10 noarch 280419b4c99bfa2fb9de43d194205733880e1ccfa4876091cc5f00ff5f6856e1 python-sphinx-theme-alabaster"
 "python3-systemd" = "235-11.el10 aarch64 1ad5e9be0049ed9c3598bcf76544bf56e37ca3e352c1565840bdc8bd21a4d6a5 python-systemd"
+"python3-tomli-w" = "1.0.0-12.el10 noarch ed48456c4fa73b893cafbfb10ba8d48709c0c5a3a0c851c8b374e5e15a1fdf8c python-tomli-w"
 "python3-tomlkit" = "0.13.2-1.el10_0 noarch 853a7dec31adf83a33f03f4bc88a0fb14b3cf623464b0fcf7e1398d9b6462c28 python-tomlkit"
 "python3-typing-extensions" = "4.9.0-6.el10 noarch b323e7e183cda698488c44cd91f8fafffc78a910bc313d2d0de1a6ea5e21e040 python-typing-extensions"
 "python3-urllib3" = "1.26.19-4.el10_2 noarch 061d0569e4a91346a411d49abf8049ee7807bb60b072e83f681e85f401a3fdb5 python-urllib3"
 "python3-wheel" = "1:0.41.2-5.el10_1.1 noarch 526834e9f1485bd54d081d53739d5af8b9041cb043cbac4c4a48f5dc15693afd python-wheel"
+"python3-zstandard" = "0.23.0-2.el10 aarch64 3a0c2131f476cfba39d7414c186201371319f69bfaea348a8bba6a585781a998 python-zstandard"
 "qt6-srpm-macros" = "6.10.1-1.el10 noarch 894de6c329420bfac338492dbd3c77c6100f22775702f395c4d212f082abd6dd qt6"
 "readline" = "8.2-11.el10 aarch64 3a0e19ecd07c1cf9269a7dabb57c6c6426172112d78e0f7228cead17690cb716 readline"
 "redhat-rpm-config" = "295-1.el10.alma.1 noarch e20c50076fdca77b99fca2f5892836022bd5a612e45b2b615494c123fe682873 redhat-rpm-config"
@@ -1308,6 +1331,8 @@ version = 2
 "rpm-sequoia" = "1.10.2.1-1.el10_2 aarch64 aa7ad81a0f4a78036fca5475aeda7667ec441f5acaa8ceaf0509de41b36fe994 rust-rpm-sequoia"
 "rpm-sign" = "4.19.1.1-23.el10.alma.1 aarch64 09f84af19b5404b051a54e9b60638d66fc131dd7799cb7456789f29662a67a16 rpm"
 "rpm-sign-libs" = "4.19.1.1-23.el10.alma.1 aarch64 ffe43846199296c5a036f10a8d153dd5182b05a62880929e2cd5d6ac95752ce2 rpm"
+"rpmlint" = "2.8.0-2.el10_2 noarch eedfd871c719da9aac4a4bda8997d59dd69c2cd0f0ede3e00e44bbe6856f9538 rpmlint"
+"rpmlint-fedora-license-data" = "1.76-1.el10_3 noarch 06add7f06f5b794ab659e41076c3eb15e678efe4b6835e3214d09bf11bf95d55 fedora-license-data"
 "rsvg-pixbuf-loader" = "2.57.1-9.el10 aarch64 544e95b57b69d1b80ece2965a2ac7c901dd8124d6198061835d8cda2b644c95e librsvg2"
 "rsync" = "3.5.0-3.el10_2 aarch64 083a290c8202305d7e47d055fce15fb023be49dd11e0bab9a828988db93b52ee rsync"
 "rust-toolset-srpm-macros" = "1.92.0-2.el10_2.alma.1 noarch 0ceeb326c7211eeb9140d0ea6d45b8d21a41469f24b87463f3b664fe7fd67c4d rust"
@@ -1492,6 +1517,7 @@ version = 2
 "device-mapper-multipath" = "0.9.9-18.el10 x86_64_v2 cb4d633e1debe3652a9bdccc5cdedc4f5f2b74611b59281dd50a027c9ab129c0 device-mapper-multipath"
 "device-mapper-multipath-libs" = "0.9.9-18.el10 x86_64_v2 f11958343a838d662dbd55391bc6977bb00bb37ef81e7a0c8782aea9033568c5 device-mapper-multipath"
 "device-mapper-persistent-data" = "1.3.0-1.el10 x86_64_v2 591b596ca79d1d1a4a98166b7d7474d6c15792fa19a677c11479d91c608ea7f5 device-mapper-persistent-data"
+"devscripts-checkbashisms" = "2.25.5-1.el10_1.alma_altarch noarch 55cad1fdb076013aee7dd92419d9b4f32d8c3dfdf718c2cb3e8892c60f119380 devscripts"
 "diffutils" = "3.10-8.el10 x86_64_v2 d8f825235c3d0d6bf1fef7e4a3644f298d45095d69056b2497df0506ca1d3d61 diffutils"
 "dmidecode" = "1:3.6-5.el10 x86_64_v2 d723aa694ed013555af0a240ee589443fdbd2b14a4e93371106590537e794b1e dmidecode"
 "dnf" = "4.20.0-22.el10_2.alma.1 noarch 84c937f87390c6275c39a8f0a6b7c4b3f754f5179b80c5e1f053f3eb462eefee dnf"
@@ -1525,6 +1551,7 @@ version = 2
 "elfutils-libelf-devel" = "0.194-2.el10_2 x86_64_v2 3268e792b8c179305c6520025e6160a765d003af72205ae8eb7507924579bc3e elfutils"
 "elfutils-libs" = "0.194-2.el10_2 x86_64_v2 6d21c45f31c894e9db514e8f88f8da219250368e73e073fe414e1f028e1270f5 elfutils"
 "emacs-filesystem" = "1:29.4-13.el10_2 noarch a095d2062cdbe41da409d71e5554a5f43cf9b613a9c1a8b8944080fc1e79407a emacs"
+"enchant2" = "2.6.9-1.el10 x86_64_v2 13f6583f624ca1795e74e6c57d2dfe04db22fb46794086e38fce1f7220e25d76 enchant2"
 "ethtool" = "2:6.15-2.el10 x86_64_v2 2e3e3ea6ad2d83e454226e0ffdf05357a3e44541d3314723da6f1ba0f9f4cbaa ethtool"
 "expat" = "2.7.3-1.el10_2.5 x86_64_v2 dfbc954c9f30c5daab73fd6b44a6db8b8bfe693f261d0e1607b17bac351b9741 expat"
 "fakeroot" = "1.37-1.el10_0.alma_altarch x86_64_v2 5b084dc53aafe54e8e38755b3c643aafa2542e0e710cebd13eddf24cce2ffef6 fakeroot"
@@ -1626,6 +1653,9 @@ version = 2
 "hiredis" = "1.2.0-5.el10_0.alma_altarch x86_64_v2 ba2c64f10fa106c5ad882ad2de9bc3c4fa925c0fd7f6cffe214efa3089c612ce hiredis"
 "hostname" = "3.23-14.el10 x86_64_v2 3eea00f3e321d7a230c92d5f36a724f854c853c0b7f6f4d350956d4edeb6ef8e hostname"
 "htop" = "3.3.0-5.el10_0.alma_altarch x86_64_v2 55454b75b5a4b717636deac953c465485781596cc3d468123001de927207c543 htop"
+"hunspell" = "1.7.2-9.el10 x86_64_v2 1660183a454466504f31b39077bfb16c092af2c69b0bcf8eb64c9cd3f28f850a hunspell"
+"hunspell-en-US" = "0.20201207-11.el10 noarch 70180e88547e3baef51fcb9d9708c4a10a84a2f602721f8a28b19cb409ef6a77 hunspell-en"
+"hunspell-filesystem" = "1.7.2-9.el10 x86_64_v2 0c71828d5ae8160fb083ec92aed5143f1e764c6be8432acf2d710b664544fb6d hunspell"
 "hwdata" = "0.379-10.8.el10 noarch 2ca362ecf3c57377c8a1b10b161a901b8f3504f5dfe03b2417578b7897825c8c hwdata"
 "hwloc" = "2.11.1-4.el10 x86_64_v2 d69181233ef92f4e53a1850b95393724e7407b5f51ff7bbf161b07b1c66e7d72 hwloc"
 "hwloc-libs" = "2.11.1-4.el10 x86_64_v2 a2214cc9f7b02b1f1167acac03ccabb51e57d131675bee38098c6f712acbb6fb hwloc"
@@ -1708,6 +1738,7 @@ version = 2
 "libacl-devel" = "2.4.0-1.el10_2 x86_64_v2 41f2f7ee3a99cf1b0bd64f61d898b2f0b7e3708e37a94c325848114444509dd3 acl"
 "libaio" = "0.3.111-22.el10 x86_64_v2 0f28f8d1b4db56ff3dad35aba14fa7648faf3ba5cea3b0f9d4a40f0ede15d782 libaio"
 "libaio-devel" = "0.3.111-22.el10 x86_64_v2 e4ab03f413a634cc8ca1a1dcdf720943d8aaa10598c30da8599225cd0f9ac42e libaio"
+"libappstream-glib" = "0.8.3-3.el10 x86_64_v2 089667bfc8ba6de44e2c078bc9fe1a9de064708e39225e0b2c48e25d6311c3ac libappstream-glib"
 "libarchive" = "3.7.7-11.el10_2 x86_64_v2 92bbcc0e7db1aee3ab3b3364d50aa29cd55fcb51419a693455b63b01b650579d libarchive"
 "libarchive-devel" = "3.7.7-11.el10_2 x86_64_v2 f216da10afe7b41dc9fd389d30ab8e975d1bb88c49db04651caa41b7b98b3253 libarchive"
 "libassuan" = "2.5.6-6.el10 x86_64_v2 973a9407ad42671e06b77c224f71b136a214f3e7e490e2085834226e7ff135cd libassuan"
@@ -2211,7 +2242,9 @@ version = 2
 "python3-dnf" = "4.20.0-22.el10_2.alma.1 noarch f245833ae65c085b2bb313c0272033750c12acfe319a3f2c55d85b1c37588f4c dnf"
 "python3-dnf-plugins-core" = "4.7.0-10.el10 noarch 3e9a81c73c438c444d1459eec704ff8a321d42cdade6a96d19138e9c83d901cb dnf-plugins-core"
 "python3-docutils" = "0.20.1-5.el10 noarch 77af976d27cae030efdc54079934e96ad97a5ee0c0dbf5588afa266e3ef4e5af python-docutils"
+"python3-enchant" = "3.2.2-14.el10 noarch 0b2d1dbb8eec45a800627ad11fdf54ef643ae2d0597d6f13cc8e6b7acc73b57c python-enchant"
 "python3-fasteners" = "0.19-9.el10_0.alma_altarch noarch aa3dcaecd790aba6eaf533953a072a42098889dfdbdcfcad5b2c3ffee2eba0c2 python-fasteners"
+"python3-file-magic" = "5.45-9.el10 noarch 87c7877f67bfc2adf9131a0c9e0546380b6ab0ddd138623fd8a09a98d3f3be8d file"
 "python3-firewall" = "2.4.3-4.el10_2 noarch c008b6b62ec34fbcbae74fdd41f8a8e6deb2b742f38670141c120adf18ed290b firewalld"
 "python3-gobject-base" = "3.46.0-7.el10 x86_64_v2 99529acd903327bdc2f3d8b8596a902180200db9974c1cea1bb0e75f63f90d72 pygobject3"
 "python3-gobject-base-noarch" = "3.46.0-7.el10 noarch 8964c1908c4a51047dea2d36d0ef9ee62e70110e50ac1114d95a5ec68d27c7e0 pygobject3"
@@ -2241,6 +2274,7 @@ version = 2
 "python3-pylint" = "3.3.3-1.el10_0.alma_altarch noarch 4945e1cd54a42aa53eb894d960c44343db3f8bb4d1d24058e0763d25f15d764e pylint"
 "python3-pyparsing" = "3.1.1-7.el10 noarch bddd7ddda39e05a7ce9430b7407eaf7f832f9145aaa1380acfafb31b927fc904 pyparsing"
 "python3-pyudev" = "0.24.1-10.el10 noarch 8d90d8b87c4cbf1e45c7138e15167897ac0189610d1d8c32b08adcfb90d91301 python-pyudev"
+"python3-pyxdg" = "0.27-13.el10 noarch edbb6fdef77f8bff9d8166f431d1c88d453d12a6274a13d6fe2fe9435dfdf2a7 pyxdg"
 "python3-referencing" = "0.31.1-6.el10 noarch cc0682bf02b5d92a2caa806af0bc7c16ce22ea1c1ba6402cc92abfb383bebd47 python-referencing"
 "python3-requests" = "2.32.4-1.el10_0 noarch 253070a37db5b8ff613e84511cdf80fb0d04910edb7bcfcec2c4b24125c1fa1a python-requests"
 "python3-rpds-py" = "0.17.1-6.el10 x86_64_v2 4325866c8a203fa3f441376ef94a5b9b09edc55664955c6fdf64275d3b849c72 python-rpds-py"
@@ -2254,11 +2288,13 @@ version = 2
 "python3-sphinx" = "1:7.2.6-10.el10 noarch 6726ffaef1c6a87ba03228b546f1215c34de2405b86e1e1ffc24efbbea041d7c python-sphinx"
 "python3-sphinx-theme-alabaster" = "0.7.16-5.el10 noarch 280419b4c99bfa2fb9de43d194205733880e1ccfa4876091cc5f00ff5f6856e1 python-sphinx-theme-alabaster"
 "python3-systemd" = "235-11.el10 x86_64_v2 5a15af009b2a4a8cf6c41893d670ae3ee55f654a09722841e31b76efeccbfbe1 python-systemd"
+"python3-tomli-w" = "1.0.0-12.el10 noarch ed48456c4fa73b893cafbfb10ba8d48709c0c5a3a0c851c8b374e5e15a1fdf8c python-tomli-w"
 "python3-tomlkit" = "0.13.2-1.el10_0.alma_altarch noarch f7ed0bb703e69851530d052f6c490f756d9d6f62ce0a63feebec889b7816eeaf python-tomlkit"
 "python3-typing-extensions" = "4.9.0-6.el10 noarch b323e7e183cda698488c44cd91f8fafffc78a910bc313d2d0de1a6ea5e21e040 python-typing-extensions"
 "python3-urllib3" = "1.26.19-4.el10_2 noarch 061d0569e4a91346a411d49abf8049ee7807bb60b072e83f681e85f401a3fdb5 python-urllib3"
 "python3-wheel" = "1:0.41.2-5.el10_1.1 noarch 526834e9f1485bd54d081d53739d5af8b9041cb043cbac4c4a48f5dc15693afd python-wheel"
 "python3-wrapt" = "1.17.1-1.el10_0.alma_altarch x86_64_v2 98962abf13a61dcdcce17f153e338689e3115354470e7eb95778e3e2f93a042d python-wrapt"
+"python3-zstandard" = "0.23.0-2.el10 x86_64_v2 38b3ed8eaa3541c742573ea4b36c4ef72da61575b57b1d8d79111b0b268f57ca python-zstandard"
 "qt6-srpm-macros" = "6.10.1-1.el10 noarch 894de6c329420bfac338492dbd3c77c6100f22775702f395c4d212f082abd6dd qt6"
 "quota" = "1:4.09-10.el10 x86_64_v2 4108ce59627a452ba67de5989d34fd4d7a055400b7f5c3f39e9dd178d175f1ba quota"
 "quota-nls" = "1:4.09-10.el10 noarch 70902646be08b685dbe7c636092c2af98660e0891f60d8298744336c3234826c quota"
@@ -2279,6 +2315,8 @@ version = 2
 "rpm-sequoia" = "1.10.2.1-1.el10_2 x86_64_v2 b01bc5a960ce949d22db72067cf581b94aad1f88b57dcd0e522fe03ab6fc0bb1 rust-rpm-sequoia"
 "rpm-sign" = "4.19.1.1-23.el10.alma.1 x86_64_v2 70056d07408d1936e5b9ea3c1963730f96354c3c6110ecaee32a20dc77f8af1f rpm"
 "rpm-sign-libs" = "4.19.1.1-23.el10.alma.1 x86_64_v2 88e6de7d53b83a854d2b999c0bfb7c52ed2ca707d1947f49d0b223219c8d8edc rpm"
+"rpmlint" = "2.8.0-2.el10_2.alma_altarch noarch 4158e5ee048f188f9dc3c2ab0052d9f45e661ecc8853a37560b04212aa818636 rpmlint"
+"rpmlint-fedora-license-data" = "1.76-1.el10_3.alma_altarch noarch 8325346b381a759c38ed3cc5f71831eb627f6192da549275ecb621eefec9ab2e fedora-license-data"
 "rsvg-pixbuf-loader" = "2.57.1-9.el10 x86_64_v2 4dc2cc3db207e6ffa6644fa2afcbc1742244765966a8570919fd8860092c397a librsvg2"
 "rsync" = "3.5.0-3.el10_2 x86_64_v2 0ef43712db75150af848c2d4b7c0bf5afed44360f9c1e5232140fc0d819ddedf rsync"
 "rust-toolset-srpm-macros" = "1.92.0-2.el10_2.alma.1 noarch 0ceeb326c7211eeb9140d0ea6d45b8d21a41469f24b87463f3b664fe7fd67c4d rust"
@@ -8623,6 +8661,174 @@ version = 2
     "libksba",
     "npth",
     "rpm-sign",
+]
+
+[lint]  # the upstream binary packages of the lint image, but the image's
+"aarch64" = [
+    "desktop-file-utils",
+    "devscripts-checkbashisms",
+    "emacs-filesystem",
+    "enchant2",
+    "gdk-pixbuf2",
+    "groff-base",
+    "hunspell",
+    "hunspell-en-US",
+    "hunspell-filesystem",
+    "json-glib",
+    "libappstream-glib",
+    "libjpeg-turbo",
+    "libpng",
+    "ncurses",
+    "perl-AutoLoader",
+    "perl-B",
+    "perl-Carp",
+    "perl-Class-Struct",
+    "perl-Data-Dumper",
+    "perl-Digest",
+    "perl-Digest-MD5",
+    "perl-DynaLoader",
+    "perl-Encode",
+    "perl-Errno",
+    "perl-Exporter",
+    "perl-Fcntl",
+    "perl-File-Basename",
+    "perl-File-Path",
+    "perl-File-Temp",
+    "perl-File-stat",
+    "perl-FileHandle",
+    "perl-Getopt-Long",
+    "perl-Getopt-Std",
+    "perl-HTTP-Tiny",
+    "perl-IO",
+    "perl-IO-Socket-IP",
+    "perl-IO-Socket-SSL",
+    "perl-IPC-Open3",
+    "perl-MIME-Base64",
+    "perl-Mozilla-CA",
+    "perl-Net-SSLeay",
+    "perl-POSIX",
+    "perl-PathTools",
+    "perl-Pod-Escapes",
+    "perl-Pod-Perldoc",
+    "perl-Pod-Simple",
+    "perl-Pod-Usage",
+    "perl-Scalar-List-Utils",
+    "perl-SelectSaver",
+    "perl-Socket",
+    "perl-Storable",
+    "perl-Symbol",
+    "perl-Term-ANSIColor",
+    "perl-Term-Cap",
+    "perl-Text-ParseWords",
+    "perl-Text-Tabs+Wrap",
+    "perl-Time-Local",
+    "perl-URI",
+    "perl-Unicode-Normalize",
+    "perl-base",
+    "perl-constant",
+    "perl-if",
+    "perl-interpreter",
+    "perl-libnet",
+    "perl-libs",
+    "perl-locale",
+    "perl-mro",
+    "perl-overload",
+    "perl-overloading",
+    "perl-parent",
+    "perl-podlators",
+    "perl-vars",
+    "python3-enchant",
+    "python3-file-magic",
+    "python3-packaging",
+    "python3-pyxdg",
+    "python3-tomli-w",
+    "python3-zstandard",
+    "rpmlint",
+    "rpmlint-fedora-license-data",
+    "shared-mime-info",
+]
+"x86_64_v2" = [
+    "desktop-file-utils",
+    "devscripts-checkbashisms",
+    "emacs-filesystem",
+    "enchant2",
+    "gdk-pixbuf2",
+    "groff-base",
+    "hunspell",
+    "hunspell-en-US",
+    "hunspell-filesystem",
+    "json-glib",
+    "libappstream-glib",
+    "libjpeg-turbo",
+    "libpng",
+    "ncurses",
+    "perl-AutoLoader",
+    "perl-B",
+    "perl-Carp",
+    "perl-Class-Struct",
+    "perl-Data-Dumper",
+    "perl-Digest",
+    "perl-Digest-MD5",
+    "perl-DynaLoader",
+    "perl-Encode",
+    "perl-Errno",
+    "perl-Exporter",
+    "perl-Fcntl",
+    "perl-File-Basename",
+    "perl-File-Path",
+    "perl-File-Temp",
+    "perl-File-stat",
+    "perl-FileHandle",
+    "perl-Getopt-Long",
+    "perl-Getopt-Std",
+    "perl-HTTP-Tiny",
+    "perl-IO",
+    "perl-IO-Socket-IP",
+    "perl-IO-Socket-SSL",
+    "perl-IPC-Open3",
+    "perl-MIME-Base64",
+    "perl-Mozilla-CA",
+    "perl-Net-SSLeay",
+    "perl-POSIX",
+    "perl-PathTools",
+    "perl-Pod-Escapes",
+    "perl-Pod-Perldoc",
+    "perl-Pod-Simple",
+    "perl-Pod-Usage",
+    "perl-Scalar-List-Utils",
+    "perl-SelectSaver",
+    "perl-Socket",
+    "perl-Storable",
+    "perl-Symbol",
+    "perl-Term-ANSIColor",
+    "perl-Term-Cap",
+    "perl-Text-ParseWords",
+    "perl-Text-Tabs+Wrap",
+    "perl-Time-Local",
+    "perl-URI",
+    "perl-Unicode-Normalize",
+    "perl-base",
+    "perl-constant",
+    "perl-if",
+    "perl-interpreter",
+    "perl-libnet",
+    "perl-libs",
+    "perl-locale",
+    "perl-mro",
+    "perl-overload",
+    "perl-overloading",
+    "perl-parent",
+    "perl-podlators",
+    "perl-vars",
+    "python3-enchant",
+    "python3-file-magic",
+    "python3-packaging",
+    "python3-pyxdg",
+    "python3-tomli-w",
+    "python3-zstandard",
+    "rpmlint",
+    "rpmlint-fedora-license-data",
+    "shared-mime-info",
 ]
 
 [unsigned]  # the pinned packages of the repositories of gpgcheck = false

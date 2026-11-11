@@ -1,0 +1,20 @@
+# Only the checks below, out of Fedora's: the others find too much that is either intended, or upstream's. A check
+# goes in the list once what it finds is fixed, or filtered in lint/<package>.rpmlintrc.
+Filters = ['''(?x) ^(?!.*:\ [EW]:\ (
+    specfile-error
+    | superfluous-%clean-section
+    | rpm-buildroot-usage
+    | incoherent-version-in-changelog
+    | no-changelogname-tag
+    | macro-in-%changelog
+    | unversioned-explicit-provides
+    | unversioned-explicit-obsoletes
+    | missing-dependency-to-logrotate
+    | missing-dependency-to-crontabs
+    | env-script-interpreter
+    | script-without-shebang
+    | sourced-script-with-shebang
+    | backup-file-in-package
+    | world-writable
+    | missing-call-to-setgroups-before-setuid
+)(\s|$))''']
