@@ -205,7 +205,7 @@ vncterm.requires."vncterm" = ["bash", "glibc", "xen-libs"]
 
 # xapi
 xapi.build = 1
-xapi.key = "42b7a4284b05253b3ae6a74686ebd685fb02e4ac65d2d4da720cd7bd54c8bc9d"
+xapi.key = "0ee8a0dabbbcf668a3edd5fa6a9581f30866fc414cde10c2d015ef6813719bc8"
 xapi.evr = "26.19.0-2.2"
 xapi.requires."forkexecd" = ["glibc"]
 xapi.requires."forkexecd-devel" = ["forkexecd", "ocaml", "ocaml-runtime", "xapi-idl-devel", "xapi-libs-devel", "xs-opam-repo"]
@@ -260,14 +260,14 @@ xcp-emu-manager.requires."xcp-emu-manager" = ["glibc", "json-c", "libempserver",
 
 # xcp-featured
 xcp-featured.build = 2
-xcp-featured.key = "5e1675832959cbaba544f5aa0ec0cf3f83865024b4c98df6637f6b6e66fde373"
+xcp-featured.key = "244cc8730b352d3bd0beee211abda5d308755d7a4074ee6c7b66f4e382155a48"
 xcp-featured.evr = "1.1.8-6"
 xcp-featured.requires."xcp-featured" = ["glibc"]
 
 # xcp-ng-config
 xcp-ng-config.build = 1
-xcp-ng-config.key = "e25035fcc83b28132056f0a6f479edea6887792c66831851f6d5dd109721393c"
-xcp-ng-config.evr = "0-0.ydi.6"
+xcp-ng-config.key = "14ca8d46f15e06336607c75a7a1c915a113471257ce76408c4bf3e898a1fe8e3"
+xcp-ng-config.evr = "0-1.1"
 
 # xcp-ng-deps
 xcp-ng-deps.build = 1
@@ -289,8 +289,8 @@ xcp-ng-pv-tools.requires."xcp-ng-pv-tools" = ["bash"]
 
 # xcp-ng-release
 xcp-ng-release.build = 1
-xcp-ng-release.key = "a6004dace46602e75cc0fe2162a1bb5271ec11f30236dfc22c8c7f929039da87"
-xcp-ng-release.evr = "8.99.0-7"
+xcp-ng-release.key = "0965b44309e3cbbd91c6af05723b44d69945a93b4607fd0095d2b57fb499be07"
+xcp-ng-release.evr = "8.99.0-8"
 xcp-ng-release.requires."xcp-ng-release" = ["python3"]
 xcp-ng-release.requires."xcp-ng-release-config" = ["bash", "python3"]
 

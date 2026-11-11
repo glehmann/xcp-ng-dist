@@ -24,7 +24,7 @@
 
 Name:           xcp-ng-release
 Version:        8.99.0
-Release:        7%{?autorev}
+Release:        8%{?autorev}
 Summary:        XCP-ng release file
 Group:          System Environment/Base
 License:        GPLv2
@@ -194,6 +194,7 @@ sed -i '/^kernel.core_pattern=/ s/^/#/' %{buildroot}%{_sysconfdir}/sysctl.d/90-d
 
 # Don't install rsyslog config
 rm -r %{buildroot}%{_sysconfdir}/rsyslog.d/
+rm %{buildroot}%{_sysconfdir}/systemd/system/rsyslog.service
 
 %posttrans
 # XCP-ng 8.1: running this in posttrans instead of post because xcp-ng-release may be installed after
@@ -580,6 +581,12 @@ systemctl preset-all --preset-mode=enable-only || :
 
 # Keep this changelog through future updates
 %changelog
+* Wed Nov 11 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 8.99.0-8
+- Merge 8.99.0-4 of xcp-ng-rpms: without rsyslog.service
+
+* Tue Nov 09 2026 Yann Dirson <yann.dirson@vates.tech> - 8.99.0-4
+- Stop installing rsyslog.service file
+
 * Wed Nov 04 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 8.99.0-7
 - Disable xapi-ssh-monitor in the presets: enabled, it disables SSH at the first boot of the hosts not in SSH auto mode
 
