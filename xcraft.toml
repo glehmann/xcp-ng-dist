@@ -9,7 +9,6 @@ packages = [
     "shadow-utils", "tar", "unzip", "util-linux", "which", "xz", "rpm-build", "redhat-rpm-config",
 ]
 # the packages of the same archive, which xcraft bump --version updates together
-same_version = [["kernel", "kernel-headers"]]
 # the branches of the fixes of the releases, numbered +b<n>.<m> after the release's +b<n>, see xcraft maint start
 maintenance_branches = ["maint/*", "embargo/*"]
 # those of the fixes under embargo: their builds go to remote.private only, once it is configured
@@ -110,7 +109,7 @@ installer = [
     "selinux-policy-targeted", "setup", "shadow-utils", "sssd-common", "sssd-kcm", "sudo", "systemd",
     "util-linux", "vim-minimal",
     # the installer, xl for its preinit, and the hardware support
-    "host-installer-startup", "chrony", "dhcp-client", "xen-dom0-tools", "kernel", "linux-firmware",
+    "host-installer-startup", "chrony", "dhcp-client", "xen-dom0-tools", "kernel-xcpng", "linux-firmware",
     # the DNS of systemd-networkd, which host-installer requires
     "systemd-resolved",
     # the firmware linux-firmware recommends

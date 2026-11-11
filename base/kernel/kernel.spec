@@ -25,18 +25,16 @@
 # since some of them are for Python 3 only. Just ignore the errors.
 %global _python_bytecompile_errors_terminate_build 0
 
-# XCP-ng BEGIN: remove support for livepatching support
 # %%define lp_devel_dir %%{_usrsrc}/kernel-%%{version}-%%{release}
 #
 # # Prevent RPM adding Provides/Requires to lp-devel package
 # %%global __provides_exclude_from ^%%{lp_devel_dir}/.*$
 # %%global __requires_exclude_from ^%%{lp_devel_dir}/.*$
-# XCP-ng END
 
-Name: kernel
+Name: kernel-xcpng
 License: GPLv2
 Version: %{usver}
-Release: 5%{dist}
+Release: 6%{dist}
 ExclusiveOS: Linux
 Summary: The Linux kernel
 BuildRequires: kmod
@@ -50,8 +48,6 @@ BuildRequires: openssl
 BuildRequires: rsync
 BuildRequires: systemtap-sdt-devel
 BuildRequires: perl-interpreter
-# the headers are in their own package, kept in sync: the builds get ours, not Alma's of the same version
-BuildRequires: kernel-headers-xcpng = %{version}
 
 # These build dependencies are needed for building the main kernel and
 # modules as well live patches.
@@ -78,15 +74,15 @@ BuildRequires: xz-devel
 BuildRequires: libunwind-devel
 BuildRequires: python3-devel
 BuildRequires: python3-setuptools
-BuildRequires: asciidoc xmlto
+BuildRequires: asciidoc, xmlto
 %{?_cov_buildrequires}
 AutoReqProv: no
 Provides: kernel-uname-r = %{uname}
 Provides: kernel = %{version}-%{release}
 Provides: kernel-%{_arch} = %{version}-%{release}
-Provides: kernel-xcpng
-Requires(post): coreutils kmod
-Requires(posttrans): coreutils dracut kmod
+Obsoletes: kernel < %{version}-%{release}
+Requires(post): coreutils, kmod
+Requires(posttrans): coreutils, dracut, kmod
 
 Source0: UEK8-6.12.0-206.100.3.1.tar.xz
 Source1: kernel-x86_64.config
@@ -153,6 +149,22 @@ Linux operating system. The kernel handles the basic functions of the operating
 system: memory allocation, process allocation, device input and output, etc.
 
 
+%package headers
+License: GPLv2
+Summary: Header files for the Linux kernel for use by glibc
+Group: Development/System
+Obsoletes: glibc-kernheaders < 3.0-46
+Provides: glibc-kernheaders = 3.0-46
+Provides: kernel-headers = %{uname}
+Conflicts: kernel-headers < %{uname}
+
+%description headers
+Kernel-headers includes the C header files that specify the interface
+between the Linux kernel and userspace libraries and programs.  The
+header files define structures and constants that are needed for
+building most standard programs and are also needed for rebuilding the
+glibc package.
+
 %package devel
 License: GPLv2
 Summary: Development package for building kernel modules to match the %{uname} kernel
@@ -165,7 +177,6 @@ Provides: kernel-devel-uname-r = %{uname}
 This package provides kernel headers and makefiles sufficient to build modules
 against the %{uname} kernel.
 
-# XCP-ng BEGIN: remove support for livepatching support
 # %%package lp-devel_%%{version}_%%{release}
 # License: GPLv2
 # Summary: Development package for building livepatches
@@ -175,12 +186,12 @@ against the %{uname} kernel.
 # %%description lp-devel_%%{version}_%%{release}
 # Contains the prepared source files, config, and vmlinux for building live
 # patches against base version %%{version}-%%{release}.
-# XCP-ng END
 
-%package -n perf
+%package -n perf-xcpng
 Summary: Performance monitoring for the Linux kernel
+Provides: perf
 License: GPLv2
-%description -n perf
+%description -n perf-xcpng
 This package contains the perf tool, which enables performance monitoring
 of the Linux kernel.
 
@@ -189,10 +200,10 @@ of the Linux kernel.
 written in the Python programming language to use the interface \
 to manipulate perf events.
 
-%package -n python3-perf
+%package -n python3-perf-xcpng
 Summary: %{pythonperfsum}
 Provides: python3-perf
-%description -n python3-perf
+%description -n python3-perf-xcpng
 %{pythonperfdesc}
 
 %prep
@@ -299,6 +310,9 @@ make INSTALL_MOD_PATH=%{buildroot} vdso_install
 # install -d -m 755 %{buildroot}/usr/lib/debug/lib/modules/%{uname}
 # install -m 755 vmlinux %{buildroot}/usr/lib/debug/lib/modules/%{uname}
 
+# Install -headers files
+make INSTALL_HDR_PATH=%{buildroot}/usr headers_install
+
 # perf tool binary and supporting scripts/binaries
 %{perf_make} %{perf_python3} DESTDIR=%{buildroot} lib=%{_lib} install-bin
 # remove the 'trace' symlink.
@@ -375,10 +389,8 @@ touch -r %{buildroot}%{srcpath}/Makefile %{buildroot}%{srcpath}/include/generate
 
 find %{buildroot} -name '.*.cmd' -type f -delete
 
-# XCP-ng BEGIN: remove support for livepatching support
 # # Install files for building live patches
 # install -m 644 vmlinux %%{buildroot}%%{lp_devel_dir}
-# XCP-ng END
 
 # eBPF support: Install the BTF file to /usr/src/kernels for kernel-devel
 # /usr/src/kernels is also used by `perf` to look for vmlinux files with
@@ -449,42 +461,44 @@ fi
 %doc LICENSES/exceptions/Linux-syscall-note
 %doc Documentation/process/license-rules.rst
 
+%files headers
+/usr/include/*
+
 %files devel
 /lib/modules/%{uname}/build
 /lib/modules/%{uname}/source
 %verify(not mtime) /usr/src/kernels/%{uname}-%{_arch}
 %{_rpmconfigdir}/macros.d/macros.kernel
 
-%files -n perf
+%files -n perf-xcpng
 %{_bindir}/perf
 %{_libexecdir}/perf-core
 %{_datadir}/perf-core/
 %{_mandir}/man[1-8]/perf*
 %{_sysconfdir}/bash_completion.d/perf
-# in kernel-headers before, which only has the kernel's
-%{_includedir}/perf/perf_dlfilter.h
 %doc tools/perf/Documentation/examples.txt
 %license COPYING
 
-%files -n python3-perf
+%files -n python3-perf-xcpng
 %license COPYING
 %{python3_sitearch}/*
 
-# XCP-ng BEGIN: remove support for livepatching support
 # %%files lp-devel_%%{version}_%%{release}
 # %%{lp_devel_dir}
-# XCP-ng END
 
 %{?_cov_results_package}
 
 %changelog
-* Thu Oct 29 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 6.12.0-5
-- Drop lp-devel package, as in 8.3: XCP-ng does not provide any live-patching
+* Wed Nov 11 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 6.12.0-6
+- Release 6, above 6.12.0-5 of xcp-ng-dist, which Obsoletes: kernel replaces
+- The configuration checked without the versions of the toolchain, which change with its updates
 
-* Wed Oct 21 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 6.12.0-4
-- Move the headers to the kernel-headers package, but perf_dlfilter.h, to perf
+* Wed Nov 04 2026 Yann Dirson <yann.dirson@vates.tech> - 6.12.0-4
+- Change package name to kernel-xcpng, obsoletes older "kernel"
+- Stop using obsolete space separator in *Requires lists
+- Comment out support for livepatching
 
-* Wed Sep 7 2026 Corentin Oparowski <corentin.oparowski@vates.tech> - 6.12.0-3
+* Mon Sep 07 2026 Corentin Oparowski <corentin.oparowski@vates.tech> - 6.12.0-3
 - Update patchqueue to match Xenserver 6.6.98-19 revision
 - Rebase on top of 6.12.0-206-100.3.1
 
