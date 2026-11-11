@@ -1,6 +1,6 @@
 # written by xcraft: the versions of the upstream packages, for all the architectures
 
-version = 1
+version = 2
 
 [sources]
 "ImageMagick" = "7.1.2.34-1.el10_3"
@@ -1306,6 +1306,7 @@ version = 1
 "rpm-devel" = "4.19.1.1-23.el10.alma.1 aarch64 0fbfab5f4ade9458840edf08d713822a4f053d30a2dc0a4bef1570044c3b1021 rpm"
 "rpm-libs" = "4.19.1.1-23.el10.alma.1 aarch64 1f61b2dce8db0fab8c3e0032606fefa62c8c5d546dc9eba10cea29a15debbfc8 rpm"
 "rpm-sequoia" = "1.10.2.1-1.el10_2 aarch64 aa7ad81a0f4a78036fca5475aeda7667ec441f5acaa8ceaf0509de41b36fe994 rust-rpm-sequoia"
+"rpm-sign" = "4.19.1.1-23.el10.alma.1 aarch64 09f84af19b5404b051a54e9b60638d66fc131dd7799cb7456789f29662a67a16 rpm"
 "rpm-sign-libs" = "4.19.1.1-23.el10.alma.1 aarch64 ffe43846199296c5a036f10a8d153dd5182b05a62880929e2cd5d6ac95752ce2 rpm"
 "rsvg-pixbuf-loader" = "2.57.1-9.el10 aarch64 544e95b57b69d1b80ece2965a2ac7c901dd8124d6198061835d8cda2b644c95e librsvg2"
 "rsync" = "3.5.0-3.el10_2 aarch64 083a290c8202305d7e47d055fce15fb023be49dd11e0bab9a828988db93b52ee rsync"
@@ -2276,6 +2277,7 @@ version = 1
 "rpm-plugin-audit" = "4.19.1.1-23.el10.alma.1 x86_64_v2 3db6811d827901731eb5e84088d6d3bb2f7404a00871b444c5976129f056e0fb rpm"
 "rpm-plugin-selinux" = "4.19.1.1-23.el10.alma.1 x86_64_v2 e4323e8de14a655181c33340f11fdc2b19ed56b22c38780c84b9b59228171d5a rpm"
 "rpm-sequoia" = "1.10.2.1-1.el10_2 x86_64_v2 b01bc5a960ce949d22db72067cf581b94aad1f88b57dcd0e522fe03ab6fc0bb1 rust-rpm-sequoia"
+"rpm-sign" = "4.19.1.1-23.el10.alma.1 x86_64_v2 70056d07408d1936e5b9ea3c1963730f96354c3c6110ecaee32a20dc77f8af1f rpm"
 "rpm-sign-libs" = "4.19.1.1-23.el10.alma.1 x86_64_v2 88e6de7d53b83a854d2b999c0bfb7c52ed2ca707d1947f49d0b223219c8d8edc rpm"
 "rsvg-pixbuf-loader" = "2.57.1-9.el10 x86_64_v2 4dc2cc3db207e6ffa6644fa2afcbc1742244765966a8570919fd8860092c397a librsvg2"
 "rsync" = "3.5.0-3.el10_2 x86_64_v2 0ef43712db75150af848c2d4b7c0bf5afed44360f9c1e5232140fc0d819ddedf rsync"
@@ -8602,3 +8604,25 @@ version = 1
     "systemd-udev",
     "xorriso",
 ]
+
+[sign]  # the upstream binary packages of the signing image, but the image's
+"aarch64" = [
+    "gnupg2",
+    "libassuan",
+    "libgcrypt",
+    "libgpg-error",
+    "libksba",
+    "npth",
+    "rpm-sign",
+]
+"x86_64_v2" = [
+    "gnupg2",
+    "libassuan",
+    "libgcrypt",
+    "libgpg-error",
+    "libksba",
+    "npth",
+    "rpm-sign",
+]
+
+[unsigned]  # the pinned packages of the repositories of gpgcheck = false

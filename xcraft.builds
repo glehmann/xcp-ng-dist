@@ -2,51 +2,51 @@
 
 # biosdevname
 biosdevname.build = 2
-biosdevname.key = "0e03021a5fffa5d609bf736339de687a211123b9e21b8c65a6543f78197f0578"
+biosdevname.key = "093a677ee3efa2465e6eb36e9ac601520a0bed51e8fbecd70c48095d18b2dda9"
 biosdevname.evr = "0.7.3-6.1"
 biosdevname.requires."biosdevname" = ["glibc", "pciutils-libs"]
 
 # blktap
 blktap.build = 2
-blktap.key = "650a4d992166b6d3818ea65d0f18e8aa3c1906404c0376b87fab4fb0c6c632bc"
+blktap.key = "9842c33b7824a7bd93c61c8c323d41584b8dce69cb268c828365a17397185310"
 blktap.evr = "4.0.8-1.1"
 blktap.requires."blktap" = ["bash", "glibc", "libaio", "libuuid", "openssl-libs", "xen-libs", "zlib-ng-compat"]
 blktap.requires."blktap-devel" = ["blktap"]
 blktap.requires."vhd-util-standalone" = ["glibc", "libuuid", "openssl-libs"]
 
 # branding-xcp-ng
-branding-xcp-ng.build = 1
-branding-xcp-ng.key = "43b8b21abae1a92c68b9421db772296b604cfcbe5b28eace21beb65b268f84e9"
+branding-xcp-ng.build = 2
+branding-xcp-ng.key = "0941c60f3a5f484ff05043779ae9569f6fa811950a8d7ea87a8653598bc7181f"
 branding-xcp-ng.evr = "8.99.0-2.219ab5b"
 branding-xcp-ng.requires."branding-xcp-ng" = ["python3"]
 
 # dev86
 dev86.build = 2
-dev86.key = "4bc9e29a0951d0fa4a26cff36e576a974c315f133f080a8532f00ef400037eaf"
+dev86.key = "571a1ba440ff169345324e20c3435e392abba8d749ceaae98ecd74d078dc6744"
 dev86.evr = "0.16.21-33"
 dev86.requires."dev86" = ["bash", "glibc"]
 
 # dhcp
 dhcp.build = 2
-dhcp.key = "d118b1fd55ce21e6a27709a1999e6f0f8d693de2826dffbd89b5db2e1f93f4b8"
+dhcp.key = "388bd3ad5067571886990e50b1e5f2238f0b31f0ec565b5ebd6e3fe3d032b2ce"
 dhcp.evr = "12:4.4.3-23.1"
 dhcp.requires."dhcp-client" = ["bash", "dhcp-common", "glibc", "libcap-ng"]
 dhcp.requires."dhcp-relay" = ["dhcp-common", "glibc", "libcap-ng", "systemd-libs"]
 
 # dmv-utils
-dmv-utils.build = 1
-dmv-utils.key = "618f9e494c32cb0705d19f95fbeb9757d081cc6408ebeb10e2ca58e1984dab18"
+dmv-utils.build = 2
+dmv-utils.key = "8162617bb3a9b3f82e02e60f1b673e89384c879c602e35b40e3be24b447e0169"
 dmv-utils.evr = "1.0.3-2"
 dmv-utils.requires."dmv-utils" = ["python3"]
 
 # edk2
 edk2.build = 2
-edk2.key = "f93bcf76221f5aea15550dac2fedae9bbacfec253809ff41df6942e7151da354"
+edk2.key = "36cad15f3cecce62f77c73cb34781ec2a725c59e1f6bfebe54973caf860b818b"
 edk2.evr = "202602-1"
 
 # grub
 grub.build = 2
-grub.key = "d04ad2341ecbd78fdf47940d7da0e9c2d8287251c0ea870e61b8f2e69aaf6a1b"
+grub.key = "57fdd26e995783b345c26a901c4bcf4d52f94c4a968c01cee9f9d8d9a095bd29"
 grub.evr = "1:2.12-20"
 grub.requires."grub2-common" = ["bash"]
 grub.requires."grub2-efi-ia32" = ["grub2-common", "grub2-tools", "grub2-tools-minimal"]
@@ -69,7 +69,7 @@ grub.aarch64.requires."grub2-efi-aa64-modules" = ["grub2-common"]
 
 # guest-templates-json
 guest-templates-json.build = 1
-guest-templates-json.key = "89e29d0585b756d1596950409bc5be6ff8b998d540aff56c6c0c227a8056c5b8"
+guest-templates-json.key = "c0bc8368b4f2aa493857db10ff50850ef229c7c5f77ab7fcc8e1edadef17b863"
 guest-templates-json.evr = "2.1.1-1.2.1"
 guest-templates-json.requires."guest-templates-json" = ["bash", "python3"]
 guest-templates-json.requires."guest-templates-json-data-linux" = ["guest-templates-json"]
@@ -79,39 +79,39 @@ guest-templates-json.requires."guest-templates-json-data-windows" = ["guest-temp
 
 # host-installer
 host-installer.build = 1
-host-installer.key = "e60cb34d5d119244b02db32915e23e28b7d8ce51a11165ef44f4c3e00991f6ee"
+host-installer.key = "20629a2e45c4507400c9e50c4f6099cf3802c47168d931e4a31a7518bf807449"
 host-installer.evr = "11.2.0-1.1.1"
 host-installer.requires."host-installer" = ["bash", "python3"]
 host-installer.requires."host-installer-startup" = ["bash"]
 
 # ipxe
 ipxe.build = 2
-ipxe.key = "87c96a0352dfe83a29a13e2d15bbe73eef7448aba8b704f3d1a0a766dfda399d"
+ipxe.key = "31a807a9483c95c93dcf30d3b8b62eb628a353763a5727af30ceaef3d910a86c"
 ipxe.evr = "2.0.0-1"
 
 # kernel
 kernel.build = 1
-kernel.key = "3ddd83dcfdad858293ba81d3c48e72fb1258a0dd6a4606d42f5f041a78ffd9e1"
+kernel.key = "8b0e04a26c3aa3eb6560f6eeb83109e245fa3c57e5c87188ce28e820a4ffb84f"
 kernel.evr = "6.12.0-6"
 kernel.requires."perf-xcpng" = ["bash", "elfutils-libelf", "elfutils-libs", "glibc", "libtraceevent", "libunwind", "libzstd", "perl-interpreter", "python3-libs", "xz-libs", "zlib-ng-compat"]
 kernel.requires."python3-perf-xcpng" = ["elfutils-libelf", "elfutils-libs", "glibc", "libtraceevent", "libunwind", "libzstd", "python3", "python3-libs", "xz-libs", "zlib-ng-compat"]
 
 # libempserver
 libempserver.build = 2
-libempserver.key = "66811951ced3c48cf7e9346a7ded6379b5c9f0b1258f9391e56c7772fbf2f3ce"
+libempserver.key = "2336904fe094ad3a983590a51e2735a1fcf5f4c3c9341dfd5f748d48d4f92eb5"
 libempserver.evr = "1.1.1-2"
 libempserver.requires."libempserver" = ["glibc"]
 libempserver.requires."libempserver-devel" = ["libempserver"]
 
 # nbd
 nbd.build = 2
-nbd.key = "511e36b23b69fc0ec3056fb5ccecc6ce1b67bda27c807494ae088fd2c80349ae"
+nbd.key = "1b8ebb1061f70fb37f2ad16729ea8ee18faa946592894158e13fde9efb63c955"
 nbd.evr = "3.25-2.1"
 nbd.requires."nbd" = ["glib2", "glibc", "gnutls", "libnl3"]
 
 # ocaml
 ocaml.build = 2
-ocaml.key = "63118ff7ae6f495d5993278fb25ea5341cebafef2ad854a0586d01bec78ba629"
+ocaml.key = "d8932c171d3875ef11800fd3f184eda696978be0d7a1d7e162e947dbb4e4c0e1"
 ocaml.evr = "4.14.2-1.2"
 ocaml.requires."ocaml" = ["glibc", "ocaml-runtime"]
 ocaml.requires."ocaml-compiler-libs" = ["ocaml", "ocaml-runtime"]
@@ -122,20 +122,20 @@ ocaml.requires."ocaml-source" = ["ocaml"]
 
 # ocaml-findlib
 ocaml-findlib.build = 2
-ocaml-findlib.key = "82e2e55f79771f58b7bae93153b751d08750a6e49c20c6614c0fee01a4586355"
+ocaml-findlib.key = "d7e4ac06adad0a0058b3647274af89bc4f844491372645fa27dedc4d280597f5"
 ocaml-findlib.evr = "1.9.8-1"
 ocaml-findlib.requires."ocaml-findlib" = ["glibc", "ocaml", "ocaml-runtime"]
 ocaml-findlib.requires."ocaml-findlib-devel" = ["ocaml", "ocaml-compiler-libs", "ocaml-findlib", "ocaml-runtime"]
 
 # opam
 opam.build = 2
-opam.key = "3cc0b6a8d37375a4ecba981c1522b1ffc3655898658e8a1725fa90d9667e4416"
+opam.key = "528186fe7814f4cdfe0b11b60c36e632bd501be7724ca55459fb0eac198d071a"
 opam.evr = "2.5.2-1.1"
 opam.requires."opam" = ["glibc", "libgcc", "libstdc++"]
 
 # openvswitch
 openvswitch.build = 2
-openvswitch.key = "fb543ecb50b75b985036e8aedc0a7b6ed64390677434fc18eb8f3f9ea7bfde47"
+openvswitch.key = "5d96eee53667dddc8728c83efbccae9628ccce30cef57efed58de01b07e7180b"
 openvswitch.evr = "3.7.1-3.3"
 openvswitch.requires."openvswitch" = ["bash", "glibc", "libarchive", "libcap-ng", "libibverbs", "numactl-libs", "openssl-libs", "python3", "unbound-libs"]
 openvswitch.requires."openvswitch-devel" = ["openvswitch", "pkgconf-pkg-config"]
@@ -145,13 +145,13 @@ openvswitch.requires."python3-openvswitch" = ["glibc", "openvswitch", "python3"]
 
 # python-bitarray
 python-bitarray.build = 2
-python-bitarray.key = "4105e4e98ecbc99b0f8f859f19e210fcb1639084c09742f7722b80596459e7b7"
+python-bitarray.key = "809660281231689b3259268900728af799fce62fdd62e244edb727df66350627"
 python-bitarray.evr = "2.8.5-12"
 python-bitarray.requires."python3-bitarray" = ["glibc", "python3"]
 
 # python-opentelemetry
-python-opentelemetry.build = 1
-python-opentelemetry.key = "88d4133d84c4177e6b32348c497908c31f796e1e4164f68f41b4c03be90e0bcf"
+python-opentelemetry.build = 2
+python-opentelemetry.key = "bfc00bac7a508a91edec03246b94d9baf359a3586e646b66258cbc8faaeb135e"
 python-opentelemetry.evr = "1.12.0-1"
 python-opentelemetry.requires."python3-opentelemetry-api" = ["python3", "python3-deprecated", "python3-setuptools"]
 python-opentelemetry.requires."python3-opentelemetry-exporter-zipkin" = ["python3", "python3-opentelemetry-exporter-zipkin-json", "python3-opentelemetry-exporter-zipkin-proto-http"]
@@ -162,13 +162,13 @@ python-opentelemetry.requires."python3-opentelemetry-semantic-conventions" = ["p
 
 # qemu
 qemu.build = 2
-qemu.key = "c8b617859e601a32f4c58d51be2536472b43dda71bc36bf694f404a063dc23c6"
+qemu.key = "c97471a073847a0ed1a33f2cdf5040d0cccf11013a0936954cf2575cf20a9195"
 qemu.evr = "0:10.1.0-1.3"
 qemu.requires."qemu" = ["glib2", "glibc", "libaio", "libgcc", "libjpeg-turbo", "libpng", "libseccomp", "libselinux", "libusb1", "pixman", "python3", "xen-dom0-libs", "xen-libs", "zlib-ng-compat"]
 
 # sm
 sm.build = 2
-sm.key = "4e4897eae018ab0f7d69f0243d613440afd68f9825e4589612983471b0e383e2"
+sm.key = "9fa82bee54f19a0fc2b51aefc5d4272bd5d9bbdbe1c22c40b18706c2fc41e4aa"
 sm.evr = "4.1.12-1.1"
 sm.requires."python3-sm-compat" = ["sm"]
 sm.requires."python3-sm-libs" = ["python3"]
@@ -179,33 +179,33 @@ sm.requires."sm-fairlock" = ["glibc", "python3"]
 
 # ssmtp
 ssmtp.build = 2
-ssmtp.key = "c50070cabb0efce2f1f385f572911b2b08d0fd5c17b4816deba2997eca6cc888"
+ssmtp.key = "7b525f0ce63aaa000fdd897948d27aeaf7eb5abf40a31428f8c9c5aa0714ad91"
 ssmtp.evr = "2.64-14.1"
 ssmtp.requires."ssmtp" = ["glibc", "openssl-libs"]
 ssmtp.provides."ssmtp" = ["/usr/sbin/ssmtp"]
 
 # varstored
 varstored.build = 1
-varstored.key = "990f4964de4fec6cea2720dbb149e58164a096e103df767ba032c8f432ea24c8"
+varstored.key = "1d04f7d7c1e5b6c71260059bb714bbeda32f0ba0c888d63961112218576541fb"
 varstored.evr = "1.3.4-2.1"
 varstored.requires."varstored" = ["glibc", "libseccomp", "libxml2", "openssl-libs", "xen-dom0-libs", "xen-libs"]
 varstored.requires."varstored-tools" = ["glibc", "libseccomp", "libxml2", "openssl-libs"]
 
 # vmss
 vmss.build = 1
-vmss.key = "3ca20db66cd81b9446bfded58ae25b0c9cd75b5fbe7e6884dd2c161a284b6218"
+vmss.key = "11301d2c5dd612ee96ac587c737b26c443549410e68fd53238b65f3d03c85c41"
 vmss.evr = "1.2.2-1"
 vmss.requires."vmss" = ["python3"]
 
 # vncterm
 vncterm.build = 2
-vncterm.key = "08e82159ef93f205489d8ff3ddb48ad1f94413d34be9e1258344281a5210fbd5"
+vncterm.key = "ddcd2e93f13e5e2e8cbbebeca4cf79f92877500668c33197b886eec6966c99f8"
 vncterm.evr = "10.2.2-1"
 vncterm.requires."vncterm" = ["bash", "glibc", "xen-libs"]
 
 # xapi
 xapi.build = 1
-xapi.key = "0ee8a0dabbbcf668a3edd5fa6a9581f30866fc414cde10c2d015ef6813719bc8"
+xapi.key = "728a2549f8d26d9b52d6a754d6f772779c27f69d79afcf4259026576efafe417"
 xapi.evr = "26.19.0-2.2"
 xapi.requires."forkexecd" = ["glibc"]
 xapi.requires."forkexecd-devel" = ["forkexecd", "ocaml", "ocaml-runtime", "xapi-idl-devel", "xapi-libs-devel", "xs-opam-repo"]
@@ -242,74 +242,74 @@ xapi.requires."xenopsd-xc" = ["glibc", "openssl-libs", "xen-dom0-libs", "xenopsd
 
 # xcp-clipboardd
 xcp-clipboardd.build = 2
-xcp-clipboardd.key = "b7908ec3589565bb7fc8d8fa9ffa128c5bdc01b40f13d17be4e0b0feb84750de"
+xcp-clipboardd.key = "ab014e9a038f870847f9af9dfda3c81e7f6448326498f6fd426adece4209453d"
 xcp-clipboardd.evr = "1.0.3-10"
 xcp-clipboardd.requires."xcp-clipboardd" = ["glibc", "xen-libs"]
 
 # xcp-efivar-utils
 xcp-efivar-utils.build = 1
-xcp-efivar-utils.key = "96860591b2865d295bf4e33e90d60036330368f48245941f7751d95820ae57a4"
+xcp-efivar-utils.key = "3a2ab47871bc30ea66dc8ff717425c45fb30e9ad12478a3ba35f157e3386475e"
 xcp-efivar-utils.evr = "1.0.0-2"
 xcp-efivar-utils.requires."xcp-efivar-utils" = ["python3"]
 
 # xcp-emu-manager
 xcp-emu-manager.build = 2
-xcp-emu-manager.key = "7b455455b36113b24f1c0e90847f2117292916feb9ac5f6a6671621d8cff6913"
+xcp-emu-manager.key = "9fbcaef61cac6d4f035eb01ca5af7c1b2b373ad64f8d33e4f55fe5a711f932a9"
 xcp-emu-manager.evr = "1.2.1-3"
 xcp-emu-manager.requires."xcp-emu-manager" = ["glibc", "json-c", "libempserver", "xcp-ng-generic-lib"]
 
 # xcp-featured
 xcp-featured.build = 2
-xcp-featured.key = "244cc8730b352d3bd0beee211abda5d308755d7a4074ee6c7b66f4e382155a48"
+xcp-featured.key = "0aa60113f87e7fc5a54659ad41291289c0f38d1c3432602790126485370302e7"
 xcp-featured.evr = "1.1.8-6"
 xcp-featured.requires."xcp-featured" = ["glibc"]
 
 # xcp-ng-config
 xcp-ng-config.build = 1
-xcp-ng-config.key = "14ca8d46f15e06336607c75a7a1c915a113471257ce76408c4bf3e898a1fe8e3"
+xcp-ng-config.key = "5199f2b69169841cf3a659f01049a9a13debc83f91b411758b88a0281f8ce8a8"
 xcp-ng-config.evr = "0-1.1"
 
 # xcp-ng-deps
-xcp-ng-deps.build = 1
-xcp-ng-deps.key = "e0a0d2ba5152e39396cdb5fcc117078d400af44c0fa6c6cc834a77d8d6e9cc9f"
+xcp-ng-deps.build = 2
+xcp-ng-deps.key = "f7e0b787b3a31a77cc6c3eb5190eff62e87f544792c4e1d1dd2f8a3a8ce43ac3"
 xcp-ng-deps.evr = "8.99-2"
 
 # xcp-ng-generic-lib
 xcp-ng-generic-lib.build = 2
-xcp-ng-generic-lib.key = "5b86a80bddea2545b68d6e9fd1ad19b7c74fdabf235452197864c9167511c175"
+xcp-ng-generic-lib.key = "2efffb749e299827fef3dc5c1afa2bfce3f7fd2dd763a2de9aab37d46d7666b9"
 xcp-ng-generic-lib.evr = "1.2.1-1"
 xcp-ng-generic-lib.requires."xcp-ng-generic-lib" = ["glibc", "zlib-ng-compat"]
 xcp-ng-generic-lib.requires."xcp-ng-generic-lib-devel" = ["cmake-filesystem", "xcp-ng-generic-lib"]
 
 # xcp-ng-pv-tools
 xcp-ng-pv-tools.build = 2
-xcp-ng-pv-tools.key = "7014f7f2ea35335439e084422a3dd1ecfa9606c9d3fd310bc2b3097b71759987"
+xcp-ng-pv-tools.key = "23a46f46ecc4587d649edd913c9b0eef3df51e9f01fcef0fde8d391c71cc3713"
 xcp-ng-pv-tools.evr = "8.3-20"
 xcp-ng-pv-tools.requires."xcp-ng-pv-tools" = ["bash"]
 
 # xcp-ng-release
 xcp-ng-release.build = 1
-xcp-ng-release.key = "0965b44309e3cbbd91c6af05723b44d69945a93b4607fd0095d2b57fb499be07"
+xcp-ng-release.key = "5d40651a70538977b93bcf7ecb3ff33c764c1242d1fad4b07f36f06213ecd8f6"
 xcp-ng-release.evr = "8.99.0-8"
 xcp-ng-release.requires."xcp-ng-release" = ["python3"]
 xcp-ng-release.requires."xcp-ng-release-config" = ["bash", "python3"]
 
 # xcp-ng-xapi-plugins
-xcp-ng-xapi-plugins.build = 1
-xcp-ng-xapi-plugins.key = "1b8e876a7acd2c8bacdcdb0991e830ad55a7ef00324c52f1f29225eebd9aac4a"
+xcp-ng-xapi-plugins.build = 2
+xcp-ng-xapi-plugins.key = "ab0314c897831a7c0ac3bab11f9daf37fc615dd081409061015902505af7ffc6"
 xcp-ng-xapi-plugins.evr = "1.16.0-1"
 xcp-ng-xapi-plugins.requires."xcp-ng-xapi-plugins" = ["python3"]
 
 # xcp-python-libs
-xcp-python-libs.build = 1
-xcp-python-libs.key = "f8feba352b28516e937362bc9c537be3184d9534323289c92629d24d40ce69c4"
+xcp-python-libs.build = 2
+xcp-python-libs.key = "a5ff079647953110d2998c79ebc9a4e8c247143c9aec20217638fd7817738f4a"
 xcp-python-libs.evr = "3.0.10-1.1.0.ydi.1"
 xcp-python-libs.buildrequires = ["(python3dist(tomli) if python3-devel < 3.11)", "python3dist(packaging)", "python3dist(pip) >= 19", "python3dist(setuptools) >= 42", "python3dist(six)", "python3dist(wheel)"]
 xcp-python-libs.requires."python3-xcp-libs" = ["python3", "python3-six"]
 
 # xen
 xen.build = 2
-xen.key = "ae5d75809d0f07b25bbd02c242cd255f1979871b9653f25011cc34215e3400d3"
+xen.key = "8ffc2ec1d48a6282f66888f3b69658c26454245fb855d4b907b83be13886e8dd"
 xen.evr = "4.21.2-3.4"
 xen.requires."xen-dom0-libs" = ["bzip2-libs", "e2fsprogs-libs", "glibc", "json-c", "libuuid", "libzstd", "lz4-libs", "lzo", "xen-libs", "xz-libs", "zlib-ng-compat"]
 xen.requires."xen-dom0-libs-devel" = ["pkgconf-pkg-config", "xen-dom0-libs", "xen-libs-devel"]
@@ -323,23 +323,23 @@ xen.requires."xen-oxenstored" = ["glibc", "libgcc", "xen-dom0-libs", "xen-libs"]
 xen.requires."xen-tools" = ["glibc", "xen-dom0-libs", "xen-libs"]
 
 # xo-lite
-xo-lite.build = 1
-xo-lite.key = "d038145af2b62095179bf15092c66c1895146380bbcda21fe2061789bbd008b1"
+xo-lite.build = 2
+xo-lite.key = "5e98b419db69785d476cd28602d6b50bd1f5da584b9abcdaccbf313ce27606c1"
 xo-lite.evr = "0.26.0-1"
 
 # xs-opam-repo
 xs-opam-repo.build = 2
-xs-opam-repo.key = "65e4c58b56b2dbb784c82d2770b53b51500204316cb169666c30b85edca6ce43"
+xs-opam-repo.key = "f349642d94d10f82fbd8353c512956b013fe6ed6a1c053c1c63ad7a5f08587d0"
 xs-opam-repo.evr = "6.99.0-1.2"
 xs-opam-repo.requires."xs-opam-repo" = ["bash", "glibc", "gmp", "libcurl-minimal", "libev", "libffi", "ocaml", "ocaml-compiler-libs", "ocaml-runtime", "openssl-libs", "pciutils-libs"]
 
 # xs-opam-src
-xs-opam-src.build = 1
-xs-opam-src.key = "aa7ffc2bf8ae7fcdefd8b6b5f103b8db061fd5c39c7dde32713c5a57d3b818c8"
+xs-opam-src.build = 2
+xs-opam-src.key = "5ff19080e22eb65663c13aeb59097f6926b3f19c77009efdf401fa50eaafb306"
 xs-opam-src.evr = "5.1.0-5"
 
 # xsconsole
 xsconsole.build = 1
-xsconsole.key = "7087479659a8d9522a3dbcc990b1d092c702bd547063889b955329ac895956a3"
+xsconsole.key = "56a90a69d2cfbf16fd06bb14085a25d04e73b08fda195875f011b77ed7c831a3"
 xsconsole.evr = "11.1.4-1.1.1"
 xsconsole.requires."xsconsole" = ["bash"]
