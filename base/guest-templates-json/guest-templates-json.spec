@@ -3,7 +3,7 @@
 Name:    guest-templates-json
 Summary: Creates the default guest templates
 Version: 2.1.1
-Release: 1%{?xsrel}.2%{?dist}
+Release: 1%{?xsrel}.2.1%{?dist}
 License: BSD
 Source0: guest-templates-json-2.1.1.tar.gz
 
@@ -26,8 +26,8 @@ Requires: xapi-core
 Requires(post): systemd
 Requires(preun): systemd
 Requires(postun): systemd
-BuildRequires: make
 BuildRequires: python3-devel
+BuildRequires: make
 BuildRequires: python-setuptools
 BuildRequires: python-jsonschema >= 4.0
 BuildRequires: systemd-devel
@@ -40,6 +40,8 @@ install/upgrade.
 %package data-pv
 Summary: Contains the PV guest templates
 Requires(post): %{name} = %{version}-%{release}
+# XCP-ng: drop for now to speed up work on core functionality
+#Requires: linux-guest-loader, linux-guest-loader-data
 
 %description data-pv
 Contains the PV guest templates.
@@ -200,6 +202,12 @@ fi
 %{templatedir}/other-install-media.json
 
 %changelog
+* Wed Nov 11 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 2.1.1-1.2.1
+- Build requires make, which the build environment image does not have
+
+* Fri Nov 06 2026 Yann Dirson <yann.dirson@vates.tech> - 2.1.1-1.2.ydi.1
+- drop for now the linux-guest-loader dependencies added upstream
+
 * Wed Oct 28 2026 Baptiste Le Duc <baptiste.le-duc@vates.tech> - 2.1.1-1.2
 - Drop jsonlint from make check, removing the python-demjson BuildRequires
 - Validate templates against a JSON Schema

@@ -69,8 +69,8 @@ grub.aarch64.requires."grub2-efi-aa64-modules" = ["grub2-common"]
 
 # guest-templates-json
 guest-templates-json.build = 1
-guest-templates-json.key = "59e17a0ebc29173c9c14dc9b8391c282926e72dda77a09ee6d36c461036fcc5c"
-guest-templates-json.evr = "2.1.1-1.2"
+guest-templates-json.key = "89e29d0585b756d1596950409bc5be6ff8b998d540aff56c6c0c227a8056c5b8"
+guest-templates-json.evr = "2.1.1-1.2.1"
 guest-templates-json.requires."guest-templates-json" = ["bash", "python3"]
 guest-templates-json.requires."guest-templates-json-data-linux" = ["guest-templates-json"]
 guest-templates-json.requires."guest-templates-json-data-other" = ["guest-templates-json"]
@@ -193,8 +193,8 @@ varstored.requires."varstored-tools" = ["glibc", "libseccomp", "libxml2", "opens
 
 # vmss
 vmss.build = 1
-vmss.key = "bf227b425940e997439117fe22a1ef71ce5a9028ad7d4a1044c069ac735b32f6"
-vmss.evr = "1.2.1-1"
+vmss.key = "3ca20db66cd81b9446bfded58ae25b0c9cd75b5fbe7e6884dd2c161a284b6218"
+vmss.evr = "1.2.2-1"
 vmss.requires."vmss" = ["python3"]
 
 # vncterm
@@ -340,6 +340,6 @@ xs-opam-src.evr = "5.1.0-5"
 
 # xsconsole
 xsconsole.build = 1
-xsconsole.key = "e5eeaa73ddac2359f378bdc43bd4393af83f3fd329e48bf126f46667a4e5da40"
-xsconsole.evr = "11.1.2-0.0.ydi.3"
+xsconsole.key = "7087479659a8d9522a3dbcc990b1d092c702bd547063889b955329ac895956a3"
+xsconsole.evr = "11.1.4-1.1.1"
 xsconsole.requires."xsconsole" = ["bash"]
