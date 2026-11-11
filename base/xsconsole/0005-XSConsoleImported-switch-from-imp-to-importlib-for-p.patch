@@ -1,7 +1,7 @@
-From 2d11f4a60391d08b58d7c97af05a6ba4ff2c67dc Mon Sep 17 00:00:00 2001
+From 41019aebb41750a389df1cc1c3aad3f49f8c041b Mon Sep 17 00:00:00 2001
 From: Yann Dirson <yann.dirson@vates.tech>
 Date: Wed, 2 Jul 2025 18:30:59 +0200
-Subject: [PATCH 3/3] XSConsoleImported: switch from imp to importlib for
+Subject: [PATCH 05/12] XSConsoleImported: switch from imp to importlib for
  python 3.12 support
 
 This switches away from deprecated `imp`, and breaks support for python

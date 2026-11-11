@@ -1,7 +1,7 @@
-From 1f6b7aae968d9b2d330e13757ee3fb99ed48a63c Mon Sep 17 00:00:00 2001
+From d53276d1be14a27164b9445c0d9fc6327abc9497 Mon Sep 17 00:00:00 2001
 From: Yann Dirson <yann.dirson@vates.tech>
 Date: Wed, 2 Jul 2025 17:47:23 +0200
-Subject: [PATCH 2/3] pyproject: drop superseded license classifiers
+Subject: [PATCH 03/12] pyproject: drop superseded license classifiers
 
 There is an equivalent License tag already, and uv plainly errors out
 too on this one.

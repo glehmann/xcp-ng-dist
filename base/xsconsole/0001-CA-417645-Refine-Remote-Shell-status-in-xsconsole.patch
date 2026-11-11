@@ -1,0 +1,75 @@
+From a85348f0aa01a50f9daa27f0e5e94409fd8d8e9e Mon Sep 17 00:00:00 2001
+From: "Lunfan Zhang[Lunfan.Zhang]" <Lunfan.Zhang@cloud.com>
+Date: Wed, 24 Dec 2025 08:39:54 +0000
+Subject: [PATCH 01/12] CA-417645 Refine Remote Shell status in xsconsole
+
+Signed-off-by: Lunfan Zhang[Lunfan.Zhang] <Lunfan.Zhang@cloud.com>
+---
+ XSConsoleData.py                     |  4 ++++
+ plugins-base/XSFeatureRemoteShell.py | 18 ++++++++++--------
+ 2 files changed, 14 insertions(+), 8 deletions(-)
+
+diff --git a/XSConsoleData.py b/XSConsoleData.py
+index d50d6b8..1127c98 100644
+--- a/XSConsoleData.py
++++ b/XSConsoleData.py
+@@ -366,6 +366,7 @@ class Data:
+         self.UpdateFromKeymap()
+ 
+         self.data['chkconfig'] = {}
++        self.data['service_active'] = {}
+         self.ScanService('sshd')
+         self.ScanService('chronyd')
+ 
+@@ -768,6 +769,9 @@ class Data:
+         (status, output) = getstatusoutput("systemctl is-enabled %s" % (service,))
+         self.data['chkconfig'][service] = status == 0
+ 
++        (status, output) = getstatusoutput("systemctl is-active %s" % (service,))
++        self.data['service_active'][service] = status == 0
++
+     def ScanResolvConf(self, inLines):
+         self.data['dns'] = {
+             'nameservers' : [],
+diff --git a/plugins-base/XSFeatureRemoteShell.py b/plugins-base/XSFeatureRemoteShell.py
+index f880139..ee40c2c 100644
+--- a/plugins-base/XSFeatureRemoteShell.py
++++ b/plugins-base/XSFeatureRemoteShell.py
+@@ -68,7 +68,7 @@ class DisableOptionsDialogue(Dialogue):
+                     "Command Shell to terminate them.")
+             if inChoice == self.SSH_MODE_AUTO:
+                 data.SetSSHAutoMode(True)
+-                message = Lang("SSH auto-mode has been configured. For security,"
++                message = Lang("SSH auto-mode has been configured. For security, "
+                         "SSH is normally disabled and will only be enabled in case of emergency.")
+ 
+             Layout.Inst().PushDialogue(InfoDialogue(message))
+@@ -139,16 +139,18 @@ class XSFeatureRemoteShell:
+         data = Data.Inst()
+         inPane.AddTitleField(Lang("Remote Shell (ssh)"))
+ 
+-        if data.chkconfig.sshd() is None:
+-            message = Lang('unknown.  To enable or disable')
+-        elif data.chkconfig.sshd():
+-            message = Lang('enabled.  To disable')
++        is_running = data.service_active.sshd()
++
++        if is_running is None:
++            message = Lang('unknown. To configure')
++        elif is_running:
++            message = Lang('running. To stop and disable')
+         else:
+-            message = Lang('disabled.  To enable')
++            message = Lang('stopped. To start and enable')
+ 
+         inPane.AddWrappedTextField(Lang(
+-            "This server can accept a remote login via ssh.  Currently remote login is ") +
+-            message + Lang(" this feature, press <Enter>."))
++            "This server can accept a remote login via ssh.  Currently SSH service is ") +
++            message + Lang(" SSH service, press <Enter>."))
+ 
+         inPane.AddKeyHelpField( {
+             Lang("<Enter>") : Lang("Configure Remote Shell")
+-- 
+2.47.3
+

@@ -1,7 +1,16 @@
-diff --git i/XSConsoleUtils.py w/XSConsoleUtils.py
-index fb89071..7544978 100644
---- i/XSConsoleUtils.py
-+++ w/XSConsoleUtils.py
+From 232e221f1c9655e6168999a1cb03495281bdebf8 Mon Sep 17 00:00:00 2001
+From: Benjamin Reis <benjamin.reis@vates.tech>
+Date: Wed, 18 Sep 2024 15:15:04 +0200
+Subject: [PATCH 09/12] Support Pool join in IPv6
+
+---
+ XSConsoleUtils.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/XSConsoleUtils.py b/XSConsoleUtils.py
+index fb89071..8460d7d 100644
+--- a/XSConsoleUtils.py
++++ b/XSConsoleUtils.py
 @@ -229,7 +229,7 @@ class IPUtils:
      @classmethod
      def AssertValidHostname(cls, inName):
@@ -11,3 +20,6 @@ index fb89071..7544978 100644
              raise Exception(Lang('Invalid hostname'))
          return inName
  
+-- 
+2.47.3
+
