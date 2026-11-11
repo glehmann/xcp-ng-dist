@@ -7,13 +7,13 @@
 Summary: XenServer Installer
 Name: host-installer
 Version: 11.0.26
-Release: 0.ydi.28%{?dist}
+Release: 0.ydi.29%{?dist}
 License: GPLv2
 Group: Applications/System
 Source0: host-installer-%{version}.tar.gz
 
 # backport feature/host-netdev-order
-# xcraft patchset: git@github.com:xcp-ng/host-installer.git HEAD v11.0.26..0bf9a0c5be06
+# xcraft patchset: git@github.com:xcp-ng/host-installer.git HEAD v11.0.26..41152527c85b
 Patch1000: 0001-CP-54081-Remove-interface-rename-sideway-service.patch
 Patch1001: 0002-CP-53716-Drop-ordering-and-renaming-network-interfac.patch
 Patch1002: 0003-CP-53716-Drop-ordering-and-renaming-network-interfac.patch
@@ -38,6 +38,10 @@ Patch1020: 0021-Write-the-default-driver-variants-as-pairs-of-names-.patch
 Patch1021: 0022-Do-not-enable-openvswitch-xapi-sync-which-XCP-ng-9-s.patch
 Patch1022: 0023-Add-ssh-auto-mode-to-the-answerfile.patch
 Patch1023: 0024-Add-an-unattended-installation-for-test-VMs.patch
+Patch1024: 0025-Use-Btrfs-for-host-filesystems.patch
+Patch1025: 0026-Use-snapshot-ready-Btrfs-root-subvolumes.patch
+Patch1026: 0027-Install-private-live-system-snapshot-and-restore-com.patch
+Patch1027: 0028-Create-answerfile-requested-system-snapshots-using-p.patch
 # end of xcraft patchset
 
 # pr#278
@@ -60,7 +64,7 @@ BuildRequires: python3-xcp-libs
 Requires: device-mapper-multipath lvm2 iscsi-initiator-utils
 
 # partitioning tools
-Requires: gdisk kpartx e2fsprogs dosfstools
+Requires: gdisk kpartx e2fsprogs dosfstools btrfs-progs
 
 # CUI interface
 Requires: python3-newt newt
@@ -237,7 +241,7 @@ echo %{large_block_capable_sr_type} > %{buildroot}/%{feature_flag_dir}/large-blo
 
 %triggerin -- kernel, kernel-alt
 rm -rf /boot/*
-rm -rf /usr/lib/modules/*/kernel/{drivers/infiniband,fs/{autofs4,btrfs,cramfs,exofs,gfs2,jfs,nfsd,ntfs,ocfs2,reiserfs,ufs,xfs}}
+rm -rf /usr/lib/modules/*/kernel/{drivers/infiniband,fs/{autofs4,cramfs,exofs,gfs2,jfs,nfsd,ntfs,ocfs2,reiserfs,ufs,xfs}}
 
 %triggerin -- xen-hypervisor
 rm -rf /boot/*
@@ -258,6 +262,10 @@ rm -rf /boot/*
 #rm -f /tmp/firmware-used.$$
 
 %changelog
+* Thu Nov 05 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 11.0.26-0.ydi.29
+- Use Btrfs for host filesystems
+- Support for btrfs snapshot in answerfile
+
 * Wed Nov 04 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 11.0.26-0.ydi.28
 - Do not enable openvswitch-xapi-sync, which XCP-ng 9's openvswitch does not have
 - Add <ssh-auto-mode> to the answerfile
