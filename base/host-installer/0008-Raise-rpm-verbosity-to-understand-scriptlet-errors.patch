@@ -1,21 +1,21 @@
-From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From dcfb1be1c036737a6365214396a2a85215a56476 Mon Sep 17 00:00:00 2001
 From: Yann Dirson <yann.dirson@vates.tech>
 Date: Wed, 23 Jul 2025 09:58:53 +0200
-Subject: [PATCH] Raise rpm verbosity to understand scriptlet errors
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Subject: [PATCH 8/9] Raise rpm verbosity to understand scriptlet errors
 
-Signed-off-by: Gaëtan Lehmann <gaetan.lehmann@vates.tech>
+This takes up a bit of install time, but is invaluable to understand
+when something goes wrong.
+
+Signed-off-by: Yann Dirson <yann.dirson@vates.tech>
 ---
  repository.py | 1 +
  1 file changed, 1 insertion(+)
 
 diff --git a/repository.py b/repository.py
-index f954afec..66d05cbc 100644
+index 0621419..ced5b76 100644
 --- a/repository.py
 +++ b/repository.py
-@@ -799,6 +799,7 @@ def findRepositoriesOnMedia(drivers=False):
+@@ -800,6 +800,7 @@ def findRepositoriesOnMedia(drivers=False):
  def installFromYum(targets, mounts, progress_callback, cachedir):
          dnf_cmd = ['dnf', '--releasever=/', '--config=/root/yum.conf',
                         '--installroot', mounts['root'],
@@ -23,3 +23,6 @@ index f954afec..66d05cbc 100644
                         'install', '-y'] + targets
          logger.log("Running : %s" % ' '.join(dnf_cmd))
          p = subprocess.Popen(dnf_cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, universal_newlines=True)
+-- 
+2.47.3
+

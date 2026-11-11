@@ -46,5 +46,5 @@ index 00000000..e781243c
 +  <root-password>xcp-ng</root-password>
 +  <source type="local"/>
 +  <admin-interface hwaddr="52:54:00:12:34:56" proto="dhcp"/>
-+  <ssh-auto-mode>false</ssh-auto-mode>
++  <ssh-mode>on</ssh-mode>
 +</installation>

@@ -325,8 +325,6 @@ version = 1
 "nano" = "8.1-3.el10"
 "nasm" = "2.16.01-9.el10"
 "ncurses" = "6.4-15.20240127.el10_1"
-"ndisc6" = "1.0.8-4.el10_2"
-"net-tools" = "2.0-0.73.20160912git.el10"
 "netcat" = "1.238-1.el10_3"
 "newt" = "0.52.24-5.el10"
 "nfs-utils" = "2.8.3-5.el10_2"
@@ -491,6 +489,7 @@ version = 1
 "perl-version" = "0.99.32-4.el10"
 "perltidy" = "20240511-1.el10_0"
 "pesign" = "116-6.el10.alma.1"
+"pigz" = "2.8-7.el10"
 "pixman" = "0.43.4-2.el10"
 "pkgconf" = "2.1.0-3.el10"
 "policycoreutils" = "3.10-2.el10_2"
@@ -503,7 +502,6 @@ version = 1
 "protobuf-c" = "1.5.0-6.el10"
 "psmisc" = "23.6-8.el10"
 "publicsuffix-list" = "20240107-5.el10"
-"pyOpenSSL" = "25.0.0-1.el10_1"
 "pyelftools" = "0.30-7.el10"
 "pygobject3" = "3.46.0-7.el10"
 "pylint" = "3.3.3-1.el10_0"
@@ -511,10 +509,8 @@ version = 1
 "pyproject-rpm-macros" = "1.18.5-1.el10"
 "python-astroid" = "3.3.8-1.el10_0"
 "python-attrs" = "23.2.0-7.el10"
-"python-cffi" = "1.16.0-7.el10"
 "python-charset-normalizer" = "3.4.2-1.el10"
 "python-coverage" = "7.3.2-5.el10_0"
-"python-cryptography" = "43.0.0-4.el10_2.5"
 "python-dateutil" = "2.9.0.post0-1.el10_0"
 "python-deprecated" = "1.2.15-1.el10_0"
 "python-dill" = "0.3.9-1.el10_0"
@@ -532,8 +528,6 @@ version = 1
 "python-pam" = "2.0.2-10.el10"
 "python-pip" = "23.3.2-11.el10_2"
 "python-platformdirs" = "4.2.2-2.el10_0"
-"python-ply" = "3.11-25.el10"
-"python-pycparser" = "2.20-16.el10"
 "python-pygments" = "2.18.0-1.el10"
 "python-pyudev" = "0.24.1-10.el10"
 "python-referencing" = "0.31.1-6.el10"
@@ -1939,8 +1933,6 @@ version = 1
 "ncurses-c++-libs" = "6.4-15.20240127.el10_1 x86_64_v2 cb04918aeefb87f67386853b8704f6b81a77e5e87073fc1da288570123af2787 ncurses"
 "ncurses-devel" = "6.4-15.20240127.el10_1 x86_64_v2 ab4504bb5b8585a3c8cc61d07430036541c37f69cfd0ad935aec2102e1d18d61 ncurses"
 "ncurses-libs" = "6.4-15.20240127.el10_1 x86_64_v2 3d42ba3d71cb3144e5400e3a6ab9320cea057828d0e3010631dbe1f07f3a37b3 ncurses"
-"ndisc6" = "1.0.8-4.el10_2.alma_altarch x86_64_v2 32b9183a307de686f319e795f57d540b7899a9c8fe376d93b4d05680840f0d89 ndisc6"
-"net-tools" = "2.0-0.73.20160912git.el10 x86_64_v2 253dfde89d6977ca1e5ebfb7169270aff1d2bd573165d2462589916fe1a6184d net-tools"
 "netcat" = "1.238-1.el10_3.alma_altarch x86_64_v2 018fc0456066f8c2e75a9a1f64dc1022d091196411a9015e77ed5b391cf13f14 netcat"
 "newt" = "0.52.24-5.el10 x86_64_v2 6b02cdd0b0a7e6b1720f88bc781aed12c0c067d686e41f764794e67aecad1bf9 newt"
 "nfs-utils" = "1:2.8.3-5.el10_2 x86_64_v2 e1a85fcb442e27d3b3db431a137d2fec65e3a7197a1537a7d9fd4976f44d4dec nfs-utils"
@@ -2180,6 +2172,7 @@ version = 1
 "perl-version" = "8:0.99.32-4.el10 x86_64_v2 997f8e8f5f7ed372da5849d1a66f3341fc66dc3c6a72affb086b2235820a0928 perl-version"
 "perltidy" = "20240511-1.el10_0.alma_altarch noarch 7ab9e482156d591767aab1ea5ae33786ee548d234e0e9b557fcbb1613f71b669 perltidy"
 "pesign" = "116-6.el10.alma.1 x86_64_v2 14575391c554de0aec3fb86935ddcf971fdfeccf628073c7827b7a9e7ee77c48 pesign"
+"pigz" = "2.8-7.el10 x86_64_v2 08cd9be54e1b85026ac255c1287a2ac1b6ef396aadd05adde968acb260fad001 pigz"
 "pixman" = "0.43.4-2.el10 x86_64_v2 dd8f71b80dd5f5d995fe3082ff82bf24b1e621f4613b2bccab949294a1d58a25 pixman"
 "pixman-devel" = "0.43.4-2.el10 x86_64_v2 91f17b9bc7d9701a196ec95a1e10f3a30f77387fa54e08914433122c54e10777 pixman"
 "pkgconf" = "2.1.0-3.el10 x86_64_v2 b1a196ca310d5f594b844cc5dee70c2712a1a5277ef4807baa630a3200a476ae pkgconf"
@@ -2207,10 +2200,8 @@ version = 1
 "python3-astroid" = "3.3.8-1.el10_0.alma_altarch noarch 4ebfdd7ae20f097f01f19fa9ba3fe49da505388258a83dcceb2ec5a3e03234fb python-astroid"
 "python3-attrs" = "23.2.0-7.el10 noarch 933038f53d7726dbc49700c9a4b76fb59d14a723d115d0fadb9acb69212c46e5 python-attrs"
 "python3-babel" = "2.13.1-5.el10 noarch 29a00f11f4860646d98d838e0740902d8e9a81a7eb25c729f3cc7f0bf39e2077 babel"
-"python3-cffi" = "1.16.0-7.el10 x86_64_v2 51879dadbf8008fbdd0cdee067a7031d6a4f8147d5fc543384b1e4fe482cf51c python-cffi"
 "python3-charset-normalizer" = "3.4.2-1.el10 noarch b84531608508ff1f8acc646e47aebace24ef8e463803a5623d684224603eb50c python-charset-normalizer"
 "python3-coverage" = "7.3.2-5.el10_0.alma_altarch x86_64_v2 141b0dbd12f9ea1f570566922859cd1c3cdbbbecb005b0ba46ecfa518ec75870 python-coverage"
-"python3-cryptography" = "43.0.0-4.el10_2.5 x86_64_v2 2f4661b7715fa4a5738a17613b8e27239699882b7aaab2699c16bab8874d1c55 python-cryptography"
 "python3-dateutil" = "1:2.9.0.post0-1.el10_0 noarch 413ef82c586930a630f04ecd4f19416b4e48a677db2ff3b3fe3ca35a0353b5e4 python-dateutil"
 "python3-dbus" = "1.3.2-8.el10 x86_64_v2 08b7bedeb61cbd8fadc25ecadaa14a4010daf84e20ad1a8216ca60d1490656bb dbus-python"
 "python3-deprecated" = "1.2.15-1.el10_0.alma_altarch noarch d00a70f9840605587b64993b8fb300f49777660e8419c87d3ff525cfc024be88 python-deprecated"
@@ -2243,10 +2234,7 @@ version = 1
 "python3-pip" = "23.3.2-11.el10_2 noarch da926fa0fa1a2ca6a4c4f00a5ff3eebc88d4f785589a68d280036ebf0a994263 python-pip"
 "python3-pip-wheel" = "23.3.2-11.el10_2 noarch 38af4bb101b0f4c095687c2234ab5fc35f0656c5fda22767489e960bed454472 python-pip"
 "python3-platformdirs" = "4.2.2-2.el10_0.alma_altarch noarch 5709a7b99ffed2ee82a653a15dbf5b73ea4ad0a59728fcd06bd18577f107b345 python-platformdirs"
-"python3-ply" = "3.11-25.el10 noarch 61025082f63457b66205a4894e078296c117ab4d0878dcc3b8ab0bdc54cda23a python-ply"
 "python3-protobuf" = "3.19.6-15.el10_1 x86_64_v2 35733245df065a974ab212e48d199f2ba2105df649d179f98b9e719e1815ca42 protobuf"
-"python3-pyOpenSSL" = "25.0.0-1.el10_1.alma_altarch noarch a651fe7fd0f2b45a3785eee7331bd94ca221b45b01ec6af26020eebe03a06f6b pyOpenSSL"
-"python3-pycparser" = "2.20-16.el10 noarch f8f1d7d507602407a6b2fe002d833b3cd5fd8baf64f6ff3d12bfb7db4edb4fad python-pycparser"
 "python3-pyelftools" = "0.30-7.el10 noarch 3d55af27509a2a5cdc000c9a997913088cf0a8a6eaf6ef5b54a0af7710e8db4a pyelftools"
 "python3-pygments" = "2.18.0-1.el10 noarch 0aa5135cbcd64ca51b1db4c3a093720490c54e5ce0f02ef249356855f1b9133a python-pygments"
 "python3-pylint" = "3.3.3-1.el10_0.alma_altarch noarch 4945e1cd54a42aa53eb894d960c44343db3f8bb4d1d24058e0763d25f15d764e pylint"
@@ -3289,7 +3277,6 @@ version = 1
     "kpartx",
     "libaio",
     "make",
-    "pciutils-libs",
     "userspace-rcu",
 ]
 "ipxe" = [
@@ -3426,6 +3413,7 @@ version = 1
     "hostname",
     "jbig2dec-libs",
     "jbigkit-libs",
+    "kernel-headers",
     "kmod",
     "lcms2",
     "libX11",
@@ -3574,23 +3562,6 @@ version = 1
     "xxhash-libs",
     "xz-devel",
     "zlib-ng-compat-devel",
-]
-"kernel-headers" = [
-    "annobin-docs",
-    "annobin-plugin-gcc",
-    "ccache",
-    "cpp",
-    "fmt",
-    "gcc",
-    "gcc-plugin-annobin",
-    "glibc-devel",
-    "hiredis",
-    "kernel-headers",
-    "libmpc",
-    "libxcrypt-devel",
-    "make",
-    "rsync",
-    "xxhash-libs",
 ]
 "libempserver" = [
     "annobin-docs",
@@ -6024,6 +5995,7 @@ version = 1
     "hostname",
     "jbig2dec-libs",
     "jbigkit-libs",
+    "kernel-headers",
     "kmod",
     "lcms2",
     "libX11",
@@ -6175,26 +6147,6 @@ version = 1
     "xxhash-libs",
     "xz-devel",
     "zlib-ng-compat-devel",
-]
-"kernel-headers" = [
-    "annobin-docs",
-    "annobin-plugin-gcc",
-    "ccache",
-    "cpp",
-    "fmt",
-    "gcc",
-    "gcc-plugin-annobin",
-    "glibc-devel",
-    "hiredis",
-    "kernel-headers",
-    "libasan",
-    "libatomic",
-    "libmpc",
-    "libubsan",
-    "libxcrypt-devel",
-    "make",
-    "rsync",
-    "xxhash-libs",
 ]
 "libempserver" = [
     "annobin-docs",
@@ -8369,8 +8321,6 @@ version = 1
     "ncurses",
     "ncurses-base",
     "ncurses-libs",
-    "ndisc6",
-    "net-tools",
     "netcat",
     "newt",
     "nfs-utils",
@@ -8479,6 +8429,7 @@ version = 1
     "perl-podlators",
     "perl-srpm-macros",
     "perl-vars",
+    "pigz",
     "pixman",
     "pkgconf",
     "pkgconf-m4",
@@ -8493,10 +8444,9 @@ version = 1
     "publicsuffix-list-dafsa",
     "pyproject-srpm-macros",
     "python-srpm-macros",
+    "python-unversioned-command",
     "python3",
-    "python3-cffi",
     "python3-charset-normalizer",
-    "python3-cryptography",
     "python3-dateutil",
     "python3-dbus",
     "python3-deprecated",
@@ -8516,10 +8466,7 @@ version = 1
     "python3-pam",
     "python3-pcp",
     "python3-pip-wheel",
-    "python3-ply",
     "python3-protobuf",
-    "python3-pyOpenSSL",
-    "python3-pycparser",
     "python3-pyudev",
     "python3-requests",
     "python3-rpm",
