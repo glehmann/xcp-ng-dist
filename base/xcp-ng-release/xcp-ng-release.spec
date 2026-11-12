@@ -609,12 +609,12 @@ systemctl preset-all --preset-mode=enable-only || :
 * Tue Mar 17 2026 Yann Dirson <yann.dirson@vates.tech> - 8.99.0-1
 - Bump versions to 8.99
 - Set xenserver_major to 9
-- Provide %xcpng macro in macros.dist
+- Provide %%xcpng macro in macros.dist
 - provides/obsolete 9.x rpms
 - Stop obsoleting epel-release
 - Pick macros.x86_64_v2 from almalinux-release-10.0-32.el10
 - Commented out all triggers
-- Provide %almalinux macros in macros.dist
+- Provide %%almalinux macros in macros.dist
 - Remove now-useless python2 build-deps
 - Do not install 8.3 yum repo definitions (anyway moving to xcp-ng-config)
 - Drop support for XCP-ng/XS 8.x compatibility
