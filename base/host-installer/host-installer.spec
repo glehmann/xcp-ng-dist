@@ -183,7 +183,8 @@ echo %{large_block_capable_sr_type} > %{buildroot}/%{feature_flag_dir}/large-blo
 %files startup
 %defattr(775,root,root,-)
 
-%{installer_dir}/{preinit,functions}
+%{installer_dir}/preinit
+%attr(664,root,root) %{installer_dir}/functions
 %attr(755,root,root) %{installer_dir}/S05ramdisk
 
 %defattr(664,root,root,775)
