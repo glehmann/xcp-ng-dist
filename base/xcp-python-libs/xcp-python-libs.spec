@@ -7,7 +7,7 @@
 Summary: Common XCP-ng Python classes
 Name: xcp-python-libs
 Version: 3.0.10
-Release: %{?xsrel}.1.0.ydi.1%{?dist}
+Release: %{?xsrel}.1.0.ydi.2%{?dist}
 Source0: xcp-python-libs-3.0.10.tar.gz
 Patch0: 0001-Remove-setuptools_scm.patch
 Patch1: 0001-Enhance-Bootloader-with-optional-set-prefix.patch
@@ -90,6 +90,9 @@ cd tests
 %endif
 
 %changelog
+* Thu Nov 12 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 3.0.10-1.1.0.ydi.2
+- Fix the date of the last changelog entry, and remove the clean section
+
 * Thu Jan 15 2026 Yann Dirson <yann.dirson@vates.tech> - 3.0.10-1.1.0.ydi.1
 - Explicitly build-require python3-wheel on XS9
 - Add patch to include a 'set prefix=' statement in grub.cfg
