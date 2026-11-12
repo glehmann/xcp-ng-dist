@@ -134,6 +134,7 @@ rm -rf %{buildroot}
 
 install -d -m 755 %{buildroot}%{python3_sitelib}/xcp
 %{_usrsrc}/branding/branding-compile.py --format=python > %{buildroot}%{python3_sitelib}/xcp/branding.py
+%py3_shebang_fix %{buildroot}/opt/xensource/libexec/fcoe_driver %{buildroot}/opt/xensource/libexec/xen-cmdline
 
 install -m 644 %{_usrsrc}/branding/EULA %{buildroot}/
 
