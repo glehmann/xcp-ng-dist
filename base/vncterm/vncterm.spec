@@ -38,9 +38,6 @@ This package contains the vncterm utility
 %{__install} -d %{buildroot}%{_var}/xen/%{name}
 %{?_cov_install}
 
-%clean
-%{__rm} -rf %{buildroot}
-
 %pre
 /usr/bin/getent passwd vncterm >/dev/null 2>&1 || /usr/sbin/useradd \
     -M -U -r \
