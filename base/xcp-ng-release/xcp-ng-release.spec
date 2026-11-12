@@ -205,9 +205,6 @@ rm %{buildroot}%{_sysconfdir}/systemd/system/rsyslog.service
 # XCP-ng 8.2: CH 8.2 switched to posttrans too. I'm keeping my previous comment to document why.
 /usr/bin/uname -m | grep -q 'x86_64'  && echo 'centos' >/etc/dnf/vars/contentdir || echo 'altarch' > /etc/dnf/vars/contentdir
 
-%clean
-rm -rf %{buildroot}
-
 # %triggerin config -- rsyslog
 # ( patch -tsN -r - -d / -p1 || : ) >/dev/null <<'EOF'
 # --- /etc/rsyslog.conf    2014-11-12 13:55:42.000000000 +0000
