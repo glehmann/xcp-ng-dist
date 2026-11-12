@@ -4,7 +4,7 @@
 Summary: XenServer Installer
 Name: host-installer
 Version: 11.2.0
-Release: 1.1.1%{?xsrel}%{?dist}
+Release: 1.1.2%{?xsrel}%{?dist}
 License: GPLv2
 Group: Applications/System
 Source0: host-installer-%{version}.tar.gz
@@ -217,6 +217,10 @@ echo %{large_block_capable_sr_type} > %{buildroot}/%{feature_flag_dir}/large-blo
 /usr/bin/systemctl disable lvm2-monitor
 
 %changelog
+* Thu Nov 12 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 11.2.0-1.1.2
+- Run report.py with python3, rather than with env
+- Do not make the sourced functions of startup executable
+
 * Wed Nov 11 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 11.2.0-1.1.1
 - Do not enable openvswitch-xapi-sync, which XCP-ng 9's openvswitch does not have
 - An unattended installation for test VMs, with SSH kept running by <ssh-mode>on</ssh-mode>
