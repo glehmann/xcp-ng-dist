@@ -131,6 +131,7 @@ rm -rf %{_opamroot}/log
 find   %{_opamroot}/ocaml-system/lib -type f -name '*.cmt*' -delete
 
 rsync -aW %{_opamroot}/ %{buildroot}%{_opamroot}/
+chmod 755 %{buildroot}%{_opamroot}/opam-init/hooks/sandbox.sh
 strip %{buildroot}%{_opamroot}/ocaml-system/bin/* || true
 
 mkdir -p "%{buildroot}%{_rpmconfigdir}/macros.d"
