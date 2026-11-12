@@ -77,6 +77,7 @@ Patch1006: 0006-fix-prompt-s-c-e-p-xcp-ng-prompt.sh-Align-to-RPM-pat.patch
 Patch1007: 0007-Do-not-enable-arptables.service-which-has-no-configu.patch
 Patch1008: 0008-Disable-sshd.socket-in-the-presets.patch
 Patch1009: 0009-Disable-xapi-ssh-monitor-in-the-presets.patch
+Patch1010: 0010-Remove-the-shebangs-of-the-profile.d-scripts-which-t.patch
 
 %description
 XCP-ng release files

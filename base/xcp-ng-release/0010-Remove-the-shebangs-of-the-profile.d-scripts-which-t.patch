@@ -1,0 +1,32 @@
+From b78633eaa079542b718769780acd0aebf0f714a9 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Ga=C3=ABtan=20Lehmann?= <gaetan.lehmann@vates.tech>
+Date: Thu, 12 Nov 2026 09:53:06 +0100
+Subject: [PATCH] Remove the shebangs of the profile.d scripts, which the
+ shells source
+
+/etc/profile and /etc/bashrc source them, without running them, so a
+shebang has no effect there, but suggests they are run, as rpmlint
+reports: sourced-script-with-shebang.
+---
+ src/common/etc/profile.d/history.sh | 2 --
+ src/common/etc/profile.d/xs.sh      | 2 --
+ 2 files changed, 4 deletions(-)
+
+diff --git a/src/common/etc/profile.d/history.sh b/src/common/etc/profile.d/history.sh
+index 999c80a..fdcd34d 100644
+--- a/src/common/etc/profile.d/history.sh
++++ b/src/common/etc/profile.d/history.sh
+@@ -1,4 +1,2 @@
+-#!/bin/sh
+-
+ HISTTIMEFORMAT="%Y-%m-%d %T "
+ export HISTTIMEFORMAT
+diff --git a/src/common/etc/profile.d/xs.sh b/src/common/etc/profile.d/xs.sh
+index 4ee551f..553d006 100644
+--- a/src/common/etc/profile.d/xs.sh
++++ b/src/common/etc/profile.d/xs.sh
+@@ -1,4 +1,2 @@
+-#!/bin/sh
+-
+ PATH=/opt/xensource/bin:$PATH
+ export PATH
