@@ -25,6 +25,7 @@ Requires(preun): systemd
 Requires(postun): systemd
 Requires(postun): /sbin/ldconfig
 Requires: crontabs
+Requires: logrotate
 
 Conflicts: sm < 4.0.0
 

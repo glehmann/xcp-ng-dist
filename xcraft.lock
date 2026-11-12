@@ -1009,6 +1009,7 @@ version = 3
 "libzstd" = "1.5.5-9.el10 aarch64 fd9cfcac80f5aa625db43949b15accfd7b9e139e559ab1a7cfb1212191aaf8f1 zstd"
 "libzstd-devel" = "1.5.5-9.el10 aarch64 77a34d32489f8fec5fb5ee20c8e8ec8f2a5ee92c1122d0f2e874ec8887c2907d zstd"
 "lmdb-libs" = "0.9.32-4.el10 aarch64 d1184e3dd21f051a05daf0385b6b9ada5e2198245e4c60f34f3dfbf63a436837 lmdb"
+"logrotate" = "3.22.0-5.el10 aarch64 f523ab30f811d4e1a6461da8d57cc274dd26f88abeaae330b3305b9ada829035 logrotate"
 "lua-libs" = "5.4.6-7.el10 aarch64 ee9a1529698207ebf3ac39bd478afeedc40678691284b4209d7186bdf9afde62 lua"
 "lua-srpm-macros" = "1-15.el10 noarch fabbbdf4425d90ccd25458e3b16b0f698427be88eeefaf78b6a081daf60de2bb lua-rpm-macros"
 "lvm2" = "10:2.03.36-2.el10 aarch64 fd4c8f7c61f04a95710f842dc146f775e93ae67d1da91d8fc2a35ad5410e0a1d lvm2"
@@ -4434,6 +4435,7 @@ version = 3
     "libnvme",
     "libuuid-devel",
     "libxcrypt-devel",
+    "logrotate",
     "lvm2",
     "lvm2-libs",
     "lzo",
@@ -7017,6 +7019,7 @@ version = 3
     "libubsan",
     "libuuid-devel",
     "libxcrypt-devel",
+    "logrotate",
     "lvm2",
     "lvm2-libs",
     "lzo",
