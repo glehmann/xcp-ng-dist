@@ -7,6 +7,7 @@ Release: 1%{?xsrel}%{?dist}
 License: GPL
 Group: System/Hypervisor
 Source0: vncterm-10.2.2.tar.gz
+Patch0: 0001-Drop-the-supplementary-groups-of-root-with-its-privi.patch
 BuildRequires: xen-libs-devel systemd
 BuildRequires: gcc
 %{?_cov_buildrequires}

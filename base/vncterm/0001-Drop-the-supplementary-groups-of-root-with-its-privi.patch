@@ -1,0 +1,32 @@
+From 4faf637b968016c00dc212df82a7c69da087dff1 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Ga=C3=ABtan=20Lehmann?= <gaetan.lehmann@vates.tech>
+Date: Thu, 12 Nov 2026 09:54:31 +0100
+Subject: [PATCH] Drop the supplementary groups of root with its privileges
+
+vncterm starts as root, and its process serving VNC sets the group and
+the user of vncterm, but kept the supplementary groups of root, as
+rpmlint reports: missing-call-to-setgroups-before-setuid.
+---
+ main.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/main.c b/main.c
+index 707f966..64e529f 100644
+--- a/main.c
++++ b/main.c
+@@ -26,6 +26,7 @@
+ #else
+ #include <util.h>
+ #endif
++#include <grp.h>
+ #include <pwd.h>
+ #include <signal.h>
+ #include <stdint.h>
+@@ -993,6 +994,7 @@ main(int argc, char **argv, char **envp)
+             chdir(root_directory);
+             chroot(root_directory);
+ 
++            setgroups(0, NULL);
+             setgid(vncterm_gid);
+             setuid(vncterm_uid);
+ 
