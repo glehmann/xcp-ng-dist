@@ -11,6 +11,7 @@ Source0: vmss-1.2.2.tar.gz
 BuildArch: noarch
 BuildRequires: make
 BuildRequires: python3-devel
+Requires: crontabs
 
 
 %description
