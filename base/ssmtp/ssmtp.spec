@@ -84,9 +84,6 @@ touch %{buildroot}%{_mandir}/man8/mailq.8.gz
 touch %{buildroot}%{_mandir}/man8/newaliases.8.gz
 touch %{buildroot}%{_mandir}/man8/sendmail.8.gz
 
-%clean
-rm -rf %{buildroot}
-
 %post
 %{_sbindir}/alternatives  --install %{_sbindir}/sendmail mta %{_sbindir}/sendmail.ssmtp 30 \
 	--slave %{_bindir}/mailq mta-mailq %{_bindir}/mailq.ssmtp \
