@@ -374,6 +374,7 @@ Requires: %{_sbindir}/oxenstored
 Requires: qemu
 Requires: edk2
 Requires: ipxe
+Requires: logrotate
 Requires(post): systemd
 Requires(preun): systemd
 Requires(postun): systemd
