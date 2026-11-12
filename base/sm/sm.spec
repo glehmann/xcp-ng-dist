@@ -756,7 +756,7 @@ in /opt/xensource
 - Switch interpreter to python3 in drivers.
 - Use python36-bitarray not python3-bitarray.
 - Use python36-pylint not python3-pylint.
-- BuildRequires: python36-mock for %check.
+- BuildRequires: python36-mock for %%check.
 - *** Upstream changelog ***
 - * Fri Jan 27 2023 Mark Syms <mark.syms@citrix.com> - 3.0.3-1
 - - Include exportname in NBD data for attach
