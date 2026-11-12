@@ -8,7 +8,7 @@
 
 Name: xs-opam-src
 Version: 5.1.0
-Release: %{?xsrel}%{?dist}
+Release: %{?xsrel}.1%{?dist}
 Summary: Opam repository
 License: LGPL-2.0-or-later
 
@@ -30,6 +30,9 @@ chmod 777 %{buildroot}%{_opamroot}
 %attr(777, root, wheel) %{_opamroot}
 
 %changelog
+* Thu Nov 12 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 5.1.0-5.1
+- Add the changelog entry 5.1.0-5 lacks
+
 * Thu Sep 15 2022 Pau Ruiz Safont <pau.safont@citrix.com> - 5.1.0-4
 - Use a license that ensures source availability for building xapi
 
