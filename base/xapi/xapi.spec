@@ -119,6 +119,7 @@ Requires: xcp-featured
 Requires: initscripts
 Requires: hwdata
 Requires: crontabs
+Requires: logrotate
 Requires: /usr/sbin/ssmtp
 Requires: stunnel >= 5.55
 Requires: vhd-tool
@@ -375,6 +376,7 @@ Requires:  jemalloc
 Requires:  sysstat
 Requires:  xen-dom0-tools
 Requires:  xapi-rrd2csv
+Requires:  logrotate
 # Requires Xen support for querying domain VCPU runnable and nonaffine running time
 Requires:  xen-dom0-libs >= 4.19.2-12
 
