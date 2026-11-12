@@ -3322,6 +3322,12 @@ version = 3
     "kpartx",
     "libaio",
     "make",
+    "python-rpm-macros",
+    "python3-devel",
+    "python3-packaging",
+    "python3-pip",
+    "python3-rpm-generators",
+    "python3-rpm-macros",
     "userspace-rcu",
 ]
 "ipxe" = [

@@ -32,6 +32,7 @@ Patch2001: 0024-Add-an-unattended-installation-for-test-VMs.patch
 # This is where we get 'multipath.conf' from
 BuildRequires: device-mapper-multipath
 BuildRequires: make
+BuildRequires: python3-devel
 
 Requires: python-unversioned-command
 Requires: device-mapper-multipath lvm2 iscsi-initiator-utils
@@ -110,6 +111,7 @@ rm -rf %{buildroot}
 # Installer files
 make DESTDIR=%{buildroot} install \
      XS_MPATH_CONF=/usr/share/doc/device-mapper-multipath/multipath.conf
+%py3_shebang_fix %{buildroot}%{installer_dir}/report.py
 
 %if %{without depmod}
 # Stop messing with depmod
