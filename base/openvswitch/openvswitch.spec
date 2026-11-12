@@ -59,7 +59,7 @@ Summary: Open vSwitch
 Group: System Environment/Daemons daemon/database/utilities
 URL: http://www.openvswitch.org/
 Version: 3.7.1
-Release: 3.3%{?dist}
+Release: 3.4%{?dist}
 
 # Nearly all of openvswitch is ASL 2.0.  The bugtool is LGPLv2+, and the
 # lib/sflow*.[ch] files are SISSL
@@ -809,6 +809,9 @@ exit 0
 %endif
 
 %changelog
+* Thu Nov 12 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 3.7.1-3.4
+- Require logrotate, for the logrotate configuration
+
 * Mon Nov 09 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 3.7.1-3.3
 - Name the packages openvswitch rather than openvswitch3.7, to update those named openvswitch
   without the obsoletes of another name
