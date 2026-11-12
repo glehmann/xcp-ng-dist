@@ -93,7 +93,7 @@ cd tests
 %endif
 
 %changelog
-* Thu Oct 09 2025 Yann Dirson <yann.dirson@vates.tech> - 3.0.10-1.1.0.ydi.1
+* Thu Jan 15 2026 Yann Dirson <yann.dirson@vates.tech> - 3.0.10-1.1.0.ydi.1
 - Explicitly build-require python3-wheel on XS9
 - Add patch to include a 'set prefix=' statement in grub.cfg
 - In v9, drop /usr/lib/python2.7/site-packages/xcp/updategrub.py compat symlink
