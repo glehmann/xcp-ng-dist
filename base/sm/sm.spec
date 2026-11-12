@@ -54,6 +54,7 @@ Requires(postun): xs-presets >= 1.3
 Conflicts: kernel < 4.19.19-5.0.0
 Conflicts: blktap < 4.0.0
 Requires: sg3_utils
+Requires: logrotate
 
 Obsoletes: sm-additional-drivers
 
