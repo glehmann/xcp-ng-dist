@@ -316,7 +316,7 @@ make check
 - Add varstored-1.0.0-change-certs-directory.XCP-ng.patch to read certs from /var/lib/varstored
 - Add the secureboot-certs script, formerly provided by uefistored
 - Add /etc/xapi.conf.d/00-XCP-ng-varstore-dir.conf to change the certs dir in XAPI
-- Add %post scriptlet to write PK.auth into /var/lib/varstored if missing
+- Add %%post scriptlet to write PK.auth into /var/lib/varstored if missing
 
 * Mon Mar 07 2022 Ross Lagerwall <ross.lagerwall@citrix.com> - 1.0.0-2
 - Correct license field
