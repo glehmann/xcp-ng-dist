@@ -381,7 +381,7 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/ocaml/eventlog_metadata
 
 * Fri Sep 22 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 4.14.1-6
 - Update the license to reflect the one used starting from version 4.04
-- Enable gcc11 in %check on Xenserver 8
+- Enable gcc11 in %%check on Xenserver 8
 
 * Fri Aug 11 2023 Lin.Liu <Lin.Liu01@cloud.com> - 4.14.1-5
 - CP-44254: Support builds on Xenserver 9
