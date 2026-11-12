@@ -196,7 +196,7 @@ fi
 * Tue Nov 10 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 8.99-2
 - Require the firmware linux-firmware recommends
 
-* Web Sep 30 2026 Yann Dirson <yann.dirson@vates.tech> - 8.99-1 WIP
+* Wed Sep 30 2026 Yann Dirson <yann.dirson@vates.tech> - 8.99-1 WIP
 - Base for 9.0 based on Alma 10
 - Drop Obsoletes clauses
 - Drop duplicate Requires that are or were pulled from other packages
