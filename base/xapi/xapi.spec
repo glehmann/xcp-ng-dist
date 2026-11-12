@@ -118,6 +118,7 @@ Requires: squeezed
 Requires: xcp-featured
 Requires: initscripts
 Requires: hwdata
+Requires: crontabs
 Requires: /usr/sbin/ssmtp
 Requires: stunnel >= 5.55
 Requires: vhd-tool
