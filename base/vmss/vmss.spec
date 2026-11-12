@@ -4,7 +4,7 @@
 
 Name: vmss
 Version: 1.2.2
-Release: %{?xsrel}%{?dist}
+Release: %{?xsrel}.1%{?dist}
 Summary: REQ-277 schedule snapshots feature
 License: GNU / GPLv2
 Source0: vmss-1.2.2.tar.gz
@@ -42,6 +42,10 @@ DESTDIR=$RPM_BUILD_ROOT make install
 %config /etc/logrotate.d/VMSSlog
 
 %changelog
+* Thu Nov 12 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 1.2.2-1.1
+- Require crontabs and logrotate, for the cron and logrotate scripts
+- Build without the buildroot, and without a clean section
+
 * Mon Apr 13 2026 Frediano Ziglio <frediano.ziglio@citrix.com> - 1.2.2-1
 - CA-425472: Signal correct daemon during log rotation
 
