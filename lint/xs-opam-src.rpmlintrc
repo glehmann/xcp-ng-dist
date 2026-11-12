@@ -1,0 +1,2 @@
+# the opam root, which the builds write to, as builder
+addFilter("world-writable /usr/lib64/opamroot 777")
