@@ -1484,7 +1484,7 @@ Coverage files from unit tests
 - xenopsd-xc requires e2fsprogs, whose tune2fs it needs to start
 - Without oxenstored, which xen-oxenstored has, required by xen-dom0-tools
 
-* Wed 21 Oct 2026 Andrii Sultanov <andriy.sultanov@vates.tech> - 26.19.0-2.1
+* Wed Oct 21 2026 Andrii Sultanov <andriy.sultanov@vates.tech> - 26.19.0-2.1
 - Switch back to the optimized QCOW2 path
 - Update to upstream 26.19.0-2
 - *** Upstream changelog ***
@@ -1823,7 +1823,7 @@ Coverage files from unit tests
   - CP-311125 unhide AD cache pool parameters in XE CLI
   - CA-423708: xapi: Wrap {vhd,qcow}-tool read_header invocation in a thread
 
-* Fri 02 Oct 2026 Yann Dirson <yann.dirson@vates.tech> - 26.4.0-1.3
+* Fri Oct 02 2026 Yann Dirson <yann.dirson@vates.tech> - 26.4.0-1.3
 - Unset GIT_CEILING_DIRECTORIES while proceeding with the $sha or $sha-dirty
   replacement
 - Clarify the description of the $sha replacement hack, and add logs to see
