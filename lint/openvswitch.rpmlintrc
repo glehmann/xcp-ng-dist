@@ -1,0 +1,2 @@
+# the lock file of ovsdb, a %ghost, named like a backup file
+addFilter("backup-file-in-package /etc/openvswitch/\.conf\.db\.~lock~")
