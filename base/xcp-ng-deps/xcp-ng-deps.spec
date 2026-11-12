@@ -1,6 +1,6 @@
 Name:           xcp-ng-deps
 Version:        8.99
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        A meta package pulling all needed dependencies for XCP-ng
 # License covers this spec file
 License:        GPLv2
@@ -193,6 +193,9 @@ fi
 %files
 
 %changelog
+* Thu Nov 12 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 8.99-3
+- Fix the day of a changelog entry
+
 * Tue Nov 10 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 8.99-2
 - Require the firmware linux-firmware recommends
 
