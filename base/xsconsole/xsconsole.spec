@@ -5,7 +5,7 @@
 Summary: XCP-ng Host Configuration Console
 Name: xsconsole
 Version: 11.1.4
-Release: %{?xsrel}.1.1%{?dist}
+Release: %{?xsrel}.1.2%{?dist}
 License: GPL2
 Group: Administration/System
 Source0: xsconsole-11.1.4.tar.gz
@@ -80,6 +80,9 @@ Console tool for configuring a XCP-ng installation.
 %{_unitdir}/xsconsole.service
 
 %changelog
+* Thu Nov 12 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 11.1.4-1.1.2
+- Remove the clean section, which rpm does not need
+
 * Wed Nov 11 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 11.1.4-1.1.1
 - Build requires make, which the build environment image does not have
 
