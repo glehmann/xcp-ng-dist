@@ -4,7 +4,7 @@
 Name: varstored
 Summary: EFI Variable Storage Daemon
 Version: 1.3.4
-Release: %{?xsrel}.1%{?dist}
+Release: %{?xsrel}.2%{?dist}
 
 License: BSD
 Source0: varstored-1.3.4.tar.gz
@@ -181,6 +181,9 @@ make check
 
 
 %changelog
+* Thu Nov 12 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 1.3.4-2.2
+- Escape a macro in the changelog
+
 * Wed Jul 15 2026 Tu Dinh <ngoc-tu.dinh@vates.tech> - 1.3.4-2.1
 - Migrate XCP-ng helper scripts to xcp-efivar-utils
 - Update dbx info to microsoft/secureboot_objects@v1.6.5
