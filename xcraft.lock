@@ -692,6 +692,9 @@ version = 3
 "cracklib-dicts" = "2.9.11-8.el10 aarch64 f45a566fb9bb97ceb29a57aa577e924bcfded81994a69daaf7d99b9a36ae0a09 cracklib"
 "createrepo_c" = "1.1.2-4.el10 aarch64 94e0a6b3864a68cc66cd6ec186e7f50049296307a3d730321ac45eaf52168ba1 createrepo_c"
 "createrepo_c-libs" = "1.1.2-4.el10 aarch64 26ba3bd1f54dcc732a1da7d34c23492349f65f9d7c0235f9a242418adb11d11b createrepo_c"
+"cronie" = "1.7.0-14.el10 aarch64 fe14591a498a482108c344e361c32e051b794cbfba12576afca1f57f55dd8820 cronie"
+"cronie-anacron" = "1.7.0-14.el10 aarch64 76b4b249a8187d660d038101415a74cf0c710e3a924a56b8fe4d464f75f8cd1d cronie"
+"crontabs" = "1.11^20190603git9e74f2d-6.el10 noarch 879f1342347b6802f274b970f093d44aae46a05c3b3694c96cfec3fc83181b41 crontabs"
 "crypto-policies" = "20260216-1.git0e54016.el10_2.2.alma.1 noarch a261c568310cf92be13d55bf43a8de4ba6723c776251efd78f35e58935d5b3dc crypto-policies"
 "crypto-policies-scripts" = "20260216-1.git0e54016.el10_2.2.alma.1 noarch 006c9b1c500e5d773a332a36457fc36812198a8614b1b714a69710c7556ef4f7 crypto-policies"
 "cups-filesystem" = "1:2.4.10-18.el10_2 noarch 6f5fd910d9c2ae41a126bace532550a15272499b3d9cafba9217092283b872ff cups"
@@ -1488,6 +1491,7 @@ version = 3
 "createrepo_c" = "1.1.2-4.el10 x86_64_v2 6f69f732bd30d3cd2753af7baaaaf4ff36a16d36197cb4bac7a1a980f2e83f9b createrepo_c"
 "createrepo_c-libs" = "1.1.2-4.el10 x86_64_v2 3c5451bb61e1156e2b719bfe7f7f85d8117d4c379cdb962879e55b9dcaae0dd5 createrepo_c"
 "cronie" = "1.7.0-14.el10 x86_64_v2 2c3b6690ba27f0f323d2c294d61e1d186877b34dd48c1e94e4bfd612f19d35bd cronie"
+"cronie-anacron" = "1.7.0-14.el10 x86_64_v2 3b40c1266f0213122cd11f9cd6e3b00b7c65aa73f3527b17a0dd3f67878bc403 cronie"
 "cronie-noanacron" = "1.7.0-14.el10 x86_64_v2 23d1d227a099c8a209697b8827a008727f5eafa8a12ec6cd5947c8ee4934c5c5 cronie"
 "crontabs" = "1.11^20190603git9e74f2d-6.el10 noarch 879f1342347b6802f274b970f093d44aae46a05c3b3694c96cfec3fc83181b41 crontabs"
 "crypto-policies" = "20260216-1.git0e54016.el10_2.2.alma.1 noarch a261c568310cf92be13d55bf43a8de4ba6723c776251efd78f35e58935d5b3dc crypto-policies"
@@ -4386,6 +4390,9 @@ version = 3
     "ccache",
     "cmake-filesystem",
     "cpp",
+    "cronie",
+    "cronie-anacron",
+    "crontabs",
     "device-mapper",
     "device-mapper-event",
     "device-mapper-event-libs",
@@ -6963,6 +6970,9 @@ version = 3
     "ccache",
     "cmake-filesystem",
     "cpp",
+    "cronie",
+    "cronie-anacron",
+    "crontabs",
     "device-mapper",
     "device-mapper-event",
     "device-mapper-event-libs",
@@ -8048,6 +8058,7 @@ version = 3
     "createrepo_c",
     "createrepo_c-libs",
     "cronie",
+    "cronie-anacron",
     "cronie-noanacron",
     "crontabs",
     "crypto-policies",
