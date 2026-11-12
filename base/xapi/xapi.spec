@@ -5559,7 +5559,7 @@ nested-virt support
 - CA-358816: Updated subject name in DC does not get updated in pam
 
 * Mon Sep 13 2021 Rob Hoes <rob.hoes@citrix.com> - 1.317.0-4
-- CA-358445: move %pre section to xcp-rrdd subpackage
+- CA-358445: move %%pre section to xcp-rrdd subpackage
 
 * Mon Sep 06 2021 Rob Hoes <rob.hoes@citrix.com> - 1.317.0-3
 - CA-358445: add rrdmetrics group (missing in xcp-rrdd merge)
