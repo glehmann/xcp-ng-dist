@@ -60,9 +60,6 @@ Console tool for configuring a XCP-ng installation.
 %{__make} install-base DESTDIR=%{buildroot}
 %{__make} install-oem DESTDIR=%{buildroot}
 
-%clean
-%{__rm} -rf %{buildroot}
-
 %post
 %systemd_post xsconsole.service
 
