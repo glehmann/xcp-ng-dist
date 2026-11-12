@@ -15,7 +15,7 @@ Summary: qemu-dm device model
 Name: qemu
 Epoch: 0
 Version: 10.1.0
-Release: %{?xsrel}.3%{?dist}
+Release: %{?xsrel}.4%{?dist}
 License: GPL
 Requires: xcp-clipboardd
 ## We broke an interface used by xenopsd-xc without version signalling
@@ -180,6 +180,9 @@ cp -r scripts/qmp %{buildroot}%{_datarootdir}/qemu
 %{?_cov_results_package}
 
 %changelog
+* Thu Nov 12 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 0:10.1.0-1.4
+- A changelog entry with the epoch, which the package has
+
 * Fri Oct 02 2026 Yann Dirson <yann.dirson@vates.tech> - 10.1.0-1.3
 - Use comma not obsolete spaces as BuildRequires separator
 
