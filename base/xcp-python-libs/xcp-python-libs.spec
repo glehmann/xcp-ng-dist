@@ -80,9 +80,6 @@ cd tests
 ./run-all-tests.sh
 %endif
 
-%clean
-%{__rm} -rf %{buildroot}
-
 %files -n python3-xcp-libs
 %defattr(-,root,root)
 %{python3_sitelib}/python_libs-*
