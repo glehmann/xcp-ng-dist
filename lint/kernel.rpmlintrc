@@ -1,0 +1,2 @@
+# AFTER_LINK runs debugedit on the images before they are embedded, see the spec
+addFilter("rpm-buildroot-usage %build export AFTER_LINK=")
