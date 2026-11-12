@@ -75,7 +75,7 @@ grep -xq 'pts/0' /etc/securetty || echo 'pts/0' >>/etc/securetty
 %{?_cov_results_package}
 
 %changelog
-* Fri Aug 30 Lin Liu <Lin.Liu01@cloud.com> - 10.2.2-1
+* Fri Aug 30 2024 Lin Liu <Lin.Liu01@cloud.com> - 10.2.2-1
 - CP-50733: Fix misleading-indentation
 
 * Fri Jan 26 2024 Andrew Cooper <andrew.cooper3@citrix.com> - 10.2.1-2
