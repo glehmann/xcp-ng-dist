@@ -15,7 +15,7 @@
 Summary: xapi - xen toolstack for XCP
 Name:    xapi
 Version: 26.19.0
-Release: 2%{?xsrel}.2%{?dist}
+Release: 2%{?xsrel}.3%{?dist}
 Group:   System/Hypervisor
 License: LGPL-2.1-or-later WITH OCaml-LGPL-linking-exception
 URL:  http://www.xen.org
@@ -1480,6 +1480,9 @@ Coverage files from unit tests
 %{?_cov_results_package}
 
 %changelog
+* Thu Nov 12 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 26.19.0-2.3
+- Require crontabs and logrotate, for the cron jobs and logrotate configurations
+
 * Wed Nov 11 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 26.19.0-2.2
 - xenopsd-xc requires e2fsprogs, whose tune2fs it needs to start
 - Without oxenstored, which xen-oxenstored has, required by xen-dom0-tools
