@@ -4,7 +4,7 @@
 Summary: blktap user space utilities
 Name: blktap
 Version: 4.0.8
-Release: 1%{?xsrel}.1%{?dist}
+Release: 1%{?xsrel}.2%{?dist}
 License: BSD
 Group: System/Hypervisor
 URL: https://github.com/xapi-project/blktap
@@ -176,6 +176,9 @@ without requiring other libraries
 %{_libdir}/libblockcrypto.so.*
 
 %changelog
+* Thu Nov 12 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 4.0.8-1.2
+- Require crontabs and logrotate, for the cron and logrotate scripts
+
 * Fri Jun 26 2026 Yann Dirson <yann.dirson@vates.tech> - 4.0.8-1
 - Sync with 4.0.8-1
 - Disable application of unported XCP-ng patches for now
