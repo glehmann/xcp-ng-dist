@@ -94,6 +94,7 @@ XCP-ng presets file.
 Summary:        XCP-ng configuration
 Group:          System Environment/Base
 Requires:       grep sed coreutils patch systemd
+Requires:       logrotate
 # XCP-ng: no support for live patching yet
 #Requires:       kernel-livepatch xen-livepatch
 
