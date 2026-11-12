@@ -23,7 +23,7 @@ This package contains scheduled snapshots feature plugins and the associated cro
 %autosetup -p1
 
 %build
-DESTDIR=$RPM_BUILD_ROOT make
+make
 
 %install
 DESTDIR=$RPM_BUILD_ROOT make install
