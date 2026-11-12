@@ -3,7 +3,7 @@
 Summary: vncterm tty to vnc utility
 Name: vncterm
 Version: 10.2.2
-Release: 1%{?xsrel}%{?dist}
+Release: 1%{?xsrel}.1%{?dist}
 License: GPL
 Group: System/Hypervisor
 Source0: vncterm-10.2.2.tar.gz
@@ -73,6 +73,11 @@ grep -xq 'pts/0' /etc/securetty || echo 'pts/0' >>/etc/securetty
 %{?_cov_results_package}
 
 %changelog
+* Thu Nov 12 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 10.2.2-1.1
+- Drop the supplementary groups of root with its privileges
+- Fix the date of a changelog entry, without which rpm dropped them all
+- Remove the clean section, which rpm does not need
+
 * Fri Aug 30 2024 Lin Liu <Lin.Liu01@cloud.com> - 10.2.2-1
 - CP-50733: Fix misleading-indentation
 
