@@ -33,7 +33,7 @@
 
 Name:           ocaml
 Version:        4.14.2
-Release:        %{?xsrel}.2%{?dist}
+Release:        %{?xsrel}.3%{?dist}
 
 Summary:        OCaml compiler and programming environment
 
@@ -360,6 +360,9 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/ocaml/eventlog_metadata
 
 
 %changelog
+* Thu Nov 12 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 4.14.2-1.3
+- Escape a macro in the changelog
+
 * Tue Jul 21 2026 Yann Dirson <yann.dirson@vates.tech> - 4.14.2-1.2
 - Drop compatibility with XCP-ng/XS 8.x
 - Stop using space as separator in BuildRequires and Requires
