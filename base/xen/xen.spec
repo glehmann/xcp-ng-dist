@@ -32,7 +32,7 @@
 Summary: Xen is a virtual machine monitor
 Name:    xen
 Version: 4.21.2
-Release: %{?xsrel}.4%{?dist}
+Release: %{?xsrel}.5%{?dist}
 License: GPLv2 and LGPLv2 and MIT and Public Domain
 URL:     https://www.xenproject.org
 Source0: xen-4.21.2.tar.gz
@@ -1139,6 +1139,9 @@ fi
 %{?_cov_results_package}
 
 %changelog
+* Thu Nov 12 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 4.21.2-3.5
+- Require logrotate in xen-dom0-tools, for the logrotate configuration
+
 * Thu Oct 08 2026 Julian Vetter <julian.vetter@vates.tech> - 4.21.2-3.4
 - Exclude pv_iommu from non-x86 builds
 
