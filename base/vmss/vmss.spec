@@ -12,6 +12,7 @@ BuildArch: noarch
 BuildRequires: make
 BuildRequires: python3-devel
 Requires: crontabs
+Requires: logrotate
 
 
 %description
