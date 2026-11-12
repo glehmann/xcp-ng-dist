@@ -22,7 +22,7 @@ available on an xcp-ng host.
 %autosetup -p1
 
 %build
-DESTDIR=%{buildroot} %{__make}
+%{__make}
 
 %install
 DESTDIR=%{buildroot} LIBEXECDIR=/opt/xensource/libexec %{__make} install
