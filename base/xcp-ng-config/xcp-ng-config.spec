@@ -1,11 +1,15 @@
 Name:           xcp-ng-config
 Version:        0
-Release:        1.1%{?dist}
+Release:        1.2%{?dist}
 
 Summary:        XCP-ng configuration files
 Group:          System Environment/Base
 License:        GPL-2.0-or-later
 URL:            https://github.com/xcp-ng-rpms/xcp-ng-config
+Source0:        system-snapshot
+Source1:        system-snapshots.txt
+
+Requires: bash btrfs-progs coreutils findutils tar util-linux systemd
 
 Obsoletes:      xcp-ng-release < 8.99.0-0.8.ydi.17
 
@@ -13,6 +17,10 @@ Obsoletes:      xcp-ng-release < 8.99.0-0.8.ydi.17
 XCP-ng configuration files
 
 %install
+install -D -m700 %{SOURCE0} %{buildroot}%{_libexecdir}/xcp-ng/system-snapshot
+install -D -m700 %{SOURCE0} %{buildroot}%{_libexecdir}/xcp-ng/system-restore
+install -m644 %{SOURCE1} %{buildroot}%{_libexecdir}/xcp-ng/README
+
 # enable persistent systemd journal
 install -d -m755 %{buildroot}/var/log/journal
 
@@ -62,6 +70,10 @@ ln -s /dev/null %{buildroot}%{_sysconfdir}/systemd/system/iptables.service
 ln -s /dev/null %{buildroot}%{_sysconfdir}/systemd/system/ip6tables.service
 
 %files
+%dir %{_libexecdir}/xcp-ng
+%{_libexecdir}/xcp-ng/system-snapshot
+%{_libexecdir}/xcp-ng/system-restore
+%{_libexecdir}/xcp-ng/README
 %config(noreplace) %{_sysconfdir}/ssh/sshd_config.d/00-custom.conf
 %config %{_sysconfdir}/ssh/sshd_config.d/30-xcpng.conf
 %{_sysconfdir}/systemd/system/iptables.service
@@ -72,6 +84,9 @@ ln -s /dev/null %{buildroot}%{_sysconfdir}/systemd/system/ip6tables.service
 /var/log/journal/
 
 %changelog
+* Mon Nov 16 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 0-1.2
+- Package the system snapshot helpers
+
 * Wed Nov 11 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 0-1.1
 - The repository of xcp-ng-dist, https://91.98.220.14/repos/9.0/incoming/latest/base/x86_64_v2/
 - List the keys of the packages in the repository, still not checked as not all signed
