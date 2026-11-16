@@ -4,7 +4,7 @@
 Summary: XenServer Installer
 Name: host-installer
 Version: 11.2.0
-Release: 1.1.2%{?xsrel}%{?dist}
+Release: 1.1.3%{?xsrel}%{?dist}
 License: GPLv2
 Group: Applications/System
 Source0: host-installer-%{version}.tar.gz
@@ -27,7 +27,6 @@ Patch1009: 0009-init-wait-up-to-120s-for-the-network-to-come-online.patch
 
 # xcp-ng-dist
 Patch2000: 0022-Do-not-enable-openvswitch-xapi-sync-which-XCP-ng-9-s.patch
-Patch2001: 0024-Add-an-unattended-installation-for-test-VMs.patch
 
 # This is where we get 'multipath.conf' from
 BuildRequires: device-mapper-multipath
@@ -136,7 +135,6 @@ echo %{large_block_capable_sr_type} > %{buildroot}/%{feature_flag_dir}/large-blo
 %defattr(664,root,root,775)
 # Installer gubbins
 %{installer_dir}/answerfile.py
-%{installer_dir}/answerfile-vm.xml
 %{installer_dir}/backend.py
 %{installer_dir}/constants.py
 %{installer_dir}/disktools.py
@@ -217,6 +215,9 @@ echo %{large_block_capable_sr_type} > %{buildroot}/%{feature_flag_dir}/large-blo
 /usr/bin/systemctl disable lvm2-monitor
 
 %changelog
+* Mon Nov 16 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 11.2.0-1.1.3
+- No answer file of test VMs, which xcraft boot --unattended serves
+
 * Thu Nov 12 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 11.2.0-1.1.2
 - Run report.py with python3, rather than with env
 - Do not make the sourced functions of startup executable

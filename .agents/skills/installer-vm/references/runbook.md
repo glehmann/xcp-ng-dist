@@ -52,13 +52,19 @@ uv run xcraft vm --vm-dir /tmp/vm-unattended stop
 On 2026-11-05, the installation took about 2 minutes on KVM, and the installed host answered over SSH about 30
 seconds after `vm start`, with sshd and xapi active. `xcraft boot` prints the SSH port: the first free one from 2222.
 
-`--unattended` adds the kernel arguments of `unattended` in the `[iso]` section of `xcraft.toml` to the default entry
-of the ISO's GRUB menu, in GRUB's editor, without changing the ISO:
-`rt_answerfile=file:///opt/xensource/installer/answerfile-vm.xml`. That answer file is packaged in host-installer
-(patch 0024): XCP-ng on `sda`, an ext SR on the same disk, the `us` keymap, DHCP on the NIC of QEMU's default MAC
-address `52:54:00:12:34:56`, root password `xcp-ng`, and SSH kept running (`<ssh-auto-mode>false</ssh-auto-mode>`,
-patch 0023). For another answer file, pass `--kernel-args 'rt_answerfile=<url>'` instead; it can be combined with
-`--unattended`, whose arguments come first.
+`--unattended` installs with `unattended.xml`, at the top of the repository, the answer file of `unattended` in the
+`[iso]` section of `xcraft.toml`: XCP-ng on `sda`, an ext SR on the same disk, the `us` keymap, DHCP on the NIC of
+QEMU's default MAC address `52:54:00:12:34:56`, root password `xcp-ng`, and SSH kept running. QEMU itself serves it to
+the installer, at `http://10.0.2.100/unattended.xml`, which `rt_answerfile` gives on the kernel command line of the
+default entry of the ISO's GRUB menu, without changing the ISO. `--answer` changes it first, repeatable:
+`NAME=VALUE` sets the text of the element `NAME`, `NAME.ATTR=VALUE` an attribute of it, each added when missing:
+
+```sh
+uv run xcraft boot --background --headless --unattended --answer keymap=fr --vm-dir /tmp/vm-unattended
+uv run xcraft boot --background --headless --unattended --answer system-snapshot.name=installed --vm-dir /tmp/vm-snap
+```
+
+For another answer file entirely, pass `--kernel-args 'rt_answerfile=<url>'` instead.
 
 `--kernel-args` and `--unattended` edit the GRUB menu of the ISO: not with `--bios`. The firmware boots the entries
 of its variables first, like the one of a previous installation: use a new session directory (`--vm-dir`) to install

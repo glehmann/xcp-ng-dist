@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!-- The unattended installation of test VMs, which xcraft boot serves to the installer, changed by its answer
+     options: XCP-ng on sda, with an ext SR on the same disk, DHCP on the first NIC of QEMU, by its default MAC
+     address, root password xcp-ng, SSH kept running -->
+<installation srtype="ext">
+  <primary-disk>sda</primary-disk>
+  <keymap>us</keymap>
+  <root-password>xcp-ng</root-password>
+  <source type="local"/>
+  <admin-interface hwaddr="52:54:00:12:34:56" proto="dhcp"/>
+  <ssh-mode>on</ssh-mode>
+</installation>

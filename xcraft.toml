@@ -121,6 +121,6 @@ installer = [
     "netcat", "pciutils", "usbutils",
 ]
 packages = ["xcp-ng-deps"]
-# the answer file of host-installer for test VMs: on sda, with an ext SR, DHCP, root password xcp-ng, SSH kept
-# running
-unattended = "rt_answerfile=file:///opt/xensource/installer/answerfile-vm.xml"
+# the answer file of test VMs, which xcraft boot --unattended serves to the installer, changed by --answer: on sda,
+# with an ext SR, DHCP, root password xcp-ng, SSH kept running
+unattended = "unattended.xml"
