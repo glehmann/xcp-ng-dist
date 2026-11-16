@@ -64,7 +64,9 @@ Obsoletes: sm-additional-drivers
 #TODO
 
 # https://github.com/xapi-project/sm/pull/802
-Patch2000: 0001-Install-relative-symlinks.patch
+# xcraft patchset: git@github.com:xcp-ng/sm.git install-relative-symlinks v4.1.12..8b4fe3c59796
+Patch1000: 0001-Install-relative-symlinks.patch
+# end of xcraft patchset
 
 %description
 This package contains storage backends used in XCP

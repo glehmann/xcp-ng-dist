@@ -1,4 +1,4 @@
-From 8b4fe3c5979645284bbdaf89997c98b1d7f7f488 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Yann Dirson <yann.dirson@vates.tech>
 Date: Thu, 26 Mar 2026 12:22:10 +0100
 Subject: [PATCH] Install relative symlinks
