@@ -266,8 +266,9 @@ xcp-featured.requires."xcp-featured" = ["glibc"]
 
 # xcp-ng-config
 xcp-ng-config.build = 1
-xcp-ng-config.key = "5199f2b69169841cf3a659f01049a9a13debc83f91b411758b88a0281f8ce8a8"
-xcp-ng-config.evr = "0-1.1"
+xcp-ng-config.key = "a87991415fd5c1f164a2aa80b6e5bb7d7f4d3a5fc9b4d2821c50a8b404870eec"
+xcp-ng-config.evr = "0-1.2"
+xcp-ng-config.requires."xcp-ng-config" = ["bash"]
 
 # xcp-ng-deps
 xcp-ng-deps.build = 1
