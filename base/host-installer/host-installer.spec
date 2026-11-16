@@ -4,7 +4,7 @@
 Summary: XenServer Installer
 Name: host-installer
 Version: 11.2.0
-Release: 1.1.4%{?xsrel}%{?dist}
+Release: 1.1.5%{?xsrel}%{?dist}
 License: GPLv2
 Group: Applications/System
 Source0: host-installer-%{version}.tar.gz
@@ -29,6 +29,10 @@ Patch1011: 0011-init-log_console-con-the-log-of-the-installer-to-con.patch
 
 # xcp-ng-dist
 Patch2000: 0022-Do-not-enable-openvswitch-xapi-sync-which-XCP-ng-9-s.patch
+Patch2001: 0025-Use-Btrfs-for-host-filesystems.patch
+Patch2002: 0026-Use-snapshot-ready-Btrfs-root-subvolumes.patch
+Patch2003: 0027-Install-private-live-system-snapshot-and-restore-com.patch
+Patch2004: 0028-Create-answerfile-requested-system-snapshots-using-p.patch
 
 # This is where we get 'multipath.conf' from
 BuildRequires: device-mapper-multipath
@@ -43,7 +47,7 @@ Requires: systemd-networkd
 Requires: systemd-resolved
 
 # partitioning tools
-Requires: gdisk kpartx e2fsprogs dosfstools
+Requires: gdisk kpartx e2fsprogs dosfstools btrfs-progs
 
 # CUI interface
 Requires: python3-newt
@@ -217,6 +221,9 @@ echo %{large_block_capable_sr_type} > %{buildroot}/%{feature_flag_dir}/large-blo
 /usr/bin/systemctl disable lvm2-monitor
 
 %changelog
+* Wed Nov 25 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 11.2.0-1.1.5
+- Use Btrfs for host filesystems, with answerfile-requested system snapshots
+
 * Mon Nov 23 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 11.2.0-1.1.4
 - Unpack the sources in a directory without the version, for the compiler cache across versions
 
