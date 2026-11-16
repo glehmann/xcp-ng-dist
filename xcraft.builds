@@ -79,8 +79,8 @@ guest-templates-json.requires."guest-templates-json-data-windows" = ["guest-temp
 
 # host-installer
 host-installer.build = 1
-host-installer.key = "af159cd5032a46674891ae38fdbbccf80495e2734d3bc0fc41f81dd95fa43472"
-host-installer.evr = "11.2.0-1.1.3"
+host-installer.key = "de068b5fc65041797f95338a538796465a968dc099b2a4fe386beaec65c4b1ee"
+host-installer.evr = "11.2.0-1.1.4"
 host-installer.requires."host-installer" = ["bash", "python3"]
 host-installer.requires."host-installer-startup" = ["bash"]
 
