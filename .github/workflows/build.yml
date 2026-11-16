@@ -70,6 +70,15 @@ jobs:
           install -d -m 700 "$GNUPGHOME"
           printf '%s' "$SIGNING_PRIVATE_KEY" | gpg --batch --import
           gpg --batch --list-secret-keys "$SIGNING_KEY_FINGERPRINT"
+      # the pinned upstream packages the copy of the storage misses, from their repositories, before the build needs
+      # them: the repositories drop the old versions; those already gone are reported, for a developer to push them
+      # from the store of their machine with xcraft push upstream
+      - if: github.ref == 'refs/heads/master' && steps.signing.outcome == 'success'
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: xcraft push upstream --to main
+        continue-on-error: true
       # signed once made: by the CI key on master, by a key of the runner made for them elsewhere, trusted by nobody
       # what the remote storage has is not built again, nor fetched, but for the builds of the others
       # arm64 is still in development; tolerate build and upload failures at step level so its check passes too
