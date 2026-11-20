@@ -97,6 +97,12 @@ extra = [
     "wireshark-cli", "gdb", "ltrace",
 ]
 
+# the publications of CI, at each push of master: its latest snapshot keeps the older versions of the last 30 days,
+# for the hosts to go back, and its dated snapshots, with their builds, a starting point for a fix, 90 days
+[publish.stages.incoming]
+retention = { days = 30, keep = 1 }
+snapshot_days = 90
+
 [iso]
 # like branding-xcp-ng, whose PRODUCT_VERSION iso/hook checks
 name = "xcp-ng"
