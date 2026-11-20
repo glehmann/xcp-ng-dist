@@ -1,0 +1,70 @@
+name: Prune
+
+# the builds of the buckets whose packages no publication has, pushed more than 15 days ago, see xcraft prune: each
+# week, or by hand, with --dry-run to see what would go, or another grace period
+on:
+  schedule:
+    - cron: "17 4 * * 0"
+  workflow_dispatch:
+    inputs:
+      dry-run:
+        description: Show what would be removed, without removing it
+        type: boolean
+        default: false
+      keep-days:
+        description: Keep the builds pushed in the last days, published or not
+        type: number
+        default: 15
+
+permissions: {}
+
+jobs:
+  prune:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # with the workflow publishing to the bucket, which a build may be copied by while it is removed
+          - {bucket: main, publishing: build.yml}
+          - {bucket: dev, publishing: pull-request.yml}
+    name: prune (${{ matrix.bucket }})
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+    concurrency:
+      group: prune-${{ matrix.bucket }}
+    env:
+      FORCE_COLOR: "1"
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7  # v10.2.0
+        with:
+          version: "0.10.x"
+          activate-environment: true
+      - run: uv sync --locked
+      # not during a publication: the runs of its workflow done first, for 2 hours at most
+      - env:
+          GH_TOKEN: ${{ github.token }}
+          WORKFLOW: ${{ matrix.publishing }}
+        run: |
+          for _ in $(seq 120); do
+            running=$(gh run list -R "$GITHUB_REPOSITORY" --workflow "$WORKFLOW" --limit 100 --json status \
+              --jq '[.[] | select(.status != "completed")] | length')
+            [ "$running" = 0 ] && exit 0
+            echo "waiting for $running runs of $WORKFLOW"
+            sleep 60
+          done
+          echo "::error::$WORKFLOW still running after 2 hours"
+          exit 1
+      - env:
+          AWS_ACCESS_KEY_ID: ${{ matrix.bucket == 'main' && secrets.AWS_ACCESS_KEY_ID || secrets.DEV_AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: >-
+            ${{ matrix.bucket == 'main' && secrets.AWS_SECRET_ACCESS_KEY || secrets.DEV_AWS_SECRET_ACCESS_KEY }}
+          BUCKET: ${{ matrix.bucket }}
+          DRY_RUN: ${{ inputs.dry-run }}
+          KEEP_DAYS: ${{ inputs.keep-days || 15 }}
+        run: |
+          if [ "$DRY_RUN" = true ]; then set -- --dry-run; fi
+          xcraft prune --to "$BUCKET" --keep-days "$KEEP_DAYS" "$@"
