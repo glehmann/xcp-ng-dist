@@ -8,7 +8,7 @@ biosdevname.requires."biosdevname" = ["glibc", "pciutils-libs"]
 
 # blktap
 blktap.build = 2
-blktap.key = "e1220321805c594a5dbac8710d6b6980d679c97e669dee32c2fe7d2ecfa8b92f"
+blktap.key = "f9d97d0c04fc8fc6da9026c159bd01f7af05cef42f27cfb235cb0a240c40af92"
 blktap.evr = "4.0.8-1.2"
 blktap.requires."blktap" = ["bash", "glibc", "libaio", "libuuid", "openssl-libs", "xen-libs", "zlib-ng-compat"]
 blktap.requires."blktap-devel" = ["blktap"]
@@ -110,9 +110,9 @@ nbd.evr = "3.25-2.1"
 nbd.requires."nbd" = ["glib2", "glibc", "gnutls", "libnl3"]
 
 # ocaml
-ocaml.build = 2
-ocaml.key = "4187ced896074d82551f19487ffb9d61c4f934ea146265f14a683c51b1f6f0f9"
-ocaml.evr = "4.14.2-1.3"
+ocaml.build = 1
+ocaml.key = "d1819ae9fdee6d9c221499e71e0a69001d0e0113479ddf8160c9c9ec6cf21fca"
+ocaml.evr = "4.14.2-1.4"
 ocaml.requires."ocaml" = ["glibc", "ocaml-runtime"]
 ocaml.requires."ocaml-compiler-libs" = ["ocaml", "ocaml-runtime"]
 ocaml.requires."ocaml-docs" = ["ocaml"]
@@ -122,14 +122,14 @@ ocaml.requires."ocaml-source" = ["ocaml"]
 
 # ocaml-findlib
 ocaml-findlib.build = 3
-ocaml-findlib.key = "584896c4977c4068bbf71b4ac786a4ef1fb7df2327782d01df3625e059c51f61"
+ocaml-findlib.key = "94eacd92100b9677ad23ce6f27c44cd91e27f9332f2d383fa4449530dfa34729"
 ocaml-findlib.evr = "1.9.8-1"
 ocaml-findlib.requires."ocaml-findlib" = ["glibc", "ocaml", "ocaml-runtime"]
 ocaml-findlib.requires."ocaml-findlib-devel" = ["ocaml", "ocaml-compiler-libs", "ocaml-findlib", "ocaml-runtime"]
 
 # opam
 opam.build = 3
-opam.key = "1f6fd66986803701cd33deb5703b74b307cc5e9647c3824c50f6d5139534d261"
+opam.key = "de9dca62302416fa2acb0fa1111ffa7db85d34ac89a4edd2c820a4e5caad561c"
 opam.evr = "2.5.2-1.1"
 opam.requires."opam" = ["glibc", "libgcc", "libstdc++"]
 
@@ -162,7 +162,7 @@ python-opentelemetry.requires."python3-opentelemetry-semantic-conventions" = ["p
 
 # qemu
 qemu.build = 2
-qemu.key = "2455331c421a714752eacb642550b6d636a6e0f44e33121507c9e14a57f07778"
+qemu.key = "984b8a614c87083571a1eab8b13f66f084caa9080f654af69ef29b616266f2f4"
 qemu.evr = "0:10.1.0-1.4"
 qemu.requires."qemu" = ["glib2", "glibc", "libaio", "libgcc", "libjpeg-turbo", "libpng", "libseccomp", "libselinux", "libusb1", "pixman", "python3", "xen-dom0-libs", "xen-libs", "zlib-ng-compat"]
 
@@ -186,7 +186,7 @@ ssmtp.provides."ssmtp" = ["/usr/sbin/ssmtp"]
 
 # varstored
 varstored.build = 2
-varstored.key = "a8f90781d62b7dd67c8d198dc0a33a5005cf3a6715083d27441548b932cdddda"
+varstored.key = "4e4a63c457f679bdc41146c6b5b5ef320afaf6f5078e77aea3bfa3cf8c21a8e4"
 varstored.evr = "1.3.4-2.2"
 varstored.requires."varstored" = ["glibc", "libseccomp", "libxml2", "openssl-libs", "xen-dom0-libs", "xen-libs"]
 varstored.requires."varstored-tools" = ["glibc", "libseccomp", "libxml2", "openssl-libs"]
@@ -199,13 +199,13 @@ vmss.requires."vmss" = ["python3"]
 
 # vncterm
 vncterm.build = 2
-vncterm.key = "a9da1c67c1afe7e4ef0d28db4f925c4585eeef672f273eb254626301b49a6d4b"
+vncterm.key = "8cf89a3a60dda1d89dfafe71a36ce71fbc205d28f5645642edc6368ddf24d050"
 vncterm.evr = "10.2.2-1.1"
 vncterm.requires."vncterm" = ["bash", "glibc", "xen-libs"]
 
 # xapi
 xapi.build = 3
-xapi.key = "90dbb520d6cea154a1ab926cb00a3a103c9aff9e596bd85737976ceeb860a34a"
+xapi.key = "d2b4be0568e2ce82e5185491d5118daa2931ff9760b8ef61143a68fd3a1cf517"
 xapi.evr = "26.19.0-2.3"
 xapi.requires."forkexecd" = ["glibc"]
 xapi.requires."forkexecd-devel" = ["forkexecd", "ocaml", "ocaml-runtime", "xapi-idl-devel", "xapi-libs-devel", "xs-opam-repo"]
@@ -242,7 +242,7 @@ xapi.requires."xenopsd-xc" = ["glibc", "openssl-libs", "xen-dom0-libs", "xenopsd
 
 # xcp-clipboardd
 xcp-clipboardd.build = 3
-xcp-clipboardd.key = "cc05b34eefa14b5568bdfc622292e63add23aee66b27ba394ce80a77f08ca979"
+xcp-clipboardd.key = "b62ffd885f4139760f305128929a1e062fb61a85149d4706ba877be186c9560e"
 xcp-clipboardd.evr = "1.0.3-10"
 xcp-clipboardd.requires."xcp-clipboardd" = ["glibc", "xen-libs"]
 
@@ -260,7 +260,7 @@ xcp-emu-manager.requires."xcp-emu-manager" = ["glibc", "json-c", "libempserver",
 
 # xcp-featured
 xcp-featured.build = 3
-xcp-featured.key = "856e25f24d307f37a83cd83e5f8001cfc198a26403f3f35f05851510a4119c32"
+xcp-featured.key = "06fdc7467687babec29d5fb5159a8c60672c2c5def349be2c8cef8a99093586b"
 xcp-featured.evr = "1.1.8-7"
 xcp-featured.requires."xcp-featured" = ["glibc"]
 
@@ -309,7 +309,7 @@ xcp-python-libs.requires."python3-xcp-libs" = ["python3", "python3-six"]
 
 # xen
 xen.build = 2
-xen.key = "24c5028a630d62367b9bd39cce29e744fb86c0be85b2cdd61a7fa8eb78bcf194"
+xen.key = "1340b4055c9d3d61fcd1f6209cec40f517ae7740289e2d1a098d79fa9df50c2e"
 xen.evr = "4.21.2-3.5"
 xen.requires."xen-dom0-libs" = ["bzip2-libs", "e2fsprogs-libs", "glibc", "json-c", "libuuid", "libzstd", "lz4-libs", "lzo", "xen-libs", "xz-libs", "zlib-ng-compat"]
 xen.requires."xen-dom0-libs-devel" = ["pkgconf-pkg-config", "xen-dom0-libs", "xen-libs-devel"]
@@ -329,7 +329,7 @@ xo-lite.evr = "0.26.0-1"
 
 # xs-opam-repo
 xs-opam-repo.build = 2
-xs-opam-repo.key = "385f630a49fbe0506ee1a2dc7c7b3881db3b63ad218591e0db1d968702a04feb"
+xs-opam-repo.key = "a5639ef2080e6149991302917b95d8437f2c8618ffd9779c580293d6cbbefdd5"
 xs-opam-repo.evr = "6.99.0-1.3"
 xs-opam-repo.requires."xs-opam-repo" = ["bash", "glibc", "gmp", "libcurl-minimal", "libev", "libffi", "ocaml", "ocaml-compiler-libs", "ocaml-runtime", "openssl-libs", "pciutils-libs"]
 

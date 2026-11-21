@@ -33,7 +33,7 @@
 
 Name:           ocaml
 Version:        4.14.2
-Release:        %{?xsrel}.3%{?dist}
+Release:        %{?xsrel}.4%{?dist}
 
 Summary:        OCaml compiler and programming environment
 
@@ -74,6 +74,8 @@ BuildRequires:  gdbm-devel
 BuildRequires:  gawk
 BuildRequires:  perl-interpreter
 BuildRequires:  util-linux
+# the tests, run in parallel
+BuildRequires:  parallel
 
 # ocamlopt runs gcc to link binaries.  Because Fedora includes
 # hardening flags automatically, redhat-rpm-config is also required.
@@ -204,15 +206,16 @@ $make opt.opt
 
 %check
 %ifarch %{test_arches}
-make ocamltest
+make %{?_smp_mflags} ocamltest
 %ifarch %{ocaml_native_compiler}
-make ocamltest.opt
+make %{?_smp_mflags} ocamltest.opt
 %endif
 
+# the tests run one at a time by make tests, by GNU parallel there
 %ifarch %{test_arches_required}
-make -j1 tests
+make -C testsuite parallel
 %else
-make -j1 tests ||:
+make -C testsuite parallel ||:
 %endif
 %endif
 
@@ -360,6 +363,9 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/ocaml/eventlog_metadata
 
 
 %changelog
+* Sat Nov 21 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 4.14.2-1.4
+- Run the tests in parallel
+
 * Thu Nov 12 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 4.14.2-1.3
 - Escape a macro in the changelog
 

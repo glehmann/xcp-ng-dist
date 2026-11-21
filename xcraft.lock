@@ -355,6 +355,7 @@ version = 3
 "package-notes" = "0.5-13.el10"
 "pam" = "1.6.1-9.el10_2.1"
 "pango" = "1.54.0-3.el10"
+"parallel" = "20261022-2.el10_3"
 "parted" = "3.6-7.el10"
 "patch" = "2.7.6-26.el10"
 "pciutils" = "3.13.0-6.el10"
@@ -1061,6 +1062,7 @@ version = 3
 "pam-devel" = "1.6.1-9.el10_2.1 aarch64 dc86a5ee281d73f61eaac743fd28b8f3832d495c7ecb4eaa9cea88c9ce923ef1 pam"
 "pam-libs" = "1.6.1-9.el10_2.1 aarch64 9cf4b0b505363b4c480f5558ed12278a9428e4970d42a52c6267343b418a5676 pam"
 "pango" = "1.54.0-3.el10 aarch64 19f02274e23a362a638a7dd3e64d06ddce424ec93a25106f5cd9baa921822979 pango"
+"parallel" = "20261022-2.el10_3 noarch 93e0d70039de54466183ae8910c74e8c76f56a1a4d0ca462181050455bc58e87 parallel"
 "patch" = "2.7.6-26.el10 aarch64 e2b9344530e980e72aaab80f3eab37923a32cc50128208aa11ef936a90dfd3d0 patch"
 "pciutils" = "3.13.0-6.el10 aarch64 0a29cf96bd4980ee14bd8bb10940813af5c946488f3e50a553bea2d92018cf5a pciutils"
 "pciutils-devel" = "3.13.0-6.el10 aarch64 d05e847d78563c142e8ac727ab72e281b44a4d6021c1d8b891ed1549284918e0 pciutils"
@@ -2014,6 +2016,7 @@ version = 3
 "pam-devel" = "1.6.1-9.el10_2.1 x86_64_v2 129f98931d01ac366ec413def0cbbb003175c13dff2f987dc34c8e7709de2a2c pam"
 "pam-libs" = "1.6.1-9.el10_2.1 x86_64_v2 57e6d79dcc831a3503df6edc6b35a542c805b8a3baebffc87864ebbb0e38f4db pam"
 "pango" = "1.54.0-3.el10 x86_64_v2 c21e43b86ec1f24c973cbb06d96024c40b0d6537a5c1760e8aa39687fa000c14 pango"
+"parallel" = "20261022-2.el10_3.alma_altarch noarch 129234e501b7d827b73bb3c820742c00a0d5d70fe9c53e017ac8767e2faa3225 parallel"
 "parted" = "3.6-7.el10 x86_64_v2 bdaae6eb3cea12dc4c48b6f68031fab3bf971d939e303b1a1d0f3c388b89c43f parted"
 "patch" = "2.7.6-26.el10 x86_64_v2 846bc4b572b149918471edfdfe6fbd4cf0d5174f6e262ca24aee9177f62aae9e patch"
 "pciutils" = "3.13.0-6.el10 x86_64_v2 47284a5099a468b7927d032c9dccd1009e435b37623949c6afbb967dd9040d35 pciutils"
@@ -3709,6 +3712,7 @@ version = 3
     "ncurses-devel",
     "openssh",
     "openssh-clients",
+    "parallel",
     "perl-AutoLoader",
     "perl-B",
     "perl-Carp",
@@ -3758,6 +3762,7 @@ version = 3
     "perl-TermReadKey",
     "perl-Text-ParseWords",
     "perl-Text-Tabs+Wrap",
+    "perl-Thread-Queue",
     "perl-Time-Local",
     "perl-URI",
     "perl-Unicode-Normalize",
@@ -3774,6 +3779,8 @@ version = 3
     "perl-overloading",
     "perl-parent",
     "perl-podlators",
+    "perl-threads",
+    "perl-threads-shared",
     "perl-vars",
     "xxhash-libs",
     "zlib-ng-compat-devel",
@@ -6307,6 +6314,7 @@ version = 3
     "ncurses-devel",
     "openssh",
     "openssh-clients",
+    "parallel",
     "perl-AutoLoader",
     "perl-B",
     "perl-Carp",
@@ -6356,6 +6364,7 @@ version = 3
     "perl-TermReadKey",
     "perl-Text-ParseWords",
     "perl-Text-Tabs+Wrap",
+    "perl-Thread-Queue",
     "perl-Time-Local",
     "perl-URI",
     "perl-Unicode-Normalize",
@@ -6372,6 +6381,8 @@ version = 3
     "perl-overloading",
     "perl-parent",
     "perl-podlators",
+    "perl-threads",
+    "perl-threads-shared",
     "perl-vars",
     "xxhash-libs",
     "zlib-ng-compat-devel",
