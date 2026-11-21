@@ -20,6 +20,8 @@ logo = "https://xcp-ng.org/assets/img/mainlogo.png"
 dist = "%{?autorev}.xcpng8.99"
 xcpng = "9"
 xenserver = "9"
+# the binary packages compressed by as many threads as CPUs, rather than one: the same packages, whatever their number
+_binary_payload = "w19T.zstdio"
 
 # the current AlmaLinux 10 and its EPEL: the lock decides of the versions used
 [repos.baseos]
