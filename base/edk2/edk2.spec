@@ -3,7 +3,7 @@
 Name: edk2
 Summary: EFI Development Kit II
 Version: 202602
-Release: 1%{?dist}
+Release: 1.1%{?dist}
 
 License: BSD and MIT
 URL: https://github.com/tianocore/edk2
@@ -112,7 +112,9 @@ cp %{SOURCE1001} MdeModulePkg/Logo/Logo.bmp
 
 %build
 
-python3 CryptoPkg/Library/OpensslLib/configure.py
+# XCP-ng: OpenSSL's generated files not generated again, those of edk2 are already those of its version, the same,
+# rather than one minute and a half on one processor
+# python3 CryptoPkg/Library/OpensslLib/configure.py
 
 cp %{_datadir}/ipxe/10ec8139.efi .
 cp %{_datadir}/ipxe/8086100e.efi .
@@ -190,6 +192,9 @@ cp OvmfPkg/License.txt License.ovmf
 
 
 %changelog
+* Sun Nov 22 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 202602-1.1
+- Do not generate the files of OpenSSL again, edk2 has them already
+
 * Fri Jul 17 2026 Tu Dinh <ngoc-tu.dinh@vates.tech> - 202602-1
 - Updated to edk2-stable202602, for XCP-ng 9
 - All backports dropped except for 1 applicable one

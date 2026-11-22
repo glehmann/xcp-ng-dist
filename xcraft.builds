@@ -40,9 +40,9 @@ dmv-utils.evr = "1.0.3-2"
 dmv-utils.requires."dmv-utils" = ["python3"]
 
 # edk2
-edk2.build = 3
-edk2.key = "99bd966cb2c6e9ab388024ad52a4a9bae23e90be83bedfd17900d7c920569941"
-edk2.evr = "202602-1"
+edk2.build = 1
+edk2.key = "2ce7619868137a4ffce926f2b033ed2d01771fe71eab35ea5a6daec22590f3f8"
+edk2.evr = "202602-1.1"
 
 # grub
 grub.build = 3
