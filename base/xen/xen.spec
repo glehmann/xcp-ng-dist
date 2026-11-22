@@ -32,7 +32,7 @@
 Summary: Xen is a virtual machine monitor
 Name:    xen
 Version: 4.21.2
-Release: %{?xsrel}.5%{?dist}
+Release: %{?xsrel}.6%{?dist}
 License: GPLv2 and LGPLv2 and MIT and Public Domain
 URL:     https://www.xenproject.org
 Source0: xen-4.21.2.tar.gz
@@ -484,14 +484,8 @@ echo %{?_devtoolset_enable} > ../livepatch-src/prepare-build
 # version in xen/include/xen/lockdown.h file (PRIVCMD_FILTERING_ABI_VERSION).
 diff -Naur public-abi xen/include/public
 
-# Build tools and man pages
-%{?_cov_wrap} %{make_build} build-tools
-%{make_build} -C docs man-pages
-
-# The hypervisor build system can't cope with RPM's {C,LD}FLAGS
-unset CFLAGS
-unset LDFLAGS
-
+# XCP-ng: the hypervisors built at the same time as the tools, each in a subshell, the hypervisor build system not
+# coping with RPM's {C,LD}FLAGS, their outputs shown after
 build_xen () { # $1=vendorversion $2=buildconfig $3=outdir $4=cov
     local mk ver cov
 
@@ -513,10 +507,23 @@ build_xen () { # $1=vendorversion $2=buildconfig $3=outdir $4=cov
 }
 
 # Builds of Xen
-build_xen -%{hv_rel}   config-release         build-xen-release
-build_xen -%{hv_rel}-d config-debug           build-xen-debug      cov
-build_xen ""           config-pvshim          build-shim
+(unset CFLAGS LDFLAGS; build_xen -%{hv_rel}   config-release build-xen-release) > hypervisor-release.log 2>&1 &
+release=$!
+(unset CFLAGS LDFLAGS; build_xen -%{hv_rel}-d config-debug   build-xen-debug cov) > hypervisor-debug.log 2>&1 &
+debug=$!
+(unset CFLAGS LDFLAGS; build_xen ""           config-pvshim  build-shim) > hypervisor-shim.log 2>&1 &
+shim=$!
 
+# Build tools and man pages
+%{?_cov_wrap} %{make_build} build-tools
+%{make_build} -C docs man-pages
+
+status=0
+for build in release debug shim; do
+    wait ${!build} || status=1
+    cat hypervisor-$build.log
+done
+[ $status = 0 ]
 
 %install
 
@@ -1139,6 +1146,9 @@ fi
 %{?_cov_results_package}
 
 %changelog
+* Sun Nov 22 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 4.21.2-3.6
+- Build the hypervisors at the same time as the tools
+
 * Thu Nov 12 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 4.21.2-3.5
 - Require logrotate in xen-dom0-tools, for the logrotate configuration
 
