@@ -34,7 +34,7 @@
 Name: kernel-xcpng
 License: GPLv2
 Version: %{usver}
-Release: 6%{dist}
+Release: 7%{dist}
 ExclusiveOS: Linux
 Summary: The Linux kernel
 BuildRequires: kmod
@@ -296,7 +296,7 @@ ln -sf initrd-%{uname}.img %{buildroot}/boot/initrd-%{short_uname}-xen.img
 # Install modules
 # Override $(mod-fw) because we don't want it to install any firmware
 # we'll get it from the linux-firmware package and we don't want conflicts
-make INSTALL_MOD_PATH=%{buildroot} modules_install mod-fw=
+make %{?_smp_mflags} INSTALL_MOD_PATH=%{buildroot} modules_install mod-fw=
 # mark modules executable so that strip-to-file can strip them
 find %{buildroot}/lib/modules/%{uname} -name "*.ko" -type f | xargs chmod u+x
 
@@ -311,7 +311,7 @@ make INSTALL_MOD_PATH=%{buildroot} vdso_install
 # install -m 755 vmlinux %{buildroot}/usr/lib/debug/lib/modules/%{uname}
 
 # Install -headers files
-make INSTALL_HDR_PATH=%{buildroot}/usr headers_install
+make %{?_smp_mflags} INSTALL_HDR_PATH=%{buildroot}/usr headers_install
 
 # perf tool binary and supporting scripts/binaries
 %{perf_make} %{perf_python3} DESTDIR=%{buildroot} lib=%{_lib} install-bin
@@ -489,6 +489,9 @@ fi
 %{?_cov_results_package}
 
 %changelog
+* Sun Nov 22 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 6.12.0-7
+- Install the modules and headers in parallel
+
 * Wed Nov 11 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 6.12.0-6
 - Release 6, above 6.12.0-5 of xcp-ng-dist, which Obsoletes: kernel replaces
 - The configuration checked without the versions of the toolchain, which change with its updates
