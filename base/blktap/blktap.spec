@@ -4,7 +4,7 @@
 Summary: blktap user space utilities
 Name: blktap
 Version: 4.0.8
-Release: 1%{?xsrel}.2%{?dist}
+Release: 1%{?xsrel}.3%{?dist}
 License: BSD
 Group: System/Hypervisor
 URL: https://github.com/xapi-project/blktap
@@ -74,11 +74,11 @@ sh autogen.sh
 #%%configure LDFLAGS="$LDFLAGS -lrt -static-liblsan" CFLAGS="$CFLAGS  -Wno-stringop-truncation -fsanitize=leak -ggdb -fno-omit-frame-pointer"
 #%%configure CFLAGS="$CFLAGS -Wno-stringop-truncation -Wno-error=analyzer-malloc-leak -Wno-error=analyzer-use-after-free -Wno-error=analyzer-double-free -Wno-error=analyzer-null-dereference -fanalyzer"
 %configure CFLAGS="$CFLAGS -Wno-stringop-truncation"
-%{?_cov_wrap} make %{?coverage:GCOV=true}
+%{?_cov_wrap} make %{?_smp_mflags} %{?coverage:GCOV=true}
 
 %check
 make clean
-make check GCOV=true || (find mockatests -name \*.log -print -exec cat {} \; && false)
+make %{?_smp_mflags} check GCOV=true || (find mockatests -name \*.log -print -exec cat {} \; && false)
 mkdir -p %{buildroot}/testresults
 ./collect-test-results.sh %{buildroot}/testresults
 
@@ -176,6 +176,9 @@ without requiring other libraries
 %{_libdir}/libblockcrypto.so.*
 
 %changelog
+* Sun Nov 22 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 4.0.8-1.3
+- Build and run the tests in parallel
+
 * Thu Nov 12 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 4.0.8-1.2
 - Require crontabs and logrotate, for the cron and logrotate scripts
 
