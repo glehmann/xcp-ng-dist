@@ -9,4 +9,4 @@ dependencies = ["xcraft"]
 package = false
 
 [tool.uv.sources]
-xcraft = { git = "https://github.com/glehmann/xcraft", rev = "9f3e347253704606c23d87a472b1140b3b6c8bd6" }
+xcraft = { git = "https://github.com/glehmann/xcraft", rev = "ce373a0ca85adc56dee982b8740ec7c4f3277164" }
