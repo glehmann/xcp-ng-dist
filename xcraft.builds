@@ -185,9 +185,9 @@ ssmtp.requires."ssmtp" = ["glibc", "openssl-libs"]
 ssmtp.provides."ssmtp" = ["/usr/sbin/ssmtp"]
 
 # varstored
-varstored.build = 2
-varstored.key = "7db6b2c9ddc328b89530a8adbc579c66c5844eca68368ee3abdebe57e9f45ccc"
-varstored.evr = "1.3.4-2.2"
+varstored.build = 1
+varstored.key = "2f2de897f8edc2822273a543d23793a2c6298a1fcfaa18c247ff35caa6c32175"
+varstored.evr = "1.3.4-2.3"
 varstored.requires."varstored" = ["glibc", "libseccomp", "libxml2", "openssl-libs", "xen-dom0-libs", "xen-libs"]
 varstored.requires."varstored-tools" = ["glibc", "libseccomp", "libxml2", "openssl-libs"]
 

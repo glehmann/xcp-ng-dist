@@ -4,7 +4,7 @@
 Name: varstored
 Summary: EFI Variable Storage Daemon
 Version: 1.3.4
-Release: %{?xsrel}.2%{?dist}
+Release: %{?xsrel}.3%{?dist}
 
 License: BSD
 Source0: varstored-1.3.4.tar.gz
@@ -163,7 +163,7 @@ install -m 644 %{SOURCE100} %{buildroot}/%{_datadir}/%{name}
 test "$(readlink %{_sharedstatedir}/%{name})" = %{_datadir}/%{name} || test -d %{_sharedstatedir}/%{name} || ln -sf -T %{_datadir}/%{name} %{_sharedstatedir}/%{name} || :
 
 %check
-make check
+make %{?_smp_mflags} check
 
 
 %files
@@ -181,6 +181,9 @@ make check
 
 
 %changelog
+* Sun Nov 22 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 1.3.4-2.3
+- Run the tests in parallel
+
 * Thu Nov 12 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 1.3.4-2.2
 - Escape a macro in the changelog
 
