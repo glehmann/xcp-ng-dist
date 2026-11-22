@@ -104,9 +104,9 @@ libempserver.requires."libempserver" = ["glibc"]
 libempserver.requires."libempserver-devel" = ["libempserver"]
 
 # nbd
-nbd.build = 3
-nbd.key = "e37cda93f390f301936c52804da864e1866883d8d8e34e488485aa7c35f9e164"
-nbd.evr = "3.25-2.1"
+nbd.build = 1
+nbd.key = "42d83592f40dfe64347ccf8c011db03b047a96bf6be27f4e69ac2c6cc18710ff"
+nbd.evr = "3.25-2.2"
 nbd.requires."nbd" = ["glib2", "glibc", "gnutls", "libnl3"]
 
 # ocaml

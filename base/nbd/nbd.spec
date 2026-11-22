@@ -5,7 +5,7 @@
 
 Name:    nbd
 Version: 3.25
-Release: %{?xsrel}.1%{?dist}
+Release: %{?xsrel}.2%{?dist}
 Summary: Network Block Device user-space tools (TCP version)
 License: GPL-2.0-only
 URL:     https://github.com/NetworkBlockDevice/nbd
@@ -17,6 +17,7 @@ Patch0: netlink-report-failure.patch
 # XCP-ng patches
 # Origin: https://github.com/NetworkBlockDevice/nbd/commit/5b6dda99bbfbfe287ebacb5d545496b57f6e6e8d
 Patch1000: 0001-Update-certificate-expiry-dates.patch
+Patch1001: 0002-tests-wait-for-the-server-rather-than-sleeping.patch
 
 BuildRequires: make
 BuildRequires:  gcc
@@ -54,7 +55,7 @@ install -pDm644 %{S:1} %{buildroot}%{_unitdir}/nbd-server.service
 install -pDm644 %{S:2} %{buildroot}%{_sysconfdir}/sysconfig/nbd-server
 
 %check
-# wait longer for nbd-server to fully start,
+# wait at most 10 seconds for nbd-server to start or stop,
 # one second may not be enough on Koji building infra
 DELAY=10 make check
 
@@ -82,6 +83,9 @@ DELAY=10 make check
 %{_unitdir}/nbd@.service.d
 
 %changelog
+* Sun Nov 22 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 3.25-2.2
+- Wait for the servers of the tests rather than sleeping
+
 * Wed Jul 15 2026 Philippe Coval <philippe.coval@vates.tech> - 3.25-2.1
 - Add patch for obsolete certificates
 

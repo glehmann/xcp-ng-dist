@@ -1,0 +1,218 @@
+From: Gaëtan Lehmann <gaetan.lehmann@vates.tech>
+Subject: [PATCH] tests: wait for the server rather than sleeping
+
+The tests slept $DELAY seconds after starting nbd-server, and did not wait for
+it to exit after killing it: they wait for it to listen, on its Unix socket if
+it has one, on its TCP port otherwise, and to exit, for $DELAY seconds at most.
+
+Signed-off-by: Gaëtan Lehmann <gaetan.lehmann@vates.tech>
+---
+--- a/tests/run/simple_test
++++ b/tests/run/simple_test
+@@ -24,14 +24,42 @@
+ 
+ set -e
+ 
++# Wait for the server to listen, on its Unix socket if it has one, on its TCP
++# port otherwise, for $DELAY seconds at most.
++wait_server() {
++	tries=$((DELAY * 10))
++	while [ $tries -gt 0 ]
++	do
++		if grep -q unixsock ${conffile}
++		then
++			[ -S ${tmpdir}/unix.sock ] && return 0
++		else
++			grep -qs ':2A39 [0-9A-F]*:0000 0A' /proc/net/tcp /proc/net/tcp6 && return 0
++		fi
++		sleep 0.1
++		tries=$((tries - 1))
++	done
++}
++
++# Stop the server, and wait for it to exit, for the next test not to find it.
++stop_server() {
++	kill $1 || return 0
++	tries=$((DELAY * 10))
++	while kill -0 $1 2>/dev/null && [ $tries -gt 0 ]
++	do
++		sleep 0.1
++		tries=$((tries - 1))
++	done
++}
++
+ cleanup() {
+ 	if [ -f ${pidfile} ]
+ 	then
+-		kill `cat ${pidfile}` || true
++		stop_server `cat ${pidfile}`
+ 	else
+ 		if [ ! -z "$PID" ]
+ 		then
+-			kill $PID || true
++			stop_server $PID
+ 		fi
+ 	fi
+ 	if [ -z "$cleanup" ]
+@@ -68,7 +96,7 @@
+ 		# -p only works if nbd-server wasn't compiled with -DNOFORK or
+ 		# -DNODAEMON, which I sometimes do for testing and debugging.
+ 		PID=$!
+-		sleep $DELAY
++		wait_server
+ 		./nbd-tester-client -o -N export 127.0.0.1
+ 		retval=$?
+ 	;;
+@@ -81,7 +109,7 @@
+ EOF
+ 		../../nbd-server -C ${conffile} -p ${pidfile} &
+ 		PID=$!
+-		sleep $DELAY
++		wait_server
+ 		./nbd-tester-client -N export 127.0.0.1
+ 		retval=$?
+ 	;;
+@@ -101,7 +129,7 @@
+ EOF
+ 		../../nbd-server -C ${conffile} -p ${pidfile} &
+ 		PID=$!
+-		sleep $DELAY
++		wait_server
+ 		./nbd-tester-client -N export1 localhost
+ 		retval=$?
+ 		if [ $retval -ne 0 ]
+@@ -130,7 +158,7 @@
+ EOF
+ 		../../nbd-server -C ${conffile} -p ${pidfile} &
+ 		PID=$!
+-		sleep $DELAY
++		wait_server
+ 		./nbd-tester-client -N export1 localhost
+ 		retval=$?
+ 	;;
+@@ -143,7 +171,7 @@
+ EOF
+ 		../../nbd-server -C ${conffile} -p ${pidfile} &
+ 		PID=$!
+-		sleep $DELAY
++		wait_server
+ 		./nbd-tester-client -N export1 -w localhost
+ 		retval=$?
+ 	;;
+@@ -158,7 +186,7 @@
+ EOF
+ 		../../nbd-server -C ${conffile} -p ${pidfile} &
+ 		PID=$!
+-		sleep $DELAY
++		wait_server
+ 		./nbd-tester-client -N export1 -w localhost
+ 		retval=$?
+ 	;;
+@@ -174,7 +202,7 @@
+ EOF
+ 		../../nbd-server -C ${conffile} -p ${pidfile} &
+ 		PID=$!
+-		sleep $DELAY
++		wait_server
+ 		./nbd-tester-client -N export1 -w -F localhost
+ 		retval=$?
+ 	;;
+@@ -190,7 +218,7 @@
+ EOF
+ 		../../nbd-server -C ${conffile} -p ${pidfile} &
+ 		PID=$!
+-		sleep $DELAY
++		wait_server
+ 		./nbd-tester-client -N export1 -w -f localhost
+ 		retval=$?
+ 	;;
+@@ -207,7 +235,7 @@
+ EOF
+ 		../../nbd-server -C ${conffile} -p ${pidfile} &
+ 		PID=$!
+-		sleep $DELAY
++		wait_server
+ 		./nbd-tester-client -N export1 localhost
+ 		retval=$?
+ 	;;
+@@ -225,7 +253,7 @@
+ EOF
+ 		../../nbd-server -C ${conffile} -p ${pidfile} &
+ 		PID=$!
+-		sleep $DELAY
++		wait_server
+ 		./nbd-tester-client -N export1 -i -t ${mydir}/integrity-test.tr localhost
+ 		retval=$?
+ 	;;
+@@ -243,7 +271,7 @@
+ EOF
+ 		../../nbd-server -C ${conffile} -p ${pidfile} &
+ 		PID=$!
+-		sleep $DELAY
++		wait_server
+ 		./nbd-tester-client -N export1 -i -t ${mydir}/integrityhuge-test.tr localhost
+ 		retval=$?
+ 	;;
+@@ -266,7 +294,7 @@
+ EOF
+ 			../../nbd-server -C ${conffile} -p ${pidfile} &
+ 			PID=$!
+-			sleep $DELAY
++			wait_server
+ 			../../nbd-client -l localhost
+ 			./nbd-tester-client -N export1 localhost
+ 			retval=$?
+@@ -282,7 +310,7 @@
+ EOF
+ 		../../nbd-server -C ${conffile} -p ${pidfile} &
+ 		PID=$!
+-		sleep $DELAY
++		wait_server
+ 		./nbd-tester-client -N export1 -w -F localhost
+ 		retval=$?
+ 		;;
+@@ -296,7 +324,7 @@
+ EOF
+ 		../../nbd-server -C ${conffile} -p ${pidfile} &
+ 		PID=$!
+-		sleep $DELAY
++		wait_server
+ 		./nbd-tester-client -N export1 -u ${tmpdir}/unix.sock
+ 		retval=$?
+ 		;;
+@@ -319,7 +347,7 @@
+ EOF
+ 		../../nbd-server -C ${conffile} -p ${pidfile} &
+ 		PID=$!
+-		sleep $DELAY
++		wait_server
+ 		./nbd-tester-client -h -N export1 localhost
+ 		retval=$?
+ 	;;
+@@ -340,7 +368,7 @@
+ EOF
+ 		../../nbd-server -C ${conffile} -p ${pidfile} &
+ 		PID=$!
+-		sleep $DELAY
++		wait_server
+ 		./nbd-tester-client -N export1 -i -t "${mydir}/integrity-test.tr" -C "${certdir}/client-cert.pem" -K "${certdir}/client-key.pem" -A "${certdir}/ca-cert.pem" localhost
+ 		retval=$?
+ 	;;
+@@ -362,7 +390,7 @@
+ EOF
+ 		../../nbd-server -C ${conffile} -p ${pidfile} &
+ 		PID=$!
+-		sleep $DELAY
++		wait_server
+ 		./nbd-tester-client -N export1 -i -t "${mydir}/integrityhuge-test.tr" -C "${certdir}/client-cert.pem" -K "${certdir}/client-key.pem" -A "${certdir}/ca-cert.pem" -H localhost 127.0.0.1
+ 		retval=$?
+ 	;;
+@@ -382,7 +410,7 @@
+ EOF
+ 		../../nbd-server -C ${conffile} -p ${pidfile} &
+ 		PID=$!
+-		sleep $DELAY
++		wait_server
+ 		./nbd-tester-client -N export1 -t "${mydir}/integrity-test.tr" -C "${certdir}/selfsigned-cert.pem" -K "${certdir}/selfsigned-key.pem" -F localhost
+ 		retval=$?
+ 	;;
