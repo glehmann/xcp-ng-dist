@@ -38,7 +38,7 @@
 Name: kernel-xcpng
 License: GPLv2
 Version: %{usver}
-Release: 7%{dist}
+Release: 8%{dist}
 ExclusiveOS: Linux
 Summary: The Linux kernel
 BuildRequires: kmod
@@ -495,6 +495,12 @@ fi
 %{?_cov_results_package}
 
 %changelog
+* Mon Nov 23 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 6.12.0-8
+- Build the same files for the same sources: the date of the changelog as the time of the build, and xcp-ng as its host
+- Keep dwz off whatever the macros of the build environment
+- Disable CONFIG_CTF: its type information is never packaged, and its order, which GCC varies, changed the build ID
+  of kheaders.ko
+
 * Sun Nov 22 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 6.12.0-7
 - Install the modules and headers in parallel
 
