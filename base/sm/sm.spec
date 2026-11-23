@@ -6,7 +6,7 @@
 Summary: sm - XCP storage managers
 Name:    sm
 Version: 4.1.12
-Release: 1%{?xsrel}.2%{?dist}
+Release: 1%{?xsrel}.3%{?dist}
 License: LGPL
 URL:  https://github.com/xapi-project/sm
 Source0: sm-4.1.12.tar.gz
@@ -321,6 +321,9 @@ in /opt/xensource
 /opt/xensource/libexec/dcopy
 
 %changelog
+* Mon Nov 23 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 4.1.12-1.3
+- Do not package the test results, whose times made the builds of the same sources differ
+
 * Thu Nov 12 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 4.1.12-1.2
 - Require logrotate, for the logrotate configuration
 
