@@ -103,7 +103,9 @@ hardware devices.\
 %{nil}
 
 # AlmaLinux: keep upstream EVR for RHEL SBAT entry
-%define rhel_version_release $(echo %{version}-%{release} | sed 's/\.alma.*//')
+# XCP-ng: without the number of the build in all the SBAT entries, the same for the same sources: the revocations of
+# secure boot use the generations of the entries, not their versions
+%define rhel_version_release $(echo %{version}-%{source_release} | sed 's/\.alma.*//')
 
 # generate with do-rebase
 %include %{SOURCE11}
@@ -201,7 +203,7 @@ This subpackage provides the GRUB user-space emulation modules.
 mkdir grub-%{grubefiarch}-%{tarversion}
 grep -A100000 '# stuff "make" creates' .gitignore > grub-%{grubefiarch}-%{tarversion}/.gitignore
 cp %{SOURCE4} grub-%{grubefiarch}-%{tarversion}/unifont.pcf.gz
-sed -e "s,@@VERSION@@,%{version},g" -e "s,@@VERSION_RELEASE@@,%{version}-%{release},g" -e "s,@@RHEL_VERSION_RELEASE@@,%{rhel_version_release},g" \
+sed -e "s,@@VERSION@@,%{version},g" -e "s,@@VERSION_RELEASE@@,%{version}-%{source_release},g" -e "s,@@RHEL_VERSION_RELEASE@@,%{rhel_version_release},g" \
     %{SOURCE12} > grub-%{grubefiarch}-%{tarversion}/sbat.csv
 git add grub-%{grubefiarch}-%{tarversion}
 %endif
