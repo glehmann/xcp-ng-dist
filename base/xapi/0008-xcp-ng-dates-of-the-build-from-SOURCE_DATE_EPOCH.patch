@@ -1,0 +1,56 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Gaëtan Lehmann <gaetan.lehmann@vates.tech>
+Date: Mon, 23 Nov 2026 15:00:00 +0100
+Subject: [PATCH] [xcp-ng] dates of the build from SOURCE_DATE_EPOCH, when set
+
+The date of the build, in the version of xapi, and the time of the generation of
+rbac_static.csv made the builds of the same sources differ. Take them from
+SOURCE_DATE_EPOCH, as reproducible builds do, which rpmbuild sets to the date
+of the changelog. Also print the date of the build in UTC, as its Z suffix says.
+
+Signed-off-by: Gaëtan Lehmann <gaetan.lehmann@vates.tech>
+---
+diff --git a/ocaml/idl/ocaml_backend/dune b/ocaml/idl/ocaml_backend/dune
+--- a/ocaml/idl/ocaml_backend/dune
++++ b/ocaml/idl/ocaml_backend/dune
+@@ -4,6 +4,7 @@
+   (libraries
+     astring
+     cmdliner
++    unix
+     uuidm
+     xapi-consts
+     xapi-datamodel
+diff --git a/ocaml/idl/ocaml_backend/gen_rbac.ml b/ocaml/idl/ocaml_backend/gen_rbac.ml
+--- a/ocaml/idl/ocaml_backend/gen_rbac.ml
++++ b/ocaml/idl/ocaml_backend/gen_rbac.ml
+@@ -35,8 +35,16 @@
+ (* the output of this function is used as input by the automatic tests *)
+ let writer_csv static_permissions_roles =
+   Printf.sprintf "%s,PERMISSION/ROLE,%s\n"
+-    (let t = Debug.gettimestring () in
+-     String.sub t 0 (String.length t - 1)
++    (* XCP-ng: the date of the changelog of the package being built, if any *)
++    ( match Sys.getenv_opt "SOURCE_DATE_EPOCH" with
++    | Some epoch ->
++        let tm = Unix.gmtime (float_of_string epoch) in
++        Printf.sprintf "%d%.2d%.2dT%.2d:%.2d:%.2d.000Z" (1900 + tm.Unix.tm_year)
++          (tm.Unix.tm_mon + 1) tm.Unix.tm_mday tm.Unix.tm_hour tm.Unix.tm_min
++          tm.Unix.tm_sec
++    | None ->
++        let t = Debug.gettimestring () in
++        String.sub t 0 (String.length t - 1)
+     )
+     (* role titles are ordered by roles in roles_all *)
+     (List.fold_left (fun rr r -> rr ^ r ^ ",") "" Datamodel_roles.roles_all)
+diff --git a/ocaml/util/dune b/ocaml/util/dune
+--- a/ocaml/util/dune
++++ b/ocaml/util/dune
+@@ -1,6 +1,6 @@
+ (rule
+ (with-stdout-to xapi_build_info.ml
+-  (bash "echo let date=\\\"$(date +%Y%m%dT%H:%M:%SZ)\\\"")))
++  (bash "echo let date=\\\"$(date -u ${SOURCE_DATE_EPOCH:+-d @$SOURCE_DATE_EPOCH} +%Y%m%dT%H:%M:%SZ)\\\"")))
+ 
+ (library
+   (name xapi_version)

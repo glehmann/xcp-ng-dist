@@ -67,6 +67,8 @@ Patch1005: 0005-xcp-ng-update-db-tunnel-protocol-from-other-config.patch
 Patch1006: 0006-xcp-ng-do-not-change-rsyslog-configuration.patch
 # Drop this when upstream feature flag is enabled
 Patch1007: 0007-xcp-ng-xapi.conf-Switch-to-optimized-data-cluster-fo.patch
+# the dates of the builds from SOURCE_DATE_EPOCH: the same builds for the same sources
+Patch1008: 0008-xcp-ng-dates-of-the-build-from-SOURCE_DATE_EPOCH.patch
 
 # Xapi compiles to a baseline of Xen 4.21
 
