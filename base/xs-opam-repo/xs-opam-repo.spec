@@ -18,7 +18,7 @@
 
 Name: xs-opam-repo
 Version: %{_version}
-Release: %{?xsrel}.3%{?dist}
+Release: %{?xsrel}.4%{?dist}
 Summary: Build and install OCaml libraries from Opam repository
 # The license field is produced by running print-license.sh
 # Please update licenses.txt on every new version and then run the script to
@@ -155,6 +155,10 @@ echo '%%_opamroot %%{_libdir}/opamroot' >> "%{buildroot}%{_rpmconfigdir}/macros.
 %{_opamroot}
 
 %changelog
+* Mon Nov 23 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 6.99.0-1.4
+- Record the date of the changelog as the time of the installed files in the .changes files of opam
+- Install camlp-streams alone and one job at a time, whose builds depended on the order of the jobs
+
 * Thu Nov 12 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 6.99.0-1.3
 - The sandbox hook of opam not world-writable
 
