@@ -26,7 +26,7 @@ Simple host networking management service for the xapi toolstack.
 Handles suspend, resume and migrate.
 
 %prep
-%autosetup -p1
+%autosetup -p1 -n %{name} -C
 
 %build
 %cmake3

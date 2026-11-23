@@ -247,22 +247,22 @@ This package provides IPsec tunneling support for OVS tunnels.
 
 %prep
 %if 0%{?commit:1}
-%setup -q -n ovs-%{commit} -a 10
+%setup -q -n %{name} -C -a 10
 %else
-%setup -q -n ovs-%{ovsver} -a 10
+%setup -q -n %{name} -C -a 10
 %endif
 %if ! %{external_sphinx}
 %if 0%{?commit:1}
-%setup -n ovs-%{commit} -q -D -T -a 100 -a 101 -a 102
+%setup -n %{name} -q -D -T -a 100 -a 101 -a 102
 %else
-%setup -n ovs-%{ovsver} -q -D -T -a 100 -a 101 -a 102
+%setup -n %{name} -q -D -T -a 100 -a 101 -a 102
 %endif
 %endif
 %if 0%{?rhel} && 0%{?rhel} < 9
 %if 0%{?commit:1}
-%setup -n ovs-%{commit} -q -D -T -a 103
+%setup -n %{name} -q -D -T -a 103
 %else
-%setup -n ovs-%{ovsver} -q -D -T -a 103
+%setup -n %{name} -q -D -T -a 103
 %endif
 %endif
 

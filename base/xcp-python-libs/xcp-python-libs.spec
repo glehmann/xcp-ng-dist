@@ -42,7 +42,7 @@ Requires: biosdevname
 Common XenServer Python classes for Python3
 
 %prep
-%autosetup -p1
+%autosetup -p1 -n %{name} -C
 %if 0%{?xenserver} < 9
 ln -s setup27.py setup.py
 %else

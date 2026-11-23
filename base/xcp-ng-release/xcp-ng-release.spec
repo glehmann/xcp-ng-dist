@@ -115,7 +115,7 @@ Additional utilities and configuration for XCP-ng.
 
 
 %prep
-%autosetup -p1 -n %{name}-8.3.0
+%autosetup -p1 -n %{name} -C
 # XCP-ng: files XS9 moves to xapi.spec
 rm src/common/etc/systemd/system/xapi.service.d/local.conf
 rm src/common/etc/systemd/system/xenopsd-xc.service.d/local.conf

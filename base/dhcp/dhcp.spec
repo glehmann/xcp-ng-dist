@@ -253,7 +253,7 @@ This package contains doxygen-generated documentation.
 %if 0%{?fedora}
 %{gpgverify} --keyring='%{SOURCE10}' --signature='%{SOURCE9}' --data='%{SOURCE0}'
 %endif
-%setup -n dhcp-%{DHCPVERSION}
+%setup -n %{name} -C
 pushd bind
 tar -xf bind.tar.gz
 # Ensure we have correct bundled bind version specified.

@@ -57,7 +57,7 @@ or manage a queue. That belongs on a mail hub with a system administrator.
 
 
 %prep
-%autosetup -p1
+%autosetup -p1 -n %{name} -C
 
 %build
 %configure --enable-ssl --enable-md5auth --enable-inet6

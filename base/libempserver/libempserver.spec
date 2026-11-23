@@ -21,7 +21,7 @@ and control the process.  The emp protocol is intended to be used by
 hardware emulators used to support a virtual machine.
 
 %prep
-%autosetup -p1
+%autosetup -p1 -n %{name} -C
 %{?_cov_prepare}
 
 %build

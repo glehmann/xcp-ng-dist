@@ -44,7 +44,7 @@ This is Python 3 version.
 
 
 %prep
-%setup -q -n %{srcname}-%{version}
+%setup -q -n %{name} -C
 
 %build
 %py3_build

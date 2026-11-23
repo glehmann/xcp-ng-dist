@@ -19,7 +19,7 @@ BuildRequires:  binutils-devel
 A library of algorithms, I/O and networking functions... used by XCP-ng tools or daemons.
 
 %prep
-%autosetup -p1
+%autosetup -p1 -n %{name} -C
 
 %build
 %cmake3

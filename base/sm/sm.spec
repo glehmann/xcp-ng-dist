@@ -72,7 +72,7 @@ Patch1000: 0001-Install-relative-symlinks.patch
 This package contains storage backends used in XCP
 
 %prep
-%autosetup -p1
+%autosetup -p1 -n %{name} -C
 
 %build
 make

@@ -41,7 +41,7 @@ the chassis is "Gb1") doesn't map directly and obviously to the kernel
 name (e.g. eth0).
 
 %prep
-%autosetup -p1
+%autosetup -p1 -n %{name} -C
 %{?_cov_prepare}
 
 %build

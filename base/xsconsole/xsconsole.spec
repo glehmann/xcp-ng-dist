@@ -52,7 +52,7 @@ Patch1011: 0012-Retry-the-xapi-connection-instead-of-latching-it-bro.patch
 Console tool for configuring a XCP-ng installation.
 
 %prep
-%autosetup -p1
+%autosetup -p1 -n %{name} -C
 
 %install
 %{__rm} -rf %{buildroot}

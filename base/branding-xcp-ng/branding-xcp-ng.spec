@@ -22,7 +22,7 @@ BuildRequires:  python3-devel
 This package contains branding information for XCP-ng.
 
 %prep
-%autosetup -p1
+%autosetup -p1 -n %{name} -C
 
 %build
 

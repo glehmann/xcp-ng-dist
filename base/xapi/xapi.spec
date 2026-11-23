@@ -537,7 +537,7 @@ It is responsible for giving access only to a specific VM to varstored.
 %global __python     %{_pythonpath}
 
 %prep
-%autosetup -p1
+%autosetup -p1 -n %{name} -C
 %{?_cov_prepare}
 
 %build

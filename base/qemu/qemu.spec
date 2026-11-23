@@ -115,7 +115,7 @@ BuildRequires: gcc
 This package contains Qemu.
 
 %prep
-%autosetup -p1
+%autosetup -p1 -n %{name} -C
 %{?_cov_prepare}
 
 # submodule ui/keymapcodedb

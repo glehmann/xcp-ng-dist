@@ -15,7 +15,7 @@ Orchestra Appliance for single-host administration, running directly from your
 browser without having to deploy anything.
 
 %prep
-%autosetup -p1
+%autosetup -p1 -n %{name} -C
 
 %install
 install -d -m 755 %{buildroot}/opt/xensource/www

@@ -34,7 +34,7 @@ Tools for the Linux Kernel's network block device, allowing you to use
 remote block devices over a TCP/IP network.
 
 %prep
-%autosetup -p1
+%autosetup -p1 -n %{name} -C
 # wait longer for nbd-server to fully start,
 # five seconds may not be enough on Koji building infra
 sed -i 's/tv_sec = 5/tv_sec = 30/' tests/run/nbd-tester-client.c

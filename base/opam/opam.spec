@@ -40,7 +40,7 @@ simultaneous compiler installations, flexible package constraints, and
 a Git-friendly development workflow.
 
 %prep
-%autosetup -n %{name}-full-%{version} -p1
+%autosetup -n %{name} -C -p1
 
 %build
 

@@ -63,7 +63,7 @@ Group: Development/Libraries
 Blktap and VHD development files.
 
 %prep
-%autosetup -p1 -S git
+%autosetup -p1 -S git -n %{name} -C
 %{?_cov_prepare}
 
 %build

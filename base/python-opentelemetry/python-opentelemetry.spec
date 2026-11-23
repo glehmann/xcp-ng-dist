@@ -378,7 +378,7 @@ the OpenTelemetry specification.
 
 
 %prep
-%autosetup -n opentelemetry-python-%{stable_version}
+%autosetup -n %{name} -C
 # In “Pin googleapis-common-protos version”,
 # https://github.com/open-telemetry/opentelemetry-python/pull/2777, upstream
 # pinned “googleapis-common-protos ~= 1.52, < 1.56.3” to work around some test

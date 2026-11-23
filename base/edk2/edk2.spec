@@ -83,7 +83,7 @@ as firmware in a virtual machine.
 
 
 %prep
-%setup -q -n edk2-edk2-stable%{version}
+%setup -q -n %{name} -C
 %{?_cov_prepare}
 
 mkdir -p BaseTools/Source/C/BrotliCompress/brotli

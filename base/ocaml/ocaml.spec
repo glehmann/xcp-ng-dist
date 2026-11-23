@@ -164,7 +164,7 @@ may not be portable between versions.
 
 
 %prep
-%autosetup -S git -n %{name}-%{version}%{rcver}
+%autosetup -S git -n %{name} -C
 # Patches touch configure.ac, so rebuild it:
 autoconf --force
 

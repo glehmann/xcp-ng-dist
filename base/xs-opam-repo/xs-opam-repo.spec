@@ -87,7 +87,7 @@ Opam repository that contains all libraries necessary to compile the
 Toolstack components of the Citrix Hypervisor.
 
 %prep
-%autosetup -p1 -n xs-opam-repo-%{_version_full}
+%autosetup -p1 -n %{name} -C
 # XCP-ng: remove dlm, which is only required by proprietary xapi-clusterd
 rm -r packages/dlm/dlm.*
 %ifarch aarch64

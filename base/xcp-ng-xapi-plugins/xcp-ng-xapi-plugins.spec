@@ -26,7 +26,7 @@ Collection of XAPI plugins specific to XCP-ng.
 - ...
 
 %prep
-%autosetup -p1
+%autosetup -p1 -n %{name} -C
 
 %install
 install -d %{buildroot}/etc/xapi.d/plugins/

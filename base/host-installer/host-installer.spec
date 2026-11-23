@@ -97,7 +97,7 @@ Requires: host-installer
 XenServer installer bootloader files
 
 %prep
-%autosetup -p1
+%autosetup -p1 -n %{name} -C
 
 %build
 

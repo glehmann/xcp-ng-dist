@@ -3,7 +3,7 @@
 %global _libdir %{_exec_prefix}/lib
 %global _binaries_in_noarch_packages_terminate_build 0
 #%%undefine _missing_build_ids_terminate_build
-%{expand:%%{!?buildsubdir:%%global buildsubdir grub-%{tarversion}}}
+%{expand:%%{!?buildsubdir:%%global buildsubdir grub}}
 %{expand:%%{!?_licensedir:%%global license %%%%doc}}
 
 %global _configure ../configure
@@ -271,7 +271,7 @@ Requires(post): dracut							\
 %{desc}									\
 This subpackage provides support for %{1} systems.			\
 									\
-%{expand:%%{?!buildsubdir:%%define buildsubdir grub-%%{1}-%{tarversion}}}\
+%{expand:%%{?!buildsubdir:%%define buildsubdir grub-%%{1}-build}}\
 %{expand:%%if 0%%{with_legacy_modules}					\
 %%package %%{1}-modules							\
 Summary:	Modules used to build custom grub images		\
@@ -283,7 +283,7 @@ This subpackage provides support for rebuilding your own grub.efi.	\
 %%endif									\
 }									\
 									\
-%{expand:%%{?!buildsubdir:%%define buildsubdir grub-%%{1}-%{tarversion}}}\
+%{expand:%%{?!buildsubdir:%%define buildsubdir grub-%%{1}-build}}\
 %{expand:%%package %%{1}-tools}						\
 Summary:	Support tools for GRUB.					\
 Requires:	gettext-runtime os-prober which file system-logos	\
@@ -311,7 +311,7 @@ Provides:	grub2-efi = %{evr}					\
 %{desc}									\
 This subpackage provides support for %{1} systems.			\
 									\
-%{expand:%%{?!buildsubdir:%%define buildsubdir grub-%{1}-%{tarversion}}}\
+%{expand:%%{?!buildsubdir:%%define buildsubdir grub-%{1}-build}}\
 %{expand:%if 0%{?with_efi_modules}					\
 %{expand:%%package %{1}-modules}					\
 Summary:	Modules used to build custom grub.efi images		\
@@ -334,7 +334,7 @@ This subpackage provides optional components of grub used with removeable media 
 %{nil}
 
 %global do_common_setup()					\
-%setup -q -n grub-%{tarversion}					\
+%setup -q -n grub -C					\
 rm -fv docs/*.info						\
 cp %{SOURCE6} .gitignore					\
 cp %{SOURCE7} bootstrap						\
@@ -389,7 +389,7 @@ make %{?_smp_mflags}						\
 
 %define do_efi_link_utils()					\
 for x in grub-mkimage ; do					\\\
-	ln ../grub-%{1}-%{tarversion}/${x} ./ ;			\\\
+	ln ../grub-%{1}-build/${x} ./ ;			\\\
 done								\
 %{nil}
 
@@ -495,13 +495,13 @@ GRUB_MODULES+=%{platform_modules}				\
 %define do_ieee1275_build_images()			\
 GRUB_MODULES+=%{grub_modules}				\
 GRUB_MODULES+=%{platform_modules}			\
-cd grub-%{1}-%{tarversion}				\
+cd grub-%{1}-build				\
 %{expand:%%ieee1275_mkimage %%{1} %%{2} %%{3} %%{4} ./ }\
 cd ..							\
 %{nil}
 
 %define do_primary_efi_build()					\
-cd grub-%{1}-%{tarversion}					\
+cd grub-%{1}-build					\
 %{expand:%%do_efi_configure %%{4} %%{5} %%{6}}			\
 %do_efi_build_all						\
 %{expand:%%do_efi_build_images %{grub_target_name} %%{2} %%{3} ./ %%{7} %%{8} %%{9}} \
@@ -509,16 +509,16 @@ cd ..								\
 %{nil}
 
 %define do_alt_efi_build()					\
-cd grub-%{1}-%{tarversion}					\
+cd grub-%{1}-build					\
 %{expand:%%do_efi_configure %%{4} %%{5} %%{6}}			\
 %do_efi_build_modules						\
 %{expand:%%do_efi_link_utils %{grubefiarch}}			\
-%{expand:%%do_efi_build_images %{alt_grub_target_name} %%{2} %%{3} ../grub-%{grubefiarch}-%{tarversion}/ %%{7} %%{8} %%{9}} \
+%{expand:%%do_efi_build_images %{alt_grub_target_name} %%{2} %%{3} ../grub-%{grubefiarch}-build/ %%{7} %%{8} %%{9}} \
 cd ..								\
 %{nil}
 
 %define do_legacy_build()					\
-cd grub-%{1}-%{tarversion}					\
+cd grub-%{1}-build					\
 %configure							\\\
 	%{cc_equals}						\\\
 	HOST_CFLAGS="%{legacy_host_cflags}"			\\\
@@ -540,7 +540,7 @@ cd ..								\
 %{nil}
 
 %define do_emu_build()						\
-cd grub-emu-%{tarversion}					\
+cd grub-emu-build					\
 %configure							\\\
 	%{cc_equals}						\\\
 	HOST_CFLAGS="%{legacy_host_cflags}"			\\\
@@ -559,7 +559,7 @@ cd ..								\
 %{nil}
 
 %define do_alt_efi_install()					\
-cd grub-%{1}-%{tarversion}					\
+cd grub-%{1}-build					\
 install -d -m 755 $RPM_BUILD_ROOT/usr/lib/grub/%{grubaltefiarch}/ \
 find . '(' -iname gdb_grub					\\\
 	-o -iname kernel.exec					\\\
@@ -579,7 +579,7 @@ cd ..								\
 %{nil}
 
 %define do_efi_install()					\
-cd grub-%{1}-%{tarversion}					\
+cd grub-%{1}-build					\
 make DESTDIR=$RPM_BUILD_ROOT install				\
 if [ -f $RPM_BUILD_ROOT%{_infodir}/grub.info ]; then		\
 	rm -f $RPM_BUILD_ROOT%{_infodir}/grub.info		\
@@ -604,7 +604,7 @@ cd ..								\
 %{nil}
 
 %define do_legacy_install()					\
-cd grub-%{1}-%{tarversion}					\
+cd grub-%{1}-build					\
 make DESTDIR=$RPM_BUILD_ROOT install				\
 if [ -f $RPM_BUILD_ROOT%{_infodir}/grub.info ]; then		\
 	rm -f $RPM_BUILD_ROOT%{_infodir}/grub.info		\
@@ -640,7 +640,7 @@ cd ..								\
 %{nil}
 
 %define do_emu_install()					\
-cd grub-emu-%{tarversion}					\
+cd grub-emu-build					\
 make DESTDIR=$RPM_BUILD_ROOT install -C grub-core		\
 if [ -f $RPM_BUILD_ROOT%{_infodir}/grub.info ]; then		\
 	rm -f $RPM_BUILD_ROOT%{_infodir}/grub.info		\

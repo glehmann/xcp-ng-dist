@@ -432,7 +432,7 @@ patches against base version %{version}-%{release}.
 %endif
 
 %prep
-%autosetup -p1
+%autosetup -p1 -n %{name} -C
 %{?_cov_prepare}
 %{?_coverity:cp misc/coverity/nodefs.h %{_cov_dir}/config/user_nodefs.h}
 %{?_cov_make_model:%{_cov_make_model misc/coverity/model.c}}

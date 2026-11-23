@@ -200,30 +200,30 @@ This subpackage provides the GRUB user-space emulation modules.
 %prep
 %do_common_setup
 %if 0%{with_efi_arch}
-mkdir grub-%{grubefiarch}-%{tarversion}
-grep -A100000 '# stuff "make" creates' .gitignore > grub-%{grubefiarch}-%{tarversion}/.gitignore
-cp %{SOURCE4} grub-%{grubefiarch}-%{tarversion}/unifont.pcf.gz
+mkdir grub-%{grubefiarch}-build
+grep -A100000 '# stuff "make" creates' .gitignore > grub-%{grubefiarch}-build/.gitignore
+cp %{SOURCE4} grub-%{grubefiarch}-build/unifont.pcf.gz
 sed -e "s,@@VERSION@@,%{version},g" -e "s,@@VERSION_RELEASE@@,%{version}-%{source_release},g" -e "s,@@RHEL_VERSION_RELEASE@@,%{rhel_version_release},g" \
-    %{SOURCE12} > grub-%{grubefiarch}-%{tarversion}/sbat.csv
-git add grub-%{grubefiarch}-%{tarversion}
+    %{SOURCE12} > grub-%{grubefiarch}-build/sbat.csv
+git add grub-%{grubefiarch}-build
 %endif
 %if 0%{with_alt_efi_arch}
-mkdir grub-%{grubaltefiarch}-%{tarversion}
-grep -A100000 '# stuff "make" creates' .gitignore > grub-%{grubaltefiarch}-%{tarversion}/.gitignore
-cp %{SOURCE4} grub-%{grubaltefiarch}-%{tarversion}/unifont.pcf.gz
-git add grub-%{grubaltefiarch}-%{tarversion}
+mkdir grub-%{grubaltefiarch}-build
+grep -A100000 '# stuff "make" creates' .gitignore > grub-%{grubaltefiarch}-build/.gitignore
+cp %{SOURCE4} grub-%{grubaltefiarch}-build/unifont.pcf.gz
+git add grub-%{grubaltefiarch}-build
 %endif
 %if 0%{with_legacy_arch}
-mkdir grub-%{grublegacyarch}-%{tarversion}
-grep -A100000 '# stuff "make" creates' .gitignore > grub-%{grublegacyarch}-%{tarversion}/.gitignore
-cp %{SOURCE4} grub-%{grublegacyarch}-%{tarversion}/unifont.pcf.gz
-git add grub-%{grublegacyarch}-%{tarversion}
+mkdir grub-%{grublegacyarch}-build
+grep -A100000 '# stuff "make" creates' .gitignore > grub-%{grublegacyarch}-build/.gitignore
+cp %{SOURCE4} grub-%{grublegacyarch}-build/unifont.pcf.gz
+git add grub-%{grublegacyarch}-build
 %endif
 %if 0%{with_emu_arch}
-mkdir grub-emu-%{tarversion}
-grep -A100000 '# stuff "make" creates' .gitignore > grub-emu-%{tarversion}/.gitignore
-cp %{SOURCE4} grub-emu-%{tarversion}/unifont.pcf.gz
-git add grub-emu-%{tarversion}
+mkdir grub-emu-build
+grep -A100000 '# stuff "make" creates' .gitignore > grub-emu-build/.gitignore
+cp %{SOURCE4} grub-emu-build/unifont.pcf.gz
+git add grub-emu-build
 %endif
 git commit -m "After making subdirs"
 

@@ -19,7 +19,7 @@ This package contains an RPC serving daemon, which reports the features
 available on an xcp-ng host.
 
 %prep
-%autosetup -p1
+%autosetup -p1 -n %{name} -C
 
 %build
 %{__make}

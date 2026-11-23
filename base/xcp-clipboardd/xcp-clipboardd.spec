@@ -17,7 +17,7 @@ Obsoletes:      xs-clipboardd
 Share clipboard between guest Windows and host with VNC.
 
 %prep
-%autosetup -p1
+%autosetup -p1 -n %{name} -C
 
 %build
 %cmake3 -DCMAKE_INSTALL_PREFIX=/opt/xensource

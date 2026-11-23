@@ -73,7 +73,7 @@ Contains the default other guest templates.
 %define templatedir %{_datadir}/xapi/vm-templates
 
 %prep
-%autosetup -p1
+%autosetup -p1 -n %{name} -C
 
 %build
 %{__python3} setup.py build

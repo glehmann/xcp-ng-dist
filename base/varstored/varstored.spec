@@ -68,7 +68,7 @@ when the guest is not running.
 
 
 %prep
-%autosetup -p1
+%autosetup -p1 -n %{name} -C
 %{?_cov_prepare}
 
 %build

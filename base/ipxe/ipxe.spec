@@ -56,7 +56,7 @@ A build of iPXE in the form of EFI NIC drivers that can be used in an
 UEFI environment or embedded into OVMF.
 
 %prep
-%autosetup -p1
+%autosetup -p1 -n %{name} -C
 %{?_cov_prepare}
 
 %build

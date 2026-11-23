@@ -20,7 +20,7 @@ This package contains scheduled snapshots feature plugins and the associated cro
 
 %prep
 
-%autosetup -p1
+%autosetup -p1 -n %{name} -C
 
 %build
 make

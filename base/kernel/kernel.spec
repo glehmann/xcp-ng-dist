@@ -211,7 +211,7 @@ Provides: python3-perf
 %{pythonperfdesc}
 
 %prep
-%autosetup -p1 -n linux-%{usver}
+%autosetup -p1 -n %{name} -C
 %{?_cov_prepare}
 
 %build

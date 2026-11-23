@@ -28,7 +28,7 @@ You should install dev86 if you intend to build programs that run in real
 mode from their source code.
 
 %prep
-%setup -q
+%setup -q -n %{name} -C
 %patch -P0 -p1 -b .noelks
 %if 0%{?__isa_bits} == 64
 %patch -P1 -p1 -b .64bit

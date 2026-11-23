@@ -41,7 +41,7 @@ developing applications that use %{name}.
 
 
 %prep
-%autosetup -p1 -n findlib-%{version}
+%autosetup -p1 -n %{name} -C
 
 # Fix character encoding
 iconv -f ISO8859-1 -t UTF-8 doc/README > doc/README.utf8
