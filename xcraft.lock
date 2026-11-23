@@ -45,7 +45,6 @@ version = 3
 "ca-certificates" = "2026.2.92_v9.0.319-100.3.el10_2"
 "cairo" = "1.18.2-3.el10"
 "ccache" = "4.11.3-1.el10_1"
-"cdrkit" = "1.1.11-58.el10_1"
 "chkconfig" = "1.30-2.el10"
 "chrony" = "4.8-2.el10"
 "cifs-utils" = "7.7-1.el10_2"
@@ -780,7 +779,6 @@ version = 3
 "gdbm-devel" = "1:1.23-12.el10_0 aarch64 14f7cb04a2a675c8eeab287166d85fd22f7812a0bffdf5b4442e4c9654e5d103 gdbm"
 "gdbm-libs" = "1:1.23-12.el10_0 aarch64 ce675d7c4e47ed0fe8447e3793c10701a789a4bace5c96de65333e991616c146 gdbm"
 "gdk-pixbuf2" = "2.42.12-4.el10_2.5 aarch64 5a876679b0f43e0966e7226ed5f21ba1f4cbea5342f9d73f5c826c15d0e51330 gdk-pixbuf2"
-"genisoimage" = "1.1.11-58.el10_1 aarch64 5a2c29ecdb998d93a5f63a981c880afb48ad617646ced00a4b52eca968842b7c cdrkit"
 "gettext" = "0.22.5-6.el10 aarch64 2f1834811a4fe3abc5b7e958da5667ef27ded91658095a69400dc08c5a6b963b gettext"
 "gettext-common-devel" = "0.22.5-6.el10 noarch 13bd4495ee74787311558d412eb9a7fb995c464bc7ec620304a6c9da79f535c4 gettext"
 "gettext-devel" = "0.22.5-6.el10 aarch64 c741d0d2fec9d9b69fb4fbd9f9fd97461085691e1281d403ff26ab101da6693c gettext"
@@ -891,6 +889,7 @@ version = 3
 "libblkid" = "2.40.2-24.el10_3.24 aarch64 bc3c8e2b95c16b0bac1b64d49ddea24341e7bf53c9d21e0a0446c9240261386e util-linux"
 "libblkid-devel" = "2.40.2-24.el10_3.24 aarch64 0f0480624fe1ca2ce1fa99e51b2977df6f4e6e3f914176b4259fc6d56bcbb98b util-linux"
 "libbrotli" = "1.1.0-8.el10_2.1 aarch64 676f5682d231b45451f8f5ad81e7ca873873630713160cb2f1c15d3d25b5d7b7 brotli"
+"libburn" = "1.5.6-6.el10 aarch64 d10af8731cafe5e4a732260167807c46fc3c60295bf5c47af61c86db144566c6 libburn"
 "libcap" = "2.69-7.el10_2.1 aarch64 0e7692819c86e6366dcf8fdca9c77c37d97ebe394643e4fbe30b39cf78098d85 libcap"
 "libcap-ng" = "0.9.3-2.el10 aarch64 b35f16eafc478a46526a6f790c54a418b4ab6812fa471f4efb62ef5db9dae484 libcap-ng"
 "libcap-ng-devel" = "0.9.3-2.el10 aarch64 9e02b5731842872b676d8d28b1eb8c96715c11e8307436ef2414093db96a7184 libcap-ng"
@@ -927,6 +926,8 @@ version = 3
 "libidn2" = "2.3.7-3.el10 aarch64 c1b303786923dadf259477d2f09e716b9f747c8b7ab1277f32f5c4cd0d537990 libidn2"
 "libidn2-devel" = "2.3.7-3.el10 aarch64 4c60ac591483d49deec95ad9180aafcc2f80809a4072b2c9bed0419688a0baae libidn2"
 "libijs" = "0.35-24.el10 aarch64 7122af1de06191dff3c73f3f3969f75c1d3fb23b44b5729a2735f32d70ecc743 libijs"
+"libisoburn" = "1.5.6-6.el10 aarch64 7abe20660c564c93121f981b9b8945bac56738bc35e5d3d43208546c5130369c libisoburn"
+"libisofs" = "1.5.6-6.el10 aarch64 c486e2f171b0f9859e39051df663e6c061fdb293aaa1ac58b2ccc6fce82f3102 libisofs"
 "libjpeg-turbo" = "3.0.2-4.el10 aarch64 2feaff518e78e3395767c576a927386ecd057cb7dd407bab47e5402fb922b5a7 libjpeg-turbo"
 "libjpeg-turbo-devel" = "3.0.2-4.el10 aarch64 b6e7c31784fe3d8d7cb320bfa0784d040637fafbbeb729fb5736f3648f3f36ea libjpeg-turbo"
 "libjxl" = "1:0.10.4-1.el10_1 aarch64 982876ce55a88bb83a2c60872501862b12c83450d0901ab7ea890dc292263965 jpegxl"
@@ -985,7 +986,6 @@ version = 3
 "libunistring" = "1.1-10.el10 aarch64 301f645effa68cb92be0e379ca7ff406cc7cdbde17715b7dae09022a2b13e40b libunistring"
 "libunwind" = "1.8.0-4.el10_0 aarch64 3ba564dfd3c3993778b7e71a756a5e702f919a607104b9505feb260ad42fa9fc libunwind"
 "libunwind-devel" = "1.8.0-4.el10_0 aarch64 23a9f0198b024ee02d876c20cf3d3522a3fe9880f2e558e5e2ad896d45658248 libunwind"
-"libusal" = "1.1.11-58.el10_1 aarch64 26c990ed8b6fb6ddde94678758f942c3ff7d9eeb37762acaa929ba7013d638b7 cdrkit"
 "libusb1" = "1.0.30-1.el10_2 aarch64 af444342b798030c4f15d2f1d2f987dba39e1475ba8ebef52fb986682f7a5e19 libusb1"
 "libusb1-devel" = "1.0.30-1.el10_2 aarch64 73577443a728ce2030ba66fc000d38f46162ed27f8cbd01d62c901709aee3983 libusb1"
 "libuser" = "0.64-11.el10 aarch64 b80b5ecd28a767e6fae3af80f755fecf389ee3d434baaa14316f831db9fd1632 libuser"
@@ -1392,6 +1392,7 @@ version = 3
 "xml-common" = "0.6.3-65.el10 noarch 850cda3bbf605e45e08c33124c08b9f42eb5a3a5ce7f9947c2a124b383ebe30d sgml-common"
 "xmlto" = "0.0.28-25.el10 aarch64 8b8bc9723f4ed3fe2c1065d723e3050516f649541e5e30f0d41d272818b32fda xmlto"
 "xorg-x11-proto-devel" = "2024.1-3.el10 noarch 2bea35b7beb98d163c08e8c37bf95788ac663edee1a96ef0a653ce6e9b96c30e xorg-x11-proto-devel"
+"xorriso" = "1.5.6-6.el10 aarch64 d59c7cf5d6e9a3322f0da3391468c8d5eb699721187a327fcadb67985d1368c8 libisoburn"
 "xxhash-devel" = "0.8.4-2.el10_3 aarch64 eecba8f7c06a2ff11d6db6b20cdf3b77a1e54a10007d0c2c95802f829badc4e5 xxhash"
 "xxhash-libs" = "0.8.4-2.el10_3 aarch64 d9ead2d655e669fca5a167477088ab0d7bdee6ee358cfeb2f1b6e3bb6d9e2089 xxhash"
 "xz" = "1:5.6.2-5.el10 aarch64 2e0980930d75e17f1b31c40411f379662de37986ca7840d819f8993a36d1e302 xz"
@@ -1596,7 +1597,6 @@ version = 3
 "gdbm-libs" = "1:1.23-12.el10_0 x86_64_v2 7765df2bf2c2ddda06205e8e7ffd8b55f5dc090426b740daf5b32b9bcb09a6bf gdbm"
 "gdisk" = "1.0.10-2.el10_0.alma_altarch x86_64_v2 12c76da501853a0068539fa3a2116285bee638c50f708a22fa3c843d1c515095 gdisk"
 "gdk-pixbuf2" = "2.42.12-4.el10_2.5 x86_64_v2 f655018f75604e387b6120e0860892c54325460d3db46e3de0023275ec122cc6 gdk-pixbuf2"
-"genisoimage" = "1.1.11-58.el10_1.alma_altarch x86_64_v2 ef8b79b23a338fdbb28bc921135feab67195b545211892bf4bd6987e9c3629c1 cdrkit"
 "gettext" = "0.22.5-6.el10 x86_64_v2 becbdec11d8fde48db87c7301ea82d4a53d38672a6d917a1da21c7273ab22d70 gettext"
 "gettext-common-devel" = "0.22.5-6.el10 noarch 13bd4495ee74787311558d412eb9a7fb995c464bc7ec620304a6c9da79f535c4 gettext"
 "gettext-devel" = "0.22.5-6.el10 x86_64_v2 e187a7662e5283bcd2a34a0b8a18bd0fc1e15681debb9232000fc5d5c475869c gettext"
@@ -1896,7 +1896,6 @@ version = 3
 "libunistring" = "1.1-10.el10 x86_64_v2 48d79b2364d82df1ce80e97a63754cf8d340bc481ebd5ea0968a83bcf2dfab94 libunistring"
 "libunwind" = "1.8.0-4.el10_0.alma_altarch x86_64_v2 59dd3d9229640a1389ff751c12fc84b9951ba0a3b1c2927793cbdb9cb2da364c libunwind"
 "libunwind-devel" = "1.8.0-4.el10_0.alma_altarch x86_64_v2 014e0f573b9ba7a9999b3da046e81e7dd9fa218e60178ab1a74ff6738e4443b2 libunwind"
-"libusal" = "1.1.11-58.el10_1.alma_altarch x86_64_v2 88b161f9e15247696bc3d691f8efc9a01714487e9f1f7d8b4d6fb1da1621bf34 cdrkit"
 "libusb1" = "1.0.30-1.el10_2 x86_64_v2 39a85df46ac7bacce066d1e357854e38146ba59a363ffe5cab16ef201da0ec17 libusb1"
 "libusb1-devel" = "1.0.30-1.el10_2 x86_64_v2 cfada5f3515925da241bd8c48cd6b1dbad6641f5449ab0483e3493730cdc9ecc libusb1"
 "libuser" = "0.64-11.el10 x86_64_v2 4a2cbb16dce8d600cb70942ae00918f9ca693c08fd54f9fc5aabb49ba84ec56e libuser"
@@ -4661,7 +4660,6 @@ version = 3
     "fmt",
     "gcc",
     "gcc-plugin-annobin",
-    "genisoimage",
     "git",
     "git-core",
     "git-core-doc",
@@ -4676,13 +4674,15 @@ version = 3
     "hiredis",
     "kernel-headers",
     "less",
+    "libburn",
     "libcbor",
     "libedit",
     "libfido2",
+    "libisoburn",
+    "libisofs",
     "libmd",
     "libmpc",
     "libserf",
-    "libusal",
     "libxcrypt-devel",
     "lmdb-libs",
     "make",
@@ -4764,6 +4764,7 @@ version = 3
     "subversion",
     "subversion-libs",
     "utf8proc",
+    "xorriso",
     "xxhash-libs",
     "zlib-ng",
 ]
@@ -7250,7 +7251,6 @@ version = 3
     "fmt",
     "gcc",
     "gcc-plugin-annobin",
-    "genisoimage",
     "git",
     "git-core",
     "git-core-doc",
@@ -7267,14 +7267,16 @@ version = 3
     "less",
     "libasan",
     "libatomic",
+    "libburn",
     "libcbor",
     "libedit",
     "libfido2",
+    "libisoburn",
+    "libisofs",
     "libmd",
     "libmpc",
     "libserf",
     "libubsan",
-    "libusal",
     "libxcrypt-devel",
     "lmdb-libs",
     "make",
@@ -7356,6 +7358,7 @@ version = 3
     "subversion",
     "subversion-libs",
     "utf8proc",
+    "xorriso",
     "xxhash-libs",
     "zlib-ng",
 ]

@@ -94,7 +94,7 @@ Patch24: 0024-Support-RHEL-10-and-derivatives-in-install.sh.patch
 Patch25: 0025-Bump-Go-language-level-to-build-against-system-x-sys.patch
 
 BuildArch: noarch
-BuildRequires: genisoimage
+BuildRequires: xorriso
 BuildRequires: golang
 BuildRequires: golang-x-sys-devel
 BuildRequires: dpkg-dev
@@ -103,7 +103,8 @@ BuildRequires: fakeroot
 Provides: xenserver-pv-tools
 Obsoletes: xenserver-pv-tools
 
-%define iso_version %{version}-%{release}
+# without the number of the build: the same ISO for the same sources
+%define iso_version %{version}-%{source_release}
 
 %description
 ISO with the guest PV Tools
@@ -129,7 +130,9 @@ function build_and_copy_rpm_legacy {
         --define "_topdir $(pwd)" \
         --define "xgu_version %{xgu_version}" \
         --define "xgu_release %{xgu_release}" \
-        --define "changelogdate $(LC_ALL=C date +'%a %b %d %Y')" \
+        --define "changelogdate $(LC_ALL=C date -u -d @$SOURCE_DATE_EPOCH +'%a %b %d %Y')" \
+        --define "use_source_date_epoch_as_buildtime 1" \
+        --define "_buildhost xcp-ng" \
         --define "_rpmfilename %%{NAME}-%%{VERSION}-%%{RELEASE}.%%{ARCH}.rpm"
     popd
 
@@ -155,7 +158,9 @@ function build_and_copy_rpm {
         --define "_topdir $(pwd)" \
         --define "xgu_version %{xgu_version}" \
         --define "xgu_release %{xgu_release}" \
-        --define "changelogdate $(LC_ALL=C date +'%a %b %d %Y')" \
+        --define "changelogdate $(LC_ALL=C date -u -d @$SOURCE_DATE_EPOCH +'%a %b %d %Y')" \
+        --define "use_source_date_epoch_as_buildtime 1" \
+        --define "_buildhost xcp-ng" \
         --define "_rpmfilename %%{NAME}-%%{VERSION}-%%{RELEASE}.%%{ARCH}.rpm"
     popd
 
@@ -173,7 +178,7 @@ function build_and_copy_deb {
     cp %{SOURCE10} debian/changelog
     sed -i debian/changelog -e 's/@VERSION_RELEASE@/%{xgu_version}-%{xgu_release}/'
     sed -i debian/changelog -e 's/@XCPNG_VERSION@/%{xcp_ng_release}/'
-    sed -i debian/changelog -e "s/@DATE@/$(date -R)/"
+    sed -i debian/changelog -e "s/@DATE@/$(LC_ALL=C date -u -R -d @$SOURCE_DATE_EPOCH)/"
     cp %{SOURCE11} debian/compat
     cp %{SOURCE12} debian/control
     cp %{SOURCE13} debian/copyright
@@ -210,6 +215,8 @@ touch iso/Linux/versions.deb
 touch iso/Linux/versions.tgz
 # use system libs
 ln -s %{gopath}/src/golang.org vendor
+# the same archives for the same files, like the tgz of the Makefile: by name, with the date of the changelog
+export TAR_OPTIONS="--sort=name --mtime=@$SOURCE_DATE_EPOCH"
 
 # *** x86_64 build ***
 GOARCH=amd64 make \
@@ -251,7 +258,10 @@ install -m 0755 mk/install.sh \
                 LICENSE \
                 iso/Linux/
 
-genisoimage -joliet -joliet-long -r \
+# the same ISO for the same files: xorriso takes the dates of the ISO from SOURCE_DATE_EPOCH, and those of the files
+# from their times, the date of the changelog too
+find iso -exec touch -h -d @$SOURCE_DATE_EPOCH {} +
+xorriso -as mkisofs -joliet -joliet-long -r \
             -A "XCP-ng Tools" \
             -V "XCP-ng Tools" \
             -publisher "XCP-ng" \
