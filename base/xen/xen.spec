@@ -199,6 +199,8 @@ Patch1001: xenguest-xg_emu-mem_pnode.patch
 # Viridian for >64 vCPUs
 Patch1002: 0001-xenguest-Apply-hcall_ipi-setting-from-xenstore.patch
 Patch1003: 0002-xenguest-Support-Viridian-flags-for-64-vCPUs.patch
+# the same xen.efi for the same sources: strip wrote the current time in its PE header
+Patch1004: xcpng-strip-efi-keep-timestamp.patch
 
 # ARM patches
 Patch2000: common-exclude-pv_iommu-from-non-x86-builds.patch
@@ -465,8 +467,10 @@ openssl x509 -pubkey -outform pem -in livepatch.cer -out xen/crypto/signing_key.
 %endif
 
 # Format sbat.csv with version/release
+# XCP-ng: the release without the number of the build, the same for the same sources: the revocations of secure boot
+# use the generation of the entry, not its version
 sed -i -e 's/@@VERSION@@/%{version}/g' \
-       -e 's/@@RELEASE@@/%{release}/g' xen/arch/x86/sbat.csv
+       -e 's/@@RELEASE@@/%{source_release}/g' xen/arch/x86/sbat.csv
 
 %if ! 0%{?xcpng}
 # XCP-ng: remove support for livepatching support
