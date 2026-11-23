@@ -277,6 +277,8 @@ mv dpdk-*/ %{dpdkdir}/
 %patch -P1003 -p1
 
 %build
+# XCP-ng: the versions of the programs with the release without the number of the build, the same for the same
+# sources
 %if 0%{?rhel} && 0%{?rhel} < 9
 export PYTHONPATH="${PWD}/pyelftools-%{pyelftoolsver}"
 %endif
@@ -458,7 +460,7 @@ ln -s ../configure
         --with-pkidir=%{_sharedstatedir}/openvswitch/pki \
         --enable-usdt-probes \
         --disable-afxdp \
-        --with-version-suffix=-%{release}
+        --with-version-suffix=-%{source_release}
 make %{?_smp_mflags}
 popd
 pushd build-static
@@ -479,7 +481,7 @@ PKG_CONFIG_PATH=%{_builddir}/dpdk-build/%{_lib}/pkgconfig \
         --with-pkidir=%{_sharedstatedir}/openvswitch/pki \
         --enable-usdt-probes \
         --disable-afxdp \
-        --with-version-suffix=-%{release}
+        --with-version-suffix=-%{source_release}
 make %{?_smp_mflags}
 popd
 
