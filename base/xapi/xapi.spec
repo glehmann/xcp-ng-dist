@@ -15,7 +15,7 @@
 Summary: xapi - xen toolstack for XCP
 Name:    xapi
 Version: 26.19.0
-Release: 2%{?xsrel}.3%{?dist}
+Release: 2%{?xsrel}.4%{?dist}
 Group:   System/Hypervisor
 License: LGPL-2.1-or-later WITH OCaml-LGPL-linking-exception
 URL:  http://www.xen.org
@@ -1482,6 +1482,9 @@ Coverage files from unit tests
 %{?_cov_results_package}
 
 %changelog
+* Mon Nov 23 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 26.19.0-2.4
+- Take the dates of the build from SOURCE_DATE_EPOCH, the date of the changelog
+
 * Thu Nov 12 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 26.19.0-2.3
 - Require crontabs and logrotate, for the cron jobs and logrotate configurations
 
