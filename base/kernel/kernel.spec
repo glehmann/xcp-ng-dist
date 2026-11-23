@@ -13,8 +13,8 @@
 #
 # Adjust debuginfo generation to suit building a kernel:
 #
-# Don't run dwz.
-%undefine _find_debuginfo_dwz_opts
+# Don't run dwz: empty, as undefining it would only remove the redefinition of xcraft.toml.
+%global _find_debuginfo_dwz_opts %{nil}
 # Don't try to generate minidebuginfo.
 %undefine _include_minidebuginfo
 # Resolve trivial relocations in debug sections.
@@ -24,6 +24,10 @@
 # RPM tries to bytecompile Python sources files it finds in /usr/src and fails
 # since some of them are for Python 3 only. Just ignore the errors.
 %global _python_bytecompile_errors_terminate_build 0
+
+# the time and host of the build in the kernel, as uname -v shows them, and in the headers of kheaders.ko: the date of
+# the changelog, and no random name of a container, for the builds of the same sources to make the same files
+%global kbuild_env export KBUILD_BUILD_TIMESTAMP="$(LC_ALL=C date -u -d @$SOURCE_DATE_EPOCH)" KBUILD_BUILD_HOST=xcp-ng
 
 # %%define lp_devel_dir %%{_usrsrc}/kernel-%%{version}-%%{release}
 #
@@ -211,6 +215,7 @@ Provides: python3-perf
 %{?_cov_prepare}
 
 %build
+%{kbuild_env}
 
 # This override tweaks the kernel makefiles so that we run debugedit on an
 # object before embedding it.  When we later run find-debuginfo.sh, it will
@@ -284,6 +289,7 @@ objcopy --only-section .BTF                    tmp-vmlinux-with-btf vmlinux.btf
 rm                                             tmp-vmlinux-with-btf
 
 %install
+%{kbuild_env}
 # Install kernel
 install -d -m 755 %{buildroot}/boot
 install -m 644 .config %{buildroot}/boot/config-%{uname}
