@@ -32,7 +32,7 @@
 Summary: Xen is a virtual machine monitor
 Name:    xen
 Version: 4.21.2
-Release: %{?xsrel}.6%{?dist}
+Release: %{?xsrel}.7%{?dist}
 License: GPLv2 and LGPLv2 and MIT and Public Domain
 URL:     https://www.xenproject.org
 Source0: xen-4.21.2.tar.gz
@@ -1150,6 +1150,10 @@ fi
 %{?_cov_results_package}
 
 %changelog
+* Mon Nov 23 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 4.21.2-3.7
+- Put the release without the number of the build in the SBAT entry, the same for the same sources
+- Keep the zero timestamp of the link in xen.efi when stripping it
+
 * Sun Nov 22 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 4.21.2-3.6
 - Build the hypervisors at the same time as the tools
 
