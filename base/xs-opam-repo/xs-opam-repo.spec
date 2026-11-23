@@ -115,6 +115,10 @@ PKG_EXISTING=$(opam list --installed --short --separator=. --columns=name,versio
 PKG=$(opam exec -- opam list --installable --short --coinstallable-with=$PKG_EXISTING)
 
 export OPAMFETCH=/bin/false
+# XCP-ng: camlp-streams alone, one job at a time: on OCaml 4.14, its Stream and Genlex include the modules of the
+# standard library of the same names, which resolve to its own when they are compiled already, so that its builds
+# differed by the order of the jobs
+opam exec -- opam install -j1 -y camlp-streams
 opam exec -- opam install %{?_smp_mflags} -y $PKG
 
 mkdir -p %{buildroot}/etc/profile.d
@@ -131,6 +135,11 @@ rm -rf %{_opamroot}/log
 find   %{_opamroot}/ocaml-system/lib -type f -name '*.cmt*' -delete
 
 rsync -aW %{_opamroot}/ %{buildroot}%{_opamroot}/
+# XCP-ng: opam records the time of each file it installed in the .changes files, which the package sets to the date
+# of the changelog, see %%clamp_mtime_to_source_epoch: that one, for the same files for the same sources, on the line
+# of its file, which opam wraps by the length of the time
+sed -i -z -E "s/\"\n +\{\"/\" {\"/g; s/\{\"F:S([0-9]+)T[0-9.e+]+\"\}/{\"F:S\1T${SOURCE_DATE_EPOCH}.\"}/g" \
+    %{buildroot}%{_opamroot}/ocaml-system/.opam-switch/install/*.changes
 chmod 755 %{buildroot}%{_opamroot}/opam-init/hooks/sandbox.sh
 strip %{buildroot}%{_opamroot}/ocaml-system/bin/* || true
 
