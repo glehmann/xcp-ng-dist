@@ -78,9 +78,8 @@ sh autogen.sh
 
 %check
 make clean
+# XCP-ng: without the results in a package: their times and paths made the builds of the same sources differ
 make %{?_smp_mflags} check GCOV=true || (find mockatests -name \*.log -print -exec cat {} \; && false)
-mkdir -p %{buildroot}/testresults
-./collect-test-results.sh %{buildroot}/testresults
 
 %install
 rm -rf %{buildroot}
@@ -150,16 +149,6 @@ fi
 %posttrans -p /sbin/ldconfig
 
 %{?_cov_results_package}
-
-%package testresults
-Group:    System/Hypervisor
-Summary:  test results for blktap package
-
-%description testresults
-The package contains the build time test results for the blktap package
-
-%files testresults
-/testresults
 
 %package -n vhd-util-standalone
 Group:   System/Hypervisor
