@@ -40,7 +40,7 @@ BuildRequires: xz-devel
 Summary: A network boot loader
 Name: ipxe
 Version: 2.0.0
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPLv2
 
 %description
@@ -86,6 +86,9 @@ install -m 644 src/bin-x86_64-efi/8086100e.drv.efi %{buildroot}/%{_datadir}/ipxe
 %{?_cov_results_package}
 
 %changelog
+* Mon Nov 23 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 2.0.0-2
+- Unpack the sources in a directory without the version, for the compiler cache across versions
+
 * Wed Jul 15 2026 Tu Dinh <ngoc-tu.dinh@vates.tech> - 2.0.0-1
 - Build ipxe and ipxe-efi v2.0.0 for XCP-ng 9
 

@@ -3,7 +3,7 @@
 Name:    guest-templates-json
 Summary: Creates the default guest templates
 Version: 2.1.1
-Release: 1%{?xsrel}.2.1%{?dist}
+Release: 1%{?xsrel}.2.2%{?dist}
 License: BSD
 Source0: guest-templates-json-2.1.1.tar.gz
 
@@ -202,6 +202,9 @@ fi
 %{templatedir}/other-install-media.json
 
 %changelog
+* Mon Nov 23 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 2.1.1-1.2.2
+- Unpack the sources in a directory without the version, for the compiler cache across versions
+
 * Wed Nov 11 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 2.1.1-1.2.1
 - Build requires make, which the build environment image does not have
 

@@ -40,7 +40,7 @@
 
 Name:           python-opentelemetry
 Version:        %{stable_version}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        OpenTelemetry Python API and SDK
 
 License:        ASL 2.0
@@ -581,6 +581,9 @@ done
 
 
 %changelog
+* Mon Nov 23 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 1.12.0-2
+- Unpack the sources in a directory without the version, for the compiler cache across versions
+
 * Wed Jan 22 2025 Yann Dirson <yann.dirson@vates.tech> - 1.12.0-1
 - Backport to el7, based on fc36 package
 - Back to old layout

@@ -1,6 +1,6 @@
 Name:           xcp-featured
 Version:        1.1.8
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        XCP-ng feature daemon
 Group:          System/Hypervisor
 License:        ISC
@@ -44,6 +44,9 @@ ln -s /opt/xensource/libexec/xcp-featured %{buildroot}/opt/xensource/libexec/v6d
 %{_unitdir}/v6d.service
 
 %changelog
+* Mon Nov 23 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 1.1.8-8
+- Unpack the sources in a directory without the version, for the compiler cache across versions
+
 * Thu Nov 12 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 1.1.8-7
 - Build without the buildroot, which only the installation uses
 

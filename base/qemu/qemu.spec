@@ -15,7 +15,7 @@ Summary: qemu-dm device model
 Name: qemu
 Epoch: 0
 Version: 10.1.0
-Release: %{?xsrel}.4%{?dist}
+Release: %{?xsrel}.5%{?dist}
 License: GPL
 Requires: xcp-clipboardd
 ## We broke an interface used by xenopsd-xc without version signalling
@@ -180,6 +180,9 @@ cp -r scripts/qmp %{buildroot}%{_datarootdir}/qemu
 %{?_cov_results_package}
 
 %changelog
+* Mon Nov 23 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 0:10.1.0-1.5
+- Unpack the sources in a directory without the version, for the compiler cache across versions
+
 * Thu Nov 12 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 0:10.1.0-1.4
 - A changelog entry with the epoch, which the package has
 

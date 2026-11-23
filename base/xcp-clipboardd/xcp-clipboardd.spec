@@ -1,6 +1,6 @@
 Name:           xcp-clipboardd
 Version:        1.0.3
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        Daemon to share a virtualized Windows clipboard
 License:        GPLv3
 URL:            https://github.com/xcp-ng/xcp-clipboardd
@@ -31,6 +31,9 @@ Share clipboard between guest Windows and host with VNC.
 /opt/xensource/libexec/xcp-clipboardd
 
 %changelog
+* Mon Nov 23 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 1.0.3-11
+- Unpack the sources in a directory without the version, for the compiler cache across versions
+
 * Tue Oct 06 2026 Yann Dirson <yann.dirson@vates.tech> - 1.0.3-10
 - BuildRequire "cmake" not "cmake3"
 

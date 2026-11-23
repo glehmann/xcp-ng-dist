@@ -24,7 +24,7 @@
 
 Name:           xcp-ng-release
 Version:        8.99.0
-Release:        9%{?autorev}
+Release:        10%{?autorev}
 Summary:        XCP-ng release file
 Group:          System Environment/Base
 License:        GPLv2
@@ -581,6 +581,9 @@ systemctl preset-all --preset-mode=enable-only || :
 
 # Keep this changelog through future updates
 %changelog
+* Mon Nov 23 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 8.99.0-10
+- Unpack the sources in a directory without the version, for the compiler cache across versions
+
 * Thu Nov 12 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 8.99.0-9
 - Require logrotate in config, for the logrotate configurations
 - Run the Python scripts with python3, rather than with env

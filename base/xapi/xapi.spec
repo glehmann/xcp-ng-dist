@@ -1484,6 +1484,7 @@ Coverage files from unit tests
 %changelog
 * Mon Nov 23 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 26.19.0-2.4
 - Take the dates of the build from SOURCE_DATE_EPOCH, the date of the changelog
+- Unpack the sources in a directory without the version, for the compiler cache across versions
 
 * Thu Nov 12 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 26.19.0-2.3
 - Require crontabs and logrotate, for the cron jobs and logrotate configurations

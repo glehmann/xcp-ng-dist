@@ -4,7 +4,7 @@
 Summary: XenServer Installer
 Name: host-installer
 Version: 11.2.0
-Release: 1.1.3%{?xsrel}%{?dist}
+Release: 1.1.4%{?xsrel}%{?dist}
 License: GPLv2
 Group: Applications/System
 Source0: host-installer-%{version}.tar.gz
@@ -215,6 +215,9 @@ echo %{large_block_capable_sr_type} > %{buildroot}/%{feature_flag_dir}/large-blo
 /usr/bin/systemctl disable lvm2-monitor
 
 %changelog
+* Mon Nov 23 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 11.2.0-1.1.4
+- Unpack the sources in a directory without the version, for the compiler cache across versions
+
 * Mon Nov 16 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 11.2.0-1.1.3
 - No answer file of test VMs, which xcraft boot --unattended serves
 

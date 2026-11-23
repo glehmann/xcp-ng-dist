@@ -3,7 +3,7 @@
 Name: edk2
 Summary: EFI Development Kit II
 Version: 202602
-Release: 1.1%{?dist}
+Release: 1.2%{?dist}
 
 License: BSD and MIT
 URL: https://github.com/tianocore/edk2
@@ -192,6 +192,9 @@ cp OvmfPkg/License.txt License.ovmf
 
 
 %changelog
+* Mon Nov 23 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 202602-1.2
+- Unpack the sources in a directory without the version, for the compiler cache across versions
+
 * Sun Nov 22 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 202602-1.1
 - Do not generate the files of OpenSSL again, edk2 has them already
 

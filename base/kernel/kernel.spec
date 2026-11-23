@@ -500,6 +500,7 @@ fi
 - Keep dwz off whatever the macros of the build environment
 - Disable CONFIG_CTF: its type information is never packaged, and its order, which GCC varies, changed the build ID
   of kheaders.ko
+- Unpack the sources in a directory without the version, for the compiler cache across versions
 
 * Sun Nov 22 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 6.12.0-7
 - Install the modules and headers in parallel

@@ -4,7 +4,7 @@
 
 Name:           xcp-ng-generic-lib
 Version:        1.2.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A library of algorithms, I/O and networking functions
 License:        GPLv3
 URL:            https://github.com/xcp-ng/xcp-ng-generic-lib
@@ -63,6 +63,9 @@ This package provides documentation and development headers for xcp-ng-generic-l
 %{_libdir}/libxcp-ng-generic.so
 
 %changelog
+* Mon Nov 23 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 1.2.1-2
+- Unpack the sources in a directory without the version, for the compiler cache across versions
+
 * Thu Sep 17 2026 Julian Vetter <julian.vetter@vates.tech> - 1.2.1-1
 - Use the modern cmake3 macros (cmake3_build / cmake3_install
 - Update to 1.2.1

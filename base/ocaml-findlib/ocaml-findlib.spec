@@ -5,7 +5,7 @@
 
 Name:           ocaml-findlib
 Version:        1.9.8
-Release:        %{?xsrel}%{?dist}
+Release:        %{?xsrel}.1%{?dist}
 Summary:        Objective CAML package manager and build helper
 License:        MIT
 
@@ -113,6 +113,9 @@ rmdir $RPM_BUILD_ROOT%{_mandir}/man3
 
 
 %changelog
+* Mon Nov 23 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 1.9.8-1.1
+- Unpack the sources in a directory without the version, for the compiler cache across versions
+
 * Fri Oct 10 2025 Rob Hoes <rob.hoes@citrix.com> - 1.9.8-1
 - Use 1.9.8
 

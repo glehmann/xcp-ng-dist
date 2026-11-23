@@ -3,7 +3,7 @@
 Summary: vncterm tty to vnc utility
 Name: vncterm
 Version: 10.2.2
-Release: 1%{?xsrel}.1%{?dist}
+Release: 1%{?xsrel}.2%{?dist}
 License: GPL
 Group: System/Hypervisor
 Source0: vncterm-10.2.2.tar.gz
@@ -73,6 +73,9 @@ grep -xq 'pts/0' /etc/securetty || echo 'pts/0' >>/etc/securetty
 %{?_cov_results_package}
 
 %changelog
+* Mon Nov 23 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 10.2.2-1.2
+- Unpack the sources in a directory without the version, for the compiler cache across versions
+
 * Thu Nov 12 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 10.2.2-1.1
 - Drop the supplementary groups of root with its privileges
 - Fix the date of a changelog entry, without which rpm dropped them all

@@ -4,7 +4,7 @@
 
 Name:           xcp-emu-manager
 Version:        1.2.1
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Tool used for managing xenguest
 License:        GPLv3
 URL:            https://github.com/xcp-ng/xcp-emu-manager
@@ -39,6 +39,9 @@ Handles suspend, resume and migrate.
 %{_libdir}/xen/bin/emu-manager
 
 %changelog
+* Mon Nov 23 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 1.2.1-4
+- Unpack the sources in a directory without the version, for the compiler cache across versions
+
 * Tue Sep 22 2026 Julian Vetter <julian.vetter@vates.tech> - 1.2.1-3
 - Fix cmake macros. No need to pull in epel-rpm-macros
 

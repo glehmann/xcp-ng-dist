@@ -4,7 +4,7 @@
 Summary: A library of functions for running an emp server
 Name: libempserver
 Version: 1.1.1
-Release: %{?xsrel}%{?dist}
+Release: %{?xsrel}.1%{?dist}
 License: BSD
 Source0: libempserver-1.1.1.tar.gz
 
@@ -61,6 +61,9 @@ libempserver
 %{_libdir}/%{name}.so
 
 %changelog
+* Mon Nov 23 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 1.1.1-2.1
+- Unpack the sources in a directory without the version, for the compiler cache across versions
+
 * Wed Jan 22 2025 XenServer Rebuild <rebuild@xenserver.com> - 1.1.1-2
 - CP-53310: XenServer 9 rebuild
 

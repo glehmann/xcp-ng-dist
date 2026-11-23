@@ -5,7 +5,7 @@
 
 Name:    nbd
 Version: 3.25
-Release: %{?xsrel}.2%{?dist}
+Release: %{?xsrel}.3%{?dist}
 Summary: Network Block Device user-space tools (TCP version)
 License: GPL-2.0-only
 URL:     https://github.com/NetworkBlockDevice/nbd
@@ -83,6 +83,9 @@ DELAY=10 make check
 %{_unitdir}/nbd@.service.d
 
 %changelog
+* Mon Nov 23 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 3.25-2.3
+- Unpack the sources in a directory without the version, for the compiler cache across versions
+
 * Sun Nov 22 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 3.25-2.2
 - Wait for the servers of the tests rather than sleeping
 

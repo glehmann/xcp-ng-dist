@@ -7,7 +7,7 @@
 Summary: Common XCP-ng Python classes
 Name: xcp-python-libs
 Version: 3.0.10
-Release: %{?xsrel}.1.0.ydi.2%{?dist}
+Release: %{?xsrel}.1.0.ydi.3%{?dist}
 Source0: xcp-python-libs-3.0.10.tar.gz
 Patch0: 0001-Remove-setuptools_scm.patch
 Patch1: 0001-Enhance-Bootloader-with-optional-set-prefix.patch
@@ -90,6 +90,9 @@ cd tests
 %endif
 
 %changelog
+* Mon Nov 23 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 3.0.10-1.1.0.ydi.3
+- Unpack the sources in a directory without the version, for the compiler cache across versions
+
 * Thu Nov 12 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 3.0.10-1.1.0.ydi.2
 - Fix the date of the last changelog entry, and remove the clean section
 

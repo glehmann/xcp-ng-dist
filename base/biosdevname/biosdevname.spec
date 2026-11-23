@@ -5,7 +5,7 @@
 
 Name:         biosdevname
 Version:      0.7.3
-Release: %{?xsrel}.1%{?dist}
+Release: %{?xsrel}.2%{?dist}
 Summary:      Helper for naming devices per BIOS names
 
 Group:        System Environment/Base
@@ -63,6 +63,9 @@ make install install-data DESTDIR=%{buildroot}
 
 
 %changelog
+* Mon Nov 23 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 0.7.3-6.2
+- Unpack the sources in a directory without the version, for the compiler cache across versions
+
 * Tue Nov 10 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 0.7.3-6.1
 - Build for aarch64 too, which xcp-python-libs and host-installer need
 

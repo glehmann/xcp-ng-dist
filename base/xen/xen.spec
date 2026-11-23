@@ -1153,6 +1153,7 @@ fi
 * Mon Nov 23 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 4.21.2-3.7
 - Put the release without the number of the build in the SBAT entry, the same for the same sources
 - Keep the zero timestamp of the link in xen.efi when stripping it
+- Unpack the sources in a directory without the version, for the compiler cache across versions
 
 * Sun Nov 22 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 4.21.2-3.6
 - Build the hypervisors at the same time as the tools

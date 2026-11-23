@@ -1,6 +1,6 @@
 Name:		ssmtp
 Version:	2.64
-Release:	14.2%{?dist}
+Release:	14.3%{?dist}
 Summary:	Extremely simple MTA to get mail off the system to a Mailhub
 Group:		Applications/Internet
 License:	GPLv2+
@@ -130,6 +130,9 @@ fi
 
 
 %changelog
+* Mon Nov 23 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 2.64-14.3
+- Unpack the sources in a directory without the version, for the compiler cache across versions
+
 * Thu Nov 12 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 2.64-14.2
 - Remove the clean section, which rpm does not need
 

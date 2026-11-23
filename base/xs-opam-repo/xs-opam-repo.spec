@@ -158,6 +158,7 @@ echo '%%_opamroot %%{_libdir}/opamroot' >> "%{buildroot}%{_rpmconfigdir}/macros.
 * Mon Nov 23 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 6.99.0-1.4
 - Record the date of the changelog as the time of the installed files in the .changes files of opam
 - Install camlp-streams alone and one job at a time, whose builds depended on the order of the jobs
+- Unpack the sources in a directory without the version, for the compiler cache across versions
 
 * Thu Nov 12 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 6.99.0-1.3
 - The sandbox hook of opam not world-writable

@@ -33,7 +33,7 @@
 
 Name:           ocaml
 Version:        4.14.2
-Release:        %{?xsrel}.4%{?dist}
+Release:        %{?xsrel}.5%{?dist}
 
 Summary:        OCaml compiler and programming environment
 
@@ -363,6 +363,9 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/ocaml/eventlog_metadata
 
 
 %changelog
+* Mon Nov 23 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 4.14.2-1.5
+- Unpack the sources in a directory without the version, for the compiler cache across versions
+
 * Sat Nov 21 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 4.14.2-1.4
 - Run the tests in parallel
 

@@ -584,6 +584,7 @@ mv ${EFI_HOME}/grub.cfg.stb ${EFI_HOME}/grub.cfg
 %changelog
 * Mon Nov 23 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 1:2.12-21
 - Embed the release without the number of the build, in its version and its SBAT entries, the same for the same sources
+- Unpack the sources in a directory without the version, for the compiler cache across versions
 
 * Thu Oct 29 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 1:2.12-20
 - Drop the AlmaLinux release suffix: this is our package now

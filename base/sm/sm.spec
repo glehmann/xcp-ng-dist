@@ -323,6 +323,7 @@ in /opt/xensource
 %changelog
 * Mon Nov 23 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 4.1.12-1.3
 - Do not package the test results, whose times made the builds of the same sources differ
+- Unpack the sources in a directory without the version, for the compiler cache across versions
 
 * Thu Nov 12 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 4.1.12-1.2
 - Require logrotate, for the logrotate configuration

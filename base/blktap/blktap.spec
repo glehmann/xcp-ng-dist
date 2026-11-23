@@ -167,6 +167,7 @@ without requiring other libraries
 %changelog
 * Mon Nov 23 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 4.0.8-1.4
 - Do not package the test results, whose times and paths made the builds of the same sources differ
+- Unpack the sources in a directory without the version, for the compiler cache across versions
 
 * Sun Nov 22 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 4.0.8-1.3
 - Build and run the tests in parallel

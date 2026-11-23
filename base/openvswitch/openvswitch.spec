@@ -813,6 +813,7 @@ exit 0
 %changelog
 * Mon Nov 23 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 3.7.1-3.5
 - Version the programs with the release without the number of the build, the same for the same sources
+- Unpack the sources in a directory without the version, for the compiler cache across versions
 
 * Thu Nov 12 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 3.7.1-3.4
 - Require logrotate, for the logrotate configuration

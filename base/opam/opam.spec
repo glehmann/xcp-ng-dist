@@ -5,7 +5,7 @@
 
 Name:           opam
 Version:        2.5.2
-Release:        %{?xsrel}.1%{?dist}
+Release:        %{?xsrel}.2%{?dist}
 Summary:        Source-based OCaml package manager
 License:        LGPL-2.1-only WITH OCaml-LGPL-linking-exception
 URL:            https://github.com/ocaml/opam
@@ -69,6 +69,9 @@ rm -rf %{buildroot}%{_prefix}/doc
 %{_mandir}/man1/*.1*
 
 %changelog
+* Mon Nov 23 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 2.5.2-1.2
+- Unpack the sources in a directory without the version, for the compiler cache across versions
+
 * Tue Jun 23 2026 Andrii Sultanov <andriy.sultanov@vates.tech> - 2.5.2-1.1
 - Update to 2.5.2
 

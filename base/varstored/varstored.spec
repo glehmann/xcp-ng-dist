@@ -4,7 +4,7 @@
 Name: varstored
 Summary: EFI Variable Storage Daemon
 Version: 1.3.4
-Release: %{?xsrel}.3%{?dist}
+Release: %{?xsrel}.4%{?dist}
 
 License: BSD
 Source0: varstored-1.3.4.tar.gz
@@ -181,6 +181,9 @@ make %{?_smp_mflags} check
 
 
 %changelog
+* Mon Nov 23 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 1.3.4-2.4
+- Unpack the sources in a directory without the version, for the compiler cache across versions
+
 * Sun Nov 22 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 1.3.4-2.3
 - Run the tests in parallel
 
