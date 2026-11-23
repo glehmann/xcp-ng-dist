@@ -22,6 +22,22 @@ xcpng = "9"
 xenserver = "9"
 # the binary packages compressed by as many threads as CPUs, rather than one: the same packages, whatever their number
 _binary_payload = "w19T.zstdio"
+# the release without the number of the build of %autorev: the same for the builds of the same sources, for what
+# they embed, like the version of grub
+source_release = '%{lua:local r, a = rpm.expand("%{release}"), rpm.expand("%{?autorev}"); local i = a ~= "" and r:find(a, 1, true); print(i and r:sub(1, i - 1) .. r:sub(i + #a) or r)}'
+# the same files for the same sources, whatever the release, so that xcraft can keep the build a rebuild reproduces:
+# no release in the build IDs and the names of the debug files and sources, which only matter for several versions
+# installed side by side, and no package note, which only names the package of a crashing binary without the rpm
+# database
+_unique_build_ids = false
+_unique_debug_names = false
+_unique_debug_srcs = false
+_package_note_flags = false
+# the times of the files of the packages no later than the date of their changelog, like those of the .pyc files
+clamp_mtime_to_source_epoch = "1"
+# the debug information shared by the binaries of a package in no file named after its release, which the debug files
+# reference
+_find_debuginfo_dwz_opts = "--run-dwz --dwz-low-mem-die-limit %{_dwz_limit _dwz_low_mem_die_limit} --dwz-max-die-limit %{_dwz_limit _dwz_max_die_limit} --dwz-single-file-mode"
 
 # the current AlmaLinux 10 and its EPEL: the lock decides of the versions used
 [repos.baseos]
