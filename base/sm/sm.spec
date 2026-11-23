@@ -147,10 +147,8 @@ exit 0
 # %systemd_postun linstor-monitor.service
 
 %check
+# XCP-ng: the tests, without their results in a package: their times made the builds of the same sources differ
 tests/run_python_unittests.sh
-cp .coverage %{buildroot}
-cp coverage.xml %{buildroot}
-cp -r htmlcov %{buildroot}/htmlcov
 
 %files
 %defattr(-,root,root,-)
@@ -218,18 +216,6 @@ cp -r htmlcov %{buildroot}/htmlcov
 # %{_unitdir}/linstor-monitor.service
 # %{python3_sitelib}/__pycache__/sm_typing*pyc
 # %{python3_sitelib}/sm_typing.py
-
-%package testresults
-Summary:  test results for SM package
-BuildArch: noarch
-
-%description testresults
-The package contains the build time test results for the SM package
-
-%files testresults
-/.coverage
-/coverage.xml
-/htmlcov
 
 %package -n python%{python3_pkgversion}-sm-test-plugins
 Provides: sm-test-plugins = %{version}-%{release}
