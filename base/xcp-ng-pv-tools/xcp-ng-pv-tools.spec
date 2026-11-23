@@ -17,7 +17,7 @@ Version: %{xcp_ng_release}
 # xe-guest-utilies is versioned after the RPM release, so we need to keep it upwards,
 # without reinitializing it to 1 when the RPM version changes.
 # Try to keep this in sync with other XCP-ng releases.
-%define _release 20
+%define _release 21
 Release: %{_release}%{?dist}
 
 # The xe-guest-utilities release is the xcp-ng-pv-tools release
@@ -292,6 +292,10 @@ install -D -m755 %{SOURCE3} %{buildroot}/opt/xensource/libexec/unmount_xstools.s
 /opt/xensource/libexec/unmount_xstools.sh
 
 %changelog
+* Mon Nov 23 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 8.3-21
+- Build the same ISO for the same sources: dates from SOURCE_DATE_EPOCH, made by xorriso, named without the number of the build
+- Make the tgz with its files sorted by name, and the date of the changelog as their time
+
 * Wed Oct 14 2026 Julian Vetter <julian.vetter@vates.tech> - 8.3-20
 - BuildRequires golang-x-sys-devel instead of golang-github-golang-sys-devel
 - Run dpkg-buildpackage under fakeroot for the Debian package build
