@@ -1,0 +1,50 @@
+From d15893d59d3b6a073c6a1718a8c54235a04bf442 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Ga=C3=ABtan=20Lehmann?= <gaetan.lehmann@gmail.com>
+Date: Tue, 24 Nov 2026 22:10:48 +0100
+Subject: [PATCH] init: log_console=con, the log of the installer to con too
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Like the serial console of an unattended installation whose installer
+runs on the screen, to follow and check the installation from it.
+
+Signed-off-by: Gaëtan Lehmann <gaetan.lehmann@vates.tech>
+---
+ doc/parameters.txt | 6 ++++++
+ init               | 2 ++
+ 2 files changed, 8 insertions(+)
+
+diff --git a/doc/parameters.txt b/doc/parameters.txt
+index 433bf9f..79309f8 100644
+--- a/doc/parameters.txt
++++ b/doc/parameters.txt
+@@ -95,6 +95,12 @@ Startup
+     Run an instance of the installer on con.
+ 
+ 
++  log_console=con
++
++    Write the log of the installer to con too, like the serial console
++    of an unattended installation whose installer runs on the screen.
++
++
+   term=termtype
+ 
+     set TERM.
+diff --git a/init b/init
+index 71d305d..dbece09 100755
+--- a/init
++++ b/init
+@@ -136,6 +136,8 @@ def main(args):
+                 init_network = True
+             ui = None
+             logger.openLog(sys.stdout)
++        elif opt == "--log_console":
++            logger.openLog('/dev/' + val)
+         elif opt == "--answerfile_generator":
+             answerfile_script = val
+             interactive = False
+-- 
+2.54.0
+
