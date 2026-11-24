@@ -24,6 +24,7 @@ Patch1006: 0006-Force-switch-tty-to-UTF-8-not-ISO-8859-1.patch
 Patch1007: 0007-Parametrize-kernel-package-name-set-to-kernel-xcpng.patch
 Patch1008: 0008-Raise-rpm-verbosity-to-understand-scriptlet-errors.patch
 Patch1009: 0009-init-wait-up-to-120s-for-the-network-to-come-online.patch
+Patch1010: 0010-Install-on-aarch64-Xen-by-xen_boot-the-boot-loaders-.patch
 
 # xcp-ng-dist
 Patch2000: 0022-Do-not-enable-openvswitch-xapi-sync-which-XCP-ng-9-s.patch

@@ -1,0 +1,184 @@
+From dd06a3e631e2f75aa82e7f3180dde0c1901fbd98 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Ga=C3=ABtan=20Lehmann?= <gaetan.lehmann@vates.tech>
+Date: Tue, 24 Nov 2026 20:16:33 +0100
+Subject: [PATCH] Install on aarch64: Xen by xen_boot, the boot loaders of aa64
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+On arm64, grub loads Xen with xen_boot, its image not compressed, which
+xen-hypervisor links as /boot/xen, like /boot/xen.efi on x86, rather than
+with multiboot2 and /boot/xen.gz: the entries of the installed system
+use the XEN_BOOT format of xcp.bootloader, and its fallback copy is
+/boot/xen-fallback. Xen on arm64 has none of the options of x86, nor the
+ranges of dom0_mem and dom0_max_vcpus, and its console is the one of the
+device tree, or of ACPI's SPCR, dtuart; dom0 has no framebuffer under Xen
+on arm64, so its console is hvc0 only. No memtest86+ entry, of x86 only,
+and the EFI boot entry is the one of the shim, or grub, of aa64.
+
+No EFI boot entry without EFI variables, like in dom0 under Xen on
+arm64, which has no EFI runtime services: the firmware boots the
+removable path, \EFI\BOOT, whose shim's fallback adds the boot entry.
+
+Signed-off-by: Gaëtan Lehmann <gaetan.lehmann@vates.tech>
+---
+ backend.py | 69 +++++++++++++++++++++++++++++++++++++-----------------
+ 1 file changed, 47 insertions(+), 22 deletions(-)
+
+diff --git a/backend.py b/backend.py
+index 6dfae1f..496559f 100644
+--- a/backend.py
++++ b/backend.py
+@@ -2,6 +2,7 @@
+ 
+ import os
+ import os.path
++import platform
+ import stat
+ import subprocess
+ import datetime
+@@ -22,6 +23,14 @@ import upgrade
+ import scripts
+ import xcp.bootloader as bootloader
+ from xcp.bootloader import Grub2Format
++
++# arm64: Xen loaded by grub's xen_boot, not compressed, see xen-hypervisor's /boot/xen, with the options of Xen on
++# arm64, and EFI only, with the boot loaders of aa64
++ARM64 = platform.machine() == "aarch64"
++XEN = "/boot/xen" if ARM64 else "/boot/xen.gz"
++XEN_FALLBACK = "/boot/xen-fallback" if ARM64 else "/boot/xen-fallback.gz"
++XEN_FORMAT = Grub2Format.XEN_BOOT if ARM64 else Grub2Format.MULTIBOOT2
++EFI_ARCH = "aa64" if ARM64 else "x64"
+ import netinterface
+ import dmvutil
+ import tui.repo
+@@ -1004,10 +1013,10 @@ def mkinitrd(mounts, primary_disk, primary_partnum):
+ def prepFallback(mounts, primary_disk, primary_partnum):
+     kernel_version =  getKernelVersion(mounts['root'])
+ 
+-    # Copy /boot/xen-xxxx.gz to /boot/xen-fallback.gz
+-    xen_efi = os.path.realpath(mounts['root'] + "/boot/xen.gz")
++    # Copy /boot/xen-xxxx.gz to /boot/xen-fallback.gz, or /boot/xen-xxxx to /boot/xen-fallback on arm64
++    xen_efi = os.path.realpath(mounts['root'] + XEN)
+     src = os.path.join(mounts['root'], "boot", os.path.basename(xen_efi))
+-    dst = os.path.join(mounts['root'], 'boot/xen-fallback.gz')
++    dst = mounts['root'] + XEN_FALLBACK
+     shutil.copyfile(src, dst)
+ 
+     # Copy /boot/vmlinuz-yyyy to /boot/vmlinuz-fallback
+@@ -1061,6 +1070,14 @@ def buildBootLoaderMenu(mounts, xen_version, xen_kernel_version, boot_config, se
+     xs_kernel_core = ["ro", "nolvm", "hpet=disable", "vga=785"]
+     kernel_console_vga = ["console=hvc0", "console=tty0"]
+     kernel_console_serial = ["console=tty0", "console=hvc0"]
++    xen_console_vga = ["console=vga"]
++    if ARM64:
++        # no ranges of dom0, nor the options of x86, and the serial console of the device tree, or of ACPI's SPCR:
++        # dom0 has no framebuffer under Xen on arm64
++        xs_xen_core = ["dom0_mem=%dM" % host_config['dom0-mem']]
++        xs_xen_shared = ["dom0_max_vcpus=%d" % host_config['dom0-vcpus']]
++        xen_serial_params = xen_console_vga = ["console=dtuart"]
++        kernel_console_vga = kernel_console_serial = ["console=hvc0"]
+ 
+     if "xen-pciback.hide" in host_config:
+         xs_kernel_core += [host_config["xen-pciback.hide"]]
+@@ -1080,52 +1097,53 @@ def buildBootLoaderMenu(mounts, xen_version, xen_kernel_version, boot_config, se
+     xs_kernel_safemode = []
+     xs_kernel_safemode += xs_kernel_core
+ 
+-    e = bootloader.MenuEntry(hypervisor="/boot/xen.gz",
+-                             hypervisor_args=' '.join(xs_xen_core + xs_xen_shared + ["console=vga"]),
++    e = bootloader.MenuEntry(hypervisor=XEN,
++                             hypervisor_args=' '.join(xs_xen_core + xs_xen_shared + xen_console_vga),
+                              kernel=f"/boot/vmlinuz-{xen_kernel_version}",
+                              kernel_args=' '.join(kernel_rootdisk + xs_kernel_core + kernel_console_vga + ["quiet"]),
+                              initrd=f"/boot/initrd-{xen_kernel_version}.img", title=MY_PRODUCT_BRAND,
+                              root=constants.rootfs_label%disk_label_suffix)
+-    e.entry_format = Grub2Format.MULTIBOOT2
++    e.entry_format = XEN_FORMAT
+     boot_config.append("xe", e)
+     boot_config.default = "xe"
+     if serial:
+-        e = bootloader.MenuEntry(hypervisor="/boot/xen.gz",
++        e = bootloader.MenuEntry(hypervisor=XEN,
+                                  hypervisor_args=' '.join(xs_xen_core + xs_xen_shared + xen_serial_params),
+                                  kernel=f"/boot/vmlinuz-{xen_kernel_version}",
+                                  kernel_args=' '.join(kernel_rootdisk + xs_kernel_core + kernel_console_serial),
+                                  initrd=f"/boot/initrd-{xen_kernel_version}.img", title=MY_PRODUCT_BRAND+" (Serial)",
+                                  root=constants.rootfs_label%disk_label_suffix)
+-        e.entry_format = Grub2Format.MULTIBOOT2
++        e.entry_format = XEN_FORMAT
+         boot_config.append("xe-serial", e)
+         if boot_serial:
+             boot_config.default = "xe-serial"
+ 
+-    e = bootloader.MenuEntry(hypervisor="", hypervisor_args="", kernel="/boot/memtest86+x64.efi",
+-                            kernel_args="",
+-                            initrd="", title="Memtest86+ (UEFI)",
+-                            root=constants.rootfs_label%disk_label_suffix)
+-    e.entry_format = Grub2Format.LINUX
+-    boot_config.append("memtest", e)
++    if not ARM64:  # of x86 only
++        e = bootloader.MenuEntry(hypervisor="", hypervisor_args="", kernel="/boot/memtest86+x64.efi",
++                                kernel_args="",
++                                initrd="", title="Memtest86+ (UEFI)",
++                                root=constants.rootfs_label%disk_label_suffix)
++        e.entry_format = Grub2Format.LINUX
++        boot_config.append("memtest", e)
+ 
+-    e = bootloader.MenuEntry(hypervisor="/boot/xen-fallback.gz",
++    e = bootloader.MenuEntry(hypervisor=XEN_FALLBACK,
+                              hypervisor_args=' '.join(xs_xen_core + xs_xen_shared),
+                              kernel="/boot/vmlinuz-fallback",
+                              kernel_args=' '.join(kernel_rootdisk + xs_kernel_core + kernel_console_vga),
+                              initrd="/boot/initrd-fallback.img",
+                              title="%s (Xen %s / Linux %s)" % (MY_PRODUCT_BRAND, xen_version, xen_kernel_version),
+                              root=constants.rootfs_label%disk_label_suffix)
+-    e.entry_format = Grub2Format.MULTIBOOT2
++    e.entry_format = XEN_FORMAT
+     boot_config.append("fallback", e)
+     if serial:
+-        e = bootloader.MenuEntry(hypervisor="/boot/xen-fallback.gz",
++        e = bootloader.MenuEntry(hypervisor=XEN_FALLBACK,
+                                  hypervisor_args=' '.join(xs_xen_core + xs_xen_shared + xen_serial_params),
+                                  kernel="/boot/vmlinuz-fallback",
+                                  kernel_args=' '.join(kernel_rootdisk + xs_kernel_core + kernel_console_serial),
+                                  initrd="/boot/initrd-fallback.img",
+                                  title="%s (Serial, Xen %s / Linux %s)" % (MY_PRODUCT_BRAND, xen_version, xen_kernel_version),
+                                  root=constants.rootfs_label%disk_label_suffix)
+-        e.entry_format = Grub2Format.MULTIBOOT2
++        e.entry_format = XEN_FORMAT
+         boot_config.append("fallback-serial", e)
+ 
+     # Write an xs_settings file to the root partition, but only if
+@@ -1220,10 +1238,10 @@ def clearEfiBootEntries(mounts, install_type, branding):
+                                  "Failed to remove efi boot entry %r" % (line,))
+ 
+ def addEfiBootEntry(mounts, disk, boot_partnum, install_type, branding):
+-    if os.path.exists(os.path.join(mounts['esp'], 'EFI/almalinux/shimx64.efi')):
+-        efi = "EFI/almalinux/shimx64.efi"
+-    elif os.path.exists(os.path.join(mounts['esp'], 'EFI/almalinux/grubx64.efi')):
+-        efi = "EFI/almalinux/grubx64.efi"
++    if os.path.exists(os.path.join(mounts['esp'], 'EFI/almalinux/shim%s.efi' % EFI_ARCH)):
++        efi = "EFI/almalinux/shim%s.efi" % EFI_ARCH
++    elif os.path.exists(os.path.join(mounts['esp'], 'EFI/almalinux/grub%s.efi' % EFI_ARCH)):
++        efi = "EFI/almalinux/grub%s.efi" % EFI_ARCH
+     else:
+         raise RuntimeError("Failed to find EFI loader")
+     rc, err = util.runCmd2(["chroot", mounts['root'], "/usr/sbin/efibootmgr", "-c",
+@@ -1232,6 +1250,13 @@ def addEfiBootEntry(mounts, disk, boot_partnum, install_type, branding):
+     check_efibootmgr_err(rc, err, install_type, "Failed to add new efi boot entry")
+ 
+ def writeBootEntries(write_boot_entry, mounts, disks, boot_partnum, install_type, branding):
++    if write_boot_entry:
++        rc, err = util.runCmd2(["chroot", mounts['root'], "/usr/sbin/efibootmgr"], with_stderr=True)
++        if rc != 0 and "EFI variables are not supported" in err:
++            # like dom0 under Xen on arm64, which has no EFI runtime services: the firmware boots the removable
++            # path, \EFI\BOOT, whose shim's fallback adds the boot entry
++            logger.log("No EFI variables: no EFI boot entry written, the firmware boots \\EFI\\BOOT")
++            write_boot_entry = False
+     if write_boot_entry:
+         clearEfiBootEntries(mounts, install_type, branding)
+ 
+-- 
+2.54.0
+

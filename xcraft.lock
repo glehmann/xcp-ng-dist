@@ -809,6 +809,7 @@ version = 3
 "fuse-devel" = "2.9.9-25.el10 aarch64 cac4b38182d84fce0fcef3f19b8d154853d769bdf35f3581d3333b5667fdf1bd fuse"
 "fuse-libs" = "2.9.9-25.el10 aarch64 dc7869ff1b1a8678bd8d358628fbadf7d32e2d356a69aecc6c7f7677e3c889aa fuse"
 "fuse3-libs" = "3.16.2-5.el10 aarch64 a18b434322a492cc8283c91f94f0a4ca684645eb87c98865dc41e2ce40a2c359 fuse3"
+"fwupd" = "2.1.6-1.el10 aarch64 a9cd08b9fa03b5304e594c85b3ddf9d1096128c827e7c3a148eec284892155c0 fwupd"
 "gawk" = "5.3.0-7.el10 aarch64 2220a1d2b6ac22e0fb8db2e93bc84df73865acc61612d5804ca56057c42ab506 gawk"
 "gcc" = "14.4.1-5.el10_3.alma.3 aarch64 5a725e63def5a480fab9ecea5eb89590d2230c47d3dea007a02fdd3fad32b2b6 gcc"
 "gcc-c++" = "14.4.1-5.el10_3.alma.3 aarch64 1d617bc6487bd23a1ad1dc7e1ab0bb3ead948bcace49b804fc20d9a08b14eec4 gcc"
@@ -994,6 +995,7 @@ version = 3
 "libdatrie" = "0.2.13-11.el10 aarch64 6082ad2ff3863f48f11668aeaec6bbe90e31732827885a6cc4cc822402497cd8 libdatrie"
 "libdhash" = "0.5.0-58.el10 aarch64 a95bcaae8e7109d46ea253010f5f448e79a647520f18b389d8d4af6a81f75103 ding-libs"
 "libdnf" = "0.73.1-17.el10.alma.1 aarch64 643fd7f489379f97378a75914f02a342eec87e700cf74d576ba5c569582ede3c libdnf"
+"libdrm" = "2.4.128-1.el10 aarch64 acdf64c9d2182969e807f1e196ad96b382c3354016bf4e4ef58cc624d55b106b libdrm"
 "libdwarves1" = "1.31-1.el10 aarch64 894ce20519d34737a73774cc13d3a29f19f814ca1a167936a7949bd54f72c375 dwarves"
 "libeconf" = "0.6.2-4.el10 aarch64 64a52f6d3897a3831cc437e506ee7533bd4baa1b6ba0409935c70e208d76f264 libeconf"
 "libedit" = "3.1-52.20230828cvs.el10 aarch64 183cc585ad539ae4788e6ebc9d9269b78fd79a1e544467c672306447d2b8e29c libedit"
@@ -1022,6 +1024,7 @@ version = 3
 "libini_config" = "1.3.1-58.el10 aarch64 1d553c33fbe2eb24112cf4812ab054cd11e52455422825d5ca5275ac200fc366 ding-libs"
 "libisoburn" = "1.5.6-6.el10 aarch64 7abe20660c564c93121f981b9b8945bac56738bc35e5d3d43208546c5130369c libisoburn"
 "libisofs" = "1.5.6-6.el10 aarch64 c486e2f171b0f9859e39051df663e6c061fdb293aaa1ac58b2ccc6fce82f3102 libisofs"
+"libjcat" = "0.2.2-2.el10 aarch64 a31d98916a128b54dfcd9413cab6c2762d1e4df4b3b805d65213d4cb3fadcf7f libjcat"
 "libjpeg-turbo" = "3.0.2-4.el10 aarch64 2feaff518e78e3395767c576a927386ecd057cb7dd407bab47e5402fb922b5a7 libjpeg-turbo"
 "libjpeg-turbo-devel" = "3.0.2-4.el10 aarch64 b6e7c31784fe3d8d7cb320bfa0784d040637fafbbeb729fb5736f3648f3f36ea libjpeg-turbo"
 "libjxl" = "1:0.10.4-1.el10_1 aarch64 982876ce55a88bb83a2c60872501862b12c83450d0901ab7ea890dc292263965 jpegxl"
@@ -1141,6 +1144,7 @@ version = 3
 "libxcrypt-devel" = "4.4.36-10.el10 aarch64 09f529b4131c31f3ed45df3266e12a33ef7d8f1f83eef7ef03e75759dfdf54c8 libxcrypt"
 "libxml2" = "2.12.5-15.el10_3.2 aarch64 bc7fbca049d06123d7d168331fc83acd19ffc6e97449bc34f91911cc6be22e0a libxml2"
 "libxml2-devel" = "2.12.5-15.el10_3.2 aarch64 d7177ac144d519e63135f73fc798f53b6b463d0072624229e07bebadcb8df64f libxml2"
+"libxmlb" = "0.3.28-1.el10 aarch64 20374ce31517477bf110b3146534da9eb3fcb4bdc264ef786eebfffacfef61f6 libxmlb"
 "libxslt" = "1.1.39-9.el10 aarch64 dfebcbda20d348fd98a9f47c7600497be43e948bbddcef592cf35ca26eac520d libxslt"
 "libyaml" = "0.2.5-16.el10 aarch64 5b435f7a651f21853a06eb2f6f1f2be44305b3cf3bb5f7067ff15d49a0e918a9 libyaml"
 "libzip" = "1.10.1-5.el10 aarch64 afd1494e8ec7fdce57f529e56bb160ec22cdefa057737cd29dee02b60d988c67 libzip"
@@ -1174,6 +1178,7 @@ version = 3
 "mc" = "1:4.8.31-3.el10 aarch64 5415c86a0f2bc5ac1e4bb9520bec566b9a76075575da24c70962dfab12cae01b mc"
 "mdadm" = "4.4-4.el10_3.1 aarch64 d2f6d8959ed57ff6c22beb8c0023a8a79708ac305205b8a692e0b457af4f1788 mdadm"
 "mercurial" = "6.8.1-2.el10_0 aarch64 048a63bca00d72e98bdca7a87f2f02151a29a5eac488a497701feffa3feb675f mercurial"
+"mokutil" = "2:0.7.2-7.el10_3.alma.1 aarch64 b25a61b6466c6f21bad327180cd6a63ce0c37780bdcab84fe97553ad71106781 mokutil"
 "mpdecimal" = "2.5.1-12.el10 aarch64 b9e107d2b85558e37a77e832200c3235c0c2e902c121f60450141fdaadd77d15 mpdecimal"
 "mpfr" = "4.2.1-8.el10 aarch64 8962a1f5b072ad02de4003626268c0865494a5134bdbd7611abe2461cf133be3 mpfr"
 "mt7xxx-firmware" = "20261026-23.5.el10_2 noarch 35fa1f9618dbb9934f837be2095083120d6843ee154259b99bc206571eaa34ed linux-firmware"
@@ -1411,6 +1416,7 @@ version = 3
 "pkgconf-m4" = "2.1.0-3.el10 noarch 74cba7eb2aaa7c8bbc11f8125c01eb59b9be00fe60aa7f6b234ff448a7761824 pkgconf"
 "pkgconf-pkg-config" = "2.1.0-3.el10 aarch64 9186439fe29d864ef26ce730504556081e500b94a64cffd58d754b41423e1463 pkgconf"
 "policycoreutils" = "3.11-1.el10 aarch64 8d6fa914de7de7966dc6252de3a303e16e098972a0af09ad19e594a86dd3a22e policycoreutils"
+"polkit-libs" = "125-6.el10 aarch64 6c6015b6d209d91e3fc5a187569e7752cca0e50c55df435c5327755b1e6bfd9f polkit"
 "poppler" = "24.02.0-10.el10 aarch64 9a63ef015ae3642c68e7b07edf23bbd0a75ce45a0bdcc68d183736c1154023a9 poppler"
 "poppler-data" = "0.4.11-9.el10 noarch a6048df0dca87ed697faf114059df0b717c36d72dadeeab4870e68e1b60229ea poppler-data"
 "poppler-glib" = "24.02.0-10.el10 aarch64 dfd896ccd8ef477605d286b1dc0271c1f849777b77f4ee7b9fcab5ca0188ad46 poppler"
@@ -1542,6 +1548,7 @@ version = 3
 "sgml-common" = "0.6.3-65.el10 noarch d7d004aec9666eadb1df40ced663a833fdc41725047ee8e736d946eb0631738e sgml-common"
 "shadow-utils" = "2:4.15.0-13.el10 aarch64 e9b7a1c1aa4fe7e16e0ef9bc548291b2e96065772b80f964f6832dd988dd3c08 shadow-utils"
 "shared-mime-info" = "2.3-8.el10 aarch64 643cc71d86e510238226bd6939032481129e2ead3bf200e5d0a8cbc82e710b46 shared-mime-info"
+"shim-aa64" = "16.1-4.el10.alma.1 aarch64 820acaec71183edd2e618cc9232a3f5381865a2709d1091d380a36837e2b3cc0 shim"
 "slang" = "2.3.3-8.el10 aarch64 f1d35ec4a3d99fd52bfdf1d103b3528ca1385c1c664160132be7014f33bcc1df slang"
 "smartmontools" = "1:7.4-9.el10 aarch64 9488f927e53eafa99a130617cfdb6c901708b6bc3514a36a10c0d2617630d64b smartmontools"
 "source-highlight" = "3.1.9-25.el10 aarch64 dd7219af99f2a7e7a885e15c4baa259552c68963a040f6564d60c24607fe4406 source-highlight"
@@ -8313,6 +8320,7 @@ version = 3
     "fstrm",
     "fuse-libs",
     "fuse3-libs",
+    "fwupd",
     "gawk",
     "gcc",
     "gcc-plugin-annobin",
@@ -8336,6 +8344,7 @@ version = 3
     "glibc-langpack-en",
     "glibc-minimal-langpack",
     "gmp",
+    "gnupg2",
     "gnutls",
     "gnutls-dane",
     "gnutls-utils",
@@ -8343,6 +8352,7 @@ version = 3
     "gobject-introspection",
     "google-noto-fonts-common",
     "google-noto-sans-vf-fonts",
+    "gpgme",
     "graphite2",
     "grep",
     "groff-base",
@@ -8407,6 +8417,7 @@ version = 3
     "libaio",
     "libarchive",
     "libasan",
+    "libassuan",
     "libatomic",
     "libattr",
     "libbabeltrace",
@@ -8429,6 +8440,7 @@ version = 3
     "libdatrie",
     "libdhash",
     "libdnf",
+    "libdrm",
     "libeconf",
     "libedit",
     "libev",
@@ -8446,10 +8458,12 @@ version = 3
     "libicu",
     "libidn2",
     "libini_config",
+    "libjcat",
     "libjpeg-turbo",
     "libkcapi",
     "libkcapi-hasher",
     "libkcapi-hmaccalc",
+    "libksba",
     "libldb",
     "libmaxminddb",
     "libmd",
@@ -8522,6 +8536,7 @@ version = 3
     "libxcrypt",
     "libxcrypt-devel",
     "libxml2",
+    "libxmlb",
     "libyaml",
     "libzstd",
     "linux-firmware",
@@ -8546,6 +8561,7 @@ version = 3
     "man-db",
     "mc",
     "mdadm",
+    "mokutil",
     "mpdecimal",
     "mpfr",
     "mt7xxx-firmware",
@@ -8559,6 +8575,7 @@ version = 3
     "newt",
     "nfs-utils",
     "nftables",
+    "npth",
     "nspr",
     "nss",
     "nss-softokn",
@@ -8668,6 +8685,7 @@ version = 3
     "pkgconf-m4",
     "pkgconf-pkg-config",
     "policycoreutils",
+    "polkit-libs",
     "popt",
     "procps-ng",
     "protobuf",
@@ -8752,6 +8770,7 @@ version = 3
     "sg3_utils-libs",
     "shadow-utils",
     "shared-mime-info",
+    "shim-aa64",
     "slang",
     "smartmontools",
     "source-highlight",

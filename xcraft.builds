@@ -7,8 +7,9 @@ biosdevname.evr = "0.7.3-6.2"
 biosdevname.requires."biosdevname" = ["glibc", "pciutils-libs"]
 
 # blktap
-blktap.build = 2
-blktap.key = "3fdfe9937cacd031c9ba2fbfa1f96f1223a7d7a0b891fe396b2d07cbecb8e184"
+blktap.build = 1
+blktap.key = "399a9a3f18ea53ad068c0ea2a70e5c0b8b53b03689d5700e9d6350750facc058"
+blktap.accepts = "3756e621245bb0024cff4258db8592153473046838cdf8496e46583f847fe427"
 blktap.evr = "4.0.8-1.4"
 blktap.requires."blktap" = ["bash", "glibc", "libaio", "libuuid", "openssl-libs", "xen-libs", "zlib-ng-compat"]
 blktap.requires."blktap-devel" = ["blktap"]
@@ -78,8 +79,8 @@ guest-templates-json.requires."guest-templates-json-data-pv" = ["guest-templates
 guest-templates-json.requires."guest-templates-json-data-windows" = ["guest-templates-json"]
 
 # host-installer
-host-installer.build = 1
-host-installer.key = "6ccf2b81af92070fa1c4936658e6f693d647103c8e599c86ed092d35693e1c15"
+host-installer.build = 2
+host-installer.key = "f88c7b888527d1ba74b247eb5e90356f165d772d760cc74d83e3ba7bc50d3f1e"
 host-installer.evr = "11.2.0-1.1.4"
 host-installer.requires."host-installer" = ["bash", "python3"]
 host-installer.requires."host-installer-startup" = ["bash"]
@@ -171,8 +172,9 @@ python-opentelemetry.requires."python3-opentelemetry-sdk" = ["python3", "python3
 python-opentelemetry.requires."python3-opentelemetry-semantic-conventions" = ["python3"]
 
 # qemu
-qemu.build = 2
-qemu.key = "1a65f3b386af2ff3a7f04c116d0eda5f354aaf02b5661090fd562d3e08af23ab"
+qemu.build = 1
+qemu.key = "9a4bcac7ef3697c5289af868e7b0a4d597e36140fe170c3d697ff1d1986e8e7b"
+qemu.accepts = "d2328051160d0b31015f2db7b09c8881ccf13f332a4243e2e7823951043119cd"
 qemu.evr = "0:10.1.0-1.5"
 qemu.requires."qemu" = ["glib2", "glibc", "libaio", "libgcc", "libjpeg-turbo", "libpng", "libseccomp", "libselinux", "libusb1", "pixman", "python3", "xen-dom0-libs", "xen-libs", "zlib-ng-compat"]
 
@@ -196,7 +198,7 @@ ssmtp.provides."ssmtp" = ["/usr/sbin/ssmtp"]
 
 # varstored
 varstored.build = 1
-varstored.key = "170c854e844fbdf7a4e8a3c7d5e15122440c6721e6be3b2eac6bae8692592f0e"
+varstored.key = "0276d2b21c4a8a1c992b515d81a3857afce73391662031bc8a0cd85869a6c8ad"
 varstored.evr = "1.3.4-2.5"
 varstored.requires."varstored" = ["glibc", "libseccomp", "libxml2", "openssl-libs", "xen-dom0-libs", "xen-libs"]
 varstored.requires."varstored-tools" = ["glibc", "libseccomp", "libxml2", "openssl-libs"]
@@ -208,14 +210,15 @@ vmss.evr = "1.2.2-1.2"
 vmss.requires."vmss" = ["python3"]
 
 # vncterm
-vncterm.build = 2
-vncterm.key = "ee9a254d8c6d3627a6516107653fe8ddfa84885dd3f4b2b6342444304111c2af"
+vncterm.build = 1
+vncterm.key = "98199f226441641519ba8b5324189c7274b895dd45e42ca0d427af63b0ff00ba"
+vncterm.accepts = "44dd2a02dc3065d3f5f207efbb81263e08e4ee10ce4cc8528208d49545e1cdb1"
 vncterm.evr = "10.2.2-1.2"
 vncterm.requires."vncterm" = ["bash", "glibc", "xen-libs"]
 
 # xapi
 xapi.build = 2
-xapi.key = "dbb1a76ab02f82dacdba58205b078df3b603dc6cbc0c57aed1ce976d1566603f"
+xapi.key = "537da8a7c6d687e2534dbfe1f2a4dd971a84c32aeb432127ecfdf49b7896289d"
 xapi.evr = "26.19.0-2.4"
 xapi.requires."forkexecd" = ["glibc"]
 xapi.requires."forkexecd-devel" = ["forkexecd", "ocaml", "ocaml-runtime", "xapi-idl-devel", "xapi-libs-devel", "xs-opam-repo"]
@@ -251,8 +254,9 @@ xapi.requires."xenopsd-simulator" = ["glibc", "xenopsd"]
 xapi.requires."xenopsd-xc" = ["glibc", "openssl-libs", "xen-dom0-libs", "xenopsd"]
 
 # xcp-clipboardd
-xcp-clipboardd.build = 2
-xcp-clipboardd.key = "422a5b3e4a2a5af1946edf8b3759e99fe861ad9d5115d94fad3db114de2c181c"
+xcp-clipboardd.build = 1
+xcp-clipboardd.key = "e89374cbdb13fcb7f3886546e079224981df113a338bbaec11b8a236e3d5a4c5"
+xcp-clipboardd.accepts = "2c64ad4cd72c77c739b0bb3ba7a07fc723a22b71d67aa0930bc0d3e700b40377"
 xcp-clipboardd.evr = "1.0.3-11"
 xcp-clipboardd.requires."xcp-clipboardd" = ["glibc", "xen-libs"]
 
@@ -263,14 +267,15 @@ xcp-efivar-utils.evr = "1.0.0-2"
 xcp-efivar-utils.requires."xcp-efivar-utils" = ["python3"]
 
 # xcp-emu-manager
-xcp-emu-manager.build = 2
-xcp-emu-manager.key = "2e832402f1694f11e7fd0a701d8547fb1d721add0f191c4b8dfa4acfe0bddb4f"
+xcp-emu-manager.build = 1
+xcp-emu-manager.key = "43e0ea4174afd413b6259e41b370b49e9e91deab18ea500e6d907a70ba7483fb"
+xcp-emu-manager.accepts = "2e832402f1694f11e7fd0a701d8547fb1d721add0f191c4b8dfa4acfe0bddb4f"
 xcp-emu-manager.evr = "1.2.1-4"
 xcp-emu-manager.requires."xcp-emu-manager" = ["glibc", "json-c", "libempserver", "xcp-ng-generic-lib"]
 
 # xcp-featured
 xcp-featured.build = 2
-xcp-featured.key = "b39e254ace08195e41cd066be530fdec20a89f4a74ff9f2565e5bfcf4949879d"
+xcp-featured.key = "e365f6f2f2729afb19d215e5dca1a91d6f6cca7230ed7694f9fa44dcf23d7960"
 xcp-featured.evr = "1.1.8-8"
 xcp-featured.requires."xcp-featured" = ["glibc"]
 
@@ -281,7 +286,7 @@ xcp-ng-config.evr = "0-1.1"
 
 # xcp-ng-deps
 xcp-ng-deps.build = 1
-xcp-ng-deps.key = "93136c55eb51a5388c031d07b7484e662c37d08ca9985d6f9efdc43639b53aa7"
+xcp-ng-deps.key = "abe14aadc4cf2ea7308e4b65ad2f57aa48863aa10fb7293a7e9f4593cf0463b7"
 xcp-ng-deps.evr = "8.99-5"
 
 # xcp-ng-generic-lib
@@ -319,7 +324,7 @@ xcp-python-libs.requires."python3-xcp-libs" = ["python3", "python3-six"]
 
 # xen
 xen.build = 1
-xen.key = "c4c4c7af02e615999de7c42f4c2d31e3180babb59d214bf6f9cd59a85c3ca9b9"
+xen.key = "25f79c381b86c8dd57919c317ce8fce5b32c8616b74f3a0426aba669206a0058"
 xen.evr = "4.21.2-3.8"
 xen.requires."xen-dom0-libs" = ["bzip2-libs", "e2fsprogs-libs", "glibc", "json-c", "libuuid", "libzstd", "lz4-libs", "lzo", "xen-libs", "xz-libs", "zlib-ng-compat"]
 xen.requires."xen-dom0-libs-devel" = ["pkgconf-pkg-config", "xen-dom0-libs", "xen-libs-devel"]
