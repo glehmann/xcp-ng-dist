@@ -3,6 +3,7 @@ From: Corentin Oparowski <corentin.oparowski@vates.tech>
 Date: Sat, 19 Sep 2015 08:09:42 +0200
 Subject: [PATCH] call-kexec-before-offlining-noncrashing-cpus.patch
 
+[ XCP-ng: on x86 only, where Xen has kexec, unlike on arm ]
 
 diff --git a/arch/x86/include/asm/xen/hypercall.h b/arch/x86/include/asm/xen/hypercall.h
 index 2759524b8ffc..b0dad0b4b099 100644
@@ -46,7 +47,7 @@ index a0a17ffe005b..6d9e4c931ed2 100644
  #include <trace/events/error_report.h>
  #include <asm/sections.h>
  
-+#ifdef CONFIG_XEN
++#if defined(CONFIG_XEN) && defined(CONFIG_X86)
 +#include <xen/xen.h>
 +#include <asm/xen/hypercall.h>
 +#include <xen/interface/kexec.h>
@@ -59,7 +60,7 @@ index a0a17ffe005b..6d9e4c931ed2 100644
  	 */
  	kgdb_panic(buf);
  
-+#ifdef CONFIG_XEN
++#if defined(CONFIG_XEN) && defined(CONFIG_X86)
 +	if (xen_initial_domain()) {
 +		xen_kexec_exec_t xke = { KEXEC_TYPE_CRASH };
 +		HYPERVISOR_kexec_op(KEXEC_CMD_kexec, &xke);

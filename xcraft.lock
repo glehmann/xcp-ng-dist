@@ -1242,7 +1242,6 @@ version = 3
 "pyproject-srpm-macros" = "1.23.2-1.el10 noarch 2a327d92cfdfc01777296122434f70f12a360856f8bd729c5e286df0b5701ec7 pyproject-rpm-macros"
 "python-rpm-macros" = "3.12-11.el10 noarch 4de062ca2ee3a839429d82bd51bd95dec89ffb819bfdbe22abb4429285bf637e python-rpm-macros"
 "python-srpm-macros" = "3.12-11.el10 noarch 9407f3815a6838cb1cb4691d623bad32658714b15ee3d98a482741ed3dc51953 python-rpm-macros"
-"python-unversioned-command" = "3.12.16-2.el10_3 noarch c1f822d2dfe6489d06331736dee22dfcd56a38c50d27fa602308d7b6f8f537c0 python3.12"
 "python3" = "3.12.16-2.el10_3 aarch64 2e7b0e27573fbc23fac584cbccb238a21be4915404cd113616e655325ffd3f45 python3.12"
 "python3-astroid" = "3.3.8-1.el10_0 noarch 0a6ef916057e85075f9c098c4a58e2ded80814a58c478af0c1f54f6e7efaa99a python-astroid"
 "python3-attrs" = "23.2.0-7.el10 noarch 933038f53d7726dbc49700c9a4b76fb59d14a723d115d0fadb9acb69212c46e5 python-attrs"
@@ -5900,7 +5899,6 @@ version = 3
     "poppler-data",
     "poppler-glib",
     "python-rpm-macros",
-    "python-unversioned-command",
     "python3-devel",
     "python3-packaging",
     "python3-pip",

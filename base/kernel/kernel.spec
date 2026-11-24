@@ -9,6 +9,21 @@
 %define do_kabichk  %{?_without_kabichk: 0} %{?!_without_kabichk: 1}
 # Default disabled: (to override: --with kabichk)
 #%%define do_kabichk  %%{?_with_kabichk: 1} %%{?!_with_kabichk: 0}
+%ifnarch x86_64
+# Module.kabi is the kABI of x86_64
+%define do_kabichk 0
+%endif
+
+# the configuration, the image and the headers of the architecture
+%ifarch aarch64
+%define kconfig %{SOURCE5}
+%define asmarch arm64
+%define kimage Image.gz
+%else
+%define kconfig %{SOURCE1}
+%define asmarch x86
+%define kimage bzImage
+%endif
 
 #
 # Adjust debuginfo generation to suit building a kernel:
@@ -38,7 +53,7 @@
 Name: kernel-xcpng
 License: GPLv2
 Version: %{usver}
-Release: 8%{dist}
+Release: 9%{dist}
 ExclusiveOS: Linux
 Summary: The Linux kernel
 BuildRequires: kmod
@@ -90,6 +105,7 @@ Requires(posttrans): coreutils, dracut, kmod
 
 Source0: UEK8-6.12.0-206.100.3.1.tar.xz
 Source1: kernel-x86_64.config
+Source5: kernel-aarch64.config
 Source2: macros.kernel
 %if %{do_kabichk}
 Source3: check-kabi
@@ -225,13 +241,13 @@ Provides: python3-perf
 # This affects the vDSO images in vmlinux, and the vmlinux image in bzImage.
 export AFTER_LINK='sh -xc "/usr/lib/rpm/debugedit -b %{buildroot} -d /usr/src/debug -i $@ > $@.id"'
 
-cp -f %{SOURCE1} .config
+cp -f %{kconfig} .config
 # make sure configuration is up to date
 %{?_cov_wrap} make olddefconfig
 # without the versions of the toolchain, which change with its updates
-bash -c 'filter() { grep -v -E "^#|^CONFIG_(CC_VERSION_TEXT|GCC_VERSION|CLANG_VERSION|AS_VERSION|LD_VERSION|LLD_VERSION|RUSTC_VERSION|BINDGEN_VERSION|PAHOLE_VERSION)=" "$1"; }; diff -u <(filter .config) <(filter %{SOURCE1})'
+bash -c 'filter() { grep -v -E "^#|^CONFIG_(CC_VERSION_TEXT|GCC_VERSION|CLANG_VERSION|AS_VERSION|LD_VERSION|LLD_VERSION|RUSTC_VERSION|BINDGEN_VERSION|PAHOLE_VERSION)=" "$1"; }; diff -u <(filter .config) <(filter %{kconfig})'
 
-%{?_cov_wrap} make %{?_smp_mflags} bzImage
+%{?_cov_wrap} make %{?_smp_mflags} %{kimage}
 %{?_cov_wrap} make %{?_smp_mflags} modules
 
 #
@@ -294,7 +310,7 @@ rm                                             tmp-vmlinux-with-btf
 install -d -m 755 %{buildroot}/boot
 install -m 644 .config %{buildroot}/boot/config-%{uname}
 install -m 644 System.map %{buildroot}/boot/System.map-%{uname}
-install -m 644 arch/x86/boot/bzImage %{buildroot}/boot/vmlinuz-%{uname}
+install -m 644 arch/%{asmarch}/boot/%{kimage} %{buildroot}/boot/vmlinuz-%{uname}
 truncate -s 20M %{buildroot}/boot/initrd-%{uname}.img
 ln -sf vmlinuz-%{uname} %{buildroot}/boot/vmlinuz-%{short_uname}-xen
 ln -sf initrd-%{uname}.img %{buildroot}/boot/initrd-%{short_uname}-xen.img
@@ -361,23 +377,26 @@ cp System.map %{buildroot}%{srcpath}
 cp .config %{buildroot}%{srcpath}
 cp -a scripts %{buildroot}%{srcpath}
 find %{buildroot}%{srcpath}/scripts -type f -name '*.o' -delete
+%ifarch x86_64
 cp -a tools/objtool/objtool %{buildroot}%{srcpath}/tools/objtool
+%endif
 cp -a tools/bpf/resolve_btfids/resolve_btfids %{buildroot}%{srcpath}/tools/bpf/resolve_btfids/resolve_btfids
 
-cp -a --parents arch/x86/include %{buildroot}%{srcpath}
+cp -a --parents arch/%{asmarch}/include %{buildroot}%{srcpath}
 cp -a include %{buildroot}%{srcpath}/include
 
 # files for 'make prepare' to succeed with kernel-devel
-cp -a --parents arch/x86/entry/syscalls/syscall_32.tbl %{buildroot}%{srcpath}
 cp -a --parents scripts/syscalltbl.sh %{buildroot}%{srcpath}
 cp -a --parents scripts/syscallhdr.sh %{buildroot}%{srcpath}
+cp -a --parents tools/include/tools/le_byteshift.h %{buildroot}%{srcpath}
+%ifarch x86_64
+cp -a --parents arch/x86/entry/syscalls/syscall_32.tbl %{buildroot}%{srcpath}
 cp -a --parents arch/x86/entry/syscalls/syscall_64.tbl %{buildroot}%{srcpath}
 cp -a --parents arch/x86/tools/relocs_32.c %{buildroot}%{srcpath}
 cp -a --parents arch/x86/tools/relocs_64.c %{buildroot}%{srcpath}
 cp -a --parents arch/x86/tools/relocs.c %{buildroot}%{srcpath}
 cp -a --parents arch/x86/tools/relocs_common.c %{buildroot}%{srcpath}
 cp -a --parents arch/x86/tools/relocs.h %{buildroot}%{srcpath}
-cp -a --parents tools/include/tools/le_byteshift.h %{buildroot}%{srcpath}
 cp -a --parents arch/x86/purgatory/purgatory.c %{buildroot}%{srcpath}
 cp -a --parents arch/x86/purgatory/stack.S %{buildroot}%{srcpath}
 cp -a --parents arch/x86/boot/compressed/string.c %{buildroot}%{srcpath}
@@ -386,6 +405,12 @@ cp -a --parents arch/x86/purgatory/entry64.S %{buildroot}%{srcpath}
 cp -a --parents arch/x86/boot/string.h %{buildroot}%{srcpath}
 cp -a --parents arch/x86/boot/string.c %{buildroot}%{srcpath}
 cp -a --parents arch/x86/boot/ctype.h %{buildroot}%{srcpath}
+%else
+# the Xen headers of arm64 include those of arm, and its cpucaps and sysregs are generated
+cp -a --parents arch/arm/include/asm/xen %{buildroot}%{srcpath}
+cp -a --parents arch/arm/include/asm/opcodes.h %{buildroot}%{srcpath}
+cp -a --parents arch/arm64/tools %{buildroot}%{srcpath}
+%endif
 
 cp -a include/config/auto.conf %{buildroot}%{srcpath}/include/config/
 
@@ -495,6 +520,10 @@ fi
 %{?_cov_results_package}
 
 %changelog
+* Tue Nov 24 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 6.12.0-9
+- Build for aarch64 too, with its configuration: that of x86_64 for the options they share, and UEK's for those of arm64
+- The kexec of Xen and its cpu_policy hypercalls, in the patches, on x86 only, where they are
+
 * Mon Nov 23 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 6.12.0-8
 - Build the same files for the same sources: the date of the changelog as the time of the build, and xcp-ng as its host
 - Keep dwz off whatever the macros of the build environment

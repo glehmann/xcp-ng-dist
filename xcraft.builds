@@ -91,8 +91,8 @@ ipxe.evr = "2.0.0-3"
 
 # kernel
 kernel.build = 1
-kernel.key = "56f6c4dba3afbc2d576a7957207b60ce74c7872eb9db2d9c4db0e1058c418812"
-kernel.evr = "6.12.0-8"
+kernel.key = "5afb9720f6842b96206919ee184477ea8201ed8eff5137fe21216d5fad4172a6"
+kernel.evr = "6.12.0-9"
 kernel.requires."perf-xcpng" = ["bash", "elfutils-libelf", "elfutils-libs", "glibc", "libtraceevent", "libunwind", "libzstd", "perl-interpreter", "python3-libs", "xz-libs", "zlib-ng-compat"]
 kernel.requires."python3-perf-xcpng" = ["elfutils-libelf", "elfutils-libs", "glibc", "libtraceevent", "libunwind", "libzstd", "python3", "python3-libs", "xz-libs", "zlib-ng-compat"]
 

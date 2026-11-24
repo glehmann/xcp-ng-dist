@@ -27,6 +27,8 @@ userspace.
 Signed-off-by: Ross Lagerwall <ross.lagerwall@citrix.com>
 Signed-off-by: Frediano Ziglio <frediano.ziglio@citrix.com>
 
+[ XCP-ng: the cpu_policy hypercalls on x86 only, like their structures ]
+
 [ Corentin: rebase from XS-9 kernel (v6.6.98 based) to UEK8 kernel (v6.12 based):
 - 260017f31a8c `("lsm: use default hook return value in call_int_hook()") simplified the `call_int_hook`
 macro, so align our usage in `security_locked_down_nowarn()`]
@@ -81,7 +83,7 @@ new file mode 100644
 index 000000000000..de1fe5ca1a8a
 --- /dev/null
 +++ b/drivers/xen/filter-hypercall.c
-@@ -0,0 +1,1404 @@
+@@ -0,0 +1,1408 @@
 +// SPDX-License-Identifier: GPL-2.0-only
 +
 +#include <linux/kernel.h>
@@ -816,6 +818,7 @@ index 000000000000..de1fe5ca1a8a
 +			    sizeof(uint8_t)))
 +			goto err;
 +		break;
++#if defined(__i386__) || defined(__x86_64__)
 +	case XEN_DOMCTL_get_cpu_policy:
 +	case XEN_DOMCTL_set_cpu_policy:
 +		if (ptr_bad(op->u.cpu_policy.leaves.p, op->u.cpu_policy.nr_leaves,
@@ -824,6 +827,7 @@ index 000000000000..de1fe5ca1a8a
 +			    sizeof(xen_msr_entry_t)))
 +			goto err;
 +		break;
++#endif
 +	case XEN_DOMCTL_numa_op:
 +		switch (op->u.numa_op.op) {
 +		case XEN_DOMCTL_NUMA_OP_GET_NODE_PAGES:
@@ -1077,6 +1081,7 @@ index 000000000000..de1fe5ca1a8a
 +			    sizeof(uint32_t)))
 +			goto err;
 +		break;
++#if defined(__i386__) || defined(__x86_64__)
 +	case XEN_SYSCTL_get_cpu_policy:
 +		if (ptr_bad(op->u.cpu_policy.leaves.p,
 +			    op->u.cpu_policy.nr_leaves,
@@ -1085,6 +1090,7 @@ index 000000000000..de1fe5ca1a8a
 +			    sizeof(xen_msr_entry_t)))
 +			goto err;
 +		break;
++#endif
 +	case XEN_SYSCTL_livepatch_op:
 +		switch (op->u.livepatch.cmd) {
 +		case XEN_SYSCTL_LIVEPATCH_UPLOAD:
