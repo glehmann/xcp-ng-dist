@@ -45,8 +45,8 @@ edk2.key = "9285a5c76f65eb301de40cb40b5adce698089a9dcfb1a2c334e80439d0502a54"
 edk2.evr = "202602-1.3"
 
 # grub
-grub.build = 1
-grub.key = "d7b4c1f26f42e698b068781e02a4c077ab6f202ae7d5a94c9ae491fb335d361a"
+grub.build = 2
+grub.key = "dddc225bce936cc1130cadd578e259feada9c454eea91025358043e512cfc4a5"
 grub.evr = "1:2.12-21"
 grub.requires."grub2-common" = ["bash"]
 grub.requires."grub2-efi-ia32" = ["grub2-common", "grub2-tools", "grub2-tools-minimal"]

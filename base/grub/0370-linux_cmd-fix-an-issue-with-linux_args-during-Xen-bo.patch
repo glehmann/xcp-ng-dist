@@ -1,0 +1,93 @@
+From 390658d67a4bc4a206887bb7e36d191025405aff Mon Sep 17 00:00:00 2001
+From: Fedora Ninjas <grub2-owner@fedoraproject.org>
+Date: Tue, 24 Nov 2026 17:45:44 +0100
+Subject: [PATCH 370/371] linux_cmd: fix an issue with linux_args during Xen
+ boot
+
+In case of Xen boot linux_args isn't set and is set only in case of
+Linux kernel boot what leads to NULL derefence during Xen boot
+prepartions.
+
+To avoid that, move the conversion of the command line out of
+finalize_params_linux(), into the boot of the Linux kernel, which is the
+only one using linux_args: the Xen boot sets the command line of Xen
+itself, see grub_arch_efi_linux_boot_image_v2().
+
+Adapted to grub 2.12, where the arm64 loader became the EFI one,
+grub-core/loader/efi/linux.c, from Oleksii's patch for 2.06.
+---
+ grub-core/loader/efi/linux.c | 42 ++++++++++++++++--------------------
+ 1 file changed, 19 insertions(+), 23 deletions(-)
+
+diff --git a/grub-core/loader/efi/linux.c b/grub-core/loader/efi/linux.c
+index efceb9b..8952f45 100644
+--- a/grub-core/loader/efi/linux.c
++++ b/grub-core/loader/efi/linux.c
+@@ -345,8 +345,7 @@ grub_arch_efi_linux_load_image_header (grub_file_t file,
+ static grub_err_t
+ finalize_params_linux (void)
+ {
+-  grub_efi_loaded_image_t *loaded_image = NULL;
+-  int node, retval, len;
++  int node, retval;
+   grub_err_t err = GRUB_ERR_NONE;
+   void *fdt;
+ 
+@@ -402,27 +401,6 @@ finalize_params_linux (void)
+   grub_dprintf ("linux", "Installed/updated FDT configuration table @ %p\n",
+                 fdt);
+ 
+-  /* Convert command line to UCS-2 */
+-  loaded_image = grub_efi_get_loaded_image (grub_efi_image_handle);
+-  if (loaded_image == NULL)
+-    {
+-      err = grub_error(grub_errno, "Failed to install fdt");
+-      goto failure;
+-    }
+-  loaded_image->load_options_size = len =
+-    (grub_strlen (linux_args) + 1) * sizeof (grub_efi_char16_t);
+-  loaded_image->load_options =
+-    grub_efi_allocate_any_pages (GRUB_EFI_BYTES_TO_PAGES (loaded_image->load_options_size));
+-  if (!loaded_image->load_options)
+-    {
+-      err = grub_error(GRUB_ERR_BAD_OS, "failed to create kernel parameters");
+-      goto failure;
+-    }
+-
+-  loaded_image->load_options_size =
+-    2 * grub_utf8_to_utf16 (loaded_image->load_options, len,
+-                           (grub_uint8_t *) linux_args, len, NULL);
+-
+   return GRUB_ERR_NONE;
+ 
+ failure:
+@@ -467,8 +445,26 @@ static grub_err_t
+ grub_linux_boot (void)
+ {
+ #if !defined(__i386__) && !defined(__x86_64__)
++  grub_efi_loaded_image_t *loaded_image;
++  int len;
++
+   if (finalize_params_linux () != GRUB_ERR_NONE)
+     return grub_errno;
++
++  /* Convert command line to UCS-2 */
++  loaded_image = grub_efi_get_loaded_image (grub_efi_image_handle);
++  if (loaded_image == NULL)
++    return grub_error (grub_errno, "Failed to install fdt");
++  loaded_image->load_options_size = len =
++    (grub_strlen (linux_args) + 1) * sizeof (grub_efi_char16_t);
++  loaded_image->load_options =
++    grub_efi_allocate_any_pages (GRUB_EFI_BYTES_TO_PAGES (loaded_image->load_options_size));
++  if (!loaded_image->load_options)
++    return grub_error (GRUB_ERR_BAD_OS, "failed to create kernel parameters");
++
++  loaded_image->load_options_size =
++    2 * grub_utf8_to_utf16 (loaded_image->load_options, len,
++                           (grub_uint8_t *) linux_args, len, NULL);
+ #endif
+ 
+   return grub_arch_efi_linux_boot_image((grub_addr_t)kernel_addr,
+-- 
+2.54.0
+
