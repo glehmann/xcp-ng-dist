@@ -4,11 +4,12 @@
 
 Name:           xcp-ng-generic-lib
 Version:        1.2.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        A library of algorithms, I/O and networking functions
 License:        GPLv3
 URL:            https://github.com/xcp-ng/xcp-ng-generic-lib
 Source0:        https://github.com/xcp-ng/xcp-ng-generic-lib/archive/v%{version}/%{name}-%{version}.tar.gz
+Patch0:         0001-endian-the-byte-order-of-the-compiler-like-on-aarch64.patch
 
 BuildRequires:  cmake3
 BuildRequires:  make
@@ -63,6 +64,9 @@ This package provides documentation and development headers for xcp-ng-generic-l
 %{_libdir}/libxcp-ng-generic.so
 
 %changelog
+* Tue Nov 24 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 1.2.1-3
+- Know the byte order on aarch64 too
+
 * Mon Nov 23 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 1.2.1-2
 - Unpack the sources in a directory without the version, for the compiler cache across versions
 

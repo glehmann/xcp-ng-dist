@@ -1,0 +1,21 @@
+From: Gaëtan Lehmann <gaetan.lehmann@vates.tech>
+Subject: [PATCH] endian: the byte order of the compiler, like on aarch64
+
+The byte order was only known on x86: GCC and Clang define __BYTE_ORDER__
+on all the architectures.
+
+Signed-off-by: Gaëtan Lehmann <gaetan.lehmann@vates.tech>
+---
+--- a/include/xcp-ng/generic/endian.h
++++ b/include/xcp-ng/generic/endian.h
+@@ -33,6 +33,10 @@
+ #if defined(__i386) || defined(__i386__) || defined(_M_IX86) || \
+     defined(__x86_64) || defined(__x86_64__) || defined(__amd64) || defined(_M_X64)
+   #define XCP_BYTE_ORDER XCP_LITTLE_ENDIAN
++#elif defined(__BYTE_ORDER__) && __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
++  #define XCP_BYTE_ORDER XCP_LITTLE_ENDIAN
++#elif defined(__BYTE_ORDER__) && __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__
++  #define XCP_BYTE_ORDER XCP_BIG_ENDIAN
+ #else
+   #error "Unable to set XCP_BYTE_ORDER."
+ #endif
