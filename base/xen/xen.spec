@@ -218,6 +218,7 @@ Patch2012: 0012-xen-arm-report-proper-GIC-version-via-XEN_DOMCTL_get.patch
 Patch2013: 0013-tools-xenguest-create-a-guest-device-tree-for-ARM-do.patch
 Patch2014: 0014-xen-arm-expose-host-SMBIOS-tables-to-the-ACPI-hardwa.patch
 Patch2015: 0015-xen-configs-no-early-printk-in-the-mtcollins-configs.patch
+Patch2016: 0016-xen-arm64-leave-the-VHE-mode-of-the-firmware-in-efi_.patch
 
 ExclusiveArch: %{x86_64} %{arm64}
 

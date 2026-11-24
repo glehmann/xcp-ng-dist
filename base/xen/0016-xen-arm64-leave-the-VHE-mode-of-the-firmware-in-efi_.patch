@@ -1,0 +1,69 @@
+From 72f3bb9afebbc8bd75ac6dd90907900a650d4fdb Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Ga=C3=ABtan=20Lehmann?= <gaetan.lehmann@vates.tech>
+Date: Tue, 24 Nov 2026 19:03:20 +0100
+Subject: [PATCH] xen/arm64: leave the VHE mode of the firmware in
+ efi_xen_start
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+A UEFI firmware running at EL2 on a CPU with FEAT_VHE may run with
+HCR_EL2.E2H and HCR_EL2.TGE set, like EDK2 under QEMU with
+-cpu neoverse-n1 or -cpu max, and leave them so when it starts Xen.
+Xen runs at EL2 without VHE: with E2H set, the EL2 registers it sets up,
+like TCR_EL2, have the layout of their EL1 counterparts, and its page
+tables are wrong once enable_mmu turns the MMU on. The CPU then faults on
+its next instruction fetch, and loops on the vector of the firmware,
+which is not mapped anymore: Xen hangs silently.
+
+Clear E2H and TGE in efi_xen_start, once the MMU is off, as the page
+table descriptors are interpreted differently too: like Linux, see
+commit 34e526cb7d46 ("arm64/head: Disable MMU at EL2 before clearing
+HCR_EL2.E2H").
+
+Signed-off-by: Gaëtan Lehmann <gaetan.lehmann@vates.tech>
+---
+ xen/arch/arm/arm64/head.S            | 14 ++++++++++++++
+ xen/arch/arm/include/asm/processor.h |  1 +
+ 2 files changed, 15 insertions(+)
+
+diff --git a/xen/arch/arm/arm64/head.S b/xen/arch/arm/arm64/head.S
+index 72c7b24..cab3f84 100644
+--- a/xen/arch/arm/arm64/head.S
++++ b/xen/arch/arm/arm64/head.S
+@@ -542,6 +542,20 @@ FUNC(efi_xen_start)
+         msr   sctlr_el2, x0
+         isb
+ 
++        /*
++         * Leave the VHE mode the firmware may run in, like EDK2 on a CPU
++         * with FEAT_VHE, with HCR_EL2.E2H and TGE set: Xen runs at EL2
++         * without it, and the EL2 registers it sets up, like TCR_EL2, have
++         * another layout with E2H set, which makes its page tables wrong once
++         * the MMU is enabled. Cleared with the MMU off, as the page table
++         * descriptors are interpreted differently too.
++         */
++        mrs   x0, hcr_el2
++        bic   x0, x0, #HCR_E2H
++        bic   x0, x0, #HCR_TGE
++        msr   hcr_el2, x0
++        isb
++
+         /* Jump to Xen entry point */
+         mov   x0, x20
+         mov   x1, xzr
+diff --git a/xen/arch/arm/include/asm/processor.h b/xen/arch/arm/include/asm/processor.h
+index 25c5762..6ac7990 100644
+--- a/xen/arch/arm/include/asm/processor.h
++++ b/xen/arch/arm/include/asm/processor.h
+@@ -269,6 +269,7 @@
+ #endif
+ 
+ /* HCR Hyp Configuration Register */
++#define HCR_E2H         (_AC(1,UL)<<34) /* EL2 Host, VHE, ARM64 only */
+ #define HCR_RW          (_AC(1,UL)<<31) /* Register Width, ARM64 only */
+ #define HCR_TGE         (_AC(1,UL)<<27) /* Trap General Exceptions */
+ #define HCR_TVM         (_AC(1,UL)<<26) /* Trap Virtual Memory Controls */
+-- 
+2.54.0
+
