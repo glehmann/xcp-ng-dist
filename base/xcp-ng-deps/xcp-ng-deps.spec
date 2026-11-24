@@ -1,6 +1,6 @@
 Name:           xcp-ng-deps
 Version:        8.99
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        A meta package pulling all needed dependencies for XCP-ng
 # License covers this spec file
 License:        GPLv2
@@ -15,11 +15,12 @@ Requires: xcp-ng-release-config
 Requires: bzip2
 Requires: cronie-noanacron
 # Requires: gdisk
-%ifarch aarch64
+# a noarch package: %ifarch tests the noarch target, %{_arch} the architecture of the build
+%if "%{_arch}" == "aarch64"
 Requires: grub2-efi-aa64
 Requires: grub2-efi-aa64-modules
+Requires: shim-aa64
 %else
-# FIXME this should indeed be "%%ifarch x86_64" except it does not work
 Requires: grub2-efi-x64
 Requires: grub2-efi-x64-modules
 Requires: shim-x64
@@ -193,6 +194,9 @@ fi
 %files
 
 %changelog
+* Tue Nov 24 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 8.99-4
+- Require the boot packages of the architecture: %ifarch tests the noarch target
+
 * Thu Nov 12 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 8.99-3
 - Fix the day of a changelog entry
 

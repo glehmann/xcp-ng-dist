@@ -271,9 +271,9 @@ xcp-ng-config.key = "43c96002bf9d89053534bca40b6203139ce9330a3be19a76fd808490da1
 xcp-ng-config.evr = "0-1.1"
 
 # xcp-ng-deps
-xcp-ng-deps.build = 4
-xcp-ng-deps.key = "0e78b5c24c057862d2f6a4100ec329775963bc0ac455b5d61012d8ba67d812d3"
-xcp-ng-deps.evr = "8.99-3"
+xcp-ng-deps.build = 1
+xcp-ng-deps.key = "90c8cebe91c9b472e162e80ff5584d111d950485f91b169a5dbdd6e96e649116"
+xcp-ng-deps.evr = "8.99-4"
 
 # xcp-ng-generic-lib
 xcp-ng-generic-lib.build = 1
