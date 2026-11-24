@@ -186,9 +186,9 @@ ssmtp.requires."ssmtp" = ["glibc", "openssl-libs"]
 ssmtp.provides."ssmtp" = ["/usr/sbin/ssmtp"]
 
 # varstored
-varstored.build = 2
-varstored.key = "1aeba8c2d4c53448dc1686a86f3c30764795a6914de40b50be3eb43f26b4afb9"
-varstored.evr = "1.3.4-2.4"
+varstored.build = 1
+varstored.key = "d47dd4177c713273e090910ed48f913bd7c56620268d4b223c63341b82ff3d1a"
+varstored.evr = "1.3.4-2.5"
 varstored.requires."varstored" = ["glibc", "libseccomp", "libxml2", "openssl-libs", "xen-dom0-libs", "xen-libs"]
 varstored.requires."varstored-tools" = ["glibc", "libseccomp", "libxml2", "openssl-libs"]
 
@@ -272,8 +272,8 @@ xcp-ng-config.evr = "0-1.1"
 
 # xcp-ng-deps
 xcp-ng-deps.build = 1
-xcp-ng-deps.key = "90c8cebe91c9b472e162e80ff5584d111d950485f91b169a5dbdd6e96e649116"
-xcp-ng-deps.evr = "8.99-4"
+xcp-ng-deps.key = "93136c55eb51a5388c031d07b7484e662c37d08ca9985d6f9efdc43639b53aa7"
+xcp-ng-deps.evr = "8.99-5"
 
 # xcp-ng-generic-lib
 xcp-ng-generic-lib.build = 1

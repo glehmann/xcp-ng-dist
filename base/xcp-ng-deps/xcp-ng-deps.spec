@@ -1,6 +1,6 @@
 Name:           xcp-ng-deps
 Version:        8.99
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        A meta package pulling all needed dependencies for XCP-ng
 # License covers this spec file
 License:        GPLv2
@@ -106,8 +106,11 @@ Requires: mdadm
 Requires: nfs-utils
 Requires: rrdd-plugins
 Requires: sm-cli
+%if "%{_arch}" == "x86_64"
+# the UEFI variables of the x86 HVM guests
 Requires: varstored
 Requires: varstored-tools
+%endif
 Requires: vncterm
 # Requires: vncsnapshot
 # Requires: wsproxy
@@ -194,6 +197,9 @@ fi
 %files
 
 %changelog
+* Tue Nov 24 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 8.99-5
+- Require varstored on x86_64 only
+
 * Tue Nov 24 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 8.99-4
 - Require the boot packages of the architecture: %ifarch tests the noarch target
 

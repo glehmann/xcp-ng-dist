@@ -4,10 +4,12 @@
 Name: varstored
 Summary: EFI Variable Storage Daemon
 Version: 1.3.4
-Release: %{?xsrel}.4%{?dist}
+Release: %{?xsrel}.5%{?dist}
 
 License: BSD
 Source0: varstored-1.3.4.tar.gz
+# the UEFI variables of the x86 HVM guests, for OVMF, through I/O ports
+ExclusiveArch: %{x86_64}
 
 # XCP-ng: we have a different generation logic for auth files
 # varstored expects a self-signed PK.auth
@@ -181,6 +183,9 @@ make %{?_smp_mflags} check
 
 
 %changelog
+* Tue Nov 24 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 1.3.4-2.5
+- Built for x86_64 only: the UEFI variables of the x86 HVM guests
+
 * Mon Nov 23 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 1.3.4-2.4
 - Unpack the sources in a directory without the version, for the compiler cache across versions
 
