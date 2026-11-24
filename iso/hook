@@ -4,9 +4,11 @@ environment, ``hook <stage> <dir> <config>``, see xcraft/buildenv/iso.py of xcra
 
 ``installimg``, on the root of install.img: the installer, its units and its branding. ``tree``, on the tree of the
 ISO: Xen, the boot loaders' configurations of host-installer, the branding, and the description of its repository.
+The ISO of aarch64 boots with UEFI only, Xen by grub's xen_boot.
 """
 
 import json
+import re
 import shutil
 import subprocess
 import sys
@@ -15,6 +17,9 @@ import time
 from pathlib import Path
 
 SYSLINUX = Path("/usr/share/syslinux")
+ARM_XEN = "dom0_mem=2048M dom0_max_vcpus=4 console=dtuart"
+"""The options of Xen on arm64, rather than those of x86 of host-installer's entries: no ranges of dom0, and the console
+of the device tree, or of ACPI's SPCR."""
 
 
 def extract(package: str, *patterns: str) -> Path:
@@ -60,7 +65,7 @@ def installimg(root: Path) -> None:
 
 def boot_params(tree: Path, param: str) -> None:
     """Add `param` to the kernel command line of all the entries of the boot loaders."""
-    for cfg in [tree / "boot/isolinux/isolinux.cfg", *(tree / "EFI/BOOT").glob("*.cfg")]:
+    for cfg in [*(tree / "boot/isolinux").glob("isolinux.cfg"), *(tree / "EFI/BOOT").glob("*.cfg")]:
         cfg.write_text(cfg.read_text().replace("/vmlinuz", f"/vmlinuz {param}"))
 
 
@@ -81,16 +86,32 @@ def repository(tree: Path, branding: dict[str, str]) -> None:
     treeinfo.write_text(text)
 
 
+def arm_grub(text: str) -> str:
+    """Return host-installer's grub.cfg, of x86, for arm64: Xen loaded by grub's xen_boot, with its options there, and
+    without memtest86+, of x86 only. Dom0's console is the serial one only: it has no framebuffer under Xen on arm64,
+    and the installer runs once on each console, which install all at the same time with an answer file.
+    """
+    text = re.sub(r'\nmenuentry "memtest" \{[^}]*\}\n', "\n", text)
+    text = re.sub(r"multiboot2 /boot/xen\.efi[^\n]*", f"xen_hypervisor /boot/xen {ARM_XEN}", text)
+    return text.replace("module2 ", "xen_module ").replace("console=hvc0 console=tty0", "console=hvc0")
+
+
 def iso_tree(tree: Path) -> None:
     """Add Xen, the boot loaders' configurations and the branding to the tree of the ISO."""
     boot = tree / "boot"
+    arm = config.get("arch") == "aarch64"
     # the debug builds of the hypervisor, like XenServer, for a more useful xl dmesg when something goes wrong
-    shutil.copy2(one(extract("xen-hypervisor-elf", "./boot/*") / "boot", "xen-*-d.gz"), boot / "xen.gz")
-    shutil.copy2(SYSLINUX / "mboot.c32", boot / "isolinux")
-    # for PXE boot, where XCP-ng 8 had them
-    (boot / "pxelinux").mkdir(exist_ok=True)
-    for name in ("pxelinux.0", "ldlinux.c32", "libcom32.c32", "libutil.c32", "mboot.c32", "menu.c32"):
-        shutil.copy2(SYSLINUX / name, boot / "pxelinux")
+    if arm:
+        # the image of Xen, not compressed, which xen_boot loads
+        shutil.copy2(one(extract("xen-hypervisor", "./boot/*") / "boot", "xen-*-d"), boot / "xen")
+        shutil.rmtree(boot / "isolinux")  # of the templates, for the BIOS of x86
+    else:
+        shutil.copy2(one(extract("xen-hypervisor-elf", "./boot/*") / "boot", "xen-*-d.gz"), boot / "xen.gz")
+        shutil.copy2(SYSLINUX / "mboot.c32", boot / "isolinux")
+        # for PXE boot, where XCP-ng 8 had them
+        (boot / "pxelinux").mkdir(exist_ok=True)
+        for name in ("pxelinux.0", "ldlinux.c32", "libcom32.c32", "libutil.c32", "mboot.c32", "menu.c32"):
+            shutil.copy2(SYSLINUX / name, boot / "pxelinux")
     branding_dir = extract("branding-xcp-ng", "./usr/src/branding/*") / "usr/src/branding"
     for name in ("EULA", "LICENSES"):
         shutil.copy2(branding_dir / name, tree)
@@ -102,8 +123,9 @@ def iso_tree(tree: Path) -> None:
     grub = extract("host-installer-bootloader", "./EFI/almalinux/*") / "EFI/almalinux"
     # with grub-usb.cfg for efiboot.img, which some firmwares take for the root, finding the ISO's files by install.img
     for name, dest in (("grub.cfg", "grub.cfg"), ("grub-usb.cfg", "efiboot.cfg")):
+        text = (grub / name).read_text()
         # our xen.efi has no multiboot2 header, unlike XenServer's: grub boots the ELF one
-        (tree / "EFI/BOOT" / dest).write_text((grub / name).read_text().replace("/boot/xen.efi", "/boot/xen.gz"))
+        (tree / "EFI/BOOT" / dest).write_text(arm_grub(text) if arm else text.replace("/boot/xen.efi", "/boot/xen.gz"))
     if config["netinstall"]:
         (tree / ".treeinfo").unlink()
         boot_params(tree, "netinstall")

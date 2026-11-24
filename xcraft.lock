@@ -725,6 +725,7 @@ version = 3
 "dnf-plugins-core" = "4.7.0-12.el10 noarch 72857314d1f7014031de86c0233e0fcbe1147681c5e23ec56664a65e7d37c8a2 dnf-plugins-core"
 "docbook-dtds" = "1.0-90.el10_0 noarch 694a9738894c0e53c89dd6138bb4b6ac1bc55fcfbd9a0a8f54eb89519eda624c docbook-dtds"
 "docbook-style-xsl" = "1.79.2-28.el10_0 noarch 0b3abfed4089a673894ec586c20b2ef5de05c038f56190f7a124aaa9751c6513 docbook-style-xsl"
+"dosfstools" = "4.2-12.el10 aarch64 670183e5ea2c3c83b4353a700a6f13a4fe1a7ea9ca3f39429a2f29931db2f6d2 dosfstools"
 "doxygen" = "2:1.13.2-1.el10 aarch64 a8affa96dc6aec54fb4d7ea63bfcfbbe2083be2e05cb18d6c6773076e224d817 doxygen"
 "dpkg" = "1.23.11-2.el10_3 aarch64 5af96b5f0d4850fca9b996c2a63a7ef32ccb394b1e5062835aa3b97a27030fcd dpkg"
 "dpkg-dev" = "1.23.11-2.el10_3 noarch de8b48840171191d1e08a457993e5e0cf1a97c8614d9afdd916914d2edd498be dpkg"
@@ -1026,6 +1027,7 @@ version = 3
 "mercurial" = "6.8.1-2.el10_0 aarch64 048a63bca00d72e98bdca7a87f2f02151a29a5eac488a497701feffa3feb675f mercurial"
 "mpdecimal" = "2.5.1-12.el10 aarch64 b9e107d2b85558e37a77e832200c3235c0c2e902c121f60450141fdaadd77d15 mpdecimal"
 "mpfr" = "4.2.1-8.el10 aarch64 8962a1f5b072ad02de4003626268c0865494a5134bdbd7611abe2461cf133be3 mpfr"
+"mtools" = "4.0.43-7.el10 aarch64 d677a15fd40522c59dfef1ae2bff47386f4e3d8b53d0657cff0380550a88e784 mtools"
 "ncurses" = "6.4-15.20240127.el10_1 aarch64 887130c42a0bb08a3102ad6837d75a7382ecd2e204b3a33e4575070f563d0cc1 ncurses"
 "ncurses-base" = "6.4-15.20240127.el10_1 noarch efc7cace8436b8383bb62c7689de692ca32cfb54f07d50b4c8255faf9d34b82d ncurses"
 "ncurses-c++-libs" = "6.4-15.20240127.el10_1 aarch64 e696b5f0f7cf31d7e3a4f62b9d7a9506ad701eab2671bce98f000b3da92b2d74 ncurses"
@@ -8352,6 +8354,15 @@ version = 3
 ]
 
 [iso]  # the upstream binary packages of the tools making the ISO, but the image's
+"aarch64" = [
+    "dosfstools",
+    "kmod",
+    "libburn",
+    "libisoburn",
+    "libisofs",
+    "mtools",
+    "xorriso",
+]
 "x86_64_v2" = [
     "cryptsetup-libs",
     "device-mapper",
