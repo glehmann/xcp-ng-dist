@@ -1,0 +1,60 @@
+From 22c3a8b4b03d8b81188a61a972bcd2215df8bbda Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Ga=C3=ABtan=20Lehmann?= <gaetan.lehmann@vates.tech>
+Date: Tue, 24 Nov 2026 18:06:21 +0100
+Subject: [PATCH] xen/configs: no early printk in the mtcollins configs
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+The early printk writes to the UART at the address the build gives, the
+one of the Ampere Mt. Collins, 0x100002600000: on any other machine,
+like QEMU's virt, whose PL011 is at 0x9000000, Xen faults on its first
+early message, in asm_puts. As Kconfig says, early printk should not be
+enabled for Xens that are intended to be portable: the console of the
+device tree or ACPI, console=dtuart, takes over once Xen is up.
+
+Signed-off-by: Gaëtan Lehmann <gaetan.lehmann@vates.tech>
+---
+ buildconfigs/config-debug-mtcollins   | 7 -------
+ buildconfigs/config-release-mtcollins | 7 -------
+ 2 files changed, 14 deletions(-)
+
+diff --git a/buildconfigs/config-debug-mtcollins b/buildconfigs/config-debug-mtcollins
+index cc0e708..489ccf1 100644
+--- a/buildconfigs/config-debug-mtcollins
++++ b/buildconfigs/config-debug-mtcollins
+@@ -35,13 +35,6 @@ CONFIG_SCRUB_DEBUG=y
+ #
+ 
+ CONFIG_VERBOSE_DEBUG=y
+-CONFIG_EARLY_UART_CHOICE_PL011=y
+-CONFIG_EARLY_UART_PL011=y
+-CONFIG_EARLY_PRINTK=y
+-CONFIG_EARLY_UART_BASE_ADDRESS=0x100002600000
+-CONFIG_EARLY_UART_PL011_BAUD_RATE=0
+-CONFIG_EARLY_UART_PL011_MMIO32=y
+-CONFIG_EARLY_PRINTK_INC="debug-pl011.inc"
+ CONFIG_HAS_PL011=y
+ CONFIG_EXPERT=y
+ CONFIG_ACPI=y
+diff --git a/buildconfigs/config-release-mtcollins b/buildconfigs/config-release-mtcollins
+index a13c279..6aac757 100644
+--- a/buildconfigs/config-release-mtcollins
++++ b/buildconfigs/config-release-mtcollins
+@@ -35,13 +35,6 @@ CONFIG_SCHED_CREDIT=
+ #
+ 
+ CONFIG_VERBOSE_DEBUG=y
+-CONFIG_EARLY_UART_CHOICE_PL011=y
+-CONFIG_EARLY_UART_PL011=y
+-CONFIG_EARLY_PRINTK=y
+-CONFIG_EARLY_UART_BASE_ADDRESS=0x100002600000
+-CONFIG_EARLY_UART_PL011_BAUD_RATE=0
+-CONFIG_EARLY_UART_PL011_MMIO32=y
+-CONFIG_EARLY_PRINTK_INC="debug-pl011.inc"
+ CONFIG_HAS_PL011=y
+ CONFIG_EXPERT=y
+ CONFIG_ACPI=y
+-- 
+2.54.0
+
