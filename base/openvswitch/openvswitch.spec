@@ -42,6 +42,9 @@
 %bcond_without libcapng
 # option to build with ipsec support
 %bcond_without ipsec
+# XCP-ng: option to build with DPDK, statically linked into ovs-vswitchd, which XCP-ng does not use, nor XenServer:
+# without, OVS is built once, shared
+%bcond_with dpdk
 
 # Build python2 (that provides python) and python3 subpackages on Fedora
 # Build only python3 (that provides python) subpackage on RHEL8
@@ -59,7 +62,7 @@ Summary: Open vSwitch
 Group: System Environment/Daemons daemon/database/utilities
 URL: http://www.openvswitch.org/
 Version: 3.7.1
-Release: 3.5%{?dist}
+Release: 3.6%{?dist}
 
 # Nearly all of openvswitch is ASL 2.0.  The bugtool is LGPLv2+, and the
 # lib/sflow*.[ch] files are SISSL
@@ -71,10 +74,11 @@ License: ASL 2.0 and LGPLv2+ and SISSL
 %define dpdksver %(echo %{dpdkver} | cut -d. -f-2)
 # NOTE: DPDK does not currently build for s390x
 # DPDK on aarch64 is not stable enough to be enabled in FDP
-%if 0%{?rhel} > 7 || 0%{?fedora}
+%if %{with dpdk} && (0%{?rhel} > 7 || 0%{?fedora})
 %define dpdkarches x86_64 ppc64le
 %else
-%define dpdkarches
+# no architecture: %ifarch needs one
+%define dpdkarches none
 %endif
 
 %define ovsver 3.7.1
@@ -86,7 +90,9 @@ Source: https://github.com/openvswitch/ovs/archive/v%{ovsver}.tar.gz#/openvswitc
 %endif
 Source2: openvswitch.sysusers
 Source3: openvswitch-hugetlbfs.sysusers
+%if %{with dpdk}
 Source10: https://fast.dpdk.org/rel/dpdk-%{dpdkver}.tar.xz
+%endif
 
 %define docutilsver 0.12
 %define pygmentsver 1.4
@@ -107,7 +113,9 @@ Patch1003: CP-23607-Inject-multicast-query-messages-on-bond-por.patch
 # The DPDK is designed to optimize througput of network traffic using, among
 # other techniques, carefully crafted assembly instructions.  As such it
 # needs extensive work to port it to other architectures.
+%if %{with dpdk}
 ExclusiveArch: x86_64 aarch64 ppc64le s390x
+%endif
 
 # FIXME Sphinx is used to generate some manpages, unfortunately, on RHEL, it's
 # in the -optional repository and so we can't require it directly since RHV
@@ -247,9 +255,9 @@ This package provides IPsec tunneling support for OVS tunnels.
 
 %prep
 %if 0%{?commit:1}
-%setup -q -n %{name} -C -a 10
+%setup -q -n %{name} -C %{?with_dpdk:-a 10}
 %else
-%setup -q -n %{name} -C -a 10
+%setup -q -n %{name} -C %{?with_dpdk:-a 10}
 %endif
 %if ! %{external_sphinx}
 %if 0%{?commit:1}
@@ -266,7 +274,9 @@ This package provides IPsec tunneling support for OVS tunnels.
 %endif
 %endif
 
+%if %{with dpdk}
 mv dpdk-*/ %{dpdkdir}/
+%endif
 
 %if 0%{?PATCH0:1}%{!?PATCH0:0}
 %patch -P0 -p1
@@ -445,7 +455,7 @@ cd -
 %endif
 
 # And now for OVS...
-mkdir build-shared build-static
+mkdir build-shared %{?with_dpdk:build-static}
 pushd build-shared
 ln -s ../configure
 %configure \
@@ -463,6 +473,7 @@ ln -s ../configure
         --with-version-suffix=-%{source_release}
 make %{?_smp_mflags}
 popd
+%if %{with dpdk}
 pushd build-static
 ln -s ../configure
 %ifarch %{dpdkarches}
@@ -484,16 +495,21 @@ PKG_CONFIG_PATH=%{_builddir}/dpdk-build/%{_lib}/pkgconfig \
         --with-version-suffix=-%{source_release}
 make %{?_smp_mflags}
 popd
+%endif
 
 /usr/bin/python3 build-aux/dpdkstrip.py \
-        --dpdk \
+        %{?with_dpdk:--dpdk}%{!?with_dpdk:--nodpdk} \
         < rhel/usr_lib_systemd_system_ovs-vswitchd.service.in \
         > rhel/usr_lib_systemd_system_ovs-vswitchd.service
 
 %install
 rm -rf $RPM_BUILD_ROOT
+%if %{with dpdk}
 make -C build-shared install sbin_PROGRAMS=ovsdb/ovsdb-server DESTDIR=$RPM_BUILD_ROOT
 make -C build-static install bin_PROGRAMS= sbin_PROGRAMS=vswitchd/ovs-vswitchd DESTDIR=$RPM_BUILD_ROOT
+%else
+make -C build-shared install DESTDIR=$RPM_BUILD_ROOT
+%endif
 
 install -d -m 0755 $RPM_BUILD_ROOT%{_rundir}/openvswitch
 install -d -m 0750 $RPM_BUILD_ROOT%{_localstatedir}/log/openvswitch
@@ -600,7 +616,7 @@ rm -f $RPM_BUILD_ROOT%{_includedir}/ovn/*
 
 %check
 %if %{with check}
-    pushd build-static
+    pushd %{?with_dpdk:build-static}%{!?with_dpdk:build-shared}
     touch resolv.conf
     export OVS_RESOLV_CONF=$(pwd)/resolv.conf
     if make check TESTSUITEFLAGS='%{_smp_mflags}' ||
@@ -612,7 +628,7 @@ rm -f $RPM_BUILD_ROOT%{_includedir}/ovn/*
     popd
 %endif
 %if %{with check_datapath_kernel}
-    pushd build-static
+    pushd %{?with_dpdk:build-static}%{!?with_dpdk:build-shared}
     if make check-kernel RECHECK=yes; then :;
     else
         cat tests/system-kmod-testsuite.log
@@ -811,6 +827,9 @@ exit 0
 %endif
 
 %changelog
+* Tue Nov 24 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 3.7.1-3.6
+- Build without DPDK, which XCP-ng does not use, once rather than twice: --with dpdk builds it as before
+
 * Mon Nov 23 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 3.7.1-3.5
 - Version the programs with the release without the number of the build, the same for the same sources
 - Unpack the sources in a directory without the version, for the compiler cache across versions

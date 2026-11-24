@@ -316,12 +316,10 @@ version = 3
 "mailcap" = "2.1.54-8.el10"
 "make" = "4.4.1-9.el10"
 "man-db" = "2.12.0-10.el10"
-"man-pages" = "6.06-13.el10_2"
 "mc" = "4.8.31-3.el10"
 "mdadm" = "4.4-4.el10_3.1"
 "memtest86+" = "7.00-8.el10"
 "mercurial" = "6.8.1-2.el10_0"
-"meson" = "1.7.2-1.el10.alma.1"
 "mokutil" = "0.7.2-7.el10_3.alma.1"
 "mpdecimal" = "2.5.1-12.el10"
 "mpfr" = "4.2.1-8.el10"
@@ -507,7 +505,6 @@ version = 3
 "protobuf-c" = "1.5.0-6.el10"
 "psmisc" = "23.6-8.el10"
 "publicsuffix-list" = "20240107-5.el10"
-"pyelftools" = "0.30-7.el10"
 "pygobject3" = "3.46.0-7.el10"
 "pylint" = "3.3.3-1.el10_0"
 "pyparsing" = "3.1.1-7.el10"
@@ -1664,7 +1661,6 @@ version = 3
 "iftop" = "1.0-0.34.pre4.el10_0.alma_altarch x86_64_v2 67257ed33d9df4b5d91fb259d82a37b995275237ca984e94df527f4d94614aa5 iftop"
 "ima-evm-utils" = "1.6.2-6.el10 x86_64_v2 d3ac63fb897f25cd27b8efc68495128efcf718f822c9990f5eec957693face54 ima-evm-utils"
 "imath" = "3.1.10-4.el10 x86_64_v2 62d6f930c3603288fa09e0d61f75481753457e7dc1a183aac68fa69e3908ad10 imath"
-"infiniband-diags" = "1:61.0-2.el10_2 x86_64_v2 ada77039c2d7ad8bd1f74b0546ceb693695a03d17f06d61dbf367204f8aa79ee rdma-core"
 "info" = "7.1-6.el10 x86_64_v2 00c7a0e7ff17a7e3fa6f31cdc8e1be2a6ccde49c2d422e6828e92dba8cd84e0f texinfo"
 "inih" = "58-3.el10 x86_64_v2 3610dddeac847924b93d9ddc38b65f30604b569c5cd5ad8f6780d4b593d7ae94 inih"
 "initscripts" = "10.26-2.el10 x86_64_v2 bee6ba4dc36ccc650090ac38b51aaf0ed2fb0402d382b03a2b9eb1ada8a2a992 initscripts"
@@ -1737,15 +1733,12 @@ version = 3
 "libXrender-devel" = "0.9.11-8.el10_3.1 x86_64_v2 0d6cde5a1a4778469a6f1dd8cf58d5e1bd72c0920040ca653830190767464158 libXrender"
 "libXt" = "1.3.0-5.el10 x86_64_v2 8cda6fb244a9f576f794f4469f37c5aab03202e0c61c7d1d9ef907bec839d7fb libXt"
 "libacl" = "2.4.0-2.el10 x86_64_v2 da486f671ecc95885780117de1bba316493de560c01f958c3010702ae91b62af acl"
-"libacl-devel" = "2.4.0-2.el10 x86_64_v2 d815f25680e9511b40fcef04ee21eb89bc0483875ed3c42d511ab759a7c6c259 acl"
 "libaio" = "0.3.112-1.el10 x86_64_v2 4861c30dec2d1b364abd4cb464761e174d8a0012ef5b6f86089da5ea6d67670b libaio"
 "libaio-devel" = "0.3.112-1.el10 x86_64_v2 0505cf6876ee8e266707bcfef44584bf498158352f0cd5d956a01a2a9bb14a20 libaio"
 "libappstream-glib" = "0.8.3-3.el10 x86_64_v2 089667bfc8ba6de44e2c078bc9fe1a9de064708e39225e0b2c48e25d6311c3ac libappstream-glib"
 "libarchive" = "3.7.7-11.el10_2 x86_64_v2 92bbcc0e7db1aee3ab3b3364d50aa29cd55fcb51419a693455b63b01b650579d libarchive"
-"libarchive-devel" = "3.7.7-11.el10_2 x86_64_v2 f216da10afe7b41dc9fd389d30ab8e975d1bb88c49db04651caa41b7b98b3253 libarchive"
 "libassuan" = "2.5.6-6.el10 x86_64_v2 973a9407ad42671e06b77c224f71b136a214f3e7e490e2085834226e7ff135cd libassuan"
 "libattr" = "2.6.0-2.el10 x86_64_v2 eb843d7878e4f7cf34c6031a826a371ed7254ee05dff013198a10dedf04774ed attr"
-"libattr-devel" = "2.6.0-2.el10 x86_64_v2 8e5d19a15f393c7fef85f9db042d4e6323dec3e1993119262bce17bfbf5305c9 attr"
 "libbabeltrace" = "1.5.11-9.el10 x86_64_v2 9aa05d297ac2140ccd73c3fe4cd54546472a79616fe0c6b4c60a0ce0bcba2f5f babeltrace"
 "libbasicobjects" = "0.1.1-58.el10 x86_64_v2 e65c6957c022be2150e69e07066e42fcfa8fc85d119e14a49766b3152b77fda8 ding-libs"
 "libblkid" = "2.40.2-24.el10_3.24 x86_64_v2 a9b98ee5c744ed750cb79a8199433857814bc2f2a333c7ffa34806a491409c5f util-linux"
@@ -1790,7 +1783,6 @@ version = 3
 "libgomp" = "14.4.1-5.el10_3.alma.3 x86_64_v2 67d8783e25a7ddaf75a8e2463ba596508bd20e63d94c180bf6e3dd65aed4bdfa gcc"
 "libgpg-error" = "1.50-2.el10 x86_64_v2 776c0fb2b4275a9aea6a8c561ff10ec325340e8282ccba9a7fffd7f2df3d8870 libgpg-error"
 "libgs" = "10.02.1-16.el10_2.3 x86_64_v2 6af466b9d56a98b5b50d3104d5ff4da7149d93963bf3cbe8c9fe65e82948f5f5 ghostscript"
-"libibumad" = "1:61.0-2.el10_2 x86_64_v2 543d14a49354769d452f583e1eb501b4ef4a558f30a9eee7f3758dc381f3af39 rdma-core"
 "libibverbs" = "1:61.0-2.el10_2 x86_64_v2 d757ee5ed4528e7fe44ffdbd3218648c394c4d652c77d2c481f062a97e267e4c rdma-core"
 "libicu" = "74.2-5.el10_0 x86_64_v2 9cfd087e77da931ea76af6a825dcb0e29a36bbe11295ad8a8994b121242f5fc8 icu"
 "libicu-devel" = "74.2-5.el10_0 x86_64_v2 fab8ed71b550ef77f5ceb5c4f3017b6720c98548d5e287b1a0c90c8950ae0636 icu"
@@ -1818,7 +1810,6 @@ version = 3
 "libmaxminddb" = "1.9.1-4.el10 x86_64_v2 72147648294e0117653e2ec24698dabf84b165eda3dd23b22321a8be3415dbba libmaxminddb"
 "libmd" = "1.3.0-1.el10_3.alma_altarch x86_64_v2 5791fcceacaf50bebd9861a2aaf71e52334254a109eee7ea4f115a9974322b01 libmd"
 "libmnl" = "1.0.5-7.el10 x86_64_v2 972ffae5b746addc46f61f79700ef1a716d257ecc226ec8e77bb9bbdee3671e4 libmnl"
-"libmnl-devel" = "1.0.5-7.el10 x86_64_v2 82c6169d3ac4fa162143118a11959257fb3c9b08f2efb0eadeda2ce210b94413 libmnl"
 "libmodulemd" = "2.15.0-12.el10 x86_64_v2 b456e569d04cf4352bf04cd32e5fb51b33f879a540b2dd312d61bc6c73a00f41 libmodulemd"
 "libmount" = "2.40.2-24.el10_3.24 x86_64_v2 632cec4f670759b6b03a655b5a557c303e7a2b026a02ea24839b0dfd87c01c21 util-linux"
 "libmount-devel" = "2.40.2-24.el10_3.24 x86_64_v2 6941195b37d69d8965aa9f4018ae7b30e755a1f8fb157ac06582a4463f78574a util-linux"
@@ -1847,7 +1838,6 @@ version = 3
 "libpsl-devel" = "0.21.5-6.el10 x86_64_v2 2780d66e3446e153db427be5d7201248658b4681bc48c162592382e51a59395c libpsl"
 "libpwquality" = "1.4.5-13.el10 x86_64_v2 7337ccf5f75d54c78d5511d0324c518284ad93bb9b4dde82b13cba1e97ec5754 libpwquality"
 "libraqm" = "0.10.1-1.el10_0.alma_altarch x86_64_v2 9086294111123e028dc481cc887eaa4188a34aa9f985e615588f0241183171d4 libraqm"
-"librdmacm" = "1:61.0-2.el10_2 x86_64_v2 044861a79bb6282a9631a687515e8b4dfeeab7bad42fefc15bfceb4e1b211c22 rdma-core"
 "libref_array" = "0.1.5-58.el10 x86_64_v2 a781f443e4f9e1e18dd76268fb6d2eadf7c1cd64d1f2f16e3d1992a917295fb1 ding-libs"
 "librepo" = "1.19.0-1.el10 x86_64_v2 b874591b2410bf2da127799c8fe756081a7dfd91bf862fa4c17f25f0e8f0acf3 librepo"
 "libreswan" = "5.4.1-1.el10_3 x86_64_v2 ed24c42451e714a425a5718204b4fec4c2d611247d819b1a4e3e1b6696be4f45 libreswan"
@@ -1947,12 +1937,10 @@ version = 3
 "mailcap" = "2.1.54-8.el10 noarch 0e6cccb4b9e61ea5384b81ed9cd4b45e862393effd979307105d84f9cd8acd26 mailcap"
 "make" = "1:4.4.1-9.el10 x86_64_v2 6e1dce95ec84dd2f727abb78a936cbd754bd7ecc6c9ce63098c76f01a350121f make"
 "man-db" = "2.12.0-10.el10 x86_64_v2 60bc47bceade8e2a9431cadb3954e36b8526ed11d895613806d951a45987beba man-db"
-"man-pages" = "6.06-13.el10_2 noarch cea91657ee2618c1e3790ffda2533d3d943f838f14cc54ab0d14b4071663d4c3 man-pages"
 "mc" = "1:4.8.31-3.el10 x86_64_v2 94515aa9b364597d83742b048ff24dfc355bb6f678d2a25b9a417bab830d4f1a mc"
 "mdadm" = "4.4-4.el10_3.1 x86_64_v2 dee271f6ad3a3326be76bf40c901990bf9bb03a06a57ec2042e9fbce4b74e7e9 mdadm"
 "memtest86+" = "7.00-8.el10 x86_64_v2 7a9b57c0dd974319bc98478a1d868ea390985757dd4fbbca5312139a497cc84c memtest86+"
 "mercurial" = "6.8.1-2.el10_0.alma_altarch x86_64_v2 ebce46805ece0f0c26a812d5d2b8a2f8e864b1c5ff3a5655a0089d153c9b7e92 mercurial"
-"meson" = "1.7.2-1.el10.alma.1 noarch 184cd0bb4fefbef4c6e51dd2548d89aa5804ed272fe0c1fbe91c9bcdd2f964ed meson"
 "mokutil" = "2:0.7.2-7.el10_3.alma.1 x86_64_v2 903cfa2d4b1e5d799b4974fa010e146438c497bc5f9ee8f46776e02cbbd7f3ae mokutil"
 "mpdecimal" = "2.5.1-12.el10 x86_64_v2 1e21e561aadc58c12e8382792f6273b8c86ebf43ccfca0216ef5866b6cf29398 mpdecimal"
 "mpfr" = "4.2.1-8.el10 x86_64_v2 8c5ca2b563b2208c401c07dd39ad4b49ac5e3db4ea5c475ce114aad4bc6302bf mpfr"
@@ -1980,7 +1968,6 @@ version = 3
 "nss-tools" = "3.124.0-5.el10_0 x86_64_v2 e2a8a86eb46fc4f0eea6819bbc0b240818b3f8e28ed1881a2a6826059a8b8f69 nss"
 "nss-util" = "3.124.0-5.el10_0 x86_64_v2 517d1b4b87533d0bfee5d8350639ace38677c4dfed922de8c197a4aa0de13f45 nss"
 "numactl" = "2.0.19-3.el10 x86_64_v2 403ffa010c28ada29a17476f4e5fd5c1524ad52b188d075aba07700399a62a65 numactl"
-"numactl-devel" = "2.0.19-3.el10 x86_64_v2 1b2f1994bd804d28a97c7f2d3ded833d6f55d1793f36ff69dd73b6f8a336fe7a numactl"
 "numactl-libs" = "2.0.19-3.el10 x86_64_v2 63d47a068bbbba6afaa291816b52a01e0b05c376d20da4c712db365514182235 numactl"
 "nvidia-gpu-firmware" = "20261026-23.5.el10_2 noarch 5e0b6dc6e650513568da728676642a147e4cc2b119b1f258124530aea3801bf2 linux-firmware"
 "nvme-cli" = "2.16-2.el10 x86_64_v2 9f101ed10faacb37ba8425d7e55c1807ea1f45a688f1bdaf9b15587c47e8022a nvme-cli"
@@ -2270,7 +2257,6 @@ version = 3
 "python3-pip-wheel" = "23.3.2-11.el10_2 noarch 38af4bb101b0f4c095687c2234ab5fc35f0656c5fda22767489e960bed454472 python-pip"
 "python3-platformdirs" = "4.2.2-2.el10_0.alma_altarch noarch 5709a7b99ffed2ee82a653a15dbf5b73ea4ad0a59728fcd06bd18577f107b345 python-platformdirs"
 "python3-protobuf" = "3.19.6-15.el10_1 x86_64_v2 35733245df065a974ab212e48d199f2ba2105df649d179f98b9e719e1815ca42 protobuf"
-"python3-pyelftools" = "0.30-7.el10 noarch 3d55af27509a2a5cdc000c9a997913088cf0a8a6eaf6ef5b54a0af7710e8db4a pyelftools"
 "python3-pygments" = "2.18.0-1.el10 noarch 0aa5135cbcd64ca51b1db4c3a093720490c54e5ce0f02ef249356855f1b9133a python-pygments"
 "python3-pylint" = "3.3.3-1.el10_0.alma_altarch noarch 4945e1cd54a42aa53eb894d960c44343db3f8bb4d1d24058e0763d25f15d764e pylint"
 "python3-pyparsing" = "3.1.1-7.el10 noarch bddd7ddda39e05a7ce9430b7407eaf7f832f9145aaa1380acfafb31b927fc904 pyparsing"
@@ -2299,7 +2285,6 @@ version = 3
 "qt6-srpm-macros" = "6.10.1-1.el10 noarch 894de6c329420bfac338492dbd3c77c6100f22775702f395c4d212f082abd6dd qt6"
 "quota" = "1:4.09-10.el10 x86_64_v2 4108ce59627a452ba67de5989d34fd4d7a055400b7f5c3f39e9dd178d175f1ba quota"
 "quota-nls" = "1:4.09-10.el10 noarch 70902646be08b685dbe7c636092c2af98660e0891f60d8298744336c3234826c quota"
-"rdma-core-devel" = "1:61.0-2.el10_2 x86_64_v2 04aa9c2f25ceac6d4671e359798f9bcffbe5b3cdfc0950c729af10ca62ec563c rdma-core"
 "readline" = "8.2-11.el10 x86_64_v2 2f1613b41d576a6177696c3909a193a833fddb70d374ff21d6cf95d3c4ef9c5e readline"
 "realtek-firmware" = "20261026-23.5.el10_2 noarch 29cf3ebdf162af48895ea1d18950482c50ac127746a216629be7b66026b6b5c3 linux-firmware"
 "redhat-rpm-config" = "296-1.el10.alma.2 noarch d8a082597eedfb402afa11285fc1f765a77baa237e968d7ca97bb89091b1cef2 redhat-rpm-config"
@@ -3904,11 +3889,9 @@ version = 3
     "autoconf",
     "automake",
     "avahi-libs",
-    "bzip2-devel",
     "cairo",
     "cairo-gobject",
     "ccache",
-    "cmake-filesystem",
     "cpp",
     "cups-filesystem",
     "cups-libs",
@@ -3941,7 +3924,6 @@ version = 3
     "highway",
     "hiredis",
     "imath",
-    "infiniband-diags",
     "jasper-libs",
     "jbig2dec-libs",
     "jbigkit-libs",
@@ -3958,10 +3940,7 @@ version = 3
     "libXpm",
     "libXrender",
     "libXt",
-    "libacl-devel",
-    "libarchive-devel",
     "libassuan",
-    "libattr-devel",
     "libbrotli",
     "libcap-ng-devel",
     "libdatrie",
@@ -3969,22 +3948,16 @@ version = 3
     "libgcrypt",
     "libgpg-error",
     "libgs",
-    "libibumad",
-    "libibverbs",
     "libijs",
     "libjpeg-turbo",
     "libjxl",
     "libksba",
     "liblerc",
     "liblqr-1",
-    "libmnl",
-    "libmnl-devel",
     "libmpc",
-    "libnl3",
     "libpaper",
     "libpng",
     "libraqm",
-    "librdmacm",
     "librsvg2",
     "libstdc++-devel",
     "libthai",
@@ -3995,16 +3968,10 @@ version = 3
     "libwmf-lite",
     "libxcb",
     "libxcrypt-devel",
-    "libxml2-devel",
     "libzip",
-    "libzstd-devel",
-    "lz4-devel",
     "m4",
     "make",
-    "man-pages",
-    "meson",
     "ncurses",
-    "ninja-build",
     "npth",
     "nspr",
     "nss",
@@ -4012,8 +3979,6 @@ version = 3
     "nss-softokn-freebl",
     "nss-sysinit",
     "nss-util",
-    "numactl-devel",
-    "numactl-libs",
     "open-sans-fonts",
     "openexr-libs",
     "openjpeg2",
@@ -4102,7 +4067,6 @@ version = 3
     "python3-markupsafe",
     "python3-packaging",
     "python3-pip",
-    "python3-pyelftools",
     "python3-pygments",
     "python3-pyparsing",
     "python3-requests",
@@ -4112,7 +4076,6 @@ version = 3
     "python3-sphinx",
     "python3-sphinx-theme-alabaster",
     "python3-urllib3",
-    "rdma-core-devel",
     "redhat-text-vf-fonts",
     "rsvg-pixbuf-loader",
     "shared-mime-info",
@@ -4133,11 +4096,8 @@ version = 3
     "urw-base35-p052-fonts",
     "urw-base35-standard-symbols-ps-fonts",
     "urw-base35-z003-fonts",
-    "vim-filesystem",
     "xml-common",
     "xxhash-libs",
-    "xz-devel",
-    "zlib-ng-compat-devel",
 ]
 "python-bitarray" = [
     "annobin-docs",
