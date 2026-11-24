@@ -41,8 +41,8 @@ dmv-utils.requires."dmv-utils" = ["python3"]
 
 # edk2
 edk2.build = 1
-edk2.key = "e2bd0f509af53453c73970e3aad0d76be6389bd64ad78e35a18acd3668deb747"
-edk2.evr = "202602-1.2"
+edk2.key = "9285a5c76f65eb301de40cb40b5adce698089a9dcfb1a2c334e80439d0502a54"
+edk2.evr = "202602-1.3"
 
 # grub
 grub.build = 1
@@ -86,8 +86,8 @@ host-installer.requires."host-installer-startup" = ["bash"]
 
 # ipxe
 ipxe.build = 1
-ipxe.key = "d83075244097d60440eb0b2a9cc103889b1cebde0fb7535c8d98e55a3014125c"
-ipxe.evr = "2.0.0-2"
+ipxe.key = "572c3ea44a0da75d96fb34e6039733d65f4a0132338b397b05221729171c70a7"
+ipxe.evr = "2.0.0-3"
 
 # kernel
 kernel.build = 1

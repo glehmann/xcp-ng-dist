@@ -27,6 +27,8 @@ Patch4: 0005-Enable-serial-console.patch
 Patch5: 0006-efi-snp-Limit-rx-queue-to-64-packets.patch
 
 BuildArch: noarch
+# firmware of the x86 guests, built by an x86 compiler
+ExclusiveArch: %{x86_64}
 
 BuildRequires: gcc
 BuildRequires: perl-interpreter, perl-libs, perl(lib), perl(FindBin)
@@ -40,7 +42,7 @@ BuildRequires: xz-devel
 Summary: A network boot loader
 Name: ipxe
 Version: 2.0.0
-Release: 2%{?dist}
+Release: 3%{?dist}
 License: GPLv2
 
 %description
@@ -86,6 +88,9 @@ install -m 644 src/bin-x86_64-efi/8086100e.drv.efi %{buildroot}/%{_datadir}/ipxe
 %{?_cov_results_package}
 
 %changelog
+* Tue Nov 24 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 2.0.0-3
+- Built for x86_64 only: the firmware of the x86 guests
+
 * Mon Nov 23 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 2.0.0-2
 - Unpack the sources in a directory without the version, for the compiler cache across versions
 

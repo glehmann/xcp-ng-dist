@@ -3,10 +3,12 @@
 Name: edk2
 Summary: EFI Development Kit II
 Version: 202602
-Release: 1.2%{?dist}
+Release: 1.3%{?dist}
 
 License: BSD and MIT
 URL: https://github.com/tianocore/edk2
+# OVMF for Xen, the firmware of the x86 guests
+ExclusiveArch: %{x86_64}
 Source0: edk2-stable%{version}.tar.gz
 Source1: calc-pcrs.py
 
@@ -192,6 +194,9 @@ cp OvmfPkg/License.txt License.ovmf
 
 
 %changelog
+* Tue Nov 24 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 202602-1.3
+- Built for x86_64 only: the firmware of the x86 guests
+
 * Mon Nov 23 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 202602-1.2
 - Unpack the sources in a directory without the version, for the compiler cache across versions
 

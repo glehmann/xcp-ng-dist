@@ -637,7 +637,6 @@ version = 3
 "ImageMagick" = "1:7.1.2.35-1.el10_3 aarch64 a2449c1e079ab18dfb11eb164200d9e01879065f9ae545b4ac4968343ba46b6a ImageMagick"
 "ImageMagick-libs" = "1:7.1.2.35-1.el10_3 aarch64 18758717904876cd07ed0b2c3c745f9111be963655e6d2c919bb126533678c6d ImageMagick"
 "LibRaw" = "0.21.3-1.el10_0 aarch64 0e1d43f0cc21aaa811029c363fa3aac75dbe9d5eb76b7538c7589ccf87662ad6 LibRaw"
-"acpica-tools" = "20240322-1.el10 aarch64 87de53ad38c7c9503c27510b381b14680a4c8a87634d048148f6a7997421c885 acpica-tools"
 "adobe-mappings-cmap" = "20230622-5.el10 noarch efb0594b06750f5e85693f8074f785671cf1c54689017d24b09bd1392f04201c adobe-mappings-cmap"
 "adobe-mappings-cmap-deprecated" = "20230622-5.el10 noarch 079ac0cfa475b1a1269d19172d486847e50e517ea6f20882947d8be7164aac4d adobe-mappings-cmap"
 "adobe-mappings-pdf" = "20190401-9.el10 noarch 6df62e10e4115584ac7e3bc135f61e3ddf4b82e5cda71c3f8033410584506996 adobe-mappings-pdf"
@@ -1019,7 +1018,6 @@ version = 3
 "mercurial" = "6.8.1-2.el10_0 aarch64 048a63bca00d72e98bdca7a87f2f02151a29a5eac488a497701feffa3feb675f mercurial"
 "mpdecimal" = "2.5.1-12.el10 aarch64 b9e107d2b85558e37a77e832200c3235c0c2e902c121f60450141fdaadd77d15 mpdecimal"
 "mpfr" = "4.2.1-8.el10 aarch64 8962a1f5b072ad02de4003626268c0865494a5134bdbd7611abe2461cf133be3 mpfr"
-"nasm" = "2.16.01-9.el10 aarch64 105afe0c162292aa520989b8564d5d3f22c5ea4c2b95d6ff58676b6481a16e09 nasm"
 "ncurses" = "6.4-15.20240127.el10_1 aarch64 887130c42a0bb08a3102ad6837d75a7382ecd2e204b3a33e4575070f563d0cc1 ncurses"
 "ncurses-base" = "6.4-15.20240127.el10_1 noarch efc7cace8436b8383bb62c7689de692ca32cfb54f07d50b4c8255faf9d34b82d ncurses"
 "ncurses-c++-libs" = "6.4-15.20240127.el10_1 aarch64 e696b5f0f7cf31d7e3a4f62b9d7a9506ad701eab2671bce98f000b3da92b2d74 ncurses"
@@ -1066,13 +1064,8 @@ version = 3
 "pcre2-utf16" = "10.44-1.5.el10_2 aarch64 e4b2939734a79ece2652b2c297cea619ddb97955bf397a36ba9a6f31057a52d3 pcre2"
 "pcre2-utf32" = "10.44-1.5.el10_2 aarch64 2f05d4ea20db78164b5c399731eb90a7375bf430455c6ed3789601f33907fce4 pcre2"
 "perl-AutoLoader" = "5.74-515.el10_2 noarch 1b540d06f1b3584f80113b6c546b8864cd617dffbb8513045b03d7132e826012 perl"
-"perl-AutoSplit" = "5.74-515.el10_2 noarch 6b59cf08fb7286fb3f4198e45cd3d4f5006406267051a10617fb5304cd5266d1 perl"
 "perl-B" = "1.89-515.el10_2 aarch64 8b9cf479d8b5888a95e8abc987ef252d09baae97312a79b046060a50bc701b9c perl"
 "perl-B-Hooks-EndOfScope" = "0.28-1.el10_0 noarch 04ddaf6857f382362a7debb808f560aedcae136835593cac2a8152152893e1e2 perl-B-Hooks-EndOfScope"
-"perl-Benchmark" = "1.25-515.el10_2 noarch b7973b40a45771d3dfd56138ebae057d2fbaf20fda1998e379b0210fd9be01a1 perl"
-"perl-CPAN-Meta" = "2.150010-511.el10 noarch c42daa47e93bbc7b6ca5c636178949ae4331ce3050d981c017ea27b4cbdb079c perl-CPAN-Meta"
-"perl-CPAN-Meta-Requirements" = "2.143-11.el10 noarch cbc09bf15c43597169d02fe51d9b9842bc1d57e3bffcad81c2653a696b27e558 perl-CPAN-Meta-Requirements"
-"perl-CPAN-Meta-YAML" = "0.018-512.el10 noarch 8af7c7f0d072f10486e525ab5c90eb091e7b963a48767afe58f6e043ce9c44b4 perl-CPAN-Meta-YAML"
 "perl-Capture-Tiny" = "0.48-23.el10 noarch ab4c3a78c468a19f14ae22aeeee3e9c44e214e145ab5b4ef0d35e8438f8585d2 perl-Capture-Tiny"
 "perl-Carp" = "1.54-511.el10 noarch f8ba8f4202ecfc9efb5bd7040d44690e5ad7f3bfe284325a4b8b65bdb26d5e77 perl-Carp"
 "perl-Class-Data-Inheritable" = "0.09-5.el10_0 noarch 0e85ae9d326141db94b29fdbd06d19074628830a3ed094661829db5998154365 perl-Class-Data-Inheritable"
@@ -1095,7 +1088,6 @@ version = 3
 "perl-Devel-CallChecker" = "0.009-7.el10_0 aarch64 ada1e23607c385d478148d40536475f083436b35755d1083e20b82726f3176e8 perl-Devel-CallChecker"
 "perl-Devel-Caller" = "2.07-1.el10_0 aarch64 9def8eb15accbff9232bf4b0c00141f0d456adee64f7c77d52fd62cc90b31ee2 perl-Devel-Caller"
 "perl-Devel-LexAlias" = "0.05-32.el10_0 aarch64 495cca667ee57562d795f27664a29cc729932343f7d019db34a46a3f0369390e perl-Devel-LexAlias"
-"perl-Devel-PPPort" = "3.72-512.el10 aarch64 3791517dc6f9b7f4cf30dbf7eae3d23e7411ab7687e81d4086d3b7ae593ed9be perl-Devel-PPPort"
 "perl-Devel-StackTrace" = "1:2.05-6.el10 noarch 4090588db2038c9173c4b8f48b52a3b7d89a4b5c8291710f89831677eb698542 perl-Devel-StackTrace"
 "perl-Digest" = "1.20-511.el10 noarch 9f3f1c35ecaac233cd58aa91c4ab0426738d01ed848b2d324c8c313bf39b114b perl-Digest"
 "perl-Digest-MD5" = "2.59-6.el10 aarch64 79bcd22d72ab1371f5017c777ec4aa8b24d37bc8005177d03127b9f842c7ea7e perl-Digest-MD5"
@@ -1112,13 +1104,6 @@ version = 3
 "perl-Exception-Class" = "1.45-7.el10_0 noarch d797d6a1e3a6f43f208bbfe6a5c02658cfbe58e90be7a21ea302c0f21e46817c perl-Exception-Class"
 "perl-Exporter" = "5.78-511.el10 noarch 3c23ebc3c23a498244aabebf0f6ca0257daf33423885f615b3602700823e6c7b perl-Exporter"
 "perl-Exporter-Tiny" = "1.006002-7.el10 noarch 33475d272936f28913a9cd2301c347ad0cb0bc68f330fad356b6c849dc510ad7 perl-Exporter-Tiny"
-"perl-ExtUtils-Command" = "2:7.70-513.el10 noarch 1177483446c28371176a66dc2c7e9c3f94c4b358c37dbffea3ac9b0da69ea5d1 perl-ExtUtils-MakeMaker"
-"perl-ExtUtils-Constant" = "0.25-515.el10_2 noarch 873bb09b54d407b9bf5ff9c9e00e0c0053f12ca3a38e094acf6fe08c2101501e perl"
-"perl-ExtUtils-Install" = "2.22-511.el10 noarch c82c47f529f62334177947d1db392eb4119e8ef1debbdb7de26d6a5f84c702f3 perl-ExtUtils-Install"
-"perl-ExtUtils-MM-Utils" = "2:7.70-513.el10 noarch dee9c8ba2297fa3f6b2959e5a2632ce74672511e41456a37634ee658cdbf63ca perl-ExtUtils-MakeMaker"
-"perl-ExtUtils-MakeMaker" = "2:7.70-513.el10 noarch a0f0d1a419fbc64ed59a119758a83bde1ba4a052b6bf5130d9cfc3bffb03d9e6 perl-ExtUtils-MakeMaker"
-"perl-ExtUtils-Manifest" = "1:1.75-511.el10 noarch 27053445326eab81de33b4c5a8a5c2d26a3a7e4009ba6706c417aa2f87034421 perl-ExtUtils-Manifest"
-"perl-ExtUtils-ParseXS" = "1:3.51-512.el10 noarch 08653f50841f2c5ac8a07edbf93665304cae988b6fbf6e7ce680d07803ca0322 perl-ExtUtils-ParseXS"
 "perl-Fcntl" = "1.18-515.el10_2 aarch64 f14f7b9997cea96e7ec7a16971e4655ba3596fdadf04f0cac914e0d28d2d3f6f perl"
 "perl-File-Basename" = "2.86-515.el10_2 noarch 20a9f2b8c608e5b9882e2d7cc64546b067e53ccd2148bbfee2b72c0bfae4b16b perl"
 "perl-File-Compare" = "1.100.800-515.el10_2 noarch 4812e8816160f70feaec391bd210415bca4a44a5155b126c3fb1ef14674b80d2 perl"
@@ -1129,7 +1114,6 @@ version = 3
 "perl-File-Temp" = "1:0.231.100-512.el10 noarch f75fdad502e0d6efe61c5831dcf11f1fea523e167ccba431eb05d0600365722f perl-File-Temp"
 "perl-File-stat" = "1.14-515.el10_2 noarch f31ab167489a383653e674718b8132503908c89658587c11e60a45911165c658 perl"
 "perl-FileHandle" = "2.05-515.el10_2 noarch fb1ce05e33fb4e041f6807b80f5895d12700cc578bc662ee3681533d04d61e27 perl"
-"perl-FindBin" = "1.54-515.el10_2 noarch 541141d26cff39e511d41ad2e104dbedff7ae004eb7b60a75f1d264f0da639e7 perl"
 "perl-GD" = "2.86-1.el10_3 aarch64 f9552bcd4f8cb172caa5a31137d94208e5a93c3e9e2af02d42fae4190c6a4885 perl-GD"
 "perl-Getopt-Long" = "1:2.58-3.el10 noarch 0818ae10c8f3644563f58b19e11a50113fbb030a63134a3751cec0c4bd87e28b perl-Getopt-Long"
 "perl-Getopt-Std" = "1.14-515.el10_2 noarch 49e8e4357d64fff7c22f72bda9bbab91c9393e87d6b40473e2f3e03a651d79ad perl"
@@ -1147,10 +1131,8 @@ version = 3
 "perl-IO-HTML" = "1.004-14.el10 noarch 6e23241b69a11f5cbd6ce534def5dfe5492982991c61e77d105ca01a31d66448 perl-IO-HTML"
 "perl-IO-Socket-IP" = "0.42-512.el10 noarch e17497fb60842857e947028e41da4b669ca261b7c187442e39d3ebd7473534f7 perl-IO-Socket-IP"
 "perl-IO-Socket-SSL" = "2.085-3.el10 noarch 7f673ad99f77da322add6a1a696d8d359b935db3da78ff503b224907f7d5ec06 perl-IO-Socket-SSL"
-"perl-IPC-Cmd" = "2:1.04-512.el10 noarch 3ccc494901ce2e9d8962854853f53c1ea8dbd03f865bb03e411d68b87a6d1123 perl-IPC-Cmd"
 "perl-IPC-Open3" = "1.22-515.el10_2 noarch 2fe04d10b167fa28ece32046dc240d5132475190736ac8dda602198c8b51e0ae perl"
 "perl-JSON" = "4.10-7.el10 noarch ae083a79d5a059143a0b86a3c5e2788895f41e6833b5553b70440b4875e62c53 perl-JSON"
-"perl-JSON-PP" = "1:4.16-513.el10 noarch e9eab12ca03efdb593634d51d5b3c5a75ecfdba6d4f09bb92a1db588e317eed1 perl-JSON-PP"
 "perl-JSON-XS" = "1:4.04-1.el10_0 aarch64 1338766ed3eac925ad250e530e255fc7f9afc568389a1dbe7fd22905fd667355 perl-JSON-XS"
 "perl-LWP-MediaTypes" = "6.04-19.el10 noarch 3f6a08f7163022c3e27d16fbf10e27d256ac5341940267d3259a65fb9638372f perl-LWP-MediaTypes"
 "perl-Lexical-SealRequireHints" = "0.012-1.el10_0 aarch64 d22312a77692ce5cc4217b18abed6d041d8aa2018620cf4d316ddeb2dae0f447 perl-Lexical-SealRequireHints"
@@ -1202,7 +1184,6 @@ version = 3
 "perl-Term-ANSIColor" = "5.01-512.el10 noarch c757e16b96fdca79291ff666856b382e77f79e771346bdca9d1506c3fae8453b perl-Term-ANSIColor"
 "perl-Term-Cap" = "1.18-511.el10 noarch e6c0e01f8d0170d762de6f3d481c064186b35aafb2afefa8218708b637e4ecb6 perl-Term-Cap"
 "perl-TermReadKey" = "2.38-24.el10 aarch64 c83b244fc17525944d74d07627656e91790d938bf8030b7b47bd0b6b017760a2 perl-TermReadKey"
-"perl-Test-Harness" = "1:3.48-512.el10 noarch 4f95d7364a0d07a80da4d923104c661dee34ac09ec600bd4ce092569a36049fd perl-Test-Harness"
 "perl-Text-ParseWords" = "3.31-511.el10 noarch 371701469ff48ff7c2fd9fa1903bdf1d449513352f8e8e26fec7c7f9f8f2585c perl-Text-ParseWords"
 "perl-Text-Tabs+Wrap" = "2024.001-511.el10 noarch f65456625bbdb4d7e02f8795ff00f2026f716382178d6a768f76dec7e6e638ca perl-Text-Tabs+Wrap"
 "perl-Text-Unidecode" = "1.30-27.el10 noarch 8f76f780674c4194d22862c6623ae92319b567e4a3956e64791882dc5fdff9e4 perl-Text-Unidecode"
@@ -1222,8 +1203,6 @@ version = 3
 "perl-base" = "2.27-515.el10_2 noarch 9be41847f8862fdbf8b1e5c6e81cd416a80f62bffde4ab2cddf02837e9ce25ff perl"
 "perl-common-sense" = "3.7.5-20.el10 aarch64 9e8d5afeccba3202d299dd7424000912f5f1c832f772e059f8452e4aaf520c02 perl-common-sense"
 "perl-constant" = "1.33-512.el10 noarch 00221c59085f4a9ec4ebc5d547bcf5e3d9ec2ab3a057a0b351b4f0d029ecff74 perl-constant"
-"perl-devel" = "4:5.40.2-515.el10_2 aarch64 14d4ddafe55134e2c40f620277fe2e9e7f92bf8f12d49a2f2b4c9d5fae4fc4ca perl"
-"perl-doc" = "5.40.2-515.el10_2 noarch 6cad19426ac95604a5cd8d62f8a8ffb5a38b8e8d807a982102a412825683beb8 perl"
 "perl-if" = "0.61.000-515.el10_2 noarch d81719bd35a08f147b531c2c7251abb2fdd658f32d157ad322f18d5db317b398 perl"
 "perl-interpreter" = "4:5.40.2-515.el10_2 aarch64 56b32580dd5f2bd6aabde67758890a09f48495a8693a83633255590db51ab119 perl"
 "perl-lib" = "0.65-515.el10_2 aarch64 e57d01df82a99384d1cad5492494e2634c3fdfa1754fe0988ff9521ede96a231 perl"
@@ -5546,132 +5525,7 @@ version = 3
     "xml-common",
     "xxhash-libs",
 ]
-"edk2" = [
-    "acpica-tools",
-    "annobin-docs",
-    "annobin-plugin-gcc",
-    "ccache",
-    "cpp",
-    "fmt",
-    "gcc",
-    "gcc-c++",
-    "gcc-plugin-annobin",
-    "glibc-devel",
-    "groff-base",
-    "hiredis",
-    "kernel-headers",
-    "libasan",
-    "libatomic",
-    "libmpc",
-    "libstdc++-devel",
-    "libubsan",
-    "libuuid-devel",
-    "libxcrypt-devel",
-    "make",
-    "nasm",
-    "ncurses",
-    "perl-AutoLoader",
-    "perl-AutoSplit",
-    "perl-B",
-    "perl-Benchmark",
-    "perl-CPAN-Meta",
-    "perl-CPAN-Meta-Requirements",
-    "perl-CPAN-Meta-YAML",
-    "perl-Carp",
-    "perl-Class-Struct",
-    "perl-Data-Dumper",
-    "perl-Devel-PPPort",
-    "perl-Digest",
-    "perl-Digest-MD5",
-    "perl-DynaLoader",
-    "perl-Encode",
-    "perl-Encode-Locale",
-    "perl-Errno",
-    "perl-Exporter",
-    "perl-ExtUtils-Command",
-    "perl-ExtUtils-Constant",
-    "perl-ExtUtils-Install",
-    "perl-ExtUtils-MM-Utils",
-    "perl-ExtUtils-MakeMaker",
-    "perl-ExtUtils-Manifest",
-    "perl-ExtUtils-ParseXS",
-    "perl-Fcntl",
-    "perl-File-Basename",
-    "perl-File-Compare",
-    "perl-File-Copy",
-    "perl-File-Find",
-    "perl-File-Path",
-    "perl-File-Temp",
-    "perl-File-stat",
-    "perl-FileHandle",
-    "perl-FindBin",
-    "perl-Getopt-Long",
-    "perl-Getopt-Std",
-    "perl-HTTP-Tiny",
-    "perl-I18N-LangTags",
-    "perl-I18N-Langinfo",
-    "perl-IO",
-    "perl-IO-Socket-IP",
-    "perl-IO-Socket-SSL",
-    "perl-IPC-Cmd",
-    "perl-IPC-Open3",
-    "perl-JSON",
-    "perl-JSON-PP",
-    "perl-Locale-Maketext",
-    "perl-Locale-Maketext-Simple",
-    "perl-MIME-Base64",
-    "perl-Math-BigInt",
-    "perl-Math-Complex",
-    "perl-Module-CoreList",
-    "perl-Module-Load",
-    "perl-Module-Load-Conditional",
-    "perl-Module-Metadata",
-    "perl-Mozilla-CA",
-    "perl-NDBM_File",
-    "perl-Net-SSLeay",
-    "perl-POSIX",
-    "perl-Params-Check",
-    "perl-PathTools",
-    "perl-Pod-Escapes",
-    "perl-Pod-Perldoc",
-    "perl-Pod-Simple",
-    "perl-Pod-Usage",
-    "perl-Scalar-List-Utils",
-    "perl-SelectSaver",
-    "perl-Socket",
-    "perl-Storable",
-    "perl-Symbol",
-    "perl-Term-ANSIColor",
-    "perl-Term-Cap",
-    "perl-Test-Harness",
-    "perl-Text-ParseWords",
-    "perl-Text-Tabs+Wrap",
-    "perl-Time-HiRes",
-    "perl-Time-Local",
-    "perl-URI",
-    "perl-Unicode-Normalize",
-    "perl-base",
-    "perl-constant",
-    "perl-devel",
-    "perl-doc",
-    "perl-if",
-    "perl-interpreter",
-    "perl-lib",
-    "perl-libnet",
-    "perl-libs",
-    "perl-locale",
-    "perl-mro",
-    "perl-overload",
-    "perl-overloading",
-    "perl-parent",
-    "perl-podlators",
-    "perl-vars",
-    "perl-version",
-    "python3-pyparsing",
-    "systemtap-sdt-devel",
-    "systemtap-sdt-dtrace",
-    "xxhash-libs",
-]
+"edk2" = []
 "grub" = [
     "annobin-docs",
     "annobin-plugin-gcc",
@@ -5875,92 +5729,7 @@ version = 3
     "xz-devel",
     "zlib-ng-compat-devel",
 ]
-"ipxe" = [
-    "annobin-docs",
-    "annobin-plugin-gcc",
-    "binutils-devel",
-    "ccache",
-    "cmake-filesystem",
-    "cpp",
-    "fmt",
-    "gcc",
-    "gcc-plugin-annobin",
-    "glibc-devel",
-    "groff-base",
-    "hiredis",
-    "kernel-headers",
-    "libasan",
-    "libatomic",
-    "libmpc",
-    "libubsan",
-    "libxcrypt-devel",
-    "make",
-    "ncurses",
-    "perl-AutoLoader",
-    "perl-B",
-    "perl-Carp",
-    "perl-Class-Struct",
-    "perl-Data-Dumper",
-    "perl-Digest",
-    "perl-Digest-MD5",
-    "perl-DynaLoader",
-    "perl-Encode",
-    "perl-Errno",
-    "perl-Exporter",
-    "perl-Fcntl",
-    "perl-File-Basename",
-    "perl-File-Path",
-    "perl-File-Temp",
-    "perl-File-stat",
-    "perl-FileHandle",
-    "perl-FindBin",
-    "perl-Getopt-Long",
-    "perl-Getopt-Std",
-    "perl-HTTP-Tiny",
-    "perl-IO",
-    "perl-IO-Socket-IP",
-    "perl-IO-Socket-SSL",
-    "perl-IPC-Open3",
-    "perl-MIME-Base64",
-    "perl-Mozilla-CA",
-    "perl-NDBM_File",
-    "perl-Net-SSLeay",
-    "perl-POSIX",
-    "perl-PathTools",
-    "perl-Pod-Escapes",
-    "perl-Pod-Perldoc",
-    "perl-Pod-Simple",
-    "perl-Pod-Usage",
-    "perl-Scalar-List-Utils",
-    "perl-SelectSaver",
-    "perl-Socket",
-    "perl-Storable",
-    "perl-Symbol",
-    "perl-Term-ANSIColor",
-    "perl-Term-Cap",
-    "perl-Text-ParseWords",
-    "perl-Text-Tabs+Wrap",
-    "perl-Time-Local",
-    "perl-URI",
-    "perl-Unicode-Normalize",
-    "perl-base",
-    "perl-constant",
-    "perl-if",
-    "perl-interpreter",
-    "perl-lib",
-    "perl-libnet",
-    "perl-libs",
-    "perl-locale",
-    "perl-mro",
-    "perl-overload",
-    "perl-overloading",
-    "perl-parent",
-    "perl-podlators",
-    "perl-vars",
-    "xxhash-libs",
-    "xz-devel",
-    "zlib-ng-compat-devel",
-]
+"ipxe" = []
 "kernel" = [
     "adobe-mappings-cmap",
     "adobe-mappings-cmap-deprecated",
