@@ -84,6 +84,15 @@ host-installer.evr = "11.2.0-1.1.4"
 host-installer.requires."host-installer" = ["bash", "python3"]
 host-installer.requires."host-installer-startup" = ["bash"]
 
+# iptables-epel
+iptables-epel.build = 1
+iptables-epel.key = "3cf16bf94f5ef8b6c75ca27b0a22a1825d5b94566a65053f899295dd305d6c1e"
+iptables-epel.evr = "1.8.11-7.1"
+iptables-epel.requires."iptables-legacy" = ["glibc", "iptables-legacy-libs", "iptables-libs"]
+iptables-epel.requires."iptables-legacy-devel" = ["iptables-legacy-libs", "pkgconf-pkg-config"]
+iptables-epel.requires."iptables-legacy-libs" = ["glibc"]
+iptables-epel.requires."iptables-services" = ["bash", "iptables-legacy"]
+
 # ipxe
 ipxe.build = 1
 ipxe.key = "572c3ea44a0da75d96fb34e6039733d65f4a0132338b397b05221729171c70a7"

@@ -169,7 +169,6 @@ version = 3
 "ipmitool" = "1.8.19-10.el10_1"
 "iproute" = "7.0.0-2.el10"
 "iptables" = "1.8.11-16.el10_2"
-"iptables-epel" = "1.8.11-7.1.el10_0"
 "iputils" = "20240905-5.el10"
 "irqbalance" = "1.9.4-6.el10"
 "iscsi-initiator-utils" = "6.2.1.11-4.git4b3e853.el10"
@@ -637,7 +636,9 @@ version = 3
 [binaries.aarch64]  # <evr> <arch> <sha256> <source>
 "ImageMagick" = "1:7.1.2.35-1.el10_3 aarch64 a2449c1e079ab18dfb11eb164200d9e01879065f9ae545b4ac4968343ba46b6a ImageMagick"
 "ImageMagick-libs" = "1:7.1.2.35-1.el10_3 aarch64 18758717904876cd07ed0b2c3c745f9111be963655e6d2c919bb126533678c6d ImageMagick"
+"Judy" = "1.0.5-38.el10 aarch64 aaba368c2e1709126ea60eb672dfcdd15ba9f57ad49567f53eb2144df9d19488 Judy"
 "LibRaw" = "0.21.3-1.el10_0 aarch64 0e1d43f0cc21aaa811029c363fa3aac75dbe9d5eb76b7538c7589ccf87662ad6 LibRaw"
+"SDL3" = "3.2.4-1.el10 aarch64 5943232f1ab6930ce55483d85b02bc406d72a3fe6f8e5e41e8b9acecf3b24001 SDL3"
 "acpica-tools" = "20240322-1.el10 aarch64 87de53ad38c7c9503c27510b381b14680a4c8a87634d048148f6a7997421c885 acpica-tools"
 "adobe-mappings-cmap" = "20230622-5.el10 noarch efb0594b06750f5e85693f8074f785671cf1c54689017d24b09bd1392f04201c adobe-mappings-cmap"
 "adobe-mappings-cmap-deprecated" = "20230622-5.el10 noarch 079ac0cfa475b1a1269d19172d486847e50e517ea6f20882947d8be7164aac4d adobe-mappings-cmap"
@@ -646,6 +647,8 @@ version = 3
 "almalinux-release" = "10.3-15.el10 aarch64 f6c19f260081aa127b226467ef4a31e5f6a7dd8cc1d777bf3d027c94b23f072d almalinux-release"
 "almalinux-repos" = "10.3-15.el10 aarch64 6983e6063887905e5ae930b5717d6be67d78a9808968ee9ff1642f82c3a88014 almalinux-release"
 "alternatives" = "1.30-2.el10 aarch64 168026a798b6cdece803762754000e56f7f96d825eb925765397f37d1b572b5f chkconfig"
+"amd-gpu-firmware" = "20261026-23.5.el10_2 noarch 14f5c9e147c76dd5c8b3db2d602aab0cf803fee9791886de73bc434bbaca488c linux-firmware"
+"amd-ucode-firmware" = "20261026-23.5.el10_2 noarch 7a958f7fe355f2023f478b72695112ecb97f6e8a8f08fd143d7cde8b7cd9a731 linux-firmware"
 "annobin-docs" = "13.28-1.el10 noarch 36f480ae7bfdb82ff12e876e3536b7a2e59cb634718501d06925bc88c11139fd annobin"
 "annobin-plugin-gcc" = "13.28-1.el10 aarch64 106e3becb57e4efb4ca22de61f50c6fd106d9c28cb6cd2fac558ed6dcc67d668 annobin"
 "apr" = "1.7.5-3.el10 aarch64 e0bc3d6cb26ff44ad9e044cc98e033ca3ee90f542db814dcdda358fa5a599126 apr"
@@ -653,7 +656,10 @@ version = 3
 "apr-util-lmdb" = "1.6.3-23.el10_2.1 aarch64 5af1b9178dc4683b5b4383974b5f67f7ad8fc571e196c8dd56324827ec8ba03e apr-util"
 "apr-util-openssl" = "1.6.3-23.el10_2.1 aarch64 858b0ead7edb3f0c698b0b2bb6d6feb9340fab47cbacd18044627774a7730bf1 apr-util"
 "asciidoc" = "10.2.0-12.el10 noarch bb34a342421805e3df245b074ee2787ca5d2f0134e2fecbefafad3285a14a74c asciidoc"
+"atheros-firmware" = "20261026-23.5.el10_2 noarch 8efd11b707778cd27189f66dc0d222d20f90acc9c44f44028ff1c09c551f36ed linux-firmware"
+"atop" = "2.11.1-1.el10_1 aarch64 fe7a658e9552e47c2a271313f031a7eb3d6776a646486cb951f19ccf22ee66b6 atop"
 "attr" = "2.6.0-2.el10 aarch64 9ede1ea9ea2e385da1ecf2938ec1d247bbbe06f3d6dcb3bd5f7cdca27884acfc attr"
+"audit" = "4.2.1-3.el10 aarch64 f7933676c6d8eb53c9a8f0255ce81322942f3246a68e092005cc575e21650e2e audit"
 "audit-libs" = "4.2.1-3.el10 aarch64 96d99d8b0f36613e4f2054d36355d9ec7af30007bbb8ca114144dcc396e4478f audit"
 "authselect" = "1.5.3-1.el10 aarch64 f028b62d70cc0abaec72e14528e4fec73e867468242e3f0bd547aa48f9cae7b6 authselect"
 "authselect-libs" = "1.5.3-1.el10 aarch64 1587e1df84a3473a82d966a3af073ffa6369df051a94ed6a3d9df718d05e3bdc authselect"
@@ -662,27 +668,47 @@ version = 3
 "avahi-libs" = "0.9~rc2-3.el10 aarch64 48d0b4723146397015722a94af60d0aed5dc8ebf81e1ef7dd905a51dcc2167a1 avahi"
 "basesystem" = "11-22.el10 noarch ce290f8c5998442e68cbc7e2351f43c2d5bb05a9d109058fc457487b9c267796 basesystem"
 "bash" = "5.2.26-6.el10 aarch64 1479a2fa43fedec3d7a9a0cc3f9a735d99c32811db9129497bb706e3a4dfab29 bash"
+"bash-completion" = "1:2.11-16.el10 noarch 8f72586cb581dd5dffa1117cedc7adac41f97a3aa9211c3f101fc8ef7058209d bash-completion"
 "bc" = "1.07.1-23.el10 aarch64 ae60a6602eaadb2c78248f419be946acba0dc74bc98878dd7d38ac14413216d6 bc"
+"bind-libs" = "32:9.18.33-30.el10_3.1 aarch64 2b198e7187619c39a48da45664b68b46806c1b79a16a16207a568d37d3789818 bind"
+"bind-license" = "32:9.18.33-30.el10_3.1 noarch 710b19a4a00eb901249646d7972d8c40b28c5b578bde946b6e8145fe0b16ea3e bind"
+"bind-utils" = "32:9.18.33-30.el10_3.1 aarch64 630537372ebd02616a2946e79a37ea689206c1c11522914e0fa62d36c3ce740a bind"
 "binutils" = "2.41-66.el10_3.alma.1 aarch64 ef0577deb785b933f2041ae0164e9e75bbcd6996cf06511b20a9e85ed64e5d68 binutils"
 "binutils-devel" = "2.41-66.el10_3.alma.1 aarch64 4826fce45dc31873c20a51ab11083de00eafaf7869f01232b98d68e2ddd2d00f binutils"
 "binutils-gold" = "2.41-66.el10_3.alma.1 aarch64 901c433bb3b9f94ebe3d45f08571634ff6c9efc605a021ea1bffe0f0d885fdd4 binutils"
 "bison" = "3.8.2-9.el10 aarch64 753a014f094f9b1abae69456ac5f0a2f37cc883782936227f5e6dd4b6c0552a7 bison"
+"blktrace" = "1.3.0-13.el10 aarch64 077ae3a1afe483d68b89993b6df534ac1696e4c3bfd66fec1ec4f9023a8aec90 blktrace"
+"boost-atomic" = "1.83.0-8.el10 aarch64 037436d3d74175564cc7c26fbecf30dd0b9e3682eb57d89ba4166276b8342255 boost"
+"boost-filesystem" = "1.83.0-8.el10 aarch64 661a1836544aaba4f6e76294537782c36a517b5f9ba3ec2e2cf33b226401c8c1 boost"
 "boost-regex" = "1.83.0-8.el10 aarch64 c34c420da1316727cccdfafd3196a72971fa2d578005d15c11d74e6fdd2085d5 boost"
+"boost-system" = "1.83.0-8.el10 aarch64 c530fac64c84b6f2c7de4595fe009ae22873ddc260a80be21155db2ade6ac6a5 boost"
+"boost-thread" = "1.83.0-8.el10 aarch64 e18f09267ea4ebcc1748c39272688f85c8b74750a046694100d41dd6b52f1da3 boost"
+"bpftool" = "7.7.0-3.el10 aarch64 ffbbbf14f45715f0959ce0a7dea2f11d07dfba37743bb1f9a42d4c2a53052350 bpftool"
+"brcmfmac-firmware" = "20261026-23.5.el10_2 noarch 2515b6f924703c067ca684a7f2ffe0c89af7069ac4942d82d6291575dd9a9c7a linux-firmware"
+"bridge-utils" = "1.7.1-11.el10_0 aarch64 475e805b0f01e66348f4af4c5181f7d9907a9a3373d5f6e3dd9c8f1e0963fbd1 bridge-utils"
 "brotli" = "1.1.0-8.el10_2.1 aarch64 1bd8141a590b98d7b7bcdcb348891c33e5d242f0f07f676a03092935a14022a6 brotli"
 "brotli-devel" = "1.1.0-8.el10_2.1 aarch64 8533292e1c3f71421a64e6a1b5e5ff3d98bdd205bb53d7016800c15d4275a50c brotli"
 "bubblewrap" = "0.10.0-5.el10_2 aarch64 6a934e74bf0d7fe35075a0a0f2c0ed01fca2a700bf3ea933e07131c5ccf8102d bubblewrap"
+"busybox" = "1:1.37.0-4.el10_2 aarch64 0b85d2c99e56920ca7563638c18e354713e9d64e731e43e6001a3cab73ee46a0 busybox"
 "bzip2" = "1.0.8-25.el10 aarch64 92ae5c99fa1c0593eabae0f1462e439b5746a87deaf9349468cb434ad218caab bzip2"
 "bzip2-devel" = "1.0.8-25.el10 aarch64 4910b3d68c15910e82b93315b46149b1ba19c60831a704d6f5a853e8f584793b bzip2"
 "bzip2-libs" = "1.0.8-25.el10 aarch64 ccb52190fce4dd0321bd622551c83f5b94c97ce1dedbfa5f87a7effd554c8f6a bzip2"
+"c-ares" = "1.34.6-5.el10_3.2 aarch64 f4d00fed8814064fdafe40d0d480107da3f58a64c4ed16cced6d110ab08f2ecc c-ares"
 "ca-certificates" = "2026.2.92_v9.0.319-100.3.el10_2 noarch 5826da756d4b5843290093de22c6e85167399af60fb3a0b31be0fd99358d929a ca-certificates"
 "cairo" = "1.18.2-3.el10 aarch64 e0383c6ad519ad9844c2c2779782e72b9e25ab77b81f7c3b562352cf66eb7d2d cairo"
 "cairo-devel" = "1.18.2-3.el10 aarch64 ab46597b591feaa9c0d345a0e80d307a7c2e6713d1b7c627cced386c96524bb1 cairo"
 "cairo-gobject" = "1.18.2-3.el10 aarch64 085d99d6d092566d5ff23186d006a5d0e0670c1322142d1b139e0b21d9900ea4 cairo"
 "ccache" = "4.11.3-1.el10_1 aarch64 3421cbffefea64351e80d2ce64eb0042d98dcc23262a03504cf988305ff34a24 ccache"
+"chkconfig" = "1.30-2.el10 aarch64 a581aef8caa2a9e1630a4f7caba7fc8189b3fb7df7a7634f7a85c8e76fd7034e chkconfig"
+"chrony" = "4.8-2.el10 aarch64 4a07938e9497a2d032efe33b7bed2f8517addf1e530943f32d9d8b658e181bfe chrony"
+"cifs-utils" = "7.7-1.el10_2 aarch64 6139e97379134a902657897f7d3453ea9c466269b51219e976d46933d8245cab cifs-utils"
+"cirrus-audio-firmware" = "20261026-23.5.el10_2 noarch d5383897c39f07a668a5b48d035e63fbc8e57e1136a59b1f896e0688aecdfb52 linux-firmware"
 "cmake" = "3.31.8-1.el10 aarch64 94e3923cba24e01053a9005747db060ca9502fbe07991024986a451a43e194b6 cmake"
 "cmake-data" = "3.31.8-1.el10 noarch 157396ea7f30dfd5b297a9370ae429e8031e3c45fc6ea98f8e7bc2fdcdef6b56 cmake"
 "cmake-filesystem" = "3.31.8-1.el10 aarch64 1bab3f3876d9ff7df87d8028b8da9abe24f04545244d920ac97c7774974ab01e cmake"
 "cmake-rpm-macros" = "3.31.8-1.el10 noarch e31de66ec746b5ec6a44a8e5aae8f69c59637094cd6fe9049891584fea905074 cmake"
+"coreutils" = "9.5-14.el10_3 aarch64 3a17dab3511fd2e7f7410385dc0296f58696fc5eb47bb2b14015ce1977c63b2f coreutils"
+"coreutils-common" = "9.5-14.el10_3 aarch64 ae220cd81120939ee6a9308c1cde6fb3206ab70217b981da0cca41d4dbdc74d7 coreutils"
 "coreutils-single" = "9.5-14.el10_3 aarch64 3f22efa4292e412f63e3dd2831508c0db79bb0b55353b58d7f7ee48d7bae455b coreutils"
 "cpio" = "2.15-3.el10 aarch64 2f3719dd9f69800d42b389a4c73b56a718936bf28a77f3a0f90665c613815a88 cpio"
 "cpp" = "14.4.1-5.el10_3.alma.3 aarch64 55f70d3062a6b42dd2818e97d1ff6de0dcb2ac5f7b54d480c5c600814fab9541 gcc"
@@ -692,14 +718,18 @@ version = 3
 "createrepo_c-libs" = "1.1.2-4.el10 aarch64 26ba3bd1f54dcc732a1da7d34c23492349f65f9d7c0235f9a242418adb11d11b createrepo_c"
 "cronie" = "1.7.0-15.el10 aarch64 43e758389228e4ecee95468b4a46549f61810f571c83ac72b296e55e7fcf9c4b cronie"
 "cronie-anacron" = "1.7.0-15.el10 aarch64 44400326fd949e0af73e31dcdedc80669d946f25f3b6ef071c04c14dfbd234eb cronie"
+"cronie-noanacron" = "1.7.0-15.el10 aarch64 0e25f72b4e763c19e64cd58b9f5788ae5f20b02066d151fee5a751ce22b87b7a cronie"
 "crontabs" = "1.11^20190603git9e74f2d-6.el10 noarch 879f1342347b6802f274b970f093d44aae46a05c3b3694c96cfec3fc83181b41 crontabs"
 "crypto-policies" = "20260811-1.git4dcd294.el10.alma.1 noarch 5e0618d86f7dbffa950430e363518c72019b3fbb24dacb5705e932152b5be756 crypto-policies"
 "crypto-policies-scripts" = "20260811-1.git4dcd294.el10.alma.1 noarch 1b4417d700609d007b969ffc5527d1429fe8266143e5d3e6df9dd616993c163d crypto-policies"
+"cryptsetup" = "2.8.6-2.el10 aarch64 08780daf2a947047acf4d4a1f9fe77bcdd35d3e79b4dc65df583f905ffa2e666 cryptsetup"
+"cryptsetup-libs" = "2.8.6-2.el10 aarch64 4bc5a6a8d549f6823292a0fddba9c300d82d2e9e2e4279c1fdcf3857efe8ecba cryptsetup"
 "cups-filesystem" = "1:2.4.10-18.el10_2 noarch 6f5fd910d9c2ae41a126bace532550a15272499b3d9cafba9217092283b872ff cups"
 "cups-libs" = "1:2.4.10-18.el10_2 aarch64 3a1744a8c553c07fff24890b21587d7ae018322efd6afb4f19439304a4259b94 cups"
 "curl" = "8.12.1-9.el10_3 aarch64 ad62ebe845b5c2f2eba83c6882b01c79e8200431d5ba7abd4749371422f9a77b curl"
 "cyrus-sasl" = "2.1.28-30.el10_2 aarch64 70b87a14e31da4ff4218113ac972fda709c6eedc605dc21c1dd18abe4fa7aaac cyrus-sasl"
 "cyrus-sasl-devel" = "2.1.28-30.el10_2 aarch64 756349ec8648733ae73b6a08348a49203e0b13a63a838f5d59d02a923e2c010a cyrus-sasl"
+"cyrus-sasl-gssapi" = "2.1.28-30.el10_2 aarch64 556a2142a1d6a2ac4458c70eabdf83e68b3ecd6b5042c7e29f5ea9284e13cf95 cyrus-sasl"
 "cyrus-sasl-lib" = "2.1.28-30.el10_2 aarch64 ddeea6b6a2b441e21957d4f75e2851def0ed21f9d02b5852974a4bcf0a089aaf cyrus-sasl"
 "dbus" = "1:1.14.10-6.el10 aarch64 9a8d645cddec9938ba457c5777a2d5055237c799cb592d8dcf090181acf6a466 dbus"
 "dbus-broker" = "36-5.el10_3 aarch64 14bb9371ebbff8c8b8e46307c4fd9d505ffa254c9b40fe75618fa75d32e5b486 dbus-broker"
@@ -730,12 +760,17 @@ version = 3
 "dpkg" = "1.23.11-2.el10_3 aarch64 5af96b5f0d4850fca9b996c2a63a7ef32ccb394b1e5062835aa3b97a27030fcd dpkg"
 "dpkg-dev" = "1.23.11-2.el10_3 noarch de8b48840171191d1e08a457993e5e0cf1a97c8614d9afdd916914d2edd498be dpkg"
 "dpkg-perl" = "1.23.11-2.el10_3 noarch ac07d9cccce132b7102132f6b4619bf7dc35ef41b6e1b4390be871b45af3b33e dpkg"
+"dracut" = "107-11.el10 aarch64 1f0afa186058c582cf460157f4615f2048b2b2fe7026d7b16164c107e5cd42bd dracut"
 "dwarves" = "1.31-1.el10 aarch64 b88df123127b5eb0d00bacf8e636ded134d9925bbd3ccba7ad7948c89c170e73 dwarves"
 "dwz" = "0.16-1.el10 aarch64 0c14c6576e3d2766dd6ecb6099546fef3365b8f2ade2b3e1883bcdebe1469138 dwz"
+"dyninst" = "13.0.0-1.el10 aarch64 23d9ccc16ff479b641a0918211b6453d6008e328642db9696206a7290362452b dyninst"
+"e2fsprogs" = "1.47.1-5.el10 aarch64 b3b093c91f53919b43a3b9dee74688b938e8446a7ac9abc3a363691d7aae1db4 e2fsprogs"
 "e2fsprogs-devel" = "1.47.1-5.el10 aarch64 4b3a813222bb82ab7ec8a3d8f61b1ac9136af11341573fa5cccaa37b0bc43731 e2fsprogs"
 "e2fsprogs-libs" = "1.47.1-5.el10 aarch64 5604361fbdbc9137eed9ab2a4ed0b7e7920d027e3e3f9fdcffc676c10783891a e2fsprogs"
 "ed" = "1.20-5.el10 aarch64 6eaf7eab5cb0e9992b2f81def62b66b4d19d10030547fddae8ef227cd8747b0a ed"
+"efi-filesystem" = "6-8.el10.alma.2 noarch 2f7f138ae201ccaeb52b6256258b795a6a5c3603cc2a2a4be7e83751d8fc2eab efi-rpm-macros"
 "efi-srpm-macros" = "6-8.el10.alma.2 noarch 44f77359441b0245d57ff0483fc03912c9d2c279ddb074f2eb3b929ad7f20809 efi-rpm-macros"
+"efibootmgr" = "18-9.el10 aarch64 ac944e6a0a8ed2b34a315db5bd4091f1478dad2b68efc82480a9ea712f6de8e9 efibootmgr"
 "efivar-libs" = "39-3.el10 aarch64 a9a9e27306818c694fcb23ac2863d75c47a77975b79c67a4db53ea028e642104 efivar"
 "elfutils" = "0.195-1.el10 aarch64 5bb63a4d93cd30db3d80f3f947fe0e9309ec5df7a3d4c5b6481a81d5cf2d07b6 elfutils"
 "elfutils-debuginfod-client" = "0.195-1.el10 aarch64 7895a0016b9fe3ea9448d2e8a02885fa3d6a8660e33d3061dda098a735c6710d elfutils"
@@ -747,6 +782,7 @@ version = 3
 "elfutils-libs" = "0.195-1.el10 aarch64 de728bf983bdccebe1749239695582b858371dc0dbf79bb2e05c279ab0f262d1 elfutils"
 "emacs-filesystem" = "1:29.4-14.el10_2.4 noarch 3e6e3b924afb7f0c3b18897e78bcc8a9725964b302ee83cd963d479deafd4f3f emacs"
 "enchant2" = "2.6.9-1.el10 aarch64 2379ebb8c8670ee606125313a361a3d8945fb83894fb3eb786410262677f98fe enchant2"
+"ethtool" = "2:6.19-1.el10 aarch64 f4830aef2d6b1f3534f0ebb8055c3a77e649225bc1a4ed16eb441bc7e0def82e ethtool"
 "expat" = "2.7.3-2.el10_3.8 aarch64 cf5c7574b6a6076bb391056585d6b06c0e3728a5f857f9cb010f729d97eb5eac expat"
 "fakeroot" = "1.37-1.el10_0 aarch64 29110e615547e9ac705bd8f22b624d481c0317b0a72513acb474de87c8b8f2ba fakeroot"
 "fakeroot-libs" = "1.37-1.el10_0 aarch64 2f92d7a517f0278da551e61033c43dd36a56bf6809c2f1d5b3f1731d0fc4c3d4 fakeroot"
@@ -756,6 +792,9 @@ version = 3
 "file-libs" = "5.45-12.el10 aarch64 88842cad895f3114401c5e367d6be61466da9bd12f01b9810b9e2c7d46e60888 file"
 "filesystem" = "3.18-17.el10 aarch64 f0d10228adfa06010c243d65cdc789aab25a994a72b984ace32a68be761fba38 filesystem"
 "findutils" = "1:4.10.0-5.el10 aarch64 b7cb3db7cd69ae0e15be7e11d50a4be923100e38fba411aaf37f5de2dbaf1540 findutils"
+"fio" = "3.36-5.el10 aarch64 83ecc1ac41baff89ef494d0f9d398e37df839f29cdc8336da4ff5b8e800f2516 fio"
+"firewalld" = "2.4.3-4.el10_2 noarch f5f4a3dde4648d63c0788338b29d659529a82ad20b6b847a4d2435f0936d52d2 firewalld"
+"firewalld-filesystem" = "2.4.3-4.el10_2 noarch e06163c486be0d18b840a03a604ca734b588e22687a876bf7c906423da1266c2 firewalld"
 "flex" = "2.6.4-19.el10 aarch64 dd953c85148380cf67fc33eb90568415fab617c687c8b62d6ab88a96368274db flex"
 "fmt" = "11.0.2-1.el10_0 aarch64 949134527021226492381163c6a11b278df1cc62d0de201af2cc0b3eabb9867f fmt"
 "fontconfig" = "2.15.0-7.el10 aarch64 5003431f136d7469839941320a62d3791d240bfb90ba78ac67daa34955201408 fontconfig"
@@ -766,18 +805,23 @@ version = 3
 "freetype" = "2.13.2-8.el10 aarch64 1e717bc6502d00cfe9e7655236860d93bb2aa02ccdfceb1de294c86c3dfbe1c8 freetype"
 "freetype-devel" = "2.13.2-8.el10 aarch64 213f25d0ef224f3f877ba9b7c3e120f38d1f837151775d79550547af21d4d3d7 freetype"
 "fribidi" = "1.0.14-4.el10 aarch64 1608425d32bdcc5ea4bd5721ffe53b2d2ec1ce5905071f37a35fd01d344eee72 fribidi"
+"fstrm" = "0.6.1-12.el10 aarch64 f614ed8d76c927638f228a6f58479808c40ed94c9a0f2927db96b1af01f28610 fstrm"
 "fuse-devel" = "2.9.9-25.el10 aarch64 cac4b38182d84fce0fcef3f19b8d154853d769bdf35f3581d3333b5667fdf1bd fuse"
 "fuse-libs" = "2.9.9-25.el10 aarch64 dc7869ff1b1a8678bd8d358628fbadf7d32e2d356a69aecc6c7f7677e3c889aa fuse"
+"fuse3-libs" = "3.16.2-5.el10 aarch64 a18b434322a492cc8283c91f94f0a4ca684645eb87c98865dc41e2ce40a2c359 fuse3"
 "gawk" = "5.3.0-7.el10 aarch64 2220a1d2b6ac22e0fb8db2e93bc84df73865acc61612d5804ca56057c42ab506 gawk"
 "gcc" = "14.4.1-5.el10_3.alma.3 aarch64 5a725e63def5a480fab9ecea5eb89590d2230c47d3dea007a02fdd3fad32b2b6 gcc"
 "gcc-c++" = "14.4.1-5.el10_3.alma.3 aarch64 1d617bc6487bd23a1ad1dc7e1ab0bb3ead948bcace49b804fc20d9a08b14eec4 gcc"
 "gcc-plugin-annobin" = "14.4.1-5.el10_3.alma.3 aarch64 591e6f6ea1852d3809c204c5ecddfe42f2ebf15daac5888e492edf32899ebbea gcc"
 "gd" = "2.3.3-20.el10_2.1 aarch64 a38e35225b019f8a8f90d3d1cc3c082b50c877c23111c997b3b6687b3476c542 gd"
+"gdb" = "17.2-4.el10_3 aarch64 26c07137654539a4cbfb3f092a48dcf49ef6f5e8f3ff603695a8fe877ff9f1c7 gdb"
 "gdb-gdbserver" = "17.2-4.el10_3 aarch64 28d972cfb5efed8ac49ce13f43478c6774b2e012de817d26895a55ad3dc2c9ef gdb"
+"gdb-headless" = "17.2-4.el10_3 aarch64 4448db4f0b89416c9abe16a4482d6fac71cdaabba5aa54a7af9b014f5255d9ac gdb"
 "gdb-minimal" = "17.2-4.el10_3 aarch64 8d554374568fcca12b389452a4fbd8442698e4f453dba2aa0afa0e9657969d12 gdb"
 "gdbm" = "1:1.23-12.el10_0 aarch64 e8474b0244a9b453e86a1c65159310e9cc22091feef93701c789af3e3f6c39dc gdbm"
 "gdbm-devel" = "1:1.23-12.el10_0 aarch64 14f7cb04a2a675c8eeab287166d85fd22f7812a0bffdf5b4442e4c9654e5d103 gdbm"
 "gdbm-libs" = "1:1.23-12.el10_0 aarch64 ce675d7c4e47ed0fe8447e3793c10701a789a4bace5c96de65333e991616c146 gdbm"
+"gdisk" = "1.0.10-2.el10_0 aarch64 c8e716b8957663dc6d9f303bfd12c157baafb7e71b31e0cbf4dec5acbfabcdb8 gdisk"
 "gdk-pixbuf2" = "2.42.12-4.el10_2.5 aarch64 5a876679b0f43e0966e7226ed5f21ba1f4cbea5342f9d73f5c826c15d0e51330 gdk-pixbuf2"
 "gettext" = "0.22.5-6.el10 aarch64 2f1834811a4fe3abc5b7e958da5667ef27ded91658095a69400dc08c5a6b963b gettext"
 "gettext-common-devel" = "0.22.5-6.el10 noarch 13bd4495ee74787311558d412eb9a7fb995c464bc7ec620304a6c9da79f535c4 gettext"
@@ -795,6 +839,7 @@ version = 3
 "glibc-common" = "2.39-147.el10_3.alma.1 aarch64 d5db4ed3289ea484ded9bf2eebbf04859bc8be31ee17a2ad593a8a355395561b glibc"
 "glibc-devel" = "2.39-147.el10_3.alma.1 aarch64 1e17e9c893c62c0ed8e7aaa7a6da4e236a076bfff23aabd08e0731256c380919 glibc"
 "glibc-gconv-extra" = "2.39-147.el10_3.alma.1 aarch64 6692cdb686c7c7913529284b0b6d1c3f46b52258d6cc568c585ac2974f65dc53 glibc"
+"glibc-langpack-en" = "2.39-147.el10_3.alma.1 aarch64 e1b1e6986b63884ecb5e1e08444026e429cec1f9b8cc1d8cfdd1b3b190ca5c23 glibc"
 "glibc-minimal-langpack" = "2.39-147.el10_3.alma.1 aarch64 64208a0daeab4186532fa6f4aaeea5c15ab4909c0d77bbccefc917971e9806b3 glibc"
 "gmp" = "1:6.2.1-12.el10 aarch64 2637c58c1b716d2856c735ad85a61c1640e7e3a06d58e2bc102a480526823d56 gmp"
 "gmp-c++" = "1:6.2.1-12.el10 aarch64 849732c6980e98940a1356fee5dfd927cdf8b32e06914626015ae58222fb5256 gmp"
@@ -804,8 +849,10 @@ version = 3
 "gnutls-c++" = "3.8.10-5.el10_2 aarch64 36566300ce44c9d6bd0e0e0489f76868dcfda625a4aa4b874b3ef0d52e6b1b80 gnutls"
 "gnutls-dane" = "3.8.10-5.el10_2 aarch64 ba57568230fd5f56fecb5bbacde97b346f9f1b8a32f33015a019498be0cf81b4 gnutls"
 "gnutls-devel" = "3.8.10-5.el10_2 aarch64 e03c909577992e4c16e44d32d76530afa5d922e5005c311648f310483ce02de9 gnutls"
+"gnutls-utils" = "3.8.10-5.el10_2 aarch64 8e2163282fa45d0cbf4bb775d67b31d73e8ea78f5675903117434231e5fada91 gnutls"
 "go-filesystem" = "3.8.0-1.el10 aarch64 ec8e3c06aedee89c8f6f4ae9aff6e4443ef64b6ff1b99a3da10c70bb25bd1095 go-rpm-macros"
 "go-srpm-macros" = "3.8.0-1.el10 noarch 9e5e87cd317a9329616ce89932e0d9c86668c820926ad28d3a55e3421290c4e2 go-rpm-macros"
+"gobject-introspection" = "1.79.1-7.el10 aarch64 68b8b53ef9617bf72f1c1a79da6a6a95742b9a3ef57958b5a9db828238c41fa8 gobject-introspection"
 "golang" = "1.27.3-1.el10_3.alma.1 aarch64 918910c5f975a2ca7e446913536247e6e08f27e4d4149f92cd12b07a47425fc7 golang"
 "golang-bin" = "1.27.3-1.el10_3.alma.1 aarch64 5bd68b488c9783ea4a094a8b2db839bc9c7e1aa31f714b19c4e85d3fcc895bef golang"
 "golang-race" = "1.27.3-1.el10_3.alma.1 aarch64 909159f3062b1a0565c13be989c1dd728a28b034e08c14b22a7c054534cc9636 golang"
@@ -821,22 +868,51 @@ version = 3
 "graphviz" = "9.0.0-15.el10 aarch64 f3e08c2d9e7562a4985bc5349c3f7343d9b5506d2961f9af3c7ced1464f838eb graphviz"
 "grep" = "3.11-10.el10 aarch64 2d18c7cefb8fe1db50cae84f8efbab08b4935c33b296a9ffeab9ea7fcaef768e grep"
 "groff-base" = "1.23.0-10.el10 aarch64 e521de553036e6bb35f6bc7edb8c6989de55812cc5c5241700e73a0d762fb94e groff"
+"grubby" = "8.40-83.el10.alma.1 aarch64 d91653c52ca6b0c9fca7935789d3034a1a48670c8f73e9208edbfeaf0f759b8e grubby"
+"gssproxy" = "0.9.2-10.el10 aarch64 a92c68d59e63309e19b0b53964a03b033a7e9eba38aca449e4b826d949472220 gssproxy"
 "gzip" = "1.13-4.el10_2 aarch64 5606020bf53d11907a658794c18a1a5d6299c64035ea18cce2b0f563ab82a9f3 gzip"
 "harfbuzz" = "8.4.0-6.el10 aarch64 25db5632bda3fa610400142f0d424674f6ace45370a2e0b235f048b57a621aaa harfbuzz"
 "harfbuzz-cairo" = "8.4.0-6.el10 aarch64 7061d2cd432595b15822734a05b2e6b3589b32af9ef726d4c6747ab64d51379b harfbuzz"
 "harfbuzz-devel" = "8.4.0-6.el10 aarch64 70aabdec8354b7c24e080ad0da4102385bfffca0694cd7ec476de398dbf5ddb3 harfbuzz"
 "harfbuzz-icu" = "8.4.0-6.el10 aarch64 cdfa2a535934cc60b0f269edeed39377e901a4233641e113beb65406b50c0137 harfbuzz"
+"hdparm" = "9.65-6.el10 aarch64 0bb254135820e3ca52a29fb92e223878a3303a6f6d1ab9f2effacd7d624c3dce hdparm"
 "help2man" = "1.49.3-7.el10 noarch 710c2c5f4fcb96d6e29d182e2eaf9edf341e31c5f683ab406d0614be502337b3 help2man"
 "highway" = "1.3.0-1.el10_2 aarch64 8781ac03661ffe2427033695e4d6bb3ba417602ed6c873a2e29ad98c95ce0a1d highway"
 "hiredis" = "1.2.0-5.el10_0 aarch64 8ed5d76daf9593411b6732894b37b711d48a8f848f418fabfedab797b3b0a256 hiredis"
 "hostname" = "3.23-14.el10 aarch64 20f8d679d9efeaf2864429b71eb64e2e9012563d0edfc105854523bcbf771286 hostname"
+"htop" = "3.3.0-5.el10_0 aarch64 c8f064b082a78deff0ccfb7b08cc463f671ec2886a7ee9f9f453c169875ca0b0 htop"
 "hunspell" = "1.7.2-9.el10 aarch64 fdecd4e2b445f3346f47942ed2b137b3e45b4f1829f7e62cb7f7942757dda00b hunspell"
 "hunspell-en-US" = "0.20201207-11.el10 noarch 70180e88547e3baef51fcb9d9708c4a10a84a2f602721f8a28b19cb409ef6a77 hunspell-en"
 "hunspell-filesystem" = "1.7.2-9.el10 aarch64 2c43059c5160590409f4e9ac2c5b49846dfce8035ed0c2debeb133e7c43057de hunspell"
 "hwdata" = "0.379-10.10.el10 noarch 8bd5f0ce2871c1ef4fffe74dc5eee5e92fa5742feeab5092029267cccc4a2bb1 hwdata"
+"hwloc" = "2.11.1-4.el10 aarch64 f6e8a666868d3a917de38de3e44095aeeb2108aaed5bdc3ef7e152153a56dd70 hwloc"
+"hwloc-libs" = "2.11.1-4.el10 aarch64 c43ae2ade8ac2b5e4e6acc6b6bf4af142b6793312a2b4021843c8c86951584b8 hwloc"
+"iftop" = "1.0-0.34.pre4.el10_0 aarch64 253301fb547df5a3a891dc36145c3d8bb23408ced887218a8b0558b785c11828 iftop"
 "ima-evm-utils" = "1.6.2-6.el10 aarch64 4ae485b3254c67326acaadb7c79b8eda304f90759a982daaf0d8b20b2967d4a2 ima-evm-utils"
 "imath" = "3.1.10-4.el10 aarch64 bd7de34f78d5fba1b216b2c4d936811dc4646f6e5fc105cec5abdc24db8f6adf imath"
+"infiniband-diags" = "1:61.0-2.el10_2 aarch64 29dc593466ed3f511022ddd98e8af46c127648e4a38c341b380b33387368a17f rdma-core"
 "info" = "7.1-6.el10 aarch64 f96b6f5e9535227324276779e330fc15a8a0cac5ec55e17149afd73b71193422 texinfo"
+"inih" = "58-3.el10 aarch64 1848dd8d83bb4d7f1caa221d1bd387a291636bd719ff9ee313090d349d71cd9e inih"
+"initscripts" = "10.26-2.el10 aarch64 2f1e08f90eb02118a9ae8669bc569f23df67d395f6db79edd3a8047b8a08d425 initscripts"
+"initscripts-rename-device" = "10.26-2.el10 aarch64 ad75df0865dc4705fc8a65581fab0850741526cb9f66b24f5072408681eea12e initscripts"
+"initscripts-service" = "10.26-2.el10 noarch dcafa01802d9e327e49f56bf3c45aaa7209f9cb9b347ffcdbc5846d91b99d951 initscripts"
+"intel-audio-firmware" = "20261026-23.5.el10_2 noarch bddb90c8e153215dd4b167d7255c3ae47251d6f929871cbecc8409fcc942c37c linux-firmware"
+"intel-gpu-firmware" = "20261026-23.5.el10_2 noarch 9ec7da26f7eb69c4442dcce8c259d97c9f606b1e20f4fc0ffc21733dfcc9893c linux-firmware"
+"ioping" = "1.3-9.el10_2 aarch64 7e6fcad9f82773858a54c66a206fb05c1560fadf9d66bbe0f5ffe72bda6d12d0 ioping"
+"iotop-c" = "1.26-4.el10 aarch64 e8a23d663063ac303389714845caaeb3c83a696a5a99037c7a30dbe107aea24b iotop-c"
+"iowatcher" = "1.3.0-13.el10 aarch64 b847283b20c152404ba22956538f3882681976c32b85eeaca35bbed6dae2e3b2 blktrace"
+"ipcalc" = "1.0.3-12.el10 aarch64 759d0c0c6a95fa0b3f6bde44717c4ee00baca52c7aa0bdb5968573614c11a38d ipcalc"
+"iperf3" = "3.21-2.el10_3.1 aarch64 18958869212a9ec332e7a8c9dfe49d439232d9c9e3ee59378a6f658b72646009 iperf3"
+"ipmitool" = "1.8.19-10.el10_1 aarch64 4f2458ed7fad19b9d956d1ddfcf44995fa3a69e54edc1c5cde3546c1f106f304 ipmitool"
+"iproute" = "7.0.0-2.el10 aarch64 c12cd2c65e0e8fd712319d0678d3f29d8958e50f2f73f8a05e1065f78db6024e iproute"
+"iproute-tc" = "7.0.0-2.el10 aarch64 11d9be5bd0b59fed3dd2cc0b8bafe8d7f01a1cacd139454f00913dc5b7eefd9e iproute"
+"iptables-libs" = "1.8.11-16.el10_2 aarch64 905d22d4c355873207d7bdf5d543700dc74ea6aaf1f4d4c3ffa930bb6a91811d iptables"
+"iptables-utils" = "1.8.11-16.el10_2 aarch64 02a9b5c5d0b5a9bbca879f163de54c60f997f7197a3605074f7b1ed98f0f4f3e iptables"
+"iputils" = "20240905-5.el10 aarch64 67b6582c8de3756f243337e5be79542eabef71e016259a7d9f64f40abec6732b iputils"
+"irqbalance" = "2:1.9.4-6.el10 aarch64 a7603321f4fef89d3768f1979535ed5341f741b4ea20aa353c0b9720b4c1ac41 irqbalance"
+"iscsi-initiator-utils" = "6.2.1.11-4.git4b3e853.el10 aarch64 7582cc7a6983dfad9429cb87fe1389390b264bca4929b7f92776b23fc1b2d55d iscsi-initiator-utils"
+"iscsi-initiator-utils-iscsiuio" = "6.2.1.11-4.git4b3e853.el10 aarch64 23c76016ee8f1c7be8c56ae7d80262f8d05be32586b68a536cf2c54809761922 iscsi-initiator-utils"
+"isns-utils-libs" = "0.103-2.el10 aarch64 c3ab69362067606dbfa6a8368d2088ffd096952d969c4d2811e4af512932f2f4 isns-utils"
 "jansson" = "2.14-3.el10 aarch64 395c65895de76a35a0063dfffb360e361b5f2c3dce35d8cd306d9a72e3690c8e jansson"
 "jasper-libs" = "4.1.0-5.el10 aarch64 8bc95e36fd23779f5b178eb63426a65baaa52fd41f4e2d6df8d983c301dd61ef jasper"
 "jbig2dec-libs" = "0.20-7.el10 aarch64 a2f4ae01fc4649a88cdd102c8502405d8a445ff6b2b0d6626613464564f552ef jbig2dec"
@@ -847,6 +923,9 @@ version = 3
 "json-c-devel" = "0.18-3.el10 aarch64 2a631ddad2efc9b1704231f023ce2d2b267ccb71930a467b6405b35c25231fa6 json-c"
 "json-glib" = "1.8.0-5.el10 aarch64 937ba36283b77af460b1a63d8c4731ab5c6f7be18c633ee3fbed82dc64c5234f json-glib"
 "jxl-pixbuf-loader" = "1:0.10.4-1.el10_1 aarch64 0e5f3a3e17a772a7d0732e856132078f3f15ccd6c2f0feb4bfa85a22429d5c0c jpegxl"
+"kbd" = "2.6.4-8.el10_2 aarch64 05532970add98749242a3b5ea03e408d91417159b430949cc0263df1df2b3acc kbd"
+"kbd-legacy" = "2.6.4-8.el10_2 noarch 5cee51a736ce671b613c202d20d8e0f6a95225637cbe4d50a835bcc5ad73f7d8 kbd"
+"kbd-misc" = "2.6.4-8.el10_2 noarch dfda76f88d7916ddce2e03f78a2e971cb8b9657c8f23bc23a2a4003929e17ad0 kbd"
 "kernel-headers" = "6.12.0-264.17.1.el10_3 aarch64 fe0753364eb737d989c358422b676449b0b6bb1ed3c1ddde8d25fc54fef073fc kernel"
 "kernel-srpm-macros" = "1.0-29.el10 noarch 7c901fa014f719a182cd631d6f3d18b7abb8e6ea60ac9de6649090f007505028 kernel-srpm-macros"
 "keyutils" = "1.6.3-5.el10 aarch64 8d52f2ccfe49a385f408deb684a39ad1bb8982f8da36428a804f3e86721fd05a keyutils"
@@ -861,6 +940,8 @@ version = 3
 "krb5-libs" = "1.21.3-11.el10_3.2 aarch64 6433614f58b1caf973b89ddb25ae792d60b470c04b6561ac275eb67e9abd914b krb5"
 "lcms2" = "2.16-6.el10 aarch64 84cf956461037789157b9a20385b44ee9bcd9d80e37e739beaa3ca805e5dbb4c lcms2"
 "lcov" = "2.0-5.el10_1 noarch 80a35d87226c45767be7365a9f0bf76a1debf1c14c872831111aa265d66f2066 lcov"
+"ldns" = "1.8.3-18.el10_2.1 aarch64 82094e59548b876f97fc8f220aadda9ca8820f1a31886fc80efeaa29e3b57e12 ldns"
+"ledmon" = "1.1.0-2.el10 aarch64 cba628957e9c3dcd54023b49f1ac4f87420c211658c475bd3ae689ecc5a483f8 ledmon"
 "less" = "661-3.el10 aarch64 b563af29d3ea1a1fa2666292d947e26a3815befd610df0d9394a3ec433d5ea2d less"
 "libICE" = "1.1.1-5.el10 aarch64 3f98f6b01a9853f7c08c75ae9f147f5ecc81501a85ced3acdd78106d197f1afb libICE"
 "libSM" = "1.2.4-5.el10 aarch64 72a06c819484dccba3c35fd0b1cae8447549b3450288bcc5ea4c179cad63413e libSM"
@@ -886,9 +967,14 @@ version = 3
 "libassuan" = "2.5.6-6.el10 aarch64 9bd7e3ee9cc2d9f7f287f1f852a1404b50843acb31f6957e92545b6497bd0bad libassuan"
 "libatomic" = "14.4.1-5.el10_3.alma.3 aarch64 11abd7699bb53a72854d783735c94ee315fbd9b04b9b755f088f306ead2090ac gcc"
 "libattr" = "2.6.0-2.el10 aarch64 ec2670f222579df85a0b15696e85dae87187e8af860e1b41b99cbc3f6c4e5b30 attr"
+"libbabeltrace" = "1.5.11-9.el10 aarch64 33f181198ec498c8126aa23caa58e5326a85da983463314e2f7b81bd827f0499 babeltrace"
+"libbasicobjects" = "0.1.1-58.el10 aarch64 250352d2e9d21454c8fa62b21f5bceb79e45113a3bb1bfa024af7d817e1262e0 ding-libs"
 "libblkid" = "2.40.2-24.el10_3.24 aarch64 bc3c8e2b95c16b0bac1b64d49ddea24341e7bf53c9d21e0a0446c9240261386e util-linux"
 "libblkid-devel" = "2.40.2-24.el10_3.24 aarch64 0f0480624fe1ca2ce1fa99e51b2977df6f4e6e3f914176b4259fc6d56bcbb98b util-linux"
+"libbpf" = "2:1.7.0-2.el10 aarch64 93407e4fd98399b05eb264aec17c65e190caee280c76d2c04c8f555f103e5746 libbpf"
+"libbpf-tools" = "0.36.1-1.el10 aarch64 f316d0fafdb178591e96f21f06df9a1198cc55da8efa31b1420857196dff9aa0 bcc"
 "libbrotli" = "1.1.0-8.el10_2.1 aarch64 676f5682d231b45451f8f5ad81e7ca873873630713160cb2f1c15d3d25b5d7b7 brotli"
+"libbsd" = "0.12.2-4.el10_0 aarch64 5c83367c81a9bd1968cdd68dca839a393dc597c32fb3ee4f8397f6fddbbac292 libbsd"
 "libburn" = "1.5.6-6.el10 aarch64 d10af8731cafe5e4a732260167807c46fc3c60295bf5c47af61c86db144566c6 libburn"
 "libcap" = "2.69-7.el10_2.1 aarch64 0e7692819c86e6366dcf8fdca9c77c37d97ebe394643e4fbe30b39cf78098d85 libcap"
 "libcap-ng" = "0.9.3-2.el10 aarch64 b35f16eafc478a46526a6f790c54a418b4ab6812fa471f4efb62ef5db9dae484 libcap-ng"
@@ -898,12 +984,15 @@ version = 3
 "libcgroup-tools" = "3.0-10.el10_2 aarch64 fc52cd27612ae36ffa23195482c498601abb09b07b6b4990b936f05a10749281 libcgroup"
 "libcmocka" = "1.1.8-1.el10 aarch64 4efe0bdcedd3ecf94150dc1b33052b45b78c10dbf4939c165c58e99dd243c286 cmocka"
 "libcmocka-devel" = "1.1.8-1.el10 aarch64 594a8332f58999dff0d6410c50899bed3fe972ea7015a243632ce34291df453e cmocka"
+"libcollection" = "0.7.0-58.el10 aarch64 b1367b73856ff85e597e5a9ca75017e8b01286e5073387724fa9931845cd2acb ding-libs"
 "libcom_err" = "1.47.1-5.el10 aarch64 d413398f035fae85184c3b6d321865f675c6daf3437671e15fdd47988d1ecd2b e2fsprogs"
 "libcom_err-devel" = "1.47.1-5.el10 aarch64 74f96c9f7c958423f5cd7b4f002917d892bd314a1064912c28e965dbea03c1cc e2fsprogs"
 "libcomps" = "0.1.21-3.el10 aarch64 dbda46039f36293808a9f39d3dc5cf22ca40aad5e4d130dda52f4a3dae8f6e5d libcomps"
+"libcurl" = "8.12.1-9.el10_3 aarch64 3d25ae5e2f521b9b8f0342a864e57dc470c54bbb60e6828e9572bee94ed7fe71 curl"
 "libcurl-devel" = "8.12.1-9.el10_3 aarch64 ed2cb5244a4589b6dc888d5a6137e305bf3e5a2fffe3ff9772274290b7325abb curl"
 "libcurl-minimal" = "8.12.1-9.el10_3 aarch64 fe2bffa17332d81f706d64c618513bab82a311192a0e2ea3ca1a76d944e27f36 curl"
 "libdatrie" = "0.2.13-11.el10 aarch64 6082ad2ff3863f48f11668aeaec6bbe90e31732827885a6cc4cc822402497cd8 libdatrie"
+"libdhash" = "0.5.0-58.el10 aarch64 a95bcaae8e7109d46ea253010f5f448e79a647520f18b389d8d4af6a81f75103 ding-libs"
 "libdnf" = "0.73.1-17.el10.alma.1 aarch64 643fd7f489379f97378a75914f02a342eec87e700cf74d576ba5c569582ede3c libdnf"
 "libdwarves1" = "1.31-1.el10 aarch64 894ce20519d34737a73774cc13d3a29f19f814ca1a167936a7949bd54f72c375 dwarves"
 "libeconf" = "0.6.2-4.el10 aarch64 64a52f6d3897a3831cc437e506ee7533bd4baa1b6ba0409935c70e208d76f264 libeconf"
@@ -923,34 +1012,58 @@ version = 3
 "libgomp" = "14.4.1-5.el10_3.alma.3 aarch64 ae42ee88ed50fdbd2c049d2bc35fddeeba7c675651eebe87c95440d697290632 gcc"
 "libgpg-error" = "1.50-2.el10 aarch64 0adb03b48d55c5fb74f7ae8142356a4af282234908933b5397df003e1022662a libgpg-error"
 "libgs" = "10.02.1-16.el10_2.3 aarch64 227b38e6f9b213ce5302d4a5b44fcef6edfc12f268b41920913694256145931c ghostscript"
+"libibumad" = "1:61.0-2.el10_2 aarch64 9ccefc2552f8b6800f179482e7c74eecd9ef8ab59bf80467949209414878da25 rdma-core"
+"libibverbs" = "1:61.0-2.el10_2 aarch64 cc4972fa6b8c7c55fff29099c349fed22900f25e5b1aa4e52279400915a99632 rdma-core"
 "libicu" = "74.2-5.el10_0 aarch64 0b5ddcb9dd4a62967a8c9017188d83c916721c6c8f13549d57a58aa8b7fbe55f icu"
 "libicu-devel" = "74.2-5.el10_0 aarch64 f033d7e4b608e30a8ad470f73e78628e6fa9a9e21bdbce5d69a73f85921a2cbb icu"
 "libidn2" = "2.3.7-3.el10 aarch64 c1b303786923dadf259477d2f09e716b9f747c8b7ab1277f32f5c4cd0d537990 libidn2"
 "libidn2-devel" = "2.3.7-3.el10 aarch64 4c60ac591483d49deec95ad9180aafcc2f80809a4072b2c9bed0419688a0baae libidn2"
 "libijs" = "0.35-24.el10 aarch64 7122af1de06191dff3c73f3f3969f75c1d3fb23b44b5729a2735f32d70ecc743 libijs"
+"libini_config" = "1.3.1-58.el10 aarch64 1d553c33fbe2eb24112cf4812ab054cd11e52455422825d5ca5275ac200fc366 ding-libs"
 "libisoburn" = "1.5.6-6.el10 aarch64 7abe20660c564c93121f981b9b8945bac56738bc35e5d3d43208546c5130369c libisoburn"
 "libisofs" = "1.5.6-6.el10 aarch64 c486e2f171b0f9859e39051df663e6c061fdb293aaa1ac58b2ccc6fce82f3102 libisofs"
 "libjpeg-turbo" = "3.0.2-4.el10 aarch64 2feaff518e78e3395767c576a927386ecd057cb7dd407bab47e5402fb922b5a7 libjpeg-turbo"
 "libjpeg-turbo-devel" = "3.0.2-4.el10 aarch64 b6e7c31784fe3d8d7cb320bfa0784d040637fafbbeb729fb5736f3648f3f36ea libjpeg-turbo"
 "libjxl" = "1:0.10.4-1.el10_1 aarch64 982876ce55a88bb83a2c60872501862b12c83450d0901ab7ea890dc292263965 jpegxl"
 "libkadm5" = "1.21.3-11.el10_3.2 aarch64 68c92144a88b20be189e69915a27a521f2173e5e624ce80a69d64e0fba212e30 krb5"
+"libkcapi" = "1.5.1-1.el10_2 aarch64 90d8f20af74d24f3f778e2ce5ff53cfaa920308e43f23689192e7a2fb5a4ecab libkcapi"
+"libkcapi-hasher" = "1.5.1-1.el10_2 aarch64 6abf6ce00a582794fe27c7ad990601f2c1a95071b71cc7fd6faa0dbb1c3161cc libkcapi"
+"libkcapi-hmaccalc" = "1.5.1-1.el10_2 aarch64 173ac17d6a6b3923841f510eec87bf73dcb7d22eddee6b9354a7460f7e59e73c libkcapi"
 "libksba" = "1.6.7-2.el10 aarch64 f7e50f3491c7ba01c098585ee98351c375abc440234dfbd1317703e734cde0fa libksba"
+"libldb" = "4.24.5-101.el10 aarch64 2b36c135d34e9f03490c56180ef1c34047ab8cd1612b75e813255a021a61db74 samba"
 "liblerc" = "4.0.0-8.el10 aarch64 39d22e83f88375a95a4d0bc735d3f3a671e695761fb875a7fcc7c65417de6b67 liblerc"
 "liblqr-1" = "0.4.2-26.el10_0 aarch64 53d31d5e9ea735c9f82fb5f5db9f3a270862c413444be80644d6b4f3ea3bd22b liblqr-1"
 "liblsan" = "14.4.1-5.el10_3.alma.3 aarch64 a239450fc9d54f2564db338ecf72639eb0843f6ecb91dc7269ab7cbfc0b2c3c7 gcc"
 "liblsan-static" = "14.4.1-5.el10_3.alma.3 aarch64 52a2e46cf874a00b24127eb0d4abaab71e4e4333c98994bb4b51b7f4915c5735 gcc"
+"libmaxminddb" = "1.9.1-4.el10 aarch64 2def1c448ec13c95a395cdfbffeab46a588122bb6bd06916fbf1517b05be5e05 libmaxminddb"
 "libmd" = "1.3.0-1.el10_3 aarch64 574f4daa450f7592cda3372bda903764d4edd3c06fa44c5139ffe8633a082cf8 libmd"
+"libmnl" = "1.0.5-7.el10 aarch64 ce9c444a2834aab6a1c390415f6a4ec3a553d0cd4561178c5e0f15d8db29bc9e libmnl"
+"libmnl-devel" = "1.0.5-7.el10 aarch64 22bc57cb5986e41a60f2ee08ee0cf51d916a253549dca44e4d9d33e480b078d1 libmnl"
 "libmodulemd" = "2.15.0-12.el10 aarch64 edc244d9b69ab0442686f09da06ad2646d4b01ce249a52bba4c98459bfbbb0db libmodulemd"
 "libmount" = "2.40.2-24.el10_3.24 aarch64 48928d51a70b1473920085656c1c6ce6faef557c0968c187fb13d01bb02cc3f3 util-linux"
 "libmount-devel" = "2.40.2-24.el10_3.24 aarch64 e2bc5290bc20506f18371a7b233a79cfcbfeb1e091bdb446df8869a87e5b6260 util-linux"
 "libmpc" = "1.3.1-7.el10 aarch64 733a04fe8fbcd0d22d8d378a880009d73cdafbf529469abe14aff2ff6d8f1d17 libmpc"
+"libnetapi" = "4.24.5-101.el10 aarch64 cb791ec479322751ca579dac32c041da0d8717455c08a61953c3c9a44d2628e0 samba"
+"libnetfilter_conntrack" = "1.0.9-12.el10 aarch64 5d11f7981001820672506fbb1f630eba73f734e6d7d78b29345915c41ebc53ea libnetfilter_conntrack"
+"libnetfilter_conntrack-devel" = "1.0.9-12.el10 aarch64 08701d93efb783ff41c25b3b6a562223fd1e4e56bc0e353e5e901be2009909c4 libnetfilter_conntrack"
+"libnfnetlink" = "1.0.2-3.el10 aarch64 a5e9e7b70bc0fd506a25aa77e9b3c2404acbbc2bf389e9a562d40b2811608a9d libnfnetlink"
+"libnfnetlink-devel" = "1.0.2-3.el10 aarch64 8243ae014415e1e12a0699ba58f344ddcfcdab49b30761509589d42c9cf82a8f libnfnetlink"
+"libnfsidmap" = "1:2.8.3-9.el10 aarch64 222d713a0b2fef540cd7353ea93670d7145a3e82caba13019c6d7bad051e403b nfs-utils"
+"libnftnl" = "1.3.0-3.el10 aarch64 d4e14fdf5776599fdf4d1bb0487b73bc718db736e8e13cced090cce97ed88329 libnftnl"
+"libnftnl-devel" = "1.3.0-3.el10 aarch64 300b8683d02aa84deb24d5ca6395aaacb901b3c629ff225d6b07d1f62ebb4875 libnftnl"
 "libnghttp2" = "1.68.0-6.el10 aarch64 69f6c03e5a98f830db5be8b100a44bfbdf1a762bd83978440c97e34eecf9e7a7 nghttp2"
 "libnghttp2-devel" = "1.68.0-6.el10 aarch64 ef937b558e1e6cf1cf71300c9530c3d5dad08a1243ce6eff2e8c4d8520c80943 nghttp2"
 "libnl3" = "3.11.0-1.el10 aarch64 de9adbe1f2840157d9189d10ac2b91ec151ee20321f4afae4604e99c508b0128 libnl3"
 "libnl3-cli" = "3.11.0-1.el10 aarch64 1d27b516a80923181df3f345401b204e87717ed912bc06da2f0a0e38c8750457 libnl3"
 "libnl3-devel" = "3.11.0-1.el10 aarch64 60701b61f2e49c87fafe2523193da8a06665b1b9e745082f6002e14a3afebf50 libnl3"
 "libnvme" = "1.16.2-1.el10 aarch64 3e4058eb7d56a013588dc0ce2cd0b72cb2fdc33cd00c4c896aece0e629f43838 libnvme"
+"libogg" = "2:1.3.5-10.el10 aarch64 0362597ed0dc67872dc538295cb7fcd890ce707d5c3d0893ff2f56b3ced92032 libogg"
 "libpaper" = "1:2.1.1-7.el10 aarch64 128cb27f0ae2faf8531f8b00f488b49478187a3e0fa5f1aae851f615441d5f59 libpaper"
+"libpath_utils" = "0.2.1-58.el10 aarch64 5b196a1ffe67a9910aece3af3b3984eb4101bf922ac5af9ccb7f0b3b843328c0 ding-libs"
+"libpcap" = "14:1.10.4-7.el10_3.2 aarch64 75df8bb1da0900afeae2656eb75506be2fbb27c599f4fddb119bb0ffbe2078a6 libpcap"
+"libpcap-devel" = "14:1.10.4-7.el10_3.2 aarch64 7db1f36b8db02534ce78a0f76aba982537123304d105608434a6bdeacfa528dc libpcap"
+"libpciaccess" = "0.16-16.el10 aarch64 ddfd3d8fe3812be10579ad972938661772702492fdd2559ee039e19e94505528 libpciaccess"
+"libpipeline" = "1.5.7-7.el10 aarch64 61c3c3e2707f3aa7201fc57bab14add2e927bee10b354b95f2c438bd5073af31 libpipeline"
 "libpkgconf" = "2.1.0-3.el10 aarch64 f303c4871ce01e3878334f654015fe2b4972fb76159becc6b43f27285f920b82 pkgconf"
 "libpng" = "2:1.6.40-11.el10_2.1 aarch64 3c3100064be5b950f5c4937bfe77cd01a9e57dcf3d59c8c05363a333c7a4d8e4 libpng"
 "libpng-devel" = "2:1.6.40-11.el10_2.1 aarch64 ce8b7e858f43b99beb04d771a71230666ac47bd4ac2ed6384f66a737a67cb50b libpng"
@@ -958,32 +1071,52 @@ version = 3
 "libpsl-devel" = "0.21.5-6.el10 aarch64 4b8d93d5955f4fb2862426710091014f13ad9d1e5b9c26eaec317280769d39a6 libpsl"
 "libpwquality" = "1.4.5-13.el10 aarch64 810a1a9d2a842ca6528c406d8220753414bc6c9e6f36d4d57aaa4149ee344840 libpwquality"
 "libraqm" = "0.10.1-1.el10_0 aarch64 6c773868a45487932470d48ff21d616bfb87ed537c4fe649275c4a557a8e8879 libraqm"
+"librdmacm" = "1:61.0-2.el10_2 aarch64 9486fff1df34dfecb1a9f5d08f2b36c0dd3a66f7ee88fe7f748d610aef06c6d5 rdma-core"
+"libref_array" = "0.1.5-58.el10 aarch64 45c4f7a74db3582765b5bb99ec02ac507f6bcf72cbb3a213d1c1246e3f005cd5 ding-libs"
 "librepo" = "1.19.0-1.el10 aarch64 e6f2ab54f52b887e13d73b92237b0458ade775c9ee4e2a50b3b4bcec70a9a552 librepo"
+"libreswan" = "5.4.1-1.el10_3 aarch64 ef1e9b448da204d9b36a243f86e2edf3c4b8abfd5deaee0f50ee931901df2326 libreswan"
+"libreswan-minimal" = "5.4.1-1.el10_3 aarch64 1db7b5cb6ad03324ef1bab3a79dda35ea0a3d83113ebcae3511850101fa043b5 libreswan"
+"libretls" = "3.8.1-4.el10_0 aarch64 47d8d43a6a4a0eef6906f696e47c847021dc3482b64fa3346874835c9f5a6c80 libretls"
 "librsvg2" = "2.57.1-9.el10_3.10 aarch64 59bf0e4c58bd2cc616db9ee9b18553b0c634ebd0d21795aefbf835f4ae4492b8 librsvg2"
+"librsvg2-tools" = "2.57.1-9.el10_3.10 aarch64 09857ea9825d98257c33a82bb4a8560bdd8af8004ae58c40b0f277c005eb4d6e librsvg2"
 "libseccomp" = "2.5.6-1.el10 aarch64 587345a8caf0e0a81e6f93adf5f556ac01b0178f2a3f3ca9ad0833e6439e9d80 libseccomp"
 "libseccomp-devel" = "2.5.6-1.el10 aarch64 86e55021e14019e5538271cae605aaaa25c6df67368c0f58f09f05c1c97f2f00 libseccomp"
 "libselinux" = "3.11-2.el10 aarch64 83c61b401e414938569ba10ad5bd0bbbeadf336a4c60e7c7416a8588324f8743 libselinux"
 "libselinux-devel" = "3.11-2.el10 aarch64 819ed2e9dcb6e6a15de6548c8cf5fcdd75d05a5627850393b2c6b42e376e6175 libselinux"
+"libselinux-utils" = "3.11-2.el10 aarch64 284ad05377a30cb6a64b49b8d06f546fa96e293ea9355f60f327f3861795c943 libselinux"
 "libsemanage" = "3.11-1.el10 aarch64 fce01ab1bab7effbd3042116217c9413358f6d0c63fdfa832677634aae591a96 libsemanage"
 "libsepol" = "3.11-2.el10 aarch64 158202c25fb5ea74578402314c6c8c2efa4191681a5ccd02529cb650e9fcb052 libsepol"
 "libsepol-devel" = "3.11-2.el10 aarch64 15fd925385f5b083da1fc4ea9e843aa963727c45707d731d1f66a22c3f0ad395 libsepol"
 "libserf" = "1.3.10-7.el10 aarch64 2c450b09c1c04d091159a40fd03fc4d91e5634053992a1632c6bb74974a77563 libserf"
 "libsmartcols" = "2.40.2-24.el10_3.24 aarch64 96986e623e55b786347164040991692573b11bf4fd6ba5ada69b7fedb5eb7685 util-linux"
+"libsmi" = "0.4.8-43.el10 aarch64 d211e3d1acaacf794cd7a0876e05acbea0248d7b1ef4667c85db39f42fb76f31 libsmi"
 "libsolv" = "0.7.33-5.el10_2.alma.1 aarch64 d3b79b35f5b427c724ff7f0eebbbd2f1ed0f440c2bb70151756d1a7fda38ba28 libsolv"
+"libss" = "1.47.1-5.el10 aarch64 81c438d6aefb48dbc7f4d3af4ee76e573b71653368149fe9dd6b70acb8889c2c e2fsprogs"
 "libssh" = "0.12.2-2.el10 aarch64 4b80dbda4b2b8ab478c08619e4586ddd3d20f4829cc0b247a53173721ae44676 libssh"
 "libssh-config" = "0.12.2-2.el10 noarch 92bde602b43a1bb4cb48c0f6cf2b9791712f30a15281e9006e875139575cacb4 libssh"
 "libssh-devel" = "0.12.2-2.el10 aarch64 4f04b7a17486f7382a6a25b4ccf776e393832413431d7f57ae2bad375c709efe libssh"
+"libsss_certmap" = "2.13.1-3.el10_3 aarch64 7ae7ce1e859b6e8826fd6660beb350956c79d7711d92779ef2279c221142592f sssd"
+"libsss_idmap" = "2.13.1-3.el10_3 aarch64 67166e030d9031df54565b50d6177d55a5ef0b86451efe6bbdba5b634670f7ef sssd"
+"libsss_nss_idmap" = "2.13.1-3.el10_3 aarch64 291f28dc1b70d0a40e0ba864fcace60c8e72ab94c897a52ba662228010714d9f sssd"
+"libsss_sudo" = "2.13.1-3.el10_3 aarch64 81f787f2590b3d73760e382b0f5c5d1718b4f4193576d5766d792b6223ac4669 sssd"
 "libstdc++" = "14.4.1-5.el10_3.alma.3 aarch64 335b54c8d8b83ba72f75a20c97ccef4059be8d5d3737796087f5108ae9996cb2 gcc"
 "libstdc++-devel" = "14.4.1-5.el10_3.alma.3 aarch64 54f7f9f445c0d134e30dac9075e57312547ab3730084c095704b909c9ee1ac61 gcc"
+"libtalloc" = "2.4.4-100.el10 aarch64 c35c66e2f32cf23e5ac8fcd500e3f8abb98a44a48cdb1306e5a099cc2700051c libtalloc"
 "libtasn1" = "4.20.0-5.el10_2 aarch64 582a90dceb8a51e07561df25cb81ec41ddb90d5b014db4cf468f1aba3b71711c libtasn1"
 "libtasn1-devel" = "4.20.0-5.el10_2 aarch64 ab66beb80a547044e194a3a377af5fe5a6aaa2658df7fe66a9434ac9819e7b4b libtasn1"
 "libtasn1-tools" = "4.20.0-5.el10_2 aarch64 4b7c2610fdbc255ba3e2030bd4a963d0a156b37f656b835bdafbcec0f21cda57 libtasn1"
+"libtdb" = "1.4.15-100.el10 aarch64 fb8d5adcdf8f80bda274cdbe4667728a188e4a4bb5046466738612353c1cb8e3 libtdb"
+"libtevent" = "0.17.1-100.el10 aarch64 516fc6253962ab4335c8de8bb35b59bf3db9b99463dbd1471ba61f8ccfe13b29 libtevent"
 "libthai" = "0.1.29-10.el10 aarch64 a62df1a68ae95aaf67e4ee05c2e434e3b2ac0620ff0bce5a2252d7f34853f798 libthai"
+"libtheora" = "1:1.1.1-39.el10 aarch64 b2601286c65edae588f477418293a4665f941b9bb92166dd79000b6004b4e0ab libtheora"
 "libtiff" = "4.6.0-11.el10 aarch64 c2296e257dd6a266219c16b03a4cf85390c1a97034be93475b7db4cf6ebd4e20 libtiff"
+"libtirpc" = "1.3.5-1.el10 aarch64 7ce766b21df250e0aa5ba55a12b3da7046a02b5b89de75f5905da7c46e696804 libtirpc"
 "libtool" = "2.4.7-13.el10 aarch64 45c679b073a0066c2d1ac65e1cdeb9b2b074f0400ead847a6c62e759a87b5cc5 libtool"
 "libtool-ltdl" = "2.4.7-13.el10 aarch64 a2f63650fdb2993401858ca6bcf4d0693bd52320389d8f60adf298bf8e9df1a6 libtool"
+"libtpms" = "0.9.6-11.el10_0 aarch64 60e410fe9550074aa3bc0e68fb022b100bf0ff4f871473d8a23267f91f8aa2f6 libtpms"
 "libtraceevent" = "1.8.4-3.el10 aarch64 bbf7dce164a470cdc7aec7dec88b5eb3a81672adae580057309450368e4c0078 libtraceevent"
 "libtraceevent-devel" = "1.8.4-3.el10 aarch64 29f1ef2d4e0f9dbb935317b366094b4d0fc53363946b2c7b2d9813f1e76e0dae libtraceevent"
+"libtracefs" = "1.8.2-1.el10 aarch64 cb748e89b650bb25cafbc2016ed904016d905ce72d859079df285873e64b9613 libtracefs"
 "libubsan" = "14.4.1-5.el10_3.alma.3 aarch64 a20f25c51fa3061d95b5d71dd8420036e9bf88839c4d14377b0032d4d6e06377 gcc"
 "libunistring" = "1.1-10.el10 aarch64 301f645effa68cb92be0e379ca7ff406cc7cdbde17715b7dae09022a2b13e40b libunistring"
 "libunwind" = "1.8.0-4.el10_0 aarch64 3ba564dfd3c3993778b7e71a756a5e702f919a607104b9505feb260ad42fa9fc libunwind"
@@ -997,6 +1130,9 @@ version = 3
 "libuv" = "1:1.52.1-1.el10_2 aarch64 7169bedaefa6dd6324a5ce75e8eebb8e8f3e440211e1f22afaada9d90f62383e libuv"
 "libverto" = "0.3.2-10.el10 aarch64 51943715f9f22951a7b73941ec6b8d98b8705782f7283088890ca8a72265c94c libverto"
 "libverto-devel" = "0.3.2-10.el10 aarch64 61b1789465aa37f6a5eabce2d83534805b5fb86fc0ba71400bfe46226be642d6 libverto"
+"libverto-libev" = "0.3.2-10.el10 aarch64 05b70f9d6fc67f4b417c9f40978b5bc99e65916ca14b7849bf67d9863f873f46 libverto"
+"libvorbis" = "1:1.3.7-12.el10 aarch64 4fc6d0e2710c803b7d06778500a120368d9c6b0f1c4a706fcdd5ca85d7b09db3 libvorbis"
+"libwbclient" = "4.24.5-101.el10 aarch64 ef47d613afd4995af322614a654439287e6fa2f575d9a3e1bf7d8c3f389580f8 samba"
 "libwebp" = "1.3.2-10.el10 aarch64 6dc02fc616775dc6ded94900d45f9974c3bcc3427ca87ed95aeb579fe3bf8229 libwebp"
 "libwmf-lite" = "0.2.13-6.el10_0 aarch64 bfc3999c6ae9385e7e081046ae9ec7e6e7d09734185eeae5a7809f5e7e37ef56 libwmf"
 "libxcb" = "1.17.0-3.el10 aarch64 23f2dd096d4715885352b601cfced37c6e3e0a1b6d43cfe9ed2acdc5f875c7aa libxcb"
@@ -1010,8 +1146,18 @@ version = 3
 "libzip" = "1.10.1-5.el10 aarch64 afd1494e8ec7fdce57f529e56bb160ec22cdefa057737cd29dee02b60d988c67 libzip"
 "libzstd" = "1.5.5-9.el10 aarch64 fd9cfcac80f5aa625db43949b15accfd7b9e139e559ab1a7cfb1212191aaf8f1 zstd"
 "libzstd-devel" = "1.5.5-9.el10 aarch64 77a34d32489f8fec5fb5ee20c8e8ec8f2a5ee92c1122d0f2e874ec8887c2907d zstd"
+"linux-firmware" = "20261026-23.5.el10_2 noarch 371bbc6af63a4a958229046891563f42811c3f826b74a97a69b712839160b3bb linux-firmware"
+"linux-firmware-whence" = "20261026-23.5.el10_2 noarch dbd9961b721135d48c3ee822665cca6088f37379dd98abebfc19b5f73a1b6a96 linux-firmware"
+"lksctp-tools" = "1.0.21-1.el10 aarch64 fa751cfaaa989304bc6f8f8f3454e4218127e7c0f0c2cee7b98c287403d2c471 lksctp-tools"
+"llvm-filesystem" = "22.1.8-1.el10.alma.1 aarch64 6e8922e30531d3917bb64c4d701596d03aaa50f0f98537e6937e2c562fd1df99 llvm"
+"llvm-libs" = "22.1.8-1.el10.alma.1 aarch64 a294333b818f47c97adbc807a4e3f9c81b24b9fc45ddb8e03353a077fa584a4e llvm"
+"lm_sensors-libs" = "3.6.0-20.el10 aarch64 5f006075d668db4e0103c165407430c4928c0d755dcc9a0354682cc5dc617e7e lm_sensors"
 "lmdb-libs" = "0.9.32-4.el10 aarch64 d1184e3dd21f051a05daf0385b6b9ada5e2198245e4c60f34f3dfbf63a436837 lmdb"
 "logrotate" = "3.22.0-5.el10 aarch64 f523ab30f811d4e1a6461da8d57cc274dd26f88abeaae330b3305b9ada829035 logrotate"
+"lshw" = "B.02.20-9.el10 aarch64 249f2383da72b97d494c4e48b9c08a006b09e7bc415d3b4c8d154d0218cc744b lshw"
+"lsof" = "4.98.0-7.el10 aarch64 9d11380e2c04e605f4502d93c587243364a72a908a645787193d40c89336e6a2 lsof"
+"lsscsi" = "0.32-17.el10 aarch64 a43e0a311926f9e8c1628e0d2773788a2e6a1bfcabd6e7be26a76aa01ccf8a73 lsscsi"
+"ltrace" = "0.7.91-53.el10.alma.1 aarch64 c7de75aed8a44ffafbadd0b3383224a291bcbc6fe1c529f68f991c1ce2635e68 ltrace"
 "lua-libs" = "5.4.8-1.el10 aarch64 d0eed609100dd19a4b1fa1d31bf0d5c2e11d0cf200fc27f6182f9d735138e9d5 lua"
 "lua-srpm-macros" = "1-15.el10 noarch fabbbdf4425d90ccd25458e3b16b0f698427be88eeefaf78b6a081daf60de2bb lua-rpm-macros"
 "lvm2" = "10:2.03.41-3.el10 aarch64 e0ac48d99a784a11b70de2d17aec8bff9affc0f28291ac3a9cffa264d7b92b66 lvm2"
@@ -1024,15 +1170,25 @@ version = 3
 "m4" = "1.4.19-11.el10 aarch64 fd296eb20be1ecf6c672e6aefdd28e7bd149e7452587275a06918236cd2c1bf9 m4"
 "mailcap" = "2.1.54-8.el10 noarch 0e6cccb4b9e61ea5384b81ed9cd4b45e862393effd979307105d84f9cd8acd26 mailcap"
 "make" = "1:4.4.1-9.el10 aarch64 9bb0bfca468d3bf7235efa7c79fe6734f1c7f875c3aa0e31e02f9fd5d09dfccb make"
+"man-db" = "2.12.0-10.el10 aarch64 a1376c34dee8d5535ef6874f90d0de33b8e6a7100474f636064875278e3a0b45 man-db"
+"mc" = "1:4.8.31-3.el10 aarch64 5415c86a0f2bc5ac1e4bb9520bec566b9a76075575da24c70962dfab12cae01b mc"
+"mdadm" = "4.4-4.el10_3.1 aarch64 d2f6d8959ed57ff6c22beb8c0023a8a79708ac305205b8a692e0b457af4f1788 mdadm"
 "mercurial" = "6.8.1-2.el10_0 aarch64 048a63bca00d72e98bdca7a87f2f02151a29a5eac488a497701feffa3feb675f mercurial"
 "mpdecimal" = "2.5.1-12.el10 aarch64 b9e107d2b85558e37a77e832200c3235c0c2e902c121f60450141fdaadd77d15 mpdecimal"
 "mpfr" = "4.2.1-8.el10 aarch64 8962a1f5b072ad02de4003626268c0865494a5134bdbd7611abe2461cf133be3 mpfr"
+"mt7xxx-firmware" = "20261026-23.5.el10_2 noarch 35fa1f9618dbb9934f837be2095083120d6843ee154259b99bc206571eaa34ed linux-firmware"
 "mtools" = "4.0.43-7.el10 aarch64 d677a15fd40522c59dfef1ae2bff47386f4e3d8b53d0657cff0380550a88e784 mtools"
+"mtr" = "2:0.95-11.el10 aarch64 9e8e9568be027ee00abf87132c03a60b0e7ba027edfff7934ee5f5fec6b31a0e mtr"
+"nano" = "8.1-3.el10 aarch64 3c4d2328a3cbdc1f7856ffb749486f78028d7b3309627a64b64e91cdb61109c3 nano"
 "ncurses" = "6.4-15.20240127.el10_1 aarch64 887130c42a0bb08a3102ad6837d75a7382ecd2e204b3a33e4575070f563d0cc1 ncurses"
 "ncurses-base" = "6.4-15.20240127.el10_1 noarch efc7cace8436b8383bb62c7689de692ca32cfb54f07d50b4c8255faf9d34b82d ncurses"
 "ncurses-c++-libs" = "6.4-15.20240127.el10_1 aarch64 e696b5f0f7cf31d7e3a4f62b9d7a9506ad701eab2671bce98f000b3da92b2d74 ncurses"
 "ncurses-devel" = "6.4-15.20240127.el10_1 aarch64 4aff38d678a5486e9cfa9ae32b878384617c53cdac6429696fc1e28c1e06bab6 ncurses"
 "ncurses-libs" = "6.4-15.20240127.el10_1 aarch64 9739c005a86afd1a4d6090c9e5ea1b5f42a4c3c5c655f59e83f99a6756e94c30 ncurses"
+"netcat" = "1.238-1.el10_3 aarch64 b0df43ee0153518fe06d3f59817d3087701d2378c78ab52d334fd8e9b956d38d netcat"
+"newt" = "0.52.24-5.el10 aarch64 ee2f04ddd05765f9d02f3da20ab082abe8da219f93d2104a4576c178ed590258 newt"
+"nfs-utils" = "1:2.8.3-9.el10 aarch64 9bc20bfe47315accc2f4c3281c4fd6d04730656915362ff7009557beccef1aba nfs-utils"
+"nftables" = "1:1.1.5-6.el10_2 aarch64 1abbd50032e2f6bd5c1f88ebb27da4d4f60fe4bd6f780f0c8399338dd043473d nftables"
 "ninja-build" = "1.11.1-9.el10 aarch64 f23c2fe3aa0103d509610674da3415fe7652eeaca34cd0949f5683088702e48f ninja-build"
 "npth" = "1.6-21.el10 aarch64 4604fcaddb5b141a70d87575f51ebbb4cfe992be5fd31c6b086888a97b627e95 npth"
 "nspr" = "4.39.0-5.el10_0 aarch64 20900c35c07f1e9adb998149ea027219980cc6056f7b0de8cc1b5f8838778ebd nss"
@@ -1042,7 +1198,13 @@ version = 3
 "nss-sysinit" = "3.124.0-5.el10_0 aarch64 9b035c1dc666435a2092c3c7b85d54c1d8013965583136a31a2150b02681d299 nss"
 "nss-tools" = "3.124.0-5.el10_0 aarch64 110a5b58551c57d283d33b1bc2a32bda2bf24e84f98558426754fe2c7660491b nss"
 "nss-util" = "3.124.0-5.el10_0 aarch64 ed80c24fdf18b11b4c228174ac3b11b516686409d2781daf5f5a616f2403730b nss"
+"numactl" = "2.0.19-3.el10 aarch64 e0514fc88927b59e83fdf23454ea38cd206765e58f37cade7d2b2deeb6031a05 numactl"
+"numactl-libs" = "2.0.19-3.el10 aarch64 8960d2b6ab8f03b383d435bd83448797ea03d9c9d24a83142a165e2c3f9fa804 numactl"
+"nvidia-gpu-firmware" = "20261026-23.5.el10_2 noarch 5e0b6dc6e650513568da728676642a147e4cc2b119b1f258124530aea3801bf2 linux-firmware"
+"nvme-cli" = "2.16-2.el10 aarch64 39ef498ec6aae12c8c1b620d1d8eda062b0814000e9f881c3de51c25f715cade nvme-cli"
+"nxpwireless-firmware" = "20261026-23.5.el10_2 noarch c0866d53424c9d78f24a8a9ee657842a7d58016d176324c122b4bd0c5cd13917 linux-firmware"
 "ocaml-srpm-macros" = "10-4.el10 noarch f9ee48e40c5bc2dcdd87cb85a3d69088527801cf5c309f565753f834df097cb7 ocaml-srpm-macros"
+"ocl-icd" = "2.3.2-8.el10 aarch64 ad5d3a23c53ac459d1cfc52a01b0cdf896a0c82a2ac733e99bb14b2d6c4b41bb ocl-icd"
 "open-sans-fonts" = "1.10-24.el10 noarch 4211226285b5fe071f9d5d1609be60ff3cef2074ca232afdabfb367d2ee9c51d open-sans-fonts"
 "openblas-srpm-macros" = "2-19.el10 noarch aaab4436f0b991293a491f72e8704906c2c2608032c3490c3dc05c68cff9b0ce openblas-srpm-macros"
 "openexr-libs" = "3.1.10-12.el10_3.2 aarch64 d33456f1ae4b5b7af1214ba06f3f44ef3ae58d7d9f92ed9e2a382f39c0002f96 openexr"
@@ -1051,10 +1213,13 @@ version = 3
 "openldap-devel" = "2.6.13-1.el10 aarch64 9b903a2328480fab03e9c3bbe334b3b349e47ad32797763625adc5ddd013989b openldap"
 "openssh" = "9.9p1-33.el10_3.alma.1 aarch64 d7f12a9b7e130d0d6ad8f15245fe820bfcaab34e1988bd59c1ff69d3d338c2ec openssh"
 "openssh-clients" = "9.9p1-33.el10_3.alma.1 aarch64 d3496056dd256eec3028f5709ab06b8f857bc3725d21a52e58d7d3f241bbe1ef openssh"
+"openssh-server" = "9.9p1-33.el10_3.alma.1 aarch64 17d85e2be2679b42f99756d2e9d5c3aa6330820b4000a6e44c42fed17506684d openssh"
 "openssl" = "1:3.5.9-1.el10_3.alma.1 aarch64 335344648be66dea90c2198eb073f6ab94226532e4a02fb4113d0b74f01a12fc openssl"
 "openssl-devel" = "1:3.5.9-1.el10_3.alma.1 aarch64 7d0cd2e25f3d664fe904afd1583992f6095ce7f6baebaa363d1b26443a867b5f openssl"
 "openssl-fips-provider" = "1:3.5.9-1.el10_3.alma.1 aarch64 e72ea46cfb5e06d5d6fcc8bc1b276fe4998c02b3dc998713c5c6fb4522dc5317 openssl"
 "openssl-libs" = "1:3.5.9-1.el10_3.alma.1 aarch64 53a0d87e78b27bbee49eb100258c0c308ffecbc2df6cfc50a6a84babf61640af openssl"
+"openssl-perl" = "1:3.5.9-1.el10_3.alma.1 aarch64 956342a78f432dbff83064af36aa70b591d683d9e5158beb93852f2469b2001b openssl"
+"os-prober" = "1.81-9.el10 aarch64 d113f2397b3f34f78c6043060e16dedb980b74904e04b75e0ea56a51c07a959f os-prober"
 "p11-kit" = "0.26.4-1.el10_2 aarch64 c3c1289a58fac0c91996f6fb78b1ec0f35c8748f25fabb9e78d965db218e1cad p11-kit"
 "p11-kit-devel" = "0.26.4-1.el10_2 aarch64 7c9fda1e3dfad5d1797ed50b587e6a9d06fa952930d89165dc0dc2f8b7c37486 p11-kit"
 "p11-kit-trust" = "0.26.4-1.el10_2 aarch64 e9e3245e6600d93e7a3e82be70a0597ddb5dab23bfbf7db00b3e9543281a1fce p11-kit"
@@ -1064,10 +1229,15 @@ version = 3
 "pam-libs" = "1.6.1-11.el10 aarch64 24e9221d1f4234e550bc07b25b1349e9a2b7ec7d5f66bb9e1ba261538ee33ced pam"
 "pango" = "1.54.0-4.el10 aarch64 202d90aeef01519bacd848e22a72853b8cb1dce3dc95670ee0fb4b1fa8b8db81 pango"
 "parallel" = "20261022-2.el10_3 noarch 93e0d70039de54466183ae8910c74e8c76f56a1a4d0ca462181050455bc58e87 parallel"
+"parted" = "3.6-7.el10 aarch64 a4df0b50bdf2460f1be36eada2be4a3f1587c53e119ae94932158c94516bd72f parted"
 "patch" = "2.7.6-26.el10 aarch64 e2b9344530e980e72aaab80f3eab37923a32cc50128208aa11ef936a90dfd3d0 patch"
 "pciutils" = "3.13.0-6.el10 aarch64 0a29cf96bd4980ee14bd8bb10940813af5c946488f3e50a553bea2d92018cf5a pciutils"
 "pciutils-devel" = "3.13.0-6.el10 aarch64 d05e847d78563c142e8ac727ab72e281b44a4d6021c1d8b891ed1549284918e0 pciutils"
 "pciutils-libs" = "3.13.0-6.el10 aarch64 92c5c60d11de978305fff96df6b5042b983231d9a29120ab89287d2df5b2354d pciutils"
+"pcp" = "7.1.5-7.el10_3 aarch64 1725f16f750229a14815b998ce65cd75700dec4a53b4dc6820af5ef0052c2403 pcp"
+"pcp-conf" = "7.1.5-7.el10_3 aarch64 9499a78f47a341e953ad57326d79e3b28c60ab752dd8b33b15bde9b45d2ab9ec pcp"
+"pcp-libs" = "7.1.5-7.el10_3 aarch64 88f088639d9057612a5a2561bb691d5784976d596b11f83cc3bbca098da738f6 pcp"
+"pcp-system-tools" = "7.1.5-7.el10_3 aarch64 f676540ad9b75007ac9637e73f697c7c1a024260045c337518363485ce0e2d46 pcp"
 "pcre2" = "10.44-1.5.el10_2 aarch64 8f05139394558b39546314c17e9c5ea8599065f0a0cc628d4de1742c3c786dce pcre2"
 "pcre2-devel" = "10.44-1.5.el10_2 aarch64 2a0fcf80e0c205444767a29d81052952bd3836cd11487b0e8aa67fc9921eab99 pcre2"
 "pcre2-syntax" = "10.44-1.5.el10_2 noarch 7069da1b3476490225e93c2511e42b906d7e14b52ae1bd11187ec5cef7f93316 pcre2"
@@ -1234,24 +1404,29 @@ version = 3
 "perl-version" = "8:0.99.32-4.el10 aarch64 60be5e5b2fe3dc9c3c28a838301e8f868578ba31d627d445a2f7f149b69463d5 perl-version"
 "perltidy" = "20240511-1.el10_0 noarch d6ed1d9d27fbf9afb613c0fa38b7d096396b8854b82e34cf56882aeac80dcf5c perltidy"
 "pesign" = "116-8.el10.alma.1 aarch64 44bc97ad2cda705d75307b631e5be53d10b7d1bb07883b22c18324c702773c51 pesign"
+"pigz" = "2.8-7.el10 aarch64 e1edb013809012d6255af13a0ca5cfea1f6ef0cf96d0b6f6e4652701e3cc5a98 pigz"
 "pixman" = "0.43.4-2.el10 aarch64 d1f06cde35b758f64e32085cfe156bbfaaf2e0527a8a20f889355dd5255280ef pixman"
 "pixman-devel" = "0.43.4-2.el10 aarch64 9ade2d808df98dac7fb3b7d3752c4b5d289b7cb8d7ceb5f5ffdbabf9f11154ae pixman"
 "pkgconf" = "2.1.0-3.el10 aarch64 78623636893f9cd51632e6856f8e6817250deab5b5add3e8c3a6848b1f8005bd pkgconf"
 "pkgconf-m4" = "2.1.0-3.el10 noarch 74cba7eb2aaa7c8bbc11f8125c01eb59b9be00fe60aa7f6b234ff448a7761824 pkgconf"
 "pkgconf-pkg-config" = "2.1.0-3.el10 aarch64 9186439fe29d864ef26ce730504556081e500b94a64cffd58d754b41423e1463 pkgconf"
+"policycoreutils" = "3.11-1.el10 aarch64 8d6fa914de7de7966dc6252de3a303e16e098972a0af09ad19e594a86dd3a22e policycoreutils"
 "poppler" = "24.02.0-10.el10 aarch64 9a63ef015ae3642c68e7b07edf23bbd0a75ce45a0bdcc68d183736c1154023a9 poppler"
 "poppler-data" = "0.4.11-9.el10 noarch a6048df0dca87ed697faf114059df0b717c36d72dadeeab4870e68e1b60229ea poppler-data"
 "poppler-glib" = "24.02.0-10.el10 aarch64 dfd896ccd8ef477605d286b1dc0271c1f849777b77f4ee7b9fcab5ca0188ad46 poppler"
 "popt" = "1.19-8.el10 aarch64 675764511e80bf3e9515b824072389d7a658ce2b7f513dde6f516122496cfd25 popt"
 "popt-devel" = "1.19-8.el10 aarch64 8f0b16204c547205071e3b3bcf3f55d97521444db5a9c56760212156d90b7907 popt"
 "procps-ng" = "4.0.4-13.el10 aarch64 e35b166fd5c18352c18142015b380f73c17934a5c40d0a0354d575d95e79383e procps-ng"
+"protobuf" = "3.19.6-15.el10_1 aarch64 9a4b6f502ae4987e937ca5ab6734c347876c85ffeab60281aa0787ba680cd49d protobuf"
 "protobuf-c" = "1.5.0-6.el10 aarch64 20c1d6ddc6e1f4dcccc1e3480f6ef0a8fbbabe43f87571e22b0ac3bb67d56b2a protobuf-c"
+"psmisc" = "23.6-8.el10 aarch64 aaeaa9d7772394a2043bf5966dd1148314e3a25ca73efbf78bb8d9f2eeb3a880 psmisc"
 "publicsuffix-list" = "20240107-5.el10 noarch e2f83b49d223193ac36730c93b087cd8a38e8b5a548047ff160000b0b6673079 publicsuffix-list"
 "publicsuffix-list-dafsa" = "20240107-5.el10 noarch 95d8620d329756f24e4b12d4e63165fa50159be98dd1c2d84dcbb3284fb82e82 publicsuffix-list"
 "pyproject-rpm-macros" = "1.23.2-1.el10 noarch 2aa1bd835cb55a47aefda2387df525ccd1f4ae1662a0a762f3bbb17cbbdd9a33 pyproject-rpm-macros"
 "pyproject-srpm-macros" = "1.23.2-1.el10 noarch 2a327d92cfdfc01777296122434f70f12a360856f8bd729c5e286df0b5701ec7 pyproject-rpm-macros"
 "python-rpm-macros" = "3.12-11.el10 noarch 4de062ca2ee3a839429d82bd51bd95dec89ffb819bfdbe22abb4429285bf637e python-rpm-macros"
 "python-srpm-macros" = "3.12-11.el10 noarch 9407f3815a6838cb1cb4691d623bad32658714b15ee3d98a482741ed3dc51953 python-rpm-macros"
+"python-unversioned-command" = "3.12.16-2.el10_3 noarch c1f822d2dfe6489d06331736dee22dfcd56a38c50d27fa602308d7b6f8f537c0 python3.12"
 "python3" = "3.12.16-2.el10_3 aarch64 2e7b0e27573fbc23fac584cbccb238a21be4915404cd113616e655325ffd3f45 python3.12"
 "python3-astroid" = "3.3.8-1.el10_0 noarch 0a6ef916057e85075f9c098c4a58e2ded80814a58c478af0c1f54f6e7efaa99a python-astroid"
 "python3-attrs" = "23.2.0-7.el10 noarch 933038f53d7726dbc49700c9a4b76fb59d14a723d115d0fadb9acb69212c46e5 python-attrs"
@@ -1260,13 +1435,18 @@ version = 3
 "python3-coverage" = "7.3.2-5.el10_0 aarch64 570da3eb7b4c8574da45a12362c7eac62eba257db67f326e42c8a75dc41a1cdf python-coverage"
 "python3-dateutil" = "1:2.9.0.post0-1.el10_0 noarch 413ef82c586930a630f04ecd4f19416b4e48a677db2ff3b3fe3ca35a0353b5e4 python-dateutil"
 "python3-dbus" = "1.3.2-8.el10 aarch64 0335fdd866a82a04e2e9149b61eb54f1046a764af4c0e7d21a9f08452f7be881 dbus-python"
+"python3-deprecated" = "1.2.15-1.el10_0 noarch 41a9382b517255a10eb9edc5bf09a8c1d0e3ee5411726b698e2610787ecee80c python-deprecated"
 "python3-devel" = "3.12.16-2.el10_3 aarch64 9cd4e3a7e6b428c15cf7ffdd33ff02add844a9133d2e6bf2ca5f7c2777daa01b python3.12"
 "python3-dill" = "0.3.9-1.el10_0 noarch 38d60ffb13089386f76d853f4c9b4b4f0b921ea518352db8ed51ad7d8923430e python-dill"
 "python3-dnf" = "4.20.0-28.el10.alma.1 noarch 2f85d3774ebc43b763b744cfeee6637b3abc87752e5b45e341380d266006b68a dnf"
 "python3-dnf-plugins-core" = "4.7.0-12.el10 noarch f2663db1fa982d211a4b061077c92661a130f8431adf0480430694f09973470f dnf-plugins-core"
 "python3-docutils" = "0.20.1-5.el10 noarch 77af976d27cae030efdc54079934e96ad97a5ee0c0dbf5588afa266e3ef4e5af python-docutils"
 "python3-enchant" = "3.2.2-14.el10 noarch 0b2d1dbb8eec45a800627ad11fdf54ef643ae2d0597d6f13cc8e6b7acc73b57c python-enchant"
+"python3-fasteners" = "0.19-9.el10_0 noarch 7fb5592416eb62bdda49b3ff0333078d72dd538048c9ee752e7c98a63a5d4e88 python-fasteners"
 "python3-file-magic" = "5.45-12.el10 noarch fa7d87e1e8c862719181b6a60445a31fbe6bb7dcce83c3eef1bb372c28261d66 file"
+"python3-firewall" = "2.4.3-4.el10_2 noarch c008b6b62ec34fbcbae74fdd41f8a8e6deb2b742f38670141c120adf18ed290b firewalld"
+"python3-gobject-base" = "3.46.0-7.el10 aarch64 f8e64853bcb10db122508305fb838e32571a74641b6d613692a7c7f795f888e4 pygobject3"
+"python3-gobject-base-noarch" = "3.46.0-7.el10 noarch 8964c1908c4a51047dea2d36d0ef9ee62e70110e50ac1114d95a5ec68d27c7e0 pygobject3"
 "python3-hawkey" = "0.73.1-17.el10.alma.1 aarch64 6d68ce6aa720629e5a307291cbdd66aaa2a3d2773282a9ebc9efb4ea0b4bf06a libdnf"
 "python3-idna" = "3.7-6.el10_2 noarch f19d8229b047cbda17f4e61fba52cf30be1bff6378bc22f58adcbb497584f8a9 python-idna"
 "python3-imagesize" = "1.4.1-9.el10 noarch a2c359c6dd2f97fd17d9fd6187f6382b151348811bbc5986768b5b7c1f424bb1 python-imagesize"
@@ -1279,13 +1459,19 @@ version = 3
 "python3-libs" = "3.12.16-2.el10_3 aarch64 1d7a874df73fb8fd274e09c463b025927115e31ac84001fb97844a192bf4c8cc python3.12"
 "python3-markupsafe" = "2.1.3-6.el10 aarch64 d29da31630d0bf79442ce8b92124c213c1ebf3ba0cbc8a7039480e78d92a55c9 python-markupsafe"
 "python3-mccabe" = "0.7.0-11.el10_0 noarch 897825d0ab7b5140d90496e5c4377a0dde1c4a0b4bcc89d893a59773a7e23a11 python-mccabe"
+"python3-newt" = "0.52.24-5.el10 aarch64 8ca2baf18facfd18e07d381b207ac106dacc4634f14a42538c31efbb4865ff87 newt"
+"python3-nftables" = "1:1.1.5-6.el10_2 aarch64 1ba53978e0bcf2592b7594a53b02bfba8caefdad9865e97b8be6afa5e2da2610 nftables"
 "python3-packaging" = "24.2-2.el10 noarch 34f09b71d61ef37a3c1aa1c59f09d68c14f9f92b36d842d408b8da7b6061b1f0 python-packaging"
+"python3-pam" = "2.0.2-10.el10 noarch cdbdfcfdb8ac5dbacc9b1c69c4fa785cfe9501542635dc56e837c57454f1a94b python-pam"
+"python3-pcp" = "7.1.5-7.el10_3 aarch64 6f624abb827f7bc3a049d306ca1a0db3c295568addc401bf94e478768602297d pcp"
 "python3-pip" = "23.3.2-11.el10_2 noarch da926fa0fa1a2ca6a4c4f00a5ff3eebc88d4f785589a68d280036ebf0a994263 python-pip"
 "python3-pip-wheel" = "23.3.2-11.el10_2 noarch 38af4bb101b0f4c095687c2234ab5fc35f0656c5fda22767489e960bed454472 python-pip"
 "python3-platformdirs" = "4.2.2-2.el10_0 noarch a2df000703daa151df42e1e16db80e5c151d28c883f54bbf839f75aa53dac37e python-platformdirs"
+"python3-protobuf" = "3.19.6-15.el10_1 aarch64 4501d9892661503b617796d4d7054f215382a696959f6e55aaa18fca95f3f0f5 protobuf"
 "python3-pygments" = "2.18.0-1.el10 noarch 0aa5135cbcd64ca51b1db4c3a093720490c54e5ce0f02ef249356855f1b9133a python-pygments"
 "python3-pylint" = "3.3.3-1.el10_0 noarch a371351ad81f70e7a75fe919af6987857cf11f7c741a98859c2cfaa6d1da780a pylint"
 "python3-pyparsing" = "3.1.1-7.el10 noarch bddd7ddda39e05a7ce9430b7407eaf7f832f9145aaa1380acfafb31b927fc904 pyparsing"
+"python3-pyudev" = "0.24.1-10.el10 noarch 8d90d8b87c4cbf1e45c7138e15167897ac0189610d1d8c32b08adcfb90d91301 python-pyudev"
 "python3-pyxdg" = "0.27-13.el10 noarch edbb6fdef77f8bff9d8166f431d1c88d453d12a6274a13d6fe2fe9435dfdf2a7 pyxdg"
 "python3-referencing" = "0.31.1-6.el10 noarch cc0682bf02b5d92a2caa806af0bc7c16ce22ea1c1ba6402cc92abfb383bebd47 python-referencing"
 "python3-requests" = "2.32.4-1.el10_0 noarch 253070a37db5b8ff613e84511cdf80fb0d04910edb7bcfcec2c4b24125c1fa1a python-requests"
@@ -1293,7 +1479,9 @@ version = 3
 "python3-rpm" = "4.19.1.1-29.el10_3.alma.1 aarch64 1317803dbc6a6616fa48317be3ce8363b338ee0e93c14cfd0009dc778e60fe9e rpm"
 "python3-rpm-generators" = "14-12.el10 noarch 7da63389710cf49d11225ffec042726cbe2221e1e963607416ef95d7a32c9572 python-rpm-generators"
 "python3-rpm-macros" = "3.12-11.el10 noarch fd90ab20274bea3018f82bf2093f45e8ff8720b9bfc1e4a796a2fce80e7e0640 python-rpm-macros"
+"python3-scapy" = "2.6.1-1.el10 noarch 945d33b64583b477c9c83071bb395f012a211248e16e882847df5594a808a281 scapy"
 "python3-setuptools" = "69.0.3-12.el10_0 noarch f093bbd794c34f4bc580126716de560820652ea11b484431b86ebdd5b1f86711 python-setuptools"
+"python3-simplejson" = "3.20.2-1.el10_3 aarch64 68947a30a0d2ae2f5fdd3232cf798c9c4e8d96dbae682f8d3383ff42f75e3228 python-simplejson"
 "python3-six" = "1.16.0-16.el10 noarch c3f50a6cf8baae82a41a9da61aab88616e44d0e4cae7a86521539199a885c106 python-six"
 "python3-sphinx" = "1:7.2.6-10.el10 noarch 6726ffaef1c6a87ba03228b546f1215c34de2405b86e1e1ffc24efbbea041d7c python-sphinx"
 "python3-sphinx-theme-alabaster" = "0.7.16-5.el10 noarch 280419b4c99bfa2fb9de43d194205733880e1ccfa4876091cc5f00ff5f6856e1 python-sphinx-theme-alabaster"
@@ -1303,17 +1491,25 @@ version = 3
 "python3-typing-extensions" = "4.9.0-6.el10 noarch b323e7e183cda698488c44cd91f8fafffc78a910bc313d2d0de1a6ea5e21e040 python-typing-extensions"
 "python3-urllib3" = "1.26.19-4.el10_2.2 noarch 278ab5fe5ec5e71aa2735c82755dbca77b5af4695a10e37292d5d23a259d68a9 python-urllib3"
 "python3-wheel" = "1:0.41.2-5.el10_1.1 noarch 526834e9f1485bd54d081d53739d5af8b9041cb043cbac4c4a48f5dc15693afd python-wheel"
+"python3-wrapt" = "1.17.1-1.el10_0 aarch64 9ef7f00ef7392846b756a28edef0be6f4bfa0873abb1229dfc8ca3e343c02c60 python-wrapt"
 "python3-zstandard" = "0.23.0-2.el10 aarch64 3a0c2131f476cfba39d7414c186201371319f69bfaea348a8bba6a585781a998 python-zstandard"
 "qt6-srpm-macros" = "6.10.1-1.el10 noarch 894de6c329420bfac338492dbd3c77c6100f22775702f395c4d212f082abd6dd qt6"
+"quota" = "1:4.09-10.el10 aarch64 a47e0f5d62b88c3147ea452395244f051ca125fac0372f13d5bca2b4074b6488 quota"
+"quota-nls" = "1:4.09-10.el10 noarch 70902646be08b685dbe7c636092c2af98660e0891f60d8298744336c3234826c quota"
+"rdma-core-devel" = "1:61.0-2.el10_2 aarch64 5a33ae50dd93ec53e78525df23cec3e6414c4437fdc36c3ce29cbf2334e69043 rdma-core"
 "readline" = "8.2-11.el10 aarch64 3a0e19ecd07c1cf9269a7dabb57c6c6426172112d78e0f7228cead17690cb716 readline"
+"realtek-firmware" = "20261026-23.5.el10_2 noarch 29cf3ebdf162af48895ea1d18950482c50ac127746a216629be7b66026b6b5c3 linux-firmware"
 "redhat-rpm-config" = "296-1.el10.alma.2 noarch d8a082597eedfb402afa11285fc1f765a77baa237e968d7ca97bb89091b1cef2 redhat-rpm-config"
 "redhat-text-vf-fonts" = "4.1.0-1.el10 noarch b30117cd215b8de56ce8fb9090fca9857c7dc6f4fb48494adf2dec5f92fcdb7a redhat-fonts"
 "rootfiles" = "8.1-54.el10 noarch d5ad82249e644cefb1e8c8ce64ff717a06df68e121183650ef13a104a220795d rootfiles"
+"rpcbind" = "1.2.9-0.el10_3.2 aarch64 e61d7ac8741223102ee20c31d7c92cebc91b0e675814bdd5746011167b1bdcca rpcbind"
 "rpm" = "4.19.1.1-29.el10_3.alma.1 aarch64 7261e61b35b2c09766817a64f8dc7fc99d5918fd328945fbe99156c024d8f43d rpm"
 "rpm-build" = "4.19.1.1-29.el10_3.alma.1 aarch64 4c8dba270753240c5c29d735c88ea3591e4d0151db27051aa523b9300f0fa030 rpm"
 "rpm-build-libs" = "4.19.1.1-29.el10_3.alma.1 aarch64 a007221d7391d802a78f1e2002bfb15cd408e253f6f71e5bb2a4652845264b18 rpm"
 "rpm-devel" = "4.19.1.1-29.el10_3.alma.1 aarch64 efc25a729aa1b3c028ef31dd2bd56a323f02c92951afe6e82910c3d23149c520 rpm"
 "rpm-libs" = "4.19.1.1-29.el10_3.alma.1 aarch64 8b392e47e92a25792a4482293c8f67ef5daa7ad0e4b0202f0547945359071b85 rpm"
+"rpm-plugin-audit" = "4.19.1.1-29.el10_3.alma.1 aarch64 c0ee7eabbcd4816c06703355dee47a08925751e9411c896df682f5f00a03dbdc rpm"
+"rpm-plugin-selinux" = "4.19.1.1-29.el10_3.alma.1 aarch64 33ca28abeadd9fb259db0c9bb98db7e4d7f214ba1dc956ba8f5fe1adbcb37da3 rpm"
 "rpm-plugin-syslog" = "4.19.1.1-29.el10_3.alma.1 aarch64 0d553d6ad94d25f15f81286233b6aabb357cd84fc106916b1e3955337697315b rpm"
 "rpm-sequoia" = "1.10.2.3-1.el10 aarch64 9245902584d09b626e2233249108efeabdfa509983569b369fd18fa342bb8499 rust-rpm-sequoia"
 "rpm-sign" = "4.19.1.1-29.el10_3.alma.1 aarch64 d37c893b0e9944157faa7293d641b4a8154abb78f1238bac8ebd2d62b15bbe2c rpm"
@@ -1323,30 +1519,76 @@ version = 3
 "rsvg-pixbuf-loader" = "2.57.1-9.el10_3.10 aarch64 45bca6b66c4455ec2ae2f34400a5fd72b7e2cb70fd09dee1fd900047b17c9220 librsvg2"
 "rsync" = "3.5.0-3.el10_2 aarch64 083a290c8202305d7e47d055fce15fb023be49dd11e0bab9a828988db93b52ee rsync"
 "rust-toolset-srpm-macros" = "1.97.1-5.el10_3.alma.1 noarch b9ceefdd234c924e9e2f5275157d0f3abb21804e704d2a0294b86e35ea3b50f7 rust"
+"samba-client-libs" = "4.24.5-101.el10 aarch64 ad52c266fd014cbea6cf72f07c501af6d631af3f6c92a0fcf52d687bf3a80f18 samba"
+"samba-common" = "4.24.5-101.el10 noarch 7ba018ee5005fa4578002140bf3e33ae0d68f2972d35cc15c09f6853e2cc4953 samba"
+"samba-common-tools" = "4.24.5-101.el10 aarch64 c30a90a8f7cab1513b290e095e8e8d7c1281f1136317aa97b450b07b62424bff samba"
+"samba-core-libs" = "4.24.5-101.el10 aarch64 a4de434261b96da3a47df0c8df60ed1747e2d231d5b3a69a93131c13caf743ba samba"
+"samba-dcerpc" = "4.24.5-101.el10 aarch64 ffa172ea92df455909dfb366455ed9b28055c3072d676362ab7e3853a1986704 samba"
+"samba-ldb-ldap-modules" = "4.24.5-101.el10 aarch64 0d5e6d9e6745cc015a63e45ecd1a7218ceef2c86801e17af80d7d065ab1ae203 samba"
+"samba-libs" = "4.24.5-101.el10 aarch64 5316c43848322f1e4a41fcd781eb10f18fa26370dd7b6a358f6e065c2eabbbc7 samba"
+"samba-ndr-libs" = "4.24.5-101.el10 aarch64 d9055d168a64e7531b6d67fa3683c01d384bdd76aa803f84bdc2d173b465a78e samba"
+"samba-winbind" = "4.24.5-101.el10 aarch64 ef7026fd8ffa33010e33cf3b0c2d0b98386f3fec6532a5153f44966691fa0ef2 samba"
+"samba-winbind-modules" = "4.24.5-101.el10 aarch64 57931cb268c832c1717c9ff6fea96de575daedce2727d78cdc6e59b425c0157e samba"
+"screen" = "5.0.1-6.el10_2 aarch64 a7c21e6435299e307985f2dbaaecb3eb3284d61bc7d78a55db2c7f570492ee40 screen"
+"sdl12-compat" = "1.2.68-4.el10 aarch64 c7abf1573ecad074c31376b5fdfc505238a8a7d9a89057b6498107dbd6553e4a sdl12-compat"
+"sdl2-compat" = "2.32.50-1.el10 aarch64 bb64bf6cae3d6cd79ed044a6854f4655a56946db87f312bdf45177739ba738a2 sdl2-compat"
+"sdparm" = "1.12-9.el10_0 aarch64 15be2af7a29a6f99bd76118cec0b501a2c3b5a161d9921a133ffc35cff971958 sdparm"
 "sed" = "4.9-5.el10 aarch64 0868ca8ad17b5d571b6ac037fdd3bcf5025a2538703477e77068175ff880d7ab sed"
+"selinux-policy" = "42.1.27-2.el10_3.2 noarch 29c2ebe2df9c6cd0687d6fc32139cd6715f8a812f01a56203a25b497e72b5c53 selinux-policy"
+"selinux-policy-targeted" = "42.1.27-2.el10_3.2 noarch 523a873163c09d5d381d6f31fa96bb351a305dff9061e582e8d2b78fc31afbcd selinux-policy"
 "setup" = "2.14.5-7.el10 noarch 4065c6f500ac20468530177b1a6012145c490c018a5d2812c951b0b7e919bc5b setup"
 "sg3_utils" = "1.48-10.el10 aarch64 c6bdc7bb1b4770c431f4c0f5d3bf55f642bc3e211046716a4e1888cfc224f135 sg3_utils"
 "sg3_utils-libs" = "1.48-10.el10 aarch64 9fefcb998cbab55b14832e9d2e74c472c8cf74f75eb94d416d9777d0a90ab12d sg3_utils"
 "sgml-common" = "0.6.3-65.el10 noarch d7d004aec9666eadb1df40ced663a833fdc41725047ee8e736d946eb0631738e sgml-common"
 "shadow-utils" = "2:4.15.0-13.el10 aarch64 e9b7a1c1aa4fe7e16e0ef9bc548291b2e96065772b80f964f6832dd988dd3c08 shadow-utils"
 "shared-mime-info" = "2.3-8.el10 aarch64 643cc71d86e510238226bd6939032481129e2ead3bf200e5d0a8cbc82e710b46 shared-mime-info"
+"slang" = "2.3.3-8.el10 aarch64 f1d35ec4a3d99fd52bfdf1d103b3528ca1385c1c664160132be7014f33bcc1df slang"
+"smartmontools" = "1:7.4-9.el10 aarch64 9488f927e53eafa99a130617cfdb6c901708b6bc3514a36a10c0d2617630d64b smartmontools"
 "source-highlight" = "3.1.9-25.el10 aarch64 dd7219af99f2a7e7a885e15c4baa259552c68963a040f6564d60c24607fe4406 source-highlight"
+"speexdsp" = "1.2.1-8.el10 aarch64 57df623db900723cc7b56219ac359202959dd49ba78a12ef99f41ceb6b6bf533 speexdsp"
 "sqlite-libs" = "3.46.1-6.el10_2 aarch64 e63ba95d09d17e86d16752ade472827928031ca609322412c4f9b7ba8d0d8920 sqlite"
 "squashfs-tools" = "4.6.1-6.el10 aarch64 8e4f603829445a65cb638529788df6bca72a5ab3b4f0544ada6a9c1ec2784dc2 squashfs-tools"
+"sssd-client" = "2.13.1-3.el10_3 aarch64 394633eab8a0ae80330ff20a61c8588f67a88a590c2ea7611134376ad910a02d sssd"
+"sssd-common" = "2.13.1-3.el10_3 aarch64 d83ac3f70632fe37f19c9fc661a0cf80ae5e677ab3032f6b3852dcb7cc248769 sssd"
+"sssd-kcm" = "2.13.1-3.el10_3 aarch64 4452a3e9811bc2ecc4ea2461b1869a86dc6cd513029de2e7cdfe86f162d61c63 sssd"
+"sssd-krb5-common" = "2.13.1-3.el10_3 aarch64 4a8710465353b7f705575aa282c8bc1d5e57f3b8d3a1c60cc01a9cb30135b3fa sssd"
+"strace" = "6.12-3.el10 aarch64 994fffc42b6cc68b7d97912d45c9d96cddfeda4675c0fecd4c80b3e42dda69c8 strace"
+"stress-ng" = "0.19.03-2.el10 aarch64 8c1fbbc40d4b668bcaaba849008d8dcd2f293fc1aa523005f13ecc4c26bcbf6c stress-ng"
+"stunnel" = "5.72-8.el10 aarch64 27b1c4ed28b672ad572f7b0917c29a1c202676a7562a6bcfe4db83e5187b8c10 stunnel"
 "subversion" = "1.14.5-3.el10 aarch64 df329585c19ebec83bac810bc34b20c5105718db1bb96d92fd75c7524dab950a subversion"
 "subversion-libs" = "1.14.5-3.el10 aarch64 6a29bdd97f5a0ac52b197fa890dad29ddeb4ae0066934312cc5d50c3ef813ca2 subversion"
 "sudo" = "1.9.17-10.p2.el10_3.13 aarch64 64dbfb5eb2fbde196b1723b7fee728e134d3c9daff951449ec36761bd37f187b sudo"
+"swtpm" = "0.9.0-6.el10_2 aarch64 b92225cdf19a0864bfcaaec6058be63bfd63f2348ae998c0cc5c5bc60c6b39f3 swtpm"
+"swtpm-libs" = "0.9.0-6.el10_2 aarch64 983060805a4b20b11ea18c0782495fb2c94247fa9f9cdab42cc050a9a014593f swtpm"
+"swtpm-tools" = "0.9.0-6.el10_2 aarch64 666c77327a88dd830d261a56e6066c28921f5b2c35171b1adb4d34079747f490 swtpm"
 "sysprof-capture-devel" = "47.2-1.el10 aarch64 1690576d65b2164285e9cbff63941718c64b285763a167b367a91b65fe2268d8 sysprof"
+"sysstat" = "12.7.6-4.el10 aarch64 a3148c2350bed875056b6f2e54ceae58a87feba48f2c86760580419e0f08457f sysstat"
 "systemd" = "257-33.el10.alma.2 aarch64 92fada5b2028bdc5a1ae83aa5fd168ca0d121a8297b3369baf517e4a7a32a3f3 systemd"
 "systemd-devel" = "257-33.el10.alma.2 aarch64 25351fb92710a9348f8818d7ff0e6798a3f36b879859e53bd93f97e1f8c1f1a2 systemd"
 "systemd-libs" = "257-33.el10.alma.2 aarch64 c5ed61ada432a4490f6fef0fbcf21ea5e3195dbf8806653d8db93baaf8fcc1df systemd"
+"systemd-networkd" = "257.9-2.el10_2 aarch64 930dbc484b9116e6e66fc6eaba9a17670a6c2537dc4be9b744c2334ae7b23398 systemd-extras"
 "systemd-pam" = "257-33.el10.alma.2 aarch64 6e89d8af5c7640cb4c472bd17582a2b6ac255e17458553e728f80f3e38519548 systemd"
+"systemd-resolved" = "257-33.el10.alma.2 aarch64 fb19d7b7a4af7c2a263cebbbf74929b98ffd441b3be8b8f120b2cd0e581b9f46 systemd"
 "systemd-rpm-macros" = "257-33.el10.alma.2 noarch 7c2c1576fe1dba2193162eef1d150b625a0b6ec4275aef8de3dc7e383717e1ae systemd"
+"systemd-udev" = "257-33.el10.alma.2 aarch64 732d906633308abffd50ead77f14c7f310c871e4f1f78bb2a3cbca31afb9894c systemd"
+"systemtap-runtime" = "5.5-2.el10 aarch64 b01d2b13edd59ffe8fa704300fee996b43a645dd8880120e3b9c4cc59c2e8007 systemtap"
 "systemtap-sdt-devel" = "5.5-2.el10 aarch64 faa02a1c7d331440ab05368220a6d337cd9645a3266416768915546bb02307b0 systemtap"
 "systemtap-sdt-dtrace" = "5.5-2.el10 aarch64 bea7a8bb0ffc11ccbd246918d296c7212ae9645df4a236edd7979f0f404f9fa7 systemtap"
 "tar" = "2:1.35-13.el10_2 aarch64 6019ab0050f811aad3189850eac2b57b976f910751e8403f6fe255dd2c7a132f tar"
+"tbb" = "2021.11.0-7.el10 aarch64 cfa4d73640db069bbd274cd0daecb8635759380867a6b5a7e2fccda89353ce0c tbb"
+"tcpdump" = "14:4.99.4-10.el10 aarch64 a27ee3b54b3f5874772cd55d6d5b63a9d436cc23838308850d6f12da130e7b8a tcpdump"
+"tdb-tools" = "1.4.15-100.el10 aarch64 94c2ecb786e0da2f79ed9b5fb30dc6422a396b630016a08432f8bdba4133cb50 libtdb"
+"telnet" = "1:0.17-94.el10 aarch64 686262328d0a8fefe5d58f396b809d8ce47b71e99d00c2e58d177756b4ec64d8 telnet"
 "texinfo" = "7.1-6.el10 aarch64 38a3979c19246260dce0f3a960eb93e0c976649261911b75997b9cd4f6eb1514 texinfo"
+"theora-tools" = "1:1.1.1-39.el10 aarch64 5b13835a54847ec869d31356f352a332deb3f32310051dbb8d6e9fcade486115 libtheora"
+"tiwilink-firmware" = "20261026-23.5.el10_2 noarch 8a0d96db206affa285001a628ff2e201a60d22b3e75c4be7bf4385bb47d2a542 linux-firmware"
+"tmux" = "3.3a-13.20230918gitb202a2f.el10 aarch64 8714d21741d993970f9757b698f8e4ab88fc55a89bc53e654d730bd8da4a68fd tmux"
+"tpm2-tools" = "5.7-6.el10 aarch64 2263da06c876f35c5f553e30c5d1a700c09ce7af7e09dd8f501b5edd01a8a213 tpm2-tools"
 "tpm2-tss" = "4.1.3-6.el10 aarch64 1d3ae3420630ec2f15318854d8fe88412d372e0388b64280340ad8ebd0c825af tpm2-tss"
+"tpm2-tss-fapi" = "4.1.3-6.el10 aarch64 b4e58c3aaecf4c87ec90f2fd42a7193c92d337e8bcefc2c965aa1f5a5c603e72 tpm2-tss"
+"trace-cmd" = "3.3.1-3.el10 aarch64 34d128fb6fce435adb9876e7d5aaba8b845b0be9ecb91cbc2b7318e3c9d5e545 trace-cmd"
+"traceroute" = "3:2.1.6-3.el10 aarch64 f19dd8ab482a974a4024786668500bb39df889727cbcb72b4b23baaedccc8203 traceroute"
+"tree" = "2.1.0-8.el10 aarch64 3198416c3837427f7e5330763a191b4d618f0ecc06496de5f5456f97d2b6185c tree-pkg"
 "tzdata" = "2026f-1.el10_3 noarch 253bb3f0d3c3710ec9e708b788457ea0511a5b2af31cef890864335526dda2ca tzdata"
 "unbound-anchor" = "1.26.1-2.el10_3 aarch64 46b0247c2c2f23ec51ffd0f9d231367965a2034a490b81cf0c0553913f56a5d6 unbound"
 "unbound-devel" = "1.26.1-2.el10_3 aarch64 a29cb7a605153d441b9d52d9837085bfb0d856430670c4e15d406ac8dcec86f7 unbound"
@@ -1364,20 +1606,27 @@ version = 3
 "urw-base35-p052-fonts" = "20200910-21.el10 noarch 25c84d671664336daf4c43b4b3edd50a7d1f140749cd3d4f7d4e20f140a2fb97 urw-base35-fonts"
 "urw-base35-standard-symbols-ps-fonts" = "20200910-21.el10 noarch 79fb51899353e10ceca1f48a6f5d26eb773fdd83b890701c6e4a4fdc2cfe0691 urw-base35-fonts"
 "urw-base35-z003-fonts" = "20200910-21.el10 noarch 413b1d2b38931b98b866cacf486f1a69f0a33f0b6f89be0d51fd0652cb09bc67 urw-base35-fonts"
+"usbutils" = "018-1.el10 aarch64 f1dc02550f2f0117c99ff68b25eef4974d62ad34386db862fd107b096f7a5ad0 usbutils"
 "usermode" = "1.114-14.el10 aarch64 bde9a22b03eae6e810ccfc4e5d013f792b12305b9fddf014b7ddccff01024f27 usermode"
 "userspace-rcu" = "0.14.0-7.el10 aarch64 98c7ec07c8188dec0b8afa378f33fd19df08451dda264b1206ce8c5d8d512358 userspace-rcu"
 "utf8proc" = "2.7.0-9.el10 aarch64 322025452cf8431e8f514e4a65b336e32f0bc980d0875d4293905e7e22a5bc54 utf8proc"
 "util-linux" = "2.40.2-24.el10_3.24 aarch64 c4506575e09d371e16bd93e2bebdb413022044ea67bab322a951a55d85ada6ce util-linux"
 "util-linux-core" = "2.40.2-24.el10_3.24 aarch64 fac23db61aeddd29ea8fb9df3c0faa7bfb9617af13646e6bb715a0d6746c68c4 util-linux"
+"vim-common" = "2:9.1.083-26.el10_3 aarch64 6cbfaa40e66df18f428544c6285e87383d87e84405ad00724d5fc58f3a205635 vim"
 "vim-data" = "2:9.1.083-26.el10_3 noarch f97d272a894b383205e3870926396437e1a6af1769c18a36ba91a234e1660acd vim"
+"vim-enhanced" = "2:9.1.083-26.el10_3 aarch64 5a4713f91d1d6f54fb69f2ecbfdbb5ec5da2f1af123a377abc2cfdaab721e200 vim"
 "vim-filesystem" = "2:9.1.083-26.el10_3 noarch 848bb4c22ef3c920b331618a7ccaa32d529125bf884946464fc335ec3ee462c5 vim"
 "vim-minimal" = "2:9.1.083-26.el10_3 aarch64 91f05cb3bf64c4e4a8eb9bad3045cfedd61f1893d2f6f6a7facceec1e6a74a71 vim"
 "virt-what" = "1.27-3.el10 aarch64 83153297d7beeef95ca6ccdf32e020bb11b289d6beb71321a587333ddac5a436 virt-what"
+"wget" = "1.24.5-8.el10_2 aarch64 33d89e817d5ca24c5e4d0f8b9191aa06c6ef66a20f92561a6f2645e02ccb06ac wget"
 "which" = "2.21-44.el10_0 aarch64 f54bce405945abbce9a7c8b2ab947b92186acd70d871d8f401ab6c25ebc46a40 which"
+"wireshark-cli" = "1:4.4.2-10.el10_3.8 aarch64 41083b7a51945f04262b83eed4f2ddf030a4776879898447361fd54a71e0e61a wireshark"
+"xfsprogs" = "6.16.0-2.el10_3 aarch64 f34e5c09fe93c3408dade6dfb115b598f401a8af007d75c03bdb7b5508f64163 xfsprogs"
 "xml-common" = "0.6.3-65.el10 noarch 850cda3bbf605e45e08c33124c08b9f42eb5a3a5ce7f9947c2a124b383ebe30d sgml-common"
 "xmlto" = "0.0.28-25.el10 aarch64 8b8bc9723f4ed3fe2c1065d723e3050516f649541e5e30f0d41d272818b32fda xmlto"
 "xorg-x11-proto-devel" = "2024.1-3.el10 noarch 2bea35b7beb98d163c08e8c37bf95788ac663edee1a96ef0a653ce6e9b96c30e xorg-x11-proto-devel"
 "xorriso" = "1.5.6-6.el10 aarch64 d59c7cf5d6e9a3322f0da3391468c8d5eb699721187a327fcadb67985d1368c8 libisoburn"
+"xxd" = "2:9.1.083-26.el10_3 aarch64 6b0c3107d62cccf7f866069899be979cfcc1827b56f7670125d360badc926e7b vim"
 "xxhash-devel" = "0.8.4-2.el10_3 aarch64 eecba8f7c06a2ff11d6db6b20cdf3b77a1e54a10007d0c2c95802f829badc4e5 xxhash"
 "xxhash-libs" = "0.8.4-2.el10_3 aarch64 d9ead2d655e669fca5a167477088ab0d7bdee6ee358cfeb2f1b6e3bb6d9e2089 xxhash"
 "xz" = "1:5.6.2-5.el10 aarch64 2e0980930d75e17f1b31c40411f379662de37986ca7840d819f8993a36d1e302 xz"
@@ -1649,6 +1898,7 @@ version = 3
 "iftop" = "1.0-0.34.pre4.el10_0.alma_altarch x86_64_v2 67257ed33d9df4b5d91fb259d82a37b995275237ca984e94df527f4d94614aa5 iftop"
 "ima-evm-utils" = "1.6.2-6.el10 x86_64_v2 d3ac63fb897f25cd27b8efc68495128efcf718f822c9990f5eec957693face54 ima-evm-utils"
 "imath" = "3.1.10-4.el10 x86_64_v2 62d6f930c3603288fa09e0d61f75481753457e7dc1a183aac68fa69e3908ad10 imath"
+"infiniband-diags" = "1:61.0-2.el10_2 x86_64_v2 ada77039c2d7ad8bd1f74b0546ceb693695a03d17f06d61dbf367204f8aa79ee rdma-core"
 "info" = "7.1-6.el10 x86_64_v2 00c7a0e7ff17a7e3fa6f31cdc8e1be2a6ccde49c2d422e6828e92dba8cd84e0f texinfo"
 "inih" = "58-3.el10 x86_64_v2 3610dddeac847924b93d9ddc38b65f30604b569c5cd5ad8f6780d4b593d7ae94 inih"
 "initscripts" = "10.26-2.el10 x86_64_v2 bee6ba4dc36ccc650090ac38b51aaf0ed2fb0402d382b03a2b9eb1ada8a2a992 initscripts"
@@ -1664,11 +1914,7 @@ version = 3
 "ipmitool" = "1.8.19-10.el10_1 x86_64_v2 4550cda8984ed290630221da9df30975ec06885fb30d2f077959ce8008ef5fbd ipmitool"
 "iproute" = "7.0.0-2.el10 x86_64_v2 5254fd45bebec992b3499201b58986a413696b084825692afa2af1a78f9849dd iproute"
 "iproute-tc" = "7.0.0-2.el10 x86_64_v2 30820b461ff2fba41a7c868a1d2a5628bc2bf2c074b48b68ad67820b705d8b47 iproute"
-"iptables-legacy" = "1.8.11-7.1.el10_0.alma_altarch x86_64_v2 f5de3bc62592daa8849ddd04e28993a635a07f0d9a1a695e21c53d379b4dca9c iptables-epel"
-"iptables-legacy-libs" = "1.8.11-7.1.el10_0.alma_altarch x86_64_v2 1c0202a9dfe6c567f68196d9579e487a4cd0313983aebf44c40fb86353788f7e iptables-epel"
 "iptables-libs" = "1.8.11-16.el10_2 x86_64_v2 333b0aac978ce354ed3f7fbe63fb6bc68caeee51e08c015339cec6a910109af3 iptables"
-"iptables-nft" = "1.8.11-16.el10_2 x86_64_v2 15f3cd0fac031c0cc11c615a7898f6f5461bccf59af22b9e4467fef90978aded iptables"
-"iptables-nft-services" = "1.8.11-16.el10_2 noarch a4884b26c90a7bddecc994120ad3b75e37ddb75fb8df8a9a9bda97b9aaea488f iptables"
 "iptables-utils" = "1.8.11-16.el10_2 x86_64_v2 314eeb204a0dcb3ed80d1404fbf8619fa5169575c45ad07d094052f93c4cc6f2 iptables"
 "iputils" = "20240905-5.el10 x86_64_v2 923b62ef51f2759c5fa94300585a03ec4ceeb2c8515a1c5c4bb08b95f9210787 iputils"
 "irqbalance" = "2:1.9.4-6.el10 x86_64_v2 8515b2f40caf1ef4ecb765a6b107515f8863191078af7a2e41394ddf63d893e3 irqbalance"
@@ -1771,6 +2017,7 @@ version = 3
 "libgomp" = "14.4.1-5.el10_3.alma.3 x86_64_v2 67d8783e25a7ddaf75a8e2463ba596508bd20e63d94c180bf6e3dd65aed4bdfa gcc"
 "libgpg-error" = "1.50-2.el10 x86_64_v2 776c0fb2b4275a9aea6a8c561ff10ec325340e8282ccba9a7fffd7f2df3d8870 libgpg-error"
 "libgs" = "10.02.1-16.el10_2.3 x86_64_v2 6af466b9d56a98b5b50d3104d5ff4da7149d93963bf3cbe8c9fe65e82948f5f5 ghostscript"
+"libibumad" = "1:61.0-2.el10_2 x86_64_v2 543d14a49354769d452f583e1eb501b4ef4a558f30a9eee7f3758dc381f3af39 rdma-core"
 "libibverbs" = "1:61.0-2.el10_2 x86_64_v2 d757ee5ed4528e7fe44ffdbd3218648c394c4d652c77d2c481f062a97e267e4c rdma-core"
 "libicu" = "74.2-5.el10_0 x86_64_v2 9cfd087e77da931ea76af6a825dcb0e29a36bbe11295ad8a8994b121242f5fc8 icu"
 "libicu-devel" = "74.2-5.el10_0 x86_64_v2 fab8ed71b550ef77f5ceb5c4f3017b6720c98548d5e287b1a0c90c8950ae0636 icu"
@@ -1798,15 +2045,19 @@ version = 3
 "libmaxminddb" = "1.9.1-4.el10 x86_64_v2 72147648294e0117653e2ec24698dabf84b165eda3dd23b22321a8be3415dbba libmaxminddb"
 "libmd" = "1.3.0-1.el10_3.alma_altarch x86_64_v2 5791fcceacaf50bebd9861a2aaf71e52334254a109eee7ea4f115a9974322b01 libmd"
 "libmnl" = "1.0.5-7.el10 x86_64_v2 972ffae5b746addc46f61f79700ef1a716d257ecc226ec8e77bb9bbdee3671e4 libmnl"
+"libmnl-devel" = "1.0.5-7.el10 x86_64_v2 82c6169d3ac4fa162143118a11959257fb3c9b08f2efb0eadeda2ce210b94413 libmnl"
 "libmodulemd" = "2.15.0-12.el10 x86_64_v2 b456e569d04cf4352bf04cd32e5fb51b33f879a540b2dd312d61bc6c73a00f41 libmodulemd"
 "libmount" = "2.40.2-24.el10_3.24 x86_64_v2 632cec4f670759b6b03a655b5a557c303e7a2b026a02ea24839b0dfd87c01c21 util-linux"
 "libmount-devel" = "2.40.2-24.el10_3.24 x86_64_v2 6941195b37d69d8965aa9f4018ae7b30e755a1f8fb157ac06582a4463f78574a util-linux"
 "libmpc" = "1.3.1-7.el10 x86_64_v2 70b3ff7fee3c35bb5fc707d627c01af302fa048172d86252b47281fde2fd5725 libmpc"
 "libnetapi" = "4.24.5-101.el10 x86_64_v2 a33a854c67d194e443af5ec04c4c147ce72d1189990b548c5478101e7a6ad712 samba"
 "libnetfilter_conntrack" = "1.0.9-12.el10 x86_64_v2 5edc0843bcddc1a12774f1b19e9d58651fcb7ebbfa65f3785cc74d8c79e035e1 libnetfilter_conntrack"
+"libnetfilter_conntrack-devel" = "1.0.9-12.el10 x86_64_v2 d5d2f9ebc611895043d976b383613ed09cfa45d5d53e9c2b1e08cd64e30dde39 libnetfilter_conntrack"
 "libnfnetlink" = "1.0.2-3.el10 x86_64_v2 1ba976a217dd2d39cea6f2cede9cbd4a56fde0504c5297c6faafb4157447d4bf libnfnetlink"
+"libnfnetlink-devel" = "1.0.2-3.el10 x86_64_v2 2d0fe5af006586c29279b841169a04c6775940fb32ddd68126225e7e26433b97 libnfnetlink"
 "libnfsidmap" = "1:2.8.3-9.el10 x86_64_v2 cb4a9e96bf9db7cda92d0e6bb00dabcc789b61c33f0c88b204619c65d8d41c19 nfs-utils"
 "libnftnl" = "1.3.0-3.el10 x86_64_v2 6f68509db3328ff7b02c8b7d6fb5790d01e0e74eb4a0918c2161f08b9d6d6302 libnftnl"
+"libnftnl-devel" = "1.3.0-3.el10 x86_64_v2 8cc57e5de7aabedab8fc36866024623a38c22f5dfd63920c5c52db5ce7f41867 libnftnl"
 "libnghttp2" = "1.68.0-6.el10 x86_64_v2 7e513f809cba4cb567feba0fc4f89da0811e87ae6c4caaa75dfa6943a98d161e nghttp2"
 "libnghttp2-devel" = "1.68.0-6.el10 x86_64_v2 c83511c04c33a177bb56dda45b94bbce8d81fae3586dac43ddc360e36c0751eb nghttp2"
 "libnl3" = "3.11.0-1.el10 x86_64_v2 163d73afcf0cf19e04417ccba6744b3413319faa008d7a50a86cbe5e66f3b511 libnl3"
@@ -1817,6 +2068,7 @@ version = 3
 "libpaper" = "1:2.1.1-7.el10 x86_64_v2 e7036ef9879114ee94e94a475326043d8dee05066cf7b77d77f63a476beac5d2 libpaper"
 "libpath_utils" = "0.2.1-58.el10 x86_64_v2 ca482ba9d2289548af431e0f83e33153facfef89b37b00319c54420c6d5319ce ding-libs"
 "libpcap" = "14:1.10.4-7.el10_3.2 x86_64_v2 0851909362ffb2ce7658dcb90e60ab576f388c3323b60f681edcbb9c3420fd65 libpcap"
+"libpcap-devel" = "14:1.10.4-7.el10_3.2 x86_64_v2 1554a83f0f8c2ba4f186ad7b740e8c99c2762cc4b8ac063871d439cb35e1aad0 libpcap"
 "libpciaccess" = "0.16-16.el10 x86_64_v2 33abfd879be1c2b6db9af8d90d37dc14e750d45097579fd301e72a41198a8f25 libpciaccess"
 "libpipeline" = "1.5.7-7.el10 x86_64_v2 43f492d5cfa82e4dab85b381e3a94612bcd014afd455393c99b0d50f5042eeaa libpipeline"
 "libpkgconf" = "2.1.0-3.el10 x86_64_v2 6034b138cff02b148af4b1bbef757e88844abd5cd2a1c0bc6281516065a0c537 pkgconf"
@@ -1826,6 +2078,7 @@ version = 3
 "libpsl-devel" = "0.21.5-6.el10 x86_64_v2 2780d66e3446e153db427be5d7201248658b4681bc48c162592382e51a59395c libpsl"
 "libpwquality" = "1.4.5-13.el10 x86_64_v2 7337ccf5f75d54c78d5511d0324c518284ad93bb9b4dde82b13cba1e97ec5754 libpwquality"
 "libraqm" = "0.10.1-1.el10_0.alma_altarch x86_64_v2 9086294111123e028dc481cc887eaa4188a34aa9f985e615588f0241183171d4 libraqm"
+"librdmacm" = "1:61.0-2.el10_2 x86_64_v2 044861a79bb6282a9631a687515e8b4dfeeab7bad42fefc15bfceb4e1b211c22 rdma-core"
 "libref_array" = "0.1.5-58.el10 x86_64_v2 a781f443e4f9e1e18dd76268fb6d2eadf7c1cd64d1f2f16e3d1992a917295fb1 ding-libs"
 "librepo" = "1.19.0-1.el10 x86_64_v2 b874591b2410bf2da127799c8fe756081a7dfd91bf862fa4c17f25f0e8f0acf3 librepo"
 "libreswan" = "5.4.1-1.el10_3 x86_64_v2 ed24c42451e714a425a5718204b4fec4c2d611247d819b1a4e3e1b6696be4f45 libreswan"
@@ -2273,6 +2526,7 @@ version = 3
 "qt6-srpm-macros" = "6.10.1-1.el10 noarch 894de6c329420bfac338492dbd3c77c6100f22775702f395c4d212f082abd6dd qt6"
 "quota" = "1:4.09-10.el10 x86_64_v2 4108ce59627a452ba67de5989d34fd4d7a055400b7f5c3f39e9dd178d175f1ba quota"
 "quota-nls" = "1:4.09-10.el10 noarch 70902646be08b685dbe7c636092c2af98660e0891f60d8298744336c3234826c quota"
+"rdma-core-devel" = "1:61.0-2.el10_2 x86_64_v2 04aa9c2f25ceac6d4671e359798f9bcffbe5b3cdfc0950c729af10ca62ec563c rdma-core"
 "readline" = "8.2-11.el10 x86_64_v2 2f1613b41d576a6177696c3909a193a833fddb70d374ff21d6cf95d3c4ef9c5e readline"
 "realtek-firmware" = "20261026-23.5.el10_2 noarch 29cf3ebdf162af48895ea1d18950482c50ac127746a216629be7b66026b6b5c3 linux-firmware"
 "redhat-rpm-config" = "296-1.el10.alma.2 noarch d8a082597eedfb402afa11285fc1f765a77baa237e968d7ca97bb89091b1cef2 redhat-rpm-config"
@@ -3301,6 +3555,116 @@ version = 3
     "python3-rpm-generators",
     "python3-rpm-macros",
     "userspace-rcu",
+]
+"iptables-epel" = [
+    "annobin-docs",
+    "annobin-plugin-gcc",
+    "autoconf",
+    "automake",
+    "bison",
+    "ccache",
+    "cpp",
+    "emacs-filesystem",
+    "flex",
+    "fmt",
+    "gcc",
+    "gcc-plugin-annobin",
+    "glibc-devel",
+    "groff-base",
+    "hiredis",
+    "infiniband-diags",
+    "libibumad",
+    "libibverbs",
+    "libmnl",
+    "libmnl-devel",
+    "libmpc",
+    "libnetfilter_conntrack",
+    "libnetfilter_conntrack-devel",
+    "libnfnetlink",
+    "libnfnetlink-devel",
+    "libnftnl",
+    "libnftnl-devel",
+    "libnl3",
+    "libpcap",
+    "libpcap-devel",
+    "librdmacm",
+    "libselinux-devel",
+    "libsepol-devel",
+    "libtool",
+    "libxcrypt-devel",
+    "m4",
+    "make",
+    "ncurses",
+    "pcre2-devel",
+    "pcre2-utf16",
+    "pcre2-utf32",
+    "perl-AutoLoader",
+    "perl-B",
+    "perl-Carp",
+    "perl-Class-Struct",
+    "perl-Data-Dumper",
+    "perl-Digest",
+    "perl-Digest-MD5",
+    "perl-DynaLoader",
+    "perl-Encode",
+    "perl-Errno",
+    "perl-Exporter",
+    "perl-Fcntl",
+    "perl-File-Basename",
+    "perl-File-Compare",
+    "perl-File-Copy",
+    "perl-File-Find",
+    "perl-File-Path",
+    "perl-File-Temp",
+    "perl-File-stat",
+    "perl-FileHandle",
+    "perl-Getopt-Long",
+    "perl-Getopt-Std",
+    "perl-HTTP-Tiny",
+    "perl-IO",
+    "perl-IO-Socket-IP",
+    "perl-IO-Socket-SSL",
+    "perl-IPC-Open3",
+    "perl-MIME-Base64",
+    "perl-Mozilla-CA",
+    "perl-NDBM_File",
+    "perl-Net-SSLeay",
+    "perl-POSIX",
+    "perl-PathTools",
+    "perl-Pod-Escapes",
+    "perl-Pod-Perldoc",
+    "perl-Pod-Simple",
+    "perl-Pod-Usage",
+    "perl-Scalar-List-Utils",
+    "perl-SelectSaver",
+    "perl-Socket",
+    "perl-Storable",
+    "perl-Symbol",
+    "perl-Term-ANSIColor",
+    "perl-Term-Cap",
+    "perl-Text-ParseWords",
+    "perl-Text-Tabs+Wrap",
+    "perl-Thread-Queue",
+    "perl-Time-Local",
+    "perl-URI",
+    "perl-Unicode-Normalize",
+    "perl-base",
+    "perl-constant",
+    "perl-if",
+    "perl-interpreter",
+    "perl-libnet",
+    "perl-libs",
+    "perl-locale",
+    "perl-mro",
+    "perl-overload",
+    "perl-overloading",
+    "perl-parent",
+    "perl-podlators",
+    "perl-threads",
+    "perl-threads-shared",
+    "perl-vars",
+    "rdma-core-devel",
+    "xxhash-libs",
 ]
 "ipxe" = [
     "annobin-docs",
@@ -5738,6 +6102,119 @@ version = 3
     "xz-devel",
     "zlib-ng-compat-devel",
 ]
+"iptables-epel" = [
+    "annobin-docs",
+    "annobin-plugin-gcc",
+    "autoconf",
+    "automake",
+    "bison",
+    "ccache",
+    "cpp",
+    "emacs-filesystem",
+    "flex",
+    "fmt",
+    "gcc",
+    "gcc-plugin-annobin",
+    "glibc-devel",
+    "groff-base",
+    "hiredis",
+    "infiniband-diags",
+    "libasan",
+    "libatomic",
+    "libibumad",
+    "libibverbs",
+    "libmnl",
+    "libmnl-devel",
+    "libmpc",
+    "libnetfilter_conntrack",
+    "libnetfilter_conntrack-devel",
+    "libnfnetlink",
+    "libnfnetlink-devel",
+    "libnftnl",
+    "libnftnl-devel",
+    "libnl3",
+    "libpcap",
+    "libpcap-devel",
+    "librdmacm",
+    "libselinux-devel",
+    "libsepol-devel",
+    "libtool",
+    "libubsan",
+    "libxcrypt-devel",
+    "m4",
+    "make",
+    "ncurses",
+    "pcre2-devel",
+    "pcre2-utf16",
+    "pcre2-utf32",
+    "perl-AutoLoader",
+    "perl-B",
+    "perl-Carp",
+    "perl-Class-Struct",
+    "perl-Data-Dumper",
+    "perl-Digest",
+    "perl-Digest-MD5",
+    "perl-DynaLoader",
+    "perl-Encode",
+    "perl-Errno",
+    "perl-Exporter",
+    "perl-Fcntl",
+    "perl-File-Basename",
+    "perl-File-Compare",
+    "perl-File-Copy",
+    "perl-File-Find",
+    "perl-File-Path",
+    "perl-File-Temp",
+    "perl-File-stat",
+    "perl-FileHandle",
+    "perl-Getopt-Long",
+    "perl-Getopt-Std",
+    "perl-HTTP-Tiny",
+    "perl-IO",
+    "perl-IO-Socket-IP",
+    "perl-IO-Socket-SSL",
+    "perl-IPC-Open3",
+    "perl-MIME-Base64",
+    "perl-Mozilla-CA",
+    "perl-NDBM_File",
+    "perl-Net-SSLeay",
+    "perl-POSIX",
+    "perl-PathTools",
+    "perl-Pod-Escapes",
+    "perl-Pod-Perldoc",
+    "perl-Pod-Simple",
+    "perl-Pod-Usage",
+    "perl-Scalar-List-Utils",
+    "perl-SelectSaver",
+    "perl-Socket",
+    "perl-Storable",
+    "perl-Symbol",
+    "perl-Term-ANSIColor",
+    "perl-Term-Cap",
+    "perl-Text-ParseWords",
+    "perl-Text-Tabs+Wrap",
+    "perl-Thread-Queue",
+    "perl-Time-Local",
+    "perl-URI",
+    "perl-Unicode-Normalize",
+    "perl-base",
+    "perl-constant",
+    "perl-if",
+    "perl-interpreter",
+    "perl-libnet",
+    "perl-libs",
+    "perl-locale",
+    "perl-mro",
+    "perl-overload",
+    "perl-overloading",
+    "perl-parent",
+    "perl-podlators",
+    "perl-threads",
+    "perl-threads-shared",
+    "perl-vars",
+    "rdma-core-devel",
+    "xxhash-libs",
+]
 "ipxe" = []
 "kernel" = [
     "adobe-mappings-cmap",
@@ -7718,6 +8195,626 @@ version = 3
 ]
 
 [runtime]  # the upstream binary packages of the published repositories
+"aarch64" = [
+    "Judy",
+    "SDL3",
+    "almalinux-gpg-keys",
+    "alternatives",
+    "amd-gpu-firmware",
+    "amd-ucode-firmware",
+    "annobin-docs",
+    "annobin-plugin-gcc",
+    "atheros-firmware",
+    "atop",
+    "attr",
+    "audit",
+    "audit-libs",
+    "authselect",
+    "authselect-libs",
+    "avahi-libs",
+    "basesystem",
+    "bash",
+    "bash-completion",
+    "bc",
+    "bind-libs",
+    "bind-license",
+    "bind-utils",
+    "binutils",
+    "binutils-gold",
+    "blktrace",
+    "boost-atomic",
+    "boost-filesystem",
+    "boost-regex",
+    "boost-system",
+    "boost-thread",
+    "bpftool",
+    "brcmfmac-firmware",
+    "bridge-utils",
+    "bubblewrap",
+    "busybox",
+    "bzip2",
+    "bzip2-libs",
+    "c-ares",
+    "ca-certificates",
+    "cairo",
+    "cairo-gobject",
+    "chkconfig",
+    "chrony",
+    "cifs-utils",
+    "cirrus-audio-firmware",
+    "cmake-filesystem",
+    "coreutils",
+    "coreutils-common",
+    "cpio",
+    "cpp",
+    "cracklib",
+    "cracklib-dicts",
+    "createrepo_c",
+    "createrepo_c-libs",
+    "cronie",
+    "cronie-anacron",
+    "cronie-noanacron",
+    "crontabs",
+    "crypto-policies",
+    "cryptsetup",
+    "cryptsetup-libs",
+    "cups-filesystem",
+    "cups-libs",
+    "curl",
+    "cyrus-sasl-gssapi",
+    "cyrus-sasl-lib",
+    "dbus",
+    "dbus-broker",
+    "dbus-common",
+    "dbus-libs",
+    "default-fonts-core-sans",
+    "device-mapper",
+    "device-mapper-event",
+    "device-mapper-event-libs",
+    "device-mapper-libs",
+    "device-mapper-multipath",
+    "device-mapper-multipath-libs",
+    "device-mapper-persistent-data",
+    "diffutils",
+    "dmidecode",
+    "dnf",
+    "dnf-data",
+    "dnf-plugins-core",
+    "dosfstools",
+    "dracut",
+    "dwz",
+    "dyninst",
+    "e2fsprogs",
+    "e2fsprogs-libs",
+    "ed",
+    "efi-filesystem",
+    "efi-srpm-macros",
+    "efibootmgr",
+    "efivar-libs",
+    "elfutils-debuginfod-client",
+    "elfutils-default-yama-scope",
+    "elfutils-libelf",
+    "elfutils-libs",
+    "ethtool",
+    "expat",
+    "file",
+    "file-libs",
+    "filesystem",
+    "findutils",
+    "fio",
+    "firewalld",
+    "firewalld-filesystem",
+    "fontconfig",
+    "fonts-filesystem",
+    "fonts-srpm-macros",
+    "forge-srpm-macros",
+    "freetype",
+    "fribidi",
+    "fstrm",
+    "fuse-libs",
+    "fuse3-libs",
+    "gawk",
+    "gcc",
+    "gcc-plugin-annobin",
+    "gdb",
+    "gdb-headless",
+    "gdbm",
+    "gdbm-libs",
+    "gdisk",
+    "gdk-pixbuf2",
+    "gettext-envsubst",
+    "gettext-libs",
+    "gettext-runtime",
+    "git",
+    "git-core",
+    "git-core-doc",
+    "glib2",
+    "glibc",
+    "glibc-common",
+    "glibc-devel",
+    "glibc-gconv-extra",
+    "glibc-langpack-en",
+    "glibc-minimal-langpack",
+    "gmp",
+    "gnutls",
+    "gnutls-dane",
+    "gnutls-utils",
+    "go-srpm-macros",
+    "gobject-introspection",
+    "google-noto-fonts-common",
+    "google-noto-sans-vf-fonts",
+    "graphite2",
+    "grep",
+    "groff-base",
+    "grubby",
+    "gssproxy",
+    "gzip",
+    "harfbuzz",
+    "hdparm",
+    "hostname",
+    "htop",
+    "hwdata",
+    "hwloc",
+    "hwloc-libs",
+    "iftop",
+    "ima-evm-utils",
+    "inih",
+    "initscripts",
+    "initscripts-rename-device",
+    "initscripts-service",
+    "intel-audio-firmware",
+    "intel-gpu-firmware",
+    "ioping",
+    "iotop-c",
+    "iowatcher",
+    "ipcalc",
+    "iperf3",
+    "ipmitool",
+    "iproute",
+    "iproute-tc",
+    "iptables-libs",
+    "iptables-utils",
+    "iputils",
+    "irqbalance",
+    "iscsi-initiator-utils",
+    "iscsi-initiator-utils-iscsiuio",
+    "isns-utils-libs",
+    "jansson",
+    "jemalloc",
+    "json-c",
+    "json-glib",
+    "kbd",
+    "kbd-legacy",
+    "kbd-misc",
+    "kernel-srpm-macros",
+    "keyutils",
+    "keyutils-libs",
+    "kmod",
+    "kmod-libs",
+    "kpartx",
+    "kpatch",
+    "krb5-libs",
+    "ldns",
+    "ledmon",
+    "less",
+    "libX11",
+    "libX11-common",
+    "libXau",
+    "libXext",
+    "libXft",
+    "libXrender",
+    "libacl",
+    "libaio",
+    "libarchive",
+    "libasan",
+    "libatomic",
+    "libattr",
+    "libbabeltrace",
+    "libbasicobjects",
+    "libblkid",
+    "libbpf",
+    "libbpf-tools",
+    "libbrotli",
+    "libbsd",
+    "libcap",
+    "libcap-ng",
+    "libcbor",
+    "libcgroup",
+    "libcgroup-tools",
+    "libcollection",
+    "libcom_err",
+    "libcomps",
+    "libcurl",
+    "libcurl-minimal",
+    "libdatrie",
+    "libdhash",
+    "libdnf",
+    "libeconf",
+    "libedit",
+    "libev",
+    "libev-devel",
+    "libevent",
+    "libfdisk",
+    "libfdt",
+    "libffi",
+    "libfido2",
+    "libgcc",
+    "libgcrypt",
+    "libgomp",
+    "libgpg-error",
+    "libibverbs",
+    "libicu",
+    "libidn2",
+    "libini_config",
+    "libjpeg-turbo",
+    "libkcapi",
+    "libkcapi-hasher",
+    "libkcapi-hmaccalc",
+    "libldb",
+    "libmaxminddb",
+    "libmd",
+    "libmnl",
+    "libmodulemd",
+    "libmount",
+    "libmpc",
+    "libnetapi",
+    "libnetfilter_conntrack",
+    "libnfnetlink",
+    "libnfsidmap",
+    "libnftnl",
+    "libnghttp2",
+    "libnl3",
+    "libnvme",
+    "libogg",
+    "libpath_utils",
+    "libpcap",
+    "libpciaccess",
+    "libpipeline",
+    "libpkgconf",
+    "libpng",
+    "libpsl",
+    "libpwquality",
+    "libref_array",
+    "librepo",
+    "libreswan",
+    "libreswan-minimal",
+    "libretls",
+    "librsvg2",
+    "librsvg2-tools",
+    "libseccomp",
+    "libselinux",
+    "libselinux-utils",
+    "libsemanage",
+    "libsepol",
+    "libsmartcols",
+    "libsmi",
+    "libsolv",
+    "libss",
+    "libssh",
+    "libssh-config",
+    "libsss_certmap",
+    "libsss_idmap",
+    "libsss_nss_idmap",
+    "libsss_sudo",
+    "libstdc++",
+    "libtalloc",
+    "libtasn1",
+    "libtdb",
+    "libtevent",
+    "libthai",
+    "libtheora",
+    "libtirpc",
+    "libtpms",
+    "libtraceevent",
+    "libtracefs",
+    "libubsan",
+    "libunistring",
+    "libunwind",
+    "libusb1",
+    "libutempter",
+    "libuuid",
+    "libuv",
+    "libverto",
+    "libverto-libev",
+    "libvorbis",
+    "libwbclient",
+    "libxcb",
+    "libxcrypt",
+    "libxcrypt-devel",
+    "libxml2",
+    "libyaml",
+    "libzstd",
+    "linux-firmware",
+    "linux-firmware-whence",
+    "lksctp-tools",
+    "llvm-filesystem",
+    "llvm-libs",
+    "lm_sensors-libs",
+    "lmdb-libs",
+    "logrotate",
+    "lshw",
+    "lsof",
+    "lsscsi",
+    "ltrace",
+    "lua-libs",
+    "lua-srpm-macros",
+    "lvm2",
+    "lvm2-libs",
+    "lz4-libs",
+    "m4",
+    "make",
+    "man-db",
+    "mc",
+    "mdadm",
+    "mpdecimal",
+    "mpfr",
+    "mt7xxx-firmware",
+    "mtools",
+    "mtr",
+    "nano",
+    "ncurses",
+    "ncurses-base",
+    "ncurses-libs",
+    "netcat",
+    "newt",
+    "nfs-utils",
+    "nftables",
+    "nspr",
+    "nss",
+    "nss-softokn",
+    "nss-softokn-freebl",
+    "nss-sysinit",
+    "nss-tools",
+    "nss-util",
+    "numactl",
+    "numactl-libs",
+    "nvidia-gpu-firmware",
+    "nvme-cli",
+    "nxpwireless-firmware",
+    "ocaml-srpm-macros",
+    "ocl-icd",
+    "openblas-srpm-macros",
+    "openldap",
+    "openssh",
+    "openssh-clients",
+    "openssh-server",
+    "openssl",
+    "openssl-fips-provider",
+    "openssl-libs",
+    "openssl-perl",
+    "os-prober",
+    "p11-kit",
+    "p11-kit-trust",
+    "package-notes-srpm-macros",
+    "pam",
+    "pam-libs",
+    "pango",
+    "parted",
+    "patch",
+    "pciutils",
+    "pciutils-libs",
+    "pcp",
+    "pcp-conf",
+    "pcp-libs",
+    "pcp-system-tools",
+    "pcre2",
+    "pcre2-syntax",
+    "perl-AutoLoader",
+    "perl-B",
+    "perl-Carp",
+    "perl-Class-Struct",
+    "perl-Data-Dumper",
+    "perl-Digest",
+    "perl-Digest-MD5",
+    "perl-DynaLoader",
+    "perl-Encode",
+    "perl-Errno",
+    "perl-Error",
+    "perl-Exporter",
+    "perl-Fcntl",
+    "perl-File-Basename",
+    "perl-File-Path",
+    "perl-File-Temp",
+    "perl-File-stat",
+    "perl-FileHandle",
+    "perl-Getopt-Long",
+    "perl-Getopt-Std",
+    "perl-Git",
+    "perl-HTTP-Tiny",
+    "perl-IO",
+    "perl-IO-Socket-IP",
+    "perl-IO-Socket-SSL",
+    "perl-IPC-Open3",
+    "perl-MIME-Base64",
+    "perl-Mozilla-CA",
+    "perl-Net-SSLeay",
+    "perl-POSIX",
+    "perl-PathTools",
+    "perl-Pod-Escapes",
+    "perl-Pod-Perldoc",
+    "perl-Pod-Simple",
+    "perl-Pod-Usage",
+    "perl-Scalar-List-Utils",
+    "perl-SelectSaver",
+    "perl-Socket",
+    "perl-Storable",
+    "perl-Symbol",
+    "perl-Term-ANSIColor",
+    "perl-Term-Cap",
+    "perl-TermReadKey",
+    "perl-Text-ParseWords",
+    "perl-Text-Tabs+Wrap",
+    "perl-Time-Local",
+    "perl-URI",
+    "perl-Unicode-Normalize",
+    "perl-base",
+    "perl-constant",
+    "perl-if",
+    "perl-interpreter",
+    "perl-lib",
+    "perl-libnet",
+    "perl-libs",
+    "perl-locale",
+    "perl-mro",
+    "perl-overload",
+    "perl-overloading",
+    "perl-parent",
+    "perl-podlators",
+    "perl-srpm-macros",
+    "perl-vars",
+    "pigz",
+    "pixman",
+    "pkgconf",
+    "pkgconf-m4",
+    "pkgconf-pkg-config",
+    "policycoreutils",
+    "popt",
+    "procps-ng",
+    "protobuf",
+    "protobuf-c",
+    "psmisc",
+    "publicsuffix-list-dafsa",
+    "pyproject-srpm-macros",
+    "python-srpm-macros",
+    "python-unversioned-command",
+    "python3",
+    "python3-charset-normalizer",
+    "python3-dateutil",
+    "python3-dbus",
+    "python3-deprecated",
+    "python3-dnf",
+    "python3-dnf-plugins-core",
+    "python3-fasteners",
+    "python3-firewall",
+    "python3-gobject-base",
+    "python3-gobject-base-noarch",
+    "python3-hawkey",
+    "python3-idna",
+    "python3-libcomps",
+    "python3-libdnf",
+    "python3-libs",
+    "python3-newt",
+    "python3-nftables",
+    "python3-pam",
+    "python3-pcp",
+    "python3-pip-wheel",
+    "python3-protobuf",
+    "python3-pyudev",
+    "python3-requests",
+    "python3-rpm",
+    "python3-scapy",
+    "python3-setuptools",
+    "python3-simplejson",
+    "python3-six",
+    "python3-systemd",
+    "python3-typing-extensions",
+    "python3-urllib3",
+    "python3-wrapt",
+    "qt6-srpm-macros",
+    "quota",
+    "quota-nls",
+    "readline",
+    "realtek-firmware",
+    "redhat-rpm-config",
+    "redhat-text-vf-fonts",
+    "rootfiles",
+    "rpcbind",
+    "rpm",
+    "rpm-build-libs",
+    "rpm-libs",
+    "rpm-plugin-audit",
+    "rpm-plugin-selinux",
+    "rpm-plugin-syslog",
+    "rpm-sequoia",
+    "rpm-sign-libs",
+    "rsvg-pixbuf-loader",
+    "rsync",
+    "rust-toolset-srpm-macros",
+    "samba-client-libs",
+    "samba-common",
+    "samba-common-tools",
+    "samba-core-libs",
+    "samba-dcerpc",
+    "samba-ldb-ldap-modules",
+    "samba-libs",
+    "samba-ndr-libs",
+    "samba-winbind",
+    "samba-winbind-modules",
+    "screen",
+    "sdl12-compat",
+    "sdl2-compat",
+    "sdparm",
+    "sed",
+    "selinux-policy",
+    "selinux-policy-targeted",
+    "setup",
+    "sg3_utils",
+    "sg3_utils-libs",
+    "shadow-utils",
+    "shared-mime-info",
+    "slang",
+    "smartmontools",
+    "source-highlight",
+    "speexdsp",
+    "sqlite-libs",
+    "sssd-client",
+    "sssd-common",
+    "sssd-kcm",
+    "sssd-krb5-common",
+    "strace",
+    "stress-ng",
+    "stunnel",
+    "sudo",
+    "swtpm",
+    "swtpm-libs",
+    "swtpm-tools",
+    "sysstat",
+    "systemd",
+    "systemd-libs",
+    "systemd-networkd",
+    "systemd-pam",
+    "systemd-resolved",
+    "systemd-udev",
+    "systemtap-runtime",
+    "tar",
+    "tbb",
+    "tcpdump",
+    "tdb-tools",
+    "telnet",
+    "theora-tools",
+    "tiwilink-firmware",
+    "tmux",
+    "tpm2-tools",
+    "tpm2-tss",
+    "tpm2-tss-fapi",
+    "trace-cmd",
+    "traceroute",
+    "tree",
+    "tzdata",
+    "unbound-libs",
+    "unzip",
+    "usbutils",
+    "userspace-rcu",
+    "util-linux",
+    "util-linux-core",
+    "vim-common",
+    "vim-data",
+    "vim-enhanced",
+    "vim-filesystem",
+    "vim-minimal",
+    "wget",
+    "which",
+    "wireshark-cli",
+    "xfsprogs",
+    "xml-common",
+    "xxd",
+    "xxhash-libs",
+    "xz",
+    "xz-libs",
+    "zip",
+    "zlib-ng-compat",
+    "zstd",
+]
 "x86_64_v2" = [
     "Judy",
     "SDL3",
@@ -7898,11 +8995,7 @@ version = 3
     "ipmitool",
     "iproute",
     "iproute-tc",
-    "iptables-legacy",
-    "iptables-legacy-libs",
     "iptables-libs",
-    "iptables-nft",
-    "iptables-nft-services",
     "iptables-utils",
     "iputils",
     "irqbalance",
