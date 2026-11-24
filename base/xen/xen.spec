@@ -1201,6 +1201,23 @@ else
     fi
 fi
 %endif
+%ifarch %{arm64}
+# the same for the image grub's xen_boot loads, not compressed: /boot/xen
+ln -sf %{name}-%{version}-%{hv_rel}-d /boot/xen-debug
+ln -sf %{name}-%{version}-%{hv_rel} /boot/xen-release
+if [ ! -e /boot/xen ]; then
+    ln -sf %{name}-%{version}-%{hv_rel} /boot/xen
+elif [ ! -L /boot/xen ]; then
+    cp -f /boot/%{name}-%{version}-%{hv_rel} /boot/xen
+else
+    path="`readlink -f /boot/xen`"
+    if [ ${path} != ${path%%-d} ]; then
+        ln -sf %{name}-%{version}-%{hv_rel}-d /boot/xen
+    else
+        ln -sf %{name}-%{version}-%{hv_rel} /boot/xen
+    fi
+fi
+%endif
 
 if [ -e %{_sysconfdir}/sysconfig/kernel ] && ! grep -q '^HYPERVISOR' %{_sysconfdir}/sysconfig/kernel ; then
   cat %{_sysconfdir}/sysconfig/kernel-xen >> %{_sysconfdir}/sysconfig/kernel
