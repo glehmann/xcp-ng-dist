@@ -7,8 +7,8 @@ biosdevname.evr = "0.7.3-6.2"
 biosdevname.requires."biosdevname" = ["glibc", "pciutils-libs"]
 
 # blktap
-blktap.build = 1
-blktap.key = "399a9a3f18ea53ad068c0ea2a70e5c0b8b53b03689d5700e9d6350750facc058"
+blktap.build = 2
+blktap.key = "6a4a9b57161c1f32c95283bf160d62fa6335afbd0780fb299e41dd06b1ecddbc"
 blktap.evr = "4.0.8-1.4"
 blktap.requires."blktap" = ["bash", "glibc", "libaio", "libuuid", "openssl-libs", "xen-libs", "zlib-ng-compat"]
 blktap.requires."blktap-devel" = ["blktap"]
@@ -142,6 +142,7 @@ openvswitch.requires."openvswitch-devel" = ["openvswitch", "pkgconf-pkg-config"]
 openvswitch.requires."openvswitch-ipsec" = ["python3", "python3-openvswitch"]
 openvswitch.requires."openvswitch-test" = ["python3", "python3-openvswitch"]
 openvswitch.requires."python3-openvswitch" = ["glibc", "openvswitch", "python3"]
+openvswitch.aarch64.requires."openvswitch" = ["bash", "glibc", "libatomic", "libcap-ng", "openssl-libs", "python3", "unbound-libs"]
 
 # python-bitarray
 python-bitarray.build = 1
@@ -161,8 +162,8 @@ python-opentelemetry.requires."python3-opentelemetry-sdk" = ["python3", "python3
 python-opentelemetry.requires."python3-opentelemetry-semantic-conventions" = ["python3"]
 
 # qemu
-qemu.build = 1
-qemu.key = "9a4bcac7ef3697c5289af868e7b0a4d597e36140fe170c3d697ff1d1986e8e7b"
+qemu.build = 2
+qemu.key = "e95d94cc27f355017fc7163238f2b56cb43edb3b3cd9ff844c135cadff3a3c39"
 qemu.evr = "0:10.1.0-1.5"
 qemu.requires."qemu" = ["glib2", "glibc", "libaio", "libgcc", "libjpeg-turbo", "libpng", "libseccomp", "libselinux", "libusb1", "pixman", "python3", "xen-dom0-libs", "xen-libs", "zlib-ng-compat"]
 
@@ -185,8 +186,8 @@ ssmtp.requires."ssmtp" = ["glibc", "openssl-libs"]
 ssmtp.provides."ssmtp" = ["/usr/sbin/ssmtp"]
 
 # varstored
-varstored.build = 1
-varstored.key = "93400efa50bb91f5661cd198eb8c8bbc5f3876b14c65dabef754bde6e1bf22ba"
+varstored.build = 2
+varstored.key = "1aeba8c2d4c53448dc1686a86f3c30764795a6914de40b50be3eb43f26b4afb9"
 varstored.evr = "1.3.4-2.4"
 varstored.requires."varstored" = ["glibc", "libseccomp", "libxml2", "openssl-libs", "xen-dom0-libs", "xen-libs"]
 varstored.requires."varstored-tools" = ["glibc", "libseccomp", "libxml2", "openssl-libs"]
@@ -198,14 +199,14 @@ vmss.evr = "1.2.2-1.2"
 vmss.requires."vmss" = ["python3"]
 
 # vncterm
-vncterm.build = 1
-vncterm.key = "98199f226441641519ba8b5324189c7274b895dd45e42ca0d427af63b0ff00ba"
+vncterm.build = 2
+vncterm.key = "8ae6db6ae58caebb868c27ce7c5fb160d8aaa1af5308e4a89cea99b7eaa1ff55"
 vncterm.evr = "10.2.2-1.2"
 vncterm.requires."vncterm" = ["bash", "glibc", "xen-libs"]
 
 # xapi
-xapi.build = 1
-xapi.key = "779f6a302c7835f47d016e3f00abf1bcdb8c5ed0d0e670053763a5a04f2ae23a"
+xapi.build = 2
+xapi.key = "34fa00404201ad674f80ee7dda446c07761f30d59daf605965ac9d4faf58e489"
 xapi.evr = "26.19.0-2.4"
 xapi.requires."forkexecd" = ["glibc"]
 xapi.requires."forkexecd-devel" = ["forkexecd", "ocaml", "ocaml-runtime", "xapi-idl-devel", "xapi-libs-devel", "xs-opam-repo"]
@@ -241,8 +242,8 @@ xapi.requires."xenopsd-simulator" = ["glibc", "xenopsd"]
 xapi.requires."xenopsd-xc" = ["glibc", "openssl-libs", "xen-dom0-libs", "xenopsd"]
 
 # xcp-clipboardd
-xcp-clipboardd.build = 1
-xcp-clipboardd.key = "e89374cbdb13fcb7f3886546e079224981df113a338bbaec11b8a236e3d5a4c5"
+xcp-clipboardd.build = 2
+xcp-clipboardd.key = "b5cd944d6a9c5b48ddf7ca36942d21ac2a18179e93ce73bde5d08b54871657ea"
 xcp-clipboardd.evr = "1.0.3-11"
 xcp-clipboardd.requires."xcp-clipboardd" = ["glibc", "xen-libs"]
 
@@ -259,8 +260,8 @@ xcp-emu-manager.evr = "1.2.1-4"
 xcp-emu-manager.requires."xcp-emu-manager" = ["glibc", "json-c", "libempserver", "xcp-ng-generic-lib"]
 
 # xcp-featured
-xcp-featured.build = 1
-xcp-featured.key = "bd90a0016ea28a34a4f347f443ab603414e27fec84cdc8800f31b0f407d686fa"
+xcp-featured.build = 2
+xcp-featured.key = "d15193bb8ede90a496a699d966f0e9f20ff857ee005f4aea244df96a29639d3a"
 xcp-featured.evr = "1.1.8-8"
 xcp-featured.requires."xcp-featured" = ["glibc"]
 
@@ -309,8 +310,8 @@ xcp-python-libs.requires."python3-xcp-libs" = ["python3", "python3-six"]
 
 # xen
 xen.build = 1
-xen.key = "e55cfecd155affce6cabc7aa85d0b7a70656898c79249fcbc83436736bae0989"
-xen.evr = "4.21.2-3.7"
+xen.key = "a39c5da78add7befa32c9ee20c876cea7bda34a70e43fb1f6b8de4a70f688a68"
+xen.evr = "4.21.2-3.8"
 xen.requires."xen-dom0-libs" = ["bzip2-libs", "e2fsprogs-libs", "glibc", "json-c", "libuuid", "libzstd", "lz4-libs", "lzo", "xen-libs", "xz-libs", "zlib-ng-compat"]
 xen.requires."xen-dom0-libs-devel" = ["pkgconf-pkg-config", "xen-dom0-libs", "xen-libs-devel"]
 xen.requires."xen-dom0-tests" = ["glibc", "xen-dom0-libs", "xen-libs"]
@@ -321,6 +322,8 @@ xen.requires."xen-ocaml-devel" = ["ocaml", "ocaml-runtime", "xen-ocaml-libs"]
 xen.requires."xen-ocaml-libs" = ["glibc", "ocaml", "ocaml-runtime", "xen-dom0-libs", "xen-libs"]
 xen.requires."xen-oxenstored" = ["glibc", "libgcc", "xen-dom0-libs", "xen-libs"]
 xen.requires."xen-tools" = ["glibc", "xen-dom0-libs", "xen-libs"]
+xen.aarch64.requires."xen-dom0-libs" = ["e2fsprogs-libs", "glibc", "json-c", "libfdt", "libuuid", "xen-libs", "zlib-ng-compat"]
+xen.aarch64.requires."xen-dom0-tools" = ["bash", "glibc", "json-c", "libempserver", "libfdt", "libgcc", "ncurses-libs", "python3", "xen-dom0-libs", "xen-libs"]
 
 # xo-lite
 xo-lite.build = 1
