@@ -16,19 +16,39 @@ env:
   STAGE: pr${{ github.event.number }}
 
 jobs:
-  # its build number: how many runs of this workflow it had, up to this one, those cancelled by a later push included,
-  # which only grows, as $XCRAFT_DEV_COUNTER, for the development builds to upgrade those of the previous runs, rather
-  # than the number of the run, of all the pull requests; the same for the builds of all the architectures, and their
-  # publication
-  number:
-    runs-on: ubuntu-latest
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - arch: x86_64_v2
+            runner: ubuntu-latest
+          - arch: aarch64
+            runner: ubuntu-24.04-arm
+    name: build (${{ matrix.arch }})
+    runs-on: ${{ matrix.runner }}
     permissions:
-      # the runs of the pull request
+      # the runs of the pull request, which number its builds
       actions: read
-    outputs:
-      counter: ${{ steps.number.outputs.counter }}
+    # the latest push of the pull request only
+    concurrency:
+      group: pull-request-${{ github.event.number }}-${{ matrix.arch }}
+      cancel-in-progress: true
+    env:
+      XCRAFT_ARCH: ${{ matrix.arch }}
+      PUBLISH: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
+      # the development builds of the pull request, upgrading those of its previous runs: numbered by them, see below
+      XCRAFT_DEV: pr${{ github.event.number }}
+      # the key signing its development builds and its stage, trusted by nobody but its testers; for a fork, a key of
+      # the runner made for them
+      XCRAFT_KEY: ${{ github.event.pull_request.head.repo.full_name == github.repository && vars.PR_SIGNING_KEY_FINGERPRINT || '' }}
     steps:
-      - id: number
+      # its build number: how many runs of this workflow it had, up to this one, those cancelled by a later push
+      # included, which only grows, as $XCRAFT_DEV_COUNTER, for the development builds to upgrade those of the previous
+      # runs, rather than the number of the run, of all the pull requests; the same in all the jobs of the run, which
+      # the keys of the development builds and of their ISOs have, for the publication to find them
+      - &number
+        name: Number the build
         env:
           GH_TOKEN: ${{ github.token }}
           HEAD_REF: ${{ github.event.pull_request.head.ref }}
@@ -41,35 +61,7 @@ jobs:
             and .head_repository.full_name == \"$HEAD_REPO\")) | length"
           n=$(gh api --paginate --method GET "$runs" -f branch="$HEAD_REF" --jq "$select" | awk '{ n += $1 } END { print n }')
           [ "$n" -gt 0 ]
-          printf 'counter=%s\n' "$n" >> "$GITHUB_OUTPUT"
-
-  build:
-    needs: number
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - arch: x86_64_v2
-            runner: ubuntu-latest
-          - arch: aarch64
-            runner: ubuntu-24.04-arm
-    name: build (${{ matrix.arch }})
-    runs-on: ${{ matrix.runner }}
-    permissions: {}
-    # the latest push of the pull request only
-    concurrency:
-      group: pull-request-${{ github.event.number }}-${{ matrix.arch }}
-      cancel-in-progress: true
-    env:
-      XCRAFT_ARCH: ${{ matrix.arch }}
-      PUBLISH: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
-      # the development builds of the pull request, upgrading those of its previous runs
-      XCRAFT_DEV: pr${{ github.event.number }}
-      XCRAFT_DEV_COUNTER: ${{ needs.number.outputs.counter }}
-      # the key signing its development builds and its stage, trusted by nobody but its testers; for a fork, a key of
-      # the runner made for them
-      XCRAFT_KEY: ${{ github.event.pull_request.head.repo.full_name == github.repository && vars.PR_SIGNING_KEY_FINGERPRINT || '' }}
-    steps:
+          printf 'XCRAFT_DEV_COUNTER=%s\n' "$n" >> "$GITHUB_ENV"
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
           persist-credentials: false
@@ -141,9 +133,11 @@ jobs:
   # the snapshot of all the architectures, from their development builds, and master's builds for the others, copied
   # from the main bucket; a publication replaces all the architectures of the stage
   publish:
-    needs: [number, build]
+    needs: build
     runs-on: ubuntu-latest
     permissions:
+      # the runs of the pull request, which number its builds
+      actions: read
       # the comment telling where the stage is
       pull-requests: write
     concurrency:
@@ -152,9 +146,9 @@ jobs:
     env:
       PUBLISH: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
       XCRAFT_DEV: pr${{ github.event.number }}
-      XCRAFT_DEV_COUNTER: ${{ needs.number.outputs.counter }}
       XCRAFT_KEY: ${{ github.event.pull_request.head.repo.full_name == github.repository && vars.PR_SIGNING_KEY_FINGERPRINT || '' }}
     steps:
+      - *number
       - if: env.PUBLISH == 'true'
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
