@@ -1,6 +1,6 @@
 Name:           xcp-ng-config
 Version:        0
-Release:        1%{?dist}
+Release:        2%{?dist}
 
 Summary:        XCP-ng configuration files
 Group:          System Environment/Base
@@ -13,6 +13,10 @@ Obsoletes:      xcp-ng-release < 8.99.0-0.8.ydi.17
 XCP-ng configuration files
 
 %install
+# mask stunnel.service, we use only stunnel@xapi.service
+install -d -m755 %{buildroot}%{_prefix}/etc/systemd/system
+ln -s /dev/null %{buildroot}%{_prefix}/etc/systemd/system/stunnel.service
+
 # enable persistent systemd journal
 install -d -m755 %{buildroot}/var/log/journal
 
@@ -100,6 +104,9 @@ EOF
 /var/log/journal/
 
 %changelog
+* Web Nov 25 2026 Yann Dirson <yann.dirson@vates.tech> - 0-2
+- mask stunnel.service
+
 * Mon Nov 09 2026 Yann Dirson <yann.dirson@vates.tech> - 0-1
 - Initial release
 - Enable persistent systemd journal with suitably large size, enable user overrides
