@@ -1,0 +1,79 @@
+name: Reproduce
+
+# the packages built again, natively on each architecture, without their compiler caches, and compared with their
+# builds, master's, fetched from the main bucket: reproducible, the same from the same inputs, which the reuse of
+# identical rebuilds and the compiler caches rely on, see xcraft reproduce; every week, and on demand, for given
+# packages, or with the compiler caches, quicker. Without secrets: the rebuilds are signed by a key of the runner,
+# trusted by nobody, and never pushed.
+on:
+  schedule:
+    - cron: "17 2 * * 0"
+  workflow_dispatch:
+    inputs:
+      packages:
+        description: The packages to build again, separated by spaces, all by default
+        type: string
+        default: ""
+      with-caches:
+        description: With the compiler caches, quicker, for what they do not cache only
+        type: boolean
+        default: false
+
+permissions: {}
+
+jobs:
+  reproduce:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - arch: x86_64_v2
+            runner: ubuntu-latest
+          - arch: aarch64
+            runner: ubuntu-24.04-arm
+    name: reproduce (${{ matrix.arch }})
+    runs-on: ${{ matrix.runner }}
+    # all the packages built again, the kernel and xen too: within the 6 hours of a job
+    timeout-minutes: 350
+    env:
+      FORCE_COLOR: "1"
+      XCRAFT_ARCH: ${{ matrix.arch }}
+      PACKAGES: ${{ inputs.packages }}
+      WITH_CACHES: ${{ inputs.with-caches && '--with-caches' || '' }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          persist-credentials: false
+          # the previous commit, which the build IDs of the main branch are checked against
+          fetch-depth: 2
+      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7  # v10.2.0
+        with:
+          version: "0.10.x"
+          activate-environment: true
+      - run: uv sync --locked
+      - uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9  # v6.1.0
+        with:
+          path: |
+            .xcraft/cache/specs
+            .xcraft/cache/resolved
+            .xcraft/cache/base
+          key: xcraft-metadata-${{ matrix.arch }}-${{ github.run_id }}
+          restore-keys: xcraft-metadata-${{ matrix.arch }}-
+      - run: |
+          if ! command -v podman || ! command -v gpg; then
+            sudo apt-get update -q
+            sudo apt-get install -qy podman gnupg
+          fi
+      # as development builds of an identifier of their own, which on master changes neither their keys nor their
+      # releases, for the rebuilds to be signed by a key of the runner, made for them, rather than the CI key
+      - run: |
+          # shellcheck disable=SC2086  # the packages and the option, split
+          xcraft reproduce --locked --dev reproduce $WITH_CACHES $PACKAGES
+      # those which differ from their builds, to see how
+      - if: failure()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9  # v7.0.2
+        with:
+          name: rebuilds-${{ matrix.arch }}
+          path: .xcraft/reproduce/
+          if-no-files-found: ignore
+          retention-days: 7
