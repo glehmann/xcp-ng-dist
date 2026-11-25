@@ -78,9 +78,9 @@ guest-templates-json.requires."guest-templates-json-data-pv" = ["guest-templates
 guest-templates-json.requires."guest-templates-json-data-windows" = ["guest-templates-json"]
 
 # host-installer
-host-installer.build = 2
-host-installer.key = "f26ab6f18af3816d6aa295490cd9e6641f72c74a694470436daa997a2cba0aef"
-host-installer.evr = "11.2.0-1.1.4"
+host-installer.build = 1
+host-installer.key = "306fe51eff488832a1245281757dbe2a0d69476e46dd2b23999b8a3ac770883f"
+host-installer.evr = "11.2.0-1.1.5"
 host-installer.requires."host-installer" = ["bash", "python3"]
 host-installer.requires."host-installer-startup" = ["bash"]
 
@@ -276,8 +276,9 @@ xcp-featured.requires."xcp-featured" = ["glibc"]
 
 # xcp-ng-config
 xcp-ng-config.build = 1
-xcp-ng-config.key = "15bf267f6c68b759ece430dce4e004e7c6c0fb3ef34b05db5c279a199f5f2f46"
-xcp-ng-config.evr = "0-1.2"
+xcp-ng-config.key = "9bf55ff654997fd0f6f8fddf71e86c780725fc5349638d2d87a5101a5306fa04"
+xcp-ng-config.evr = "0-1.3"
+xcp-ng-config.requires."xcp-ng-config" = ["bash"]
 
 # xcp-ng-deps
 xcp-ng-deps.build = 1
