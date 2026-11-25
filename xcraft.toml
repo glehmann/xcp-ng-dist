@@ -3,10 +3,12 @@ platforms = ["linux/amd64/v2", "linux/arm64"]
 # AlmaLinux rebuilds EPEL for x86_64_v2: the locks of the architectures have the same versions but for it
 release_suffixes = [".alma_altarch"]
 packages = [
-    # like mock's build roots: what specs may assume without BuildRequires
-    # (coreutils-single, in the base image, provides coreutils)
-    "bash", "bzip2", "cpio", "diffutils", "findutils", "gawk", "grep", "gzip", "info", "patch", "sed",
-    "shadow-utils", "tar", "unzip", "util-linux", "which", "xz", "rpm-build", "redhat-rpm-config",
+    # the root of the builds: like mock's, what specs may assume without BuildRequires, with the smaller coreutils,
+    # util-linux and libcurl, whose others pull pam, openldap or libssh, and without shadow-utils, as the builder is
+    # added from the image
+    "bash", "bzip2", "coreutils-single", "cpio", "diffutils", "findutils", "gawk", "grep", "gzip", "info",
+    "libcurl-minimal", "patch", "rpm-build", "redhat-rpm-config", "sed", "tar", "unzip",
+    "util-linux-core", "which", "xz",
 ]
 # the packages of the same archive, which xcraft bump --version updates together
 # the branches of the fixes of the releases, numbered +b<n>.<m> after the release's +b<n>, see xcraft maint start
