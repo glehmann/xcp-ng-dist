@@ -336,8 +336,8 @@ xen.aarch64.requires."xen-dom0-tools" = ["bash", "glibc", "json-c", "libempserve
 
 # xo-lite
 xo-lite.build = 1
-xo-lite.key = "c40c05c2fc7191566c5e498b182047b4680831b2acfd967c249c6bd27a0bd245"
-xo-lite.evr = "0.26.0-2"
+xo-lite.key = "b94b705bdcab6158600d294eccdc24af8319da3466c65cb1b2e2a913d3450126"
+xo-lite.evr = "0.27.0-1.1"
 
 # xs-opam-repo
 xs-opam-repo.build = 1
