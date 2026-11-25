@@ -62,7 +62,7 @@ Summary: Open vSwitch
 Group: System Environment/Daemons daemon/database/utilities
 URL: http://www.openvswitch.org/
 Version: 3.7.1
-Release: 3.6%{?dist}
+Release: 3.7%{?dist}
 
 # Nearly all of openvswitch is ASL 2.0.  The bugtool is LGPLv2+, and the
 # lib/sflow*.[ch] files are SISSL
@@ -104,7 +104,6 @@ Source102: https://pypi.io/packages/source/S/Sphinx/Sphinx-%{sphinxver}.tar.gz
 Source103: https://pypi.io/packages/source/p/pyelftools/pyelftools-%{pyelftoolsver}.tar.gz
 
 Patch0:    openvswitch-%{patchver}.patch
-Patch1000: openvswitch-3.7-start-before-xapi-without-bridges.XCP-ng.patch
 # IGMP snooping, from XenServer's openvswitch 2.17.7
 Patch1001: CP-23098-Add-IPv6-multicast-snooping-toggle.patch
 Patch1002: CA-265107-When-IGMP-snooping-is-enabled-receive-IPv6.patch
@@ -281,7 +280,6 @@ mv dpdk-*/ %{dpdkdir}/
 %if 0%{?PATCH0:1}%{!?PATCH0:0}
 %patch -P0 -p1
 %endif
-%patch -P1000 -p1
 %patch -P1001 -p1
 %patch -P1002 -p1
 %patch -P1003 -p1
@@ -827,6 +825,10 @@ exit 0
 %endif
 
 %changelog
+* Wed Nov 25 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 3.7.1-3.7
+- Without starting before xapi and xcp-networkd, nor deleting the bridges at the first start of each
+  boot, which the openvswitch.service drop-in of xapi does now
+
 * Tue Nov 24 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 3.7.1-3.6
 - Build without DPDK, which XCP-ng does not use, once rather than twice: --with dpdk builds it as before
 
