@@ -1,6 +1,6 @@
 Name:           xcp-ng-config
 Version:        0
-Release:        1.1%{?dist}
+Release:        1.2%{?dist}
 
 Summary:        XCP-ng configuration files
 Group:          System Environment/Base
@@ -8,6 +8,13 @@ License:        GPL-2.0-or-later
 URL:            https://github.com/xcp-ng-rpms/xcp-ng-config
 
 Obsoletes:      xcp-ng-release < 8.99.0-0.8.ydi.17
+
+# the directory of the repository of the architecture: x86_64_v2's, as $basearch is x86_64 there
+%ifarch aarch64
+%global repo_arch aarch64
+%else
+%global repo_arch x86_64_v2
+%endif
 
 %description
 XCP-ng configuration files
@@ -36,7 +43,7 @@ cat > %{buildroot}%{_sysconfdir}/yum.repos.d/xcp-ng.repo <<'EOF'
 # This file will be overwritten on upgrade, do not modify
 [xcp-ng-base]
 name=XCP-ng 9 proto
-baseurl=https://91.98.220.14/repos/9.0/incoming/latest/base/x86_64_v2/
+baseurl=https://91.98.220.14/repos/9.0/incoming/latest/base/%{repo_arch}/
 priority=1
 failovermethod=priority
 skip_if_unavailable=False
@@ -72,6 +79,9 @@ ln -s /dev/null %{buildroot}%{_sysconfdir}/systemd/system/ip6tables.service
 /var/log/journal/
 
 %changelog
+* Wed Nov 25 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 0-1.2
+- The repository of the architecture of the host, aarch64's too, rather than x86_64_v2's
+
 * Wed Nov 11 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 0-1.1
 - The repository of xcp-ng-dist, https://91.98.220.14/repos/9.0/incoming/latest/base/x86_64_v2/
 - List the keys of the packages in the repository, still not checked as not all signed
