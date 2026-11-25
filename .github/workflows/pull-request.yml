@@ -1,10 +1,10 @@
 name: Pull request
 
 # the pull requests: their packages built, the packages they change, and those built against them, as development
-# builds numbered by the run; those of the branches of the repository published in a stage of the dev bucket of their
-# own, pr<number>, signed by the PR key, for the testers, and removed once closed, see pull-request-closed.yml; those of
-# forks have no secrets, and publish nothing. The jobs always run, to show no skipped checks: the steps a pull request
-# does not need are skipped instead.
+# builds numbered by the run, natively on each architecture; those of the branches of the repository published in a
+# stage of the dev bucket of their own, pr<number>, all the architectures in one snapshot, signed by the PR key, for
+# the testers, and removed once closed, see pull-request-closed.yml; those of forks have no secrets, and publish
+# nothing. The jobs always run, to show no skipped checks: the steps a pull request does not need are skipped instead.
 on:
   pull_request:
     types: [opened, synchronize, reopened]
@@ -16,39 +16,19 @@ env:
   STAGE: pr${{ github.event.number }}
 
 jobs:
-  build:
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - arch: x86_64_v2
-            runner: ubuntu-latest
-          - arch: aarch64
-            runner: ubuntu-24.04-arm
-    name: build (${{ matrix.arch }})
-    runs-on: ${{ matrix.runner }}
+  # its build number: how many runs of this workflow it had, up to this one, those cancelled by a later push included,
+  # which only grows, as $XCRAFT_DEV_COUNTER, for the development builds to upgrade those of the previous runs, rather
+  # than the number of the run, of all the pull requests; the same for the builds of all the architectures, and their
+  # publication
+  number:
+    runs-on: ubuntu-latest
     permissions:
-      # the runs of the pull request, which number its builds
+      # the runs of the pull request
       actions: read
-      # the comment telling where the stage is
-      pull-requests: write
-    # the latest push of the pull request only
-    concurrency:
-      group: pull-request-${{ github.event.number }}-${{ matrix.arch }}
-      cancel-in-progress: true
-    env:
-      XCRAFT_ARCH: ${{ matrix.arch }}
-      PUBLISH: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
-      # the development builds of the pull request, upgrading those of its previous runs: numbered by them, see below
-      XCRAFT_DEV: pr${{ github.event.number }}
-      # the key signing its development builds and its stage, trusted by nobody but its testers; for a fork, a key of
-      # the runner made for them
-      XCRAFT_KEY: ${{ github.event.pull_request.head.repo.full_name == github.repository && vars.PR_SIGNING_KEY_FINGERPRINT || '' }}
+    outputs:
+      counter: ${{ steps.number.outputs.counter }}
     steps:
-      # its build number: how many runs of this workflow it had, up to this one, those cancelled by a later push
-      # included, which only grows, as $XCRAFT_DEV_COUNTER, for the development builds to upgrade those of the previous
-      # runs, rather than the number of the run, of all the pull requests
-      - name: Number the build
+      - id: number
         env:
           GH_TOKEN: ${{ github.token }}
           HEAD_REF: ${{ github.event.pull_request.head.ref }}
@@ -61,7 +41,35 @@ jobs:
             and .head_repository.full_name == \"$HEAD_REPO\")) | length"
           n=$(gh api --paginate --method GET "$runs" -f branch="$HEAD_REF" --jq "$select" | awk '{ n += $1 } END { print n }')
           [ "$n" -gt 0 ]
-          printf 'XCRAFT_DEV_COUNTER=%s\n' "$n" >> "$GITHUB_ENV"
+          printf 'counter=%s\n' "$n" >> "$GITHUB_OUTPUT"
+
+  build:
+    needs: number
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - arch: x86_64_v2
+            runner: ubuntu-latest
+          - arch: aarch64
+            runner: ubuntu-24.04-arm
+    name: build (${{ matrix.arch }})
+    runs-on: ${{ matrix.runner }}
+    permissions: {}
+    # the latest push of the pull request only
+    concurrency:
+      group: pull-request-${{ github.event.number }}-${{ matrix.arch }}
+      cancel-in-progress: true
+    env:
+      XCRAFT_ARCH: ${{ matrix.arch }}
+      PUBLISH: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
+      # the development builds of the pull request, upgrading those of its previous runs
+      XCRAFT_DEV: pr${{ github.event.number }}
+      XCRAFT_DEV_COUNTER: ${{ needs.number.outputs.counter }}
+      # the key signing its development builds and its stage, trusted by nobody but its testers; for a fork, a key of
+      # the runner made for them
+      XCRAFT_KEY: ${{ github.event.pull_request.head.repo.full_name == github.repository && vars.PR_SIGNING_KEY_FINGERPRINT || '' }}
+    steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
           persist-credentials: false
@@ -100,42 +108,143 @@ jobs:
           gpg --batch --list-secret-keys "$XCRAFT_KEY"
       # master's builds are fetched from the main bucket, the compiler caches too, never pushed
       - run: xcraft build --locked --fetch=needed
-        continue-on-error: ${{ matrix.arch == 'aarch64' }}
-      # x86_64 alone, like incoming while aarch64 is not built: a publication replaces all the architectures of the stage
+      # its development builds, signed by the PR key, for the publication: never pushed as builds
+      - if: env.PUBLISH == 'true'
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9  # v7.0.2
+        with:
+          name: dev-builds-${{ matrix.arch }}
+          path: .xcraft/cache/builds/${{ env.XCRAFT_KEY }}/${{ matrix.arch }}
+          if-no-files-found: ignore
+          overwrite: true
+          retention-days: 1
+      - name: Clean up signing
+        if: always()
+        run: |
+          export GNUPGHOME="$RUNNER_TEMP/xcraft-gnupg"
+          if [ -d "$GNUPGHOME" ]; then
+            gpgconf --kill gpg-agent || true
+            rm -rf "$GNUPGHOME"
+          fi
+
+  # the snapshot of all the architectures, from their development builds, and master's builds for the others, copied
+  # from the main bucket; a publication replaces all the architectures of the stage
+  publish:
+    needs: [number, build]
+    runs-on: ubuntu-latest
+    permissions:
+      # the comment telling where the stage is
+      pull-requests: write
+    concurrency:
+      group: pull-request-${{ github.event.number }}-publish
+      cancel-in-progress: true
+    env:
+      PUBLISH: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
+      XCRAFT_DEV: pr${{ github.event.number }}
+      XCRAFT_DEV_COUNTER: ${{ needs.number.outputs.counter }}
+      XCRAFT_KEY: ${{ github.event.pull_request.head.repo.full_name == github.repository && vars.PR_SIGNING_KEY_FINGERPRINT || '' }}
+    steps:
+      - if: env.PUBLISH == 'true'
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          persist-credentials: false
+          fetch-depth: 2
+      - if: env.PUBLISH == 'true'
+        run: git update-ref refs/remotes/origin/master HEAD^1
+      - if: env.PUBLISH == 'true'
+        uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7  # v10.2.0
+        with:
+          version: "0.10.x"
+          activate-environment: true
+      - if: env.PUBLISH == 'true'
+        run: uv sync --locked
+      # the metadata of each architecture
+      - if: env.PUBLISH == 'true'
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9  # v6.1.0
+        with:
+          path: |
+            .xcraft/cache/specs
+            .xcraft/cache/resolved
+            .xcraft/cache/base
+          key: xcraft-metadata-x86_64_v2-${{ github.run_id }}
+          restore-keys: xcraft-metadata-x86_64_v2-
+      - if: env.PUBLISH == 'true'
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9  # v6.1.0
+        with:
+          path: |
+            .xcraft/cache/specs
+            .xcraft/cache/resolved
+            .xcraft/cache/base
+          key: xcraft-metadata-aarch64-${{ github.run_id }}
+          restore-keys: xcraft-metadata-aarch64-
+      # the development builds of the architectures, in the cache of the builds, where publishing finds them
+      - if: env.PUBLISH == 'true'
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333  # v8.0.2
+        with:
+          pattern: dev-builds-*
+          path: ${{ runner.temp }}/dev-builds
+      - if: env.PUBLISH == 'true'
+        run: |
+          for dir in "$RUNNER_TEMP"/dev-builds/dev-builds-*; do
+            [ -d "$dir" ] || continue
+            arch="${dir##*/dev-builds-}"
+            mkdir -p ".xcraft/cache/builds/$XCRAFT_KEY"
+            mv "$dir" ".xcraft/cache/builds/$XCRAFT_KEY/$arch"
+          done
+      - if: env.PUBLISH == 'true'
+        run: |
+          if ! command -v podman || ! command -v gpg; then
+            sudo apt-get update -q
+            sudo apt-get install -qy podman gnupg
+          fi
+      - name: Set up signing
+        if: env.PUBLISH == 'true'
+        env:
+          PR_SIGNING_PRIVATE_KEY: ${{ secrets.PR_SIGNING_PRIVATE_KEY }}
+        run: |
+          export GNUPGHOME="$RUNNER_TEMP/xcraft-gnupg"
+          printf 'GNUPGHOME=%s\n' "$GNUPGHOME" >> "$GITHUB_ENV"
+          install -d -m 700 "$GNUPGHOME"
+          printf '%s' "$PR_SIGNING_PRIVATE_KEY" | gpg --batch --import
+          gpg --batch --list-secret-keys "$XCRAFT_KEY"
       - name: Publish the stage
-        if: env.PUBLISH == 'true' && matrix.arch == 'x86_64_v2'
+        if: env.PUBLISH == 'true'
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.DEV_AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.DEV_AWS_SECRET_ACCESS_KEY }}
         run: |
-          xcraft publish --locked --to dev --stage "$STAGE" --dev "$XCRAFT_DEV" --arch "$XCRAFT_ARCH" \
-            --summary "$RUNNER_TEMP/stage.md"
-      # what the pull request changes in the packages of the snapshot, compared with master, without building: for the
-      # comment, which goes without it if it fails
+          xcraft publish --locked --to dev --stage "$STAGE" --dev "$XCRAFT_DEV" --summary "$RUNNER_TEMP/stage.md"
+      # what the pull request changes in the packages of the snapshot of each architecture, compared with master,
+      # without building: for the comment, which goes without them if it fails
       - name: Compare the packages with master
-        if: env.PUBLISH == 'true' && matrix.arch == 'x86_64_v2'
+        if: env.PUBLISH == 'true'
         continue-on-error: true
-        run: xcraft contents --diff HEAD^1 --markdown > "$RUNNER_TEMP/contents.md"
+        run: |
+          for arch in x86_64_v2 aarch64; do
+            xcraft contents --arch "$arch" --diff HEAD^1 --markdown > "$RUNNER_TEMP/contents-$arch.md"
+          done
       # where the snapshot of the stage is, how to use it, its development builds, and what changes in its packages, in
-      # the summary of the run, and in a comment of the pull request by architecture, the same one updated by each run
+      # the summary of the run, and in a comment of the pull request, the same one updated by each run, the one of each
+      # architecture of the earlier runs included
       - name: Tell where the stage is
-        if: env.PUBLISH == 'true' && matrix.arch == 'x86_64_v2'
+        if: env.PUBLISH == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
           NUMBER: ${{ github.event.number }}
         run: |
-          marker="<!-- xcraft stage $XCRAFT_ARCH -->"
+          marker="<!-- xcraft stage -->"
           body="$(
-            printf '%s\n### %s build %s succeeded\n\n' "$marker" "$XCRAFT_ARCH" "$XCRAFT_DEV_COUNTER"
+            printf '%s\n### Build %s succeeded\n\n' "$marker" "$XCRAFT_DEV_COUNTER"
             cat "$RUNNER_TEMP/stage.md"
-            if [ -s "$RUNNER_TEMP/contents.md" ]; then
-              printf '\n#### The packages, compared with master\n\n'
-              cat "$RUNNER_TEMP/contents.md"
-            fi
+            for arch in x86_64_v2 aarch64; do
+              if [ -s "$RUNNER_TEMP/contents-$arch.md" ]; then
+                printf '\n#### The packages of %s, compared with master\n\n' "$arch"
+                cat "$RUNNER_TEMP/contents-$arch.md"
+              fi
+            done
           )"
           printf '%s\n' "$body" >> "$GITHUB_STEP_SUMMARY"
           comments="repos/$GITHUB_REPOSITORY/issues/$NUMBER/comments"
-          id=$(gh api --paginate "$comments" --jq ".[] | select(.body | startswith(\"$marker\")) | .id" | head -n 1)
+          id=$(gh api --paginate "$comments" --jq '.[] | select(.body | startswith("<!-- xcraft stage")) | .id' | head -n 1)
           if [ -n "$id" ]; then
             gh api -X PATCH "repos/$GITHUB_REPOSITORY/issues/comments/$id" -f body="$body" > /dev/null
           else
