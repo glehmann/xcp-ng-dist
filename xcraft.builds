@@ -306,8 +306,8 @@ xcp-ng-release.requires."xcp-ng-release-config" = ["bash", "python3"]
 
 # xcp-ng-xapi-plugins
 xcp-ng-xapi-plugins.build = 1
-xcp-ng-xapi-plugins.key = "aebda542ea3a1a3995f34ec042a09064a701fc5e8830cfb852a3c80cc45c699b"
-xcp-ng-xapi-plugins.evr = "1.16.0-2"
+xcp-ng-xapi-plugins.key = "0bbdd9618683300af83e1b5a20d7cc5830ee443f63c9585a4862f18c68b8a9dc"
+xcp-ng-xapi-plugins.evr = "1.17.0-1.1"
 xcp-ng-xapi-plugins.requires."xcp-ng-xapi-plugins" = ["python3"]
 
 # xcp-python-libs

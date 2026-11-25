@@ -1,10 +1,10 @@
 Summary: XAPI additional plugins for XCP-ng
 Name: xcp-ng-xapi-plugins
-Version: 1.16.0
-Release: 2%{?dist}
+Version: 1.17.0
+Release: 1.1%{?dist}
 URL: https://github.com/xcp-ng/xcp-ng-xapi-plugins
 Source0: https://github.com/xcp-ng/xcp-ng-xapi-plugins/archive/v%{version}/%{name}-%{version}.tar.gz
-License: AGPLv3
+License: AGPL-3.0-only
 
 # py3
 Patch01:     0001-Use-list-comprehensions-rather-than-filter-and-map.patch
@@ -41,11 +41,20 @@ install SOURCES/etc/xapi.d/plugins/xcpngutils/*.py %{buildroot}/etc/xapi.d/plugi
 %dir /var/lib/xcp-ng-xapi-plugins
 
 %changelog
+* Wed Nov 25 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 1.17.0-1.1
+- Update to 1.17.0, with the patches for python3 and DNF support
+
 * Mon Nov 23 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 1.16.0-2
 - Unpack the sources in a directory without the version, for the compiler cache across versions
 
 * Fri Oct 23 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 1.16.0-1
 - Update to 1.16.0
+
+* Thu Jul 16 2026 Sebastien Rodot <sebastien.rodot@vates.tech> - 1.17.0-1
+- sdncontroller.py: fixes for hosts using VLANs (XCPNG-3551)
+
+* Tue Mar 17 2026 Sebastien Rodot <sebastien.rodot@vates.tech> - 1.16.0-1
+- sdn-controller: add optional cookie argument support
 
 * Mon Dec 08 2025 Yann Dirson <yann.dirson@vates.tech> - 1.15.0-1.0.ydi.2
 - Include patches for python3 support
