@@ -117,6 +117,18 @@ jobs:
           if-no-files-found: ignore
           overwrite: true
           retention-days: 1
+      # its ISOs, made natively, as the programs of their packages run to make them, handed over too, never pushed:
+      # aarch64's would run emulated on the host publishing
+      - run: |
+          xcraft iso --locked
+          xcraft iso --locked --netinstall
+      - if: env.PUBLISH == 'true'
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9  # v7.0.2
+        with:
+          name: isos-${{ matrix.arch }}
+          path: .xcraft/cache/isos/${{ matrix.arch }}
+          overwrite: true
+          retention-days: 1
       - name: Clean up signing
         if: always()
         run: |
@@ -176,19 +188,22 @@ jobs:
             .xcraft/cache/base
           key: xcraft-metadata-aarch64-${{ github.run_id }}
           restore-keys: xcraft-metadata-aarch64-
-      # the development builds of the architectures, in the cache of the builds, where publishing finds them
+      # the development builds and the ISOs of the architectures, in the caches where publishing finds them
       - if: env.PUBLISH == 'true'
         uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333  # v8.0.2
         with:
-          pattern: dev-builds-*
-          path: ${{ runner.temp }}/dev-builds
+          path: ${{ runner.temp }}/handed
       - if: env.PUBLISH == 'true'
         run: |
-          for dir in "$RUNNER_TEMP"/dev-builds/dev-builds-*; do
-            [ -d "$dir" ] || continue
-            arch="${dir##*/dev-builds-}"
-            mkdir -p ".xcraft/cache/builds/$XCRAFT_KEY"
-            mv "$dir" ".xcraft/cache/builds/$XCRAFT_KEY/$arch"
+          for dir in "$RUNNER_TEMP"/handed/*-*; do
+            kind="${dir##*/}" && arch="${kind#*-}" && arch="${arch#builds-}"
+            case "$kind" in
+              dev-builds-*) cache=".xcraft/cache/builds/$XCRAFT_KEY" ;;
+              isos-*) cache=".xcraft/cache/isos" ;;
+              *) continue ;;
+            esac
+            mkdir -p "$cache"
+            mv "$dir" "$cache/$arch"
           done
       - if: env.PUBLISH == 'true'
         run: |

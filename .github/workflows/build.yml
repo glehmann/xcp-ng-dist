@@ -94,6 +94,15 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: xcraft push ccache --to main --key "$SIGNING_KEY_FINGERPRINT"
+      # the ISOs, made natively, as the programs of their packages run to make them, and pushed, for the publication to
+      # take them rather than make them: aarch64's would run emulated on its host
+      - run: |
+          xcraft iso --final --locked
+          xcraft iso --final --locked --netinstall
+      - env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: xcraft push isos --to main --key "$SIGNING_KEY_FINGERPRINT"
       - name: Clean up signing
         if: always()
         run: |
@@ -103,8 +112,9 @@ jobs:
             rm -rf "$GNUPGHOME"
           fi
 
-  # the snapshot of all the architectures, once each pushed its builds: published from one of them, which fetches
-  # nothing, the storage copying them; a publication replaces all the architectures of the stage
+  # the snapshot of all the architectures, once each pushed its builds and its ISOs: published from one of them, which
+  # fetches nothing but the ISOs, the storage copying the builds; a publication replaces all the architectures of the
+  # stage
   publish:
     needs: build
     runs-on: ubuntu-latest
