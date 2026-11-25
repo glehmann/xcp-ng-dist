@@ -3,7 +3,7 @@
 Summary: vncterm tty to vnc utility
 Name: vncterm
 Version: 10.2.2
-Release: 1%{?xsrel}.2%{?dist}
+Release: 1%{?xsrel}.3%{?dist}
 License: GPL
 Group: System/Hypervisor
 Source0: vncterm-10.2.2.tar.gz
@@ -73,6 +73,9 @@ grep -xq 'pts/0' /etc/securetty || echo 'pts/0' >>/etc/securetty
 %{?_cov_results_package}
 
 %changelog
+* Wed Nov 25 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 10.2.2-1.3
+- Built again, as aarch64 has no build of the previous release to reuse
+
 * Mon Nov 23 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 10.2.2-1.2
 - Unpack the sources in a directory without the version, for the compiler cache across versions
 

@@ -4,7 +4,7 @@
 
 Name:           xcp-emu-manager
 Version:        1.2.1
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Tool used for managing xenguest
 License:        GPLv3
 URL:            https://github.com/xcp-ng/xcp-emu-manager
@@ -39,6 +39,9 @@ Handles suspend, resume and migrate.
 %{_libdir}/xen/bin/emu-manager
 
 %changelog
+* Wed Nov 25 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 1.2.1-5
+- Built again, as aarch64 has no build of the previous release to reuse
+
 * Mon Nov 23 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 1.2.1-4
 - Unpack the sources in a directory without the version, for the compiler cache across versions
 

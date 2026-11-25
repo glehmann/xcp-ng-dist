@@ -4,7 +4,7 @@
 Summary: blktap user space utilities
 Name: blktap
 Version: 4.0.8
-Release: 1%{?xsrel}.4%{?dist}
+Release: 1%{?xsrel}.5%{?dist}
 License: BSD
 Group: System/Hypervisor
 URL: https://github.com/xapi-project/blktap
@@ -165,6 +165,9 @@ without requiring other libraries
 %{_libdir}/libblockcrypto.so.*
 
 %changelog
+* Wed Nov 25 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 4.0.8-1.5
+- Built again, as aarch64 has no build of the previous release to reuse
+
 * Mon Nov 23 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 4.0.8-1.4
 - Do not package the test results, whose times and paths made the builds of the same sources differ
 - Unpack the sources in a directory without the version, for the compiler cache across versions
