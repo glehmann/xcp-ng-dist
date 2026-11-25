@@ -14,7 +14,7 @@ Name: iptables-epel
 Summary: Tools for managing Linux kernel packet filtering capabilities
 URL: https://www.netfilter.org/projects/iptables
 Version: 1.8.11
-Release: 7.1%{?dist}
+Release: 7.1.1%{?dist}
 Source: %{url}/files/iptables-%{version}.tar.xz
 Source1: iptables.init
 Source2: iptables-config
@@ -214,7 +214,7 @@ nftables compatibility for iptables, arptables and ebtables.
 %endif
 
 %prep
-%autosetup -p1 -n iptables-%{version}
+%autosetup -p1 -n %{name} -C
 cp %{SOURCE11} .
 
 %build
@@ -577,6 +577,9 @@ fi
 %endif
 
 %changelog
+* Wed Nov 25 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 1.8.11-7.1.1
+- Unpack the sources in a directory without the version, for the compiler cache across versions
+
 * Fri Feb 14 2025 Michel Lind <salimma@fedoraproject.org> - 1.8.11-7.1
 - Re-ship iptables-services
 

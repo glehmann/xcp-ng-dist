@@ -16,5 +16,6 @@ Filters = ['''(?x) ^(?!.*:\ [EW]:\ (
     | sourced-script-with-shebang
     | backup-file-in-package
     | world-writable
+    | versioned-build-directory
     | missing-call-to-setgroups-before-setuid
 )(\s|$))''']
