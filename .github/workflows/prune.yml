@@ -24,11 +24,13 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          # with the workflow publishing to the bucket, which a build may be copied by while it is removed
-          - {bucket: main, publishing: build.yml}
+          # with the workflow publishing to the bucket, which a build may be copied by while it is removed, and the
+          # environment of its credentials: main, which only master deploys to, for the main bucket
+          - {bucket: main, publishing: build.yml, environment: main}
           - {bucket: dev, publishing: pull-request.yml}
     name: prune (${{ matrix.bucket }})
     runs-on: ubuntu-latest
+    environment: ${{ matrix.environment }}
     permissions:
       actions: read
     concurrency:
