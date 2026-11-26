@@ -298,7 +298,7 @@ xcp-ng-generic-lib.requires."xcp-ng-generic-lib-devel" = ["cmake-filesystem", "x
 
 # xcp-ng-pv-tools
 xcp-ng-pv-tools.build = 2
-xcp-ng-pv-tools.key = "457cea24ba3f0cda6779529ec1d6fd6cce44106d825350a24d2e163e4b5e59f1"
+xcp-ng-pv-tools.key = "a9bcf3610f5dfb748719838138540b771dd81598b02d3ff9ee7e5c00f37b8fc8"
 xcp-ng-pv-tools.evr = "8.3-21"
 xcp-ng-pv-tools.requires."xcp-ng-pv-tools" = ["bash"]
 

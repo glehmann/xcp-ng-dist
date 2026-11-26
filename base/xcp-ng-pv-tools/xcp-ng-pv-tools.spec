@@ -124,7 +124,8 @@ function build_and_copy_rpm_legacy {
     cp ../build/obj/{xe-daemon,xenstore} SOURCES/
     cp ../LICENSE SOURCES/
     cp ../mk/{xe-linux-distribution,xe-linux-distribution.init,xen-vcpu-hotplug.rules} SOURCES/
-    # _rpmfilename redefined to be independent from the build environment definition
+    # _rpmfilename redefined to be independent from the build environment definition, and _binary_payload from the
+    # compression of the build, like that of a development one
     rpmbuild --target $ARCH \
         -bb SPECS/xe-guest-utilities-legacy.spec \
         --define "_topdir $(pwd)" \
@@ -133,6 +134,7 @@ function build_and_copy_rpm_legacy {
         --define "changelogdate $(LC_ALL=C date -u -d @$SOURCE_DATE_EPOCH +'%a %b %d %Y')" \
         --define "use_source_date_epoch_as_buildtime 1" \
         --define "_buildhost xcp-ng" \
+        --define "_binary_payload w19T.zstdio" \
         --define "_rpmfilename %%{NAME}-%%{VERSION}-%%{RELEASE}.%%{ARCH}.rpm"
     popd
 
@@ -152,7 +154,8 @@ function build_and_copy_rpm {
     cp ../build/obj/{xe-daemon,xenstore} SOURCES/
     cp ../LICENSE SOURCES/
     cp ../mk/{xe-linux-distribution,xen-vcpu-hotplug.rules,xe-linux-distribution.service} SOURCES/
-    # _rpmfilename redefined to be independent from the build environment definition
+    # _rpmfilename redefined to be independent from the build environment definition, and _binary_payload from the
+    # compression of the build, like that of a development one
     rpmbuild --target $ARCH \
         -bb SPECS/xe-guest-utilities.spec \
         --define "_topdir $(pwd)" \
@@ -161,6 +164,7 @@ function build_and_copy_rpm {
         --define "changelogdate $(LC_ALL=C date -u -d @$SOURCE_DATE_EPOCH +'%a %b %d %Y')" \
         --define "use_source_date_epoch_as_buildtime 1" \
         --define "_buildhost xcp-ng" \
+        --define "_binary_payload w19T.zstdio" \
         --define "_rpmfilename %%{NAME}-%%{VERSION}-%%{RELEASE}.%%{ARCH}.rpm"
     popd
 
