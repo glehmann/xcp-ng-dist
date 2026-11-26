@@ -84,7 +84,7 @@ def save_metadata(data, output_file_name):
 if __name__ == "__main__":
     setup_logger()
     args = parse_args()
-    tests = [os.path.basename(test) for test in find_tests(args.input)]
+    tests = sorted(os.path.basename(test) for test in find_tests(args.input))
     tests = filter_tests(tests, args.skip)
     metadata = build_metadata(args, tests)
     save_metadata(metadata, args.output)
