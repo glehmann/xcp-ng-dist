@@ -1,6 +1,6 @@
 Name:           xcp-featured
-Version:        1.2.1
-Release:        7%{?dist}
+Version:        1.2.2
+Release:        1%{?dist}
 Summary:        XCP-ng feature daemon
 Group:          System/Hypervisor
 License:        ISC
@@ -45,6 +45,10 @@ ln -s /opt/xensource/libexec/xcp-featured %{buildroot}/opt/xensource/libexec/v6d
 %{_unitdir}/v6d.service
 
 %changelog
+* Thu Nov 26 2026 Yann Dirson <yann.dirson@vates.tech> - 1.2.2-1
+- v6: avoid unused-functor-parameter
+- Bump dune lang to 3.7, unset map_workspace_root
+
 * Thu Nov 12 2026 Andrii Sultanov <andriy.sultanov@vates.tech> - 1.2.1-7
 - Rebuild with XAPI 26.1.23-2.1
 
