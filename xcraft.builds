@@ -52,9 +52,9 @@ edk2.accepts = "723837116ab2419f8a944d21bd4b9d1684f3f70c18ade822c9d59e89cbaa9384
 edk2.evr = "202602-1.3"
 
 # grub
-grub.build = 3
-grub.key = "1189fb4b072cd3f3388f100f85dfbb380a6d61a82e7c81e011a6dc03ea4aa652"
-grub.evr = "1:2.12-21"
+grub.build = 1
+grub.key = "3b2996a3f36a73cf983899585820c3136faedecd736b6b91c25408020bdcd959"
+grub.evr = "1:2.12-22"
 grub.requires."grub2-common" = ["bash"]
 grub.requires."grub2-efi-ia32" = ["grub2-common", "grub2-tools", "grub2-tools-minimal"]
 grub.requires."grub2-efi-ia32-cdboot" = ["grub2-common"]

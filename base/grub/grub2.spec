@@ -17,7 +17,7 @@
 Name:		grub2
 Epoch:		1
 Version:	2.12
-Release:	21%{?dist}
+Release:	22%{?dist}
 Summary:	Bootloader with support for Linux, Multiboot and more
 License:	GPL-3.0-or-later
 URL:		http://www.gnu.org/software/grub/
@@ -199,6 +199,8 @@ This subpackage provides the GRUB user-space emulation modules.
 
 %prep
 %do_common_setup
+# the date of the manuals, which mdate-sh takes from the time their sources were patched: that of the changelog
+touch -d "@${SOURCE_DATE_EPOCH:?}" docs/grub.texi docs/grub-dev.texi
 %if 0%{with_efi_arch}
 mkdir grub-%{grubefiarch}-build
 grep -A100000 '# stuff "make" creates' .gitignore > grub-%{grubefiarch}-build/.gitignore
@@ -582,6 +584,9 @@ mv ${EFI_HOME}/grub.cfg.stb ${EFI_HOME}/grub.cfg
 %endif
 
 %changelog
+* Thu Nov 26 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 1:2.12-22
+- Date the manuals from the changelog rather than from the build
+
 * Mon Nov 23 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 1:2.12-21
 - Embed the release without the number of the build, in its version and its SBAT entries, the same for the same sources
 - Unpack the sources in a directory without the version, for the compiler cache across versions
