@@ -59,6 +59,9 @@ Requires: vim-minimal
 Requires: which
 Requires: zip
 
+# XCP-ng/XS utilities
+Requires: vcputune
+
 # deps that should live somewhere else
 Requires: cifs-utils
 Requires: iscsi-initiator-utils
@@ -82,6 +85,7 @@ Requires: guest-templates-json-data-linux
 Requires: guest-templates-json-data-windows
 Requires: guest-templates-json-data-other
 # Requires: host-upgrade-plugin
+Requires: kexec-tools
 Requires: mdadm
 Requires: nfs-utils
 Requires: rrdd-plugins
@@ -99,7 +103,8 @@ Requires: xcp-featured
 Requires: xcp-ng-pv-tools
 Requires: xcp-ng-xapi-plugins
 Requires: xcp-rrdd
-# Requires: xen-crashdump-analyser
+# only Recommended by kexec-tools for now
+Requires: xen-crashdump-analyser
 Requires: xenopsd-cli
 Requires: xenopsd-xc
 # Requires: xenserver-status-report
@@ -110,9 +115,6 @@ Requires: xsconsole
 # Required in the installed host by host-installer
 Requires: dnf-plugins-core
 
-# not yet built
-# Requires: vcputune
-
 # dropped from the list, possibly temporarily
 # Requires: dracut-network
 # Requires: fcoe-utils
@@ -120,7 +122,6 @@ Requires: dnf-plugins-core
 # Requires: iproute-tc
 # Requires: ipset
 # Requires: irqbalance
-# Requires: kexec-tools
 # Requires: kpatch
 # Requires: makedumpfile
 # Currently requires acpica-tools, also pulled by xenserver-status-report
