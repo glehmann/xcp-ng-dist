@@ -1,6 +1,6 @@
 Name:           xcp-ng-deps
 Version:        8.99
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        A meta package pulling all needed dependencies for XCP-ng
 # License covers this spec file
 License:        GPLv2
@@ -72,6 +72,8 @@ Requires: iptables-services
 Requires: iptables-utils
 Requires: policycoreutils
 Requires: iscsi-initiator-utils
+# /etc/sysconfig/fcoe, for xs-fcoe of xcp-ng-release-config, which the presets enable
+Requires: fcoe-utils
 # surely not only host-installer using it?
 Requires: chrony
 Requires: efibootmgr
@@ -105,7 +107,6 @@ Requires: guest-templates-json-data-linux
 Requires: guest-templates-json-data-windows
 Requires: guest-templates-json-data-other
 # Requires: host-upgrade-plugin
-Requires: kexec-tools
 Requires: mdadm
 Requires: nfs-utils
 Requires: rrdd-plugins
@@ -114,6 +115,9 @@ Requires: sm-cli
 # the UEFI variables of the x86 HVM guests
 Requires: varstored
 Requires: varstored-tools
+# the crash dumps of Xen, whose kexec is x86 only; xen-crashdump-analyser only Recommended by kexec-tools for now
+Requires: kexec-tools
+Requires: xen-crashdump-analyser
 %endif
 Requires: vncterm
 # Requires: vncsnapshot
@@ -126,8 +130,6 @@ Requires: xcp-featured
 Requires: xcp-ng-pv-tools
 Requires: xcp-ng-xapi-plugins
 Requires: xcp-rrdd
-# only Recommended by kexec-tools for now
-Requires: xen-crashdump-analyser
 Requires: xenopsd-cli
 Requires: xenopsd-xc
 # Requires: xenserver-status-report
@@ -140,7 +142,6 @@ Requires: dnf-plugins-core
 
 # dropped from the list, possibly temporarily
 # Requires: dracut-network
-# Requires: fcoe-utils
 # Requires: gnupg2
 # Requires: iproute-tc
 # Requires: ipset
@@ -198,6 +199,10 @@ fi
 %files
 
 %changelog
+* Fri Nov 27 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 8.99-7
+- Require fcoe-utils again, from AlmaLinux 10, for xs-fcoe, which fails at boot without its configuration
+- Require kexec-tools and xen-crashdump-analyser on x86_64 only, as Xen's kexec
+
 * Fri Nov 27 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 8.99-6
 - Merge ydi/9 of xcp-ng-rpms: require kexec-tools, vcputune and xen-crashdump-analyser
 - Still require iptables-legacy, iptables-services, iptables-utils and policycoreutils, which ydi/9 no longer
