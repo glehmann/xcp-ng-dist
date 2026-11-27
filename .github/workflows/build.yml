@@ -3,10 +3,14 @@ name: Build
 # the builds of all the packages of master, natively on each architecture, pushed to the remote storage with their
 # sources and compiler caches, for the other builders and the developers to fetch rather than build them again, then
 # published in the incoming stage, all the architectures in one snapshot; the other branches are built by their pull
-# requests only, of forks too, see pull-request.yml
+# requests only, of forks too, see pull-request.yml. The maintenance branches too, numbered against themselves, their
+# builds pushed for the promotion of their commits to the stages, see promote.yml, but not published. The repository
+# variable XCRAFT_ROLE tells which branches a repository builds: public, the public one, master and the maintenance
+# branches; private, the private one of the embargoes, its embargo branches only, to its private bucket, never master,
+# which it has for the developers only, see master-sync.yml; without it, nothing
 on:
   push:
-    branches: [master]
+    branches: [master, "maint/**", "embargo/**"]
 
 permissions: {}
 
@@ -21,10 +25,14 @@ jobs:
           - arch: aarch64
             runner: ubuntu-24.04-arm
     name: build (${{ matrix.arch }})
+    if: >-
+      (vars.XCRAFT_ROLE == 'public' && !startsWith(github.ref_name, 'embargo/'))
+      || (vars.XCRAFT_ROLE == 'private' && startsWith(github.ref_name, 'embargo/'))
     runs-on: ${{ matrix.runner }}
-    # the CI key and the credentials of the main bucket, in the main environment, which only master deploys to: a branch
-    # changing this workflow cannot get them
-    environment: main
+    # the CI key and the credentials of the bucket, in its environment, which only the branches built deploy to: a
+    # branch changing this workflow cannot get them; main, of master and the maintenance branches, or private, of the
+    # embargo branches, with the CI key too, the builds copied as they are once the embargo ends
+    environment: ${{ startsWith(github.ref_name, 'embargo/') && 'private' || 'main' }}
     # one push at a time on each architecture: the latest one has the latest builds
     concurrency:
       group: build-${{ github.ref }}-${{ matrix.arch }}
@@ -34,12 +42,21 @@ jobs:
       SIGNING_KEY_FINGERPRINT: ${{ vars.SIGNING_KEY_FINGERPRINT }}
       # the key signing the builds
       XCRAFT_KEY: ${{ vars.SIGNING_KEY_FINGERPRINT }}
+      TO: ${{ startsWith(github.ref_name, 'embargo/') && 'private' || 'main' }}
+      PUBLIC_REPOSITORY: ${{ vars.XCRAFT_PUBLIC_REPOSITORY || format('{0}/{1}', github.server_url, github.repository) }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
           persist-credentials: false
-          # the previous commit, which the build IDs of the main branch are checked against
-          fetch-depth: 2
+          # the previous commit, which the build IDs of the main branch are checked against; all of them for a
+          # maintenance branch, whose commits are told from master's by their first-parent chains
+          fetch-depth: ${{ github.ref_name == 'master' && 2 || 0 }}
+      - name: Number against the maintenance branch
+        if: github.ref_name != 'master'
+        run: |
+          # master as the public repository has it, current, whatever the private one has
+          git fetch --no-tags "$PUBLIC_REPOSITORY" +master:refs/remotes/origin/master
+          printf 'XCRAFT_MAINTENANCE=%s\n' "$GITHUB_REF_NAME" >> "$GITHUB_ENV"
       - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7  # v10.2.0
         with:
           version: "0.10.x"
@@ -77,7 +94,7 @@ jobs:
       - env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        run: xcraft push upstream --to main
+        run: xcraft push upstream --to "$TO"
         continue-on-error: true
       # signed once made, by the CI key
       # what the remote storage has is not built again, nor fetched, but for the builds of the others
@@ -87,13 +104,13 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        run: xcraft push --to main --key "$SIGNING_KEY_FINGERPRINT"
+        run: xcraft push --to "$TO" --key "$SIGNING_KEY_FINGERPRINT"
       # the compiler caches the builds filled, even of those which failed
       - if: ${{ !cancelled() }}
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        run: xcraft push ccache --to main --key "$SIGNING_KEY_FINGERPRINT"
+        run: xcraft push ccache --to "$TO" --key "$SIGNING_KEY_FINGERPRINT"
       # the ISOs, made natively, as the programs of their packages run to make them, and pushed, for the publication to
       # take them rather than make them: aarch64's would run emulated on its host
       - run: |
@@ -102,7 +119,7 @@ jobs:
       - env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        run: xcraft push isos --to main --key "$SIGNING_KEY_FINGERPRINT"
+        run: xcraft push isos --to "$TO" --key "$SIGNING_KEY_FINGERPRINT"
       - name: Clean up signing
         if: always()
         run: |
@@ -117,6 +134,8 @@ jobs:
   # stage
   publish:
     needs: build
+    # master's only: the commits of the maintenance branches are published by their promotion, see promote.yml
+    if: github.ref_name == 'master'
     runs-on: ubuntu-latest
     environment: main
     # in the order of the pushes, the latest one last

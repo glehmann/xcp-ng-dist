@@ -1,0 +1,134 @@
+name: Promote
+
+# the stages after incoming, ci, testing and release, each published from the commit of its branch, stage/<stage>: a
+# promotion moves the branch, by a fast-forward to the commit of the previous stage, like incoming's, master's, or a
+# maintenance branch's, which built and pushed all its builds and ISOs. Nothing is built: publish --fetch-only fails
+# rather than build what the main bucket misses. ci and testing go to the main bucket, signed by the CI key; release to
+# the release bucket, its builds those of the main bucket signed again by the release key, and its ISOs made for it,
+# natively, in the release environment, which only stage/release deploys to. Who promotes is who may push the branch.
+on:
+  push:
+    branches: ["stage/*"]
+
+permissions: {}
+
+env:
+  FORCE_COLOR: "1"
+
+jobs:
+  # the ISOs of the release, with the packages signed by the release key: made natively, as the programs of their
+  # packages run to make them, and pushed to the release bucket, for the publication to take them
+  isos:
+    if: vars.XCRAFT_ROLE == 'public' && github.ref_name == 'stage/release'
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - arch: x86_64_v2
+            runner: ubuntu-latest
+          - arch: aarch64
+            runner: ubuntu-24.04-arm
+    name: isos (${{ matrix.arch }})
+    runs-on: ${{ matrix.runner }}
+    environment: release
+    concurrency:
+      group: promote-${{ github.ref }}-${{ matrix.arch }}
+    env:
+      XCRAFT_ARCH: ${{ matrix.arch }}
+      SIGNING_KEY_FINGERPRINT: ${{ vars.SIGNING_KEY_FINGERPRINT }}
+      XCRAFT_KEY: ${{ vars.SIGNING_KEY_FINGERPRINT }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          persist-credentials: false
+          # master and the maintenance branches, whose first-parent chains tell whose the commit is
+          fetch-depth: 0
+      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7  # v10.2.0
+        with:
+          version: "0.10.x"
+          activate-environment: true
+      - run: uv sync --locked
+      - run: |
+          if ! command -v podman || ! command -v gpg; then
+            sudo apt-get update -q
+            sudo apt-get install -qy podman gnupg
+          fi
+      - name: Set up signing
+        env:
+          SIGNING_PRIVATE_KEY: ${{ secrets.SIGNING_PRIVATE_KEY }}
+        run: |
+          export GNUPGHOME="$RUNNER_TEMP/xcraft-gnupg"
+          printf 'GNUPGHOME=%s\n' "$GNUPGHOME" >> "$GITHUB_ENV"
+          install -d -m 700 "$GNUPGHOME"
+          printf '%s' "$SIGNING_PRIVATE_KEY" | gpg --batch --import
+          gpg --batch --list-secret-keys "$SIGNING_KEY_FINGERPRINT"
+      - run: |
+          xcraft iso --final --locked
+          xcraft iso --final --locked --netinstall
+      - env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: xcraft push isos --to release --key "$SIGNING_KEY_FINGERPRINT"
+      - name: Clean up signing
+        if: always()
+        run: |
+          export GNUPGHOME="$RUNNER_TEMP/xcraft-gnupg"
+          if [ -d "$GNUPGHOME" ]; then
+            gpgconf --kill gpg-agent || true
+            rm -rf "$GNUPGHOME"
+          fi
+
+  publish:
+    needs: isos
+    # once the ISOs of a release are pushed; the other stages have those pushed by the build of the commit
+    if: >-
+      !cancelled() && vars.XCRAFT_ROLE == 'public'
+      && (needs.isos.result == 'success' || (needs.isos.result == 'skipped' && github.ref_name != 'stage/release'))
+    runs-on: ubuntu-latest
+    environment: ${{ github.ref_name == 'stage/release' && 'release' || 'main' }}
+    # in the order of the pushes of the branch
+    concurrency:
+      group: promote-${{ github.ref }}
+    env:
+      SIGNING_KEY_FINGERPRINT: ${{ vars.SIGNING_KEY_FINGERPRINT }}
+      XCRAFT_KEY: ${{ vars.SIGNING_KEY_FINGERPRINT }}
+      TO: ${{ github.ref_name == 'stage/release' && 'release' || 'main' }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7  # v10.2.0
+        with:
+          version: "0.10.x"
+          activate-environment: true
+      - run: uv sync --locked
+      - run: |
+          if ! command -v podman || ! command -v gpg; then
+            sudo apt-get update -q
+            sudo apt-get install -qy podman gnupg
+          fi
+      - name: Set up signing
+        env:
+          SIGNING_PRIVATE_KEY: ${{ secrets.SIGNING_PRIVATE_KEY }}
+        run: |
+          export GNUPGHOME="$RUNNER_TEMP/xcraft-gnupg"
+          printf 'GNUPGHOME=%s\n' "$GNUPGHOME" >> "$GITHUB_ENV"
+          install -d -m 700 "$GNUPGHOME"
+          printf '%s' "$SIGNING_PRIVATE_KEY" | gpg --batch --import
+          gpg --batch --list-secret-keys "$SIGNING_KEY_FINGERPRINT"
+      - name: Publish the stage
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: |
+          xcraft publish --locked --fetch-only --to "$TO" --stage "${GITHUB_REF_NAME#stage/}" \
+            --key "$SIGNING_KEY_FINGERPRINT"
+      - name: Clean up signing
+        if: always()
+        run: |
+          export GNUPGHOME="$RUNNER_TEMP/xcraft-gnupg"
+          if [ -d "$GNUPGHOME" ]; then
+            gpgconf --kill gpg-agent || true
+            rm -rf "$GNUPGHOME"
+          fi

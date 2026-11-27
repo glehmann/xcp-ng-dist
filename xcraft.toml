@@ -103,6 +103,24 @@ s3_endpoint = "https://91.98.220.14:8443"
 bucket = "xcraft-dev"
 region = "garage"
 
+# the builds of the embargo branches, read through S3 only, with the credentials of its key xcraft-private-ci, signed
+# by the CI key too, so that they are copied as they are to the main bucket at the end of the embargo, by those of
+# xcraft-embargo-release, see embargo-release.yml
+[remote.private]
+s3_endpoint = "https://91.98.220.14"
+bucket = "xcraft-private"
+region = "garage"
+build_keys = ["F7685175612B78858C4211D861ECBE94C30BC7B5"]
+
+# the releases: the builds and upstream packages of the main bucket signed again by the release key, read by the hosts
+# on their own port, written with the credentials of its key xcraft-release, see promote.yml
+[remote.release]
+url = "https://91.98.220.14:8444"
+s3_endpoint = "https://91.98.220.14:8444"
+bucket = "xcraft-release"
+region = "garage"
+build_keys = ["FB08CC1BB13BB307AA0C29D1795E71DDEFECD8FD"]
+
 [publish]
 release = "9.0"
 # upstream packages published for convenience, not installed by default
@@ -122,6 +140,20 @@ extra = [
 # kept 7 days for now, rather than 90, to free the disk of the test storage
 [publish.stages.incoming]
 snapshot_days = 7
+
+# the stages a commit is promoted to, after incoming, by its branch, stage/<stage>, see promote.yml: ci, once tested,
+# exact, for a withdrawn package to go; testing, for the testers, who can go back a version for 30 days
+[publish.stages.ci]
+snapshot_days = 90
+
+[publish.stages.testing]
+retention = { days = 30, keep = 1 }
+snapshot_days = 90
+
+# the releases, in the release bucket, signed by the release key: all the versions published kept, for the hosts to go
+# back, like 8.3's base and updates together, and all the dated snapshots, which hosts can pin
+[publish.stages.release]
+retention = {}
 
 [iso]
 # like branding-xcp-ng, whose PRODUCT_VERSION iso/hook checks

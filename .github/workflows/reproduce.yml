@@ -32,6 +32,7 @@ jobs:
           - arch: aarch64
             runner: ubuntu-24.04-arm
     name: reproduce (${{ matrix.arch }})
+    if: vars.XCRAFT_ROLE == 'public'
     runs-on: ${{ matrix.runner }}
     # all the packages built again, the kernel and xen too: within the 6 hours of a job
     timeout-minutes: 350

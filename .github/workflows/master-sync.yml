@@ -1,0 +1,36 @@
+name: Master sync
+
+# master of the private repository of the embargoes, fast-forwarded to the public one's, for the developers to start
+# and rebase their embargo branches: never built there, see build.yml, whose CI fetches the public master itself. A
+# deploy key, the only one a ruleset lets update master, pushes it: the token of the workflow cannot push the changes
+# of the workflows. It fails, rather than force, when master went elsewhere.
+on:
+  schedule:
+    - cron: "*/30 * * * *"
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  sync:
+    if: vars.XCRAFT_ROLE == 'private'
+    runs-on: ubuntu-latest
+    concurrency:
+      group: master-sync
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          persist-credentials: false
+          ref: master
+          fetch-depth: 0
+      - env:
+          PUBLIC_REPOSITORY: ${{ vars.XCRAFT_PUBLIC_REPOSITORY }}
+          MASTER_SYNC_KEY: ${{ secrets.MASTER_SYNC_KEY }}
+        run: |
+          git fetch --no-tags "$PUBLIC_REPOSITORY" master
+          git merge --ff-only FETCH_HEAD
+          key="$RUNNER_TEMP/master-sync-key"
+          (umask 077 && printf '%s\n' "$MASTER_SYNC_KEY" > "$key")
+          trap 'rm -f "$key"' EXIT
+          GIT_SSH_COMMAND="ssh -i $key -o IdentitiesOnly=yes" \
+            git push "git@github.com:$GITHUB_REPOSITORY.git" HEAD:master

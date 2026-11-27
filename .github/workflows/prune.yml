@@ -29,6 +29,7 @@ jobs:
           - {bucket: main, publishing: build.yml, environment: main}
           - {bucket: dev, publishing: pull-request.yml}
     name: prune (${{ matrix.bucket }})
+    if: vars.XCRAFT_ROLE == 'public'
     runs-on: ubuntu-latest
     environment: ${{ matrix.environment }}
     permissions:

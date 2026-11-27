@@ -5,6 +5,8 @@ name: Pull request
 # stage of the dev bucket of their own, pr<number>, all the architectures in one snapshot, signed by the PR key, for
 # the testers, and removed once closed, see pull-request-closed.yml; those of forks have no secrets, and publish
 # nothing. The jobs always run, to show no skipped checks: the steps a pull request does not need are skipped instead.
+# In the private repository of the embargoes, XCRAFT_ROLE private, those of its embargo branches only, numbered
+# against them, fetching their builds from the private bucket, and published nowhere: tested with xcraft repo --host.
 on:
   pull_request:
     types: [opened, synchronize, reopened]
@@ -26,6 +28,7 @@ jobs:
           - arch: aarch64
             runner: ubuntu-24.04-arm
     name: build (${{ matrix.arch }})
+    if: vars.XCRAFT_ROLE == 'public' || (vars.XCRAFT_ROLE == 'private' && startsWith(github.base_ref, 'embargo/'))
     runs-on: ${{ matrix.runner }}
     permissions:
       # the runs of the pull request, which number its builds
@@ -36,7 +39,7 @@ jobs:
       cancel-in-progress: true
     env:
       XCRAFT_ARCH: ${{ matrix.arch }}
-      PUBLISH: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
+      PUBLISH: ${{ vars.XCRAFT_ROLE == 'public' && github.event.pull_request.head.repo.full_name == github.repository }}
       # the development builds of the pull request, upgrading those of its previous runs: numbered by them, see below
       XCRAFT_DEV: pr${{ github.event.number }}
       # the key signing its development builds and its stage, trusted by nobody but its testers; for a fork, a key of
@@ -65,11 +68,27 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
           persist-credentials: false
-          # the merge with master and master, which the build IDs of the main branch are checked against
-          fetch-depth: 2
+          # the merge with master and master, which the build IDs of the main branch are checked against; all of them
+          # for a maintenance branch, whose commits are told from master's by their first-parent chains
+          fetch-depth: ${{ github.base_ref == 'master' && 2 || 0 }}
       # the master the merge commit was made from, its first parent, as the main branch xcraft looks for, which the
-      # checkout of a pull request does not have: without it, all the builds would be final ones
-      - run: git update-ref refs/remotes/origin/master HEAD^1
+      # checkout of a pull request does not have: without it, all the builds would be final ones; or the maintenance
+      # branch, numbered against, with master as the public repository has it
+      - env:
+          BASE_REF: ${{ github.base_ref }}
+          PUBLIC_REPOSITORY: ${{ vars.XCRAFT_PUBLIC_REPOSITORY || format('{0}/{1}', github.server_url, github.repository) }}
+        run: |
+          git update-ref "refs/remotes/origin/$BASE_REF" HEAD^1
+          if [ "$BASE_REF" != master ]; then
+            git fetch --no-tags "$PUBLIC_REPOSITORY" +master:refs/remotes/origin/master
+            printf 'XCRAFT_MAINTENANCE=%s\n' "$BASE_REF" >> "$GITHUB_ENV"
+          fi
+      # the private bucket, read with credentials, which the embargo branches fetch their builds from
+      - if: vars.XCRAFT_ROLE == 'private'
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.PRIVATE_READ_AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.PRIVATE_READ_AWS_SECRET_ACCESS_KEY }}
+        run: printf 'AWS_ACCESS_KEY_ID=%s\nAWS_SECRET_ACCESS_KEY=%s\n' "$AWS_ACCESS_KEY_ID" "$AWS_SECRET_ACCESS_KEY" >> "$GITHUB_ENV"
       - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7  # v10.2.0
         with:
           version: "0.10.x"
@@ -144,7 +163,7 @@ jobs:
       group: pull-request-${{ github.event.number }}-publish
       cancel-in-progress: true
     env:
-      PUBLISH: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
+      PUBLISH: ${{ vars.XCRAFT_ROLE == 'public' && github.event.pull_request.head.repo.full_name == github.repository }}
       XCRAFT_DEV: pr${{ github.event.number }}
       XCRAFT_KEY: ${{ github.event.pull_request.head.repo.full_name == github.repository && vars.PR_SIGNING_KEY_FINGERPRINT || '' }}
     steps:

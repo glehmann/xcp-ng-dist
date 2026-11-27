@@ -1,0 +1,58 @@
+name: Embargo release
+
+# the end of an embargo, run by hand on its branch, in the private repository: its builds, tested in private, and the
+# source archives they need, copied server-side to the main bucket, as they are, signed by the CI key; then the branch
+# pushed to the public repository as the maintenance branch maint/<name>, whose build fetches them all, building
+# nothing, and pushes its ISOs, for its promotion to the release stage, see promote.yml. In the embargo-release
+# environment: the credentials reading the private bucket and writing the main one, and a deploy key of the public
+# repository, whose ruleset denies the embargo branches, not the maintenance ones.
+on:
+  workflow_dispatch:
+
+permissions: {}
+
+env:
+  FORCE_COLOR: "1"
+
+jobs:
+  release:
+    if: vars.XCRAFT_ROLE == 'private' && startsWith(github.ref_name, 'embargo/')
+    runs-on: ubuntu-latest
+    environment: embargo-release
+    concurrency:
+      group: embargo-release-${{ github.ref }}
+    env:
+      PUBLIC_REPOSITORY: ${{ vars.XCRAFT_PUBLIC_REPOSITORY }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - run: |
+          git fetch --no-tags "$PUBLIC_REPOSITORY" +master:refs/remotes/origin/master
+          printf 'XCRAFT_MAINTENANCE=%s\n' "$GITHUB_REF_NAME" >> "$GITHUB_ENV"
+      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7  # v10.2.0
+        with:
+          version: "0.10.x"
+          activate-environment: true
+      - run: uv sync --locked
+      - run: |
+          if ! command -v podman || ! command -v gpg; then
+            sudo apt-get update -q
+            sudo apt-get install -qy podman gnupg
+          fi
+      # those of each architecture, which the private bucket has, the commit built and tested
+      - env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: for arch in x86_64_v2 aarch64; do xcraft push --from private --to main --arch "$arch"; done
+      - name: Push the maintenance branch
+        env:
+          PUBLIC_PUSH_KEY: ${{ secrets.PUBLIC_PUSH_KEY }}
+        run: |
+          key="$RUNNER_TEMP/public-push-key"
+          (umask 077 && printf '%s\n' "$PUBLIC_PUSH_KEY" > "$key")
+          trap 'rm -f "$key"' EXIT
+          GIT_SSH_COMMAND="ssh -i $key -o IdentitiesOnly=yes" \
+            git push "git@github.com:${PUBLIC_REPOSITORY#https://github.com/}.git" \
+            "HEAD:refs/heads/maint/${GITHUB_REF_NAME#embargo/}"
