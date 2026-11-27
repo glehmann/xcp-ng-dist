@@ -1,10 +1,9 @@
 # written by xcraft: the builds of our packages, and what they found that the specs do not say
 
 # biosdevname
-biosdevname.build = 1
-biosdevname.key = "c25edafddffd0c459de8354bfc03bd2ccf7b6e02c9d6b5c971858fa6c5dacf2d"
-biosdevname.accepts = "5e1510fdbec5289aa8c269ffa8d6c558d935ecc0662b923c2f18e22e5c5f3fca"
-biosdevname.evr = "0.7.3-6.2"
+biosdevname.build = "0.1"
+biosdevname.key = "c88b560e98898db3d8c72f947ca7fef2641105d05ee9abd706933a1d7506224b"
+biosdevname.evr = "0.7.3-6.3"
 biosdevname.requires."biosdevname" = ["glibc", "pciutils-libs"]
 
 # blktap
