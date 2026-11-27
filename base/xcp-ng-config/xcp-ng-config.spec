@@ -17,6 +17,11 @@ XCP-ng configuration files
 install -d -m755 %{buildroot}%{_prefix}/etc/systemd/system
 ln -s /dev/null %{buildroot}%{_prefix}/etc/systemd/system/stunnel.service
 
+# mask sshd.socket, we use only sshd.service: having both enabled makes them
+# conflict, which prevents ssh from being reliably available at boot when
+# configured in xapi
+ln -s /dev/null %{buildroot}%{_prefix}/etc/systemd/system/sshd.socket
+
 # enable persistent systemd journal
 install -d -m755 %{buildroot}/var/log/journal
 
@@ -106,6 +111,7 @@ EOF
 %changelog
 * Web Nov 25 2026 Yann Dirson <yann.dirson@vates.tech> - 0-2
 - mask stunnel.service
+- mask sshd.socket
 
 * Mon Nov 09 2026 Yann Dirson <yann.dirson@vates.tech> - 0-1
 - Initial release
