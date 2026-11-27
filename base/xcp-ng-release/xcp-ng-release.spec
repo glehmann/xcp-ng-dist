@@ -24,7 +24,7 @@
 
 Name:           xcp-ng-release
 Version:        8.99.0
-Release:        10%{?autorev}
+Release:        11%{?autorev}
 Summary:        XCP-ng release file
 Group:          System Environment/Base
 License:        GPLv2
@@ -75,9 +75,8 @@ Patch1004: 0004-fix-prompt-s-c-e-p-xcp-ng-prompt.sh-Fix-prompt-on-te.patch
 Patch1005: 0005-s-c-e-profile.d-history.sh-Add-timestamps-to-history.patch
 Patch1006: 0006-fix-prompt-s-c-e-p-xcp-ng-prompt.sh-Align-to-RPM-pat.patch
 Patch1007: 0007-Do-not-enable-arptables.service-which-has-no-configu.patch
-Patch1008: 0008-Disable-sshd.socket-in-the-presets.patch
-Patch1009: 0009-Disable-xapi-ssh-monitor-in-the-presets.patch
-Patch1010: 0010-Remove-the-shebangs-of-the-profile.d-scripts-which-t.patch
+Patch1008: 0008-Disable-xapi-ssh-monitor-in-the-presets.patch
+Patch1009: 0009-Remove-the-shebangs-of-the-profile.d-scripts-which-t.patch
 
 %description
 XCP-ng release files
@@ -581,6 +580,9 @@ systemctl preset-all --preset-mode=enable-only || :
 
 # Keep this changelog through future updates
 %changelog
+* Fri Nov 27 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 8.99.0-11
+- sshd.socket no longer disabled in the presets: xcp-ng-config masks it
+
 * Mon Nov 23 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 8.99.0-10
 - Unpack the sources in a directory without the version, for the compiler cache across versions
 

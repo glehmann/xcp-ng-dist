@@ -13,13 +13,13 @@ host: the hosts not in auto mode lose SSH too.
  1 file changed, 3 insertions(+)
 
 diff --git a/src/common/usr/lib/systemd/system-preset/89-default.preset b/src/common/usr/lib/systemd/system-preset/89-default.preset
-index e44d894..d2819e7 100644
+index 3e9e9d8..765e9c5 100644
 --- a/src/common/usr/lib/systemd/system-preset/89-default.preset
 +++ b/src/common/usr/lib/systemd/system-preset/89-default.preset
-@@ -10,6 +10,9 @@ disable systemd-readahead-collect.service
+@@ -8,6 +8,9 @@ disable systemd-readahead-collect.service
+ 
+ # System stuff
  enable sshd.service
- # sshd.socket conflicts with sshd.service: when both are enabled, neither starts at boot
- disable sshd.socket
 +# xapi enables it for the hosts in SSH auto mode: enabled by default, it disables SSH at the first boot of the
 +# others
 +disable xapi-ssh-monitor.service

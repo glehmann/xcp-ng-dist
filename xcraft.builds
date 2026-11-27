@@ -241,7 +241,7 @@ vncterm.requires."vncterm" = ["bash", "glibc", "xen-libs"]
 # xapi
 xapi.build = 1
 xapi.key = "195c864fbe120aec2149b4e52670853dcc74107f0d06cfb7690d560ab0b859b6"
-xapi.accepts = "76c85ebff192987a8da8155d42b06ca71615ba263521113c1fbe16d3fa33baad"
+xapi.accepts = "b59c7f5890e12e384aa5384567f0aa5a283182bb8f497e9eae70863c90039487"
 xapi.evr = "26.19.0-2.5"
 xapi.requires."forkexecd" = ["glibc"]
 xapi.requires."forkexecd-devel" = ["forkexecd", "ocaml", "ocaml-runtime", "xapi-idl-devel", "xapi-libs-devel", "xs-opam-repo"]
@@ -331,9 +331,8 @@ xcp-ng-pv-tools.requires."xcp-ng-pv-tools" = ["bash"]
 
 # xcp-ng-release
 xcp-ng-release.build = 1
-xcp-ng-release.key = "104e117cda99b12e7e2482a4baf52564e0075863ce6b9cba63176f6312580c5c"
-xcp-ng-release.accepts = "5abbc520598d8c16120f6203848f683ed72fbebb04ea54f4ffbaa9e36c06b2d0"
-xcp-ng-release.evr = "8.99.0-10"
+xcp-ng-release.key = "7d35271f97617f0fdcf9bc88d6f9c95c2584322964a0954745931d02857defe9"
+xcp-ng-release.evr = "8.99.0-11"
 xcp-ng-release.requires."xcp-ng-release" = ["python3"]
 xcp-ng-release.requires."xcp-ng-release-config" = ["bash", "python3"]
 
