@@ -9,6 +9,9 @@
 # The following has no effect on XS 8, only on XS 9.
 # However, something needs to be fixed on XS 9 to not need it anymore.
 %global _debugsource_template %{nil}
+# XCP-ng: no links from the build ids to the files, whose names for identical libraries, in stdlib-shims and xenstore,
+# depend on the order of their directories
+%global _build_id_links none
 
 %global _version 6.99.0
 
@@ -18,7 +21,7 @@
 
 Name: xs-opam-repo
 Version: %{_version}
-Release: %{?xsrel}.4%{?dist}
+Release: %{?xsrel}.5%{?dist}
 Summary: Build and install OCaml libraries from Opam repository
 # The license field is produced by running print-license.sh
 # Please update licenses.txt on every new version and then run the script to
@@ -132,6 +135,8 @@ rm -rf %{_opamroot}/download-cache/*
 rm -rf %{_opamroot}/repo/local/cache/*
 # remove log as it contains $RPM_BUILD_ROOT env value
 rm -rf %{_opamroot}/log
+# XCP-ng: the cache of the state of the repository, which depends on the order of its directories, made again by opam
+rm -f %{_opamroot}/repo/state-*.cache
 find   %{_opamroot}/ocaml-system/lib -type f -name '*.cmt*' -delete
 
 rsync -aW %{_opamroot}/ %{buildroot}%{_opamroot}/
@@ -140,6 +145,17 @@ rsync -aW %{_opamroot}/ %{buildroot}%{_opamroot}/
 # of its file, which opam wraps by the length of the time
 sed -i -z -E "s/\"\n +\{\"/\" {\"/g; s/\{\"F:S([0-9]+)T[0-9.e+]+\"\}/{\"F:S\1T${SOURCE_DATE_EPOCH}.\"}/g" \
     %{buildroot}%{_opamroot}/ocaml-system/.opam-switch/install/*.changes
+# XCP-ng: the static libraries stripped as rpm would after, but the empty ones, which are no archives, with their
+# sizes in the .changes files: those of the packaged ones, rather than of the unstripped ones, whose debug information
+# differs from a build to the other
+cd %{buildroot}%{_opamroot}/ocaml-system
+find . -name '*.a' -type f -size +0 -exec strip -g {} +
+for changes in .opam-switch/install/*.changes; do
+    grep -o '"[^"]*\.a" {"F:S[0-9]*T' "$changes" | cut -d'"' -f2 | while read -r lib; do
+        sed -i "s|\"$lib\" {\"F:S[0-9]*T|\"$lib\" {\"F:S$(stat -c %s "$lib")T|" "$changes"
+    done
+done
+cd -
 chmod 755 %{buildroot}%{_opamroot}/opam-init/hooks/sandbox.sh
 strip %{buildroot}%{_opamroot}/ocaml-system/bin/* || true
 
@@ -155,6 +171,10 @@ echo '%%_opamroot %%{_libdir}/opamroot' >> "%{buildroot}%{_rpmconfigdir}/macros.
 %{_opamroot}
 
 %changelog
+* Fri Nov 27 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 6.99.0-1.5
+- No links from the build ids to the files, nor cache of the state of the repository, for reproducible builds
+- The static libraries stripped before their sizes are recorded in the .changes files of opam, for reproducible builds
+
 * Mon Nov 23 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 6.99.0-1.4
 - Record the date of the changelog as the time of the installed files in the .changes files of opam
 - Install camlp-streams alone and one job at a time, whose builds depended on the order of the jobs
