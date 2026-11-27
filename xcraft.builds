@@ -239,8 +239,9 @@ vncterm.evr = "10.2.2-1.3"
 vncterm.requires."vncterm" = ["bash", "glibc", "xen-libs"]
 
 # xapi
-xapi.build = 2
-xapi.key = "5b935b5467c7d1a191572adf2265a691c12107238f9a859a55ddd15701f8d656"
+xapi.build = 1
+xapi.key = "195c864fbe120aec2149b4e52670853dcc74107f0d06cfb7690d560ab0b859b6"
+xapi.accepts = "76c85ebff192987a8da8155d42b06ca71615ba263521113c1fbe16d3fa33baad"
 xapi.evr = "26.19.0-2.5"
 xapi.requires."forkexecd" = ["glibc"]
 xapi.requires."forkexecd-devel" = ["forkexecd", "ocaml", "ocaml-runtime", "xapi-idl-devel", "xapi-libs-devel", "xs-opam-repo"]
@@ -297,16 +298,16 @@ xcp-emu-manager.evr = "1.2.1-5"
 xcp-emu-manager.requires."xcp-emu-manager" = ["glibc", "json-c", "libempserver", "xcp-ng-generic-lib"]
 
 # xcp-featured
-xcp-featured.build = 5
-xcp-featured.key = "1e6fce6b0de39a9f6de523892e03a8dda54b3f186b9382ff0f0ff888b0040d66"
+xcp-featured.build = 4
+xcp-featured.key = "c2f5b014dccbda254cfc9a1756cd4f20408f094026c4fdc815519b1eb3f0cd0d"
+xcp-featured.accepts = "fcd61cbcff9c27900c6afa9e045271cdbd7926972b70c4aa7b35a6c05d87d41d"
 xcp-featured.evr = "1.1.8-8"
 xcp-featured.requires."xcp-featured" = ["glibc"]
 
 # xcp-ng-config
 xcp-ng-config.build = 1
-xcp-ng-config.key = "15bf267f6c68b759ece430dce4e004e7c6c0fb3ef34b05db5c279a199f5f2f46"
-xcp-ng-config.accepts = "a3ddb5625f215267bf1e0a82b0c555e9f237b4667fab15d6a88fc31ad116d05f"
-xcp-ng-config.evr = "0-1.2"
+xcp-ng-config.key = "f4203dec2d7cdd9af17e955904740e0cd9fb68da985ffe9257be980531270abc"
+xcp-ng-config.evr = "0-2.1"
 
 # xcp-ng-deps
 xcp-ng-deps.build = 1
@@ -376,7 +377,7 @@ xo-lite.evr = "0.27.0-1.1"
 
 # xs-opam-repo
 xs-opam-repo.build = 1
-xs-opam-repo.key = "72434b7d5961146e299b11d9fd7abdeaaa0f5f5b42b95a1be455b39512d4f559"
+xs-opam-repo.key = "543707c837f7f6b8f314c2a6ff80fd5f8e847292a6af746372b73ebcb9d6fd0a"
 xs-opam-repo.evr = "6.99.0-1.5"
 xs-opam-repo.requires."xs-opam-repo" = ["bash", "glibc", "gmp", "libcurl-minimal", "libev", "libffi", "ocaml", "ocaml-compiler-libs", "ocaml-runtime", "openssl-libs", "pciutils-libs"]
 

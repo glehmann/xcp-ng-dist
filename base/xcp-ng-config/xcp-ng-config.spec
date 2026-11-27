@@ -1,6 +1,6 @@
 Name:           xcp-ng-config
 Version:        0
-Release:        1.2%{?dist}
+Release:        2.1%{?dist}
 
 Summary:        XCP-ng configuration files
 Group:          System Environment/Base
@@ -20,6 +20,15 @@ Obsoletes:      xcp-ng-release < 8.99.0-0.8.ydi.17
 XCP-ng configuration files
 
 %install
+# mask stunnel.service, we use only stunnel@xapi.service
+install -d -m755 %{buildroot}%{_sysconfdir}/systemd/system
+ln -s /dev/null %{buildroot}%{_sysconfdir}/systemd/system/stunnel.service
+
+# mask sshd.socket, we use only sshd.service: having both enabled makes them
+# conflict, which prevents ssh from being reliably available at boot when
+# configured in xapi
+ln -s /dev/null %{buildroot}%{_sysconfdir}/systemd/system/sshd.socket
+
 # enable persistent systemd journal
 install -d -m755 %{buildroot}/var/log/journal
 
@@ -73,12 +82,23 @@ ln -s /dev/null %{buildroot}%{_sysconfdir}/systemd/system/ip6tables.service
 %config %{_sysconfdir}/ssh/sshd_config.d/30-xcpng.conf
 %{_sysconfdir}/systemd/system/iptables.service
 %{_sysconfdir}/systemd/system/ip6tables.service
+%{_sysconfdir}/systemd/system/stunnel.service
+%{_sysconfdir}/systemd/system/sshd.socket
 %config(noreplace) %{_sysconfdir}/systemd/journald.conf.d/90-custom.conf
 %{_sysconfdir}/yum.repos.d/
 %{_prefix}/lib/systemd/
 /var/log/journal/
 
 %changelog
+* Fri Nov 27 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 0-2.1
+- Merge 0-2 of xcp-ng-rpms: stunnel.service and sshd.socket masked in /etc/systemd/system, where systemd looks for
+  them, rather than in /usr/etc/systemd/system, and packaged
+- Fix the day of the 0-2 changelog entry, Web, which rpm rejects
+
+* Wed Nov 25 2026 Yann Dirson <yann.dirson@vates.tech> - 0-2
+- mask stunnel.service
+- mask sshd.socket
+
 * Wed Nov 25 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 0-1.2
 - The repository of the architecture of the host, aarch64's too, rather than x86_64_v2's
 
