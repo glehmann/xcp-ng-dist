@@ -59,7 +59,12 @@ def installimg(root: Path) -> None:
     subprocess.run(
         ["systemctl", f"--root={root}", "enable", "installer", "installer-getty@tty2", "systemd-resolved"], check=True
     )
-    for unit in ("getty@tty1", "fcoe", "lldpad", "xen-init-dom0", "xenconsoled", "xenstored", "chronyd", "chrony-wait"):
+    # nor what waits for the network, which the installer configures when asked: systemd-networkd-wait-online would
+    # hold the boot for 2 minutes, then fail; nor auditd, which fails there
+    for unit in (
+        "getty@tty1", "fcoe", "lldpad", "xen-init-dom0", "xenconsoled", "xenstored", "chronyd", "chrony-wait",
+        "systemd-networkd-wait-online", "dnf-makecache.timer", "systemd-sysupdate", "systemd-sysupdate.timer", "auditd",
+    ):  # fmt: skip
         subprocess.run(["systemctl", f"--root={root}", "--quiet", "disable", unit], check=False)  # when installed
 
 
