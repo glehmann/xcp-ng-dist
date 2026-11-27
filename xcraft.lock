@@ -97,6 +97,7 @@ version = 4
 "expat" = "2.7.3-2.el10_3.8"
 "expect" = "5.45.4-25.el10"
 "fakeroot" = "1.37-1.el10_0"
+"fcoe-utils" = "1.0.34-11.gitb233050.el10"
 "fedora-license-data" = "1.76-1.el10_3"
 "fftw" = "3.3.11-1.el10.alma.1"
 "figlet" = "2.2.5-38.el10_2"
@@ -216,6 +217,7 @@ version = 4
 "libcbor" = "0.11.0-3.el10"
 "libcgroup" = "3.0-10.el10_2"
 "libcomps" = "0.1.21-3.el10"
+"libconfig" = "1.7.3-10.el10"
 "libdatrie" = "0.2.13-11.el10"
 "libdnf" = "0.73.1-17.el10.alma.1"
 "libdrm" = "2.4.128-1.el10"
@@ -301,6 +303,7 @@ version = 4
 "libzip" = "1.10.1-5.el10"
 "linux-firmware" = "20261026-23.5.el10_2"
 "lksctp-tools" = "1.0.21-1.el10"
+"lldpad" = "1.1.1-4.gitf1dd9eb.el10"
 "llvm" = "22.1.8-1.el10.alma.1"
 "lm_sensors" = "3.6.0-20.el10"
 "lmdb" = "0.9.32-4.el10"
@@ -791,6 +794,7 @@ version = 4
 "expect" = "5.45.4-25.el10 aarch64 5ebec9c28f8bfb9f008b053ea65e08d8a73420f1e5968fea368d07cfb0199ade expect"
 "fakeroot" = "1.37-1.el10_0 aarch64 29110e615547e9ac705bd8f22b624d481c0317b0a72513acb474de87c8b8f2ba fakeroot"
 "fakeroot-libs" = "1.37-1.el10_0 aarch64 2f92d7a517f0278da551e61033c43dd36a56bf6809c2f1d5b3f1731d0fc4c3d4 fakeroot"
+"fcoe-utils" = "1.0.34-11.gitb233050.el10 aarch64 015c7ec24b2bc5db736d8eadeb9556ddac751001de5fb5de41b37e7b247bc2b8 fcoe-utils"
 "fftw-libs-double" = "3.3.11-1.el10.alma.1 aarch64 c0477a86a27e9d3e01a8c64b4f38103115e84254c9400e151a1d1a8e0638bf6d fftw"
 "figlet" = "2.2.5-38.el10_2 aarch64 d759615d0ee897ff72903f77bfb130883732f826a66b8a05f354f5f2f359c6d2 figlet"
 "file" = "5.45-12.el10 aarch64 00a72f2cf62090dcb795bb316465045b9593bb0fed11c895cf2038bdb58bc12f file"
@@ -995,6 +999,7 @@ version = 4
 "libcom_err" = "1.47.1-5.el10 aarch64 d413398f035fae85184c3b6d321865f675c6daf3437671e15fdd47988d1ecd2b e2fsprogs"
 "libcom_err-devel" = "1.47.1-5.el10 aarch64 74f96c9f7c958423f5cd7b4f002917d892bd314a1064912c28e965dbea03c1cc e2fsprogs"
 "libcomps" = "0.1.21-3.el10 aarch64 dbda46039f36293808a9f39d3dc5cf22ca40aad5e4d130dda52f4a3dae8f6e5d libcomps"
+"libconfig" = "1.7.3-10.el10 aarch64 86f7976ead40da2cafbd8235bdbd155722954ec4fbb1dbf2974a35f4b92392ef libconfig"
 "libcurl" = "8.12.1-9.el10_3 aarch64 3d25ae5e2f521b9b8f0342a864e57dc470c54bbb60e6828e9572bee94ed7fe71 curl"
 "libcurl-devel" = "8.12.1-9.el10_3 aarch64 ed2cb5244a4589b6dc888d5a6137e305bf3e5a2fffe3ff9772274290b7325abb curl"
 "libcurl-minimal" = "8.12.1-9.el10_3 aarch64 fe2bffa17332d81f706d64c618513bab82a311192a0e2ea3ca1a76d944e27f36 curl"
@@ -1161,6 +1166,7 @@ version = 4
 "linux-firmware" = "20261026-23.5.el10_2 noarch 371bbc6af63a4a958229046891563f42811c3f826b74a97a69b712839160b3bb linux-firmware"
 "linux-firmware-whence" = "20261026-23.5.el10_2 noarch dbd9961b721135d48c3ee822665cca6088f37379dd98abebfc19b5f73a1b6a96 linux-firmware"
 "lksctp-tools" = "1.0.21-1.el10 aarch64 fa751cfaaa989304bc6f8f8f3454e4218127e7c0f0c2cee7b98c287403d2c471 lksctp-tools"
+"lldpad" = "1.1.1-4.gitf1dd9eb.el10 aarch64 07ced24b4c88519f55810bd7f0094f3968a6df1b0771ff1a428e0521de97dd2f lldpad"
 "llvm-filesystem" = "22.1.8-1.el10.alma.1 aarch64 6e8922e30531d3917bb64c4d701596d03aaa50f0f98537e6937e2c562fd1df99 llvm"
 "llvm-libs" = "22.1.8-1.el10.alma.1 aarch64 a294333b818f47c97adbc807a4e3f9c81b24b9fc45ddb8e03353a077fa584a4e llvm"
 "lm_sensors-libs" = "3.6.0-20.el10 aarch64 5f006075d668db4e0103c165407430c4928c0d755dcc9a0354682cc5dc617e7e lm_sensors"
@@ -1810,6 +1816,7 @@ version = 4
 "expect" = "5.45.4-25.el10 x86_64_v2 d606f0bd7b28984e132562971f0f29a094ade44b34be401820da2c8f19cbbc25 expect"
 "fakeroot" = "1.37-1.el10_0.alma_altarch x86_64_v2 5b084dc53aafe54e8e38755b3c643aafa2542e0e710cebd13eddf24cce2ffef6 fakeroot"
 "fakeroot-libs" = "1.37-1.el10_0.alma_altarch x86_64_v2 efb7e9a8c6cfa50220e38bb0e9ca3d88ec45638ded225923a9b13891ebfa5930 fakeroot"
+"fcoe-utils" = "1.0.34-11.gitb233050.el10 x86_64_v2 661afab72c730521d09b1fb708a6fe2f461e5b0631dd17a06c31d7c98e03996a fcoe-utils"
 "fftw-libs-double" = "3.3.11-1.el10.alma.1 x86_64_v2 27f6e2c595777eee6653c425d89bcf485c44534da825253916c31d06bd4ced4a fftw"
 "figlet" = "2.2.5-38.el10_2.alma_altarch x86_64_v2 8d4e358496688f0f3620e96795405d363ad0f4803d972731e83f4b04557611ca figlet"
 "file" = "5.45-12.el10 x86_64_v2 47164bc6bc555901792a0ad61afc1e693b1b998f00999da83b5ea462d68a11e6 file"
@@ -2012,6 +2019,7 @@ version = 4
 "libcom_err" = "1.47.1-5.el10 x86_64_v2 9f3787ee879bd0e1c421c14f0ab27e96e2dffd5f50fa0670667e0a80fd961729 e2fsprogs"
 "libcom_err-devel" = "1.47.1-5.el10 x86_64_v2 c0709142f67d6696c9b64ac9003b07726fdb7d6676e2a622e2fdac177d4513be e2fsprogs"
 "libcomps" = "0.1.21-3.el10 x86_64_v2 1f32a13fcfe5a9acd65cd89bdb852aca9632943fe6cc94e805ab7af20c522a12 libcomps"
+"libconfig" = "1.7.3-10.el10 x86_64_v2 1cde43f4f490fe36a3036444e58e3f22d7b9fdcbf6564ca2201811d51cc23e7a libconfig"
 "libcurl" = "8.12.1-9.el10_3 x86_64_v2 b49a48422d5cf1376503c86790c50b86e6e112931f7503ce4071b8dca4567fe4 curl"
 "libcurl-devel" = "8.12.1-9.el10_3 x86_64_v2 2969cadd07e4f8ea6510fc17309bcebf20fbe324207b6a3051fbef347fd97bf2 curl"
 "libcurl-minimal" = "8.12.1-9.el10_3 x86_64_v2 b1ab1f37cde7eff0d3162f6197c01fe73f01004df4939f6f888a64586392857c curl"
@@ -2176,6 +2184,7 @@ version = 4
 "linux-firmware" = "20261026-23.5.el10_2 noarch 371bbc6af63a4a958229046891563f42811c3f826b74a97a69b712839160b3bb linux-firmware"
 "linux-firmware-whence" = "20261026-23.5.el10_2 noarch dbd9961b721135d48c3ee822665cca6088f37379dd98abebfc19b5f73a1b6a96 linux-firmware"
 "lksctp-tools" = "1.0.21-1.el10 x86_64_v2 21254d6ebf7586fe11e92a01564e3fedf8a6565a2645344067fa1b144a074d01 lksctp-tools"
+"lldpad" = "1.1.1-4.gitf1dd9eb.el10 x86_64_v2 b1571b6ad358f90c891ff300d446aaab62fae586f1df6c6f242acb0a065b1513 lldpad"
 "llvm-filesystem" = "22.1.8-1.el10.alma.1 x86_64_v2 7e54bbc25c20d29e0b16678d0a4e702f8e1254d23dd83453bcd78e19e173cc6a llvm"
 "llvm-libs" = "22.1.8-1.el10.alma.1 x86_64_v2 5ff8e8a4a326d47cd82d02dc60c93c6a500a7f46b17d49e6ec2e1320954a840c llvm"
 "lm_sensors-libs" = "3.6.0-20.el10 x86_64_v2 f4c4159d0f1ab7dfed80caa83cece9cb7193ada1cffd24ec585b02190249f9f4 lm_sensors"
@@ -7589,121 +7598,7 @@ version = 4
     "xz-devel",
     "zlib-ng-compat-devel",
 ]
-"kexec-tools" = [
-    "annobin-docs",
-    "annobin-plugin-gcc",
-    "autoconf",
-    "automake",
-    "ccache",
-    "cmake-filesystem",
-    "cpp",
-    "cracklib",
-    "cracklib-dicts",
-    "cryptsetup-libs",
-    "dbus",
-    "dbus-broker",
-    "dbus-common",
-    "device-mapper",
-    "device-mapper-libs",
-    "e2fsprogs-libs",
-    "emacs-filesystem",
-    "expat",
-    "fmt",
-    "gcc",
-    "gcc-plugin-annobin",
-    "gdbm-libs",
-    "glibc-devel",
-    "groff-base",
-    "hiredis",
-    "kernel-headers",
-    "kmod-libs",
-    "libasan",
-    "libatomic",
-    "libbpf",
-    "libfdisk",
-    "libfdt",
-    "libmpc",
-    "libpwquality",
-    "libseccomp",
-    "libubsan",
-    "libxcrypt-devel",
-    "libxkbcommon",
-    "m4",
-    "make",
-    "ncurses",
-    "perl-AutoLoader",
-    "perl-B",
-    "perl-Carp",
-    "perl-Class-Struct",
-    "perl-Data-Dumper",
-    "perl-Digest",
-    "perl-Digest-MD5",
-    "perl-DynaLoader",
-    "perl-Encode",
-    "perl-Errno",
-    "perl-Exporter",
-    "perl-Fcntl",
-    "perl-File-Basename",
-    "perl-File-Compare",
-    "perl-File-Copy",
-    "perl-File-Find",
-    "perl-File-Path",
-    "perl-File-Temp",
-    "perl-File-stat",
-    "perl-FileHandle",
-    "perl-Getopt-Long",
-    "perl-Getopt-Std",
-    "perl-HTTP-Tiny",
-    "perl-IO",
-    "perl-IO-Socket-IP",
-    "perl-IO-Socket-SSL",
-    "perl-IPC-Open3",
-    "perl-MIME-Base64",
-    "perl-Mozilla-CA",
-    "perl-NDBM_File",
-    "perl-Net-SSLeay",
-    "perl-POSIX",
-    "perl-PathTools",
-    "perl-Pod-Escapes",
-    "perl-Pod-Perldoc",
-    "perl-Pod-Simple",
-    "perl-Pod-Usage",
-    "perl-Scalar-List-Utils",
-    "perl-SelectSaver",
-    "perl-Socket",
-    "perl-Storable",
-    "perl-Symbol",
-    "perl-Term-ANSIColor",
-    "perl-Term-Cap",
-    "perl-Text-ParseWords",
-    "perl-Text-Tabs+Wrap",
-    "perl-Thread-Queue",
-    "perl-Time-Local",
-    "perl-URI",
-    "perl-Unicode-Normalize",
-    "perl-base",
-    "perl-constant",
-    "perl-if",
-    "perl-interpreter",
-    "perl-libnet",
-    "perl-libs",
-    "perl-locale",
-    "perl-mro",
-    "perl-overload",
-    "perl-overloading",
-    "perl-parent",
-    "perl-podlators",
-    "perl-threads",
-    "perl-threads-shared",
-    "perl-vars",
-    "rpm-plugin-syslog",
-    "systemd",
-    "systemd-pam",
-    "systemd-rpm-macros",
-    "xkeyboard-config",
-    "xxhash-libs",
-    "zlib-ng-compat-devel",
-]
+"kexec-tools" = []
 "libempserver" = [
     "annobin-docs",
     "annobin-plugin-gcc",
@@ -9472,27 +9367,7 @@ version = 4
     "xz-devel",
     "zlib-ng-compat-devel",
 ]
-"xen-crashdump-analyser" = [
-    "annobin-docs",
-    "annobin-plugin-gcc",
-    "ccache",
-    "cpp",
-    "fmt",
-    "gcc",
-    "gcc-c++",
-    "gcc-plugin-annobin",
-    "glibc-devel",
-    "hiredis",
-    "kernel-headers",
-    "libasan",
-    "libatomic",
-    "libmpc",
-    "libstdc++-devel",
-    "libubsan",
-    "libxcrypt-devel",
-    "make",
-    "xxhash-libs",
-]
+"xen-crashdump-analyser" = []
 "xs-opam-repo" = [
     "annobin-docs",
     "annobin-plugin-gcc",
@@ -10400,6 +10275,7 @@ version = 4
     "elfutils-libs",
     "ethtool",
     "expat",
+    "fcoe-utils",
     "file",
     "file-libs",
     "filesystem",
@@ -10531,6 +10407,7 @@ version = 4
     "libcollection",
     "libcom_err",
     "libcomps",
+    "libconfig",
     "libcurl",
     "libcurl-minimal",
     "libdatrie",
@@ -10638,6 +10515,7 @@ version = 4
     "linux-firmware",
     "linux-firmware-whence",
     "lksctp-tools",
+    "lldpad",
     "llvm-filesystem",
     "llvm-libs",
     "lm_sensors-libs",
@@ -11029,6 +10907,7 @@ version = 4
     "elfutils-libs",
     "ethtool",
     "expat",
+    "fcoe-utils",
     "file",
     "file-libs",
     "filesystem",
@@ -11158,6 +11037,7 @@ version = 4
     "libcollection",
     "libcom_err",
     "libcomps",
+    "libconfig",
     "libcurl",
     "libcurl-minimal",
     "libdatrie",
@@ -11264,6 +11144,7 @@ version = 4
     "linux-firmware",
     "linux-firmware-whence",
     "lksctp-tools",
+    "lldpad",
     "llvm-filesystem",
     "llvm-libs",
     "lm_sensors-libs",

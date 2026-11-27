@@ -117,8 +117,9 @@ kernel.requires."python3-perf-xcpng" = ["elfutils-libelf", "elfutils-libs", "gli
 
 # kexec-tools
 kexec-tools.build = 1
-kexec-tools.key = "08c4cd86ae3ceaf219b2fdd175b488869df20291c0248e4538196640b2ae24f6"
-kexec-tools.evr = "0:2.0.29-8.2"
+kexec-tools.key = "321814d667ac1d2dd543c17534216c63a17dacd669ce688051756336b7dc6758"
+kexec-tools.evr = "0:2.0.29-8.2.1"
+kexec-tools.requires."kexec-tools" = ["bash", "glibc", "xen-dom0-libs", "zlib-ng-compat"]
 
 # libempserver
 libempserver.build = 1
@@ -222,8 +223,12 @@ ssmtp.provides."ssmtp" = ["/usr/sbin/ssmtp"]
 
 # swtpm
 swtpm.build = 1
-swtpm.key = "f19b867bfc2b53ff9dd1a7c728ec573bad5d574227429e41d41e79856f8db224"
-swtpm.evr = "0.7.3-12.2"
+swtpm.key = "dda737d6b1d0275be1b645c2ca76309ea4d6dbd0d9a27090731e0150510719c8"
+swtpm.evr = "0.7.3-12.2.1"
+swtpm.requires."swtpm" = ["glibc", "libtpms", "swtpm-libs"]
+swtpm.requires."swtpm-devel" = ["swtpm"]
+swtpm.requires."swtpm-libs" = ["glib2", "glibc", "libcurl-minimal", "libseccomp", "libtpms", "openssl-libs"]
+swtpm.requires."swtpm-tools" = ["bash", "glib2", "glibc", "gnutls", "json-glib", "libgcc", "libtasn1", "openssl-libs", "swtpm"]
 
 # varstored
 varstored.build = 1
@@ -235,8 +240,8 @@ varstored.requires."varstored-tools" = ["glibc", "libseccomp", "libxml2", "opens
 
 # vcputune
 vcputune.build = 1
-vcputune.key = "4bbfe103581b49f1bafeadbddf1b60bf5ada2c4ae4c697bc9a45445c9fc51db3"
-vcputune.evr = "2.0.2-2"
+vcputune.key = "cdf837e78cb80e5527e2e87834b12daa18fca994465cac28d618242c7bfefc3e"
+vcputune.evr = "2.0.2-2.1"
 vcputune.requires."vcputune" = ["python3"]
 
 # vmss
@@ -256,7 +261,7 @@ vncterm.requires."vncterm" = ["bash", "glibc", "xen-libs"]
 # xapi
 xapi.build = 1
 xapi.key = "195c864fbe120aec2149b4e52670853dcc74107f0d06cfb7690d560ab0b859b6"
-xapi.accepts = "b59c7f5890e12e384aa5384567f0aa5a283182bb8f497e9eae70863c90039487"
+xapi.accepts = "732cad55fe1c04982995e6603072dff01db223ee737119ae808a6d57923e1929"
 xapi.evr = "26.19.0-2.5"
 xapi.requires."forkexecd" = ["glibc"]
 xapi.requires."forkexecd-devel" = ["forkexecd", "ocaml", "ocaml-runtime", "xapi-idl-devel", "xapi-libs-devel", "xs-opam-repo"]
@@ -320,13 +325,13 @@ xcp-featured.requires."xcp-featured" = ["glibc"]
 
 # xcp-ng-config
 xcp-ng-config.build = 1
-xcp-ng-config.key = "f4203dec2d7cdd9af17e955904740e0cd9fb68da985ffe9257be980531270abc"
-xcp-ng-config.evr = "0-2.1"
+xcp-ng-config.key = "317815ebd24bd29bade1ad44ecccb6d23d85c460d4c615e42772324e70543b51"
+xcp-ng-config.evr = "0-2.2"
 
 # xcp-ng-deps
 xcp-ng-deps.build = 1
-xcp-ng-deps.key = "91a01970618c46b2e375997fc96158eb7b3bb878793dce529cdaa76d8c62fedc"
-xcp-ng-deps.evr = "8.99-6"
+xcp-ng-deps.key = "d17de26ed4eb694a94441e1aafd679ca74cbce5485e2da3d64b577e8974bda6f"
+xcp-ng-deps.evr = "8.99-7"
 
 # xcp-ng-generic-lib
 xcp-ng-generic-lib.build = 1
@@ -344,8 +349,8 @@ xcp-ng-pv-tools.requires."xcp-ng-pv-tools" = ["bash"]
 
 # xcp-ng-release
 xcp-ng-release.build = 1
-xcp-ng-release.key = "7d35271f97617f0fdcf9bc88d6f9c95c2584322964a0954745931d02857defe9"
-xcp-ng-release.evr = "8.99.0-11"
+xcp-ng-release.key = "b62d6b88b758932639a45deb69ffd7f260f6c468327407bdd8ed6f1e2fa280ad"
+xcp-ng-release.evr = "8.99.0-12"
 xcp-ng-release.requires."xcp-ng-release" = ["python3"]
 xcp-ng-release.requires."xcp-ng-release-config" = ["bash", "python3"]
 
@@ -382,8 +387,8 @@ xen.aarch64.requires."xen-dom0-tools" = ["bash", "glibc", "json-c", "libempserve
 
 # xen-crashdump-analyser
 xen-crashdump-analyser.build = 1
-xen-crashdump-analyser.key = "dc4e80b96036feafb4b6b58f569c79660960a0eb5d7ec249892ea855c3e81fed"
-xen-crashdump-analyser.evr = "2.6.3-1"
+xen-crashdump-analyser.key = "b8f04bc22a852f3a28f148e4df4b78de146b7b57c4ce0ed41a7a6a041735bf23"
+xen-crashdump-analyser.evr = "2.6.3-1.1"
 xen-crashdump-analyser.requires."xen-crashdump-analyser" = ["glibc", "libgcc", "libstdc++"]
 
 # xo-lite
