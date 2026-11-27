@@ -117,7 +117,7 @@ index 000000000000..5b1b7339ebb5
 +  gEfiMdePkgTokenSpaceGuid.PcdFSBClock  ## CONSUMES
 +
 diff --git a/MdePkg/Library/SecPeiDxeTimerLibCpu/X86TimerLib.c b/MdePkg/Library/SecPeiDxeTimerLibCpu/X86TimerLib.c
-index c60589607fde..852e3bb620b9 100644
+index 2cb21ed008a7..92bb399c9074 100644
 --- a/MdePkg/Library/SecPeiDxeTimerLibCpu/X86TimerLib.c
 +++ b/MdePkg/Library/SecPeiDxeTimerLibCpu/X86TimerLib.c
 @@ -31,6 +31,8 @@ CONST UINT8  mTimerLibLocalApicDivisor[] = {

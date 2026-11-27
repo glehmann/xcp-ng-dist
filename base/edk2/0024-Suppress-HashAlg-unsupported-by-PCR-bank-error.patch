@@ -12,38 +12,38 @@ actual debug builds.
 Signed-off-by: Tu Dinh <ngoc-tu.dinh@vates.tech>
 
 diff --git a/OvmfPkg/Tcg/TdTcg2Dxe/TdTcg2Dxe.c b/OvmfPkg/Tcg/TdTcg2Dxe/TdTcg2Dxe.c
-index 8547c76d4cab..0e3af11c1173 100644
+index b3a69c580262..a5e4f6bb2b24 100644
 --- a/OvmfPkg/Tcg/TdTcg2Dxe/TdTcg2Dxe.c
 +++ b/OvmfPkg/Tcg/TdTcg2Dxe/TdTcg2Dxe.c
-@@ -1131,7 +1131,7 @@ CopyDigestListBinToBuffer (
+@@ -1029,7 +1029,7 @@ CopyDigestListBinToBuffer (
        DigestListCount++;
-       (*HashAlgorithmMaskCopied) |= GetHashMaskFromAlgo (HashAlg);
+       (*HashAlgorithmMaskCopied) |= Tpm2GetHashMaskFromAlgo (HashAlg);
      } else {
 -      DEBUG ((DEBUG_ERROR, "WARNING: CopyDigestListBinToBuffer Event log has HashAlg unsupported by PCR bank (0x%x)\n", HashAlg));
 +      DEBUG ((DEBUG_INFO, "WARNING: CopyDigestListBinToBuffer Event log has HashAlg unsupported by PCR bank (0x%x)\n", HashAlg));
      }
  
      DigestListBin = (UINT8 *)DigestListBin + DigestSize;
-diff --git a/SecurityPkg/Library/Tpm2CommandLib/Tpm2Help.c b/SecurityPkg/Library/Tpm2CommandLib/Tpm2Help.c
-index ac802733d316..2a8b463684d0 100644
---- a/SecurityPkg/Library/Tpm2CommandLib/Tpm2Help.c
-+++ b/SecurityPkg/Library/Tpm2CommandLib/Tpm2Help.c
-@@ -273,7 +273,7 @@ CopyDigestListToBuffer (
+diff --git a/SecurityPkg/Library/Tpm2HelpLib/Tpm2Help.c b/SecurityPkg/Library/Tpm2HelpLib/Tpm2Help.c
+index 521b842c92e9..1d9b4487cd64 100644
+--- a/SecurityPkg/Library/Tpm2HelpLib/Tpm2Help.c
++++ b/SecurityPkg/Library/Tpm2HelpLib/Tpm2Help.c
+@@ -324,7 +324,7 @@ Tpm2CopyDigestListToBuffer (
    Buffer             = (UINT8 *)Buffer + sizeof (DigestList->count);
    for (Index = 0; Index < DigestList->count; Index++) {
-     if (!IsHashAlgSupportedInHashAlgorithmMask (DigestList->digests[Index].hashAlg, HashAlgorithmMask)) {
+     if (!Tpm2IsHashAlgSupportedInHashAlgorithmMask (DigestList->digests[Index].hashAlg, HashAlgorithmMask)) {
 -      DEBUG ((DEBUG_ERROR, "WARNING: TPM2 Event log has HashAlg unsupported by PCR bank (0x%x)\n", DigestList->digests[Index].hashAlg));
 +      DEBUG ((DEBUG_INFO, "WARNING: TPM2 Event log has HashAlg unsupported by PCR bank (0x%x)\n", DigestList->digests[Index].hashAlg));
        continue;
      }
  
 diff --git a/SecurityPkg/Tcg/Tcg2Dxe/Tcg2Dxe.c b/SecurityPkg/Tcg/Tcg2Dxe/Tcg2Dxe.c
-index 2fa37c47e1d3..f5e6581432f3 100644
+index 096e3ef6ebe8..bbe219612afd 100644
 --- a/SecurityPkg/Tcg/Tcg2Dxe/Tcg2Dxe.c
 +++ b/SecurityPkg/Tcg/Tcg2Dxe/Tcg2Dxe.c
-@@ -1111,7 +1111,7 @@ CopyDigestListBinToBuffer (
+@@ -1110,7 +1110,7 @@ CopyDigestListBinToBuffer (
        DigestListCount++;
-       (*HashAlgorithmMaskCopied) |= GetHashMaskFromAlgo (HashAlg);
+       (*HashAlgorithmMaskCopied) |= Tpm2GetHashMaskFromAlgo (HashAlg);
      } else {
 -      DEBUG ((DEBUG_ERROR, "WARNING: CopyDigestListBinToBuffer Event log has HashAlg unsupported by PCR bank (0x%x)\n", HashAlg));
 +      DEBUG ((DEBUG_INFO, "WARNING: CopyDigestListBinToBuffer Event log has HashAlg unsupported by PCR bank (0x%x)\n", HashAlg));

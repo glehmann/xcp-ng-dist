@@ -10,7 +10,7 @@ obvious from a screenshot where in the boot process the VM is.
 Signed-off-by: Ross Lagerwall <ross.lagerwall@citrix.com>
 
 diff --git a/OvmfPkg/OvmfXen.dsc b/OvmfPkg/OvmfXen.dsc
-index f905e862641d..b0f897760204 100644
+index fe71d8324cdf..e3e41624846f 100644
 --- a/OvmfPkg/OvmfXen.dsc
 +++ b/OvmfPkg/OvmfXen.dsc
 @@ -31,6 +31,7 @@
@@ -21,7 +21,7 @@ index f905e862641d..b0f897760204 100644
  
  !include OvmfPkg/Include/Dsc/OvmfTpmDefines.dsc.inc
  
-@@ -681,7 +682,9 @@
+@@ -682,7 +683,9 @@
    OvmfPkg/XenAcpiPlatformDxe/XenAcpiPlatformDxe.inf
    MdeModulePkg/Universal/Acpi/S3SaveStateDxe/S3SaveStateDxe.inf
    MdeModulePkg/Universal/Acpi/BootScriptExecutorDxe/BootScriptExecutorDxe.inf

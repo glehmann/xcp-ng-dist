@@ -1432,10 +1432,10 @@ index 000000000000..e962ff59d765
 +
 +#string TCG_PP_SET_PCR_BANKS                  #language en-US    "change the format of the boot measurement log"
 diff --git a/OvmfPkg/OvmfXen.dsc b/OvmfPkg/OvmfXen.dsc
-index f7a189ee4f96..ac5a61834e84 100644
+index f80d12bd4984..8d0045095743 100644
 --- a/OvmfPkg/OvmfXen.dsc
 +++ b/OvmfPkg/OvmfXen.dsc
-@@ -239,6 +239,11 @@
+@@ -240,6 +240,11 @@
  
  !include OvmfPkg/Include/Dsc/OvmfTpmLibs.dsc.inc
  

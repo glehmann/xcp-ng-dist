@@ -117,10 +117,10 @@ index fc7cfc788b3e..d6c0dfb1ec30 100644
    // Set ConfigInfo, to control the check box.
    //
 diff --git a/SecurityPkg/Tcg/Tcg2Config/Tcg2ConfigNvData.h b/SecurityPkg/Tcg/Tcg2Config/Tcg2ConfigNvData.h
-index 69ef5600478d..312f33d72a50 100644
+index 69fb12cee095..0d4272edf50b 100644
 --- a/SecurityPkg/Tcg/Tcg2Config/Tcg2ConfigNvData.h
 +++ b/SecurityPkg/Tcg/Tcg2Config/Tcg2ConfigNvData.h
-@@ -71,6 +71,12 @@ typedef struct {
+@@ -70,6 +70,12 @@ typedef struct {
    BOOLEAN    TpmDeviceInterfacePtpFifoSupported;
    BOOLEAN    TpmDeviceInterfacePtpCrbSupported;
    BOOLEAN    ChangeEPSSupported;
@@ -134,10 +134,10 @@ index 69ef5600478d..312f33d72a50 100644
  
  //
 diff --git a/SecurityPkg/Tcg/Tcg2Config/Tcg2ConfigStrings.uni b/SecurityPkg/Tcg/Tcg2Config/Tcg2ConfigStrings.uni
-index ee7fa081b6c6..c65369384ed0 100644
+index a64067173e2e..34ca7951d030 100644
 --- a/SecurityPkg/Tcg/Tcg2Config/Tcg2ConfigStrings.uni
 +++ b/SecurityPkg/Tcg/Tcg2Config/Tcg2ConfigStrings.uni
-@@ -70,6 +70,18 @@ SPDX-License-Identifier: BSD-2-Clause-Patent
+@@ -70,6 +70,18 @@
  #string STR_TCG2_CHANGE_EPS                #language en-US "TPM2 ChangeEPS"
  #string STR_TCG2_LOG_ALL_DIGESTS           #language en-US "TCG2 LogAllDigests"
  #string STR_TCG2_DISABLE_ENDORSEMENT_ENABLE_STORAGE_HIERARCHY   #language en-US "TPM2 HierarchyControl (TPM_RH_OWNER NO, TPM_RH_ENDORSEMENT YES)"

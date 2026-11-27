@@ -8,10 +8,10 @@ This is the value of ACPI_2_0_TMP2_REVISION as #defined in xen.git.
 Signed-off-by: Anthony PERARD <anthony.perard@citrix.com>
 
 diff --git a/OvmfPkg/OvmfXen.dsc b/OvmfPkg/OvmfXen.dsc
-index ac5a61834e84..9da42518e5a2 100644
+index 8d0045095743..3aaee04e5a9b 100644
 --- a/OvmfPkg/OvmfXen.dsc
 +++ b/OvmfPkg/OvmfXen.dsc
-@@ -480,6 +480,9 @@
+@@ -481,6 +481,9 @@
    #
    gUefiCpuPkgTokenSpaceGuid.PcdFirstTimeWakeUpAPsBySipi|FALSE
  

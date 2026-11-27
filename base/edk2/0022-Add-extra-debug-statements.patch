@@ -45,7 +45,7 @@ index e7b3d0be8465..bafef5a6a4a4 100644
  }
  
 diff --git a/MdeModulePkg/Core/Dxe/Image/Image.c b/MdeModulePkg/Core/Dxe/Image/Image.c
-index ec9112478107..ea32e6236ef6 100644
+index 62bcac22c395..aefe1758e685 100644
 --- a/MdeModulePkg/Core/Dxe/Image/Image.c
 +++ b/MdeModulePkg/Core/Dxe/Image/Image.c
 @@ -1750,7 +1750,11 @@ CoreStartImage (
@@ -62,10 +62,10 @@ index ec9112478107..ea32e6236ef6 100644
  
      DEBUG_CODE_END ();
 diff --git a/MdeModulePkg/Core/Dxe/Mem/Page.c b/MdeModulePkg/Core/Dxe/Mem/Page.c
-index ceb7d2984ee8..7a13dba7c882 100644
+index 2a31b151334d..37dc289e669d 100644
 --- a/MdeModulePkg/Core/Dxe/Mem/Page.c
 +++ b/MdeModulePkg/Core/Dxe/Mem/Page.c
-@@ -951,7 +951,7 @@ CoreConvertPagesEx (
+@@ -693,7 +693,7 @@ CoreConvertPagesEx (
      //
      if (ChangingType && (NewType != EfiConventionalMemory)) {
        if (Entry->End < End) {
@@ -111,10 +111,10 @@ index c66ed71e35e1..97363f73b679 100644
  }
  
 diff --git a/MdeModulePkg/Library/UefiBootManagerLib/BmBoot.c b/MdeModulePkg/Library/UefiBootManagerLib/BmBoot.c
-index 22ab4d7e48bc..f85b6ca80f2b 100644
+index 0d84d386ee35..2d07ad034d11 100644
 --- a/MdeModulePkg/Library/UefiBootManagerLib/BmBoot.c
 +++ b/MdeModulePkg/Library/UefiBootManagerLib/BmBoot.c
-@@ -2112,8 +2112,9 @@ EfiBootManagerBoot (
+@@ -2158,8 +2158,9 @@ EfiBootManagerBoot (
  
    REPORT_STATUS_CODE (EFI_PROGRESS_CODE, PcdGet32 (PcdProgressCodeOsLoaderStart));
  

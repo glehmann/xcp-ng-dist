@@ -5,7 +5,7 @@ Subject: [PATCH] embed-nic-drivers
 
 
 diff --git a/OvmfPkg/OvmfXen.dsc b/OvmfPkg/OvmfXen.dsc
-index aa2952ea45d6..2bc577f145e7 100644
+index b3317a3e0d76..345ed981126e 100644
 --- a/OvmfPkg/OvmfXen.dsc
 +++ b/OvmfPkg/OvmfXen.dsc
 @@ -32,6 +32,7 @@

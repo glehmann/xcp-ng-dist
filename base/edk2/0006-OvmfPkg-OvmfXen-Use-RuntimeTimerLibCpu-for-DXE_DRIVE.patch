@@ -14,10 +14,10 @@ the need to get the PCD when the TPL is too high.
 Signed-off-by: Anthony PERARD <anthony.perard@citrix.com>
 
 diff --git a/OvmfPkg/OvmfXen.dsc b/OvmfPkg/OvmfXen.dsc
-index 9a1cd6bbd4f1..f905e862641d 100644
+index 42e85cea7083..fe71d8324cdf 100644
 --- a/OvmfPkg/OvmfXen.dsc
 +++ b/OvmfPkg/OvmfXen.dsc
-@@ -346,6 +346,7 @@
+@@ -347,6 +347,7 @@
    MpInitLib|UefiCpuPkg/Library/MpInitLib/DxeMpInitLib.inf
    NestedInterruptTplLib|OvmfPkg/Library/NestedInterruptTplLib/NestedInterruptTplLib.inf
    QemuFwCfgS3Lib|OvmfPkg/Library/QemuFwCfgS3Lib/DxeQemuFwCfgS3LibFwCfg.inf
