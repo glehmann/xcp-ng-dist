@@ -1,7 +1,8 @@
 [Unit]
 Description=XCP-ng feature daemon
-After=syslog.target
-Wants=syslog.target
+After=message-switch.service syslog.target
+Wants=message-switch.service syslog.target
+PartOf=toolstack.target
 
 [Service]
 Type=notify

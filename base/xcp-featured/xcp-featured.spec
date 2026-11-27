@@ -1,6 +1,6 @@
 Name:           xcp-featured
-Version:        1.1.8
-Release:        8%{?dist}
+Version:        1.2.2
+Release:        1.1%{?dist}
 Summary:        XCP-ng feature daemon
 Group:          System/Hypervisor
 License:        ISC
@@ -23,6 +23,7 @@ available on an xcp-ng host.
 
 %build
 %{__make}
+%{__make} test
 
 %install
 DESTDIR=%{buildroot} LIBEXECDIR=/opt/xensource/libexec %{__make} install
@@ -44,16 +45,52 @@ ln -s /opt/xensource/libexec/xcp-featured %{buildroot}/opt/xensource/libexec/v6d
 %{_unitdir}/v6d.service
 
 %changelog
+* Fri Nov 27 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 1.2.2-1.1
+- Merge 1.2.2-1 of xcp-ng-rpms, with our changes of 1.1.8-7 and 1.1.8-8
+
+* Thu Nov 26 2026 Yann Dirson <yann.dirson@vates.tech> - 1.2.2-1
+- v6: avoid unused-functor-parameter
+- Bump dune lang to 3.7, unset map_workspace_root
+
 * Mon Nov 23 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 1.1.8-8
 - Unpack the sources in a directory without the version, for the compiler cache across versions
 
 * Thu Nov 12 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 1.1.8-7
 - Build without the buildroot, which only the installation uses
 
+* Thu Nov 12 2026 Andrii Sultanov <andriy.sultanov@vates.tech> - 1.2.1-7
+- Rebuild with XAPI 26.1.23-2.1
+
+* Wed Oct 07 2026 Andrii Sultanov <andriy.sultanov@vates.tech> - 1.2.1-6
+- Rebuild with XAPI 26.1.21-1.1
+
+* Tue Sep 1 2026 Andrii Sultanov <andriy.sultanov@vates.tech> - 1.2.1-5
+- Rebuild with XAPI 26.1.19-1.1
+
+* Tue Aug 11 2026 Andrii Sultanov <andriy.sultanov@vates.tech> - 1.2.1-4
+- Rebuild with XAPI 26.1.16-1.1
+
+* Mon Jun 22 2026 Andrii Sultanov <andriy.sultanov@vates.tech> - 1.2.1-3
+- Rebuild with XAPI 26.1.12-1.1
+
+* Tue Jun 09 2026 Andrii Sultanov <andriy.sultanov@vates.tech> - 1.2.1-2
+- Rebuild with XAPI 26.1.11-1.1
+
+* Fri May 15 2026 Pau Ruiz Safont <pr.safont@vates.tech> - 1.2.1-1
+- v6: apply_edition returns the default edition now (XCPNG-3294)
+
+* Wed May 13 2026 Andrii Sultanov <andriy.sultanov@vates.tech> - 1.2.0-2
+- Rebuild with XAPI 26.1.4-3.1
+
+* Mon Apr 20 2026 Pau Ruiz Safont <pr.safont@vates.tech> - 1.2.0-1
+- bin: fix unused variables
+- feature: experimental features
+- v6d is now restarted by `xe-toolstack-restart`
+
 * Fri Feb 20 2026 Philippe Coval <philippe.coval@vates.tech> - 1.1.8-6
 - Rebuild with XAPI 26.1.3-1.2 (with openssl-3)
 
-* Thu Feb 18 2026 Pau Ruiz Safont <pr.safont@vates.tech> - 1.1.8-5
+* Wed Feb 18 2026 Pau Ruiz Safont <pr.safont@vates.tech> - 1.1.8-5
 - Rebuild with XAPI 26.1.3-1.1
 
 * Mon Feb 02 2026 Pau Ruiz Safont <pr.safont@vates.tech> - 1.1.8-4
