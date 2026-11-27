@@ -1,6 +1,6 @@
 Name:           xcp-ng-config
 Version:        0
-Release:        2.1%{?dist}
+Release:        2.2%{?dist}
 
 Summary:        XCP-ng configuration files
 Group:          System Environment/Base
@@ -28,6 +28,10 @@ ln -s /dev/null %{buildroot}%{_sysconfdir}/systemd/system/stunnel.service
 # conflict, which prevents ssh from being reliably available at boot when
 # configured in xapi
 ln -s /dev/null %{buildroot}%{_sysconfdir}/systemd/system/sshd.socket
+
+# mask nbd-server.service: xapi requires nbd for nbd-client, and serves NBD itself, with xapi-nbd; the server of
+# nbd, enabled as no preset disables it, fails at boot without exports
+ln -s /dev/null %{buildroot}%{_sysconfdir}/systemd/system/nbd-server.service
 
 # enable persistent systemd journal
 install -d -m755 %{buildroot}/var/log/journal
@@ -84,12 +88,16 @@ ln -s /dev/null %{buildroot}%{_sysconfdir}/systemd/system/ip6tables.service
 %{_sysconfdir}/systemd/system/ip6tables.service
 %{_sysconfdir}/systemd/system/stunnel.service
 %{_sysconfdir}/systemd/system/sshd.socket
+%{_sysconfdir}/systemd/system/nbd-server.service
 %config(noreplace) %{_sysconfdir}/systemd/journald.conf.d/90-custom.conf
 %{_sysconfdir}/yum.repos.d/
 %{_prefix}/lib/systemd/
 /var/log/journal/
 
 %changelog
+* Fri Nov 27 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 0-2.2
+- Mask nbd-server.service, which fails at boot without exports: xapi serves NBD with xapi-nbd
+
 * Fri Nov 27 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 0-2.1
 - Merge 0-2 of xcp-ng-rpms: stunnel.service and sshd.socket masked in /etc/systemd/system, where systemd looks for
   them, rather than in /usr/etc/systemd/system, and packaged
