@@ -5,7 +5,7 @@
 
 Name:         biosdevname
 Version:      0.7.3
-Release: %{?xsrel}.2%{?dist}
+Release: %{?xsrel}.3%{?dist}
 Summary:      Helper for naming devices per BIOS names
 
 Group:        System Environment/Base
@@ -63,6 +63,9 @@ make install install-data DESTDIR=%{buildroot}
 
 
 %changelog
+* Fri Nov 27 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 0.7.3-6.3
+- Test of the embargo workflow: no change but the release
+
 * Mon Nov 23 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 0.7.3-6.2
 - Unpack the sources in a directory without the version, for the compiler cache across versions
 
