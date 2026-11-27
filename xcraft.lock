@@ -95,6 +95,7 @@ version = 4
 "enchant2" = "2.6.9-1.el10"
 "ethtool" = "6.19-1.el10"
 "expat" = "2.7.3-2.el10_3.8"
+"expect" = "5.45.4-25.el10"
 "fakeroot" = "1.37-1.el10_0"
 "fedora-license-data" = "1.76-1.el10_3"
 "fftw" = "3.3.11-1.el10.alma.1"
@@ -583,6 +584,7 @@ version = 4
 "shim" = "16.1-4.el10.alma.1"
 "slang" = "2.3.3-8.el10"
 "smartmontools" = "7.4-9.el10"
+"socat" = "1.7.4.4-9.el10"
 "source-highlight" = "3.1.9-25.el10"
 "speexdsp" = "1.2.1-8.el10"
 "sqlite" = "3.46.1-6.el10_2"
@@ -593,7 +595,6 @@ version = 4
 "stunnel" = "5.72-8.el10"
 "subversion" = "1.14.5-3.el10"
 "sudo" = "1.9.17-10.p2.el10_3.13"
-"swtpm" = "0.9.0-6.el10_2"
 "syslinux" = "6.04-0.35.el10.alma.2"
 "sysprof" = "47.2-1.el10"
 "sysstat" = "12.7.6-4.el10"
@@ -602,6 +603,7 @@ version = 4
 "systemtap" = "5.5-2.el10"
 "tar" = "1.35-13.el10_2"
 "tbb" = "2021.11.0-7.el10"
+"tcl" = "8.6.13-4.el10"
 "tcpdump" = "4.99.4-10.el10"
 "telnet" = "0.17-94.el10"
 "texinfo" = "7.1-6.el10"
@@ -786,6 +788,7 @@ version = 4
 "enchant2" = "2.6.9-1.el10 aarch64 2379ebb8c8670ee606125313a361a3d8945fb83894fb3eb786410262677f98fe enchant2"
 "ethtool" = "2:6.19-1.el10 aarch64 f4830aef2d6b1f3534f0ebb8055c3a77e649225bc1a4ed16eb441bc7e0def82e ethtool"
 "expat" = "2.7.3-2.el10_3.8 aarch64 cf5c7574b6a6076bb391056585d6b06c0e3728a5f857f9cb010f729d97eb5eac expat"
+"expect" = "5.45.4-25.el10 aarch64 5ebec9c28f8bfb9f008b053ea65e08d8a73420f1e5968fea368d07cfb0199ade expect"
 "fakeroot" = "1.37-1.el10_0 aarch64 29110e615547e9ac705bd8f22b624d481c0317b0a72513acb474de87c8b8f2ba fakeroot"
 "fakeroot-libs" = "1.37-1.el10_0 aarch64 2f92d7a517f0278da551e61033c43dd36a56bf6809c2f1d5b3f1731d0fc4c3d4 fakeroot"
 "fftw-libs-double" = "3.3.11-1.el10.alma.1 aarch64 c0477a86a27e9d3e01a8c64b4f38103115e84254c9400e151a1d1a8e0638bf6d fftw"
@@ -925,6 +928,7 @@ version = 4
 "json-c" = "0.18-3.el10 aarch64 ab88ed9bc7a2ef65d6bd97f3cbcf8929c90f3a8797403d5a2a9ffe23b8774570 json-c"
 "json-c-devel" = "0.18-3.el10 aarch64 2a631ddad2efc9b1704231f023ce2d2b267ccb71930a467b6405b35c25231fa6 json-c"
 "json-glib" = "1.8.0-5.el10 aarch64 937ba36283b77af460b1a63d8c4731ab5c6f7be18c633ee3fbed82dc64c5234f json-glib"
+"json-glib-devel" = "1.8.0-5.el10 aarch64 87943de99bf6b62505f51dc621aa86682aea3a204fb0a3b047debccd62ac08a0 json-glib"
 "jxl-pixbuf-loader" = "1:0.10.4-1.el10_1 aarch64 0e5f3a3e17a772a7d0732e856132078f3f15ccd6c2f0feb4bfa85a22429d5c0c jpegxl"
 "kbd" = "2.6.4-8.el10_2 aarch64 05532970add98749242a3b5ea03e408d91417159b430949cc0263df1df2b3acc kbd"
 "kbd-legacy" = "2.6.4-8.el10_2 noarch 5cee51a736ce671b613c202d20d8e0f6a95225637cbe4d50a835bcc5ad73f7d8 kbd"
@@ -1119,6 +1123,7 @@ version = 4
 "libtool" = "2.4.7-13.el10 aarch64 45c679b073a0066c2d1ac65e1cdeb9b2b074f0400ead847a6c62e759a87b5cc5 libtool"
 "libtool-ltdl" = "2.4.7-13.el10 aarch64 a2f63650fdb2993401858ca6bcf4d0693bd52320389d8f60adf298bf8e9df1a6 libtool"
 "libtpms" = "0.9.6-11.el10_0 aarch64 60e410fe9550074aa3bc0e68fb022b100bf0ff4f871473d8a23267f91f8aa2f6 libtpms"
+"libtpms-devel" = "0.9.6-11.el10_0 aarch64 46056443567aebb53a5ae3493179b3f07c0482478793bf84225475f45bc7fdad libtpms"
 "libtraceevent" = "1.8.4-3.el10 aarch64 bbf7dce164a470cdc7aec7dec88b5eb3a81672adae580057309450368e4c0078 libtraceevent"
 "libtraceevent-devel" = "1.8.4-3.el10 aarch64 29f1ef2d4e0f9dbb935317b366094b4d0fc53363946b2c7b2d9813f1e76e0dae libtraceevent"
 "libtracefs" = "1.8.2-1.el10 aarch64 cb748e89b650bb25cafbc2016ed904016d905ce72d859079df285873e64b9613 libtracefs"
@@ -1555,6 +1560,7 @@ version = 4
 "shim-aa64" = "16.1-4.el10.alma.1 aarch64 820acaec71183edd2e618cc9232a3f5381865a2709d1091d380a36837e2b3cc0 shim"
 "slang" = "2.3.3-8.el10 aarch64 f1d35ec4a3d99fd52bfdf1d103b3528ca1385c1c664160132be7014f33bcc1df slang"
 "smartmontools" = "1:7.4-9.el10 aarch64 9488f927e53eafa99a130617cfdb6c901708b6bc3514a36a10c0d2617630d64b smartmontools"
+"socat" = "1.7.4.4-9.el10 aarch64 b34887984cd65311345e85da890b17a01777ad86f043ce0f7711bdad60af913f socat"
 "source-highlight" = "3.1.9-25.el10 aarch64 dd7219af99f2a7e7a885e15c4baa259552c68963a040f6564d60c24607fe4406 source-highlight"
 "speexdsp" = "1.2.1-8.el10 aarch64 57df623db900723cc7b56219ac359202959dd49ba78a12ef99f41ceb6b6bf533 speexdsp"
 "sqlite-libs" = "3.46.1-6.el10_2 aarch64 e63ba95d09d17e86d16752ade472827928031ca609322412c4f9b7ba8d0d8920 sqlite"
@@ -1569,9 +1575,6 @@ version = 4
 "subversion" = "1.14.5-3.el10 aarch64 df329585c19ebec83bac810bc34b20c5105718db1bb96d92fd75c7524dab950a subversion"
 "subversion-libs" = "1.14.5-3.el10 aarch64 6a29bdd97f5a0ac52b197fa890dad29ddeb4ae0066934312cc5d50c3ef813ca2 subversion"
 "sudo" = "1.9.17-10.p2.el10_3.13 aarch64 64dbfb5eb2fbde196b1723b7fee728e134d3c9daff951449ec36761bd37f187b sudo"
-"swtpm" = "0.9.0-6.el10_2 aarch64 b92225cdf19a0864bfcaaec6058be63bfd63f2348ae998c0cc5c5bc60c6b39f3 swtpm"
-"swtpm-libs" = "0.9.0-6.el10_2 aarch64 983060805a4b20b11ea18c0782495fb2c94247fa9f9cdab42cc050a9a014593f swtpm"
-"swtpm-tools" = "0.9.0-6.el10_2 aarch64 666c77327a88dd830d261a56e6066c28921f5b2c35171b1adb4d34079747f490 swtpm"
 "sysprof-capture-devel" = "47.2-1.el10 aarch64 1690576d65b2164285e9cbff63941718c64b285763a167b367a91b65fe2268d8 sysprof"
 "sysstat" = "12.7.6-4.el10 aarch64 a3148c2350bed875056b6f2e54ceae58a87feba48f2c86760580419e0f08457f sysstat"
 "systemd" = "257-33.el10.alma.2 aarch64 92fada5b2028bdc5a1ae83aa5fd168ca0d121a8297b3369baf517e4a7a32a3f3 systemd"
@@ -1587,6 +1590,7 @@ version = 4
 "systemtap-sdt-dtrace" = "5.5-2.el10 aarch64 bea7a8bb0ffc11ccbd246918d296c7212ae9645df4a236edd7979f0f404f9fa7 systemtap"
 "tar" = "2:1.35-13.el10_2 aarch64 6019ab0050f811aad3189850eac2b57b976f910751e8403f6fe255dd2c7a132f tar"
 "tbb" = "2021.11.0-7.el10 aarch64 cfa4d73640db069bbd274cd0daecb8635759380867a6b5a7e2fccda89353ce0c tbb"
+"tcl" = "1:8.6.13-4.el10 aarch64 94248d54a78d5a1fe916daccba8c193b160f87e08def3264e1b4b5cd09bac020 tcl"
 "tcpdump" = "14:4.99.4-10.el10 aarch64 a27ee3b54b3f5874772cd55d6d5b63a9d436cc23838308850d6f12da130e7b8a tcpdump"
 "tdb-tools" = "1.4.15-100.el10 aarch64 94c2ecb786e0da2f79ed9b5fb30dc6422a396b630016a08432f8bdba4133cb50 libtdb"
 "telnet" = "1:0.17-94.el10 aarch64 686262328d0a8fefe5d58f396b809d8ce47b71e99d00c2e58d177756b4ec64d8 telnet"
@@ -1803,6 +1807,7 @@ version = 4
 "enchant2" = "2.6.9-1.el10 x86_64_v2 13f6583f624ca1795e74e6c57d2dfe04db22fb46794086e38fce1f7220e25d76 enchant2"
 "ethtool" = "2:6.19-1.el10 x86_64_v2 8127d28b1974553b3832b56c8cdd065229c24bd9cd71b7ea1748cdfa85e78e17 ethtool"
 "expat" = "2.7.3-2.el10_3.8 x86_64_v2 6551e5f23ccf9f9292cf9591fdde8bee422aa843e2f7fcf74b56d63ddd4eb076 expat"
+"expect" = "5.45.4-25.el10 x86_64_v2 d606f0bd7b28984e132562971f0f29a094ade44b34be401820da2c8f19cbbc25 expect"
 "fakeroot" = "1.37-1.el10_0.alma_altarch x86_64_v2 5b084dc53aafe54e8e38755b3c643aafa2542e0e710cebd13eddf24cce2ffef6 fakeroot"
 "fakeroot-libs" = "1.37-1.el10_0.alma_altarch x86_64_v2 efb7e9a8c6cfa50220e38bb0e9ca3d88ec45638ded225923a9b13891ebfa5930 fakeroot"
 "fftw-libs-double" = "3.3.11-1.el10.alma.1 x86_64_v2 27f6e2c595777eee6653c425d89bcf485c44534da825253916c31d06bd4ced4a fftw"
@@ -1942,6 +1947,7 @@ version = 4
 "json-c" = "0.18-3.el10 x86_64_v2 5a4c0d366e18ff76af370aeb4f22b01e425fe169b189ece6f070ed9214ffed9e json-c"
 "json-c-devel" = "0.18-3.el10 x86_64_v2 0c0c1cec69b176d10ac507b2654c2c34710624da307f54f3fdacbc24ccbcacaf json-c"
 "json-glib" = "1.8.0-5.el10 x86_64_v2 0b98294e2a47b9341fe46ca49ea61bbae49e0088c3742849adc6108f922adc0f json-glib"
+"json-glib-devel" = "1.8.0-5.el10 x86_64_v2 589b72e6170166653c1bb730f69f19c7c73528fee2f70837e921fa734c3f93bd json-glib"
 "jxl-pixbuf-loader" = "1:0.10.4-1.el10_1.alma_altarch x86_64_v2 f331640d7d233102fc35417e589af0b2bec732a578df5a00adf489b09fcced1c jpegxl"
 "kbd" = "2.6.4-8.el10_2 x86_64_v2 461bbc4c77f685550177b46b615f190c605d18f75d387f5f09ff316730f1e771 kbd"
 "kbd-legacy" = "2.6.4-8.el10_2 noarch 5cee51a736ce671b613c202d20d8e0f6a95225637cbe4d50a835bcc5ad73f7d8 kbd"
@@ -2133,6 +2139,7 @@ version = 4
 "libtool" = "2.4.7-13.el10 x86_64_v2 d85fee04e2c38f3ba2116df73eee1f472a37e9221bf5b22e645c8cd8dbfcb6bd libtool"
 "libtool-ltdl" = "2.4.7-13.el10 x86_64_v2 a1b3828d0be607e463eb8afe5e77e31a800133b641e7cdaffeb332a5dd47a670 libtool"
 "libtpms" = "0.9.6-11.el10_0 x86_64_v2 2a2609c94d85fb6857d4b2635db4b9f694adb51394f355d8adce8cccec322d4c libtpms"
+"libtpms-devel" = "0.9.6-11.el10_0 x86_64_v2 e94d5f34a4c998b4ed1154d574ea91503202a4d687be47583453cf435e08860b libtpms"
 "libtraceevent" = "1.8.4-3.el10 x86_64_v2 3de3a39d29a127a8afec3a93619e33d36e1b2532b78ecc5ada66466e5da1e5ee libtraceevent"
 "libtraceevent-devel" = "1.8.4-3.el10 x86_64_v2 b03e7eb1009ac4ff5cc99046a9bfbcd7951e3166aef3f1c4a920b6675c7507ea libtraceevent"
 "libtracefs" = "1.8.2-1.el10 x86_64_v2 a9efbd206f3b2b04d55fea27626d170517568c69e309a224ed3c75540af7cae8 libtracefs"
@@ -2589,6 +2596,7 @@ version = 4
 "shim-x64" = "16.1-4.el10.alma.1 x86_64_v2 4f28c033ab34f2784d59162af1ee3b6781b0a806ccf57da8ae0e8c5f6b5559aa shim"
 "slang" = "2.3.3-8.el10 x86_64_v2 e8de2cd931ca3c41d2929ffcb095c78664d6a15efe455fd08653ea976707c023 slang"
 "smartmontools" = "1:7.4-9.el10 x86_64_v2 da01b6aed1f4e5a28c56b4771489936eb75f1e3f5e91bf9669ac2dd2468ddba9 smartmontools"
+"socat" = "1.7.4.4-9.el10 x86_64_v2 f8c88ea017544f0f438e26ebb8e936273df6bd856adb2ae879258b36590cfccf socat"
 "source-highlight" = "3.1.9-25.el10 x86_64_v2 97bc57330b336358c6ec8185dd420750a33aec797fd23d9df96ddf4d2b56b03a source-highlight"
 "speexdsp" = "1.2.1-8.el10 x86_64_v2 9328ebbdc61a4af196a386e32b6eed1ddbb2715819cc91a2c8a6586d9a0a30d5 speexdsp"
 "sqlite-libs" = "3.46.1-6.el10_2 x86_64_v2 51aa6837357d2201989fe9c15654c9854c1f02a91e503a19372743ec7f00b4c2 sqlite"
@@ -2603,9 +2611,6 @@ version = 4
 "subversion" = "1.14.5-3.el10 x86_64_v2 bd9983d22f42e1b4ed13229ee19c109e11cd401a8d7bd5733e4b635bca678796 subversion"
 "subversion-libs" = "1.14.5-3.el10 x86_64_v2 6f2eee2994dd0ba7af18ec668cc14d2eca26e7687309137d820ae8fbcd084fe2 subversion"
 "sudo" = "1.9.17-10.p2.el10_3.13 x86_64_v2 a1a885196cd9272c11f2640e3b664017a4c266da3e3a4919b47321b043347e25 sudo"
-"swtpm" = "0.9.0-6.el10_2 x86_64_v2 fa2e93f1f7a9154a448cb11a42409353ad7d423c2c8947c045ec273f31a0f055 swtpm"
-"swtpm-libs" = "0.9.0-6.el10_2 x86_64_v2 520d4be5095cd10e278a967210ce727004d7be273980d1b8579857bd026398ed swtpm"
-"swtpm-tools" = "0.9.0-6.el10_2 x86_64_v2 644d7097148cb858999dd4cda787d55d5e8bbe633daedad767d25e64da11f4cc swtpm"
 "syslinux" = "6.04-0.35.el10.alma.2 x86_64_v2 a616924972649ed6a5c5d71cb49064edaa6b449c3776200bd8163193648e3e36 syslinux"
 "syslinux-nonlinux" = "6.04-0.35.el10.alma.2 noarch a836cf13c29f4a83fa68d86a78ac1e9d0598ac1d835ddc215b551a4c649d5830 syslinux"
 "sysprof-capture-devel" = "47.2-1.el10 x86_64_v2 0f13aa69243619138f64c72756eb104d78b3dd32a8e37275f667d8024683b21b sysprof"
@@ -2623,6 +2628,7 @@ version = 4
 "systemtap-sdt-dtrace" = "5.5-2.el10 x86_64_v2 e62ff808790846d4ce10caace7f7d9f46e33aca232e20c7e868da90d1a012dcd systemtap"
 "tar" = "2:1.35-13.el10_2 x86_64_v2 b66f01bdbd7e2608097d227deddf0eb67772a7a090ed27702b908be2bee073c2 tar"
 "tbb" = "2021.11.0-7.el10 x86_64_v2 bcdb0c2002f1ad3bde3c90104413c6a9c2e2ba3a929fe455e0a41ff0e2c838d9 tbb"
+"tcl" = "1:8.6.13-4.el10 x86_64_v2 2a0c99d5685d505ea16e47038197f0752c8a7c484f0f05e83f871a096ae6b2c0 tcl"
 "tcpdump" = "14:4.99.4-10.el10 x86_64_v2 a34c68440381ad3a7ca23869f9161bde5e7aad39cd14df329ace56f7f6b2eb2b tcpdump"
 "tdb-tools" = "1.4.15-100.el10 x86_64_v2 3b8dd382195d05c8240ab02b88d5e92a6be377fbdad667f91fbdaa227dbee147 libtdb"
 "telnet" = "1:0.17-94.el10 x86_64_v2 eb19ad3df359a98f58c082701d68d7e0dff6944265aeddabf81ea76adeaf75fe telnet"
@@ -3400,6 +3406,7 @@ version = 4
     "perl-Text-Tabs+Wrap",
     "perl-Time-HiRes",
     "perl-Time-Local",
+    "perl-Time-Piece",
     "perl-URI",
     "perl-Unicode-Normalize",
     "perl-base",
@@ -4175,6 +4182,118 @@ version = 4
     "xmlto",
     "xxhash-libs",
     "xz-devel",
+    "zlib-ng-compat-devel",
+]
+"kexec-tools" = [
+    "annobin-docs",
+    "annobin-plugin-gcc",
+    "autoconf",
+    "automake",
+    "ccache",
+    "cmake-filesystem",
+    "cpp",
+    "cracklib",
+    "cracklib-dicts",
+    "cryptsetup-libs",
+    "dbus",
+    "dbus-broker",
+    "dbus-common",
+    "device-mapper",
+    "device-mapper-libs",
+    "e2fsprogs-libs",
+    "emacs-filesystem",
+    "expat",
+    "fmt",
+    "gcc",
+    "gcc-plugin-annobin",
+    "gdbm-libs",
+    "glibc-devel",
+    "groff-base",
+    "hiredis",
+    "kernel-headers",
+    "kmod-libs",
+    "libbpf",
+    "libfdisk",
+    "libmpc",
+    "libpwquality",
+    "libseccomp",
+    "libxcrypt-devel",
+    "libxkbcommon",
+    "lzo",
+    "m4",
+    "make",
+    "ncurses",
+    "perl-AutoLoader",
+    "perl-B",
+    "perl-Carp",
+    "perl-Class-Struct",
+    "perl-Data-Dumper",
+    "perl-Digest",
+    "perl-Digest-MD5",
+    "perl-DynaLoader",
+    "perl-Encode",
+    "perl-Errno",
+    "perl-Exporter",
+    "perl-Fcntl",
+    "perl-File-Basename",
+    "perl-File-Compare",
+    "perl-File-Copy",
+    "perl-File-Find",
+    "perl-File-Path",
+    "perl-File-Temp",
+    "perl-File-stat",
+    "perl-FileHandle",
+    "perl-Getopt-Long",
+    "perl-Getopt-Std",
+    "perl-HTTP-Tiny",
+    "perl-IO",
+    "perl-IO-Socket-IP",
+    "perl-IO-Socket-SSL",
+    "perl-IPC-Open3",
+    "perl-MIME-Base64",
+    "perl-Mozilla-CA",
+    "perl-NDBM_File",
+    "perl-Net-SSLeay",
+    "perl-POSIX",
+    "perl-PathTools",
+    "perl-Pod-Escapes",
+    "perl-Pod-Perldoc",
+    "perl-Pod-Simple",
+    "perl-Pod-Usage",
+    "perl-Scalar-List-Utils",
+    "perl-SelectSaver",
+    "perl-Socket",
+    "perl-Storable",
+    "perl-Symbol",
+    "perl-Term-ANSIColor",
+    "perl-Term-Cap",
+    "perl-Text-ParseWords",
+    "perl-Text-Tabs+Wrap",
+    "perl-Thread-Queue",
+    "perl-Time-Local",
+    "perl-URI",
+    "perl-Unicode-Normalize",
+    "perl-base",
+    "perl-constant",
+    "perl-if",
+    "perl-interpreter",
+    "perl-libnet",
+    "perl-libs",
+    "perl-locale",
+    "perl-mro",
+    "perl-overload",
+    "perl-overloading",
+    "perl-parent",
+    "perl-podlators",
+    "perl-threads",
+    "perl-threads-shared",
+    "perl-vars",
+    "rpm-plugin-syslog",
+    "systemd",
+    "systemd-pam",
+    "systemd-rpm-macros",
+    "xkeyboard-config",
+    "xxhash-libs",
     "zlib-ng-compat-devel",
 ]
 "libempserver" = [
@@ -5035,6 +5154,184 @@ version = 4
     "openssl-devel",
     "xxhash-libs",
 ]
+"swtpm" = [
+    "annobin-docs",
+    "annobin-plugin-gcc",
+    "authselect",
+    "authselect-libs",
+    "autoconf",
+    "automake",
+    "brotli",
+    "brotli-devel",
+    "ccache",
+    "cmake-filesystem",
+    "cpp",
+    "cracklib",
+    "cracklib-dicts",
+    "emacs-filesystem",
+    "expat",
+    "expect",
+    "fmt",
+    "gcc",
+    "gcc-plugin-annobin",
+    "gdbm",
+    "gdbm-libs",
+    "git-core",
+    "glib2",
+    "glib2-devel",
+    "glibc-devel",
+    "gnutls",
+    "gnutls-c++",
+    "gnutls-dane",
+    "gnutls-devel",
+    "gnutls-utils",
+    "groff-base",
+    "hiredis",
+    "iproute",
+    "json-glib",
+    "json-glib-devel",
+    "kernel-headers",
+    "keyutils-libs-devel",
+    "krb5-devel",
+    "less",
+    "libblkid-devel",
+    "libbpf",
+    "libbrotli",
+    "libcbor",
+    "libcom_err-devel",
+    "libcurl-devel",
+    "libedit",
+    "libevent",
+    "libfdisk",
+    "libffi-devel",
+    "libfido2",
+    "libidn2-devel",
+    "libkadm5",
+    "libmnl",
+    "libmount-devel",
+    "libmpc",
+    "libnghttp2-devel",
+    "libpsl",
+    "libpsl-devel",
+    "libpwquality",
+    "libseccomp",
+    "libseccomp-devel",
+    "libselinux-devel",
+    "libsemanage",
+    "libsepol-devel",
+    "libssh",
+    "libssh-config",
+    "libssh-devel",
+    "libtasn1-devel",
+    "libtasn1-tools",
+    "libtool",
+    "libtpms",
+    "libtpms-devel",
+    "libutempter",
+    "libverto-devel",
+    "libxcrypt-devel",
+    "m4",
+    "make",
+    "mpdecimal",
+    "ncurses",
+    "openssh",
+    "openssh-clients",
+    "openssl-devel",
+    "p11-kit-devel",
+    "pam",
+    "pcre2-devel",
+    "pcre2-utf16",
+    "pcre2-utf32",
+    "perl-AutoLoader",
+    "perl-B",
+    "perl-Carp",
+    "perl-Class-Struct",
+    "perl-Data-Dumper",
+    "perl-Digest",
+    "perl-Digest-MD5",
+    "perl-DynaLoader",
+    "perl-Encode",
+    "perl-Errno",
+    "perl-Exporter",
+    "perl-Fcntl",
+    "perl-File-Basename",
+    "perl-File-Compare",
+    "perl-File-Copy",
+    "perl-File-Find",
+    "perl-File-Path",
+    "perl-File-Temp",
+    "perl-File-stat",
+    "perl-FileHandle",
+    "perl-Getopt-Long",
+    "perl-Getopt-Std",
+    "perl-HTTP-Tiny",
+    "perl-IO",
+    "perl-IO-Socket-IP",
+    "perl-IO-Socket-SSL",
+    "perl-IPC-Open3",
+    "perl-MIME-Base64",
+    "perl-Mozilla-CA",
+    "perl-NDBM_File",
+    "perl-Net-SSLeay",
+    "perl-POSIX",
+    "perl-PathTools",
+    "perl-Pod-Escapes",
+    "perl-Pod-Perldoc",
+    "perl-Pod-Simple",
+    "perl-Pod-Usage",
+    "perl-Scalar-List-Utils",
+    "perl-SelectSaver",
+    "perl-Socket",
+    "perl-Storable",
+    "perl-Symbol",
+    "perl-Term-ANSIColor",
+    "perl-Term-Cap",
+    "perl-Text-ParseWords",
+    "perl-Text-Tabs+Wrap",
+    "perl-Thread-Queue",
+    "perl-Time-Local",
+    "perl-URI",
+    "perl-Unicode-Normalize",
+    "perl-base",
+    "perl-constant",
+    "perl-if",
+    "perl-interpreter",
+    "perl-libnet",
+    "perl-libs",
+    "perl-locale",
+    "perl-mro",
+    "perl-overload",
+    "perl-overloading",
+    "perl-parent",
+    "perl-podlators",
+    "perl-threads",
+    "perl-threads-shared",
+    "perl-vars",
+    "protobuf-c",
+    "psmisc",
+    "publicsuffix-list",
+    "publicsuffix-list-dafsa",
+    "python-rpm-macros",
+    "python-unversioned-command",
+    "python3",
+    "python3-devel",
+    "python3-libs",
+    "python3-packaging",
+    "python3-pip",
+    "python3-pip-wheel",
+    "python3-rpm-generators",
+    "python3-rpm-macros",
+    "shadow-utils",
+    "socat",
+    "sysprof-capture-devel",
+    "tcl",
+    "tzdata",
+    "unbound-anchor",
+    "unbound-libs",
+    "util-linux",
+    "xxhash-libs",
+    "zlib-ng-compat-devel",
+]
 "varstored" = [
     "annobin-docs",
     "annobin-plugin-gcc",
@@ -5859,6 +6156,24 @@ version = 4
     "xxhash-libs",
     "xz-devel",
     "zlib-ng-compat-devel",
+]
+"xen-crashdump-analyser" = [
+    "annobin-docs",
+    "annobin-plugin-gcc",
+    "ccache",
+    "cpp",
+    "fmt",
+    "gcc",
+    "gcc-c++",
+    "gcc-plugin-annobin",
+    "glibc-devel",
+    "hiredis",
+    "kernel-headers",
+    "libmpc",
+    "libstdc++-devel",
+    "libxcrypt-devel",
+    "make",
+    "xxhash-libs",
 ]
 "xs-opam-repo" = [
     "annobin-docs",
@@ -7274,6 +7589,121 @@ version = 4
     "xz-devel",
     "zlib-ng-compat-devel",
 ]
+"kexec-tools" = [
+    "annobin-docs",
+    "annobin-plugin-gcc",
+    "autoconf",
+    "automake",
+    "ccache",
+    "cmake-filesystem",
+    "cpp",
+    "cracklib",
+    "cracklib-dicts",
+    "cryptsetup-libs",
+    "dbus",
+    "dbus-broker",
+    "dbus-common",
+    "device-mapper",
+    "device-mapper-libs",
+    "e2fsprogs-libs",
+    "emacs-filesystem",
+    "expat",
+    "fmt",
+    "gcc",
+    "gcc-plugin-annobin",
+    "gdbm-libs",
+    "glibc-devel",
+    "groff-base",
+    "hiredis",
+    "kernel-headers",
+    "kmod-libs",
+    "libasan",
+    "libatomic",
+    "libbpf",
+    "libfdisk",
+    "libfdt",
+    "libmpc",
+    "libpwquality",
+    "libseccomp",
+    "libubsan",
+    "libxcrypt-devel",
+    "libxkbcommon",
+    "m4",
+    "make",
+    "ncurses",
+    "perl-AutoLoader",
+    "perl-B",
+    "perl-Carp",
+    "perl-Class-Struct",
+    "perl-Data-Dumper",
+    "perl-Digest",
+    "perl-Digest-MD5",
+    "perl-DynaLoader",
+    "perl-Encode",
+    "perl-Errno",
+    "perl-Exporter",
+    "perl-Fcntl",
+    "perl-File-Basename",
+    "perl-File-Compare",
+    "perl-File-Copy",
+    "perl-File-Find",
+    "perl-File-Path",
+    "perl-File-Temp",
+    "perl-File-stat",
+    "perl-FileHandle",
+    "perl-Getopt-Long",
+    "perl-Getopt-Std",
+    "perl-HTTP-Tiny",
+    "perl-IO",
+    "perl-IO-Socket-IP",
+    "perl-IO-Socket-SSL",
+    "perl-IPC-Open3",
+    "perl-MIME-Base64",
+    "perl-Mozilla-CA",
+    "perl-NDBM_File",
+    "perl-Net-SSLeay",
+    "perl-POSIX",
+    "perl-PathTools",
+    "perl-Pod-Escapes",
+    "perl-Pod-Perldoc",
+    "perl-Pod-Simple",
+    "perl-Pod-Usage",
+    "perl-Scalar-List-Utils",
+    "perl-SelectSaver",
+    "perl-Socket",
+    "perl-Storable",
+    "perl-Symbol",
+    "perl-Term-ANSIColor",
+    "perl-Term-Cap",
+    "perl-Text-ParseWords",
+    "perl-Text-Tabs+Wrap",
+    "perl-Thread-Queue",
+    "perl-Time-Local",
+    "perl-URI",
+    "perl-Unicode-Normalize",
+    "perl-base",
+    "perl-constant",
+    "perl-if",
+    "perl-interpreter",
+    "perl-libnet",
+    "perl-libs",
+    "perl-locale",
+    "perl-mro",
+    "perl-overload",
+    "perl-overloading",
+    "perl-parent",
+    "perl-podlators",
+    "perl-threads",
+    "perl-threads-shared",
+    "perl-vars",
+    "rpm-plugin-syslog",
+    "systemd",
+    "systemd-pam",
+    "systemd-rpm-macros",
+    "xkeyboard-config",
+    "xxhash-libs",
+    "zlib-ng-compat-devel",
+]
 "libempserver" = [
     "annobin-docs",
     "annobin-plugin-gcc",
@@ -8144,6 +8574,187 @@ version = 4
     "openssl-devel",
     "xxhash-libs",
 ]
+"swtpm" = [
+    "annobin-docs",
+    "annobin-plugin-gcc",
+    "authselect",
+    "authselect-libs",
+    "autoconf",
+    "automake",
+    "brotli",
+    "brotli-devel",
+    "ccache",
+    "cmake-filesystem",
+    "cpp",
+    "cracklib",
+    "cracklib-dicts",
+    "emacs-filesystem",
+    "expat",
+    "expect",
+    "fmt",
+    "gcc",
+    "gcc-plugin-annobin",
+    "gdbm",
+    "gdbm-libs",
+    "git-core",
+    "glib2",
+    "glib2-devel",
+    "glibc-devel",
+    "gnutls",
+    "gnutls-c++",
+    "gnutls-dane",
+    "gnutls-devel",
+    "gnutls-utils",
+    "groff-base",
+    "hiredis",
+    "iproute",
+    "json-glib",
+    "json-glib-devel",
+    "kernel-headers",
+    "keyutils-libs-devel",
+    "krb5-devel",
+    "less",
+    "libasan",
+    "libatomic",
+    "libblkid-devel",
+    "libbpf",
+    "libbrotli",
+    "libcbor",
+    "libcom_err-devel",
+    "libcurl-devel",
+    "libedit",
+    "libevent",
+    "libfdisk",
+    "libffi-devel",
+    "libfido2",
+    "libidn2-devel",
+    "libkadm5",
+    "libmnl",
+    "libmount-devel",
+    "libmpc",
+    "libnghttp2-devel",
+    "libpsl",
+    "libpsl-devel",
+    "libpwquality",
+    "libseccomp",
+    "libseccomp-devel",
+    "libselinux-devel",
+    "libsemanage",
+    "libsepol-devel",
+    "libssh",
+    "libssh-config",
+    "libssh-devel",
+    "libtasn1-devel",
+    "libtasn1-tools",
+    "libtool",
+    "libtpms",
+    "libtpms-devel",
+    "libubsan",
+    "libutempter",
+    "libverto-devel",
+    "libxcrypt-devel",
+    "m4",
+    "make",
+    "mpdecimal",
+    "ncurses",
+    "openssh",
+    "openssh-clients",
+    "openssl-devel",
+    "p11-kit-devel",
+    "pam",
+    "pcre2-devel",
+    "pcre2-utf16",
+    "pcre2-utf32",
+    "perl-AutoLoader",
+    "perl-B",
+    "perl-Carp",
+    "perl-Class-Struct",
+    "perl-Data-Dumper",
+    "perl-Digest",
+    "perl-Digest-MD5",
+    "perl-DynaLoader",
+    "perl-Encode",
+    "perl-Errno",
+    "perl-Exporter",
+    "perl-Fcntl",
+    "perl-File-Basename",
+    "perl-File-Compare",
+    "perl-File-Copy",
+    "perl-File-Find",
+    "perl-File-Path",
+    "perl-File-Temp",
+    "perl-File-stat",
+    "perl-FileHandle",
+    "perl-Getopt-Long",
+    "perl-Getopt-Std",
+    "perl-HTTP-Tiny",
+    "perl-IO",
+    "perl-IO-Socket-IP",
+    "perl-IO-Socket-SSL",
+    "perl-IPC-Open3",
+    "perl-MIME-Base64",
+    "perl-Mozilla-CA",
+    "perl-NDBM_File",
+    "perl-Net-SSLeay",
+    "perl-POSIX",
+    "perl-PathTools",
+    "perl-Pod-Escapes",
+    "perl-Pod-Perldoc",
+    "perl-Pod-Simple",
+    "perl-Pod-Usage",
+    "perl-Scalar-List-Utils",
+    "perl-SelectSaver",
+    "perl-Socket",
+    "perl-Storable",
+    "perl-Symbol",
+    "perl-Term-ANSIColor",
+    "perl-Term-Cap",
+    "perl-Text-ParseWords",
+    "perl-Text-Tabs+Wrap",
+    "perl-Thread-Queue",
+    "perl-Time-Local",
+    "perl-URI",
+    "perl-Unicode-Normalize",
+    "perl-base",
+    "perl-constant",
+    "perl-if",
+    "perl-interpreter",
+    "perl-libnet",
+    "perl-libs",
+    "perl-locale",
+    "perl-mro",
+    "perl-overload",
+    "perl-overloading",
+    "perl-parent",
+    "perl-podlators",
+    "perl-threads",
+    "perl-threads-shared",
+    "perl-vars",
+    "protobuf-c",
+    "psmisc",
+    "publicsuffix-list",
+    "publicsuffix-list-dafsa",
+    "python-rpm-macros",
+    "python-unversioned-command",
+    "python3",
+    "python3-devel",
+    "python3-libs",
+    "python3-packaging",
+    "python3-pip",
+    "python3-pip-wheel",
+    "python3-rpm-generators",
+    "python3-rpm-macros",
+    "shadow-utils",
+    "socat",
+    "sysprof-capture-devel",
+    "tcl",
+    "tzdata",
+    "unbound-anchor",
+    "unbound-libs",
+    "util-linux",
+    "xxhash-libs",
+    "zlib-ng-compat-devel",
+]
 "varstored" = []
 "vncterm" = [
     "annobin-docs",
@@ -8860,6 +9471,27 @@ version = 4
     "xxhash-libs",
     "xz-devel",
     "zlib-ng-compat-devel",
+]
+"xen-crashdump-analyser" = [
+    "annobin-docs",
+    "annobin-plugin-gcc",
+    "ccache",
+    "cpp",
+    "fmt",
+    "gcc",
+    "gcc-c++",
+    "gcc-plugin-annobin",
+    "glibc-devel",
+    "hiredis",
+    "kernel-headers",
+    "libasan",
+    "libatomic",
+    "libmpc",
+    "libstdc++-devel",
+    "libubsan",
+    "libxcrypt-devel",
+    "make",
+    "xxhash-libs",
 ]
 "xs-opam-repo" = [
     "annobin-docs",
@@ -10248,9 +10880,6 @@ version = 4
     "stress-ng",
     "stunnel",
     "sudo",
-    "swtpm",
-    "swtpm-libs",
-    "swtpm-tools",
     "sysstat",
     "systemd",
     "systemd-libs",
@@ -10878,9 +11507,6 @@ version = 4
     "stress-ng",
     "stunnel",
     "sudo",
-    "swtpm",
-    "swtpm-libs",
-    "swtpm-tools",
     "sysstat",
     "systemd",
     "systemd-libs",

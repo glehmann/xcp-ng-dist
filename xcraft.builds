@@ -47,9 +47,8 @@ dmv-utils.requires."dmv-utils" = ["python3"]
 
 # edk2
 edk2.build = 1
-edk2.key = "9285a5c76f65eb301de40cb40b5adce698089a9dcfb1a2c334e80439d0502a54"
-edk2.accepts = "723837116ab2419f8a944d21bd4b9d1684f3f70c18ade822c9d59e89cbaa9384"
-edk2.evr = "202602-1.3"
+edk2.key = "149f3b1ca2c64bdd1359f212761d4ef639e86814eec28a84b741c9521eee40a9"
+edk2.evr = "202608-1.1"
 
 # grub
 grub.build = 1
@@ -115,6 +114,11 @@ kernel.accepts = "ca61437dc8852ac85665ae5d60dc48fcfb37ed0a737cf80fc6139f5ca45ab5
 kernel.evr = "6.12.0-9"
 kernel.requires."perf-xcpng" = ["bash", "elfutils-libelf", "elfutils-libs", "glibc", "libtraceevent", "libunwind", "libzstd", "perl-interpreter", "python3-libs", "xz-libs", "zlib-ng-compat"]
 kernel.requires."python3-perf-xcpng" = ["elfutils-libelf", "elfutils-libs", "glibc", "libtraceevent", "libunwind", "libzstd", "python3", "python3-libs", "xz-libs", "zlib-ng-compat"]
+
+# kexec-tools
+kexec-tools.build = 1
+kexec-tools.key = "08c4cd86ae3ceaf219b2fdd175b488869df20291c0248e4538196640b2ae24f6"
+kexec-tools.evr = "0:2.0.29-8.2"
 
 # libempserver
 libempserver.build = 1
@@ -216,6 +220,11 @@ ssmtp.evr = "2.64-14.3"
 ssmtp.requires."ssmtp" = ["glibc", "openssl-libs"]
 ssmtp.provides."ssmtp" = ["/usr/sbin/ssmtp"]
 
+# swtpm
+swtpm.build = 1
+swtpm.key = "f19b867bfc2b53ff9dd1a7c728ec573bad5d574227429e41d41e79856f8db224"
+swtpm.evr = "0.7.3-12.2"
+
 # varstored
 varstored.build = 1
 varstored.key = "0276d2b21c4a8a1c992b515d81a3857afce73391662031bc8a0cd85869a6c8ad"
@@ -223,6 +232,12 @@ varstored.accepts = "0a279e30f0bbfaccb12eb205c538489a70a8a10293f1ae9035d978b6bb3
 varstored.evr = "1.3.4-2.5"
 varstored.requires."varstored" = ["glibc", "libseccomp", "libxml2", "openssl-libs", "xen-dom0-libs", "xen-libs"]
 varstored.requires."varstored-tools" = ["glibc", "libseccomp", "libxml2", "openssl-libs"]
+
+# vcputune
+vcputune.build = 1
+vcputune.key = "4bbfe103581b49f1bafeadbddf1b60bf5ada2c4ae4c697bc9a45445c9fc51db3"
+vcputune.evr = "2.0.2-2"
+vcputune.requires."vcputune" = ["python3"]
 
 # vmss
 vmss.build = 1
@@ -298,10 +313,9 @@ xcp-emu-manager.evr = "1.2.1-5"
 xcp-emu-manager.requires."xcp-emu-manager" = ["glibc", "json-c", "libempserver", "xcp-ng-generic-lib"]
 
 # xcp-featured
-xcp-featured.build = 4
-xcp-featured.key = "c2f5b014dccbda254cfc9a1756cd4f20408f094026c4fdc815519b1eb3f0cd0d"
-xcp-featured.accepts = "fcd61cbcff9c27900c6afa9e045271cdbd7926972b70c4aa7b35a6c05d87d41d"
-xcp-featured.evr = "1.1.8-8"
+xcp-featured.build = 1
+xcp-featured.key = "30ed53915d523630cf7a5d040cae9bf5b82728e799c1373042736d2ee71ab889"
+xcp-featured.evr = "1.2.2-1.1"
 xcp-featured.requires."xcp-featured" = ["glibc"]
 
 # xcp-ng-config
@@ -311,9 +325,8 @@ xcp-ng-config.evr = "0-2.1"
 
 # xcp-ng-deps
 xcp-ng-deps.build = 1
-xcp-ng-deps.key = "abe14aadc4cf2ea7308e4b65ad2f57aa48863aa10fb7293a7e9f4593cf0463b7"
-xcp-ng-deps.accepts = "ec494647908e23add96c702bf996b52acbb4ca4f93dd6fd20e4537299efee0c8"
-xcp-ng-deps.evr = "8.99-5"
+xcp-ng-deps.key = "91a01970618c46b2e375997fc96158eb7b3bb878793dce529cdaa76d8c62fedc"
+xcp-ng-deps.evr = "8.99-6"
 
 # xcp-ng-generic-lib
 xcp-ng-generic-lib.build = 1
@@ -345,9 +358,8 @@ xcp-ng-xapi-plugins.requires."xcp-ng-xapi-plugins" = ["python3"]
 
 # xcp-python-libs
 xcp-python-libs.build = 1
-xcp-python-libs.key = "27d5074b632b3775235780788ac577b51eaf1fb8a794b3228c954c8bbe9da6e8"
-xcp-python-libs.accepts = "88320ff3835f149fad1b8b3667e3cb5a942d1329b3486f1f467f738ecfc9999b"
-xcp-python-libs.evr = "3.0.10-1.1.0.ydi.3"
+xcp-python-libs.key = "bd360ab20a12fadc381359cfda1c1b60af777f5c08811233761d25e38ffb886f"
+xcp-python-libs.evr = "3.0.11-1.2.1"
 xcp-python-libs.buildrequires = ["(python3dist(tomli) if python3-devel < 3.11)", "python3dist(packaging)", "python3dist(pip) >= 19", "python3dist(setuptools) >= 42", "python3dist(six)", "python3dist(wheel)"]
 xcp-python-libs.requires."python3-xcp-libs" = ["python3", "python3-six"]
 
@@ -367,6 +379,12 @@ xen.requires."xen-oxenstored" = ["glibc", "libgcc", "xen-dom0-libs", "xen-libs"]
 xen.requires."xen-tools" = ["glibc", "xen-dom0-libs", "xen-libs"]
 xen.aarch64.requires."xen-dom0-libs" = ["e2fsprogs-libs", "glibc", "json-c", "libfdt", "libuuid", "xen-libs", "zlib-ng-compat"]
 xen.aarch64.requires."xen-dom0-tools" = ["bash", "glibc", "json-c", "libempserver", "libfdt", "libgcc", "ncurses-libs", "python3", "xen-dom0-libs", "xen-libs"]
+
+# xen-crashdump-analyser
+xen-crashdump-analyser.build = 1
+xen-crashdump-analyser.key = "dc4e80b96036feafb4b6b58f569c79660960a0eb5d7ec249892ea855c3e81fed"
+xen-crashdump-analyser.evr = "2.6.3-1"
+xen-crashdump-analyser.requires."xen-crashdump-analyser" = ["glibc", "libgcc", "libstdc++"]
 
 # xo-lite
 xo-lite.build = 1

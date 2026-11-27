@@ -1,6 +1,6 @@
 Name:           xcp-ng-deps
 Version:        8.99
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        A meta package pulling all needed dependencies for XCP-ng
 # License covers this spec file
 License:        GPLv2
@@ -60,14 +60,17 @@ Requires: vim-minimal
 Requires: which
 Requires: zip
 
-# iptables-services-1.8.10-15.fc41 requires /usr/sbin/restorecon
-Requires: policycoreutils
+# XCP-ng/XS utilities
+Requires: vcputune
 
 # deps that should live somewhere else
 Requires: cifs-utils
+# xapi's firewall, iptables, but xapi only requires iptables-legacy: firewall-port saves the rules with the
+# iptables.init of iptables-services, which requires /usr/sbin/restorecon
 Requires: iptables-legacy
 Requires: iptables-services
 Requires: iptables-utils
+Requires: policycoreutils
 Requires: iscsi-initiator-utils
 # surely not only host-installer using it?
 Requires: chrony
@@ -102,6 +105,7 @@ Requires: guest-templates-json-data-linux
 Requires: guest-templates-json-data-windows
 Requires: guest-templates-json-data-other
 # Requires: host-upgrade-plugin
+Requires: kexec-tools
 Requires: mdadm
 Requires: nfs-utils
 Requires: rrdd-plugins
@@ -122,7 +126,8 @@ Requires: xcp-featured
 Requires: xcp-ng-pv-tools
 Requires: xcp-ng-xapi-plugins
 Requires: xcp-rrdd
-# Requires: xen-crashdump-analyser
+# only Recommended by kexec-tools for now
+Requires: xen-crashdump-analyser
 Requires: xenopsd-cli
 Requires: xenopsd-xc
 # Requires: xenserver-status-report
@@ -133,9 +138,6 @@ Requires: xsconsole
 # Required in the installed host by host-installer
 Requires: dnf-plugins-core
 
-# not yet built
-# Requires: vcputune
-
 # dropped from the list, possibly temporarily
 # Requires: dracut-network
 # Requires: fcoe-utils
@@ -143,7 +145,6 @@ Requires: dnf-plugins-core
 # Requires: iproute-tc
 # Requires: ipset
 # Requires: irqbalance
-# Requires: kexec-tools
 # Requires: kpatch
 # Requires: makedumpfile
 # Currently requires acpica-tools, also pulled by xenserver-status-report
@@ -197,6 +198,11 @@ fi
 %files
 
 %changelog
+* Fri Nov 27 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 8.99-6
+- Merge ydi/9 of xcp-ng-rpms: require kexec-tools, vcputune and xen-crashdump-analyser
+- Still require iptables-legacy, iptables-services, iptables-utils and policycoreutils, which ydi/9 no longer
+  does, as xapi needs them for its firewall
+
 * Tue Nov 24 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 8.99-5
 - Require varstored on x86_64 only
 
@@ -220,7 +226,6 @@ fi
 - Pull xen-hypervisor-elf, as xen-hypervisor since 4.20 only contains EFI binaries
 - Pull kernel as kernel-xcpng
 - Directly pull xapi-core guest-templates-json, only pulled in 8.3 by indirect ways
-- Directly pull policycoreutils, missing from iptables-services's deps
 
 * Mon Mar 02 2026 Philippe Coval <philippe.coval@vates.tech> - 8.3-14
 - Require traceroute
