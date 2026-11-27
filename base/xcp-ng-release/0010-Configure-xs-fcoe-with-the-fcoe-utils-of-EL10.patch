@@ -1,0 +1,32 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Ga=C3=ABtan=20Lehmann?= <gaetan.lehmann@vates.tech>
+Date: Fri, 27 Nov 2026 19:30:00 +0100
+Subject: [PATCH] Configure xs-fcoe with the fcoe-utils of EL10
+
+The fcoe-utils of EL10 has its configuration, SUPPORTED_DRIVERS, in
+/etc/fcoe/config, rather than in /etc/sysconfig/fcoe, which it no longer
+ships: without it, xs-fcoe failed at boot. And its drivers include some
+the kernel may not have, like qedf: their modprobe failing fails it no
+more, the others still loaded.
+---
+ src/common/usr/lib/systemd/system/xs-fcoe.service | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/common/usr/lib/systemd/system/xs-fcoe.service b/src/common/usr/lib/systemd/system/xs-fcoe.service
+index bf9b2d1..1bfedae 100644
+--- a/src/common/usr/lib/systemd/system/xs-fcoe.service
++++ b/src/common/usr/lib/systemd/system/xs-fcoe.service
+@@ -4,8 +4,8 @@
+ 
+ [Service]
+ Type=oneshot
+-EnvironmentFile=/etc/sysconfig/fcoe
+-ExecStartPre=/sbin/modprobe -qa $SUPPORTED_DRIVERS
++EnvironmentFile=/etc/fcoe/config
++ExecStartPre=-/sbin/modprobe -qa $SUPPORTED_DRIVERS
+ ExecStart=/opt/xensource/libexec/fcoe_driver --init
+ 
+ [Install]
+-- 
+2.47.3
+

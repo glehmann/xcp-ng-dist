@@ -24,7 +24,7 @@
 
 Name:           xcp-ng-release
 Version:        8.99.0
-Release:        11%{?autorev}
+Release:        12%{?autorev}
 Summary:        XCP-ng release file
 Group:          System Environment/Base
 License:        GPLv2
@@ -77,6 +77,7 @@ Patch1006: 0006-fix-prompt-s-c-e-p-xcp-ng-prompt.sh-Align-to-RPM-pat.patch
 Patch1007: 0007-Do-not-enable-arptables.service-which-has-no-configu.patch
 Patch1008: 0008-Disable-xapi-ssh-monitor-in-the-presets.patch
 Patch1009: 0009-Remove-the-shebangs-of-the-profile.d-scripts-which-t.patch
+Patch1010: 0010-Configure-xs-fcoe-with-the-fcoe-utils-of-EL10.patch
 
 %description
 XCP-ng release files
@@ -580,6 +581,10 @@ systemctl preset-all --preset-mode=enable-only || :
 
 # Keep this changelog through future updates
 %changelog
+* Fri Nov 27 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 8.99.0-12
+- xs-fcoe configured by the fcoe-utils of EL10, in /etc/fcoe/config, rather than /etc/sysconfig/fcoe, which it no
+  longer ships, and without failing on the drivers the kernel lacks, like qedf
+
 * Fri Nov 27 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 8.99.0-11
 - sshd.socket no longer disabled in the presets: xcp-ng-config masks it
 
