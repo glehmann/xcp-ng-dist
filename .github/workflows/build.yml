@@ -57,6 +57,13 @@ jobs:
           # master as the public repository has it, current, whatever the private one has
           git fetch --no-tags "$PUBLIC_REPOSITORY" +master:refs/remotes/origin/master
           printf 'XCRAFT_MAINTENANCE=%s\n' "$GITHUB_REF_NAME" >> "$GITHUB_ENV"
+      # the private bucket, read with credentials, which the embargo branches fetch their builds from; the pushes
+      # have their own, which write it
+      - if: vars.XCRAFT_ROLE == 'private'
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.PRIVATE_READ_AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.PRIVATE_READ_AWS_SECRET_ACCESS_KEY }}
+        run: printf 'AWS_ACCESS_KEY_ID=%s\nAWS_SECRET_ACCESS_KEY=%s\n' "$AWS_ACCESS_KEY_ID" "$AWS_SECRET_ACCESS_KEY" >> "$GITHUB_ENV"
       - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7  # v10.2.0
         with:
           version: "0.10.x"
