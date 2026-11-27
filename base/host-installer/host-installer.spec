@@ -4,7 +4,7 @@
 Summary: XenServer Installer
 Name: host-installer
 Version: 11.2.0
-Release: 1.1.4%{?xsrel}%{?dist}
+Release: 1.1.5%{?xsrel}%{?dist}
 License: GPLv2
 Group: Applications/System
 Source0: host-installer-%{version}.tar.gz
@@ -29,6 +29,7 @@ Patch1011: 0011-init-log_console-con-the-log-of-the-installer-to-con.patch
 
 # xcp-ng-dist
 Patch2000: 0022-Do-not-enable-openvswitch-xapi-sync-which-XCP-ng-9-s.patch
+Patch2001: 0023-Show-the-stable-id-and-path-of-the-disks-for-the-ans.patch
 
 # This is where we get 'multipath.conf' from
 BuildRequires: device-mapper-multipath
@@ -217,6 +218,9 @@ echo %{large_block_capable_sr_type} > %{buildroot}/%{feature_flag_dir}/large-blo
 /usr/bin/systemctl disable lvm2-monitor
 
 %changelog
+* Fri Nov 27 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 11.2.0-1.1.5
+- Show the stable id and path of the disks in their details, and log them, for the answer files
+
 * Mon Nov 23 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 11.2.0-1.1.4
 - Unpack the sources in a directory without the version, for the compiler cache across versions
 

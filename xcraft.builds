@@ -86,10 +86,9 @@ guest-templates-json.requires."guest-templates-json-data-pv" = ["guest-templates
 guest-templates-json.requires."guest-templates-json-data-windows" = ["guest-templates-json"]
 
 # host-installer
-host-installer.build = 2
-host-installer.key = "f26ab6f18af3816d6aa295490cd9e6641f72c74a694470436daa997a2cba0aef"
-host-installer.accepts = "f6fae11577ea8e1afcdc933c2007775d5e50acb4da35d0518a0fe8f67d375751"
-host-installer.evr = "11.2.0-1.1.4"
+host-installer.build = 1
+host-installer.key = "9a7b91efc67b64769afaf0c1bf962971b0b1797232926191b5cde7ae991323f1"
+host-installer.evr = "11.2.0-1.1.5"
 host-installer.requires."host-installer" = ["bash", "python3"]
 host-installer.requires."host-installer-startup" = ["bash"]
 

@@ -1,0 +1,89 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Ga=C3=ABtan=20Lehmann?= <gaetan.lehmann@vates.tech>
+Date: Fri, 27 Nov 2026 12:00:00 +0100
+Subject: [PATCH] Show the stable id and path of the disks, for the answer files
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+The order of sdX may change from a boot to the other on the hosts with several
+disks: the answer files can name the disks by their /dev/disk/by-id or
+/dev/disk/by-path symlinks instead, which the installer already resolves. The
+details of a disk, F5 in the disk selection, show them, and the log of the
+installer has those of all the disks. The by-id one is the one the installer
+records as PRIMARY_DISK; the by-path one names the controller and the slot, the
+same on the hosts of the same model.
+
+A value of the details without space, like those, is wrapped at the width of the
+dialog, as reflowing does not break it.
+
+Signed-off-by: Gaëtan Lehmann <gaetan.lehmann@vates.tech>
+---
+diff --git a/diskutil.py b/diskutil.py
+index 472edb93c8..e78119e808 100644
+--- a/diskutil.py
++++ b/diskutil.py
+@@ -223,6 +223,16 @@ def idFromPartition(partition):
+                 break
+     return symlink
+ 
++# Given a disk (e.g. /dev/sda), get its first by-path symlink, which names its controller
++# and slot: the same on the hosts of the same model, whatever the disk in it
++def pathFromDisk(disk):
++    v, out = util.runCmd2(util.udevinfoCmd() + ['-q', 'symlink', '-n', disk], with_stdout=True)
++    if v == 0:
++        for link in sorted(out.split()):
++            if link.startswith('disk/by-path/'):
++                return '/dev/' + link
++    return None
++
+ # Given a id symlink (e.g. /dev/disk/by-id/scsi-...), get the device
+ def partitionFromId(symlink):
+     return os.path.realpath(symlink)
+@@ -501,6 +511,10 @@ def log_available_disks():
+         logger.log("Disk sizes: %s" % str(diskSizesGB))
+         logger.log("Disk block sizes: %s" % [getDiskBlockSize(x)
+                                              for x in disks])
++        # the stable names of the disks, which answer files can use rather than sdX, whose
++        # order may change from a boot to the other
++        for disk in disks:
++            logger.log("Disk %s: id %s, path %s" % (disk, idFromPartition(disk), pathFromDisk(disk)))
+ 
+         dom0disks = [x for x in diskSizesGB if constants.min_primary_disk_size <= x]
+         if len(dom0disks) == 0:
+diff --git a/snackutil.py b/snackutil.py
+index 4ac0c22447..7539e501c7 100644
+--- a/snackutil.py
++++ b/snackutil.py
+@@ -203,7 +203,11 @@ def TableDialog(screen, title, *table):
+     row = 0
+     for label, value in table:
+         grid.setField(Textbox(max_label+1, 1, label), 0, row, anchorLeft=1, anchorTop=1)
+-        if len(value) > wrap_value:
++        if len(value) > wrap_value and ' ' not in value:
++            # like the stable names of disks, which reflowing would not break
++            lines = [value[i:i + wrap_value] for i in range(0, len(value), wrap_value)]
++            tb = Textbox(wrap_value, len(lines), '\n'.join(lines))
++        elif len(value) > wrap_value:
+             tb = TextboxReflowed(wrap_value, value)
+         else:
+             tb = Textbox(max_value+1, 1, value)
+diff --git a/tui/installer/screens.py b/tui/installer/screens.py
+index fe3d77d6b4..1b232ced57 100644
+--- a/tui/installer/screens.py
++++ b/tui/installer/screens.py
+@@ -733,7 +733,10 @@ def disk_more_info(context):
+                           ("Serial:", diskutil.getDiskSerialNumber(context)),
+                           ("Block size:", diskutil.bytesToHuman(diskutil.getDiskBlockSize(context))),
+                           ("Size:", diskutil.getHumanDiskSize(diskutil.getDiskDeviceSize(context))),
+-                          ("Current usage:", usage))
++                          ("Current usage:", usage),
++                          # the stable names of the disk, for the answer files
++                          ("Id:", diskutil.idFromPartition(context) or "none"),
++                          ("Path:", diskutil.pathFromDisk(context) or "none"))
+     tui.screen.popHelpLine()
+     return True
+ 
+-- 
+2.47.3
+
