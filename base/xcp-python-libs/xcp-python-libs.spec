@@ -1,33 +1,39 @@
-%global package_speccommit 6c1f27d802c1e16edbea1e516ae7ffb36e179dd9
-%global usver 3.0.10
+%global package_speccommit 905c68dc2384a221c539896c21d9b228922238d1
+%global usver 3.0.11
 %global xsver 1
 %global xsrel %{xsver}%{?xscount}%{?xshash}
+%global package_srccommit v3.0.11
 %bcond_with test
 
 Summary: Common XCP-ng Python classes
 Name: xcp-python-libs
-Version: 3.0.10
-Release: %{?xsrel}.1.0.ydi.3%{?dist}
-Source0: xcp-python-libs-3.0.10.tar.gz
+Version: 3.0.11
+Release: %{?xsrel}.2.1%{?dist}
+Source0: xcp-python-libs-3.0.11.tar.gz
 Patch0: 0001-Remove-setuptools_scm.patch
 Patch1: 0001-Enhance-Bootloader-with-optional-set-prefix.patch
 %define __python python3
 
-# XCP-ng
+%if 0%{?xcpng}
 # This repo is the upstream for updategrub.py, for now
 Source1: updategrub.py
+%endif
 
 License: GPL
 
 Group: Applications/System
 BuildArch: noarch
 
+%if ! 0%{?xcpng}
 Obsoletes: xcp-python-libs-incloudsphere
+%endif
 BuildRequires: python3-devel python3-setuptools python3-pip
 
 %if 0%{?xenserver} >= 9
 BuildRequires: pyproject-rpm-macros
+%if 0%{?xcpng}
 BuildRequires: python3-wheel
+%endif
 %endif
 
 %description
@@ -38,6 +44,9 @@ Summary: Common XCP-ng Python classes for Python3
 # See https://github.com/xenserver/python-libs/blob/master/pyproject.toml:
 Requires: python3-six
 Requires: biosdevname
+%if ! 0%{?xcpng}
+Requires: xenserver-release >= 8.3.60-5
+%endif
 %description -n python3-xcp-libs
 Common XenServer Python classes for Python3
 
@@ -66,12 +75,14 @@ sed -i "s/dynamic *= *\[\"version\"\]/version = \"%{version}\"/g" pyproject.toml
 %pyproject_install xcp
 %endif
 
+%if 0%{?xcpng}
 install -m 0775 -d %{buildroot}/opt/xensource/bin
 install -m 0775 %{SOURCE1} %{buildroot}/opt/xensource/bin/updategrub.py
 %if 0%{?xenserver} < 9
 # compat symlink
 mkdir -p %{buildroot}/usr/lib/python2.7/site-packages/xcp
 ln -sr %{buildroot}/opt/xensource/bin/updategrub.py %{buildroot}/usr/lib/python2.7/site-packages/xcp/updategrub.py
+%endif
 %endif
 
 %check
@@ -84,23 +95,38 @@ cd tests
 %defattr(-,root,root)
 %{python3_sitelib}/python_libs-*
 %{python3_sitelib}/xcp
+%if 0%{?xcpng}
 /opt/xensource/bin/updategrub.py
 %if 0%{?xenserver} < 9
 /usr/lib/python2.7/site-packages/xcp/updategrub.py
 %endif
+%endif
 
 %changelog
+* Fri Nov 27 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 3.0.11-1.2.1
+- Merge 3.0.11-1.2 of xcp-ng-rpms, with our changes of 3.0.10-1.1.0.ydi.2 and 3.0.10-1.1.0.ydi.3
+
 * Mon Nov 23 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 3.0.10-1.1.0.ydi.3
 - Unpack the sources in a directory without the version, for the compiler cache across versions
 
-* Thu Nov 12 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 3.0.10-1.1.0.ydi.2
-- Fix the date of the last changelog entry, and remove the clean section
-
-* Thu Jan 15 2026 Yann Dirson <yann.dirson@vates.tech> - 3.0.10-1.1.0.ydi.1
-- Explicitly build-require python3-wheel on XS9
+* Fri Nov 13 2026 Yann Dirson <yann.dirson@vates.tech> - 3.0.11-1.2
+- Bracket XCP-ng changes using %%xcpng macro
+- Explicitly build-require python3-wheel on v9
 - Add patch to include a 'set prefix=' statement in grub.cfg
 - In v9, drop /usr/lib/python2.7/site-packages/xcp/updategrub.py compat symlink
   confusing RH packaging macros
+
+* Fri Nov 13 2026 Philippe Coval <philippe.coval@vates.tech> - 3.0.11-1.1
+- Rebase on 3.0.11-1
+- *** Upstream changelog ***
+  * Fri Mar 20 2026 Stephen Cheng <stephen.cheng@citrix.com> - 3.0.11-1
+  - CA-375347: Add API to get crash kernel memory by version
+  - CP-53030: bootloader: add RPU chainloader
+  - Fix pylint errors
+  - CP-53030: bootloader: stop MenuEntry.contents getting clobbered by setNextBoot
+
+* Thu Nov 12 2026 Gaëtan Lehmann <gaetan.lehmann@vates.tech> - 3.0.10-1.1.0.ydi.2
+- Fix the date of the last changelog entry, and remove the clean section
 
 * Wed Jan 14 2026 Yann Dirson <yann.dirson@vates.tech> - 3.0.10-1.1
 - Rebase on 3.0.10-1
